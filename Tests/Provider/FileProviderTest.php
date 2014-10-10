@@ -15,7 +15,7 @@ class FileProviderTest extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         $this->filesystem = m::mock('Gaufrette\FileSystem');
-        $this->translator = m::mock('Symfony\Bundle\FrameworkBundle\Translation\Translator');
+        $this->translator = m::mock('Symfony\Component\Translation\LoggingTranslator');
         $this->media = m::mock('Opifer\MediaBundle\Entity\Media');
         $this->router = m::mock('Symfony\Component\Routing\RouterInterface');
 
