@@ -2,7 +2,6 @@
 
 namespace Opifer\MediaBundle\Listener;
 
-use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Events;
 use Doctrine\Common\EventSubscriber;
 use Doctrine\Common\Persistence\Event\LifecycleEventArgs;
