@@ -1,0 +1,13 @@
+{% extends 'OpiferCmsBundle::base.html.twig' %}
+
+{% block body %}
+<div class="page-header clearfix">
+    <h1 class="pull-left">
+        <span class="iconl icon-file"></span>{{ 'media.new'|trans({'%provider%': provider.label})|capitalize }}
+    </h1>
+</div>
+
+<section class="page-section">
+    {{ form(form, {'style': 'horizontal'}) }}
+</section>
+{% endblock %}

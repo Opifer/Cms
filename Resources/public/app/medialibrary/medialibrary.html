@@ -1,0 +1,58 @@
+<div class="page-header clearfix">
+    <h1>Media Manager</h1>
+    
+    
+    <div class="media-search form-group pull-left">
+        <div class="input-group search-group">
+            <input type="text" class="form-control" placeholder="Enter name, filename or description" ng-model="mediaCollection.search" ng-change="mediaCollection.loadMore(true)">
+            <span class="input-group-addon">
+                <i class="fa fa-search"></i>
+            </span>
+        </div>
+    </div>
+    
+    <div class="btn-group col-sm-4">
+        <a ng-repeat="provider in mediaCollection.providers" ng-href="{{ provider.newlink }}" class="btn btn-default">
+            Add {{ provider.name }}
+        </a>
+    </div>
+</div>
+
+<section class="page-section media-items">
+    <div ng-file-drop="onFileSelect($files)" ng-file-drag-over-class="file-drop-area-hover" ng-show="dropSupported">
+        <div class="file-drop-area-overlay">
+            <h3>Drop files to upload</h3>
+        </div>
+
+        <div ng-show="uploadingFiles != null">
+            <div ng-repeat="f in uploadingFiles">
+                <div class="progress">
+                    <div class="progress-bar" role="progressbar" aria-valuenow="{{ progress[$index] }}" aria-valuemin="0" aria-valuemax="100" style="width: {{ progress[$index] }}%;">
+                        {{ progress[$index] }}%
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="clearfix" ng-cloak>
+            <div ng-repeat="item in mediaCollection.items" class="item {{ item.provider }}">
+                <img ng-src="{{ item.image }}" class="visual" alt="">
+                <div class="image-wrapper">
+                    <div class="extended-data">
+                        <span class="details">{{ item.metadata.width }}x{{ item.metadata.height }}px</span>
+                    </div>
+                    <div class="center-stage">
+                        <button type="button" ng-if="picker.name" ng-click="selectMedia($index)" class="btn btn-skeleton include">Use media</button>
+                        <button type="button" ng-if="!picker.name" ng-click="deleteMedia($index)" class="btn btn-skeleton delete">Delete</button>
+                        <button type="button" ng-if="!picker.name" ng-click="zoomMedia($index)" class="btn btn-skeleton zoom">Zoom</button>
+                    </div>
+                    <span class="name">{{ item.name }}</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="alert alert-info" ng-show="mediaCollection.busy">Loading data...</div>
+    <div class="btn btn-paginate" in-view="mediaCollection.loadMore()" ng-click="mediaCollection.loadMore()" ng-hide="(mediaCollection.end || mediaCollection.busy)">
+        Load more
+    </div>
+</section>

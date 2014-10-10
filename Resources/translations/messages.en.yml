@@ -1,0 +1,31 @@
+file:
+    label: file
+    new: upload new %provider%
+    name:
+        label: name
+
+image:
+    label: image
+
+media:
+    edit: edit %name%
+    new: add new %provider%
+    no_preview: no preview
+    non_selected: no items selected
+    select: select media
+    thumb:
+        not_found: no thumb found
+    upload:
+        button: Update file data
+        success: "Your uploads have been saved. Optionally you could change the name or add some tags below."
+
+imagefilter:
+    new: new imagefilter
+
+tag:
+    help_text: "Type the tagnames and separate them with a comma. E.g. Red, Green, Blue"
+
+youtube:
+    label: youtube video
+    reference:
+        label: Youtube URL

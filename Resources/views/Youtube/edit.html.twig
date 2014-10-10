@@ -1,0 +1,14 @@
+{% extends 'OpiferCmsBundle::base.html.twig' %}
+
+{% block body %}
+<div class="page-header clearfix">
+    <h1 class="pull-left">
+        <span class="iconl icon-file"></span>{{ 'media.edit'|trans({'%name%': media.name}) }}
+    </h1>
+</div>
+
+<section class="page-section">
+    <img src="{{ media.thumb.reference|imagine_filter('medialibrary') }}" alt="{{ media.name }}">
+    {{ form(form, {'style': 'horizontal'}) }}
+</section>
+{% endblock %}

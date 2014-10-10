@@ -1,0 +1,10 @@
+opifer.file:
+    resource: "@OpiferMediaBundle/Controller/MediaController.php"
+    type:     annotation
+    prefix:   /admin/media
+
+# API routes
+_opifer_api_media:
+    resource: "@OpiferMediaBundle/Api/MediaController.php"
+    type:     annotation
+    prefix:   /api

@@ -1,0 +1,31 @@
+file:
+    label: bestand
+    new: upload nieuwe %provider%
+    name:
+        label: naam
+
+image:
+    label: afbeelding
+
+media:
+    edit: bewerk %name%
+    new: voeg nieuwe %provider% toe
+    no_preview: geen preview
+    non_selected: geen media geselecteerd
+    select: selecteer media
+    thumb:
+        not_found: geen thumbnail gevonden
+    upload:
+        button: Update bestandsgegevens
+        success: "Uw upload is opgeslagen. Eventueel kunt u de bestandsnaam wijzigen of tags toevoegen."
+
+imagefilter:
+    new: nieuwe afbeeldingsfilter
+
+tag:
+    help_text: "Type de tags, gescheiden door een komma. Bv. Rood, Groen, Blauw"
+
+youtube:
+    label: youtube video
+    reference:
+        label: Youtube link
