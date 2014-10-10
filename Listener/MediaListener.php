@@ -5,9 +5,9 @@ namespace Opifer\MediaBundle\Listener;
 use Doctrine\ORM\Events;
 use Doctrine\Common\EventSubscriber;
 use Doctrine\Common\Persistence\Event\LifecycleEventArgs;
-use Symfony\Component\DependencyInjection\ContainerInterface;
 
 use Opifer\MediaBundle\Entity\Media;
+use Opifer\MediaBundle\Provider\Pool;
 
 /**
  * Media Entity Listener
@@ -24,14 +24,17 @@ use Opifer\MediaBundle\Entity\Media;
  */
 class MediaListener implements EventSubscriber
 {
-    private $container;
+    /** @var Pool */
+    protected $pool;
 
     /**
-     * @param \Symfony\Component\DependencyInjection\ContainerInterface $container
+     * Constructor
+     *
+     * @param Pool $pool
      */
-    public function __construct(ContainerInterface $container)
+    public function __construct(Pool $pool)
     {
-        $this->container = $container;
+        $this->pool = $pool;
     }
 
     /**
@@ -62,7 +65,7 @@ class MediaListener implements EventSubscriber
             throw new \Exception('Please set a provider on the entity before persisting any media');
         }
 
-        return $this->container->get('opifer.media.provider.pool')->getProvider($provider);
+        return $this->pool->getProvider($provider);
     }
 
     /**

@@ -5,7 +5,7 @@ parameters:
 services:
     opifer.media.listener.media_listener:
         class: Opifer\MediaBundle\Listener\MediaListener
-        arguments: [@service_container]
+        arguments: [@opifer.media.provider.pool]
         tags:
             - { name: doctrine.event_subscriber }
 
