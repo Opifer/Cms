@@ -149,9 +149,6 @@ class YoutubeProvider extends AbstractProvider implements ProviderInterface
     public function updateMedadata(Media $media)
     {
         try {
-            //$url = sprintf('http://www.youtube.com/oembed?url=http://www.youtube.com/watch?v=%s&format=json', $media->getReference());
-            // BROWSER KEY; AIzaSyDpsolmAI0-ZmJqghJaBH5j16ifIzKnN9Q
-            // SERVER KEY;  AIzaSyD_6br-YyFPNNUxucrMjQWphJJDpyv_4J4
             $url = sprintf(
                 'https://www.googleapis.com/youtube/v3/videos?id=%s&key=%s&part=snippet,contentDetails,statistics,status',
                 $media->getReference(),

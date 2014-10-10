@@ -14,7 +14,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  *
  * @ORM\Entity(repositoryClass="Opifer\MediaBundle\Repository\MediaRepository")
  * @ORM\Table(name="media")
- * 
+ *
  * @UniqueEntity("reference")
  * @JMS\ExclusionPolicy("all")
  * @Gedmo\SoftDeleteable(fieldName="deletedAt", timeAware=false)
@@ -141,15 +141,7 @@ class Media
     public function setFile(UploadedFile $file = null)
     {
         $this->file = $file;
-
-        // check if we have an old image content
-        // if (isset($this->reference)) {
-        //     // store the old name to delete after the update
-        //     $this->temp = $this->reference;
-        //     $this->reference = null;
-        // } else {
-        //     $this->reference = 'initial';
-        // }
+        
         return $this;
     }
 

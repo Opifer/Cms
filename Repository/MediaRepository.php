@@ -13,7 +13,7 @@ class MediaRepository extends EntityRepository
     /**
      * Find media by request
      *
-     * @param  Request $request
+     * @param Request $request
      *
      * @return \Opifer\CrudBundle\Pagination\Paginator
      */
@@ -56,9 +56,6 @@ class MediaRepository extends EntityRepository
             )
         );
 
-        // if ($orderBy)
-        //     $qb->addOrderBy('m.' . $field, $order );
-
         if ($limit) {
             $qb->setMaxResults($limit);
         }
@@ -93,8 +90,6 @@ class MediaRepository extends EntityRepository
     }
 
     /**
-     * TODO
-     *
      * Reduce queries when retrieving resources with tags.
      *
      * @return array
@@ -103,23 +98,15 @@ class MediaRepository extends EntityRepository
     {
         $query = $this->createQueryBuilder('m')
             ->select('m')
-            //->select(array('m', 'ts'))
             ->where('m.status = :status')
             ->andWhere('m.name LIKE :q')
-            //->join('m.tags', 'ts', 'WITH', 'ts.resourceId = m.id AND ts.resourceType = :resourceType')
-            //->innerJoin('ts.tag', 't')
-            //->leftJoin('Anh\Taggable\Entity\Tagging', 'ts', 'WITH', 'ts.resourceId = m.id AND ts.resourceType = :resourceType')
-            //->leftJoin('Anh\Taggable\Entity\Tag', 't', 'WITH', 't.id = ts.tag')
-            //
             ->setParameters(array(
                 'q' => '%' . $q .'%',
                 'status' => 1,
-                //'resourceType' => 'media'
             ))
             ->getQuery()
         ;
 
-        //$result = $this->_em->createQuery('SELECT m, t FROM Opifer\MediaBundle\Entity\Media m JOIN m.tags t WITH (t.resourceId = m.id)');
         return $query;
     }
 }

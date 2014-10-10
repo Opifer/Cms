@@ -1,4 +1,5 @@
 [![Build Status](https://travis-ci.org/Opifer/MediaBundle.svg)](https://travis-ci.org/Opifer/MediaBundle)
+[![SensioLabsInsight](https://insight.sensiolabs.com/projects/7bab65ce-147b-4148-90b2-81ea8454ebf0/mini.png)](https://insight.sensiolabs.com/projects/7bab65ce-147b-4148-90b2-81ea8454ebf0)
 
 MediaBundle
 ===========

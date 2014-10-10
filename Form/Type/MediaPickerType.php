@@ -33,7 +33,7 @@ class MediaPickerType extends EntityType
     public function __construct(ProviderPool $providerPool, ManagerRegistry $registry, PropertyAccessorInterface $propertyAccessor = null)
     {
         $this->providerPool = $providerPool;
-        
+
         parent::__construct($registry, $propertyAccessor);
     }
 

@@ -30,7 +30,7 @@ class MediaController extends Controller
             ->findPaginatedByRequest($request);
 
         $items = $this->get('jms_serializer')->serialize(iterator_to_array($media->getCurrentPageResults()), 'json');
-        
+
         return new JsonResponse([
             'results'          => json_decode($items, true),
             'total_results'    => $media->getTotalResults(),
@@ -52,7 +52,7 @@ class MediaController extends Controller
     {
         $media = new Media();
         $em = $this->getDoctrine()->getManager();
-        
+
         foreach ($request->files->all() as $files) {
             if ((is_array($files)) || ($files instanceof \Traversable)) {
                 foreach ($files as $file) {

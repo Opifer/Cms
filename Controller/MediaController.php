@@ -5,7 +5,6 @@ namespace Opifer\MediaBundle\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -36,8 +35,6 @@ class MediaController extends Controller
 
         $mediaitems = $em->getRepository('OpiferMediaBundle:Media')->findActiveWithTags($request->get('q', ''));
         $mediaitems = $this->get('knp_paginator')->paginate($mediaitems, $page, 25);
-        
-        //$mediaitems = new Pager($qb, $page, $limit);
 
         $searchform = $this->createForm(new SearchMediaType(), []);
 
@@ -140,8 +137,6 @@ class MediaController extends Controller
      * @param Request $request
      *
      * @return Response
-     *
-     * @todo  Error handling
      */
     public function updateAllAction(Request $request)
     {

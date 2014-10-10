@@ -167,8 +167,6 @@ class FileProvider extends AbstractProvider
      * It does not check the database to avoid overwriting files that are not persisted
      * to the database for whatever reason.
      *
-     * @todo   Check how this impacts the performance on large directories.
-     *
      * @param \Symfony\Component\HttpFoundation\File\UploadedFile $file
      *
      * @return string
