@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/Opifer/MediaBundle.svg)](https://travis-ci.org/Opifer/MediaBundle)
+
 MediaBundle
 ===========
 
