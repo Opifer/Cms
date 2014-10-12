@@ -4,6 +4,8 @@
 MediaBundle
 ===========
 
+This bundle is still very much a work in progress, so BC-breaks will happen until the first stable release.
+
 Creating a media provider
 -------------------------
 
@@ -13,9 +15,9 @@ which already implements most of the required methods.
 
 To register the provider, create a service. Tag it with `opifer.media.provider` and give it an `alias`.
 
-    acme.media.provider.youtube:
-        class: Opifer\MediaBundle\Provider\YoutubeProvider
-        tags:
-            - { name: opifer.media.provider, alias: youtube }
-
-Done.
+```yaml
+acme.media.provider.youtube:
+    class: Opifer\MediaBundle\Provider\YoutubeProvider
+    tags:
+        - { name: opifer.media.provider, alias: youtube }
+```
