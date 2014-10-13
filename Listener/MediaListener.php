@@ -7,7 +7,6 @@ use Doctrine\Common\EventSubscriber;
 use Doctrine\Common\Persistence\Event\LifecycleEventArgs;
 
 use Opifer\MediaBundle\Entity\Media;
-use Opifer\MediaBundle\Provider\Pool;
 
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
@@ -26,16 +25,19 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  */
 class MediaListener implements EventSubscriber
 {
+    /** @var ContainerInterface */
     private $container;
 
     /**
      * Constructor
      *
-     * @param \Symfony\Component\DependencyInjection\ContainerInterface $container
+     * Requires the complete container, to avoid circular references.
+     *
+     * @param ContainerInterface $container
      */
     public function __construct(ContainerInterface $container)
     {
-        $this->conatiner = $conatiner;
+        $this->container = $container;
     }
 
     /**
