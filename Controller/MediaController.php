@@ -18,10 +18,9 @@ class MediaController extends Controller
 {
     /**
      * @Route(
-     *     "/{page}",
+     *     "/",
      *     name="opifer.media.media.index",
-     *     options={"expose"=true},
-     *     requirements={"page" = "\d+"}
+     *     options={"expose"=true}
      * )
      *
      * @param Request $request
@@ -29,20 +28,11 @@ class MediaController extends Controller
      *
      * @return Response
      */
-    public function indexAction(Request $request, $page = 1)
+    public function indexAction(Request $request)
     {
-        $em = $this->getDoctrine()->getManager();
-
-        $mediaitems = $em->getRepository('OpiferMediaBundle:Media')->findActiveWithTags($request->get('q', ''));
-        $mediaitems = $this->get('knp_paginator')->paginate($mediaitems, $page, 25);
-
-        $searchform = $this->createForm(new SearchMediaType(), []);
-
         $providers = $this->get('opifer.media.provider.pool')->getProviders();
 
         return $this->render('OpiferMediaBundle::index.html.twig', [
-            'mediaitems' => $mediaitems,
-            'searchform' => $searchform->createView(),
             'providers'  => $providers
         ]);
     }
