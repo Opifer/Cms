@@ -21,7 +21,7 @@ liip_imagine:
     loaders:
         stream.file_storage:
             stream:
-                wrapper: gaufrette://file_storage
+                wrapper: gaufrette://file_storage/
     driver: imagick
     filter_sets:
         default:

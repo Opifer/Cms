@@ -33,7 +33,7 @@ class MediaController extends Controller
 
         return new JsonResponse([
             'results'          => json_decode($items, true),
-            'total_results'    => $media->getTotalResults(),
+            'total_results'    => $media->getNbResults(),
             'results_per_page' => $media->getMaxPerPage()
         ]);
     }
