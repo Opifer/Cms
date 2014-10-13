@@ -1,11 +1,7 @@
-parameters:
-    #opifer.media.imagine_controller.class: Opifer\MediaBundle\Controller\ImagineController
-    #liip_imagine.filter.configuration.class: Opifer\MediaBundle\Filter\FilterConfiguration
-
 services:
     opifer.media.listener.media_listener:
         class: Opifer\MediaBundle\Listener\MediaListener
-        arguments: [@opifer.media.provider.pool]
+        arguments: [@service_container]
         tags:
             - { name: doctrine.event_subscriber }
 
