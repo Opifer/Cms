@@ -1,0 +1,54 @@
+# Image/File processing
+#
+# To change the filesystem for uploads, set the
+# knp_gaufrette.filesystems.file_storage.adapter to either local_storage or aws_storage
+#
+# To change the image caching filesystem, set the
+# liip_imagine.cache to either local_storage or aws_storage
+liip_imagine:
+    resolvers:
+        local_storage:
+            web_path: ~
+        aws_storage:
+            aws_s3:
+                client_config:
+                    key: %opifer_media.storages.aws_s3.key%
+                    secret: %opifer_media.storages.aws_s3.secret%
+                    region: %opifer_media.storages.aws_s3.region%
+                bucket: %opifer_media.storages.aws_s3.bucket%
+    cache: %opifer_media.default_storage%
+    data_loader: stream.file_storage
+    loaders:
+        stream.file_storage:
+            stream:
+                wrapper: gaufrette://file_storage
+    driver: imagick
+    filter_sets:
+        default:
+            quality: 85
+            filters:
+                thumbnail: { size: [272, 200], mode: outbound }
+
+
+knp_gaufrette:
+    adapters:
+        tmp_storage:
+            local:
+                directory: %opifer_media.storages.temp.directory%
+        local_storage:
+            local:
+                directory: %opifer_media.storages.local.directory%
+        aws_storage:
+            aws_s3:
+                service_id:  opifer.media.aws_s3.client
+                bucket_name: %opifer_media.storages.aws_s3.bucket%
+                options:
+                    directory: originals
+    filesystems:
+        tmp_storage:
+            adapter: tmp_storage
+            alias:   tmp_storage_filesystem
+        file_storage:
+            adapter: %opifer_media.default_storage%
+            alias:   file_storage_filesystem
+    stream_wrapper: ~ # gaufrette://file_storage

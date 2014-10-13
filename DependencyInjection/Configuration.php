@@ -18,10 +18,63 @@ class Configuration implements ConfigurationInterface
     public function getConfigTreeBuilder()
     {
         $treeBuilder = new TreeBuilder();
+        $rootNode = $treeBuilder->root('opifer_media');
 
-        // Here you should define the parameters that are allowed to
-        // configure your bundle. See the documentation linked above for
-        // more information on that topic.
+        $rootNode
+            ->addDefaultsIfNotSet()
+            ->children()
+                ->arrayNode('providers')
+                    ->children()
+                        ->arrayNode('youtube')
+                            ->addDefaultsIfNotSet()
+                            ->children()
+                                ->scalarNode('api_key')->defaultValue('null')->end()
+                            ->end()
+                        ->end()
+                    ->end()
+                ->end()
+                ->scalarNode('default_storage')
+                    ->defaultValue('local_storage')
+                ->end()
+                ->arrayNode('storages')
+                    ->addDefaultsIfNotSet()
+                    ->children()
+                        ->arrayNode('local')
+                            ->addDefaultsIfNotSet()
+                            ->children()
+                                ->scalarNode('directory')
+                                    ->defaultValue('%kernel.root_dir%/../web/uploads')
+                                ->end()
+                            ->end()
+                        ->end()
+                        ->arrayNode('temp')
+                            ->addDefaultsIfNotSet()
+                            ->children()
+                                ->scalarNode('directory')
+                                    ->defaultValue('/tmp')
+                                ->end()
+                            ->end()
+                        ->end()
+                        ->arrayNode('aws_s3')
+                            ->addDefaultsIfNotSet()
+                            ->children()
+                                ->scalarNode('key')->defaultValue('null')->end()
+                                ->scalarNode('secret')->defaultValue('null')->end()
+                                ->scalarNode('region')->defaultValue('eu-west-1')->end()
+                                ->scalarNode('bucket')->defaultValue('null')->end()
+                            ->end()
+                        ->end()
+                    ->end()
+                ->end()
+            ->end()
+        ;
+
         return $treeBuilder;
     }
+
+    /**
+     * opifer_media:
+     *     youtube:
+     *         google_api_key: dfgdghfgh
+     */
 }
