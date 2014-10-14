@@ -33,14 +33,6 @@ public function registerBundles()
 }
 ```
 
-Import `config.yml` in your `app\config\config.yml`
-
-```yaml
-imports:
-    - { resource: parameters.yml }
-    - { resource: @OpiferMediaBundle/Resources/config/config.yml }
-    - { resource: security.yml }
-```
 
 Creating a media provider
 -------------------------

@@ -45,13 +45,95 @@ class OpiferMediaExtension extends Extension implements PrependExtensionInterfac
         foreach ($container->getExtensions() as $name => $extension) {
             switch ($name) {
                 case 'doctrine':
-                    $container->prependExtensionConfig($name,  array(
-                        'orm' => array(
-                            'resolve_target_entities' => array(
+                    $container->prependExtensionConfig($name,  [
+                        'orm' => [
+                            'resolve_target_entities' => [
                                 'Opifer\MediaBundle\Model\MediaInterface' => $config['media_class'],
-                            ),
-                        ),
-                    ));
+                            ],
+                        ],
+                    ]);
+                    break;
+                case 'twig':
+                    $container->prependExtensionConfig($name, [
+                        'form' => [
+                            'resources' => [
+                                'OpiferMediaBundle:Form:fields.html.twig'
+                            ]
+                        ]
+                    ]);
+                    break;
+                case 'liip_imagine':
+                    $container->prependExtensionConfig($name, [
+                        'resolvers' => [
+                            'local_storage' => [
+                                'web_path' => null
+                            ],
+                            'aws_storage' => [
+                                'aws_s3' => [
+                                    'client_config' => [
+                                        'key'    => $config['storages']['aws_s3']['key'],
+                                        'secret' => $config['storages']['aws_s3']['secret'],
+                                        'region' => $config['storages']['aws_s3']['region']
+                                    ],
+                                    'bucket' => $config['storages']['aws_s3']['bucket']
+                                ]
+                            ]
+                        ],
+                        'cache' => $config['default_storage'],
+                        'data_loader' => 'stream.file_storage',
+                        'loaders' => [
+                            'stream.file_storage' => [
+                                'stream' => [
+                                    'wrapper' => 'gaufrette://file_storage/'
+                                ]
+                            ]
+                        ],
+                        'driver' => 'imagick',
+                        'filter_sets' => [
+                            'medialibrary' => [
+                                'quality' => 100,
+                                'filters' => [
+                                    'relative_resize' => ['heighten' => 160]
+                                ]
+                            ]
+                        ]
+                    ]);
+                    break;
+                case 'knp_gaufrette':
+                    $container->prependExtensionConfig($name, [
+                        'adapters' => [
+                            'tmp_storage' => [
+                                'local' => [
+                                    'directory' => $config['storages']['temp']['directory']
+                                ]
+                            ],
+                            'local_storage' => [
+                                'local' => [
+                                    'directory' => $config['storages']['local']['directory']
+                                ]
+                            ],
+                            'aws_storage' => [
+                                'aws_s3' => [
+                                    'service_id' => 'opifer.media.aws_s3.client',
+                                    'bucket_name' => $config['storages']['aws_s3']['bucket'],
+                                    'options' => [
+                                        'directory' => 'originals'
+                                    ]
+                                ]
+                            ]
+                        ],
+                        'filesystems' => [
+                            'tmp_storage' => [
+                                'adapter' => 'tmp_storage',
+                                'alias'   => 'tmp_storage_filesystem'
+                            ],
+                            'file_storage' => [
+                                'adapter' => $config['default_storage'],
+                                'alias'   => 'file_storage_filesystem'
+                            ]
+                        ],
+                        'stream_wrapper' => null
+                    ]);
                     break;
             }
         }
