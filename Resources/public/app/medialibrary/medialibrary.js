@@ -12,6 +12,12 @@ angular.module('mediaLibrary', ['infinite-scroll', 'ngModal', 'angularFileUpload
         $scope.uploader = {
             shown: false
         }
+        $scope.confirmation = {
+            shown: false,
+            accepted: false,
+            name: '',
+            action: 'delete'
+        }
         $scope.picker = {
             pickerShown: false,
             name: "",
@@ -119,8 +125,6 @@ angular.module('mediaLibrary', ['infinite-scroll', 'ngModal', 'angularFileUpload
         };
 
         $scope.toggleUploader = function(provider) {
-            console.log('toggle uploader');
-
             $scope.uploader.provider = provider;
             $scope.uploader.shown = !$scope.uploader.shown;
         };
@@ -154,9 +158,44 @@ angular.module('mediaLibrary', ['infinite-scroll', 'ngModal', 'angularFileUpload
             }
         };
 
+        // Removes a media item from the selected media items
         $scope.removeMedia = function(idx) {
             $scope.selecteditems.splice(idx, 1);
-        }
+        };
+
+        // Prompts a confirmation modal and completely removes a media item
+        // from the filesystem after accepting the confirmation.
+        $scope.deleteMedia = function(idx) {
+            var selected = $scope.mediaCollection.items[idx];
+            $scope.confirmation.name = selected.name;
+
+            $scope.confirmation.shown = !$scope.confirmation.shown;
+
+            $scope.$watch('confirmation.accepted', function(newValue, oldValue) {
+                if (newValue == true) {
+                    // confirmation.accepted is true, so we can safely remove the
+                    // media item.
+                    $http.delete(Routing.generate('opifer.api.media.delete', {'id': selected.id}))
+                        .success(function(data) {
+                            if (data.success == true) {
+                                $scope.mediaCollection.items.splice(idx, 1);
+                            } else {
+                                console.log(data.message);
+                            }
+                        }
+                    );
+                    
+                    // Reset confirmation defaults
+                    $scope.confirmation.shown = false;
+                    $scope.confirmation.accepted = false;
+                };
+            });
+        };
+
+        // Accept the delete confirmation
+        $scope.acceptConfirmation = function() {
+            $scope.confirmation.accepted = true;
+        };
     }])
 
     /**
@@ -164,7 +203,7 @@ angular.module('mediaLibrary', ['infinite-scroll', 'ngModal', 'angularFileUpload
      *
      * Holds all loaded medialibrary items
      *
-     * @param   {[type]}  $http
+     * @param   {http}  $http
      *
      * @return  {object}
      */

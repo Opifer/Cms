@@ -75,4 +75,30 @@ class MediaController extends Controller
 
         return new Response($media, 200, ['Content-Type' => 'application/json']);
     }
+
+    /**
+     * @Route(
+     *     "/media/{id}",
+     *     name="opifer.api.media.delete",
+     *     options={"expose"=true}
+     * )
+     * @Method({"DELETE"})
+     *
+     * @param  integer $id
+     *
+     * @return JsonResponse
+     */
+    public function deleteAction($id)
+    {
+        try {
+            $mediaManager = $this->get('opifer.media.media_manager');
+            $media = $mediaManager->getRepository()->find($id);
+
+            $mediaManager->remove($media);
+        } catch (\Exception $e) {
+            return new JsonResponse(['success' => false, 'message' => $e->getMessage()]);
+        }
+
+        return new JsonResponse(['success' => true]);
+    }
 }

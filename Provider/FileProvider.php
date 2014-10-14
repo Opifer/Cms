@@ -144,8 +144,9 @@ class FileProvider extends AbstractProvider
     public function upload(MediaInterface $media)
     {
         // the file property can be empty if the field is not required
-        if (null === $media->getFile())
+        if (null === $media->getFile()) {
             return;
+        }
 
         $this->filesystem->write($media->getReference(), file_get_contents($media->getFile()));
 
