@@ -2,8 +2,6 @@
 
 namespace Opifer\MediaBundle\Provider;
 
-use Doctrine\ORM\EntityManager;
-
 use Symfony\Component\Translation\LoggingTranslator;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -23,7 +21,7 @@ class YoutubeProvider extends AbstractProvider implements ProviderInterface
     /** @var MediaManagerInterface */
     protected $mediaManager;
 
-    /** @var Symfony\Bundle\FrameworkBundle\Translation\Translator */
+    /** @var LoggingTranslator */
     protected $translator;
 
     /** @var  string */
