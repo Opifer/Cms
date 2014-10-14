@@ -1,12 +1,12 @@
-{% extends 'OpiferCmsBundle::base.html.twig' %}
+{% extends 'OpiferMediaBundle::base.html.twig' %}
 
-{% block body %}
+{% block opifer_media_body %}
     <div ng-controller="MediaLibraryController" ng-init="init('default', '{{ providers|json_encode() }}')">
         <ng-media-library></ng-media-library>
     </div>
-{% endblock %}
+{% endblock opifer_media_body %}
 
-{% block javascripts %}
+{% block opifer_media_javascripts %}
     {{ parent() }}
 
     <script type="text/javascript">
@@ -46,4 +46,4 @@
             });
         });
     </script>
-{% endblock %}
+{% endblock opifer_media_javascripts %}

@@ -1,4 +1,3 @@
-
 {% if media.thumb %}
     <a class="visual" href="{{ path('opifer.media.media.edit', {'id':media.id}) }}">
         <img src="{{ media.thumb.reference|imagine_filter('medialibrary') }}" alt="{{ media.name }}">

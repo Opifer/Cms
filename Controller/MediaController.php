@@ -5,7 +5,6 @@ namespace Opifer\MediaBundle\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -32,7 +31,7 @@ class MediaController extends Controller
     {
         $providers = $this->get('opifer.media.provider.pool')->getProviders();
 
-        return $this->render('OpiferMediaBundle::index.html.twig', [
+        return $this->render('OpiferMediaBundle:Base:index.html.twig', [
             'providers'  => $providers
         ]);
     }
@@ -67,7 +66,7 @@ class MediaController extends Controller
                 $media->getName() . ' was succesfully created'
             );
 
-            return new RedirectResponse($this->generateUrl('opifer.media.media.index'));
+            return $this->redirect($this->generateUrl('opifer.media.media.index'));
         }
 
         return $this->render($mediaProvider->newView(), [
@@ -109,7 +108,7 @@ class MediaController extends Controller
                 $media->getName() . ' was succesfully updated'
             );
 
-            return new RedirectResponse($this->generateUrl('opifer.media.media.index'));
+            return $this->redirect($this->generateUrl('opifer.media.media.index'));
         }
 
         return $this->render($provider->editView(), [
@@ -146,9 +145,9 @@ class MediaController extends Controller
 
         $em->flush();
 
-        $this->get('session')->getFlashBag()->add('success', 'Yes! The file(s) were added to the media library');
+        $this->get('session')->getFlashBag()->add('success', 'The file(s) were added to the media library');
 
-        return new RedirectResponse($this->generateUrl('opifer.media.media.index'));
+        return $this->redirect($this->generateUrl('opifer.media.media.index'));
     }
 
     /**
@@ -164,7 +163,7 @@ class MediaController extends Controller
      * @param Request $request
      * @param integer $id
      *
-     * @return RedirectResponse
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
      */
     public function deleteAction(Request $request, $id)
     {
@@ -173,6 +172,6 @@ class MediaController extends Controller
         $em->remove($media);
         $em->flush();
 
-        return new RedirectResponse($this->generateUrl('opifer.media.media.index'));
+        return $this->redirect($this->generateUrl('opifer.media.media.index'));
     }
 }

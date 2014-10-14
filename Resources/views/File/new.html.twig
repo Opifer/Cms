@@ -1,13 +1,11 @@
-{% extends 'OpiferCmsBundle::base.html.twig' %}
+{% extends 'OpiferMediaBundle::base.html.twig' %}
 
-{% block body %}
-<div class="page-header clearfix">
-    <h1 class="pull-left">
-        <span class="iconl icon-file"></span>{{ 'file.new'|trans({'%provider%': provider.label})|capitalize }}
-    </h1>
-</div>
+{% block opifer_media_title %}
+    <span class="iconl icon-file"></span>{{ 'file.new'|trans({'%provider%': provider.label})|capitalize }}
+{% endblock opifer_media_title %}
 
-<section class="page-section">
-    {{ form(form) }}
-</section>
-{% endblock %}
+{% block opifer_media_body %}
+    <section class="page-section">
+        {{ form(form) }}
+    </section>
+{% endblock opifer_media_body %}

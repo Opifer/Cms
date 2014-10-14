@@ -6,7 +6,7 @@ _opifer_media_media:
 _opifer_media_api_media:
     resource: "@OpiferMediaBundle/Api/MediaController.php"
     type:     annotation
-    prefix:   /api
+    prefix:   /admin/api
 
 _liip_imagine:
     resource: "@LiipImagineBundle/Resources/config/routing.xml"
