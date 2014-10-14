@@ -22,4 +22,4 @@ opifer_media:
             bucket: ~
 ```
 
-[Return to the index](../../index.md)
+[Return to the index](../../README.md)

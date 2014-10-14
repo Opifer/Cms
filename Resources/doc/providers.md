@@ -28,4 +28,4 @@ app.vimeo_provider:
         - { name: opifer.media.provider, alias: vimeo }
 ```
 
-[Return to the index](../../index.md)
+[Return to the index](../../README.md)
