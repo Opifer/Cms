@@ -4,9 +4,10 @@ namespace Opifer\MediaBundle\Repository;
 
 use Doctrine\ORM\EntityRepository;
 
-use Symfony\Component\HttpFoundation\Request;
+use Pagerfanta\Adapter\DoctrineORMAdapter;
+use Pagerfanta\Pagerfanta;
 
-use Opifer\CrudBundle\Pagination\Paginator;
+use Symfony\Component\HttpFoundation\Request;
 
 class MediaRepository extends EntityRepository
 {
@@ -31,7 +32,11 @@ class MediaRepository extends EntityRepository
             $qb->andWhere('m.name LIKE :term')->setParameter('term', '%' . $request->get('search') . '%');
         }
 
-        return new Paginator($qb, $request->get('limit', 100), $request->get('page', 1));
+        $paginator = new Pagerfanta(new DoctrineORMAdapter($qb));
+        $paginator->setMaxPerPage($request->get('limit', 100));
+        $paginator->setCurrentPage($request->get('page', 1));
+
+        return $paginator;
     }
 
     /**

@@ -1,10 +1,14 @@
-opifer.file:
+_opifer_media_media:
     resource: "@OpiferMediaBundle/Controller/MediaController.php"
     type:     annotation
     prefix:   /admin/media
 
-# API routes
-_opifer_api_media:
+_opifer_media_api_media:
     resource: "@OpiferMediaBundle/Api/MediaController.php"
     type:     annotation
     prefix:   /api
+
+_liip_imagine:
+    resource: "@LiipImagineBundle/Resources/config/routing.xml"
+    options:
+        expose: true
