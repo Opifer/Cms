@@ -24,11 +24,10 @@ liip_imagine:
                 wrapper: gaufrette://file_storage/
     driver: imagick
     filter_sets:
-        default:
-            quality: 85
+        medialibrary:
+            quality: 100
             filters:
-                thumbnail: { size: [272, 200], mode: outbound }
-
+                relative_resize: { heighten: 160 }
 
 knp_gaufrette:
     adapters:
