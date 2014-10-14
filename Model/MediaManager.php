@@ -10,6 +10,12 @@ class MediaManager implements MediaManagerInterface
     protected $class;
     protected $repository;
 
+    /**
+     * Constructor
+     *
+     * @param ObjectManager $om
+     * @param string        $class
+     */
     public function __construct(ObjectManager $om, $class)
     {
         $this->objectManager = $om;
@@ -25,15 +31,21 @@ class MediaManager implements MediaManagerInterface
         $class = $this->getClass();
         $media = new $class;
 
-        return $class;
+        return $media;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public function save(MediaInterface $media)
     {
         $this->objectManager->persist($media);
         $this->objectManager->flush();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public function remove(MediaInterface $media)
     {
         $this->objectManager->remove($media);
@@ -48,6 +60,9 @@ class MediaManager implements MediaManagerInterface
         return $this->class;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public function getRepository()
     {
         return $this->repository;
