@@ -7,7 +7,7 @@ use Symfony\Component\Translation\LoggingTranslator;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Routing\RouterInterface;
 
-use Opifer\MediaBundle\Entity\Media;
+use Opifer\MediaBundle\Model\MediaInterface;
 
 class FileProvider extends AbstractProvider
 {
@@ -92,7 +92,7 @@ class FileProvider extends AbstractProvider
     /**
      * {@inheritDoc}
      */
-    public function prePersist(Media $media)
+    public function prePersist(MediaInterface $media)
     {
         if ($media->getFile() === null) {
             return;
@@ -111,7 +111,7 @@ class FileProvider extends AbstractProvider
     /**
      * {@inheritDoc}
      */
-    public function postPersist(Media $media)
+    public function postPersist(MediaInterface $media)
     {
         $this->upload($media);
     }
@@ -119,7 +119,7 @@ class FileProvider extends AbstractProvider
     /**
      * {@inheritDoc}
      */
-    public function postUpdate(Media $media)
+    public function postUpdate(MediaInterface $media)
     {
         $this->upload($media);
     }
@@ -127,7 +127,7 @@ class FileProvider extends AbstractProvider
     /**
      * {@inheritDoc}
      */
-    public function postRemove(Media $media)
+    public function postRemove(MediaInterface $media)
     {
         if ($this->filesystem->has($media->getReference())) {
             $this->filesystem->delete($media->getReference());
@@ -137,11 +137,11 @@ class FileProvider extends AbstractProvider
     /**
      * Upload a file
      *
-     * @param Media $media
+     * @param MediaInterface $media
      *
      * @return void
      */
-    public function upload(Media $media)
+    public function upload(MediaInterface $media)
     {
         // the file property can be empty if the field is not required
         if (null === $media->getFile())

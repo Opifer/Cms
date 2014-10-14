@@ -1,4 +1,11 @@
+parameters:
+    opifer.media.media_manager.class: Opifer\MediaBundle\Model\MediaManager
+
 services:
+    opifer.media.media_manager:
+        class: %opifer.media.media_manager.class%
+        arguments: [@doctrine.orm.entity_manager, %opifer_media.model.class%]
+
     opifer.media.listener.media_listener:
         class: Opifer\MediaBundle\Listener\MediaListener
         arguments: [@service_container]
@@ -32,7 +39,7 @@ services:
 
     opifer.media.provider.youtube:
         class: Opifer\MediaBundle\Provider\YoutubeProvider
-        arguments: [@doctrine.orm.entity_manager, @translator, %opifer_media.providers.youtube.api_key%]
+        arguments: [@opifer.media.media_manager, @translator, %opifer_media.providers.youtube.api_key%]
         tags:
             - { name: opifer.media.provider, alias: youtube }
 

@@ -4,7 +4,7 @@ namespace Opifer\MediaBundle\Provider;
 
 use Symfony\Component\Form\FormBuilderInterface;
 
-use Opifer\MediaBundle\Entity\Media;
+use Opifer\MediaBundle\Model\MediaInterface;
 
 abstract class AbstractProvider
 {
@@ -44,7 +44,7 @@ abstract class AbstractProvider
     /**
      * {@inheritdoc}
      */
-    public function prePersist(Media $media)
+    public function prePersist(MediaInterface $media)
     {
         // Do nothing, or override in child class
     }
@@ -52,7 +52,7 @@ abstract class AbstractProvider
     /**
      * {@inheritdoc}
      */
-    public function postPersist(Media $media)
+    public function postPersist(MediaInterface $media)
     {
         // Do nothing, or override in child class
     }
@@ -60,7 +60,7 @@ abstract class AbstractProvider
     /**
      * {@inheritdoc}
      */
-    public function preUpdate(Media $media)
+    public function preUpdate(MediaInterface $media)
     {
         // Do nothing, or override in child class
     }
@@ -68,7 +68,7 @@ abstract class AbstractProvider
     /**
      * {@inheritdoc}
      */
-    public function postUpdate(Media $media)
+    public function postUpdate(MediaInterface $media)
     {
         // Do nothing, or override in child class
     }
@@ -76,7 +76,7 @@ abstract class AbstractProvider
     /**
      * {@inheritdoc}
      */
-    public function preRemove(Media $media)
+    public function preRemove(MediaInterface $media)
     {
         // Do nothing, or override in child class
     }
@@ -84,7 +84,7 @@ abstract class AbstractProvider
     /**
      * {@inheritdoc}
      */
-    public function postRemove(Media $media)
+    public function postRemove(MediaInterface $media)
     {
         // Do nothing, or override in child class
     }

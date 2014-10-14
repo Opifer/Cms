@@ -2,7 +2,7 @@
 
 namespace Opifer\MediaBundle\Provider;
 
-use Opifer\MediaBundle\Entity\Media;
+use Opifer\MediaBundle\Model\MediaInterface;
 
 /**
  * Extends FileProvider to add image-specific functionality
@@ -28,7 +28,7 @@ class ImageProvider extends FileProvider implements ProviderInterface
     /**
      * {@inheritDoc}
      */
-    public function prePersist(Media $media)
+    public function prePersist(MediaInterface $media)
     {
         if ($media->getFile() === null) {
             return;

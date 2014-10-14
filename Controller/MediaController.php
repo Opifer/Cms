@@ -50,17 +50,15 @@ class MediaController extends Controller
      */
     public function newAction(Request $request, $provider = 'image')
     {
-        $media = new Media();
+        $mediaManager = $this->get('opifer.media.media_manager');
         $mediaProvider = $this->get('opifer.media.provider.pool')->getProvider($provider);
-
-        $em = $this->getDoctrine()->getManager();
+        $media = $mediaManager->createMedia();
 
         $form = $this->createForm(new MediaType(), $media, ['provider' => $mediaProvider]);
         $form->handleRequest($request);
 
         if ($form->isValid()) {
-            $em->persist($media);
-            $em->flush();
+            $mediaManager->save($media);
 
             $this->get('session')->getFlashBag()->add('success',
                 $media->getName() . ' was succesfully created'
@@ -89,8 +87,8 @@ class MediaController extends Controller
      */
     public function editAction(Request $request, $id)
     {
-        $em = $this->getDoctrine()->getManager();
-        $media = $em->getRepository('OpiferMediaBundle:Media')->find($id);
+        $mediaManager = $this->get('opifer.media.media_manager');
+        $media = $mediaManager->getRepository()->find($id);
 
         $provider = $this->get('opifer.media.provider.pool')->getProvider($media->getProvider());
 
@@ -101,8 +99,7 @@ class MediaController extends Controller
         $form->handleRequest($request);
 
         if ($form->isValid()) {
-            $em->persist($media);
-            $em->flush();
+            $mediaManager->save($media);
 
             $this->get('session')->getFlashBag()->add('success',
                 $media->getName() . ' was succesfully updated'
@@ -133,7 +130,7 @@ class MediaController extends Controller
         $form = $request->get('mediatype');
 
         foreach ($form['files'] as $id => $values) {
-            $media = $em->getRepository('OpiferMediaBundle:Media')->find($id);
+            $media = $this->get('opifer.media.media_manager')->getRepository()->find($id);
 
             $form = $this->createForm(new DropzoneFieldType(), $media);
             $form->submit($values);
@@ -167,10 +164,10 @@ class MediaController extends Controller
      */
     public function deleteAction(Request $request, $id)
     {
-        $em = $this->getDoctrine()->getManager();
-        $media = $em->getRepository('OpiferMediaBundle:Media')->find($id);
-        $em->remove($media);
-        $em->flush();
+        $mediaManager = $this->get('opifer.media.media_manager');
+        $media = $this->mediaManager->getRepository()->find($id);
+
+        $mediaManager->remove($media);
 
         return $this->redirect($this->generateUrl('opifer.media.media.index'));
     }

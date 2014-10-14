@@ -26,7 +26,7 @@ class MediaController extends Controller
      */
     public function indexAction(Request $request)
     {
-        $media = $this->getDoctrine()->getRepository('OpiferMediaBundle:Media')
+        $media = $this->get('opifer.media.media_manager')->getRepository()
             ->findPaginatedByRequest($request);
 
         $items = $this->get('jms_serializer')->serialize(iterator_to_array($media->getCurrentPageResults()), 'json');
@@ -50,7 +50,7 @@ class MediaController extends Controller
      */
     public function uploadAction(Request $request)
     {
-        $media = new Media();
+        $media = $this->get('opifer.media.media_manager')->createMedia();
         $em = $this->getDoctrine()->getManager();
 
         foreach ($request->files->all() as $files) {

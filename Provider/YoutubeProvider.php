@@ -11,7 +11,8 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\Validator\Constraints\Url;
 
-use Opifer\MediaBundle\Entity\Media;
+use Opifer\MediaBundle\Model\MediaInterface;
+use Opifer\MediaBundle\Model\MediaManagerInterface;
 use Opifer\MediaBundle\Validator\Constraint\YoutubeUrl;
 
 /**
@@ -19,32 +20,26 @@ use Opifer\MediaBundle\Validator\Constraint\YoutubeUrl;
  */
 class YoutubeProvider extends AbstractProvider implements ProviderInterface
 {
-    /**
-     * @var  Doctrine\ORM\EntityManager
-     */
-    protected $em;
+    /** @var MediaManagerInterface */
+    protected $mediaManager;
 
-    /**
-     * @var  Symfony\Bundle\FrameworkBundle\Translation\Translator
-     */
+    /** @var Symfony\Bundle\FrameworkBundle\Translation\Translator */
     protected $translator;
 
-    /**
-     * @var  string
-     */
+    /** @var  string */
     private $apikey;
 
     /**
      * Constructor
      *
-     * @param Doctrine\ORM\EntityManager                            $em
-     * @param Symfony\Bundle\FrameworkBundle\Translation\Translator $translator
-     * @param string                                                $apikey
+     * @param MediaManagerInterface $mm
+     * @param LoggingTranslator     $translator
+     * @param string                $apikey
      */
-    public function __construct(EntityManager $em, LoggingTranslator $translator, $apikey)
+    public function __construct(MediaManagerInterface $mm, LoggingTranslator $tr, $apikey)
     {
-        $this->em = $em;
-        $this->translator = $translator;
+        $this->mediaManager = $mm;
+        $this->translator = $tr;
         $this->apikey = $apikey;
     }
 
@@ -79,15 +74,10 @@ class YoutubeProvider extends AbstractProvider implements ProviderInterface
                     new YoutubeUrl()
                 ]
             ])
-            ->add('tags', 'tags', [
-                'tagfield' => [],
-                'autocomplete' => 'dynamic', // default
-                'attr' => ['help_text' => $this->translator->trans('tag.help_text')]
-            ])
             ->add('thumb', 'mediapicker', [
                 'multiple' => false,
                 'property' => 'name',
-                'class' => 'OpiferMediaBundle:Media'
+                'class' => $this->mediaManager->getClass()
             ])
             ->add('add ' . $options['provider']->getLabel(), 'submit')
         ;
@@ -104,7 +94,7 @@ class YoutubeProvider extends AbstractProvider implements ProviderInterface
     /**
      * {@inheritDoc}
      */
-    public function prePersist(Media $media)
+    public function prePersist(MediaInterface $media)
     {
         $this->preSave($media);
     }
@@ -112,7 +102,7 @@ class YoutubeProvider extends AbstractProvider implements ProviderInterface
     /**
      * {@inheritDoc}
      */
-    public function preUpdate(Media $media)
+    public function preUpdate(MediaInterface $media)
     {
         $this->preSave($media);
     }
@@ -120,11 +110,11 @@ class YoutubeProvider extends AbstractProvider implements ProviderInterface
     /**
      * pre saving handler
      *
-     * @param Media $media
+     * @param MediaInterface $media
      *
      * @return void
      */
-    public function preSave(Media $media)
+    public function preSave(MediaInterface $media)
     {
         preg_match('/(?<=v(\=|\/))([-a-zA-Z0-9_]+)|(?<=youtu\.be\/)([-a-zA-Z0-9_]+)/', $media->getReference(), $matches);
 
@@ -141,12 +131,12 @@ class YoutubeProvider extends AbstractProvider implements ProviderInterface
     /**
      * Update metadata
      *
-     * @param Media   $media
+     * @param MediaInterface   $media
      * @param boolean $force
      *
      * @return void
      */
-    public function updateMedadata(Media $media)
+    public function updateMedadata(MediaInterface $media)
     {
         try {
             $url = sprintf(
@@ -190,12 +180,12 @@ class YoutubeProvider extends AbstractProvider implements ProviderInterface
     /**
      * @throws \RuntimeException
      *
-     * @param \Opifer\MediaBundle\Entity\Media $media
-     * @param string                           $url
+     * @param MediaInterface $media
+     * @param string         $url
      *
      * @return mixed
      */
-    protected function getMetadata(Media $media, $url)
+    protected function getMetadata(MediaInterface $media, $url)
     {
         try {
             $metadata = file_get_contents($url);
@@ -214,14 +204,14 @@ class YoutubeProvider extends AbstractProvider implements ProviderInterface
     /**
      * Save the thumbnail
      *
-     * @param Media  $media The Youtube Object
-     * @param string $url
+     * @param  MediaInterface $media The Youtube Object
+     * @param  string         $url
      *
-     * @return Media The newly created image
+     * @return MediaInterface The newly created image
      */
-    public function saveThumbnail(Media $media, $url)
+    public function saveThumbnail(MediaInterface $media, $url)
     {
-        $thumb = new Media();
+        $thumb = $this->mediaManager->createMedia();
 
         $thumb
             ->setStatus(self::HASPARENT)
@@ -235,7 +225,7 @@ class YoutubeProvider extends AbstractProvider implements ProviderInterface
         $thumb->temp = $filename;
         $thumb->setFile(new UploadedFile($filename, basename($url)));
 
-        $this->em->persist($thumb);
+        $this->mediaManager->save($thumb);
 
         return $thumb;
     }

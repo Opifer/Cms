@@ -23,6 +23,9 @@ class Configuration implements ConfigurationInterface
         $rootNode
             ->addDefaultsIfNotSet()
             ->children()
+                ->scalarNode('media_class')
+                    ->isRequired()
+                ->end()
                 ->arrayNode('providers')
                     ->children()
                         ->arrayNode('youtube')

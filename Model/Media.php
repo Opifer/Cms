@@ -1,6 +1,6 @@
 <?php
 
-namespace Opifer\MediaBundle\Entity;
+namespace Opifer\MediaBundle\Model;
 
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
@@ -12,14 +12,13 @@ use Symfony\Component\Validator\Constraints as Assert;
 /**
  * Media
  *
- * @ORM\Entity(repositoryClass="Opifer\MediaBundle\Repository\MediaRepository")
- * @ORM\Table(name="media")
+ * @ORM\MappedSuperclass
  *
  * @UniqueEntity("reference")
  * @JMS\ExclusionPolicy("all")
  * @Gedmo\SoftDeleteable(fieldName="deletedAt", timeAware=false)
  */
-class Media
+abstract class Media implements MediaInterface
 {
 
     /**
@@ -86,7 +85,7 @@ class Media
      *
      * @var integer
      *
-     * @ORM\OneToOne(targetEntity="\Opifer\MediaBundle\Entity\Media")
+     * @ORM\OneToOne(targetEntity="\Opifer\MediaBundle\Model\MediaInterface")
      * @ORM\JoinColumn(name="thumb_id", referencedColumnName="id")
      * @JMS\Expose
      */

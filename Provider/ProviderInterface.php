@@ -4,7 +4,7 @@ namespace Opifer\MediaBundle\Provider;
 
 use Symfony\Component\Form\FormBuilderInterface;
 
-use Opifer\MediaBundle\Entity\Media;
+use Opifer\MediaBundle\Model\MediaInterface;
 
 /**
  * Provider Interface
@@ -79,42 +79,42 @@ interface ProviderInterface
     /**
      * perform any prePersist actions
      *
-     * @param Media $media
+     * @param MediaInterface $media
      */
-    public function prePersist(Media $media);
+    public function prePersist(MediaInterface $media);
 
     /**
      * perform any postPersist actions
      *
-     * @param Media $media
+     * @param MediaInterface $media
      */
-    public function postPersist(Media $media);
+    public function postPersist(MediaInterface $media);
 
     /**
      * perform any preUpdate actions
      *
-     * @param Media $media
+     * @param MediaInterface $media
      */
-    public function preUpdate(Media $media);
+    public function preUpdate(MediaInterface $media);
 
     /**
      * perform any postUpdate actions
      *
-     * @param Media $media
+     * @param MediaInterface $media
      */
-    public function postUpdate(Media $media);
+    public function postUpdate(MediaInterface $media);
 
     /**
      * perform any preRemove actions
      *
-     * @param Media $media
+     * @param MediaInterface $media
      */
-    public function preRemove(Media $media);
+    public function preRemove(MediaInterface $media);
 
     /**
      * perform any postRemove actions
      *
-     * @param Media $media
+     * @param MediaInterface $media
      */
-    public function postRemove(Media $media);
+    public function postRemove(MediaInterface $media);
 }

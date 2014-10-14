@@ -6,7 +6,7 @@ use Doctrine\ORM\Events;
 use Doctrine\Common\EventSubscriber;
 use Doctrine\Common\Persistence\Event\LifecycleEventArgs;
 
-use Opifer\MediaBundle\Entity\Media;
+use Opifer\MediaBundle\Model\MediaInterface;
 
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
@@ -78,7 +78,7 @@ class MediaListener implements EventSubscriber
      */
     public function prePersist(LifecycleEventArgs $args)
     {
-        if ($args->getEntity() instanceof Media) {
+        if ($args->getEntity() instanceof MediaInterface) {
             $this->getProvider($args)->prePersist($args->getEntity());
         }
     }
@@ -90,7 +90,7 @@ class MediaListener implements EventSubscriber
      */
     public function postPersist(LifecycleEventArgs $args)
     {
-        if ($args->getEntity() instanceof Media) {
+        if ($args->getEntity() instanceof MediaInterface) {
             $this->getProvider($args)->postPersist($args->getEntity());
         }
     }
@@ -102,7 +102,7 @@ class MediaListener implements EventSubscriber
      */
     public function preUpdate(LifecycleEventArgs $args)
     {
-        if ($args->getEntity() instanceof Media) {
+        if ($args->getEntity() instanceof MediaInterface) {
             $this->getProvider($args)->preUpdate($args->getEntity());
         }
     }
@@ -114,7 +114,7 @@ class MediaListener implements EventSubscriber
      */
     public function postUpdate(LifecycleEventArgs $args)
     {
-        if ($args->getEntity() instanceof Media) {
+        if ($args->getEntity() instanceof MediaInterface) {
             $this->getProvider($args)->postUpdate($args->getEntity());
         }
     }
@@ -126,7 +126,7 @@ class MediaListener implements EventSubscriber
      */
     public function preRemove(LifecycleEventArgs $args)
     {
-        if ($args->getEntity() instanceof Media) {
+        if ($args->getEntity() instanceof MediaInterface) {
             $this->getProvider($args)->preRemove($args->getEntity());
         }
     }
@@ -138,7 +138,7 @@ class MediaListener implements EventSubscriber
      */
     public function postRemove(LifecycleEventArgs $args)
     {
-        if ($args->getEntity() instanceof Media) {
+        if ($args->getEntity() instanceof MediaInterface) {
             $this->getProvider($args)->postRemove($args->getEntity());
         }
     }

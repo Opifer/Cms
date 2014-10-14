@@ -2,7 +2,6 @@
 
 namespace Opifer\MediaBundle\Form\Transformer;
 
-use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\Form\DataTransformerInterface;
 use Symfony\Component\Form\Exception\TransformationFailedException;
 
@@ -12,16 +11,16 @@ use Symfony\Component\Form\Exception\TransformationFailedException;
 class IdsToMediaTransformer implements DataTransformerInterface
 {
     /**
-     * @var ObjectManager
+     * @var MediaManagerInterface
      */
-    private $om;
+    private $mediaManager;
 
     /**
-     * @param ObjectManager $om
+     * @param MediaManagerInterface $mm
      */
-    public function __construct(ObjectManager $om)
+    public function __construct(MediaManagerInterface $mm)
     {
-        $this->om = $om;
+        $this->mediaManager = $mm;
     }
 
     /**
@@ -50,7 +49,7 @@ class IdsToMediaTransformer implements DataTransformerInterface
             return null;
         }
 
-        $repo = $this->om->getRepository('OpiferMediaBundle:Media');
+        $repo = $this->mediaManager->getRepository();
         $media = $repo->createQueryBuilder('m')
             ->where('m.id IN(:ids)')
             ->setParameter('ids', $ids)
