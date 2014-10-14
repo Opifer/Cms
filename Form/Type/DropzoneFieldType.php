@@ -19,11 +19,6 @@ class DropzoneFieldType extends AbstractType
             ->add('name', 'text', [
                 'attr' => ['value' => '__value__']
             ])
-            ->add('tags', 'tags', [
-                'tagfield'     => [],
-                'autocomplete' => 'dynamic', // default
-                'attr'         => ['help_text' => 'Typ the tagnames and separate them with a comma. E.g. Red, Green, Blue']
-            ])
         ;
     }
 
