@@ -16,7 +16,7 @@ use Opifer\MediaBundle\Validator\Constraint\YoutubeUrl;
 /**
  * Youtube Provider
  */
-class YoutubeProvider extends AbstractProvider implements ProviderInterface
+class YoutubeProvider extends AbstractProvider
 {
     /** @var MediaManagerInterface */
     protected $mediaManager;

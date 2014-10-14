@@ -7,7 +7,7 @@ use Opifer\MediaBundle\Model\MediaInterface;
 /**
  * Extends FileProvider to add image-specific functionality
  */
-class ImageProvider extends FileProvider implements ProviderInterface
+class ImageProvider extends FileProvider
 {
     /**
      * {@inheritDoc}

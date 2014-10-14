@@ -1,15 +1,25 @@
 Configuration Reference
 ==========================
 
-parameters.yml
-```yaml
-parameters:
-    amazon_s3_key: YourAwsKey
-    amazon_s3_secret: YourAwsKey
-    amazon_s3_region: eu-west-1
-    amazon_s3_bucket: nameofyourbucket
-    storage_adapter: aws_storage
+The complete configuration reference with its default values
 
+```yaml
+opifer_media:
+    media_class: ~
+    providers:
+        youtube:
+            api_key: ~
+    default_storage: local_storage # Or aws_storage
+    storages:
+        local:
+            directory: %kernel.root_dir%/../web/uploads
+        temp:
+            directory: /tmp
+        aws_s3:
+            key:    ~
+            secret: ~
+            region: ~
+            bucket: ~
 ```
 
-[Return to the index](index.md)
+[Return to the index](../../index.md)
