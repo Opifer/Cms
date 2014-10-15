@@ -3,7 +3,7 @@
 namespace Opifer\MediaBundle\Provider;
 
 use Gaufrette\FileSystem;
-use Symfony\Component\Translation\LoggingTranslator;
+use Symfony\Component\Translation\TranslatorInterface;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Routing\RouterInterface;
 

@@ -24,28 +24,40 @@ public function registerBundles()
     $bundles = array(
         ...
         new JMS\SerializerBundle\JMSSerializerBundle($this),
-
-        // The mediabundle has be loaded before KnpGaufretteBundle & LiipImagineBundle
-        new Opifer\MediaBundle\OpiferMediaBundle(),
         new Knp\Bundle\GaufretteBundle\KnpGaufretteBundle(),
-        new Liip\ImagineBundle\LiipImagineBundle()
+        new Liip\ImagineBundle\LiipImagineBundle(),
+        new Opifer\MediaBundle\OpiferMediaBundle()
     );
 }
 ```
 
+You should create your own Media entity that extends `Opifer\MediaBundle\Model\Media`.
 
-Creating a media provider
--------------------------
+```php
+namespace AppBundle\Entity;
 
-All media providers must implement the `Opifer\MediaBundle\Provider\ProviderInterface`.
-The easiest way to get started is to extend from `Opifer\MediaBundle\Provider\AbstractProvider`,
-which already implements most of the required methods.
+use Doctrine\ORM\Mapping as ORM;
+use Opifer\MediaBundle\Model\Media as BaseMedia;
 
-To register the provider, create a service. Tag it with `opifer.media.provider` and give it an `alias`.
+/**
+ * @ORM\Table(name="media")
+ * @ORM\Entity(repositoryClass="Opifer\MediaBundle\Repository\MediaRepository")
+ */
+class Media extends BaseMedia
+{
+
+}
+```
+
+And reference to it in your `app/config/config.yml`
 
 ```yaml
-acme.media.provider.youtube:
-    class: Opifer\MediaBundle\Provider\YoutubeProvider
-    tags:
-        - { name: opifer.media.provider, alias: youtube }
+opifer_media:
+    media_class: AppBundle\Entity\Media
 ```
+
+Documentation
+-------------
+
+- [Configuration reference](Resources/doc/configuration-reference.md)
+- [Media providers](Resources/doc/providers.md)

@@ -6,7 +6,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 
 use Opifer\MediaBundle\Model\MediaInterface;
 
-abstract class AbstractProvider
+abstract class AbstractProvider implements ProviderInterface
 {
     const DISABLED = 0;
     const ENABLED = 1;
@@ -26,11 +26,23 @@ abstract class AbstractProvider
     /**
      * {@inheritDoc}
      */
+    public function buildCreateForm(FormBuilderInterface $builder, array $options)
+    {
+        $builder
+            ->add('name', 'text')
+            ->add('reference', 'text')
+            ->add('add ' . $this->getLabel(), 'submit')
+        ;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
     public function buildEditForm(FormBuilderInterface $builder, array $options)
     {
         // Simply uses the 'new' form by default.
         // If the 'edit' form should be different, override in the child class
-        $this->newForm($builder, $options);
+        $this->buildCreateForm($builder, $options);
     }
 
     /**

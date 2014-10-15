@@ -42,7 +42,7 @@
                     </div>
                     <div class="center-stage">
                         <button type="button" ng-if="picker.name" ng-click="selectMedia($index)" class="btn btn-skeleton include">Use media</button>
-                        <button type="button" ng-if="!picker.name" ng-click="deleteMedia($index)" class="btn btn-skeleton delete">Delete</button>
+                        <button type="button" ng-if="!picker.name" ng-click="confirmDelete($index)" class="btn btn-skeleton delete">Delete</button>
                         <!--<button type="button" ng-if="!picker.name" ng-click="zoomMedia($index)" class="btn btn-skeleton zoom">Zoom</button>-->
                     </div>
                     <span class="name">{{ item.name }}</span>
@@ -63,8 +63,12 @@
             Do you really want to delete {{ confirmation.name }}?
         </div>
         <div class="modal-footer">
-            <button type="button" class="btn btn-default btn-link" ng-click="confirmation.shown = false">Cancel</button>
-            <button class="btn btn-danger modal-confirm-button" ng-click="acceptConfirmation()" title="Confirms removal">Delete</a>
+            <button type="button" class="btn btn-default btn-link" ng-click="confirmation.shown = false">
+                Cancel
+            </button>
+            <button class="btn btn-danger modal-confirm-button" ng-click="deleteMedia(confirmation.idx)" title="Confirms removal">
+                Delete
+            </a>
         </div>
     </ng-modal>
 </section>

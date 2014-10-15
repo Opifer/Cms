@@ -5,6 +5,8 @@ namespace Opifer\MediaBundle\Form\Transformer;
 use Symfony\Component\Form\DataTransformerInterface;
 use Symfony\Component\Form\Exception\TransformationFailedException;
 
+use Opifer\MediaBundle\Model\MediaManagerInterface;
+
 /**
  * Transforms an array of ids to an ArrayCollection of Media items.
  */

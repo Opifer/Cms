@@ -2,8 +2,6 @@
 
 namespace Opifer\MediaBundle\Provider;
 
-use Doctrine\ORM\EntityManager;
-
 use Symfony\Component\Translation\TranslatorInterface;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -18,12 +16,12 @@ use Opifer\MediaBundle\Validator\Constraint\YoutubeUrl;
 /**
  * Youtube Provider
  */
-class YoutubeProvider extends AbstractProvider implements ProviderInterface
+class YoutubeProvider extends AbstractProvider
 {
     /** @var MediaManagerInterface */
     protected $mediaManager;
 
-    /** @var Symfony\Component\Translation\TranslatorInterface */
+    /** @var TranslatorInterface */
     protected $translator;
 
     /** @var  string */

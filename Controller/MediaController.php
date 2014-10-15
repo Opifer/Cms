@@ -8,7 +8,6 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-use Opifer\MediaBundle\Form\Type\SearchMediaType;
 use Opifer\MediaBundle\Form\Type\MediaType;
 use Opifer\MediaBundle\Form\Type\DropzoneFieldType;
 
@@ -22,7 +21,6 @@ class MediaController extends Controller
      * )
      *
      * @param Request $request
-     * @param integer $page
      *
      * @return Response
      */
@@ -119,7 +117,7 @@ class MediaController extends Controller
      *     name="opifer.media.media.updateall"
      * )
      *
-     * @param Request $request
+     * @param  Request $request
      *
      * @return Response
      */
