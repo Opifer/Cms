@@ -1,12 +1,15 @@
 language: php
 
 php:
-  - 5.4
-  - 5.5
-  - 5.6
+    - 5.4
+    - 5.5
+    - 5.6
 
 before_script:
     - composer selfupdate
     - composer install --dev --prefer-dist --no-interaction
 
 script: phpunit
+
+notifications:
+    hipchat: "lLHs8k/dYMKGSYm0HkCrDSzCrboQNzExqz/PckK2WQ1+p494zVxMPlHj17FhA24VCWFIQc7ITPyIMzukODonHlbDi8TU+PAHmgKKuQuUtyZhxRs5UrZOP7UgpLqdIe9mVlf2F0WWa8aLY1FWMuojyORqFxtMKkqQ8CIK9kf6GsE="
