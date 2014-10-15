@@ -9,6 +9,28 @@
         filter: e(%("progid:DXImageTransform.Microsoft.gradient(startColorstr='%d', endColorstr='%d', GradientType=0)",argb(@start-color),argb(@end-color))); // IE9 and down, gets no color-stop at all for proper fallback
     }
 }
+
+.page-header {
+    padding: 10px 16px;
+
+    h1 {
+        float: left !important;
+        font-weight: 400;
+        font-size: 20px;
+        line-height: 32px;
+        margin: 0 20px 0 0;
+    }
+
+    .media-search {
+        position: relative;
+        float: left;
+        width: 33.33333333%;
+        min-height: 1px;
+        padding-left: 10px;
+        padding-right: 10px;
+    }
+}
+
 .media-items {
     .visual img {
         margin: 0 auto;
@@ -23,6 +45,14 @@
     
     .btn-paginate {
         margin: 6px 0;
+    }
+
+    .item {
+        h4,
+        img,
+        .metadata {
+            cursor: pointer;
+        }
     }
     
 }
@@ -56,7 +86,6 @@
 
 .media-items,
 .picker-selected-items {
-    
     .item {
         float: left;
         width: auto;
@@ -154,15 +183,6 @@
 .medialibrary-loadmore {
     width: 100%;
 }
-.media-items {
-    .item {
-        h4,
-        img,
-        .metadata {
-            cursor: pointer;
-        }
-    }
-}
 
 .file-drop-area-overlay {
     background: rgba(0,0,0,0.8);
@@ -198,6 +218,17 @@
     width: 100%;
     height: 100%;
     
+    &.fullsize {
+        padding: 30px;
+
+        .page-header {
+            position: absolute;
+            width: 100%;
+            background: #fff;
+            z-index: 99;
+            margin-top: 0;
+        }
+    }
     .ng-modal-overlay {
         position: absolute;
         z-index: 9999;
@@ -237,6 +268,7 @@
             cursor: pointer;
             padding: 5px;
             display: inline-block;
+            z-index: 100;
             .ng-modal-close-x {
                 
             }
@@ -245,6 +277,10 @@
 
     .page-section {
         height: 100%;
+        margin-right: auto;
+        margin-left: auto;
+        padding-left: 10px;
+        padding-right: 10px;
     }
     .media-items {
         overflow-y: scroll;
