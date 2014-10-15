@@ -10,6 +10,10 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
+use Opifer\MediaBundle\Event\MediaResponseEvent;
+use Opifer\MediaBundle\Event\ResponseEvent;
+use Opifer\MediaBundle\OpiferMediaEvents;
+
 class MediaController extends Controller
 {
     /**
@@ -24,6 +28,14 @@ class MediaController extends Controller
      */
     public function indexAction(Request $request)
     {
+        $dispatcher = $this->get('event_dispatcher');
+        $event = new ResponseEvent($request);
+        $dispatcher->dispatch(OpiferMediaEvents::MEDIA_CONTROLLER_INDEX, $event);
+
+        if (null !== $event->getResponse()) {
+            return $event->getResponse();
+        }
+
         $media = $this->get('opifer.media.media_manager')->getRepository()
             ->findPaginatedByRequest($request);
 
@@ -91,6 +103,14 @@ class MediaController extends Controller
         try {
             $mediaManager = $this->get('opifer.media.media_manager');
             $media = $mediaManager->getRepository()->find($id);
+
+            $dispatcher = $this->get('event_dispatcher');
+            $event = new MediaResponseEvent($media, $request);
+            $dispatcher->dispatch(OpiferMediaEvents::MEDIA_CONTROLLER_DELETE, $event);
+
+            if (null !== $event->getResponse()) {
+                return $event->getResponse();
+            }
 
             $mediaManager->remove($media);
         } catch (\Exception $e) {

@@ -9,7 +9,7 @@ services:
         arguments: [@doctrine.orm.entity_manager, %opifer_media.model.class%]
 
     opifer.media.listener.media_listener:
-        class: Opifer\MediaBundle\Listener\MediaListener
+        class: Opifer\MediaBundle\EventListener\MediaListener
         arguments: [@service_container]
         tags:
             - { name: doctrine.event_subscriber }

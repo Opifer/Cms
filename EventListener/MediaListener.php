@@ -1,6 +1,6 @@
 <?php
 
-namespace Opifer\MediaBundle\Listener;
+namespace Opifer\MediaBundle\EventListener;
 
 use Doctrine\ORM\Events;
 use Doctrine\Common\EventSubscriber;

@@ -8,8 +8,11 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
+use Opifer\MediaBundle\Event\MediaResponseEvent;
+use Opifer\MediaBundle\Event\ResponseEvent;
 use Opifer\MediaBundle\Form\Type\MediaType;
 use Opifer\MediaBundle\Form\Type\DropzoneFieldType;
+use Opifer\MediaBundle\OpiferMediaEvents;
 
 class MediaController extends Controller
 {
@@ -26,6 +29,14 @@ class MediaController extends Controller
      */
     public function indexAction(Request $request)
     {
+        $dispatcher = $this->get('event_dispatcher');
+        $event = new ResponseEvent($request);
+        $dispatcher->dispatch(OpiferMediaEvents::MEDIA_CONTROLLER_INDEX, $event);
+
+        if (null !== $event->getResponse()) {
+            return $event->getResponse();
+        }
+
         $providers = $this->get('opifer.media.provider.pool')->getProviders();
 
         return $this->render('OpiferMediaBundle:Base:index.html.twig', [
@@ -47,8 +58,17 @@ class MediaController extends Controller
      */
     public function newAction(Request $request, $provider = 'image')
     {
+        $dispatcher = $this->get('event_dispatcher');
+        $event = new ResponseEvent($request);
+        $dispatcher->dispatch(OpiferMediaEvents::MEDIA_CONTROLLER_NEW, $event);
+
+        if (null !== $event->getResponse()) {
+            return $event->getResponse();
+        }
+
         $mediaManager = $this->get('opifer.media.media_manager');
         $mediaProvider = $this->get('opifer.media.provider.pool')->getProvider($provider);
+
         $media = $mediaManager->createMedia();
 
         $form = $this->createForm(new MediaType(), $media, ['provider' => $mediaProvider]);
@@ -87,6 +107,14 @@ class MediaController extends Controller
         $mediaManager = $this->get('opifer.media.media_manager');
         $media = $mediaManager->getRepository()->find($id);
 
+        $dispatcher = $this->get('event_dispatcher');
+        $event = new MediaResponseEvent($media, $request);
+        $dispatcher->dispatch(OpiferMediaEvents::MEDIA_CONTROLLER_EDIT, $event);
+
+        if (null !== $event->getResponse()) {
+            return $event->getResponse();
+        }
+
         $provider = $this->get('opifer.media.provider.pool')->getProvider($media->getProvider());
 
         // Clone the old Media, so we don't perform any useless actions inside the provider
@@ -123,6 +151,14 @@ class MediaController extends Controller
      */
     public function updateAllAction(Request $request)
     {
+        $dispatcher = $this->get('event_dispatcher');
+        $event = new ResponseEvent($request);
+        $dispatcher->dispatch(OpiferMediaEvents::MEDIA_CONTROLLER_UPDATEALL, $event);
+
+        if (null !== $event->getResponse()) {
+            return $event->getResponse();
+        }
+
         $em = $this->getDoctrine()->getManager();
         $form = $request->get('mediatype');
 
@@ -162,7 +198,15 @@ class MediaController extends Controller
     public function deleteAction(Request $request, $id)
     {
         $mediaManager = $this->get('opifer.media.media_manager');
-        $media = $this->mediaManager->getRepository()->find($id);
+        $media = $mediaManager->getRepository()->find($id);
+
+        $dispatcher = $this->get('event_dispatcher');
+        $event = new MediaResponseEvent($media, $request);
+        $dispatcher->dispatch(OpiferMediaEvents::MEDIA_CONTROLLER_DELETE, $event);
+
+        if (null !== $event->getResponse()) {
+            return $event->getResponse();
+        }
 
         $mediaManager->remove($media);
 

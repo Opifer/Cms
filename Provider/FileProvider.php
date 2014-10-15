@@ -78,12 +78,7 @@ class FileProvider extends AbstractProvider
     {
         $builder
             ->add('name', null, [
-                'label' => $this->translator->trans('file.name.label')
-            ])
-            ->add('tags', 'tags', [
-                'tagfield' => [],
-                'autocomplete' => 'dynamic', // default
-                'attr' => ['help_text' => $this->translator->trans('tag.help_text')]
+                'label' => ucfirst($this->translator->trans('file.name.label'))
             ])
             ->add('Update', 'submit')
         ;
