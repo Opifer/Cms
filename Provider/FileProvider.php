@@ -3,7 +3,7 @@
 namespace Opifer\MediaBundle\Provider;
 
 use Gaufrette\FileSystem;
-use Symfony\Component\Translation\LoggingTranslator;
+use Symfony\Component\Translation\TranslatorInterface;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Routing\RouterInterface;
 
@@ -17,7 +17,7 @@ class FileProvider extends AbstractProvider
     protected $filesystem;
 
     /**
-     * @var  Symfony\Bundle\FrameworkBundle\Translation\Translator
+     * @var  Symfony\Component\Translation\TranslatorInterface
      */
     protected $translator;
 
@@ -31,7 +31,7 @@ class FileProvider extends AbstractProvider
      *
      * @param FileSystem $filesystem
      */
-    public function __construct(FileSystem $filesystem, LoggingTranslator $translator, RouterInterface $router)
+    public function __construct(FileSystem $filesystem, TranslatorInterface $translator, RouterInterface $router)
     {
         $this->filesystem = $filesystem;
         $this->translator = $translator;
