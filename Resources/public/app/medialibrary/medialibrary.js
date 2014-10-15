@@ -14,9 +14,7 @@ angular.module('mediaLibrary', ['infinite-scroll', 'ngModal', 'angularFileUpload
         }
         $scope.confirmation = {
             shown: false,
-            accepted: false,
             name: '',
-            action: 'delete'
         }
         $scope.picker = {
             pickerShown: false,
@@ -124,6 +122,9 @@ angular.module('mediaLibrary', ['infinite-scroll', 'ngModal', 'angularFileUpload
             $scope.picker.pickerShown = !$scope.picker.pickerShown;
         };
 
+        /**
+         * Toggle the uploader
+         */
         $scope.toggleUploader = function(provider) {
             $scope.uploader.provider = provider;
             $scope.uploader.shown = !$scope.uploader.shown;
@@ -158,43 +159,48 @@ angular.module('mediaLibrary', ['infinite-scroll', 'ngModal', 'angularFileUpload
             }
         };
 
-        // Removes a media item from the selected media items
+        /**
+         * Remove media
+         * 
+         * Removes a media item from the selected media items
+         */
         $scope.removeMedia = function(idx) {
             $scope.selecteditems.splice(idx, 1);
         };
 
-        // Prompts a confirmation modal and completely removes a media item
-        // from the filesystem after accepting the confirmation.
+        /**
+         * Confirm deletion
+         *
+         * Prompts a confirmation modal
+         */
+        $scope.confirmDelete = function(idx) {
+            var selected = $scope.mediaCollection.items[idx];
+
+            $scope.confirmation.idx = idx;
+            $scope.confirmation.name = selected.name;
+            $scope.confirmation.shown = !$scope.confirmation.shown;
+        }
+
+        /**
+         * Delete media
+         * 
+         * Completely removes a media item from the filesystem.
+         */
         $scope.deleteMedia = function(idx) {
             var selected = $scope.mediaCollection.items[idx];
-            $scope.confirmation.name = selected.name;
 
-            $scope.confirmation.shown = !$scope.confirmation.shown;
+            $http.delete(Routing.generate('opifer.api.media.delete', {'id': selected.id}))
+                .success(function(data) {
+                    if (data.success == true) {
+                        $scope.mediaCollection.items.splice(idx, 1);
+                    } else {
+                        console.log(data.message);
+                    }
+                }
+            );
 
-            $scope.$watch('confirmation.accepted', function(newValue, oldValue) {
-                if (newValue == true) {
-                    // confirmation.accepted is true, so we can safely remove the
-                    // media item.
-                    $http.delete(Routing.generate('opifer.api.media.delete', {'id': selected.id}))
-                        .success(function(data) {
-                            if (data.success == true) {
-                                $scope.mediaCollection.items.splice(idx, 1);
-                            } else {
-                                console.log(data.message);
-                            }
-                        }
-                    );
-                    
-                    // Reset confirmation defaults
-                    $scope.confirmation.shown = false;
-                    $scope.confirmation.accepted = false;
-                };
-            });
-        };
-
-        // Accept the delete confirmation
-        $scope.acceptConfirmation = function() {
-            $scope.confirmation.accepted = true;
+            // Reset confirmation defaults
+            $scope.confirmation.shown = false;
         };
     }])
 
