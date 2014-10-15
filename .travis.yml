@@ -12,4 +12,4 @@ before_script:
 script: phpunit
 
 notifications:
-    hipchat: "lLHs8k/dYMKGSYm0HkCrDSzCrboQNzExqz/PckK2WQ1+p494zVxMPlHj17FhA24VCWFIQc7ITPyIMzukODonHlbDi8TU+PAHmgKKuQuUtyZhxRs5UrZOP7UgpLqdIe9mVlf2F0WWa8aLY1FWMuojyORqFxtMKkqQ8CIK9kf6GsE="
+    hipchat: af0VgAPun/Ncw5DS9s5tsusDRZC+SVzj9ra3Sw/A/enbbEI5/DKKh9+D/u+i/6pAnuMfQCHOI3Tea/bvwrkXrSl5b+n8CMD5uuxpwmPEVcyHEdpI25WoayBQXkbfn8hGHb3fW+v0Nt9APlUMvZUuMnDh609b9S7P5IlkBXMeatk=
