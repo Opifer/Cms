@@ -1,28 +1,27 @@
-<div class="page-header clearfix">
-    <h1>Media Manager</h1>
-    
-    <div class="col-xs-4 media-search form-group pull-left">
-        <div class="input-group search-group">
-            <input type="text" class="form-control" placeholder="Enter name, filename or description" ng-model="mediaCollection.search" ng-change="mediaCollection.loadMore(true)">
-            <span class="input-group-addon">
-                <i class="fa fa-search"></i>
-            </span>
+<div ng-file-drop="onFileSelect($files)" ng-file-drag-over-class="file-drop-area-hover" ng-show="dropSupported" class="file-drop-area">
+    <div class="file-drop-area-overlay">
+        <h3>Drop files to upload</h3>
+    </div>
+    <div class="page-header clearfix">
+        <h1>Media Manager</h1>
+        
+        <div class="col-xs-4 media-search form-group pull-left">
+            <div class="input-group search-group">
+                <input type="text" class="form-control" placeholder="Enter name, filename or description" ng-model="mediaCollection.search" ng-change="mediaCollection.loadMore(true)">
+                <span class="input-group-addon">
+                    <i class="fa fa-search"></i>
+                </span>
+            </div>
+        </div>
+        
+        <div class="btn-group col-sm-4">
+            <a ng-repeat="provider in mediaCollection.providers" ng-href="{{ provider.newlink }}" class="btn btn-default">
+                Add {{ provider.name }}
+            </a>
         </div>
     </div>
-    
-    <div class="btn-group col-sm-4">
-        <a ng-repeat="provider in mediaCollection.providers" ng-href="{{ provider.newlink }}" class="btn btn-default">
-            Add {{ provider.name }}
-        </a>
-    </div>
-</div>
 
-<section class="page-section media-items">
-    <div ng-file-drop="onFileSelect($files)" ng-file-drag-over-class="file-drop-area-hover" ng-show="dropSupported">
-        <div class="file-drop-area-overlay">
-            <h3>Drop files to upload</h3>
-        </div>
-
+    <section class="page-section media-items">
         <div ng-show="uploadingFiles != null">
             <div ng-repeat="f in uploadingFiles">
                 <div class="progress">
@@ -49,26 +48,27 @@
                 </div>
             </div>
         </div>
-    </div>
-    <div class="alert alert-info" ng-show="mediaCollection.busy">Loading data...</div>
-    <div class="btn btn-paginate" in-view="mediaCollection.loadMore()" ng-click="mediaCollection.loadMore()" ng-hide="(mediaCollection.end || mediaCollection.busy)">
-        Load more
-    </div>
+        
+        <div class="alert alert-info" ng-show="mediaCollection.busy">Loading data...</div>
+        <div class="btn btn-paginate" in-view="mediaCollection.loadMore()" ng-click="mediaCollection.loadMore()" ng-hide="(mediaCollection.end || mediaCollection.busy)">
+            Load more
+        </div>
 
-    <ng-modal show='confirmation.shown'>
-        <div class="modal-header">
-            <h4 class="modal-title">Confirm delete</h4>
-        </div>
-        <div class="modal-body">
-            Do you really want to delete {{ confirmation.name }}?
-        </div>
-        <div class="modal-footer">
-            <button type="button" class="btn btn-default btn-link" ng-click="confirmation.shown = false">
-                Cancel
-            </button>
-            <button class="btn btn-danger modal-confirm-button" ng-click="deleteMedia(confirmation.idx)" title="Confirms removal">
-                Delete
-            </a>
-        </div>
-    </ng-modal>
-</section>
+        <ng-modal show='confirmation.shown'>
+            <div class="modal-header">
+                <h4 class="modal-title">Confirm delete</h4>
+            </div>
+            <div class="modal-body">
+                Do you really want to delete {{ confirmation.name }}?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default btn-link" ng-click="confirmation.shown = false">
+                    Cancel
+                </button>
+                <button class="btn btn-danger modal-confirm-button" ng-click="deleteMedia(confirmation.idx)" title="Confirms removal">
+                    Delete
+                </a>
+            </div>
+        </ng-modal>
+    </section>
+</div>
