@@ -1,0 +1,90 @@
+parameters:
+    opifer.eav.address_value_provider.class: Opifer\EavBundle\ValueProvider\AddressValueProvider
+    opifer.eav.checklist_value_provider.class: Opifer\EavBundle\ValueProvider\ChecklistValueProvider
+    opifer.eav.form_value_provider.class: Opifer\EavBundle\ValueProvider\FormValueProvider
+    opifer.eav.html_value_provider.class: Opifer\EavBundle\ValueProvider\HtmlValueProvider
+    opifer.eav.integer_value_provider.class: Opifer\EavBundle\ValueProvider\IntegerValueProvider
+    opifer.eav.media_value_provider.class: Opifer\EavBundle\ValueProvider\MediaValueProvider
+    opifer.eav.nested_value_provider.class: Opifer\EavBundle\ValueProvider\NestedValueProvider
+    opifer.eav.query_value_provider.class: Opifer\EavBundle\ValueProvider\QueryValueProvider
+    opifer.eav.select_value_provider.class: Opifer\EavBundle\ValueProvider\SelectValueProvider
+    opifer.eav.string_value_provider.class: Opifer\EavBundle\ValueProvider\StringValueProvider
+    opifer.eav.text_value_provider.class: Opifer\EavBundle\ValueProvider\TextValueProvider
+
+services:
+    opifer.eav.address_value_provider:
+        class: %opifer.eav.address_value_provider.class%
+        #arguments: [@translator]
+        tags:
+            - { name: opifer.eav.value_provider, alias: address }
+
+    opifer.eav.checklist_value_provider:
+        class: %opifer.eav.checklist_value_provider.class%
+        #arguments: [@translator]
+        tags:
+            - { name: opifer.eav.value_provider, alias: checklist }
+
+    # opifer.eav.datetime_value_provider:
+    #     class: Opifer\EavBundle\ValueProvider\DatetimeValueProvider
+    #     #arguments: [@translator]
+    #     tags:
+    #         - { name: opifer.eav.value_provider, alias: datetime }
+
+    # opifer.eav.date_value_provider:
+    #     class: Opifer\EavBundle\ValueProvider\DateValueProvider
+    #     #arguments: [@translator]
+    #     tags:
+    #         - { name: opifer.eav.value_provider, alias: date }
+
+    opifer.eav.form_value_provider:
+        class: %opifer.eav.form_value_provider.class%
+        tags:
+            - { name: opifer.eav.value_provider, alias: form }
+
+    opifer.eav.html_value_provider:
+        class: %opifer.eav.html_value_provider.class%
+        #arguments: [@translator]
+        tags:
+            - { name: opifer.eav.value_provider, alias: html }
+
+    opifer.eav.integer_value_provider:
+        class: %opifer.eav.integer_value_provider.class%
+        #arguments: [@translator]
+        tags:
+            - { name: opifer.eav.value_provider, alias: integer }
+
+    opifer.eav.media_value_provider:
+        class: %opifer.eav.media_value_provider.class%
+        #arguments: [@translator]
+        tags:
+            - { name: opifer.eav.value_provider, alias: media }
+
+    opifer.eav.nested_value_provider:
+        class: %opifer.eav.nested_value_provider.class%
+        #arguments: [@translator]
+        tags:
+            - { name: opifer.eav.value_provider, alias: nested }
+
+    opifer.eav.query_value_provider:
+        class: %opifer.eav.query_value_provider.class%
+        #arguments: [@translator]
+        tags:
+            - { name: opifer.eav.value_provider, alias: query }
+
+    opifer.eav.select_value_provider:
+        class: %opifer.eav.select_value_provider.class%
+        #arguments: [@translator]
+        tags:
+            - { name: opifer.eav.value_provider, alias: select }
+
+    opifer.eav.string_value_provider:
+        class: %opifer.eav.string_value_provider.class%
+        #arguments: [@translator]
+        tags:
+            - { name: opifer.eav.value_provider, alias: string }
+
+    opifer.eav.text_value_provider:
+        class: %opifer.eav.text_value_provider.class%
+        #arguments: [@translator]
+        tags:
+            - { name: opifer.eav.value_provider, alias: text }

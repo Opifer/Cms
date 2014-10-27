@@ -1,0 +1,93 @@
+parameters:
+    opifer.eav.form.google_address.class: Opifer\EavBundle\Form\Type\GoogleAddressType
+    opifer.eav.form.nested_content.class: Opifer\EavBundle\Form\Type\NestedContentType
+    opifer.eav.form.presentationeditor.class: Opifer\EavBundle\Form\Type\PresentationEditorType
+    opifer.eav.form.template_object_class_type.class: Opifer\EavBundle\Form\Type\TemplateObjectClassType
+    opifer.eav.form.value_provider_type.class: Opifer\EavBundle\Form\Type\ValueProviderType
+    opifer.eav.form.fauxtype.class: Opifer\EavBundle\Form\Type\FauxType
+    opifer.eav.template_sync_listener.class: Opifer\EavBundle\Listener\TemplateSyncListener
+    opifer.eav.value_provider.pool.class: Opifer\EavBundle\ValueProvider\Pool
+
+    opifer.eav.jsondiffpatch.class: Opifer\Component\Diff\JsonDiffPatch
+
+services:
+    # Values provider pool
+    opifer.eav.value_provider.pool:
+        class: %opifer.eav.value_provider.pool.class%
+
+    # Form Types
+    opifer.eav.form.eav_value:
+        class: Opifer\EavBundle\Form\Type\ValueType
+        arguments: [@opifer.eav.value_provider.pool]
+        tags:
+            - { name: form.type, alias: eav_value }
+
+    opifer.eav.form.google_address:
+        class: %opifer.eav.form.google_address.class%
+        arguments: [@translator]
+        tags:
+            - { name: form.type, alias: google_address }
+
+    opifer.eav.form.template_object_class_type:
+        class: %opifer.eav.form.template_object_class_type.class%
+        tags:
+            - { name: form.type, alias: template_object_class }
+
+    opifer.eav.form.value_provider_type:
+        class: %opifer.eav.form.value_provider_type.class%
+        arguments: [@opifer.eav.value_provider.pool]
+        tags:
+            - { name: form.type, alias: value_provider }
+
+    opifer.eav.form.presentationeditor:
+        class: %opifer.eav.form.presentationeditor.class%
+        tags:
+            - { name: form.type, alias: presentationeditor }
+
+    opifer.eav.form.fauxtype:
+        class: %opifer.eav.form.fauxtype.class%
+        tags:
+            - { name: form.type, alias: eav_faux }
+
+    opifer.eav.eav_form:
+        class: Opifer\EavBundle\Form\EavForm
+        arguments: [@router]
+        tags:
+            - { name: form.type, alias: eav_form }
+
+    # Entity Managers
+    opifer.eav.eav_manager:
+        class: Opifer\EavBundle\Manager\EavManager
+        arguments: [@opifer.eav.value_provider.pool]
+
+    # Listeners
+    opifer.eav.discriminator_listener:
+        class: Opifer\EavBundle\Listener\DiscriminatorListener
+        arguments: [@opifer.eav.value_provider.pool]
+        tags:
+            - { name: doctrine.event_listener, event: loadClassMetadata }
+
+    opifer.eav.empty_value_listener:
+        class: Opifer\EavBundle\Listener\EmptyValueListener
+        arguments: [@opifer.eav.eav_manager]
+        tags:
+            - { name: doctrine.event_listener, event: postLoad }
+            - { name: doctrine.event_listener, event: postPersist }
+
+    # Twig Extension
+    opifer.eav.twig_extension:
+        class: Opifer\EavBundle\Templating\TwigExtension
+        arguments: [@form.factory, @doctrine.orm.entity_manager, @opifer.eav.eav_manager]
+        tags:
+            - { name: twig.extension }
+
+    # JSON diff
+    opifer.eav.jsondiffpatch:
+        class: %opifer.eav.jsondiffpatch.class%
+        arguments: [@gaufrette.tmp_storage_filesystem, %node_modules_path%, %temp_file_path%]
+
+    opifer.eav.template_sync_listener:
+        class: %opifer.eav.template_sync_listener.class%
+        arguments: [@opifer.eav.jsondiffpatch]
+        tags:
+            - { name: doctrine.event_listener, event: preUpdate }

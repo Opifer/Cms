@@ -1,0 +1,15 @@
+form:
+    google_address:
+        city:
+            not_blank: Er is geen stadsnaam opgegeven.
+        country:
+            not_blank: Er kon geen landsnaam worden achterhaald.
+        lat:
+            not_blank: De latitude kon niet worden achterhaald.
+        lng:
+            not_blank: De longitude kon niet worden achterhaald.
+        street:
+            not_blank: Er is geen straatnaam opgegeven.
+            no_digit: Er is geen huisnummer opgegeven.
+        zipcode:
+            not_blank: 'De postcode kon niet worden achterhaald. Is het adres correct?'

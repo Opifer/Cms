@@ -1,0 +1,13 @@
+opifer.eav.form:
+    resource: "@OpiferEavBundle/Controller/FormController.php"
+    type:     annotation
+
+_opifer_api_template:
+    resource: "@OpiferEavBundle/Api/TemplateController.php"
+    type:     annotation
+    prefix:   /api
+
+_opifer_api_option:
+    resource: "@OpiferEavBundle/Api/OptionController.php"
+    type:     annotation
+    prefix:   /api
