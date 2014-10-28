@@ -20,7 +20,7 @@
         "gedmo/doctrine-extensions": "~2.3",
         "genemu/form-bundle": "2.2.*",
         "jms/serializer-bundle": "~0.13",
-        "knplabs/knp-gaufrette-bundle": "~0.1",
+        "knplabs/knp-gaufrette-bundle": "*@dev",
         "liip/imagine-bundle": "~1.0.2",
         "pagerfanta/pagerfanta": "~1.0"
     },
