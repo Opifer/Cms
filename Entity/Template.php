@@ -6,8 +6,6 @@ use Doctrine\ORM\Mapping as ORM;
 use Opifer\CrudBundle\Annotation as CRUD;
 use Doctrine\Common\Collections\ArrayCollection;
 
-use Opifer\Component\Validation\Constraints as OpiferAssert;
-
 /**
  * Template
  *
@@ -40,7 +38,6 @@ class Template
      * @CRUD\Grid(listable=true)
      * @CRUD\Form(type="slug")
      * @ORM\Column(name="name", type="string", length=128)
-     * @OpiferAssert\Slug
      */
     private $name;
 

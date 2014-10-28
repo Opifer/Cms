@@ -9,7 +9,6 @@ use JMS\Serializer\Annotation as JMS;
 use Opifer\EavBundle\Eav\AttributeInterface;
 
 use Opifer\CrudBundle\Annotation as CRUD;
-use Opifer\Component\Validation\Constraints as OpiferAssert;
 
 /**
  * AttributeType
@@ -50,7 +49,7 @@ class Attribute implements AttributeInterface
      *
      * @CRUD\Form(editable=true, type="slug")
      * @ORM\Column(name="name", type="string", length=128)
-     * @OpiferAssert\Slug
+     * 
      */
     protected $name;
 

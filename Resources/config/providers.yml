@@ -12,12 +12,6 @@ parameters:
     opifer.eav.text_value_provider.class: Opifer\EavBundle\ValueProvider\TextValueProvider
 
 services:
-    opifer.eav.address_value_provider:
-        class: %opifer.eav.address_value_provider.class%
-        #arguments: [@translator]
-        tags:
-            - { name: opifer.eav.value_provider, alias: address }
-
     opifer.eav.checklist_value_provider:
         class: %opifer.eav.checklist_value_provider.class%
         #arguments: [@translator]
@@ -52,12 +46,6 @@ services:
         #arguments: [@translator]
         tags:
             - { name: opifer.eav.value_provider, alias: integer }
-
-    opifer.eav.media_value_provider:
-        class: %opifer.eav.media_value_provider.class%
-        #arguments: [@translator]
-        tags:
-            - { name: opifer.eav.value_provider, alias: media }
 
     opifer.eav.nested_value_provider:
         class: %opifer.eav.nested_value_provider.class%
