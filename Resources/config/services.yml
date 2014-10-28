@@ -80,14 +80,3 @@ services:
         arguments: [@form.factory, @doctrine.orm.entity_manager, @opifer.eav.eav_manager]
         tags:
             - { name: twig.extension }
-
-    # JSON diff
-    opifer.eav.jsondiffpatch:
-        class: %opifer.eav.jsondiffpatch.class%
-        arguments: [@gaufrette.tmp_storage_filesystem, %node_modules_path%, %temp_file_path%]
-
-    opifer.eav.template_sync_listener:
-        class: %opifer.eav.template_sync_listener.class%
-        arguments: [@opifer.eav.jsondiffpatch]
-        tags:
-            - { name: doctrine.event_listener, event: preUpdate }
