@@ -20,7 +20,6 @@
         
         "friendsofsymfony/jsrouting-bundle": "~1.5.3",
         "gedmo/doctrine-extensions": "~2.3",
-        "infinite-networks/form-bundle": "@dev",
         "jms/serializer": "~0.16",
         "jms/serializer-bundle": "~0.13",
         
