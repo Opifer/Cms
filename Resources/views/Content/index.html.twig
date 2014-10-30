@@ -1,0 +1,16 @@
+{% extends 'OpiferContentBundle::base.html.twig' %}
+
+{% block opifer_content_body %}
+    {% spaceless %}
+        <div class="page-header clearfix">
+            <h1 class="pull-left">Content</h1>
+            <a href="{{ path('opifer_content_content_init') }}" class="btn btn-default pull-right">
+                {{ 'button.add'|trans|capitalize }}
+            </a>
+        </div>
+
+        <content-browser site-id="1" locale="nl_NL" directory-id="0"></content-browser>
+
+        {{ include('OpiferCrudBundle:Datagrid:confirmation.html.twig') }}
+    {% endspaceless %}
+{% endblock opifer_content_body %}

@@ -1,0 +1,50 @@
+services:
+    opifer.content.content_manager:
+        class: Opifer\ContentBundle\Model\ContentManager
+        arguments: [@doctrine.orm.default_entity_manager, @form.factory, @opifer.eav.eav_manager, %opifer_content.content_class%]
+
+    opifer.content.directory_manager:
+        class: Opifer\ContentBundle\Model\DirectoryManager
+        arguments: [@doctrine.orm.default_entity_manager, %opifer_content.directory_class%]
+
+    opifer.content.layout_manager:
+        class: Opifer\ContentBundle\Model\LayoutManager
+        arguments: [@doctrine.orm.default_entity_manager, %opifer_content.layout_class%]
+
+    # RulesEngine Provider
+    opifer.rulesengine.provider.content:
+        class: Opifer\ContentBundle\RulesEngine\ContentRulesProvider
+        arguments: [@doctrine.orm.entity_manager]
+        tags:
+            - { name: opifer.rulesengine.provider, alias: content }
+
+    # Form types
+    opifer.content.directory_type:
+        class: Opifer\ContentBundle\Form\Type\DirectoryType
+        arguments: [@translator, %opifer_content.directory_class%]
+        tags:
+            - { name: form.type, alias: opifer_directory }
+
+    opifer.content.content_type:
+        class: Opifer\ContentBundle\Form\Type\ContentType
+        arguments: [@translator, %opifer_content.directory_class%]
+        tags:
+            - { name: form.type, alias: opifer_content }
+
+    opifer.content.content_init_type:
+        class: Opifer\ContentBundle\Form\Type\ContentInitType
+        arguments: [@translator, @router, %opifer_eav.template_class%] # %opifer_cms.allowed_locales%
+        tags:
+            - { name: form.type, alias: opifer_content_init }
+
+    # Router
+    opifer.content.content_router:
+        class: Opifer\ContentBundle\Router\ContentRouter
+        arguments: [@service_container]
+
+    # Twig Extension
+    opifer.content.twig.content_extension:
+        class: Opifer\ContentBundle\Twig\ContentExtension
+        arguments: [@twig, @fragment.handler, @opifer.content.content_manager]
+        tags:
+            - { name: twig.extension }

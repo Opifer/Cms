@@ -1,0 +1,38 @@
+{
+    "name": "opifer/content-bundle",
+    "description": "Opifer Content Bundle",
+    "homepage": "https://github.com/Opifer/ContentBundle",
+    "type": "symfony-bundle",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Opifer",
+            "homepage": "http://www.opifer.nl/"
+        }
+    ],
+    "require": {
+        "php": ">=5.4",
+        "symfony/symfony": "~2.5",
+        "doctrine/orm": "~2.4",
+        "doctrine/doctrine-bundle": "~1.2",
+        "twig/extensions": "~1.0",
+        "sensio/framework-extra-bundle": "~3.0",
+        
+        "friendsofsymfony/jsrouting-bundle": "~1.5.3",
+        "gedmo/doctrine-extensions": "~2.3",
+        "infinite-networks/form-bundle": "@dev",
+        "jms/serializer": "~0.16",
+        "jms/serializer-bundle": "~0.13",
+        
+        "opifer/eav-bundle": "@dev",
+        "opifer/media-bundle": "@dev",
+        "opifer/rulesengine-bundle": "@dev",
+        "opifer/rulesengine": "@dev"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "~4.2.0"
+    },
+    "autoload": {
+        "psr-4": {"Opifer\\ContentBundle\\": "."}
+    }
+}
