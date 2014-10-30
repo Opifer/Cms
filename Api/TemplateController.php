@@ -23,7 +23,7 @@ class TemplateController extends Controller
      */
     public function indexAction(Request $request)
     {
-        $templates = $this->getDoctrine()->getRepository('OpiferEavBundle:Template')
+        $templates = $this->get('opifer.eav.template_manager')->getRepository()
             ->findByRequest($request);
 
         $data = $this->get('jms_serializer')->serialize($templates, 'json');

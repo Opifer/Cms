@@ -28,7 +28,7 @@ class OptionController extends Controller
     public function indexAction(Request $request)
     {
         if ($request->get('attribute')) {
-            $attribute = $this->getDoctrine()->getRepository('OpiferEavBundle:Attribute')
+            $attribute = $this->get('opifer.eav.attribute_manager')->getRepository()
                 ->findOneByName($request->get('attribute'));
 
             $options = $attribute->getOptions();

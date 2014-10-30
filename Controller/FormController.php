@@ -56,7 +56,7 @@ class FormController extends Controller
             }
         } else {
             foreach ($form->getErrors() as $error) {
-                doctrine_dump($error);
+                dump($error);
             }
             die;
         }
@@ -64,8 +64,6 @@ class FormController extends Controller
 
     /**
      * Render a form type
-     *
-     * @todo  Remove all CmsBundle references
      *
      * @Route(
      *     "/eav/form/render/{attribute}/{id}/{index}",
@@ -84,31 +82,27 @@ class FormController extends Controller
     {
         $em = $this->getDoctrine();
 
-        // If the id is an integer or a digit in string format, it must be a content ID.
-        // Otherwise, it's a template name, so we create a new content item related
-        // to that template.
         if (is_numeric($id)) {
-            $content = $em->getRepository('OpiferCmsBundle:Content')->find($id);
-        } else {
-            $site = $em->getRepository('OpiferCmsBundle:Site')->findOneByDomain($request->getHost());
-            $template = $em->getRepository('OpiferEavBundle:Template')->findOneByName($id);
-
-            $content = $this->get('opifer.eav.eav_manager')->initializeEntity($template);
-            $content->setSite($site);
-
-            // In case of newly added nested content, we need to add an index
-            // to the form type name, to avoid same template name conflicts.
-            $id = $id.NestedContentType::NAME_SEPARATOR.$index;
+            throw new \Exception('ID\s should not be allowed, cause we cannot guess the corresponding template');
+            //$content = $em->getRepository('OpiferCmsBundle:Content')->find($id);
         }
 
-        $form = $this->createForm(new NestedContentType($attribute, $id), $content);
+        $template = $this->get('opifer.eav.template_manager')->getRepository()->findOneByName($id);
+
+        $entity = $this->get('opifer.eav.eav_manager')->initializeEntity($template);
+
+        // In case of newly added nested content, we need to add an index
+        // to the form type name, to avoid same template name conflicts.
+        $id = $id.NestedContentType::NAME_SEPARATOR.$index;
+
+        $form = $this->createForm(new NestedContentType($attribute, $id), $entity);
         $form = $this->render('OpiferEavBundle:Form:render.html.twig', ['form' => $form->createView()]);
 
-        $content = $this->get('jms_serializer')->serialize($content, 'json');
+        $entity = $this->get('jms_serializer')->serialize($entity, 'json');
 
         return new JsonResponse([
             'form'    => $form->getContent(),
-            'content' => json_decode($content, true)
+            'content' => json_decode($entity, true)
         ]);
     }
 }

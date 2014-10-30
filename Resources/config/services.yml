@@ -63,6 +63,10 @@ services:
             - { name: form.type, alias: valueset }
 
     # Entity Managers
+    opifer.eav.attribute_manager:
+        class: Opifer\EavBundle\Model\AttributeManager
+        arguments: [@opifer.eav.value_provider.pool, %opifer_eav.attribute_class%]
+
     opifer.eav.eav_manager:
         class: Opifer\EavBundle\Manager\EavManager
         arguments: [@opifer.eav.value_provider.pool, %opifer_eav.valueset_class%]

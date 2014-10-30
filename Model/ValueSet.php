@@ -28,8 +28,13 @@ class ValueSet implements ValueSetInterface
     /**
      * @var TemplateInterface
      *
-     * @ORM\ManyToOne(targetEntity="Opifer\EavBundle\Model\TemplateInterface")
-     * @ORM\JoinColumn(name="template_id", referencedColumnName="id")
+     * @ORM\ManyToOne(
+     *     targetEntity="Opifer\EavBundle\Model\TemplateInterface"
+     * )
+     * @ORM\JoinColumn(
+     *     name="template_id",
+     *     referencedColumnName="id"
+     * )
      **/
     protected $template;
 
@@ -37,7 +42,12 @@ class ValueSet implements ValueSetInterface
      * @var ArrayCollection
      *
      * @JMS\Expose
-     * @ORM\OneToMany(targetEntity="Opifer\EavBundle\Entity\Value", mappedBy="valueSet", cascade={"persist"}, fetch="EAGER")
+     * @ORM\OneToMany(
+     *     targetEntity="Opifer\EavBundle\Entity\Value",
+     *     mappedBy="valueSet",
+     *     cascade={"persist"},
+     *     fetch="EAGER"
+     * )
      */
     protected $values;
 
