@@ -1,70 +1,60 @@
 <?php
 
-namespace Opifer\EavBundle\Entity;
+namespace Opifer\EavBundle\Model;
 
 use Doctrine\ORM\Mapping as ORM;
-use Opifer\CrudBundle\Annotation as CRUD;
 use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * Template
  *
- * @ORM\Table(name="template")
- * @ORM\Entity(repositoryClass="Opifer\EavBundle\Repository\TemplateRepository")
+ * @ORM\MappedSuperclass 
  */
-class Template
+class Template implements TemplateInterface
 {
     /**
      * @var integer
      *
-     * @CRUD\Grid(listable=true)
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
      */
-    private $id;
+    protected $id;
 
     /**
      * @var string
      *
-     * @CRUD\Grid(listable=true)
      * @ORM\Column(name="displayName", type="string", length=255)
      */
-    private $displayName;
+    protected $displayName;
 
     /**
      * @var string
      *
-     * @CRUD\Grid(listable=true)
-     * @CRUD\Form(type="slug")
      * @ORM\Column(name="name", type="string", length=128)
      */
-    private $name;
+    protected $name;
 
     /**
      * @var string
      *
-     * @CRUD\Grid(listable=true)
-     * @CRUD\Form(type="template_object_class")
      * @ORM\Column(name="object_class", type="string", length=128)
      */
-    private $objectClass;
+    protected $objectClass;
 
     /**
      * @var ArrayCollection
      *
-     * @CRUD\Grid(listable=true)
-     * @ORM\OneToMany(targetEntity="Attribute", mappedBy="template", cascade={"all"}, orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity="Opifer\EavBundle\Model\AttributeInterface", mappedBy="template", cascade={"all"}, orphanRemoval=true)
      **/
-    private $attributes;
+    protected $attributes;
 
     /**
      * @var string
      *
-     * @CRUD\Form(type="presentationeditor")
      * @ORM\Column(name="presentation", type="text", nullable=true)
      */
-    private $presentation;
+    protected $presentation;
 
     /**
      * Constructor
@@ -156,10 +146,10 @@ class Template
     /**
      * Add attributes
      *
-     * @param  \Opifer\EavBundle\Entity\Attribute $attributes
+     * @param  AttributeInterface $attributes
      * @return Template
      */
-    public function addAttribute(\Opifer\EavBundle\Entity\Attribute $attributes)
+    public function addAttribute(AttributeInterface $attributes)
     {
         $this->attributes[] = $attributes;
 
@@ -169,9 +159,9 @@ class Template
     /**
      * Remove attributes
      *
-     * @param \Opifer\EavBundle\Entity\Attribute $attributes
+     * @param AttributeInterface $attributes
      */
-    public function removeAttribute(\Opifer\EavBundle\Entity\Attribute $attributes)
+    public function removeAttribute(AttributeInterface $attributes)
     {
         $this->attributes->removeElement($attributes);
     }
@@ -179,7 +169,7 @@ class Template
     /**
      * Get attributes
      *
-     * @return \Doctrine\Common\Collections\Collection
+     * @return ArrayCollection
      */
     public function getAttributes()
     {

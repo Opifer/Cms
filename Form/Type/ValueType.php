@@ -54,6 +54,9 @@ class ValueType extends AbstractType
         ]);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public function buildView(FormView $view, FormInterface $form, array $options)
     {
         $view->vars['attribute'] = $options['attribute'];

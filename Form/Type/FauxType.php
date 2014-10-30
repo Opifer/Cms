@@ -6,7 +6,9 @@ use Symfony\Component\Form\AbstractType;
 
 class FauxType extends AbstractType
 {
-
+    /**
+     * {@inheritDoc}
+     */
     public function getName()
     {
         return 'eav_faux';

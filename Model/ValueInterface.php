@@ -1,6 +1,6 @@
 <?php
 
-namespace Opifer\EavBundle\Eav;
+namespace Opifer\EavBundle\Model;
 
 /**
  * Value Interface.

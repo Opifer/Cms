@@ -1,6 +1,6 @@
 <?php
 
-namespace Opifer\EavBundle\Entity;
+namespace Opifer\EavBundle\Model;
 
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -10,38 +10,36 @@ use JMS\Serializer\Annotation as JMS;
 /**
  * ValueSet
  *
- * @ORM\Table(name="valueset")
- * @ORM\Entity
+ * @ORM\MappedSuperclass
  * @JMS\ExclusionPolicy("all")
  */
-class ValueSet
+class ValueSet implements ValueSetInterface
 {
-
     /**
      * @var integer
      *
      * @JMS\Expose
-     * @ORM\Column(name="id", type="integer")
      * @ORM\Id
+     * @ORM\Column(name="id", type="integer")
      * @ORM\GeneratedValue(strategy="AUTO")
      */
-    private $id;
+    protected $id;
 
     /**
-     * @var Template
+     * @var TemplateInterface
      *
-     * @ORM\ManyToOne(targetEntity="Template")
+     * @ORM\ManyToOne(targetEntity="Opifer\EavBundle\Model\TemplateInterface")
      * @ORM\JoinColumn(name="template_id", referencedColumnName="id")
      **/
-    private $template;
+    protected $template;
 
     /**
      * @var ArrayCollection
      *
      * @JMS\Expose
-     * @ORM\OneToMany(targetEntity="Value", mappedBy="valueSet", cascade={"persist"}, fetch="EAGER")
+     * @ORM\OneToMany(targetEntity="Opifer\EavBundle\Entity\Value", mappedBy="valueSet", cascade={"persist"}, fetch="EAGER")
      */
-    private $values;
+    protected $values;
 
     /**
      * Constructor
@@ -64,10 +62,10 @@ class ValueSet
     /**
      * Set template
      *
-     * @param  \Opifer\EavBundle\Entity\Template $template
+     * @param  TemplateInterface $template
      * @return ValueSet
      */
-    public function setTemplate(Template $template = null)
+    public function setTemplate(TemplateInterface $template = null)
     {
         $this->template = $template;
 
@@ -77,7 +75,7 @@ class ValueSet
     /**
      * Get template
      *
-     * @return \Opifer\EavBundle\Entity\Template
+     * @return TemplateInterface
      */
     public function getTemplate()
     {
@@ -87,11 +85,11 @@ class ValueSet
     /**
      * Add values
      *
-     * @param \Opifer\EavBundle\Entity\Value $values
+     * @param ValueInterface $values
      *
      * @return ValueSet
      */
-    public function addValue(Value $value)
+    public function addValue(ValueInterface $value)
     {
         $this->values[] = $value;
 
@@ -101,9 +99,9 @@ class ValueSet
     /**
      * Remove values
      *
-     * @param \Opifer\EavBundle\Entity\Value $values
+     * @param ValueInterface $values
      */
-    public function removeValue(Value $value)
+    public function removeValue(ValueInterface $value)
     {
         $this->values->removeElement($value);
     }
@@ -111,7 +109,7 @@ class ValueSet
     /**
      * Get values
      *
-     * @return \Doctrine\Common\Collections\Collection
+     * @return ArrayCollection
      */
     public function getValues()
     {
@@ -245,7 +243,7 @@ class ValueSet
      */
     public function getValueFor($name)
     {
-//        $this->normalizeValues();
+        // $this->normalizeValues();
         return $this->__get($name);
     }
 

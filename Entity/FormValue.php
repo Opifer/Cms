@@ -3,8 +3,7 @@
 namespace Opifer\EavBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-
-use Opifer\EavBundle\Eav\ValueInterface;
+use Opifer\EavBundle\Model\TemplateInterface;
 
 /**
  * FormValue
@@ -13,12 +12,12 @@ use Opifer\EavBundle\Eav\ValueInterface;
  *
  * @ORM\Entity
  */
-class FormValue extends Value implements ValueInterface
+class FormValue extends Value
 {
     /**
-     * @var  \Opifer\EavBundle\Entity\Template
+     * @var TemplateInterface
      *
-     * @ORM\ManyToOne(targetEntity="Opifer\EavBundle\Entity\Template", cascade={"persist"})
+     * @ORM\ManyToOne(targetEntity="Opifer\EavBundle\Model\TemplateInterface", cascade={"persist"})
      * @ORM\JoinColumn(name="template_id", referencedColumnName="id")
      */
     protected $template;
@@ -26,10 +25,10 @@ class FormValue extends Value implements ValueInterface
     /**
      * Set template
      *
-     * @param  \Opifer\EavBundle\Entity\Template $template
+     * @param  TemplateInterface $template
      * @return Value
      */
-    public function setTemplate(Template $template = null)
+    public function setTemplate(TemplateInterface $template = null)
     {
         $this->template = $template;
 
@@ -39,7 +38,7 @@ class FormValue extends Value implements ValueInterface
     /**
      * Get template
      *
-     * @return \Opifer\EavBundle\Entity\Template
+     * @return TemplateInterface
      */
     public function getTemplate()
     {

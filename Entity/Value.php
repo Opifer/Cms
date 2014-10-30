@@ -2,11 +2,15 @@
 
 namespace Opifer\EavBundle\Entity;
 
-use Gedmo\Mapping\Annotation as Gedmo;
-use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation as Gedmo;
 use Gedmo\Translatable\Translatable;
 use JMS\Serializer\Annotation as JMS;
+
+use Opifer\EavBundle\Model\AttributeInterface;
+use Opifer\EavBundle\Model\ValueInterface;
+use Opifer\EavBundle\Model\ValueSetInterface;
 
 /**
  * Value
@@ -19,12 +23,11 @@ use JMS\Serializer\Annotation as JMS;
  * The discriminatorMap is handled dynamically by the DiscriminatorListener. It
  * retrieves the mapped classes from the ValueProvider Pool and adds them to the
  * map.
- * @see  Opifer\EavBundle\Listener\DiscriminatorListener
+ * @see  Opifer\EavBundle\EventListener\DiscriminatorListener
  *
  * @JMS\ExclusionPolicy("all")
- * @Gedmo\TranslationEntity(class="Opifer\EavBundle\Entity\Translation\ValueTranslation")
  */
-class Value
+class Value implements ValueInterface
 {
     /**
      * @var integer
@@ -36,17 +39,17 @@ class Value
     protected $id;
 
     /**
-     * @var  Attribute
+     * @var Attribute
      *
-     * @ORM\ManyToOne(targetEntity="Attribute", inversedBy="values", cascade={"persist"}, fetch="EAGER")
+     * @ORM\ManyToOne(targetEntity="Opifer\EavBundle\Model\AttributeInterface", inversedBy="values", cascade={"persist"}, fetch="EAGER")
      * @ORM\JoinColumn(name="attribute_id", referencedColumnName="id")
      */
     protected $attribute;
 
     /**
-     * @var  ValueSet
+     * @var ValueSet
      *
-     * @ORM\ManyToOne(targetEntity="ValueSet", inversedBy="values", cascade={"persist"})
+     * @ORM\ManyToOne(targetEntity="Opifer\EavBundle\Model\ValueSetInterface", inversedBy="values", cascade={"persist"})
      * @ORM\JoinColumn(name="valueset_id", referencedColumnName="id")
      */
     protected $valueSet;
@@ -56,24 +59,16 @@ class Value
      *
      * @JMS\Expose
      * @ORM\Column(name="value", type="text", nullable=true)
-     * @Gedmo\Translatable
      */
     protected $value;
 
     /**
      * @var  ArrayCollection
      *
-     * @ORM\ManyToMany(targetEntity="Option", inversedBy="values", cascade={"detach"})
+     * @ORM\ManyToMany(targetEntity="Opifer\EavBundle\Model\OptionInterface", inversedBy="values", cascade={"detach"})
      * @ORM\JoinTable(name="value_options")
      */
     protected $options;
-
-    /**
-     * @var  string
-     *
-     * @Gedmo\Locale
-     */
-    protected $locale;
 
     /**
      * Constructor
@@ -122,11 +117,11 @@ class Value
     /**
      * Set attribute
      *
-     * @param \Opifer\EavBundle\Entity\Attribute $attribute
+     * @param AttributeInterface $attribute
      *
      * @return ValueInterface
      */
-    public function setAttribute(Attribute $attribute = null)
+    public function setAttribute(AttributeInterface $attribute = null)
     {
         $this->attribute = $attribute;
 
@@ -136,7 +131,7 @@ class Value
     /**
      * Get attribute
      *
-     * @return \Opifer\EavBundle\Entity\Attribute
+     * @return AttributeInterface
      */
     public function getAttribute()
     {
@@ -146,11 +141,11 @@ class Value
     /**
      * Set valueSet
      *
-     * @param \Opifer\EavBundle\Entity\ValueSet $valueSet
+     * @param ValueSetInterface $valueSet
      *
      * @return ValueInterface
      */
-    public function setValueSet(ValueSet $valueSet = null)
+    public function setValueSet(ValueSetInterface $valueSet = null)
     {
         $this->valueSet = $valueSet;
 
@@ -160,7 +155,7 @@ class Value
     /**
      * Get valueSet
      *
-     * @return \Opifer\EavBundle\Entity\ValueSet
+     * @return ValueSetInterface
      */
     public function getValueSet()
     {
@@ -168,36 +163,26 @@ class Value
     }
 
     /**
-     * Set translatable locale
+     * Add option
      *
-     * @param string $locale
-     */
-    public function setTranslatableLocale($locale)
-    {
-        $this->locale = $locale;
-    }
-
-    /**
-     * Add options
-     *
-     * @param  \Opifer\EavBundle\Entity\Option $options
+     * @param  OptionInterface $option
      * @return Value
      */
-    public function addOption(Option $options)
+    public function addOption(OptionInterface $option)
     {
-        $this->options[] = $options;
+        $this->options[] = $option;
 
         return $this;
     }
 
     /**
-     * Remove options
+     * Remove option
      *
-     * @param \Opifer\EavBundle\Entity\Option $options
+     * @param OptionInterface $options
      */
-    public function removeOption(Option $options)
+    public function removeOption(OptionInterface $option)
     {
-        $this->options->removeElement($options);
+        $this->options->removeElement($option);
 
         return $this;
     }
@@ -209,7 +194,7 @@ class Value
      */
     public function setOptions($options)
     {
-        if (is_array($options)) {
+        if (!is_array($options)) {
             $this->options = $options->toArray();
         } else {
             foreach ($options as $option) {
@@ -223,7 +208,7 @@ class Value
     /**
      * Get options
      *
-     * @return \Doctrine\Common\Collections\Collection
+     * @return ArrayCollection
      */
     public function getOptions()
     {

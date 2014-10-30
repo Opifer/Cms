@@ -2,9 +2,9 @@
 
 namespace Opifer\EavBundle\Manager;
 
-use Opifer\EavBundle\Eav\EntityInterface;
-use Opifer\EavBundle\Entity\Template;
-use Opifer\EavBundle\Entity\ValueSet;
+use Opifer\EavBundle\Model\EntityInterface;
+use Opifer\EavBundle\Model\TemplateInterface;
+use Opifer\EavBundle\Model\ValueSetInterface;
 use Opifer\EavBundle\ValueProvider\Pool;
 
 class EavManager
@@ -12,14 +12,18 @@ class EavManager
     /** @var \Opifer\EavBundle\ValueProvider\Pool */
     protected $providerPool;
 
+    /** @var string */
+    protected $valueSetClass;
+
     /**
      * Constructor
      *
      * @param Pool $providerPool
      */
-    public function __construct(Pool $providerPool)
+    public function __construct(Pool $providerPool, $valueSetClass)
     {
         $this->providerPool = $providerPool;
+        $this->valueSetClass = $valueSetClass;
     }
 
     /**
@@ -29,9 +33,10 @@ class EavManager
      *
      * @return EntityInterface
      */
-    public function initializeEntity(Template $template)
+    public function initializeEntity(TemplateInterface $template)
     {
-        $valueSet = new ValueSet();
+        $valueSetClass = $this->valueSetClass;
+        $valueSet = new $valueSetClass();
         $valueSet->setTemplate($template);
 
         // To avoid persisting Value entities with no actual value to the database
@@ -45,8 +50,8 @@ class EavManager
             throw new \Exception('The entity specified in the "'.$template->getName().'" template must implement Opifer\EavBundle\Eav\EntityInterface.');
         }
 
-        $entity->setTemplate($template);
         $entity->setValueSet($valueSet);
+        $entity->setTemplate($template);
 
         return $entity;
     }
@@ -54,11 +59,11 @@ class EavManager
     /**
      * Creates empty entities for non-persisted attributes.
      *
-     * @param ValueSet $valueSet
+     * @param ValueSetInterface $valueSet
      *
      * @return array
      */
-    public function replaceEmptyValues(ValueSet $valueSet)
+    public function replaceEmptyValues(ValueSetInterface $valueSet)
     {
         // collect persisted attributevalues
         $persistedAttributes = array();

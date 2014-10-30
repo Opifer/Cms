@@ -9,7 +9,7 @@ use Symfony\Component\Routing\RouterInterface;
 
 use Opifer\EavBundle\Form\Type\ValueSetType;
 
-class EavForm extends AbstractType
+class EavType extends AbstractType
 {
     /** @var RouterInterface */
     protected $router;
@@ -52,6 +52,6 @@ class EavForm extends AbstractType
      */
     public function getName()
     {
-        return 'eav_form';
+        return 'eav';
     }
 }

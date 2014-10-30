@@ -1,72 +1,73 @@
 <?php
 
-namespace Opifer\EavBundle\Entity;
+namespace Opifer\EavBundle\Model;
 
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\ArrayCollection;
 
 use Gedmo\Mapping\Annotation as Gedmo;
-use Gedmo\Translatable\Translatable;
 
-use Opifer\CrudBundle\Annotation as CRUD;
+use Opifer\EavBundle\Entity\Value;
 
 /**
  * Option
  *
- * @ORM\Table(name="option")
- * @ORM\Entity(repositoryClass="Opifer\EavBundle\Repository\OptionRepository")
+ * @ORM\MappedSuperclass 
  */
-class Option
+class Option implements OptionInterface
 {
-
     /**
      * @var integer
      *
-     * @ORM\Column(name="id", type="integer")
      * @ORM\Id
+     * @ORM\Column(name="id", type="integer")
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     protected $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Attribute", inversedBy="options", cascade={"persist"})
+     * @var AttributeInterface
+     * 
+     * @ORM\ManyToOne(targetEntity="Opifer\EavBundle\Model\AttributeInterface", inversedBy="options", cascade={"persist"})
      * @ORM\JoinColumn(name="attribute_id", referencedColumnName="id")
      */
-    private $attribute;
+    protected $attribute;
 
     /**
      * @var string
      *
-     * @CRUD\Form(editable=true)
      * @ORM\Column(name="name", type="string", length=128)
      */
-    private $name;
+    protected $name;
 
     /**
      * @var string
      *
-     * @CRUD\Form(editable=true)
      * @ORM\Column(name="display_name", type="string", length=255)
-     * @Gedmo\Translatable
      */
-    private $displayName;
+    protected $displayName;
 
     /**
      * @var integer
      *
-     * @CRUD\Form(editable=true)
      * @ORM\Column(name="sort", type="integer")
      */
-    private $sort;
+    protected $sort;
 
     /**
-     * @ORM\ManyToMany(targetEntity="Value", mappedBy="options", cascade={"all"}, orphanRemoval=true))
+     * @var  ArrayCollection
+     * 
+     * @ORM\ManyToMany(targetEntity="Opifer\EavBundle\Entity\Value", mappedBy="options", cascade={"all"}, orphanRemoval=true))
      */
-    private $values;
+    protected $values;
 
     /**
-     * @Gedmo\Locale
+     * Constructor
      */
-    private $locale;
+    public function __construct()
+    {
+        $this->values = new ArrayCollection();
+    }
 
     /**
      * Get id
@@ -102,35 +103,12 @@ class Option
     }
 
     /**
-     * Set value
-     *
-     * @param  string $value
-     * @return Option
-     */
-    public function setValue($value)
-    {
-        $this->value = $value;
-
-        return $this;
-    }
-
-    /**
-     * Get value
-     *
-     * @return string
-     */
-    public function getValue()
-    {
-        return $this->value;
-    }
-
-    /**
      * Set attribute
      *
-     * @param  \Opifer\EavBundle\Entity\Attribute $attribute
+     * @param  AttributeInterface $attribute
      * @return Option
      */
-    public function setAttribute(\Opifer\EavBundle\Entity\Attribute $attribute = null)
+    public function setAttribute(AttributeInterface $attribute = null)
     {
         $this->attribute = $attribute;
 
@@ -140,7 +118,7 @@ class Option
     /**
      * Get attribute
      *
-     * @return \Opifer\EavBundle\Entity\Attribute
+     * @return AttributeInterface
      */
     public function getAttribute()
     {
@@ -192,41 +170,34 @@ class Option
     {
         return $this->displayName;
     }
-    /**
-     * Constructor
-     */
-    public function __construct()
-    {
-        $this->values = new \Doctrine\Common\Collections\ArrayCollection();
-    }
 
     /**
-     * Add values
+     * Add value
      *
-     * @param  \Opifer\EavBundle\Entity\Value $values
+     * @param  ValueInterface $value
      * @return Option
      */
-    public function addValue(\Opifer\EavBundle\Entity\Value $values)
+    public function addValue(ValueInterface $value)
     {
-        $this->values[] = $values;
+        $this->values[] = $value;
 
         return $this;
     }
 
     /**
-     * Remove values
+     * Remove value
      *
-     * @param \Opifer\EavBundle\Entity\Value $values
+     * @param ValueInterface $value
      */
-    public function removeValue(\Opifer\EavBundle\Entity\Value $values)
+    public function removeValue(ValueInterface $value)
     {
-        $this->values->removeElement($values);
+        $this->values->removeElement($value);
     }
 
     /**
      * Get values
      *
-     * @return \Doctrine\Common\Collections\Collection
+     * @return ArrayCollection
      */
     public function getValues()
     {

@@ -5,14 +5,12 @@ namespace Opifer\EavBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\SerializerBuilder;
 
-use Opifer\EavBundle\Eav\ValueInterface;
-
 /**
  * Query Value
  *
  * @ORM\Entity
  */
-class QueryValue extends Value implements ValueInterface
+class QueryValue extends Value
 {
     /**
      * Get Rule

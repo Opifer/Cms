@@ -4,14 +4,12 @@ namespace Opifer\EavBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
-use Opifer\EavBundle\Eav\ValueInterface;
-
 /**
  * StringValue
  *
  * @ORM\Entity
  */
-class StringValue extends Value implements ValueInterface
+class StringValue extends Value
 {
 
     /**

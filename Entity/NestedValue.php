@@ -5,7 +5,6 @@ namespace Opifer\EavBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
 
-use Opifer\EavBundle\Eav\ValueInterface;
 use Opifer\EavBundle\Nesting\Nestable;
 
 /**
@@ -13,7 +12,7 @@ use Opifer\EavBundle\Nesting\Nestable;
  *
  * @ORM\Entity
  */
-class NestedValue extends Value implements ValueInterface, \IteratorAggregate
+class NestedValue extends Value implements \IteratorAggregate
 {
     /**
      * @var <Content>

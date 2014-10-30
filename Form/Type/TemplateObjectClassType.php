@@ -11,17 +11,30 @@ use Symfony\Component\OptionsResolver\OptionsResolverInterface;
  */
 class TemplateObjectClassType extends AbstractType
 {
+    protected $entities;
+
+    /**
+     * Constructor
+     *
+     * @param array $entities
+     */
+    public function __construct(array $entities = array())
+    {
+        $this->entities = $entities;
+    }
+
     /**
      * {@inheritDoc}
      */
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
+        $choices = array();
+        foreach ($this->entities as $label => $class) {
+            $choices[$class] = ucfirst($label);
+        }
+
         $resolver->setDefaults([
-            'choices'  => [
-                'Opifer\CmsBundle\Entity\Content' => 'Content',
-                'Opifer\CmsBundle\Entity\Post'    => 'Post',
-                'Opifer\CmsBundle\Entity\Layout'  => 'Layout'
-            ]
+            'choices'  => $choices
         ]);
     }
 

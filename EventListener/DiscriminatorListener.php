@@ -1,6 +1,6 @@
 <?php
 
-namespace Opifer\EavBundle\Listener;
+namespace Opifer\EavBundle\EventListener;
 
 use Doctrine\ORM\Event\LoadClassMetadataEventArgs;
 

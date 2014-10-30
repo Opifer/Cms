@@ -20,9 +20,31 @@ class Configuration implements ConfigurationInterface
         $treeBuilder = new TreeBuilder();
         $rootNode = $treeBuilder->root('opifer_eav');
 
-        // Here you should define the parameters that are allowed to
-        // configure your bundle. See the documentation linked above for
-        // more information on that topic.
+        $rootNode
+            ->addDefaultsIfNotSet()
+            ->children()
+                ->scalarNode('attribute_class')
+                    ->isRequired()
+                ->end()
+                ->scalarNode('option_class')
+                    ->isRequired()
+                ->end()
+                ->scalarNode('template_class')
+                    ->isRequired()
+                ->end()
+                ->scalarNode('valueset_class')
+                    ->isRequired()
+                ->end()
+
+                ->arrayNode('entities')
+                    ->info('All entities should implement Opifer\EavBundle\Model\EntityInterface')
+                    ->treatNullLike(array())
+                    ->useAttributeAsKey('label')
+                    ->prototype('scalar')->end()
+                ->end()
+            ->end()
+        ;
+
         return $treeBuilder;
     }
 }

@@ -1,20 +1,16 @@
 <?php
 
-namespace Opifer\EavBundle\Entity;
+namespace Opifer\EavBundle\Model;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation as JMS;
 
-use Opifer\EavBundle\Eav\AttributeInterface;
-
-use Opifer\CrudBundle\Annotation as CRUD;
-
 /**
- * AttributeType
+ * Attribute
  *
- * @ORM\Table(name="attribute")
- * @ORM\Entity
+ * @ORM\MappedSuperclass 
+ * 
  * @JMS\ExclusionPolicy("none")
  */
 class Attribute implements AttributeInterface
@@ -31,7 +27,7 @@ class Attribute implements AttributeInterface
     /**
      * @var Template
      *
-     * @ORM\ManyToOne(targetEntity="Template", inversedBy="attributes")
+     * @ORM\ManyToOne(targetEntity="Opifer\EavBundle\Model\TemplateInterface", inversedBy="attributes")
      * @ORM\JoinColumn(name="template_id", referencedColumnName="id")
      **/
     protected $template;
@@ -39,7 +35,6 @@ class Attribute implements AttributeInterface
     /**
      * @var string
      *
-     * @CRUD\Form(editable=true, type="value_provider")
      * @ORM\Column(name="value_type", type="string", length=128)
      */
     protected $valueType;
@@ -47,7 +42,6 @@ class Attribute implements AttributeInterface
     /**
      * @var string
      *
-     * @CRUD\Form(editable=true, type="slug")
      * @ORM\Column(name="name", type="string", length=128)
      * 
      */
@@ -56,7 +50,6 @@ class Attribute implements AttributeInterface
     /**
      * @var string
      *
-     * @CRUD\Form(editable=true)
      * @ORM\Column(name="display_name", type="string", length=255)
      */
     protected $displayName;
@@ -64,20 +57,20 @@ class Attribute implements AttributeInterface
     /**
      * @var integer
      *
-     * @CRUD\Form(editable=true)
      * @ORM\Column(name="sort", type="integer")
      */
     protected $sort;
 
     /**
-     * @CRUD\Form(editable=true)
-     * @ORM\OneToMany(targetEntity="Option", mappedBy="attribute", cascade={"all"}, orphanRemoval=true)
+     * @var ArrayCollection
+     * 
+     * @ORM\OneToMany(targetEntity="Opifer\EavBundle\Model\OptionInterface", mappedBy="attribute", cascade={"all"}, orphanRemoval=true)
      */
     protected $options;
 
     /**
      * @JMS\Type("array<Opifer\EavBundle\Entity\Value>")
-     * @ORM\OneToMany(targetEntity="Value", mappedBy="attribute", cascade={"all"}, orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity="Opifer\EavBundle\Entity\Value", mappedBy="attribute", cascade={"all"}, orphanRemoval=true)
      */
     protected $values;
 
@@ -150,10 +143,10 @@ class Attribute implements AttributeInterface
     /**
      * Set template
      *
-     * @param  \Opifer\EavBundle\Entity\Template $template
+     * @param  TemplateInterface $template
      * @return Attribute
      */
-    public function setTemplate(Template $template = null)
+    public function setTemplate(TemplateInterface $template = null)
     {
         $this->template = $template;
 
@@ -163,7 +156,7 @@ class Attribute implements AttributeInterface
     /**
      * Get template
      *
-     * @return \Opifer\EavBundle\Entity\Template
+     * @return TemplateInterface
      */
     public function getTemplate()
     {
@@ -183,7 +176,6 @@ class Attribute implements AttributeInterface
      * Set sort
      *
      * @param  integer   $sort
-     * @return Attribute
      */
     public function setSort($sort)
     {
@@ -205,10 +197,10 @@ class Attribute implements AttributeInterface
     /**
      * Add values
      *
-     * @param  \Opifer\EavBundle\Entity\Value $values
+     * @param  ValueInterface $values
      * @return Attribute
      */
-    public function addValue(Value $values)
+    public function addValue(ValueInterface $values)
     {
         $this->values[] = $values;
 
@@ -218,9 +210,9 @@ class Attribute implements AttributeInterface
     /**
      * Remove values
      *
-     * @param \Opifer\EavBundle\Entity\Value $values
+     * @param ValueInterface $values
      */
-    public function removeValue(Value $values)
+    public function removeValue(ValueInterface $values)
     {
         $this->values->removeElement($values);
     }
@@ -228,7 +220,7 @@ class Attribute implements AttributeInterface
     /**
      * Get values
      *
-     * @return \Doctrine\Common\Collections\Collection
+     * @return ArrayCollection
      */
     public function getValues()
     {
@@ -248,10 +240,10 @@ class Attribute implements AttributeInterface
     /**
      * Add options
      *
-     * @param  \Opifer\EavBundle\Entity\Option $options
+     * @param  OptionInterface $options
      * @return Attribute
      */
-    public function addOption(Option $options)
+    public function addOption(OptionInterface $options)
     {
         $this->options[] = $options;
 
@@ -261,9 +253,9 @@ class Attribute implements AttributeInterface
     /**
      * Remove options
      *
-     * @param \Opifer\EavBundle\Entity\Option $options
+     * @param OptionInterface $options
      */
-    public function removeOption(Option $options)
+    public function removeOption(OptionInterface $options)
     {
         $this->options->removeElement($options);
     }

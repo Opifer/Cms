@@ -8,6 +8,19 @@ use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
 class ValueSetType extends AbstractType
 {
+    /** @var string */
+    protected $valueSetClass;
+
+    /**
+     * Constructor
+     *
+     * @param string $valueSetClass
+     */
+    public function __construct($valueSetClass)
+    {
+        $this->valueSetClass = $valueSetClass;
+    }
+
     /**
      * {@inheritDoc}
      */
@@ -22,7 +35,7 @@ class ValueSetType extends AbstractType
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults([
-            'data_class' => 'Opifer\EavBundle\Entity\ValueSet',
+            'data_class' => $this->valueSetClass,
         ]);
     }
 

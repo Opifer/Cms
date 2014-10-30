@@ -30,6 +30,7 @@ services:
 
     opifer.eav.form.template_object_class_type:
         class: %opifer.eav.form.template_object_class_type.class%
+        arguments: [%opifer_eav.entities%]
         tags:
             - { name: form.type, alias: template_object_class }
 
@@ -49,26 +50,36 @@ services:
         tags:
             - { name: form.type, alias: eav_faux }
 
-    opifer.eav.eav_form:
-        class: Opifer\EavBundle\Form\EavForm
+    opifer.eav.form.eav_type:
+        class: Opifer\EavBundle\Form\Type\EavType
         arguments: [@router]
         tags:
-            - { name: form.type, alias: eav_form }
+            - { name: form.type, alias: eav }
+
+    opifer.eav.form.valueset_type:
+        class: Opifer\EavBundle\Form\Type\ValueSetType
+        arguments: [%opifer_eav.valueset_class%]
+        tags:
+            - { name: form.type, alias: valueset }
 
     # Entity Managers
     opifer.eav.eav_manager:
         class: Opifer\EavBundle\Manager\EavManager
-        arguments: [@opifer.eav.value_provider.pool]
+        arguments: [@opifer.eav.value_provider.pool, %opifer_eav.valueset_class%]
+
+    opifer.eav.template_manager:
+        class: Opifer\EavBundle\Model\TemplateManager
+        arguments: [@doctrine.orm.default_entity_manager, %opifer_eav.template_class%]
 
     # Listeners
     opifer.eav.discriminator_listener:
-        class: Opifer\EavBundle\Listener\DiscriminatorListener
+        class: Opifer\EavBundle\EventListener\DiscriminatorListener
         arguments: [@opifer.eav.value_provider.pool]
         tags:
             - { name: doctrine.event_listener, event: loadClassMetadata }
 
     opifer.eav.empty_value_listener:
-        class: Opifer\EavBundle\Listener\EmptyValueListener
+        class: Opifer\EavBundle\EventListener\EmptyValueListener
         arguments: [@opifer.eav.eav_manager]
         tags:
             - { name: doctrine.event_listener, event: postLoad }
