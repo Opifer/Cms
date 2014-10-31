@@ -503,7 +503,7 @@ class Content implements ContentInterface, EntityInterface, Nestable
      */
     public function getRealPresentation()
     {
-        if ($this->presentation) {
+        if (null != $this->presentation) {
             return $this->presentation;
         }
 

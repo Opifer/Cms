@@ -50,16 +50,6 @@ class ContentManager
     }
 
     /**
-     * Create a new content instance
-     *
-     * @return ContentInterface
-     */
-    public function create()
-    {
-
-    }
-
-    /**
      * Get repository
      *
      * @return Doctrine\ORM\EntityRepository
