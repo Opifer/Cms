@@ -2,9 +2,11 @@
 
 namespace Opifer\EavBundle\Tests\TestData;
 
-use Opifer\EavBundle\Eav\EntityInterface;
-use Opifer\EavBundle\Entity\Template;
-use Opifer\EavBundle\Entity\ValueSet;
+use Opifer\EavBundle\Model\EntityInterface;
+use Opifer\EavBundle\Model\TemplateInterface;
+use Opifer\EavBundle\Model\ValueSetInterface;
+use Opifer\EavBundle\Tests\TestData\Template;
+use Opifer\EavBundle\Tests\TestData\ValueSet;
 
 class Entity implements EntityInterface
 {
@@ -12,7 +14,7 @@ class Entity implements EntityInterface
 
     protected $template;
 
-    public function setValueSet(ValueSet $valueSet)
+    public function setValueSet(ValueSetInterface $valueSet)
     {
         $this->valueSet = $valueSet;
     }
@@ -22,7 +24,7 @@ class Entity implements EntityInterface
         return $this->valueSet;
     }
 
-    public function setTemplate(Template $template)
+    public function setTemplate(TemplateInterface $template)
     {
         $this->template = $template;
 
