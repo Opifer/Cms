@@ -57,7 +57,7 @@ class Option implements OptionInterface
     /**
      * @var  ArrayCollection
      * 
-     * @ORM\ManyToMany(targetEntity="Opifer\EavBundle\Entity\Value", mappedBy="options", cascade={"all"}, orphanRemoval=true))
+     * @ORM\ManyToMany(targetEntity="Opifer\EavBundle\Entity\Value", mappedBy="options", cascade={"all"}, orphanRemoval=true)
      */
     protected $values;
 
