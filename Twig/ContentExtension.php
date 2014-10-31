@@ -93,7 +93,7 @@ class ContentExtension extends \Twig_Extension
     {
         $content = '';
         foreach ($values as $value) {
-            $action = new ControllerReference('OpiferSiteBundle:Content:nested', ['id' => $value]);
+            $action = new ControllerReference('OpiferContentBundle:Frontend/Content:nested', ['id' => $value]);
             $content .= $this->fragmentHandler->render($action);
         }
 

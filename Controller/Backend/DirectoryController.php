@@ -81,9 +81,7 @@ class DirectoryController extends Controller
         $em = $this->getDoctrine()->getManager();
         $manager = $this->get('opifer.content.directory_manager');
 
-        $directory = $this->get('doctrine')->getRepository('OpiferContentBundle:Directory')
-            ->findOneById($id);
-
+        $directory = $manager->getRepository()->findOneById($id);
         if (!$directory) {
             throw $this->createNotFoundException('No directory found for id ' . $id);
         }

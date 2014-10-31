@@ -1,14 +1,14 @@
 angular.module('OpiferContent', ['angular-inview'])
     
     .factory('ContentService', ['$resource', '$routeParams', function($resource, $routeParams) {
-        return $resource(Routing.generate('opifer.api.content') + '/:id', {}, {
+        return $resource(Routing.generate('opifer_content_api_content') + '/:id', {}, {
             index:  {method: 'GET', params: {}},
             delete: {method: 'DELETE', params: {id: $routeParams.id}}
         });
     }])
 
     .factory('DirectoryService', ['$resource', '$routeParams', function($resource, $routeParams) {
-        return $resource(Routing.generate('opifer.api.directory'), {}, {
+        return $resource(Routing.generate('opifer_content_api_directory'), {}, {
             index: {method: 'GET', isArray: true, params: {}}
         });
     }])

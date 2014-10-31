@@ -1,18 +1,38 @@
 # API routes
 opifer_content_api_content:
-    resource: "@OpiferContentBundle/Controller/Api/ContentController.php"
-    type:     annotation
-    prefix:   /api
+    path: /api/contents
+    defaults: { _controller: OpiferContentBundle:Api/Content:index }
+    methods: [GET]
+    options:
+        expose: true
+
+opifer_content_api_content_view:
+    path: /api/contents/{id}
+    defaults: { _controller: OpiferContentBundle:Api/Content:view }
+    methods: [GET]
+    options:
+        expose: true
+
+opifer_content_api_content_delete:
+    path: /api/contents/{id}
+    defaults: { _controller: OpiferContentBundle:Api/Content:delete }
+    methods: [DELETE]
+    options:
+        expose: true
 
 opifer_content_api_directory:
-    resource: "@OpiferContentBundle/Controller/Api/DirectoryController.php"
-    type:     annotation
-    prefix:   /api
+    path: /api/directories
+    defaults: { _controller: OpiferContentBundle:Api/Directory:index }
+    methods: [GET]
+    options:
+        expose: true
 
 opifer_content_api_layout:
-    resource: "@OpiferContentBundle/Controller/Api/LayoutController.php"
-    type:     annotation
-    prefix:   /api
+    path: /api/layouts
+    defaults: { _controller: OpiferContentBundle:Api/Layout:index }
+    methods: [GET]
+    options:
+        expose: true
 
 # Backend Formtype
 opifer_content_formtype_angular:
@@ -35,6 +55,10 @@ opifer_content_directory_edit:
     defaults: { _controller: OpiferContentBundle:Backend/Directory:edit }
 
 # Backend content
+opifer_content_content_index:
+    path: /content
+    defaults: { _controller: OpiferContentBundle:Backend/Content:index }
+
 opifer_content_content_init:
     path: /content/init
     defaults: { _controller: OpiferContentBundle:Backend/Content:init }
@@ -48,7 +72,3 @@ opifer_content_content_edit:
     defaults: { _controller: OpiferContentBundle:Backend/Content:edit, mode: simple }
     options:
         expose: true
-
-opifer_content_content_index:
-    path: /content
-    defaults: { _controller: OpiferContentBundle:Backend/Content:index }

@@ -2,9 +2,6 @@
 
 namespace Opifer\ContentBundle\Controller\Api;
 
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -12,12 +9,7 @@ use Symfony\Component\HttpFoundation\Response;
 class LayoutController extends Controller
 {
     /**
-     * @Route(
-     *     "/layouts",
-     *     name="opifer.api.layout",
-     *     options={"expose"=true}
-     * )
-     * @Method({"GET"})
+     * Index
      *
      * @return Response
      */

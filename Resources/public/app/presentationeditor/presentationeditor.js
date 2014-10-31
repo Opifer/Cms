@@ -4,7 +4,7 @@ angular.module('OpiferPresentationEditor', ['ngModal'])
      * Layout Service
      */
     .factory('LayoutService', ['$resource', function($resource) {
-        return $resource(Routing.generate('opifer.api.layout'), {}, {
+        return $resource(Routing.generate('opifer_content_api_layout'), {}, {
             index: {method: 'GET', isArray: true, params: {}}
         });
     }])
@@ -162,7 +162,7 @@ angular.module('OpiferPresentationEditor', ['ngModal'])
                 scope.attributes = scope.subject.parameterSet.attributes;
 
                 // Request the template and compile it
-                $http.post(Routing.generate('opifer.cms.formtype.angular'), {'attributes': scope.attributes}).success(function(data) {
+                $http.post(Routing.generate('opifer_content_formtype_angular'), {'attributes': scope.attributes}).success(function(data) {
                     var el = angular.element(data);
                     compiled = $compile(el);
                     element.append(el);

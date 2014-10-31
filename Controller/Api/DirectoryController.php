@@ -2,9 +2,6 @@
 
 namespace Opifer\ContentBundle\Controller\Api;
 
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -15,12 +12,7 @@ use Opifer\ContentBundle\Model\DirectoryInterface;
 class DirectoryController extends Controller
 {
     /**
-     * @Route(
-     *     "/directories",
-     *     name="opifer.api.directory",
-     *     options={"expose"=true}
-     * )
-     * @Method({"GET"})
+     * Index
      *
      * @param Request $request
      *

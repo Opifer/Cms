@@ -16,7 +16,6 @@
         "doctrine/orm": "~2.4",
         "doctrine/doctrine-bundle": "~1.2",
         "twig/extensions": "~1.0",
-        "sensio/framework-extra-bundle": "~3.0",
         
         "friendsofsymfony/jsrouting-bundle": "~1.5.3",
         "gedmo/doctrine-extensions": "~2.3",
@@ -29,7 +28,8 @@
         "opifer/rulesengine": "@dev"
     },
     "require-dev": {
-        "phpunit/phpunit": "~4.2.0"
+        "phpunit/phpunit": "~4.2.0",
+        "mockery/mockery": "~0.9"
     },
     "autoload": {
         "psr-4": {"Opifer\\ContentBundle\\": "."}
