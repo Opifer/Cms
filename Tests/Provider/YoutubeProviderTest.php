@@ -14,7 +14,7 @@ class YoutubeProviderTest extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         $this->mediaManager = m::mock('Opifer\MediaBundle\Model\MediaManager');
-        $this->translator = m::mock('Symfony\Component\Translation\LoggingTranslator');
+        $this->translator = m::mock('Symfony\Component\Translation\TranslatorInterface');
         $this->media = m::mock('Opifer\MediaBundle\Tests\Media');
     }
 
