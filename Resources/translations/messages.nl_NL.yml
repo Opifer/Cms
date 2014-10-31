@@ -1,0 +1,64 @@
+# Content
+content:
+    edit:
+        mode:
+            simple: simpel
+            advanced: geavanceerd
+        success: "%title% is succesvol opgeslagen!"
+    form:
+        description:
+            placeholder: Omschrijving van de pagina
+        directory:
+            help_text: De map waarin de pagina geplaatst dient te worden
+        init:
+            submit: naar stap 2
+        locale:
+            help_text: ""
+        slug:
+            placeholder: Unieke permalink voor de pagina
+        submit: Opslaan
+        template:
+            help_text: 'Het type content. Als het template nog niet bestaat, <a href="%url%">maak hem hier aan.</a>'
+        title:
+            placeholder: De titel van de pagina
+    new:
+        title: Bepaal het soort content
+
+# Directory
+directory:
+    index:
+        title: mappen
+    edit:
+        title: bewerk map
+    parent:
+        label: Bovenliggende map
+        empty: "(Geen bovenliggende map)"
+        help_text: kies een bovenliggende map indien van toepassing
+    name:
+        help_text: de naam voor deze map
+    menu:
+        default:
+            label: standaard
+    submit: map opslaan
+
+# Form field labels
+form:
+    name: Naam
+    description: Beschrijving
+    email: Email
+    parent: Bovenliggende
+    permalink: pagina link
+    presentation: presentatie
+    slug:
+        label: "URL-vriendelijke naam"
+        help_text: "gebruik alleen letters en getallen, geen spaties toegestaan. a-z0-9_-"
+    title: Titel
+    username: gebruikersnaam
+
+# Buttons
+button:
+    add: nieuwe toevoegen
+    all: toon alles
+    cancel: annuleren
+    delete: verwijderen
+    edit: bewerken
