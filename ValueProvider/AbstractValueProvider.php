@@ -6,6 +6,8 @@ use Symfony\Component\Form\FormBuilderInterface;
 
 abstract class AbstractValueProvider
 {
+    protected $enabled = true;
+
     /**
      * {@inheritDoc}
      */
@@ -31,5 +33,13 @@ abstract class AbstractValueProvider
     public function getLabel()
     {
         return ucfirst($this->getName());
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function isEnabled()
+    {
+        return $this->enabled;
     }
 }

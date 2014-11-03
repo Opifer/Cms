@@ -36,4 +36,11 @@ interface ValueProviderInterface
      * @return string
      */
     public function getLabel();
+
+    /**
+     * Check if the current valueprovider is enabled
+     *
+     * @return boolean
+     */
+    public function isEnabled();
 }

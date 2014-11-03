@@ -26,6 +26,10 @@ class Pool
      */
     public function addValue(ValueProviderInterface $value, $alias)
     {
+        if (false === $value->isEnabled()) {
+            return;
+        }
+
         $this->values[$alias] = $value;
     }
 

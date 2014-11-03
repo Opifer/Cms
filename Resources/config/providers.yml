@@ -14,19 +14,16 @@ parameters:
 services:
     opifer.eav.checklist_value_provider:
         class: %opifer.eav.checklist_value_provider.class%
-        #arguments: [@translator]
         tags:
             - { name: opifer.eav.value_provider, alias: checklist }
 
     # opifer.eav.datetime_value_provider:
     #     class: Opifer\EavBundle\ValueProvider\DatetimeValueProvider
-    #     #arguments: [@translator]
     #     tags:
     #         - { name: opifer.eav.value_provider, alias: datetime }
 
     # opifer.eav.date_value_provider:
     #     class: Opifer\EavBundle\ValueProvider\DateValueProvider
-    #     #arguments: [@translator]
     #     tags:
     #         - { name: opifer.eav.value_provider, alias: date }
 
@@ -37,42 +34,41 @@ services:
 
     opifer.eav.html_value_provider:
         class: %opifer.eav.html_value_provider.class%
-        #arguments: [@translator]
         tags:
             - { name: opifer.eav.value_provider, alias: html }
 
     opifer.eav.integer_value_provider:
         class: %opifer.eav.integer_value_provider.class%
-        #arguments: [@translator]
         tags:
             - { name: opifer.eav.value_provider, alias: integer }
 
+    opifer.eav.media_value_provider:
+        class: %opifer.eav.media_value_provider.class%
+        arguments: [%opifer_eav.media_class%]
+        tags:
+            - { name: opifer.eav.value_provider, alias: media }
+
     opifer.eav.nested_value_provider:
         class: %opifer.eav.nested_value_provider.class%
-        #arguments: [@translator]
         tags:
             - { name: opifer.eav.value_provider, alias: nested }
 
     opifer.eav.query_value_provider:
         class: %opifer.eav.query_value_provider.class%
-        #arguments: [@translator]
         tags:
             - { name: opifer.eav.value_provider, alias: query }
 
     opifer.eav.select_value_provider:
         class: %opifer.eav.select_value_provider.class%
-        #arguments: [@translator]
         tags:
             - { name: opifer.eav.value_provider, alias: select }
 
     opifer.eav.string_value_provider:
         class: %opifer.eav.string_value_provider.class%
-        #arguments: [@translator]
         tags:
             - { name: opifer.eav.value_provider, alias: string }
 
     opifer.eav.text_value_provider:
         class: %opifer.eav.text_value_provider.class%
-        #arguments: [@translator]
         tags:
             - { name: opifer.eav.value_provider, alias: text }

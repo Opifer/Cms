@@ -11,7 +11,6 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class StringValue extends Value
 {
-
     /**
      * Turn value into string for form field value purposes
      *
