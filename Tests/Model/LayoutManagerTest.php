@@ -2,7 +2,7 @@
 
 namespace Opifer\ContentBundle\Tests\Model;
 
-use \Mockery as m;
+use Mockery as m;
 use Opifer\ContentBundle\Model\LayoutManager;
 
 class LayoutManagerTest extends \PHPUnit_Framework_TestCase

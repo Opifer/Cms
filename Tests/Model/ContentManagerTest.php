@@ -2,7 +2,7 @@
 
 namespace Opifer\ContentBundle\Tests\Model;
 
-use \Mockery as m;
+use Mockery as m;
 use Opifer\ContentBundle\Model\ContentManager;
 
 class ContentManagerTest extends \PHPUnit_Framework_TestCase

@@ -2,13 +2,13 @@
 
 namespace Opifer\ContentBundle\Form\Type;
 
-use Symfony\Component\Translation\LoggingTranslator ;
+use Symfony\Component\Translation\TranslatorInterface;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 
 class DirectoryType extends AbstractType
 {
-    /** @var LoggingTranslator */
+    /** @var TranslatorInterface */
     protected $translator;
 
     /** @var string */
@@ -17,9 +17,9 @@ class DirectoryType extends AbstractType
     /**
      * Constructor
      *
-     * @param LoggingTranslator $translator
+     * @param TranslatorInterface $translator
      */
-    public function __construct(LoggingTranslator $translator, $entity)
+    public function __construct(TranslatorInterface $translator, $entity)
     {
         $this->translator = $translator;
         $this->entity = $entity;
