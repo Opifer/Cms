@@ -20,7 +20,9 @@ class ContentManagerTest extends \PHPUnit_Framework_TestCase
 
     public function testGetClass()
     {
-        $manager = new ContentManager($this->em, $this->formFactory, $this->eavManager, 'Opifer\ContentBundle\Tests\TestData\Content');
+        $content = 'Opifer\ContentBundle\Tests\TestData\Content';
+        $template = 'Opifer\ContentBundle\Tests\TestData\Template';
+        $manager = new ContentManager($this->em, $this->formFactory, $this->eavManager, $content, $template);
 
         $this->assertEquals('Opifer\ContentBundle\Tests\TestData\Content', $manager->getClass());
     }
