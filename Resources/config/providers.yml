@@ -14,6 +14,7 @@ parameters:
 services:
     opifer.eav.checklist_value_provider:
         class: %opifer.eav.checklist_value_provider.class%
+        arguments: [%opifer_eav.option_class%]
         tags:
             - { name: opifer.eav.value_provider, alias: checklist }
 
@@ -50,6 +51,7 @@ services:
 
     opifer.eav.nested_value_provider:
         class: %opifer.eav.nested_value_provider.class%
+        arguments: [%opifer_eav.nestable_class%]
         tags:
             - { name: opifer.eav.value_provider, alias: nested }
 
@@ -60,6 +62,7 @@ services:
 
     opifer.eav.select_value_provider:
         class: %opifer.eav.select_value_provider.class%
+        arguments: [%opifer_eav.option_class%]
         tags:
             - { name: opifer.eav.value_provider, alias: select }
 

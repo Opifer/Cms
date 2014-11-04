@@ -8,6 +8,19 @@ use Symfony\Component\Form\FormBuilderInterface;
 
 class ChecklistValueProvider extends AbstractValueProvider implements ValueProviderInterface
 {
+    /** @var string */
+    protected $optionClass;
+
+    /**
+     * Constructor
+     *
+     * @param string $optionClass
+     */
+    public function __construct($optionClass)
+    {
+        $this->optionClass = $optionClass;
+    }
+
     /**
      * {@inheritDoc}
      */
@@ -19,7 +32,7 @@ class ChecklistValueProvider extends AbstractValueProvider implements ValueProvi
             'multiple'      => true,   // Multiple selection allowed
             'expanded'      => true,   // Render as checkboxes
             'property'      => 'displayName', // Assuming that the entity has a "name" property
-            'class'         => 'OpiferEavBundle:Option',
+            'class'         => $this->optionClass,
             'query_builder' => function (EntityRepository $optionRepository) use ($attributeId) {
                 return $optionRepository->createQueryBuilder('o')
                     ->add('orderBy', 'o.sort ASC')

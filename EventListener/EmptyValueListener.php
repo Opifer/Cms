@@ -4,8 +4,8 @@ namespace Opifer\EavBundle\EventListener;
 
 use Doctrine\ORM\Event\LifecycleEventArgs;
 
-use Opifer\EavBundle\Eav\ValueInterface;
-use Opifer\EavBundle\Entity\ValueSet;
+use Opifer\EavBundle\Model\ValueInterface;
+use Opifer\EavBundle\Model\ValueSetInterface;
 use Opifer\EavBundle\Manager\EavManager;
 
 /**
@@ -39,9 +39,8 @@ class EmptyValueListener
     public function postLoad(LifeCycleEventArgs $args)
     {
         $entity = $args->getEntity();
-        $entityManager = $args->getEntityManager();
 
-        if ($entity instanceof ValueSet && $entity->getValues() !== null) {
+        if ($entity instanceof ValueSetInterface && $entity->getValues() !== null) {
             $this->eavManager->replaceEmptyValues($entity);
         }
     }

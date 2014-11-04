@@ -8,6 +8,19 @@ use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
 class OptionType extends AbstractType
 {
+    /** @var string */
+    protected $optionClass;
+
+    /**
+     * Constructor
+     *
+     * @param string $optionClass
+     */
+    public function __construct($optionClass)
+    {
+        $this->optionClass = $optionClass;
+    }
+
     /**
      * {@inheritDoc}
      */
@@ -25,9 +38,15 @@ class OptionType extends AbstractType
      */
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
-        $resolver->setDefaults(array(
-            'data_class'  => 'Opifer\EavBundle\Entity\Option',
-        ));
+        $resolver->setDefaults([
+            'data_class'  => $this->optionClass,
+            'compound'    => true
+        ]);
+    }
+
+    public function getParent()
+    {
+        return 'entity';
     }
 
     /**
@@ -35,6 +54,6 @@ class OptionType extends AbstractType
      */
     public function getName()
     {
-        return 'entity';
+        return 'option';
     }
 }

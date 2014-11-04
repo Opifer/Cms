@@ -1,6 +1,6 @@
 <?php
 
-namespace Opifer\EavBundle\Nesting;
+namespace Opifer\EavBundle\Model;
 
 use Opifer\EavBundle\Entity\NestedValue;
 

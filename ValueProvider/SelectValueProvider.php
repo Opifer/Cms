@@ -9,6 +9,19 @@ use Opifer\EavBundle\Form\Transformer\CollectionToObjectTransformer;
 
 class SelectValueProvider extends AbstractValueProvider implements ValueProviderInterface
 {
+    /** @var string */
+    protected $optionClass;
+
+    /**
+     * Constructor
+     *
+     * @param string $optionClass
+     */
+    public function __construct($optionClass)
+    {
+        $this->optionClass = $optionClass;
+    }
+
     /**
      * Select form
      *
@@ -24,10 +37,10 @@ class SelectValueProvider extends AbstractValueProvider implements ValueProvider
 
         $builder->add(
             $builder->create('options', 'entity', [
-                'label'         => $this->attribute->getDisplayName(),
+                'label'         => $options['attribute']->getDisplayName(),
                 'multiple'      => false,
                 'property'      => 'displayName',
-                'class'         => 'OpiferEavBundle:Option',
+                'class'         => $this->optionClass,
                 'query_builder' => function (EntityRepository $optionRepository) use ($attributeId) {
                     return $optionRepository->createQueryBuilder('o')
                         ->add('orderBy', 'o.sort ASC')

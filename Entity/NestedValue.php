@@ -5,7 +5,7 @@ namespace Opifer\EavBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
 
-use Opifer\EavBundle\Nesting\Nestable;
+use Opifer\EavBundle\Model\Nestable;
 
 /**
  * Nested Value
@@ -17,7 +17,7 @@ class NestedValue extends Value implements \IteratorAggregate
     /**
      * @var <Content>
      *
-     * @ORM\OneToMany(targetEntity="Opifer\EavBundle\Nesting\Nestable", mappedBy="nestedIn")
+     * @ORM\OneToMany(targetEntity="Opifer\EavBundle\Model\Nestable", mappedBy="nestedIn")
      * @ORM\OrderBy({"nestedSort" = "ASC"})
      */
     protected $nested;
@@ -65,7 +65,7 @@ class NestedValue extends Value implements \IteratorAggregate
     /**
      * Add nested
      *
-     * @param \Opifer\EavBundle\Nesting\Nestable $nested
+     * @param \Opifer\EavBundle\Model\Nestable $nested
      *
      * @return Value
      */
@@ -79,7 +79,7 @@ class NestedValue extends Value implements \IteratorAggregate
     /**
      * Remove nested
      *
-     * @param \Opifer\EavBundle\Nesting\Nestable $nested
+     * @param \Opifer\EavBundle\Model\Nestable $nested
      */
     public function removeNested(Nestable $nested)
     {
