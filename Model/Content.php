@@ -12,9 +12,9 @@ use Symfony\Component\Validator\Constraints as Assert;
 use Opifer\EavBundle\Entity\NestedValue;
 use Opifer\EavBundle\Entity\Value;
 use Opifer\EavBundle\Model\EntityInterface;
+use Opifer\EavBundle\Model\Nestable;
 use Opifer\EavBundle\Model\TemplateInterface;
 use Opifer\EavBundle\Model\ValueSetInterface;
-use Opifer\EavBundle\Nesting\Nestable;
 
 /**
  * Content

@@ -20,6 +20,10 @@ class DirectoryManager
      */
     public function __construct(EntityManagerInterface $em, $class)
     {
+        if (!is_subclass_of($class, 'Opifer\ContentBundle\Model\DirectoryInterface')) {
+            throw new \Exception($class .' must implement Opifer\ContentBundle\Model\DirectoryInterface');
+        }
+
         $this->em = $em;
         $this->class = $class;
     }

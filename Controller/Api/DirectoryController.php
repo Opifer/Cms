@@ -8,6 +8,8 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 use Opifer\ContentBundle\Model\DirectoryInterface;
+use Opifer\ContentBundle\Event\ResponseEvent;
+use Opifer\ContentBundle\OpiferContentEvents;
 
 class DirectoryController extends Controller
 {
@@ -23,6 +25,13 @@ class DirectoryController extends Controller
      */
     public function indexAction(Request $request)
     {
+        $dispatcher = $this->get('event_dispatcher');
+        $event = new ResponseEvent($request);
+        $dispatcher->dispatch(OpiferContentEvents::DIRECTORY_INDEX_RESPONSE, $event);
+        if (null !== $event->getResponse()) {
+            return $event->getResponse();
+        }
+
         $manager = $this->get('opifer.content.directory_manager');
         $repository = $manager->getRepository();
 

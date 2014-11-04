@@ -9,6 +9,9 @@ use Symfony\Component\HttpFoundation\Request;
 
 use Opifer\ContentBundle\Entity;
 use Opifer\ContentBundle\Entity\Directory;
+use Opifer\ContentBundle\Event\ResponseEvent;
+use Opifer\ContentBundle\Event\DirectoryResponseEvent;
+use Opifer\ContentBundle\OpiferContentEvents;
 
 class DirectoryController extends Controller
 {
@@ -17,20 +20,19 @@ class DirectoryController extends Controller
      */
     public function indexAction()
     {
-        $repository = $this->get('opifer.content.directory_manager')
-            ->getRepository();
+        $dispatcher = $this->get('event_dispatcher');
+        $event = new ResponseEvent($request);
+        $dispatcher->dispatch(OpiferContentEvents::DIRECTORY_INDEX_RESPONSE, $event);
+        if (null !== $event->getResponse()) {
+            return $event->getResponse();
+        }
 
+        $repository = $this->get('opifer.content.directory_manager')->getRepository();
         $repository->verify();
         // can return TRUE if tree is valid, or array of errors found on tree
         $repository->recover();
         $em = $this->getDoctrine()->getManager();
         $em->flush();
-
-        $query = $repository->createQueryBuilder('c')
-            ->select('c, s')
-            ->join('c.site', 's')
-            ->getQuery()
-        ;
 
         $directoryTree = $repository->childrenHierarchy();
 
@@ -48,7 +50,13 @@ class DirectoryController extends Controller
      */
     public function newAction(Request $request)
     {
-        $em = $this->getDoctrine()->getManager();
+        $dispatcher = $this->get('event_dispatcher');
+        $event = new ResponseEvent($request);
+        $dispatcher->dispatch(OpiferContentEvents::DIRECTORY_NEW_RESPONSE, $event);
+        if (null !== $event->getResponse()) {
+            return $event->getResponse();
+        }
+
         $manager = $this->get('opifer.content.directory_manager');
 
         $directory = $manager->create();
@@ -84,6 +92,13 @@ class DirectoryController extends Controller
         $directory = $manager->getRepository()->findOneById($id);
         if (!$directory) {
             throw $this->createNotFoundException('No directory found for id ' . $id);
+        }
+
+        $dispatcher = $this->get('event_dispatcher');
+        $event = new DirectoryResponseEvent($directory, $request);
+        $dispatcher->dispatch(OpiferContentEvents::DIRECTORY_EDIT_RESPONSE, $event);
+        if (null !== $event->getResponse()) {
+            return $event->getResponse();
         }
 
         $form = $this->createForm('opifer_directory', $directory);

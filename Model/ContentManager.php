@@ -24,6 +24,9 @@ class ContentManager
     /** @var string */
     protected $class;
 
+    /** @var string */
+    protected $templateClass;    
+
     /**
      * Constructor
      *
@@ -31,12 +34,17 @@ class ContentManager
      * @param FormFactoryInterface   $formFactory
      * @param EavManager             $eavManager
      */
-    public function __construct(EntityManagerInterface $em, FormFactoryInterface $formFactory, EavManager $eavManager, $class)
+    public function __construct(EntityManagerInterface $em, FormFactoryInterface $formFactory, EavManager $eavManager, $class, $templateClass)
     {
+        if (!is_subclass_of($class, 'Opifer\ContentBundle\Model\ContentInterface')) {
+            throw new \Exception($class .' must implement Opifer\ContentBundle\Model\ContentInterface');
+        }
+
         $this->em = $em;
         $this->formFactory = $formFactory;
         $this->eavManager = $eavManager;
         $this->class = $class;
+        $this->templateClass = $templateClass;
     }
 
     /**
@@ -91,11 +99,9 @@ class ContentManager
                 $nestedContent = $this->getRepository()->find($key);
             } else {
                 // If not, $key is a template name for a to-be-created content item.
-                $template = $this->em->getRepository('OpiferEavBundle:Template')->findOneByName($key);
+                $template = $this->em->getRepository($this->templateClass)->findOneByName($key);
 
                 $nestedContent = $this->eavManager->initializeEntity($template);
-                $nestedContent->setSite($site);
-                $nestedContent->setAuthor($request->getUser());
                 $nestedContent->setNestedDefaults();
 
                 // In case of newly added nested content, we need to add an index
@@ -125,6 +131,21 @@ class ContentManager
         $this->remove(array_diff($oldIds, $ids));
 
         return $collection;
+    }
+
+    /**
+     * Save content
+     *
+     * @param  ContentInterface $content
+     *
+     * @return ContentInterface
+     */
+    public function save(ContentInterface $content)
+    {
+        $this->em->persist($content);
+        $this->em->flush();
+
+        return $content;
     }
 
     /**

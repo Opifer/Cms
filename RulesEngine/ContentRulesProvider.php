@@ -13,19 +13,25 @@ use Opifer\RulesEngine\Rule\Condition\StringValueCondition;
 use Opifer\RulesEngine\Rule\Condition\AddressValueCityCondition;
 use Opifer\RulesEngine\Rule\Condition\TemplateCondition;
 use Opifer\RulesEngine\Rule\RuleSet;
+use Opifer\EavBundle\Model\TemplateManager;
 
 class ContentRulesProvider extends AbstractProvider implements ProviderInterface
 {
-    private $entityManager;
+    /** @var TemplateManager */
+    protected $templateManager;
+
+    /** @var string */
+    protected $contentClass;
 
     /**
      * Constructor
      *
-     * @param EntityManager $entityManager
+     * @param TemplateManager $templateManager
      */
-    public function __construct(EntityManager $entityManager)
+    public function __construct(TemplateManager $templateManager, $contentClass)
     {
-        $this->entityManager = $entityManager;
+        $this->templateManager = $templateManager;
+        $this->contentClass = $contentClass;
     }
 
     /**
@@ -38,12 +44,11 @@ class ContentRulesProvider extends AbstractProvider implements ProviderInterface
         $rules = array();
         $rules[] = new RuleSet();
 
-        $entity = 'Opifer\ContentBundle\Entity\Content';
-
         $condition = new TemplateCondition();
-        $condition->setGroup('Content')->setName('Template')->setEntity($entity)->setAttribute('id');
-        $templates = $this->entityManager->getRepository('OpiferEavBundle:Template');
-        $templates = $templates->findBy(array('objectClass' => 'Opifer\ContentBundle\Entity\Content'));
+        $condition->setGroup('Content')->setName('Template')->setEntity($this->contentClass)->setAttribute('id');
+
+        $templateRepository = $this->templateManager->getRepository();
+        $templates = $templateRepository->findBy(['objectClass' => $this->contentClass]);
 
         $options = array();
         foreach ($templates as $template) {
@@ -54,27 +59,26 @@ class ContentRulesProvider extends AbstractProvider implements ProviderInterface
         $rules[] = $condition;
 
         $condition = new EntityCondition();
-        $condition->setGroup('Content')->setName('Content')->setOperatorOpts(array('in', 'notin'))->setEntity($entity)->setAttribute('id');
+        $condition->setGroup('Content')->setName('Content')->setOperatorOpts(array('in', 'notin'))->setEntity($this->contentClass)->setAttribute('id');
         $rules[] = $condition;
 
         $condition = new AttributeCondition();
-        $condition->setGroup('Content')->setName('Title')->setOperatorOpts(array('equals', 'notequals', 'contains'))->setEntity($entity)->setAttribute('title');
+        $condition->setGroup('Content')->setName('Title')->setOperatorOpts(array('equals', 'notequals', 'contains'))->setEntity($this->contentClass)->setAttribute('title');
         $rules[] = $condition;
 
         $condition = new AttributeCondition();
-        $condition->setGroup('Content')->setName('Description')->setOperatorOpts(array('equals', 'notequals', 'contains'))->setEntity($entity)->setAttribute('title');
+        $condition->setGroup('Content')->setName('Description')->setOperatorOpts(array('equals', 'notequals', 'contains'))->setEntity($this->contentClass)->setAttribute('title');
         $rules[] = $condition;
 
         $condition = new AttributeCondition();
-        $condition->setGroup('Content')->setName('Slug')->setOperatorOpts(array('equals', 'notequals', 'contains'))->setEntity($entity)->setAttribute('title');
+        $condition->setGroup('Content')->setName('Slug')->setOperatorOpts(array('equals', 'notequals', 'contains'))->setEntity($this->contentClass)->setAttribute('title');
         $rules[] = $condition;
 
         // $condition = new AttributeCondition();
-        // $condition->setGroup('Content')->setName('Directory')->setOperatorOpts(array('equals', 'notequals'))->setOperator('equals')->setEntity($entity)->setAttribute('title');
+        // $condition->setGroup('Content')->setName('Directory')->setOperatorOpts(array('equals', 'notequals'))->setOperator('equals')->setEntity($this->contentClass)->setAttribute('title');
         // $rules[] = $condition;
 
-        $repo = $this->entityManager->getRepository('OpiferEavBundle:Template');
-        $templates = $repo->findBy(['objectClass' => $entity]);
+        $templates = $templateRepository->findBy(['objectClass' => $this->contentClass]);
 
         foreach ($templates as $template) {
             foreach ($template->getAttributes() as $attribute) {
@@ -99,7 +103,7 @@ class ContentRulesProvider extends AbstractProvider implements ProviderInterface
                     $condition
                         ->setGroup($template->getDisplayName())
                         ->setName($attribute->getDisplayName())
-                        ->setEntity($entity)
+                        ->setEntity($this->contentClass)
                         ->setAttribute($attribute->getName())
                     ;
 
@@ -112,7 +116,7 @@ class ContentRulesProvider extends AbstractProvider implements ProviderInterface
                         $condition
                             ->setGroup($template->getDisplayName())
                             ->setName($attribute->getDisplayName() . ' – City')
-                            ->setEntity($entity)
+                            ->setEntity($this->contentClass)
                             ->setAttribute($attribute->getName())
                         ;
 

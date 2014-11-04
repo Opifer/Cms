@@ -1,0 +1,86 @@
+<?php
+
+namespace Opifer\ContentBundle;
+
+final class OpiferContentEvents
+{
+    /**
+     * Index event
+     *
+     * Called before any actions inside the indexAction in content controllers
+     * Receives the Opifer\ContentBundle\Event\ResponseEvent
+     */
+    const CONTENT_INDEX_RESPONSE = 'opifer_content.content_controller_index';
+
+    /**
+     * view event
+     *
+     * Called before any actions inside the newAction in ContentController
+     * Receives the Opifer\ContentBundle\Event\ResponseEvent
+     */
+    const CONTENT_VIEW_RESPONSE = 'opifer_content.content_controller_view';
+
+    /**
+     * Init event
+     *
+     * Called before any actions inside the newAction in ContentController
+     * Receives the Opifer\ContentBundle\Event\ResponseEvent
+     */
+    const CONTENT_INIT_RESPONSE = 'opifer_content.content_controller_init';
+
+    /**
+     * New event
+     *
+     * Called before any actions inside the newAction in ContentController
+     * Receives the Opifer\ContentBundle\Event\ResponseEvent
+     */
+    const CONTENT_NEW_RESPONSE = 'opifer_content.content_controller_new';
+
+    /**
+     * Edit event
+     * 
+     * Called right after retrieving the to-be-edited content item
+     * Receives the Opifer\ContentBundle\Event\ContentResponseEvent
+     */
+    const CONTENT_EDIT_RESPONSE = 'opifer_content.content_controller_edit';
+
+    /**
+     * Delete event
+     * 
+     * Called right after retrieving the to-be-deleted content item
+     * Receives the Opifer\ContentBundle\Event\ContentResponseEvent
+     */
+    const CONTENT_DELETE_RESPONSE = 'opifer_content.content_controller_delete';
+
+    /**
+     * Index event
+     *
+     * Called before any actions inside the indexAction in content controllers
+     * Receives the Opifer\ContentBundle\Event\ResponseEvent
+     */
+    const DIRECTORY_INDEX_RESPONSE = 'opifer_content.directory_controller_index';
+
+    /**
+     * New event
+     *
+     * Called before any actions inside the newAction in ContentController
+     * Receives the Opifer\ContentBundle\Event\ResponseEvent
+     */
+    const DIRECTORY_NEW_RESPONSE = 'opifer_content.directory_controller_new';
+
+    /**
+     * Edit event
+     * 
+     * Called right after retrieving the to-be-edited content item
+     * Receives the Opifer\ContentBundle\Event\ContentResponseEvent
+     */
+    const DIRECTORY_EDIT_RESPONSE = 'opifer_content.directory_controller_edit';
+
+    /**
+     * Delete event
+     * 
+     * Called right after retrieving the to-be-deleted content item
+     * Receives the Opifer\ContentBundle\Event\ContentResponseEvent
+     */
+    const DIRECTORY_DELETE_RESPONSE = 'opifer_content.directory_controller_delete';
+}

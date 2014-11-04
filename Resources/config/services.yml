@@ -1,7 +1,7 @@
 services:
     opifer.content.content_manager:
         class: Opifer\ContentBundle\Model\ContentManager
-        arguments: [@doctrine.orm.default_entity_manager, @form.factory, @opifer.eav.eav_manager, %opifer_content.content_class%]
+        arguments: [@doctrine.orm.default_entity_manager, @form.factory, @opifer.eav.eav_manager, %opifer_content.content_class%, %opifer_eav.template_class%]
 
     opifer.content.directory_manager:
         class: Opifer\ContentBundle\Model\DirectoryManager
@@ -14,7 +14,7 @@ services:
     # RulesEngine Provider
     opifer.rulesengine.provider.content:
         class: Opifer\ContentBundle\RulesEngine\ContentRulesProvider
-        arguments: [@doctrine.orm.entity_manager]
+        arguments: [@opifer.eav.template_manager, %opifer_content.content_class%]
         tags:
             - { name: opifer.rulesengine.provider, alias: content }
 

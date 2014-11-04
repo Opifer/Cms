@@ -9,6 +9,9 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 use Opifer\ContentBundle\Model\ContentInterface;
+use Opifer\ContentBundle\Event\ContentResponseEvent;
+use Opifer\ContentBundle\Event\ResponseEvent;
+use Opifer\ContentBundle\OpiferContentEvents;
 
 class ContentController extends Controller
 {
@@ -21,6 +24,13 @@ class ContentController extends Controller
      */
     public function indexAction(Request $request)
     {
+        $dispatcher = $this->get('event_dispatcher');
+        $event = new ResponseEvent($request);
+        $dispatcher->dispatch(OpiferContentEvents::CONTENT_INDEX_RESPONSE, $event);
+        if (null !== $event->getResponse()) {
+            return $event->getResponse();
+        }
+
         $manager = $this->get('opifer.content.content_manager');
         $paginator = $manager->getRepository()->findPaginatedByRequest($request);
 
@@ -47,6 +57,14 @@ class ContentController extends Controller
     {
         $manager = $this->get('opifer.content.content_manager');
         $content = $manager->getRepository()->find($id);
+
+        $dispatcher = $this->get('event_dispatcher');
+        $event = new ContentResponseEvent($content, $request);
+        $dispatcher->dispatch(OpiferContentEvents::CONTENT_VIEW_RESPONSE, $event);
+        if (null !== $event->getResponse()) {
+            return $event->getResponse();
+        }
+
         $content = $this->get('jms_serializer')->serialize($content, 'json');
 
         return new Response($content, 200, ['Content-Type' => 'application/json']);
@@ -61,15 +79,17 @@ class ContentController extends Controller
      */
     public function deleteAction($id)
     {
-        if ($this->get('security.context')->isGranted('ROLE_ADMIN') === false) {
-            throw new AccessDeniedException();
-        }
-
-        $em = $this->get('doctrine')->getManager();
-
         $manager = $this->get('opifer.content.content_manager');
         $content = $manager->getRepository()->find($id);
 
+        $dispatcher = $this->get('event_dispatcher');
+        $event = new ContentResponseEvent($content, $request);
+        $dispatcher->dispatch(OpiferContentEvents::CONTENT_DELETE_RESPONSE, $event);
+        if (null !== $event->getResponse()) {
+            return $event->getResponse();
+        }
+
+        $em = $this->get('doctrine')->getManager();
         $em->remove($content);
         $em->flush();
 

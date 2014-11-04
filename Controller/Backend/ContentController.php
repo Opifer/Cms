@@ -6,6 +6,10 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
+use Opifer\ContentBundle\Event\ResponseEvent;
+use Opifer\ContentBundle\Event\ContentResponseEvent;
+use Opifer\ContentBundle\OpiferContentEvents;
+
 class ContentController extends Controller
 {
     /**
@@ -18,6 +22,13 @@ class ContentController extends Controller
      */
     public function initAction(Request $request)
     {
+        $dispatcher = $this->get('event_dispatcher');
+        $event = new ResponseEvent($request);
+        $dispatcher->dispatch(OpiferContentEvents::CONTENT_INIT_RESPONSE, $event);
+        if (null !== $event->getResponse()) {
+            return $event->getResponse();
+        }
+
         $form = $this->createForm('opifer_content_init', []);
         $form->handleRequest($request);
 
@@ -50,6 +61,14 @@ class ContentController extends Controller
             return $this->forward('OpiferContentBundle:Content:new');
         }
 
+        $dispatcher = $this->get('event_dispatcher');
+        $event = new ResponseEvent($request);
+        $dispatcher->dispatch(OpiferContentEvents::CONTENT_NEW_RESPONSE, $event);
+        if (null !== $event->getResponse()) {
+            return $event->getResponse();
+        }
+
+        $contentManager = $this->get('opifer.content.content_manager');
         $template = $this->get('opifer.eav.template_manager')->getRepository()->find($template);
         $content = $this->get('opifer.eav.eav_manager')->initializeEntity($template);
 
@@ -59,18 +78,16 @@ class ContentController extends Controller
         if ($form->isValid()) {
             // Save nested content
             foreach ($content->getNestedContentAttributes() as $attribute => $value) {
-                $nested = $this->get('opifer.content.content_manager')->saveNestedForm($attribute, $request);
+                $nested = $contentManager->saveNestedForm($attribute, $request);
                 foreach ($nested as $nestedContent) {
                     $value->addNested($nestedContent);
                     $nestedContent->setNestedIn($value);
-                    $em->persist($nestedContent);
+                    $contentManager->save($nestedContent);
                 }
             }
 
             // Save the actual content
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($content);
-            $em->flush();
+            $content = $contentManager->save($content);
 
             // Tell the user everything went well.
             $this->get('session')->getFlashBag()->add('success',
@@ -101,13 +118,18 @@ class ContentController extends Controller
      */
     public function editAction(Request $request, $id, $mode = 'simple')
     {
-        $em = $this->getDoctrine()->getManager();
-
-        $content = $em->getRepository($this->container->getParameter('opifer_content.content_class'))
-            ->find($id);
+        $contentManager = $this->get('opifer.content.content_manager');
+        $content = $contentManager->getRepository()->find($id);
 
         if (!$content) {
             throw $this->createNotFoundException('No content found for id ' . $id);
+        }
+
+        $dispatcher = $this->get('event_dispatcher');
+        $event = new ContentResponseEvent($content, $request);
+        $dispatcher->dispatch(OpiferContentEvents::CONTENT_EDIT_RESPONSE, $event);
+        if (null !== $event->getResponse()) {
+            return $event->getResponse();
         }
 
         $form = $this->createForm('opifer_content', $content, ['mode' => $mode]);
@@ -116,17 +138,16 @@ class ContentController extends Controller
         if ($form->isValid()) {
             // Save nested content
             foreach ($content->getNestedContentAttributes() as $attribute => $value) {
-                $nested = $this->get('opifer.content.content_manager')->saveNestedForm($attribute, $request);
+                $nested = $contentManager->saveNestedForm($attribute, $request);
                 foreach ($nested as $nestedContent) {
                     $value->addNested($nestedContent);
                     $nestedContent->setNestedIn($value);
-                    $em->persist($nestedContent);
+                    $contentManager->save($nestedContent);
                 }
             }
 
             // Save the actual content
-            $em->persist($content);
-            $em->flush();
+            $contentManager->save($content);
 
             // Tell the user everything went well.
             $this->get('session')->getFlashBag()->add('success',
@@ -155,8 +176,16 @@ class ContentController extends Controller
      *
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function indexAction()
+    public function indexAction(Request $request)
     {
+        $dispatcher = $this->get('event_dispatcher');
+        $event = new ResponseEvent($request);
+        $dispatcher->dispatch(OpiferContentEvents::CONTENT_INDEX_RESPONSE, $event);
+
+        if (null !== $event->getResponse()) {
+            return $event->getResponse();
+        }
+
         return $this->render('OpiferContentBundle:Content:index.html.twig');
     }
 }
