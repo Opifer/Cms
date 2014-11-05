@@ -10,7 +10,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Opifer\EavBundle\Form\Type\NestedContentType;
 use Opifer\EavBundle\Manager\EavManager;
 
-class ContentManager
+class ContentManager implements ContentManagerInterface
 {
     /** @var EntityManager */
     protected $em;
@@ -65,6 +65,42 @@ class ContentManager
     public function getRepository()
     {
         return $this->em->getRepository($this->getClass());
+    }
+
+    /**
+     * Get paginated items by request
+     *
+     * @param  Request $request
+     *
+     * @return ArrayCollection
+     */
+    public function getPaginatedByRequest(Request $request)
+    {
+        return $this->getRepository()->findPaginatedByRequest($request);
+    }
+
+    /**
+     * map nested content
+     *
+     * @param  ContentInterface $content
+     *
+     * @return array
+     */
+    public function mapNested(ContentInterface $content)
+    {
+        $nested = [];
+        foreach ($content->getNestedContentAttributes() as $attribute => $value) {
+            $nested = $this->saveNestedForm($attribute, $request);
+            foreach ($nested as $nestedContent) {
+                $value->addNested($nestedContent);
+                $nestedContent->setNestedIn($value);
+                $this->save($nestedContent);
+
+                $nested[] = $nestedContent;
+            }
+        }
+
+        return $nested;
     }
 
     /**

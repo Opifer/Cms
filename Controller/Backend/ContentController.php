@@ -76,17 +76,7 @@ class ContentController extends Controller
         $form->handleRequest($request);
 
         if ($form->isValid()) {
-            // Save nested content
-            foreach ($content->getNestedContentAttributes() as $attribute => $value) {
-                $nested = $contentManager->saveNestedForm($attribute, $request);
-                foreach ($nested as $nestedContent) {
-                    $value->addNested($nestedContent);
-                    $nestedContent->setNestedIn($value);
-                    $contentManager->save($nestedContent);
-                }
-            }
-
-            // Save the actual content
+            $contentManager->mapNested($content);
             $content = $contentManager->save($content);
 
             // Tell the user everything went well.

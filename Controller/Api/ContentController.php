@@ -32,7 +32,7 @@ class ContentController extends Controller
         }
 
         $manager = $this->get('opifer.content.content_manager');
-        $paginator = $manager->getRepository()->findPaginatedByRequest($request);
+        $paginator = $manager->getPaginatedByRequest($request);
 
         $contents = $paginator->getCurrentPageResults();
         $contents = $this->get('jms_serializer')->serialize(iterator_to_array($contents), 'json');
