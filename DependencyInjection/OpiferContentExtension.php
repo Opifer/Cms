@@ -35,7 +35,7 @@ class OpiferContentExtension extends Extension implements PrependExtensionInterf
         $params = [
             'opifer_content.content_class' => $config['content_class'],
             'opifer_content.directory_class' => $config['directory_class'],
-            'opifer_content.layout_class' => $config['layout_class'],
+            'opifer_content.layout_class' => $config['layout_class']
         ];
         
         return $params;
@@ -53,6 +53,8 @@ class OpiferContentExtension extends Extension implements PrependExtensionInterf
     {
         $configs = $container->getExtensionConfig($this->getAlias());
         $config = $this->processConfiguration(new Configuration(), $configs);
+
+        $container->setAlias('opifer.content.content_manager', $config['content_manager']);
 
         $parameters = $this->getParameters($config);
         foreach ($parameters as $key => $value) {

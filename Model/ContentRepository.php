@@ -47,7 +47,7 @@ class ContentRepository extends EntityRepository
      *
      * @return \Doctrine\ORM\QueryBuilder
      */
-    public function findPaginatedByRequest(Request $request)
+    public function getQueryFromRequest(Request $request)
     {
         $qb = $this->createValuedQueryBuilder('c');
         $qb->where('c.nestedIn IS NULL');
@@ -64,10 +64,7 @@ class ContentRepository extends EntityRepository
 
         $qb->orderBy('c.slug');
 
-        $page = ($request->get('p')) ? $request->get('p') : 1;
-        $limit = ($request->get('limit')) ? $request->get('limit') : 25;
-
-        return new Paginator($qb, $limit, $page);
+        return $qb;
     }
 
     /**

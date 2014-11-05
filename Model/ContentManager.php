@@ -25,7 +25,7 @@ class ContentManager implements ContentManagerInterface
     protected $class;
 
     /** @var string */
-    protected $templateClass;    
+    protected $templateClass;
 
     /**
      * Constructor
@@ -68,23 +68,20 @@ class ContentManager implements ContentManagerInterface
     }
 
     /**
-     * Get paginated items by request
-     *
-     * @param  Request $request
-     *
-     * @return ArrayCollection
+     * {@inheritDoc}
      */
     public function getPaginatedByRequest(Request $request)
     {
-        return $this->getRepository()->findPaginatedByRequest($request);
+        $qb = $this->getRepository()->getQueryFromRequest($request);
+
+        $page = ($request->get('p')) ? $request->get('p') : 1;
+        $limit = ($request->get('limit')) ? $request->get('limit') : 25;
+
+        return new Paginator($qb, $limit, $page);
     }
 
     /**
-     * map nested content
-     *
-     * @param  ContentInterface $content
-     *
-     * @return array
+     * {@inheritDoc}
      */
     public function mapNested(ContentInterface $content)
     {
@@ -170,11 +167,7 @@ class ContentManager implements ContentManagerInterface
     }
 
     /**
-     * Save content
-     *
-     * @param  ContentInterface $content
-     *
-     * @return ContentInterface
+     * {@inheritDoc}
      */
     public function save(ContentInterface $content)
     {
@@ -185,9 +178,7 @@ class ContentManager implements ContentManagerInterface
     }
 
     /**
-     * Remove content
-     *
-     * @param array|integer $content
+     * {@inheritDoc}
      */
     public function remove($content)
     {
