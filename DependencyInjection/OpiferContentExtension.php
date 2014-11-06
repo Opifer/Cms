@@ -55,6 +55,7 @@ class OpiferContentExtension extends Extension implements PrependExtensionInterf
         $config = $this->processConfiguration(new Configuration(), $configs);
 
         $container->setAlias('opifer.content.content_manager', $config['content_manager']);
+        $container->setAlias('opifer.content.directory_manager', $config['directory_manager']);
 
         $parameters = $this->getParameters($config);
         foreach ($parameters as $key => $value) {

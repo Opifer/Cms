@@ -4,7 +4,7 @@ namespace Opifer\ContentBundle\Model;
 
 use Doctrine\ORM\EntityManagerInterface;
 
-class DirectoryManager
+class DirectoryManager implements DirectoryManagerInterface
 {
     /** @var EntityManager */
     protected $em;
@@ -29,9 +29,7 @@ class DirectoryManager
     }
 
     /**
-     * Get class
-     *
-     * @return string
+     * {@inheritDoc}
      */
     public function getClass()
     {
@@ -39,9 +37,56 @@ class DirectoryManager
     }
 
     /**
-     * Create a new directory instance
-     *
-     * @return DirectoryInterface
+     * {@inheritDoc}
+     */
+    public function find($id)
+    {
+        return $this->getRepository()->find($id);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function findBy(array $criteria = [])
+    {
+        return $this->getRepository()->findBy($criteria);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function findChildren($parent = null)
+    {
+        if (null !== $parent) {
+            $curDirectory = $this->find($parent);
+            $directories = $curDirectory->getChildren();
+        } else {
+            $directories = $this->findBy(['parent' => null]);
+        }
+
+        return $directories;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getTree()
+    {
+        $repository = $this->getRepository();
+
+        if (true !== $errors = $repository->verify()) {
+            throw new \Exception('Directory tree is invalid');
+        }
+
+        $repository->recover();
+
+        $this->em->flush();
+
+        return $repository->childrenHierarchy();
+    }
+
+    /**
+     * {@inheritDoc}
      */
     public function create()
     {
@@ -67,9 +112,7 @@ class DirectoryManager
     }
 
     /**
-     * Get repository
-     *
-     * @return Doctrine\ORM\EntityRepository
+     * {@inheritDoc}
      */
     public function getRepository()
     {

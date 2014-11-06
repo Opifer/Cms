@@ -29,17 +29,10 @@ class DirectoryController extends Controller
             return $event->getResponse();
         }
 
-        $repository = $this->get('opifer.content.directory_manager')->getRepository();
-        $repository->verify();
-        // can return TRUE if tree is valid, or array of errors found on tree
-        $repository->recover();
-        $em = $this->getDoctrine()->getManager();
-        $em->flush();
-
-        $directoryTree = $repository->childrenHierarchy();
-
+        $tree = $this->get('opifer.content.directory_manager')->getTree();
+        
         return $this->render('OpiferContentBundle:Directory:index.html.twig', [
-            'directoryTree' => $directoryTree
+            'directoryTree' => $tree
         ]);
     }
 

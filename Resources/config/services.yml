@@ -3,7 +3,7 @@ services:
         class: Opifer\ContentBundle\Model\ContentManager
         arguments: [@doctrine.orm.default_entity_manager, @form.factory, @opifer.eav.eav_manager, %opifer_content.content_class%, %opifer_eav.template_class%]
 
-    opifer.content.directory_manager:
+    opifer.content.directory_manager.default:
         class: Opifer\ContentBundle\Model\DirectoryManager
         arguments: [@doctrine.orm.default_entity_manager, %opifer_content.directory_class%]
 
