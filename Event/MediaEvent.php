@@ -9,7 +9,7 @@ use Symfony\Component\HttpFoundation\Request;
 class MediaEvent extends Event
 {
     private $request;
-    private $user;
+    private $media;
 
     public function __construct(MediaInterface $media, Request $request)
     {
