@@ -24,7 +24,7 @@ class ContentController extends Controller
     {
         $dispatcher = $this->get('event_dispatcher');
         $event = new ResponseEvent($request);
-        $dispatcher->dispatch(OpiferContentEvents::CONTENT_INIT_RESPONSE, $event);
+        $dispatcher->dispatch(OpiferContentEvents::CONTENT_CONTROLLER_INIT, $event);
         if (null !== $event->getResponse()) {
             return $event->getResponse();
         }
@@ -63,7 +63,7 @@ class ContentController extends Controller
 
         $dispatcher = $this->get('event_dispatcher');
         $event = new ResponseEvent($request);
-        $dispatcher->dispatch(OpiferContentEvents::CONTENT_NEW_RESPONSE, $event);
+        $dispatcher->dispatch(OpiferContentEvents::CONTENT_CONTROLLER_NEW, $event);
         if (null !== $event->getResponse()) {
             return $event->getResponse();
         }
@@ -117,7 +117,7 @@ class ContentController extends Controller
 
         $dispatcher = $this->get('event_dispatcher');
         $event = new ContentResponseEvent($content, $request);
-        $dispatcher->dispatch(OpiferContentEvents::CONTENT_EDIT_RESPONSE, $event);
+        $dispatcher->dispatch(OpiferContentEvents::CONTENT_CONTROLLER_EDIT, $event);
         if (null !== $event->getResponse()) {
             return $event->getResponse();
         }
@@ -170,7 +170,7 @@ class ContentController extends Controller
     {
         $dispatcher = $this->get('event_dispatcher');
         $event = new ResponseEvent($request);
-        $dispatcher->dispatch(OpiferContentEvents::CONTENT_INDEX_RESPONSE, $event);
+        $dispatcher->dispatch(OpiferContentEvents::CONTENT_CONTROLLER_INDEX, $event);
 
         if (null !== $event->getResponse()) {
             return $event->getResponse();

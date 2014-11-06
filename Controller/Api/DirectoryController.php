@@ -18,30 +18,18 @@ class DirectoryController extends Controller
      *
      * @param Request $request
      *
-     * optional parameters
-     *     directory_id integer
-     *
      * @return JsonResponse
      */
     public function indexAction(Request $request)
     {
         $dispatcher = $this->get('event_dispatcher');
         $event = new ResponseEvent($request);
-        $dispatcher->dispatch(OpiferContentEvents::DIRECTORY_INDEX_RESPONSE, $event);
+        $dispatcher->dispatch(OpiferContentEvents::DIRECTORY_CONTROLLER_INDEX, $event);
         if (null !== $event->getResponse()) {
             return $event->getResponse();
         }
 
-        $manager = $this->get('opifer.content.directory_manager');
-        $repository = $manager->getRepository();
-
-        if ($request->get('directory_id')) {
-            $curDirectory = $repository->find($request->get('directory_id'));
-
-            $directories = $curDirectory->getChildren();
-        } else {
-            $directories = $repository->findBy(['parent' => null]);
-        }
+        $directories = $this->get('opifer.content.directory_manager')->findChildren($request->get('directory_id'));
 
         $data = $this->get('jms_serializer')->serialize($directories, 'json');
 

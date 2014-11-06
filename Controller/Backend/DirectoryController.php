@@ -17,12 +17,14 @@ class DirectoryController extends Controller
 {
     /**
      * Index action
+     *
+     * @param Request $request
      */
-    public function indexAction()
+    public function indexAction(Request $request)
     {
         $dispatcher = $this->get('event_dispatcher');
         $event = new ResponseEvent($request);
-        $dispatcher->dispatch(OpiferContentEvents::DIRECTORY_INDEX_RESPONSE, $event);
+        $dispatcher->dispatch(OpiferContentEvents::DIRECTORY_CONTROLLER_INDEX, $event);
         if (null !== $event->getResponse()) {
             return $event->getResponse();
         }
@@ -52,7 +54,7 @@ class DirectoryController extends Controller
     {
         $dispatcher = $this->get('event_dispatcher');
         $event = new ResponseEvent($request);
-        $dispatcher->dispatch(OpiferContentEvents::DIRECTORY_NEW_RESPONSE, $event);
+        $dispatcher->dispatch(OpiferContentEvents::DIRECTORY_CONTROLLER_NEW, $event);
         if (null !== $event->getResponse()) {
             return $event->getResponse();
         }
@@ -96,7 +98,7 @@ class DirectoryController extends Controller
 
         $dispatcher = $this->get('event_dispatcher');
         $event = new DirectoryResponseEvent($directory, $request);
-        $dispatcher->dispatch(OpiferContentEvents::DIRECTORY_EDIT_RESPONSE, $event);
+        $dispatcher->dispatch(OpiferContentEvents::DIRECTORY_CONTROLLER_EDIT, $event);
         if (null !== $event->getResponse()) {
             return $event->getResponse();
         }
