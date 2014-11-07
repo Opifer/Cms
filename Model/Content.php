@@ -29,10 +29,11 @@ class Content implements ContentInterface, EntityInterface, Nestable
     /**
      * @var integer
      *
-     * @JMS\Expose
      * @ORM\Id
      * @ORM\Column(name="id", type="integer")
      * @ORM\GeneratedValue(strategy="AUTO")
+     *
+     * @JMS\Expose
      */
     protected $id;
 

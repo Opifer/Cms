@@ -7,6 +7,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\HttpFoundation\Request;
 
+use Opifer\CrudBundle\Pagination\Paginator;
 use Opifer\EavBundle\Form\Type\NestedContentType;
 use Opifer\EavBundle\Manager\EavManager;
 
@@ -72,7 +73,7 @@ class ContentManager implements ContentManagerInterface
      */
     public function getPaginatedByRequest(Request $request)
     {
-        $qb = $this->getRepository()->getQueryFromRequest($request);
+        $qb = $this->getRepository()->getQueryBuilderFromRequest($request);
 
         $page = ($request->get('p')) ? $request->get('p') : 1;
         $limit = ($request->get('limit')) ? $request->get('limit') : 25;

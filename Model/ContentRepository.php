@@ -47,7 +47,7 @@ class ContentRepository extends EntityRepository
      *
      * @return \Doctrine\ORM\QueryBuilder
      */
-    public function getQueryFromRequest(Request $request)
+    public function getQueryBuilderFromRequest(Request $request)
     {
         $qb = $this->createValuedQueryBuilder('c');
         $qb->where('c.nestedIn IS NULL');

@@ -27,4 +27,9 @@ class LayoutManagerTest extends \PHPUnit_Framework_TestCase
 
         $this->assertInstanceOf('Opifer\ContentBundle\Tests\TestData\Layout', $manager->create());
     }
+
+    public function tearDown()
+    {
+        m::close();
+    }
 }

@@ -18,7 +18,7 @@ content:
             placeholder: Unieke permalink voor de pagina
         submit: Opslaan
         template:
-            help_text: 'Het type content. Als het template nog niet bestaat, <a href="%url%">maak hem hier aan.</a>'
+            help_text: 'Het soort content'
         title:
             placeholder: De titel van de pagina
     new:

@@ -40,7 +40,7 @@ services:
     # Router
     opifer.content.content_router:
         class: Opifer\ContentBundle\Router\ContentRouter
-        arguments: [@service_container]
+        arguments: [@request_stack, @opifer.content.content_manager]
 
     # Twig Extension
     opifer.content.twig.content_extension:

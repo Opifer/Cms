@@ -10,35 +10,52 @@ use Symfony\Component\Routing\Route;
 use Symfony\Component\Routing\RouterInterface;
 use Symfony\Component\Routing\RouteCollection;
 use Symfony\Component\Routing\Matcher\UrlMatcher;
-use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\RequestStack;
+
+use Opifer\ContentBundle\Model\ContentManagerInterface;
+use Opifer\ContentBundle\Model\ContentInterface;
+
+use Doctrine\ORM\NoResultException;
 
 /**
  * Content Router
  */
 class ContentRouter implements RouterInterface
 {
-    /** @var \Symfony\Component\Routing\RequestContext */
+    /** @var RequestContext */
     protected $context;
 
-    /** @var \Symfony\Component\Routing\RouteCollection */
+    /** @var RouteCollection */
     protected $routeCollection;
 
-    /** @var \Symfony\Component\Routing\Generator\UrlGenerator */
+    /** @var UrlGenerator */
     protected $urlGenerator;
 
-    /** @var \Symfony\Component\DependencyInjection\ContainerInterface */
-    protected $container;
+    /** @var ContentManagerInterface */
+    protected $contentManager;
+
+    /** @var Request */
+    protected $request;
 
     /**
      * The constructor for this service
      *
      * @param ContainerInterface $container
      */
-    public function __construct(ContainerInterface $container)
+    public function __construct(RequestStack $requestStack, ContentManagerInterface $contentManager)
     {
-        $this->container = $container;
         $this->routeCollection = new RouteCollection();
+        $this->request = $requestStack->getCurrentRequest();
+        $this->contentManager = $contentManager;
 
+        $this->createRoutes();
+    }
+
+    /**
+     * Create the routes
+     */
+    private function createRoutes()
+    {
         $this->routeCollection->add('_content', new Route('/{slug}', [
             '_controller' => 'OpiferContentBundle:Frontend/Content:view',
             'slug'        => ''
@@ -70,15 +87,13 @@ class ContentRouter implements RouterInterface
         $result = $urlMatcher->match($pathinfo);
 
         if (!empty($result)) {
-            // The route matches, now check if it actually exists
-            $repository = $this->container->get('opifer.content.content_manager')->getRepository();
-            $result['content'] = $repository->findBySlug($result['slug']);
-
-            if (is_null($result['content']) || count($result['content']) < 1) {
+            try {
+                // The route matches, now check if it actually exists
+                $repository = $this->contentManager->getRepository();
+                $result['content'] = $repository->findOneBySlug($result['slug']);
+            } catch (NoResultException $e) {
                 throw new ResourceNotFoundException('No page found for slug ' . $pathinfo);
-            }
-
-            $result['content'] = array_pop($result['content']);
+            }   
         }
 
         return $result;
@@ -118,10 +133,8 @@ class ContentRouter implements RouterInterface
     public function getContext()
     {
         if (!isset($this->context)) {
-            $request = $this->container->get('request');
-
             $this->context = new RequestContext();
-            $this->context->fromRequest($request);
+            $this->context->fromRequest($this->request);
         }
 
         return $this->context;

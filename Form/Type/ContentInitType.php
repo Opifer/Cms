@@ -41,7 +41,9 @@ class ContentInitType extends AbstractType
             ->add('template', 'entity', [
                 'class'    => $this->templateClass,
                 'property' => 'name',
-                'attr'     => ['help_text' => $this->translator->trans('content.form.template.help_text', ['%url%' => $this->router->generate('opifer.crud.new', ['slug' => 'templates'])])]
+                'attr'     => [
+                    'help_text' => $this->translator->trans('content.form.template.help_text')
+                ]
             ])
             ->add('save', 'submit', [
                 'label' => ucfirst($this->translator->trans('content.form.init.submit'))

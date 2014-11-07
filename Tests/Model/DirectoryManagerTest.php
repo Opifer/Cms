@@ -27,4 +27,9 @@ class DirectoryManagerTest extends \PHPUnit_Framework_TestCase
 
         $this->assertInstanceOf('Opifer\ContentBundle\Tests\TestData\Directory', $manager->create());
     }
+
+    public function tearDown()
+    {
+        m::close();
+    }
 }
