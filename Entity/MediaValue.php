@@ -18,7 +18,7 @@ class MediaValue extends Value implements \IteratorAggregate
      * @ORM\ManyToMany(targetEntity="Opifer\EavBundle\Model\MediaInterface")
      * @ORM\JoinTable(name="value_media",
      *      joinColumns={@ORM\JoinColumn(name="value_id", referencedColumnName="id")},
-     *      inverseJoinColumns={@ORM\JoinColumn(name="media_id", referencedColumnName="id")}
+     *      inverseJoinColumns={@ORM\JoinColumn(name="media_id", referencedColumnName="id", onDelete="cascade")}
      * )
      */
     protected $medias;
