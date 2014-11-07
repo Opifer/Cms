@@ -3,22 +3,22 @@
 namespace Opifer\EavBundle\Repository;
 
 use Doctrine\ORM\EntityRepository;
-use Opifer\EavBundle\Entity\ValueSet;
+use Opifer\EavBundle\Model\ValueSetInterface;
 
 /**
  * ValueRepository
  */
 class ValueRepository extends EntityRepository
 {
-    public function getSortedValuesBySet(ValueSet $valueSet)
+    public function getSortedValuesBySet(ValueSetInterface $valueSet)
     {
-        $query = $this->getEntityManager()->createQuery(
-            'SELECT v
-            FROM OpiferEavBundle:Value v
-            JOIN v.attribute a
-            WHERE v.valueSet = :valueSet
-            ORDER BY a.sort ASC'
-        )->setParameter('valueSet', $valueSet->getId());
+        $query = $this->createQueryBuilder('v')
+            ->join('v.attribute', 'a')
+            ->where('v.valueSet = "valueset')
+            ->orderBy('a.sort', 'DESC')
+            ->setParameter('valueset', $valueSet)
+            ->getQuery()
+        ;
 
         return $query->getResult();
     }

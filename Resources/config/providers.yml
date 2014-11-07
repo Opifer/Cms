@@ -12,27 +12,6 @@ parameters:
     opifer.eav.text_value_provider.class: Opifer\EavBundle\ValueProvider\TextValueProvider
 
 services:
-    opifer.eav.checklist_value_provider:
-        class: %opifer.eav.checklist_value_provider.class%
-        arguments: [%opifer_eav.option_class%]
-        tags:
-            - { name: opifer.eav.value_provider, alias: checklist }
-
-    # opifer.eav.datetime_value_provider:
-    #     class: Opifer\EavBundle\ValueProvider\DatetimeValueProvider
-    #     tags:
-    #         - { name: opifer.eav.value_provider, alias: datetime }
-
-    # opifer.eav.date_value_provider:
-    #     class: Opifer\EavBundle\ValueProvider\DateValueProvider
-    #     tags:
-    #         - { name: opifer.eav.value_provider, alias: date }
-
-    opifer.eav.form_value_provider:
-        class: %opifer.eav.form_value_provider.class%
-        tags:
-            - { name: opifer.eav.value_provider, alias: form }
-
     opifer.eav.html_value_provider:
         class: %opifer.eav.html_value_provider.class%
         tags:
@@ -49,22 +28,10 @@ services:
         tags:
             - { name: opifer.eav.value_provider, alias: media }
 
-    opifer.eav.nested_value_provider:
-        class: %opifer.eav.nested_value_provider.class%
-        arguments: [%opifer_eav.nestable_class%]
-        tags:
-            - { name: opifer.eav.value_provider, alias: nested }
-
     opifer.eav.query_value_provider:
         class: %opifer.eav.query_value_provider.class%
         tags:
             - { name: opifer.eav.value_provider, alias: query }
-
-    opifer.eav.select_value_provider:
-        class: %opifer.eav.select_value_provider.class%
-        arguments: [%opifer_eav.option_class%]
-        tags:
-            - { name: opifer.eav.value_provider, alias: select }
 
     opifer.eav.string_value_provider:
         class: %opifer.eav.string_value_provider.class%
@@ -75,3 +42,37 @@ services:
         class: %opifer.eav.text_value_provider.class%
         tags:
             - { name: opifer.eav.value_provider, alias: text }
+
+    # opifer.eav.nested_value_provider:
+    #     class: %opifer.eav.nested_value_provider.class%
+    #     arguments: [%opifer_eav.nestable_class%]
+    #     tags:
+    #         - { name: opifer.eav.value_provider, alias: nested }
+
+    # opifer.eav.select_value_provider:
+    #     class: %opifer.eav.select_value_provider.class%
+    #     arguments: [%opifer_eav.option_class%]
+    #     tags:
+    #         - { name: opifer.eav.value_provider, alias: select }
+
+    # opifer.eav.checklist_value_provider:
+    #     class: %opifer.eav.checklist_value_provider.class%
+    #     arguments: [%opifer_eav.option_class%]
+    #     tags:
+    #         - { name: opifer.eav.value_provider, alias: checklist }
+
+    # opifer.eav.datetime_value_provider:
+    #     class: Opifer\EavBundle\ValueProvider\DatetimeValueProvider
+    #     tags:
+    #         - { name: opifer.eav.value_provider, alias: datetime }
+
+    # opifer.eav.date_value_provider:
+    #     class: Opifer\EavBundle\ValueProvider\DateValueProvider
+    #     tags:
+    #         - { name: opifer.eav.value_provider, alias: date }
+
+    # opifer.eav.form_value_provider:
+    #     class: %opifer.eav.form_value_provider.class%
+    #     arguments: [%opifer_eav.template_class%]
+    #     tags:
+    #         - { name: opifer.eav.value_provider, alias: form }

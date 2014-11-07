@@ -4,6 +4,8 @@ namespace Opifer\EavBundle\Model;
 
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Validator\Constraints as Assert;
+use Opifer\EavBundle\Validator\Constraints as OpiferAssert;
 
 /**
  * Template
@@ -25,6 +27,8 @@ class Template implements TemplateInterface
      * @var string
      *
      * @ORM\Column(name="displayName", type="string", length=255)
+     * 
+     * @Assert\NotBlank()
      */
     protected $displayName;
 
@@ -32,6 +36,8 @@ class Template implements TemplateInterface
      * @var string
      *
      * @ORM\Column(name="name", type="string", length=128)
+     * 
+     * @Assert\NotBlank()
      */
     protected $name;
 
@@ -39,6 +45,9 @@ class Template implements TemplateInterface
      * @var string
      *
      * @ORM\Column(name="object_class", type="string", length=128)
+     *
+     * @Assert\NotBlank()
+     * @OpiferAssert\ClassExists()
      */
     protected $objectClass;
 
@@ -46,7 +55,9 @@ class Template implements TemplateInterface
      * @var ArrayCollection
      *
      * @ORM\OneToMany(targetEntity="Opifer\EavBundle\Model\AttributeInterface", mappedBy="template", cascade={"all"}, orphanRemoval=true)
-     **/
+     *
+     * @Assert\Valid()
+     */
     protected $attributes;
 
     /**

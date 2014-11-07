@@ -1,11 +1,11 @@
 'use strict';
 
-angular.module('nestedContent', ['ui.sortable'])
+angular.module('OpiferNestedContent', ['ui.sortable'])
     /**
      * Template Service
      */
     .factory('TemplateService', ['$resource', function($resource) {
-        return $resource('/app_dev.php/api/templates', {}, {
+        return $resource(Routing.generate('opifer_eav_api_template'), {}, {
             index: {method: 'GET', isArray: true, params: {}}
         });
     }])
@@ -97,7 +97,7 @@ angular.module('nestedContent', ['ui.sortable'])
                 scope.subject.form = '';
 
                 // Request the form template and compile it
-                $http.post(Routing.generate('opifer.eav.form.render', {attribute: scope.attribute, id: scope.subject.name, index: scope.$index}), {}).success(function(data) {
+                $http.post(Routing.generate('opifer_eav_form_render', {attribute: scope.attribute, id: scope.subject.name, index: scope.$index}), {}).success(function(data) {
                     scope.subject.form = data.form;
                     scope.subject.data = data.content;
                     

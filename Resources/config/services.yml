@@ -60,7 +60,7 @@ services:
         class: Opifer\EavBundle\Form\Type\ValueSetType
         arguments: [%opifer_eav.valueset_class%]
         tags:
-            - { name: form.type, alias: valueset }
+            - { name: form.type, alias: opifer_valueset }
 
     # Entity Managers
     opifer.eav.attribute_manager:

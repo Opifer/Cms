@@ -166,9 +166,9 @@ class ValueSet implements ValueSetInterface
     {
         $values = $this->values->toArray();
         usort($values, function ($value1, $value2) {
-            return ($value1->getAttribute()->getSort() > $value2->getAttribute()->getSort()) ? 1 : -1;
+            return ($value1->getAttribute()->getSort() < $value2->getAttribute()->getSort()) ? 1 : -1;
         });
-
+        
         return $values;
     }
 

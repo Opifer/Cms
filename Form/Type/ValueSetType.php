@@ -44,6 +44,6 @@ class ValueSetType extends AbstractType
      */
     public function getName()
     {
-        return 'valueset';
+        return 'opifer_valueset';
     }
 }

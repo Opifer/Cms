@@ -19,7 +19,7 @@ class FormController extends Controller
     /**
      * @Route(
      *     "/eav/form/submit/{valueId}",
-     *     name="opifer.eav.form.submit",
+     *     name="opifer_eav_form_submit",
      *     options={"expose"=true}
      * )
      * @Method({"POST"})
@@ -67,7 +67,7 @@ class FormController extends Controller
      *
      * @Route(
      *     "/eav/form/render/{attribute}/{id}/{index}",
-     *     name="opifer.eav.form.render",
+     *     name="opifer_eav_form_render",
      *     options={"expose"=true}
      * )
      *

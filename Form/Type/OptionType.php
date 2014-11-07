@@ -44,6 +44,9 @@ class OptionType extends AbstractType
         ]);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public function getParent()
     {
         return 'entity';

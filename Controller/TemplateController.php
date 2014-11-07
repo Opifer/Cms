@@ -1,6 +1,6 @@
 <?php
 
-namespace Opifer\EavBundle\Api;
+namespace Opifer\EavBundle\Controller;
 
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -14,7 +14,7 @@ class TemplateController extends Controller
     /**
      * @Route(
      *     "/templates",
-     *     name="opifer.api.template",
+     *     name="opifer_eav_api_template",
      *     options={"expose"=true}
      * )
      * @Method({"GET"})

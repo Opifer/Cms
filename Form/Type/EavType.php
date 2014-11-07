@@ -33,7 +33,7 @@ class EavType extends AbstractType
             $this->router->generate('opifer.eav.form.submit', ['valueId' => $options['valueId']])
         );
 
-        $builder->add('valueset', new ValueSetType());
+        $builder->add('valueset', 'opifer_valueset');
         $builder->add('save', 'submit');
     }
 

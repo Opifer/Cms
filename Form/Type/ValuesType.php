@@ -21,16 +21,6 @@ class ValuesType extends AbstractType
     /**
      * {@inheritDoc}
      */
-    public function setDefaultOptions(OptionsResolverInterface $resolver)
-    {
-        $resolver->setDefaults([
-            //'data_class' => 'Opifer\EavBundle\Entity\ValueSet',
-        ]);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
     public function getName()
     {
         return 'values_collection';

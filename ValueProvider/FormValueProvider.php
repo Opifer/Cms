@@ -8,6 +8,13 @@ use Doctrine\ORM\EntityRepository;
 
 class FormValueProvider extends AbstractValueProvider implements ValueProviderInterface
 {
+    protected $templateClass;
+
+    public function __construct($templateClass)
+    {
+        $this->templateClass = $templateClass;
+    }
+
     /**
      * {@inheritDoc}
      */
@@ -17,7 +24,7 @@ class FormValueProvider extends AbstractValueProvider implements ValueProviderIn
             'empty_value'   => '-- None --',
             'expanded'      => false,
             'multiple'      => false,
-            'class'         => 'OpiferEavBundle:Template',
+            'class'         => $this->templateClass,
             'property'      => 'displayName',
             'query_builder' => function (EntityRepository $er) {
                 return $er->createQueryBuilder('t')

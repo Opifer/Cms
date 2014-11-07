@@ -1,6 +1,6 @@
 <?php
 
-namespace Opifer\EavBundle\Api;
+namespace Opifer\EavBundle\Controller;
 
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -16,7 +16,7 @@ class OptionController extends Controller
      *
      * @Route(
      *     "/options",
-     *     name="opifer.api.option",
+     *     name="opifer_eav_api_option",
      *     options={"expose"=true}
      * )
      * @Method({"GET"})

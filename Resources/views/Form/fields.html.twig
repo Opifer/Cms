@@ -55,7 +55,7 @@
 {#
     Valueset Row
 #}
-{% block valueset_row %}
+{% block opifer_valueset_row %}
 {% spaceless %}
     <section class="form-section">
         {{ block('form_widget') }}
@@ -94,50 +94,49 @@
     Infinite Form Polycollection Widget
 #}
 {% block infinite_form_polycollection_widget %}
-{#{% set attr = attr|merge({'data-form-widget': 'collection' }) %}#}
-<div {{ block('widget_container_attributes') }}>
-    <ul class="bc-collection list-unstyled" data-form-widget="collection">
-        {% for field in form %}
-        <li>
-            <div class="row">
-                <div class="col-xs-10">
-                    {{ form_widget(field) }}
-                    {{ form_errors(field) }}
-                </div>
-                {% if form.vars.allow_delete %}
-                    <div class="col-xs-2">
-                        <a href="#" class="btn btn-danger btn-small" data-removefield="collection" data-field="{{ field.vars.id }}">Delete</a>
-                    </div>
-                {% endif %}
-            </div>
-        </li>
-        {% endfor %}
-    </ul>
-</div>
-
-<div class="btn-group">
-    <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
-        Add <span class="caret"></span>
-    </button>
-    <ul class="dropdown-menu" role="menu">
-        {% for prototypeType, prototypeValue in form.vars.prototypes %}
-            {% set prototypeHtml %}
-            <li>
-                <div class="row">
-                    <div class="col-xs-10">
-                        {{ form_widget(prototypeValue) }}
-                        {{ form_errors(prototypeValue) }}
-                    </div>
-                    {% if form.vars.allow_delete %}
-                        <div class="col-xs-2">
-                            <a href="#" class="btn btn-danger btn-small" data-removefield="collection" data-field="{{ prototypeValue.vars.id }}">Delete</a>
+    <div {{ block('widget_container_attributes') }}>
+        <ul class="bc-collection list-unstyled" data-form-widget="collection">
+            {% for field in form %}
+                <li>
+                    <div class="row">
+                        <div class="col-xs-10">
+                            {{ form_widget(field) }}
+                            {{ form_errors(field) }}
                         </div>
-                    {% endif %}
-                </div>
-            </li>
-            {% endset %}
-            <li><a href="#" class="add_item" data-prototype="{{ prototypeHtml|escape }}">{{ prototypeType }}</a></li>
-        {% endfor %}
-    </ul>
-</div>
+                        {% if form.vars.allow_delete %}
+                            <div class="col-xs-2">
+                                <a href="#" class="btn btn-danger btn-small" data-removefield="collection" data-field="{{ field.vars.id }}">Delete</a>
+                            </div>
+                        {% endif %}
+                    </div>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+
+    <div class="btn-group">
+        <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+            Add <span class="caret"></span>
+        </button>
+        <ul class="dropdown-menu" role="menu">
+            {% for prototypeType, prototypeValue in form.vars.prototypes %}
+                {% set prototypeHtml %}
+                <li>
+                    <div class="row">
+                        <div class="col-xs-10">
+                            {{ form_widget(prototypeValue) }}
+                            {{ form_errors(prototypeValue) }}
+                        </div>
+                        {% if form.vars.allow_delete %}
+                            <div class="col-xs-2">
+                                <a href="#" class="btn btn-danger btn-small" data-removefield="collection" data-field="{{ prototypeValue.vars.id }}">Delete</a>
+                            </div>
+                        {% endif %}
+                    </div>
+                </li>
+                {% endset %}
+                <li><a href="#" class="add_item" data-prototype="{{ prototypeHtml|escape }}">{{ prototypeType }}</a></li>
+            {% endfor %}
+        </ul>
+    </div>
 {% endblock %}

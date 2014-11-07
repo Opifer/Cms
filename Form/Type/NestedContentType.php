@@ -34,7 +34,7 @@ class NestedContentType extends AbstractType
     {
         $builder
             ->add('title', 'text')
-            ->add('valueset', new ValueSetType())
+            ->add('valueset', 'opifer_valueset')
         ;
     }
 

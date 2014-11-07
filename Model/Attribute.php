@@ -5,6 +5,7 @@ namespace Opifer\EavBundle\Model;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation as JMS;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Attribute
@@ -43,7 +44,8 @@ class Attribute implements AttributeInterface
      * @var string
      *
      * @ORM\Column(name="name", type="string", length=128)
-     * 
+     *
+     * @Assert\NotBlank()
      */
     protected $name;
 
@@ -51,6 +53,8 @@ class Attribute implements AttributeInterface
      * @var string
      *
      * @ORM\Column(name="display_name", type="string", length=255)
+     *
+     * @Assert\NotBlank()
      */
     protected $displayName;
 
@@ -58,6 +62,8 @@ class Attribute implements AttributeInterface
      * @var integer
      *
      * @ORM\Column(name="sort", type="integer")
+     *
+     * @Assert\NotBlank()
      */
     protected $sort;
 
