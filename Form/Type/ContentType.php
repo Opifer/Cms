@@ -37,11 +37,15 @@ class ContentType extends AbstractType
         $builder
             ->add('title', 'text', [
                 'label' => $this->translator->trans('form.title'),
-                'attr'  => ['placeholder' => $this->translator->trans('content.form.title.placeholder')]
+                'attr'  => [
+                    'placeholder' => $this->translator->trans('content.form.title.placeholder')
+                ]
             ])
             ->add('description', 'text', [
                 'label' => $this->translator->trans('form.description'),
-                'attr'  => ['placeholder' => $this->translator->trans('content.form.description.placeholder')]
+                'attr'  => [
+                    'placeholder' => $this->translator->trans('content.form.description.placeholder')
+                ]
             ])
             ->add('slug', 'text', [
                 'attr' => [
@@ -55,9 +59,11 @@ class ContentType extends AbstractType
                 'empty_value' => '/',
                 'required'    => false,
                 'empty_data'  => null,
-                'attr'        => ['help_text' => $this->translator->trans('content.form.directory.help_text')]
+                'attr'        => [
+                    'help_text' => $this->translator->trans('content.form.directory.help_text')
+                ]
             ])
-            ->add('valueset', 'valueset')
+            ->add('valueset', 'opifer_valueset')
         ;
 
         // Add advanced fields only on the advanced option page.
