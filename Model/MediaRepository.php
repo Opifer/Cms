@@ -1,6 +1,6 @@
 <?php
 
-namespace Opifer\MediaBundle\Repository;
+namespace Opifer\MediaBundle\Model;
 
 use Doctrine\ORM\EntityRepository;
 
@@ -12,13 +12,13 @@ use Symfony\Component\HttpFoundation\Request;
 class MediaRepository extends EntityRepository
 {
     /**
-     * Find media by request
+     * Create the query builder from request
      *
-     * @param Request $request
+     * @param  Request $request
      *
-     * @return \Opifer\CrudBundle\Pagination\Paginator
+     * @return QueryBuilder
      */
-    public function findPaginatedByRequest(Request $request)
+    public function createQueryBuilderFromRequest(Request $request)
     {
         $qb = $this->createQueryBuilder('m');
 
@@ -32,11 +32,21 @@ class MediaRepository extends EntityRepository
             $qb->andWhere('m.name LIKE :term')->setParameter('term', '%' . $request->get('search') . '%');
         }
 
-        $paginator = new Pagerfanta(new DoctrineORMAdapter($qb));
-        $paginator->setMaxPerPage($request->get('limit', 100));
-        $paginator->setCurrentPage($request->get('page', 1));
+        return $qb;
+    }
 
-        return $paginator;
+    /**
+     * Find all by request
+     *
+     * @param  Request $request
+     *
+     * @return ArrayCollection
+     */
+    public function findByRequest(Request $request)
+    {
+        $query = $this->requestQueryBuilder($request)->getQuery();
+
+        return $qb->getResult();
     }
 
     /**

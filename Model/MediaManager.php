@@ -3,6 +3,9 @@
 namespace Opifer\MediaBundle\Model;
 
 use Doctrine\Common\Persistence\ObjectManager;
+use Pagerfanta\Adapter\DoctrineORMAdapter;
+use Pagerfanta\Pagerfanta;
+use Symfony\Component\HttpFoundation\Request;
 
 class MediaManager implements MediaManagerInterface
 {
@@ -50,6 +53,24 @@ class MediaManager implements MediaManagerInterface
     {
         $this->objectManager->remove($media);
         $this->objectManager->flush();
+    }
+
+    /**
+     * Get paginated media items by request
+     *
+     * @param  Request $request
+     *
+     * @return Pagerfanta
+     */
+    public function getPaginatedByRequest(Request $request)
+    {
+        $qb = $this->getRepository()->createQueryBuilderFromRequest($request);
+
+        $paginator = new Pagerfanta(new DoctrineORMAdapter($qb));
+        $paginator->setMaxPerPage($request->get('limit', 100));
+        $paginator->setCurrentPage($request->get('page', 1));
+
+        return $paginator;
     }
 
     /**

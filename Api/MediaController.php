@@ -36,8 +36,7 @@ class MediaController extends Controller
             return $event->getResponse();
         }
 
-        $media = $this->get('opifer.media.media_manager')->getRepository()
-            ->findPaginatedByRequest($request);
+        $media = $this->get('opifer.media.media_manager')->getPaginatedByRequest($request);
 
         $items = $this->get('jms_serializer')->serialize(iterator_to_array($media->getCurrentPageResults()), 'json');
 
