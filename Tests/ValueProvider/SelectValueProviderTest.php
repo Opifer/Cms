@@ -10,7 +10,8 @@ class SelectValueProviderTest extends \PHPUnit_Framework_TestCase
 
     public function __construct()
     {
-        $this->provider = new SelectValueProvider();
+        $option = 'Opifer\EavBundle\Tests\TestData\Option';
+        $this->provider = new SelectValueProvider($option);
     }
 
     public function testEntityExists()

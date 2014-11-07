@@ -10,7 +10,8 @@ class NestedValueProviderTest extends \PHPUnit_Framework_TestCase
 
     public function __construct()
     {
-        $this->provider = new NestedValueProvider();
+        $nestedClass = 'Opifer\EavBundle\Tests\TestData\Entity';
+        $this->provider = new NestedValueProvider($nestedClass);
     }
 
     public function testEntityExists()

@@ -10,7 +10,8 @@ class ChecklistValueProviderTest extends \PHPUnit_Framework_TestCase
 
     public function __construct()
     {
-        $this->provider = new ChecklistValueProvider();
+        $option = 'Opifer\EavBundle\Tests\TestData\Option';
+        $this->provider = new ChecklistValueProvider($option);
     }
 
     public function testEntityExists()
