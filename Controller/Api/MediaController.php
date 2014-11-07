@@ -1,9 +1,6 @@
 <?php
 
-namespace Opifer\MediaBundle\Api;
-
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+namespace Opifer\MediaBundle\Controller\Api;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -17,12 +14,7 @@ use Opifer\MediaBundle\OpiferMediaEvents;
 class MediaController extends Controller
 {
     /**
-     * @Route(
-     *     "/media",
-     *     name="opifer.api.media",
-     *     options={"expose"=true}
-     * )
-     * @Method({"GET"})
+     * Index
      *
      * @return JsonResponse
      */
@@ -48,12 +40,7 @@ class MediaController extends Controller
     }
 
     /**
-     * @Route(
-     *     "/media/upload",
-     *     name="opifer.api.media.upload",
-     *     options={"expose"=true}
-     * )
-     * @Method({"POST"})
+     * Upload
      *
      * @return Response
      */
@@ -86,18 +73,14 @@ class MediaController extends Controller
     }
 
     /**
-     * @Route(
-     *     "/media/{id}",
-     *     name="opifer.api.media.delete",
-     *     options={"expose"=true}
-     * )
-     * @Method({"DELETE"})
+     * Delete
      *
+     * @param  Request $request
      * @param  integer $id
      *
      * @return JsonResponse
      */
-    public function deleteAction($id)
+    public function deleteAction(Request $request, $id)
     {
         try {
             $mediaManager = $this->get('opifer.media.media_manager');

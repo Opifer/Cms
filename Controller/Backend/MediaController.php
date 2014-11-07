@@ -1,8 +1,6 @@
 <?php
 
-namespace Opifer\MediaBundle\Controller;
-
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+namespace Opifer\MediaBundle\Controller\Backend;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
@@ -17,11 +15,7 @@ use Opifer\MediaBundle\OpiferMediaEvents;
 class MediaController extends Controller
 {
     /**
-     * @Route(
-     *     "/",
-     *     name="opifer.media.media.index",
-     *     options={"expose"=true}
-     * )
+     * Index
      *
      * @param Request $request
      *
@@ -45,11 +39,7 @@ class MediaController extends Controller
     }
 
     /**
-     * @Route(
-     *     "/new/{provider}",
-     *     name="opifer.media.media.new",
-     *     options={"expose"=true}
-     * )
+     * New
      *
      * @param Request $request
      * @param string  $provider
@@ -81,7 +71,7 @@ class MediaController extends Controller
                 $media->getName() . ' was succesfully created'
             );
 
-            return $this->redirect($this->generateUrl('opifer.media.media.index'));
+            return $this->redirect($this->generateUrl('opifer_media_media_index'));
         }
 
         return $this->render($mediaProvider->newView(), [
@@ -91,11 +81,7 @@ class MediaController extends Controller
     }
 
     /**
-     * @Route(
-     *     "/edit/{id}",
-     *     name="opifer.media.media.edit",
-     *     options={"expose"=true}
-     * )
+     * Edit
      *
      * @param Request $request
      * @param integer $id
@@ -130,7 +116,7 @@ class MediaController extends Controller
                 $media->getName() . ' was succesfully updated'
             );
 
-            return $this->redirect($this->generateUrl('opifer.media.media.index'));
+            return $this->redirect($this->generateUrl('opifer_media_media_index'));
         }
 
         return $this->render($provider->editView(), [
@@ -140,10 +126,7 @@ class MediaController extends Controller
     }
 
     /**
-     * @Route(
-     *     "/update/all",
-     *     name="opifer.media.media.updateall"
-     * )
+     * Update all
      *
      * @param  Request $request
      *
@@ -177,18 +160,11 @@ class MediaController extends Controller
 
         $this->get('session')->getFlashBag()->add('success', 'The file(s) were added to the media library');
 
-        return $this->redirect($this->generateUrl('opifer.media.media.index'));
+        return $this->redirect($this->generateUrl('opifer_media_media_index'));
     }
 
     /**
      * Deletes an image
-     *
-     * @Route(
-     *     "/delete/{id}",
-     *     name="opifer.media.media.delete",
-     *     requirements={"id" = "\d+"},
-     *     options={"expose"=true}
-     * )
      *
      * @param Request $request
      * @param integer $id
@@ -210,6 +186,6 @@ class MediaController extends Controller
 
         $mediaManager->remove($media);
 
-        return $this->redirect($this->generateUrl('opifer.media.media.index'));
+        return $this->redirect($this->generateUrl('opifer_media_media_index'));
     }
 }

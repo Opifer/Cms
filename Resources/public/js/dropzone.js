@@ -76,7 +76,7 @@ if ($('.dropzone').length) {
         var mapping = $('.dropzone').attr('data-mapped');
         var mapping = $('#' + mapping).val();
 
-        var mediaRequest = Routing.generate('opifer.api.media', {'ids' : mapping});
+        var mediaRequest = Routing.generate('opifer_api_media', {'ids' : mapping});
     }
 };
 

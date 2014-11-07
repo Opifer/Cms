@@ -64,8 +64,8 @@ class FileProvider extends AbstractProvider
         $builder
             ->add('files', 'dropzone', [
                 'mapped' => false,
-                'path' => $this->router->generate('opifer.api.media.upload'),
-                'form_action' => $this->router->generate('opifer.media.media.updateall'),
+                'path' => $this->router->generate('opifer_api_media_upload'),
+                'form_action' => $this->router->generate('opifer_media_media_updateall'),
                 'label' => ''
             ])
         ;

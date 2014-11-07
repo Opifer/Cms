@@ -15,7 +15,7 @@
         $('#form_search').select2({
             minimumInputLength: 1,
             ajax: {
-                url: "{{ path('opifer.api.media') }}",
+                url: "{{ path('opifer_api_media') }}",
                 dataType: 'json',
                 quietMillis: 100,
                 data: function (term, page) {
@@ -35,7 +35,7 @@
                 return "<div class='select2-user-result'>" + item.name + "</div>";
             },
             formatSelection: function(item) {
-                var route = "{{ path('opifer.media.media.edit', {'id':1}) }}";
+                var route = "{{ path('opifer_media_media_edit', {'id':1}) }}";
 
                 window.location.href = route.replace(1, item.id);
             },

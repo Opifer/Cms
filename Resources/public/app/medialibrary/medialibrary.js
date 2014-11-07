@@ -50,7 +50,7 @@ angular.module('mediaLibrary', ['infinite-scroll', 'ngModal', 'angularFileUpload
                 items = JSON.parse(items);
                 items = items.toString();
                 if (items) {
-                    $http.get(Routing.generate('opifer.api.media', {'ids': items}))
+                    $http.get(Routing.generate('opifer_api_media', {'ids': items}))
                         .success(function(data) {
                             var results = data.results;
                             for (var i = 0; i < results.length; i++) {
@@ -98,7 +98,7 @@ angular.module('mediaLibrary', ['infinite-scroll', 'ngModal', 'angularFileUpload
             $scope.progress[index] = 0;
 
             $scope.upload[index] = $upload.upload({
-                url: Routing.generate('opifer.api.media.upload'),
+                url: Routing.generate('opifer_api_media_upload'),
                 method: 'POST',
                 data: {},
                 file: $scope.uploadingFiles[index],
@@ -155,7 +155,7 @@ angular.module('mediaLibrary', ['infinite-scroll', 'ngModal', 'angularFileUpload
 
                 $scope.picker.pickerShown = false;
             } else {
-                window.location = Routing.generate('opifer.media.media.edit', {'id': selected.id});
+                window.location = Routing.generate('opifer_media_media_edit', {'id': selected.id});
             }
         };
 
@@ -189,7 +189,7 @@ angular.module('mediaLibrary', ['infinite-scroll', 'ngModal', 'angularFileUpload
         $scope.deleteMedia = function(idx) {
             var selected = $scope.mediaCollection.items[idx];
 
-            $http.delete(Routing.generate('opifer.api.media.delete', {'id': selected.id}))
+            $http.delete(Routing.generate('opifer_api_media_delete', {'id': selected.id}))
                 .success(function(data) {
                     if (data.success == true) {
                         $scope.mediaCollection.items.splice(idx, 1);
@@ -231,7 +231,7 @@ angular.module('mediaLibrary', ['infinite-scroll', 'ngModal', 'angularFileUpload
             providers = JSON.parse(providers);
 
             angular.forEach(providers, function(provider, key) {
-                provider.newlink = Routing.generate('opifer.media.media.new', {'provider': key});
+                provider.newlink = Routing.generate('opifer_media_media_new', {'provider': key});
                 provider.name = key;
 
                 this.push(provider);
@@ -263,7 +263,7 @@ angular.module('mediaLibrary', ['infinite-scroll', 'ngModal', 'angularFileUpload
             }
 
             // Retrieve more items and add them to the already loaded items
-            $http.get(Routing.generate('opifer.api.media', {'page': this.page, 'search': this.search})).success(function(data) {
+            $http.get(Routing.generate('opifer_api_media', {'page': this.page, 'search': this.search})).success(function(data) {
 
                 var items = data.results;
 
