@@ -27,7 +27,7 @@ angular.module('OpiferContent', ['angular-inview'])
                 formid: '@',
                 provider: '@',
                 context: '@',
-                //siteId: '@',
+                siteId: '@',
                 directoryId: '@',
                 //locale: '@',
                 mode: '@',
@@ -69,7 +69,7 @@ angular.module('OpiferContent', ['angular-inview'])
 
                 $scope.fetchContents = function() {
                     ContentService.index({
-                        //site_id: $scope.siteId,
+                        site_id: $scope.siteId,
                         directory_id: $scope.directoryId,
                         //locale: $scope.locale,
                         q: $scope.query,
@@ -90,7 +90,7 @@ angular.module('OpiferContent', ['angular-inview'])
 
                 $scope.searchContents = function() {
                     ContentService.index({
-                        //site_id: $scope.siteId,
+                        site_id: $scope.siteId,
                         directory_id: 0,
                         //locale: $scope.locale,
                         q: $scope.query,
@@ -124,7 +124,7 @@ angular.module('OpiferContent', ['angular-inview'])
 
                 $scope.fetchDirectorys = function() {
                     DirectoryService.index({
-                        //site_id: $scope.siteId,
+                        site_id: $scope.siteId,
                         directory_id: $scope.directoryId,
                         //locale: $scope.locale
                     },

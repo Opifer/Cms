@@ -1,0 +1,34 @@
+opifer_content_api_content:
+    path: /contents
+    defaults: { _controller: OpiferContentBundle:Api/Content:index }
+    methods: [GET]
+    options:
+        expose: true
+
+opifer_content_api_content_view:
+    path: /contents/{id}
+    defaults: { _controller: OpiferContentBundle:Api/Content:view }
+    methods: [GET]
+    options:
+        expose: true
+
+opifer_content_api_content_delete:
+    path: /contents/{id}
+    defaults: { _controller: OpiferContentBundle:Api/Content:delete }
+    methods: [DELETE]
+    options:
+        expose: true
+
+opifer_content_api_directory:
+    path: /directories
+    defaults: { _controller: OpiferContentBundle:Api/Directory:index }
+    methods: [GET]
+    options:
+        expose: true
+
+opifer_content_api_layout:
+    path: /layouts
+    defaults: { _controller: OpiferContentBundle:Api/Layout:index }
+    methods: [GET]
+    options:
+        expose: true
