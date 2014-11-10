@@ -8,7 +8,7 @@ use Symfony\Component\HttpFoundation\Response;
 
 use Opifer\ContentBundle\Event\ResponseEvent;
 use Opifer\ContentBundle\Event\ContentResponseEvent;
-use Opifer\ContentBundle\OpiferContentEvents;
+use Opifer\ContentBundle\OpiferContentEvents as Events;
 
 class ContentController extends Controller
 {
@@ -22,9 +22,8 @@ class ContentController extends Controller
      */
     public function initAction(Request $request)
     {
-        $dispatcher = $this->get('event_dispatcher');
         $event = new ResponseEvent($request);
-        $dispatcher->dispatch(OpiferContentEvents::CONTENT_CONTROLLER_INIT, $event);
+        $this->get('event_dispatcher')->dispatch(Events::CONTENT_CONTROLLER_INIT, $event);
         if (null !== $event->getResponse()) {
             return $event->getResponse();
         }
@@ -61,9 +60,8 @@ class ContentController extends Controller
             return $this->forward('OpiferContentBundle:Content:new');
         }
 
-        $dispatcher = $this->get('event_dispatcher');
         $event = new ResponseEvent($request);
-        $dispatcher->dispatch(OpiferContentEvents::CONTENT_CONTROLLER_NEW, $event);
+        $this->get('event_dispatcher')->dispatch(Events::CONTENT_CONTROLLER_NEW, $event);
         if (null !== $event->getResponse()) {
             return $event->getResponse();
         }
@@ -115,9 +113,8 @@ class ContentController extends Controller
             throw $this->createNotFoundException('No content found for id ' . $id);
         }
 
-        $dispatcher = $this->get('event_dispatcher');
         $event = new ContentResponseEvent($content, $request);
-        $dispatcher->dispatch(OpiferContentEvents::CONTENT_CONTROLLER_EDIT, $event);
+        $this->get('event_dispatcher')->dispatch(Events::CONTENT_CONTROLLER_EDIT, $event);
         if (null !== $event->getResponse()) {
             return $event->getResponse();
         }
@@ -156,10 +153,8 @@ class ContentController extends Controller
      */
     public function indexAction(Request $request)
     {
-        $dispatcher = $this->get('event_dispatcher');
         $event = new ResponseEvent($request);
-        $dispatcher->dispatch(OpiferContentEvents::CONTENT_CONTROLLER_INDEX, $event);
-
+        $this->get('event_dispatcher')->dispatch(Events::CONTENT_CONTROLLER_INDEX, $event);
         if (null !== $event->getResponse()) {
             return $event->getResponse();
         }

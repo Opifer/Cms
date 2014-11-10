@@ -11,7 +11,7 @@ use Opifer\ContentBundle\Entity;
 use Opifer\ContentBundle\Entity\Directory;
 use Opifer\ContentBundle\Event\ResponseEvent;
 use Opifer\ContentBundle\Event\DirectoryResponseEvent;
-use Opifer\ContentBundle\OpiferContentEvents;
+use Opifer\ContentBundle\OpiferContentEvents as Events;
 
 class DirectoryController extends Controller
 {
@@ -22,9 +22,8 @@ class DirectoryController extends Controller
      */
     public function indexAction(Request $request)
     {
-        $dispatcher = $this->get('event_dispatcher');
         $event = new ResponseEvent($request);
-        $dispatcher->dispatch(OpiferContentEvents::DIRECTORY_CONTROLLER_INDEX, $event);
+        $this->get('event_dispatcher')->dispatch(Events::DIRECTORY_CONTROLLER_INDEX, $event);
         if (null !== $event->getResponse()) {
             return $event->getResponse();
         }
@@ -45,9 +44,8 @@ class DirectoryController extends Controller
      */
     public function newAction(Request $request)
     {
-        $dispatcher = $this->get('event_dispatcher');
         $event = new ResponseEvent($request);
-        $dispatcher->dispatch(OpiferContentEvents::DIRECTORY_CONTROLLER_NEW, $event);
+        $this->get('event_dispatcher')->dispatch(Events::DIRECTORY_CONTROLLER_NEW, $event);
         if (null !== $event->getResponse()) {
             return $event->getResponse();
         }
@@ -89,9 +87,8 @@ class DirectoryController extends Controller
             throw $this->createNotFoundException('No directory found for id ' . $id);
         }
 
-        $dispatcher = $this->get('event_dispatcher');
         $event = new DirectoryResponseEvent($directory, $request);
-        $dispatcher->dispatch(OpiferContentEvents::DIRECTORY_CONTROLLER_EDIT, $event);
+        $this->get('event_dispatcher')->dispatch(Events::DIRECTORY_CONTROLLER_EDIT, $event);
         if (null !== $event->getResponse()) {
             return $event->getResponse();
         }

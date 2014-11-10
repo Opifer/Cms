@@ -11,7 +11,7 @@ use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Opifer\ContentBundle\Model\ContentInterface;
 use Opifer\ContentBundle\Event\ContentResponseEvent;
 use Opifer\ContentBundle\Event\ResponseEvent;
-use Opifer\ContentBundle\OpiferContentEvents;
+use Opifer\ContentBundle\OpiferContentEvents as Events;
 
 class ContentController extends Controller
 {
@@ -24,15 +24,14 @@ class ContentController extends Controller
      */
     public function indexAction(Request $request)
     {
-        $dispatcher = $this->get('event_dispatcher');
         $event = new ResponseEvent($request);
-        $dispatcher->dispatch(OpiferContentEvents::CONTENT_CONTROLLER_INDEX, $event);
+        $this->get('event_dispatcher')->dispatch(Events::CONTENT_CONTROLLER_INDEX, $event);
         if (null !== $event->getResponse()) {
             return $event->getResponse();
         }
 
-        $manager = $this->get('opifer.content.content_manager');
-        $paginator = $manager->getPaginatedByRequest($request);
+        $paginator = $this->get('opifer.content.content_manager')
+            ->getPaginatedByRequest($request);
 
         $contents = $paginator->getCurrentPageResults();
         $contents = $this->get('jms_serializer')->serialize(iterator_to_array($contents), 'json');
@@ -58,9 +57,8 @@ class ContentController extends Controller
         $manager = $this->get('opifer.content.content_manager');
         $content = $manager->getRepository()->find($id);
 
-        $dispatcher = $this->get('event_dispatcher');
         $event = new ContentResponseEvent($content, $request);
-        $dispatcher->dispatch(OpiferContentEvents::CONTENT_CONTROLLER_VIEW, $event);
+        $this->get('event_dispatcher')->dispatch(Events::CONTENT_CONTROLLER_VIEW, $event);
         if (null !== $event->getResponse()) {
             return $event->getResponse();
         }
@@ -82,9 +80,8 @@ class ContentController extends Controller
         $manager = $this->get('opifer.content.content_manager');
         $content = $manager->getRepository()->find($id);
 
-        $dispatcher = $this->get('event_dispatcher');
         $event = new ContentResponseEvent($content, $request);
-        $dispatcher->dispatch(OpiferContentEvents::CONTENT_CONTROLLER_DELETE, $event);
+        $this->get('event_dispatcher')->dispatch(Events::CONTENT_CONTROLLER_DELETE, $event);
         if (null !== $event->getResponse()) {
             return $event->getResponse();
         }
@@ -93,6 +90,6 @@ class ContentController extends Controller
         $em->remove($content);
         $em->flush();
 
-        return new Response('');
+        return new JsonResponse(['success' => true]);
     }
 }
