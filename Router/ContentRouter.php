@@ -89,8 +89,7 @@ class ContentRouter implements RouterInterface
         if (!empty($result)) {
             try {
                 // The route matches, now check if it actually exists
-                $repository = $this->contentManager->getRepository();
-                $result['content'] = $repository->findOneBySlug($result['slug']);
+                $result['content'] = $this->contentManager->findOneBySlug($result['slug']);
             } catch (NoResultException $e) {
                 throw new ResourceNotFoundException('No page found for slug ' . $pathinfo);
             }   

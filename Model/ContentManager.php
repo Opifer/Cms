@@ -84,6 +84,14 @@ class ContentManager implements ContentManagerInterface
     /**
      * {@inheritDoc}
      */
+    public function findOneBySlug($slug)
+    {
+        return $this->getRepository()->findOneBySlug($slug);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
     public function mapNested(ContentInterface $content)
     {
         $nested = [];

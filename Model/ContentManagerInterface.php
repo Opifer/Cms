@@ -30,4 +30,15 @@ interface ContentManagerInterface
      * @return ArrayCollection
      */
     public function getPaginatedByRequest(Request $request);
+
+    /**
+     * Find one content item by its slug
+     *
+     * @param  string $slug
+     *
+     * @throws \Doctrine\ORM\NoResultException if content is not found
+     *
+     * @return ContentInterface
+     */
+    public function findOneBySlug($slug);
 }

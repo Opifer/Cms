@@ -28,10 +28,7 @@ class ContentRouterTest extends \PHPUnit_Framework_TestCase
     {
         $content = new Content();
 
-        $repository = m::mock('Opifer\ContentBundle\Model\ContentRepository', [
-            'findOneBySlug' => $content
-        ]);
-        $this->contentManager->shouldReceive('getRepository')->andReturn($repository);
+        $this->contentManager->shouldReceive('findOneBySlug')->andReturn($content);
 
         $contentRouter = new ContentRouter($this->requestStack, $this->contentManager);
         $result = $contentRouter->match('/about');
@@ -44,12 +41,7 @@ class ContentRouterTest extends \PHPUnit_Framework_TestCase
      */
     public function testNotMatch()
     {
-        $repository = m::mock('Opifer\ContentBundle\Model\ContentRepository')
-            ->shouldReceive('findOneBySlug')
-            ->andThrow('Doctrine\ORM\NoResultException')
-            ->mock()
-        ;
-        $this->contentManager->shouldReceive('getRepository')->andReturn($repository);
+        $this->contentManager->shouldReceive('findOneBySlug')->andThrow('Doctrine\ORM\NoResultException');
 
         $contentRouter = new ContentRouter($this->requestStack, $this->contentManager);
         $result = $contentRouter->match('/about');
