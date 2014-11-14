@@ -171,7 +171,8 @@ class FileProvider extends AbstractProvider
     {
         $ext = '.' . $file->guessExtension();
         $basename = trim(str_replace('.'.$file->getClientOriginalExtension(), '', $file->getClientOriginalName()));
-
+        $basename = str_replace(' ', '-', $basename);
+        
         $existing = $this->filesystem->listKeys($basename);
         if (isset($existing['keys'])) {
             $existing = $existing['keys'];
