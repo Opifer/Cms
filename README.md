@@ -124,7 +124,7 @@ Adding a mediapicker to a form
 
 Create a relationship between the media entity and any other entity. For example, Users must be able to add media to a Content item.
 
-```
+```php
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
