@@ -4,7 +4,7 @@ parameters:
     opifer.media.media_manager.class: Opifer\MediaBundle\Model\MediaManager
 
 services:
-    opifer.media.media_manager:
+    opifer.media.media_manager.default:
         class: %opifer.media.media_manager.class%
         arguments: [@doctrine.orm.entity_manager, %opifer_media.model.class%]
 

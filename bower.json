@@ -6,7 +6,6 @@
     "angular": "~1.2",
     "angular-route": "~1.2",
     "angular-ui-sortable": "latest",
-    "angular-loading-bar": "latest",
     "dropzone": "latest",
     "ngInfiniteScroll": "latest",
     "font-awesome": "~4.1.0",

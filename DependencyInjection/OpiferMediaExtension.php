@@ -37,6 +37,8 @@ class OpiferMediaExtension extends Extension implements PrependExtensionInterfac
         $configs = $container->getExtensionConfig($this->getAlias());
         $config = $this->processConfiguration(new Configuration(), $configs);
 
+        $container->setAlias('opifer.media.media_manager', $config['media_manager']);
+
         $parameters = $this->getParameters($config);
         foreach ($parameters as $key => $value) {
             $container->setParameter($key, $value);
