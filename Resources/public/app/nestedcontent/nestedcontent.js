@@ -6,7 +6,7 @@ angular.module('OpiferNestedContent', ['ui.sortable'])
      */
     .factory('TemplateService', ['$resource', function($resource) {
         return $resource(Routing.generate('opifer_eav_api_template'), {}, {
-            index: {method: 'GET', isArray: true, params: {}}
+            index: {method: 'GET', params: {}}
         });
     }])
 
@@ -97,7 +97,11 @@ angular.module('OpiferNestedContent', ['ui.sortable'])
                 scope.subject.form = '';
 
                 // Request the form template and compile it
-                $http.post(Routing.generate('opifer_eav_form_render', {attribute: scope.attribute, id: scope.subject.name, index: scope.$index}), {}).success(function(data) {
+                $http.post(Routing.generate('opifer_eav_form_render', {
+                    attribute: scope.attribute,
+                    id: scope.subject.name,
+                    index: scope.$index
+                }), {}).success(function(data) {
                     scope.subject.form = data.form;
                     scope.subject.data = data.content;
                     

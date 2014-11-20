@@ -67,7 +67,10 @@ class Value implements ValueInterface
      * @var  ArrayCollection
      *
      * @ORM\ManyToMany(targetEntity="Opifer\EavBundle\Model\OptionInterface", inversedBy="values", cascade={"detach"})
-     * @ORM\JoinTable(name="value_options")
+     * @ORM\JoinTable(name="value_options", 
+     *     joinColumns={@ORM\JoinColumn(name="value_id", referencedColumnName="id")},
+     *     inverseJoinColumns={@ORM\JoinColumn(name="option_id", referencedColumnName="id")}
+     * )
      */
     protected $options;
 
