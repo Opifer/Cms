@@ -5,7 +5,6 @@ namespace Opifer\ContentBundle\Model;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
 use Gedmo\Mapping\Annotation as Gedmo;
-use Gedmo\Translatable\Translatable;
 use JMS\Serializer\Annotation as JMS;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -20,7 +19,7 @@ use Opifer\EavBundle\Model\ValueSetInterface;
  * Content
  *
  * @ORM\MappedSuperclass
- * 
+ *
  * @JMS\ExclusionPolicy("all")
  * @Gedmo\SoftDeleteable(fieldName="deletedAt", timeAware=false)
  */
@@ -695,7 +694,7 @@ class Content implements ContentInterface, EntityInterface, Nestable
     public function setNestedDefaults()
     {
         // Override to set some defaults for nested content.
-        
+
         return $this;
     }
 
