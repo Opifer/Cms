@@ -50,7 +50,7 @@ class ContentRepository extends EntityRepository
     public function getQueryBuilderFromRequest(Request $request)
     {
         $qb = $this->createValuedQueryBuilder('c');
-        $qb->where('c.nestedIn IS NULL');
+        $qb->andWhere('c.nestedIn IS NULL');
 
         if ($request->get('q')) {
             $qb->andWhere("c.title LIKE :query")->setParameter('query', '%'.$request->get('q').'%');
@@ -61,6 +61,8 @@ class ContentRepository extends EntityRepository
                 $qb->andWhere("c.directory is NULL");
             }
         }
+
+        $qb->andWhere('c.deletedAt IS NULL');  // @TODO fix SoftDeleteAble filter
 
         $qb->orderBy('c.slug');
 
