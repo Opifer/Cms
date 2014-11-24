@@ -71,11 +71,12 @@ class ContentController extends Controller
     /**
      * Delete
      *
+     * @param Request $request
      * @param integer $id
      *
      * @return Response
      */
-    public function deleteAction($id)
+    public function deleteAction(Request $request, $id)
     {
         $manager = $this->get('opifer.content.content_manager');
         $content = $manager->getRepository()->find($id);
