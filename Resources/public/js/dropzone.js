@@ -13,7 +13,7 @@ if ($('.dropzone').length) {
 
         maxFilesize: 11, // MB
         maxFiles: 10,
-        acceptedFiles: 'image/jpeg,image/png',
+        acceptedFiles: 'image/jpeg,image/png,image/gif',
 
         // Listen to all dropzone events
         init: function() {
