@@ -10,6 +10,7 @@ use JMS\Serializer\Annotation as JMS;
 
 use Opifer\EavBundle\Model\AttributeInterface;
 use Opifer\EavBundle\Model\ValueInterface;
+use Opifer\EavBundle\Model\OptionInterface;
 use Opifer\EavBundle\Model\ValueSetInterface;
 
 /**
