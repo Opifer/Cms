@@ -83,13 +83,13 @@ class FormController extends Controller
         $em = $this->getDoctrine();
 
         if (is_numeric($id)) {
-            throw new \Exception('ID\s should not be allowed, cause we cannot guess the corresponding template');
-            //$content = $em->getRepository('OpiferCmsBundle:Content')->find($id);
+            $object = $this->container->getParameter('opifer_eav.nestable_class');
+            $entity = $em->getRepository($object)->find($id);
+        } else {
+            $template = $this->get('opifer.eav.template_manager')->getRepository()->findOneByName($id);
+
+            $entity = $this->get('opifer.eav.eav_manager')->initializeEntity($template);
         }
-
-        $template = $this->get('opifer.eav.template_manager')->getRepository()->findOneByName($id);
-
-        $entity = $this->get('opifer.eav.eav_manager')->initializeEntity($template);
 
         // In case of newly added nested content, we need to add an index
         // to the form type name, to avoid same template name conflicts.
