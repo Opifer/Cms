@@ -10,7 +10,6 @@ use JMS\Serializer\Annotation as JMS;
 
 use Opifer\EavBundle\Model\AttributeInterface;
 use Opifer\EavBundle\Model\ValueInterface;
-use Opifer\EavBundle\Model\OptionInterface;
 use Opifer\EavBundle\Model\ValueSetInterface;
 use Opifer\EavBundle\Model\OptionInterface;
 
@@ -68,7 +67,7 @@ class Value implements ValueInterface
      * @var  ArrayCollection
      *
      * @ORM\ManyToMany(targetEntity="Opifer\EavBundle\Model\OptionInterface", inversedBy="values", cascade={"detach"})
-     * @ORM\JoinTable(name="value_options", 
+     * @ORM\JoinTable(name="value_options",
      *     joinColumns={@ORM\JoinColumn(name="value_id", referencedColumnName="id")},
      *     inverseJoinColumns={@ORM\JoinColumn(name="option_id", referencedColumnName="id")}
      * )
