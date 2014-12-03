@@ -29,7 +29,7 @@ class DirectoryController extends Controller
         }
 
         $tree = $this->get('opifer.content.directory_manager')->getTree();
-        
+
         return $this->render('OpiferContentBundle:Directory:index.html.twig', [
             'directoryTree' => $tree
         ]);
@@ -60,7 +60,9 @@ class DirectoryController extends Controller
         if ($form->isValid()) {
             $manager->save($directory);
 
-            return $this->redirect($this->generateUrl('opifer_content_directory_index'));
+            return $this->redirect($this->generateUrl('opifer_content_directory_edit', [
+                'id' => $directory->getId()
+            ]));
         }
 
         return $this->render('OpiferContentBundle:Directory:edit.html.twig', [
@@ -99,7 +101,9 @@ class DirectoryController extends Controller
         if ($form->isValid()) {
             $manager->save($directory);
 
-            return $this->redirect($this->generateUrl('opifer_content_directory_index'));
+            return $this->redirect($this->generateUrl('opifer_content_directory_edit', [
+                'id' => $directory->getId()
+            ]));
         }
 
         return $this->render('OpiferContentBundle:Directory:edit.html.twig', [
