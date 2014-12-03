@@ -112,6 +112,17 @@ class DirectoryManager implements DirectoryManagerInterface
     }
 
     /**
+     * Remove a directory
+     *
+     * @param  DirectoryInterface $directory
+     */
+    public function remove(DirectoryInterface $directory)
+    {
+        $this->em->remove($directory);
+        $this->em->flush();
+    }
+
+    /**
      * {@inheritDoc}
      */
     public function getRepository()

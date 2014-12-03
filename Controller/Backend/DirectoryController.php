@@ -111,4 +111,27 @@ class DirectoryController extends Controller
             'form'      => $form->createView()
         ]);
     }
+
+    /**
+     * Delete directory
+     *
+     * @param Request $request
+     * @param integer $id
+     *
+     * @return Response
+     */
+    public function deleteAction(Request $request, $id)
+    {
+        $manager = $this->get('opifer.content.directory_manager');
+
+        $directory = $manager->find($id);
+
+        if (!$directory) {
+            throw $this->createNotFoundException('No directory found for id ' . $id);
+        }
+
+        $manager->remove($directory);
+
+        return $this->redirect($this->generateUrl('opifer_content_directory_index'));
+    }
 }

@@ -17,6 +17,10 @@ opifer_content_directory_edit:
     path: /directory/edit/{id}
     defaults: { _controller: OpiferContentBundle:Backend/Directory:edit }
 
+opifer_content_directory_delete:
+    path: /directory/delete/{id}
+    defaults: { _controller: OpiferContentBundle:Backend/Directory:delete }
+
 # Backend content
 opifer_content_content_index:
     path: /content
