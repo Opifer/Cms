@@ -58,7 +58,8 @@
                 <td ng-click="editContent(content.id)" class="detail hidden-xs">{{ content.templateName}}</td>
                 <td class="actions" ng-if="mode == 'ADMIN'">
                     <a href="#" ng-click="editContent(content.id)">Edit</a>&nbsp;
-                    <a  class="danger js-delete-confirm" ng-click="confirmDeleteContent(content.id)" data-name="{{ content.title }}" data-toggle="modal" data-target="#modalDelete">Delete</a>
+                    <a  class="danger js-delete-confirm" ng-click="confirmDeleteContent($index)" data-name="{{ content.title }}">Delete</a>
+                    <!-- <a  class="danger js-delete-confirm" ng-click="confirmDeleteContent(content.id)" data-name="{{ content.title }}" data-toggle="modal" data-target="#modalDelete">Delete</a> -->
                     <!--ng-click="deleteContent(content.id)"-->
                 </td>
                 <td class="actions" ng-if="mode == 'PICKER'">
@@ -73,3 +74,20 @@
         </button>
     </section>
 </div>
+
+<ng-modal show='confirmation.shown'>
+    <div class="modal-header">
+        <h4 class="modal-title">Confirm delete</h4>
+    </div>
+    <div class="modal-body">
+        Do you really want to delete {{ confirmation.name }}?
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-default btn-link" ng-click="confirmation.shown = false">
+            Cancel
+        </button>
+        <button class="btn btn-danger modal-confirm-button" ng-click="deleteContent(confirmation.idx)" title="Confirms removal">
+            Delete
+        </a>
+    </div>
+</ng-modal>
