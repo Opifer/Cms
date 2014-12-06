@@ -1,0 +1,116 @@
+
+.presentation {
+  ul {
+    .form-group;
+    list-style: none;
+    margin-left: 0;
+    padding-left: 0;
+  }
+  li {
+    min-height: @input-height-base;
+  }
+  .layoutselect {
+    position: relative;
+    .make-xs-column(8);
+  }
+  .controls {
+    position: absolute;
+    right: -70px;
+    top: 0;
+    width: 70px;
+    height: @input-height-base;
+    padding-top: 5px;
+    font-size: @font-size-small;
+    .glyphicon {
+      margin-right: 3px;
+    }
+    a.glyphicon-th-list {
+      cursor: -webkit-grab;
+      cursor: -moz-grab;
+      color: @gray-lighter;
+    }
+  }
+}
+
+/* Nested content */
+.nested-content-wrapper {
+  .nested-content-item {
+    padding-left: @padding-large-horizontal;
+    border-left: 4px solid @gray-lighter;
+    margin-bottom: @line-height-computed;
+    position: relative;
+    .clearfix;
+  }
+
+  header {
+    .clearfix;
+    margin-bottom: 0;
+    cursor: pointer;
+
+    .title {
+      .make-md-column(5);
+
+      .content-cover,
+      .cell-icon,
+      .cell-cover,
+      .cell-file {
+        float: left;
+        margin-right: 1em;
+      }
+
+      h3 {
+        float: left;
+        margin: 0;
+        line-height: @line-height-base;
+        font-size: @font-size-base;
+        .form-control-static;
+      }
+    }
+
+    &:hover {
+      .content-cover {
+        position: relative;
+        overflow: hidden;
+
+        &:before {
+          .fa('\f141');
+          padding-top: 20%;
+          font-size: @font-size-large;
+          text-align: center;
+          position: absolute;
+          background: rgba(0, 0, 0, .4);
+          color: white;
+          width: 100%;
+          height: 100%;
+
+        }
+      }
+    }
+
+    .template {
+      color: @gray-light;
+      .make-md-column(3);
+    }
+  }
+
+  .control-label {
+    .make-lg-column(2);
+  }
+  .col-widget-input {
+    .make-lg-column(10);
+  }
+}
+
+.btn-drag {
+  .btn-default;
+  color: @gray-light;
+  height: 32px;
+  background-color: transparent !important;
+
+  &:before {
+    font-size: 24px;
+    line-height: 24px;
+
+    .fa('\f142');
+  }
+}
