@@ -4,7 +4,7 @@
     <article>
         <header class="page-header clearfix">
             <h1 class="pull-left">{{ content.title }}</h1>
-            
+
             {% if content.id != null %}
                 <div class="nav-wrapper pull-right">
                     <ul class="nav nav-pills">
@@ -36,26 +36,27 @@
         {% endif %}
 
         {{ form_start(form, {'action': '#', 'attr' : {'novalidate': 'novalidate', 'class': 'prevent-enter-submit'}, 'style': 'horizontal'}) }}
-            <section class="page-section">
-                {{ form_row(form.title) }}
-                {{ form_row(form.description) }}
-                
-                <div class="form-group">
-                    <label class="control-label col-lg-2" for="admin_content_form_directory">{{ 'form.permalink'|trans|capitalize }}</label>
-                    <div class="col-xs-4 col-lg-2">
-                        {{ form_widget(form.directory) }}
-                    </div>
-                    <div class="col-xs-8 col-lg-8">
-                        {{ form_widget(form.slug) }}
-                    </div>
+        <section class="page-section">
+            {{ form_row(form.title) }}
+            {{ form_row(form.description) }}
+
+            <div class="form-group">
+                <label class="control-label col-lg-2"
+                       for="admin_content_form_directory">{{ 'form.permalink'|trans|capitalize }}</label>
+
+                <div class="col-xs-4 col-lg-2">
+                    {{ form_widget(form.directory) }}
                 </div>
+                <div class="col-xs-8 col-lg-8">
+                    {{ form_widget(form.slug) }}
+                </div>
+            </div>
 
-                {{ form_row(form.valueset) }}
+            {{ form_row(form.valueset) }}
 
-                {% if mode == 'advanced' %}
-                    {{ form_row(form.realPresentation) }}
-                {% endif %}
-            </section>
+            {% if mode == 'advanced' %}
+                {{ form_row(form.realPresentation) }}
+            {% endif %}
 
             <div class="form-group">
                 <div class="col-xs-12 col-sm-10 col-sm-offset-2">
@@ -63,12 +64,14 @@
                         {{ form_widget(form.save) }}
                     </div>
                     <div class="pull-right">
-                        <a href="{{ path('opifer_content_content_index') }}" class="btn btn-default">{{ 'button.cancel'|trans|capitalize }}</a>
+                        <a href="{{ path('opifer_content_content_index') }}"
+                           class="btn btn-link">{{ 'button.cancel'|trans|capitalize }}</a>
                     </div>
                 </div>
             </div>
 
-            {{ form_rest(form) }}
+        </section>
+        {{ form_rest(form) }}
         {{ form_end(form) }}
     </article>
 {% endblock opifer_content_body %}
