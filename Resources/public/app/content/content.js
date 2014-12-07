@@ -1,5 +1,5 @@
 angular.module('OpiferContent', ['angular-inview'])
-    
+
     .factory('ContentService', ['$resource', '$routeParams', function($resource, $routeParams) {
         return $resource(Routing.generate('opifer_content_api_content') + '/:id', {}, {
             index:  {method: 'GET', params: {}},
@@ -45,13 +45,17 @@ angular.module('OpiferContent', ['angular-inview'])
                 $scope.lblPaginate = "Meer resultaten";
                 $scope.query = null;
                 $scope.inSearch = false;
-                
+                $scope.confirmation = {
+                    shown: false,
+                    name: '',
+                }
+
                 if (typeof $scope.history === "undefined") {
                     $scope.history = [];
                     $scope.histPointer = 0;
                     $scope.history.push(0);
                 }
-                
+
                 $scope.$watch('directoryId', function(newValue, oldValue) {
                     if ($scope.navto === true) {
                         if ($scope.history.length) {
@@ -158,16 +162,16 @@ angular.module('OpiferContent', ['angular-inview'])
                             });
                         }
                     });
+
+                    $scope.confirmation.shown = false;
                 };
 
-                $scope.confirmDeleteContent = function(id) {
-                    angular.forEach($scope.contents, function(c, index) {
-                        if (c.id === id) {
-                            ContentService.delete({id: c.id}, function() {
-                                $scope.contents.splice(index, 1);
-                            });
-                        }
-                    });
+                $scope.confirmDeleteContent = function(idx) {
+                    var selected = $scope.contents[idx];
+
+                    $scope.confirmation.idx = selected.id;
+                    $scope.confirmation.name = selected.title;
+                    $scope.confirmation.shown = !$scope.confirmation.shown;
                 };
 
                 $scope.previous = function() {
@@ -203,15 +207,15 @@ angular.module('OpiferContent', ['angular-inview'])
                     $scope.lblPaginate = "Laden…";
                     $scope.fetchContents();
                 };
-                
+
                 $scope.pickObject = function(contentId) {
                     $scope.$parent.pickObject(contentId);
                 };
-                
+
                 $scope.unpickObject = function(contentId) {
                     $scope.$parent.unpickObject(contentId);
                 };
-                
+
                 $scope.hasObject = function(contentId) {
                     if (angular.isUndefined($scope.$parent.subject.right.value)) {
                         return false;

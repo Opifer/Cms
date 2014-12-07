@@ -92,11 +92,12 @@ class ContentManager implements ContentManagerInterface
     /**
      * {@inheritDoc}
      */
-    public function mapNested(ContentInterface $content)
+    public function mapNested(ContentInterface $content, Request $request)
     {
         $nested = [];
         foreach ($content->getNestedContentAttributes() as $attribute => $value) {
             $nested = $this->saveNestedForm($attribute, $request);
+
             foreach ($nested as $nestedContent) {
                 $value->addNested($nestedContent);
                 $nestedContent->setNestedIn($value);
@@ -157,7 +158,9 @@ class ContentManager implements ContentManagerInterface
             $nestedContent->setNestedSort($sortCount);
             $sortCount++;
 
-            if ($nestedContentForm->isValid()) {
+            // We do not check the standard isValid() method here, cause our form
+            // is not actually submitted.
+            if (count($nestedContentForm->getErrors(true)) < 1) {
                 $this->em->persist($nestedContent);
                 $this->em->flush();
 

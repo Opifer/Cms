@@ -28,7 +28,7 @@ class DirectoryEvent extends Event
      *
      * @return DirectoryInterface
      */
-    public function getContent()
+    public function getDirectory()
     {
         return $this->directory;
     }

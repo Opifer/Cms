@@ -29,7 +29,7 @@ class DirectoryController extends Controller
         }
 
         $tree = $this->get('opifer.content.directory_manager')->getTree();
-        
+
         return $this->render('OpiferContentBundle:Directory:index.html.twig', [
             'directoryTree' => $tree
         ]);
@@ -60,7 +60,9 @@ class DirectoryController extends Controller
         if ($form->isValid()) {
             $manager->save($directory);
 
-            return $this->redirect($this->generateUrl('opifer_content_directory_index'));
+            return $this->redirect($this->generateUrl('opifer_content_directory_edit', [
+                'id' => $directory->getId()
+            ]));
         }
 
         return $this->render('OpiferContentBundle:Directory:edit.html.twig', [
@@ -99,12 +101,37 @@ class DirectoryController extends Controller
         if ($form->isValid()) {
             $manager->save($directory);
 
-            return $this->redirect($this->generateUrl('opifer_content_directory_index'));
+            return $this->redirect($this->generateUrl('opifer_content_directory_edit', [
+                'id' => $directory->getId()
+            ]));
         }
 
         return $this->render('OpiferContentBundle:Directory:edit.html.twig', [
             'directory' => $directory,
             'form'      => $form->createView()
         ]);
+    }
+
+    /**
+     * Delete directory
+     *
+     * @param Request $request
+     * @param integer $id
+     *
+     * @return Response
+     */
+    public function deleteAction(Request $request, $id)
+    {
+        $manager = $this->get('opifer.content.directory_manager');
+
+        $directory = $manager->find($id);
+
+        if (!$directory) {
+            throw $this->createNotFoundException('No directory found for id ' . $id);
+        }
+
+        $manager->remove($directory);
+
+        return $this->redirect($this->generateUrl('opifer_content_directory_index'));
     }
 }

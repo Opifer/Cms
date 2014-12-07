@@ -74,7 +74,7 @@ class ContentController extends Controller
         $form->handleRequest($request);
 
         if ($form->isValid()) {
-            $contentManager->mapNested($content);
+            $contentManager->mapNested($content, $request);
             $content = $contentManager->save($content);
 
             // Tell the user everything went well.
@@ -123,7 +123,7 @@ class ContentController extends Controller
         $form->handleRequest($request);
 
         if ($form->isValid()) {
-            $contentManager->mapNested($content);
+            $contentManager->mapNested($content, $request);
             $contentManager->save($content);
 
             // Tell the user everything went well.
