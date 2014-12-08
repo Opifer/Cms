@@ -34,7 +34,7 @@ class ValueType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $provider = $this->providerPool->getValueByEntity($options['entity']);
+        $provider = $this->providerPool->getValue($options['attribute']->getValueType());
         $provider->buildForm($builder, $options);
     }
 
