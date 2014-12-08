@@ -55,11 +55,11 @@ services:
     #     tags:
     #         - { name: opifer.eav.value_provider, alias: select }
 
-    # opifer.eav.checklist_value_provider:
-    #     class: %opifer.eav.checklist_value_provider.class%
-    #     arguments: [%opifer_eav.option_class%]
-    #     tags:
-    #         - { name: opifer.eav.value_provider, alias: checklist }
+    opifer.eav.checklist_value_provider:
+         class: %opifer.eav.checklist_value_provider.class%
+         arguments: [%opifer_eav.option_class%]
+         tags:
+             - { name: opifer.eav.value_provider, alias: checklist }
 
     # opifer.eav.datetime_value_provider:
     #     class: Opifer\EavBundle\ValueProvider\DatetimeValueProvider
