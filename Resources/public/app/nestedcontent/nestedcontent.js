@@ -54,7 +54,8 @@ angular.module('OpiferNestedContent', ['ui.sortable'])
 
                 // Retrieve all predefined nested content and add them to the 
                 // subjects array.
-                if ($scope.ids !== undefined) {
+                if (typeof $scope.ids !== 'undefined') {
+
                     var ids = $scope.ids.split(',');
                     for (var i = 0; i < ids.length; i++) {
                         $scope.subjects.push({name: ids[i]});
