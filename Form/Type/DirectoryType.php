@@ -48,7 +48,7 @@ class DirectoryType extends AbstractType
             ])
             ->add('slug', 'text')
             ->add('save', 'submit', [
-                'label' => $this->translator->trans('directory.submit')
+                'label' => $this->translator->trans('button.submit')
             ])
         ;
     }
