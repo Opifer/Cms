@@ -45,7 +45,7 @@ class ContentRulesProvider extends AbstractProvider implements ProviderInterface
         $rules[] = new RuleSet();
 
         $condition = new TemplateCondition();
-        $condition->setGroup('Content')->setName('Template')->setEntity($this->contentClass)->setAttribute('id');
+        $condition->setGroup('Content')->setName('Template')->setEntity($this->templateManager->getClass())->setAttribute('id');
 
         $templateRepository = $this->templateManager->getRepository();
         $templates = $templateRepository->findBy(['objectClass' => $this->contentClass]);
