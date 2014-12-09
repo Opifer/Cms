@@ -5,6 +5,9 @@ namespace Opifer\EavBundle\Form\Type;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 
+/**
+ * Nested content form type
+ */
 class NestedContentType extends AbstractType
 {
     const NAME_SEPARATOR = '__';
