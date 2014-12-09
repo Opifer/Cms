@@ -101,6 +101,7 @@ class ContentManager implements ContentManagerInterface
             foreach ($nested as $nestedContent) {
                 $value->addNested($nestedContent);
                 $nestedContent->setNestedIn($value);
+
                 $this->save($nestedContent);
 
                 $nested[] = $nestedContent;
@@ -120,7 +121,8 @@ class ContentManager implements ContentManagerInterface
     public function saveNestedForm($attribute, Request $request)
     {
         $formdata = $request->request->all();
-        $oldIds = explode(',', $formdata['eav_nested_content_value']);
+
+        $oldIds = explode(',', $formdata['eav_nested_content_value_'.$attribute]);
         $ids = [];
         $collection = new ArrayCollection();
 
@@ -146,11 +148,10 @@ class ContentManager implements ContentManagerInterface
 
                 $nestedContent = $this->eavManager->initializeEntity($template);
                 $nestedContent->setNestedDefaults();
-
-                // In case of newly added nested content, we need to add an index
-                // to the form type name, to avoid same template name conflicts.
-                $key = $key.NestedContentType::NAME_SEPARATOR.$keys[3];
             }
+
+            // Add an index to the form type name, to avoid same template name conflicts.
+            $key = $key.NestedContentType::NAME_SEPARATOR.$keys[3];
 
             $nestedContentForm = $this->formFactory->create(new NestedContentType($attribute, $key), $nestedContent);
             $nestedContentForm->handleRequest($request);
@@ -168,7 +169,7 @@ class ContentManager implements ContentManagerInterface
                 $collection->add($nestedContent);
             } else {
                 // @todo show the user a decent error message
-                throw new \Exception('Something went wrong while saving nested content.');
+                throw new \Exception('Something went wrong while saving nested content. Message: '. $nestedContentForm->getErrors());
             }
         }
 

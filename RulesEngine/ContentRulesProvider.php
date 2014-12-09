@@ -7,7 +7,7 @@ use Opifer\RulesEngineBundle\Provider\AbstractProvider;
 use Opifer\RulesEngineBundle\Provider\ProviderInterface;
 use Opifer\RulesEngine\Rule\Condition\Condition;
 use Opifer\RulesEngine\Rule\Condition\AttributeCondition;
-use Opifer\RulesEngine\Rule\Condition\EntityCondition;
+use Opifer\RulesEngine\Rule\Condition\ContentCondition;
 use Opifer\RulesEngine\Rule\Condition\CheckListValueCondition;
 use Opifer\RulesEngine\Rule\Condition\StringValueCondition;
 use Opifer\RulesEngine\Rule\Condition\AddressValueCityCondition;
@@ -58,7 +58,7 @@ class ContentRulesProvider extends AbstractProvider implements ProviderInterface
         $condition->setOptions($options);
         $rules[] = $condition;
 
-        $condition = new EntityCondition();
+        $condition = new ContentCondition();
         $condition->setGroup('Content')->setName('Content')->setOperatorOpts(array('in', 'notin'))->setEntity($this->contentClass)->setAttribute('id');
         $rules[] = $condition;
 
