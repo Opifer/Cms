@@ -57,7 +57,7 @@ class ContentController extends Controller
     public function newAction(Request $request, $template = 0, $mode = 'simple')
     {
         if ($template == 0) {
-            return $this->forward('OpiferContentBundle:Content:new');
+            return $this->forward('OpiferContentBundle:Backend/Content:init');
         }
 
         $event = new ResponseEvent($request);
