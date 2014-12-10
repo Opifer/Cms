@@ -2,14 +2,14 @@
 
 namespace Opifer\ContentBundle\Form\Type;
 
-use Symfony\Component\Translation\LoggingTranslator;
+use Symfony\Component\Translation\TranslatorInterface;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Routing\RouterInterface;
 
 class ContentInitType extends AbstractType
 {
-    /** @var  Symfony\Bundle\FrameworkBundle\Translation\Translator */
+    /** @var  TranslatorInterface */
     protected $translator;
 
     /** @var \Symfony\Component\Routing\RouterInterface */
@@ -21,11 +21,11 @@ class ContentInitType extends AbstractType
     /**
      * Constructor
      *
-     * @param Translator $translator
-     * @param Router     $router
-     * @param array      $locales
+     * @param TranslatorInterface $translator
+     * @param RouterInterface     $router
+     * @param array               $locales
      */
-    public function __construct(LoggingTranslator $translator, RouterInterface $router, $templateClass)
+    public function __construct(TranslatorInterface $translator, RouterInterface $router, $templateClass)
     {
         $this->translator = $translator;
         $this->router = $router;
