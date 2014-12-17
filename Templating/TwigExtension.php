@@ -59,7 +59,7 @@ class TwigExtension extends \Twig_Extension
 
         $entity = $this->eavManager->initializeEntity($template);
 
-        $form = $this->formFactory->create('eav_form', $entity, [
+        $form = $this->formFactory->create('eav', $entity, [
             'valueId' => $value->getId()
         ]);
 

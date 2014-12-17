@@ -71,8 +71,8 @@ services:
     #     tags:
     #         - { name: opifer.eav.value_provider, alias: date }
 
-    # opifer.eav.form_value_provider:
-    #     class: %opifer.eav.form_value_provider.class%
-    #     arguments: [%opifer_eav.template_class%]
-    #     tags:
-    #         - { name: opifer.eav.value_provider, alias: form }
+    opifer.eav.form_value_provider:
+         class: %opifer.eav.form_value_provider.class%
+         arguments: [%opifer_eav.template_class%]
+         tags:
+             - { name: opifer.eav.value_provider, alias: form }
