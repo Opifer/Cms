@@ -10,6 +10,7 @@ parameters:
     opifer.eav.select_value_provider.class: Opifer\EavBundle\ValueProvider\SelectValueProvider
     opifer.eav.string_value_provider.class: Opifer\EavBundle\ValueProvider\StringValueProvider
     opifer.eav.text_value_provider.class: Opifer\EavBundle\ValueProvider\TextValueProvider
+    opifer.eav.twitter_value_provider.class: Opifer\EavBundle\ValueProvider\TwitterValueProvider
 
 services:
     opifer.eav.html_value_provider:
@@ -49,11 +50,11 @@ services:
         tags:
             - { name: opifer.eav.value_provider, alias: nested }
 
-    # opifer.eav.select_value_provider:
-    #     class: %opifer.eav.select_value_provider.class%
-    #     arguments: [%opifer_eav.option_class%]
-    #     tags:
-    #         - { name: opifer.eav.value_provider, alias: select }
+    opifer.eav.select_value_provider:
+        class: %opifer.eav.select_value_provider.class%
+        arguments: [%opifer_eav.option_class%]
+        tags:
+            - { name: opifer.eav.value_provider, alias: select }
 
     # opifer.eav.checklist_value_provider:
     #     class: %opifer.eav.checklist_value_provider.class%
@@ -76,3 +77,8 @@ services:
          arguments: [%opifer_eav.template_class%]
          tags:
              - { name: opifer.eav.value_provider, alias: form }
+             
+    opifer.eav.twitter_value_provider:
+        class: %opifer.eav.twitter_value_provider.class%
+        tags:
+            - { name: opifer.eav.value_provider, alias: twitter }
