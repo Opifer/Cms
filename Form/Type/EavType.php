@@ -1,6 +1,6 @@
 <?php
 
-namespace Opifer\EavBundle\Form;
+namespace Opifer\EavBundle\Form\Type;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -30,7 +30,7 @@ class EavType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder->setAction(
-            $this->router->generate('opifer.eav.form.submit', ['valueId' => $options['valueId']])
+            $this->router->generate('opifer_eav_form_submit', ['valueId' => $options['valueId']])
         );
 
         $builder->add('valueset', 'opifer_valueset');
