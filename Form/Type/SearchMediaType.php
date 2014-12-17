@@ -15,12 +15,9 @@ class SearchMediaType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('search', 'genemu_jqueryselect2_hidden', [
+        $builder->add('search', 'text', [
             'attr' => [
                 'placeholder' => 'Search media'
-            ],
-            'configs' => [
-                'multiple' => false
             ]
         ]);
     }
