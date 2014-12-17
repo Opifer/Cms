@@ -23,7 +23,7 @@ if ($('.dropzone').length) {
                 prototype = prototype.replace(/__id__/g, response.id);
                 prototype = prototype.replace(/__value__/g, response.name);
                 prototype = prototype.replace(/__thumb__/g, $('.dz-preview img[alt="' + files[0]["name"] +'"]').last().attr('src'));
-                
+
                 // If the dropzone has the data-mapped attribute set to true,
                 // Place the media ID inside the hidden field
                 if ($('.dropzone').attr('data-mapped')) {
@@ -39,14 +39,14 @@ if ($('.dropzone').length) {
                 if (!$('#update-form').length) {
                     var form = $('.dropzone').attr('data-prototype-form');
                     $('.dropzone').closest('form').after(form);
-                } 
+                }
 
                 $('#update-form button').before(prototype);
             });
-            
+
             // Called when a file has been removed from the dropzone
             this.on("removedfile", function(file) {
-                // If the dropzone has the data-mapped attribute set to true, 
+                // If the dropzone has the data-mapped attribute set to true,
                 // remove the media ID from the hidden field
                 if ($('.dropzone').attr('data-mapped')) {
                     var response = JSON.parse(file.xhr.response);
@@ -79,33 +79,3 @@ if ($('.dropzone').length) {
         var mediaRequest = Routing.generate('opifer_api_media', {'ids' : mapping});
     }
 };
-
-/**
- * Taggable
- */
-var jsonurl = $('#mediatype_tags').attr('data-autocomplete');
-$('#mediatype_tags').select2({
-    tags:true,
-    tokenSeparators: [",", " "],
-    minimumInputLength: 1,
-    ajax: {
-        url: jsonurl,
-        dataType: 'json',
-        data:    function(term) { return { q: term }; },
-        results: function(data) {
-            var array = [];
-            $.each(data, function(key, value){
-                array.push({id: value, text: value});
-            });
-
-            return { results: array };
-        }
-    },
-    createSearchChoice: function(term, data) {
-        if ($(data).filter(function() {return this.text.localeCompare(term)===0; }).length===0) {
-            return { id: term, text: term };
-        }
-    },
-    formatResult:    function(item, page){ return item.text; },
-    formatSelection: function(item, page){ return item.text; }
-});
