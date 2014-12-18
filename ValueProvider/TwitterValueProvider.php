@@ -12,21 +12,11 @@ class TwitterValueProvider extends AbstractValueProvider implements ValueProvide
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder->add('value', 'text', [
-//            'label' => false,
             'label' => 'Twitter username',
             'attr'  => [
                 'placeholder' => 'Twitter username',
             ]
         ]);
-        
-//        $builder->add('count', 'text', [
-////            'label' => false,
-//            'label' => 'Number of tweets to fetch',
-//            'attr'  => [
-//                'placeholder' => 'Number of tweets to fetch',
-//            ]
-//            //'attr'  => $attr
-//        ]);
     }
 
     /**

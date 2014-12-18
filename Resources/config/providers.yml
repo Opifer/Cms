@@ -78,7 +78,7 @@ services:
          tags:
              - { name: opifer.eav.value_provider, alias: form }
              
-    opifer.eav.twitter_value_provider:
-        class: %opifer.eav.twitter_value_provider.class%
-        tags:
-            - { name: opifer.eav.value_provider, alias: twitter }
+#    opifer.eav.twitter_value_provider:
+#        class: %opifer.eav.twitter_value_provider.class%
+#        tags:
+#            - { name: opifer.eav.value_provider, alias: twitter }
