@@ -381,6 +381,20 @@ class Content implements ContentInterface, EntityInterface, Nestable
     }
 
     /**
+     * Set created at
+     *
+     * @param  \DateTime $date
+     *
+     * @return Content
+     */
+    public function setCreatedAt(\DateTime $date)
+    {
+        $this->createdAt = $date;
+
+        return $this;
+    }
+
+    /**
      * Get created at
      *
      * @return datetime
