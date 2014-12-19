@@ -22,9 +22,6 @@ angular.module('mediaLibrary', ['infinite-scroll', 'ngModal', 'angularFileUpload
             multiple: false
         }
 
-        // Do a first load of media items when the controller is setup
-        $scope.mediaCollection.loadMore();
-
         /**
          * Initialize the media library
          *
@@ -40,6 +37,11 @@ angular.module('mediaLibrary', ['infinite-scroll', 'ngModal', 'angularFileUpload
             $scope.type = type;
             $scope.picker.multiple = multiple;
             $scope.picker.name = name;
+
+            if ($scope.type != 'picker') {
+                // Do a first load of media items when the controller is setup
+                $scope.mediaCollection.loadMore();
+            }
 
             if (angular.isDefined(providers) && providers.length) {
                 $scope.mediaCollection.addProviders(providers);
@@ -66,7 +68,7 @@ angular.module('mediaLibrary', ['infinite-scroll', 'ngModal', 'angularFileUpload
                                 $scope.selecteditems.push(results[i]);
                             }
                         })
-                    ;   
+                    ;
                 }
             }
         };
@@ -161,7 +163,7 @@ angular.module('mediaLibrary', ['infinite-scroll', 'ngModal', 'angularFileUpload
 
         /**
          * Remove media
-         * 
+         *
          * Removes a media item from the selected media items
          */
         $scope.removeMedia = function(idx) {
@@ -183,7 +185,7 @@ angular.module('mediaLibrary', ['infinite-scroll', 'ngModal', 'angularFileUpload
 
         /**
          * Delete media
-         * 
+         *
          * Completely removes a media item from the filesystem.
          */
         $scope.deleteMedia = function(idx) {

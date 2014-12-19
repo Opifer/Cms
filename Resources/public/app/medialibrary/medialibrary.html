@@ -50,7 +50,7 @@
         </div>
         
         <div class="alert alert-info" ng-show="mediaCollection.busy">Loading data...</div>
-        <div class="btn btn-paginate" in-view="mediaCollection.loadMore()" ng-click="mediaCollection.loadMore()" ng-hide="(mediaCollection.end || mediaCollection.busy)">
+        <div class="btn btn-paginate" ng-if="picker.pickerShown" in-view="mediaCollection.loadMore()" ng-click="mediaCollection.loadMore()" ng-hide="(mediaCollection.end || mediaCollection.busy)">
             Load more
         </div>
 
