@@ -6,7 +6,7 @@ angular.module('OpiferNestedContent', ['ui.sortable'])
      */
     .factory('TemplateService', ['$resource', function($resource) {
         return $resource(Routing.generate('opifer_eav_api_template'), {}, {
-            index: {method: 'GET', params: {}}
+            index: {method: 'GET', isArray: true, params: {}}
         });
     }])
 
