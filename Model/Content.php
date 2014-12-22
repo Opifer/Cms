@@ -729,4 +729,25 @@ class Content implements ContentInterface, EntityInterface, Nestable
 
         return $attributes;
     }
+
+    /**
+     * Get breadcrumbs
+     *
+     * Loops through all parents to determine the breadcrumbs and stores them in
+     * an associative array like [slug => label]
+     *
+     * @return array
+     */
+    public function getBreadCrumbs()
+    {
+        $crumbs = [];
+
+        if (null !== $this->directory) {
+            $crumbs = $this->getDirectory()->getBreadCrumbs();
+        }
+
+        $crumbs[$this->slug] = $this->getTitle();
+
+        return $crumbs;
+    }
 }

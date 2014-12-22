@@ -301,4 +301,25 @@ class Directory implements DirectoryInterface
     {
         return $this->slug;
     }
+
+    /**
+     * Get breadcrumbs
+     *
+     * Loops through all parents to determine the breadcrumbs and stores them in
+     * an associative array like [slug => label]
+     *
+     * @return array
+     */
+    public function getBreadCrumbs()
+    {
+        $crumbs = [];
+
+        if (null !== $this->parent) {
+            $crumbs = $this->getParent()->getBreadCrumbs();
+        }
+
+        $crumbs[$this->slug] = $this->getName();
+
+        return $crumbs;
+    }
 }
