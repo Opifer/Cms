@@ -35,7 +35,7 @@ class FormController extends Controller
             ->find($valueId);
 
         if (!$value) {
-            throw new ResourceNotFoundException('No value with ID "'.$valueId.'" could be found.');
+            throw new ResourceNotFoundException(sprintf('No value with ID "%s" could be found.', $valueId));
         }
 
         $template = $value->getTemplate();
@@ -47,7 +47,7 @@ class FormController extends Controller
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getManager();
             $em->persist($entity);
-            $em->flush($entity);
+            $em->flush();
 
             if (is_null($value->getValue()) || $value->getValue() == '') {
                 return new Response('Form was submitted successfully!');
