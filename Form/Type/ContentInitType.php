@@ -2,6 +2,8 @@
 
 namespace Opifer\ContentBundle\Form\Type;
 
+use Doctrine\ORM\EntityRepository;
+
 use Symfony\Component\Translation\TranslatorInterface;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -18,18 +20,23 @@ class ContentInitType extends AbstractType
     /** @var string */
     protected $templateClass;
 
+    /** @var string */
+    protected $contentClass;
+
     /**
      * Constructor
      *
      * @param TranslatorInterface $translator
      * @param RouterInterface     $router
-     * @param array               $locales
+     * @param string              $templateClass
+     * @param string              $contentClass
      */
-    public function __construct(TranslatorInterface $translator, RouterInterface $router, $templateClass)
+    public function __construct(TranslatorInterface $translator, RouterInterface $router, $templateClass, $contentClass)
     {
         $this->translator = $translator;
         $this->router = $router;
         $this->templateClass = $templateClass;
+        $this->contentClass = $contentClass;
     }
 
     /**
@@ -43,7 +50,12 @@ class ContentInitType extends AbstractType
                 'property' => 'name',
                 'attr'     => [
                     'help_text' => $this->translator->trans('content.form.template.help_text')
-                ]
+                ],
+                'query_builder' => function(EntityRepository $repository) {
+                    return $repository->createQueryBuilder('c')
+                        ->where('c.objectClass = :objectClass')
+                        ->setParameter('objectClass', $this->contentClass);
+                }
             ])
             ->add('save', 'submit', [
                 'label' => ucfirst($this->translator->trans('content.form.init.submit'))

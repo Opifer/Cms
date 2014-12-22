@@ -33,7 +33,7 @@ services:
 
     opifer.content.content_init_type:
         class: Opifer\ContentBundle\Form\Type\ContentInitType
-        arguments: [@translator, @router, %opifer_eav.template_class%] # %opifer_cms.allowed_locales%
+        arguments: [@translator, @router, %opifer_eav.template_class%, %opifer_content.content_class%] # %opifer_cms.allowed_locales%
         tags:
             - { name: form.type, alias: opifer_content_init }
 
