@@ -2,8 +2,6 @@
 
 namespace Opifer\EavBundle\Templating;
 
-use Doctrine\ORM\EntityManager;
-
 use Symfony\Component\Form\FormFactoryInterface;
 
 use Opifer\EavBundle\Entity\FormValue;
@@ -14,9 +12,6 @@ class TwigExtension extends \Twig_Extension
     /** @var  \FormFactory */
     protected $formFactory;
 
-    /** @var  \Doctrine\ORM\EntityManager */
-    protected $em;
-
     /** @var \Opifer\EavBundle\Manager\EavManager */
     protected $eavManager;
 
@@ -25,9 +20,8 @@ class TwigExtension extends \Twig_Extension
      *
      * @param FormFactory $formFactory
      */
-    public function __construct(FormFactoryInterface $formFactory, EntityManager $em, EavManager $eavManager)
+    public function __construct(FormFactoryInterface $formFactory, EavManager $eavManager)
     {
-        $this->em = $em;
         $this->formFactory = $formFactory;
         $this->eavManager = $eavManager;
     }
