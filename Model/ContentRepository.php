@@ -215,6 +215,35 @@ class ContentRepository extends EntityRepository
 
         return $query->getResult();
     }
+    
+    /**
+     * Find latest items by template type
+     * 
+     * @param string $template
+     * 
+     * @return \Doctrine\Common\Collections\ArrayCollection
+     * @throws \InvalidArgumentException
+     */
+    public function findLatestByTemplate($template)
+    {
+        if (!is_string($template)) {
+            throw new \InvalidArgumentException('The first parameter of "findLatestByTemplate" should be of type string');
+        }
+        
+        $query = $this->createQueryBuilder('c')
+            ->leftJoin('c.valueSet', 'vs')
+            ->leftJoin('vs.template', 't')
+            ->where('t.name = :template')
+            ->andWhere('c.active = :active')
+            ->andWhere('c.nestedIn IS NULL')
+            ->setParameter('template', $template)
+            ->setParameter('active', true)
+            ->orderBy('c.id', 'DESC')
+            ->getQuery()
+        ;
+
+        return $query->getResult();
+    }
 
     /**
      * Find related content
