@@ -10,7 +10,7 @@ use Opifer\EavBundle\Validator\Constraints as OpiferAssert;
 /**
  * Template
  *
- * @ORM\MappedSuperclass 
+ * @ORM\MappedSuperclass
  */
 class Template implements TemplateInterface
 {
@@ -27,7 +27,7 @@ class Template implements TemplateInterface
      * @var string
      *
      * @ORM\Column(name="displayName", type="string", length=255)
-     * 
+     *
      * @Assert\NotBlank()
      */
     protected $displayName;
@@ -36,7 +36,7 @@ class Template implements TemplateInterface
      * @var string
      *
      * @ORM\Column(name="name", type="string", length=128)
-     * 
+     *
      * @Assert\NotBlank()
      */
     protected $name;
@@ -185,6 +185,24 @@ class Template implements TemplateInterface
     public function getAttributes()
     {
         return $this->attributes;
+    }
+
+    /**
+     * Get an attribute by its name
+     *
+     * @param  string $name
+     *
+     * @return AttributeInterface|false
+     */
+    public function getAttribute($name)
+    {
+        foreach ($this->attributes as $attribute) {
+            if ($attribute->getName() == $name) {
+                return $attribute;
+            }
+        }
+
+        return false;
     }
 
     /**

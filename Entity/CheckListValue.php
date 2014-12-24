@@ -9,31 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
  *
  * @ORM\Entity
  */
-class CheckListValue extends Value
+class CheckListValue extends OptionValue
 {
-    /**
-     * Turn value into a simple array
-     *
-     * @return array
-     */
-    public function getOptionsAsArray()
-    {
-        $array = [];
 
-        foreach ($this->options as $option) {
-            $array[] = $option->getId();
-        }
-
-        return $array;
-    }
-
-    /**
-     * Turn the options into a json string
-     *
-     * @return string
-     */
-    public function getOptionsAsJson()
-    {
-        return json_encode($this->getOptionsAsArray());
-    }
 }
