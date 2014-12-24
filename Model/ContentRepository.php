@@ -218,7 +218,6 @@ class ContentRepository extends EntityRepository
     
     /**
      * Find latest items by template type
-     * used in page index templates
      * 
      * @param string $template
      * 
@@ -228,7 +227,7 @@ class ContentRepository extends EntityRepository
     public function findLatestByTemplate($template)
     {
         if (!is_string($template)) {
-            throw new \InvalidArgumentException('The first parameter of "findRandomByTemplate" should be of type string');
+            throw new \InvalidArgumentException('The first parameter of "findLatestByTemplate" should be of type string');
         }
         
         $query = $this->createQueryBuilder('c')
