@@ -41,7 +41,7 @@ class FormController extends Controller
         $template = $value->getTemplate();
         $entity = $this->get('opifer.eav.eav_manager')->initializeEntity($template);
 
-        $form = $this->createForm('eav', $entity, ['valueId' => $valueId]);
+        $form = $this->createForm('eav', $entity, ['action' => $this->generateUrl('opifer_eav_form_submit', ['valueId' => $valueId])]);
         $form->handleRequest($request);
 
         if ($form->isValid()) {

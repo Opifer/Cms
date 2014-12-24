@@ -29,10 +29,7 @@ class EavType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->setAction(
-            $this->router->generate('opifer_eav_form_submit', ['valueId' => $options['valueId']])
-        );
-
+        $builder->setAction($options['action']);
         $builder->add('valueset', 'opifer_valueset');
         $builder->add('save', 'submit');
     }
