@@ -35,6 +35,15 @@ class ContentController extends Controller
         $layout = json_encode($presentation);
         $layout = $this->get('jms_serializer')->deserialize($layout, $this->container->getParameter('opifer_content.layout_class'), 'json');
 
+        // If the layout has an action, forward to that action and pass the layout
+        // and the content.
+        if ($layout->getAction()) {
+            return $this->forward($layout->getAction(), [
+                'content' => $content,
+                'layout'  => $layout
+            ]);
+        }
+
         $response = new Response();
         $response->setStatusCode($statusCode);
 
