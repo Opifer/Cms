@@ -16,7 +16,7 @@ class DatetimeValueProvider extends AbstractValueProvider implements ValueProvid
     {
         $builder->add('value', 'genemu_jquerydate', [
             'label' => false,
-            'input' => 'string'
+            'widget' => 'single_text'
         ]);
     }
 
