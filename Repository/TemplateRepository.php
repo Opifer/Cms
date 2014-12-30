@@ -25,6 +25,6 @@ class TemplateRepository extends EntityRepository
             $qb->andWhere('name =  :name')->setParameter('name', $request->get('name'));
         }
 
-        return $qb->getQuery()->getResult();
+        return $qb->getQuery()->getArrayResult();
     }
 }
