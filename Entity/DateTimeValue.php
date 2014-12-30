@@ -19,6 +19,40 @@ class DateTimeValue extends Value
     */
     public function __toString()
     {
-        return (string) $this->getValue();
+        return (string) $this->getTimestamp();
+    }
+
+    /**
+     * Get value
+     *
+     * @return \DateTime
+     */
+    public function getValue()
+    {
+        return new \DateTime("@" . $this->value);
+    }
+
+    /**
+     * Set value
+     *
+     * @param \DateTime $value
+     * 
+     * @return DateTimeValue
+     */
+    public function setValue($value)
+    {
+        $this->value = $value->getTimestamp();
+
+        return $this;
+    }
+
+    /**
+     * Get raw value
+     *
+     * @return string
+     */
+    public function getTimestamp()
+    {
+        return $this->value;
     }
 }
