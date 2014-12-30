@@ -1,50 +1,61 @@
+parameters:
+    opifer.content.content_manager.default.class: Opifer\ContentBundle\Model\ContentManager
+    opifer.content.directory_manager.default.class: Opifer\ContentBundle\Model\DirectoryManager
+    opifer.content.layout_manager.class: Opifer\ContentBundle\Model\LayoutManager
+    opifer.rulesengine.provider.content.class: Opifer\ContentBundle\RulesEngine\ContentRulesProvider
+    opifer.content.directory_type.class: Opifer\ContentBundle\Form\Type\DirectoryType
+    opifer.content.content_type.class: Opifer\ContentBundle\Form\Type\ContentType
+    opifer.content.content_init_type.class: Opifer\ContentBundle\Form\Type\ContentInitType
+    opifer.content.content_router.class: Opifer\ContentBundle\Router\ContentRouter
+    opifer.content.twig.content_extension.class: Opifer\ContentBundle\Twig\ContentExtension
+
 services:
     opifer.content.content_manager.default:
-        class: Opifer\ContentBundle\Model\ContentManager
+        class: %opifer.content.content_manager.default.class%
         arguments: [@doctrine.orm.default_entity_manager, @form.factory, @opifer.eav.eav_manager, %opifer_content.content_class%, %opifer_eav.template_class%]
 
     opifer.content.directory_manager.default:
-        class: Opifer\ContentBundle\Model\DirectoryManager
+        class: %opifer.content.directory_manager.default.class%
         arguments: [@doctrine.orm.default_entity_manager, %opifer_content.directory_class%]
 
     opifer.content.layout_manager:
-        class: Opifer\ContentBundle\Model\LayoutManager
+        class: %opifer.content.layout_manager.class%
         arguments: [@doctrine.orm.default_entity_manager, %opifer_content.layout_class%]
 
     # RulesEngine Provider
     opifer.rulesengine.provider.content:
-        class: Opifer\ContentBundle\RulesEngine\ContentRulesProvider
+        class: %opifer.rulesengine.provider.content.class%
         arguments: [@opifer.eav.template_manager, %opifer_content.content_class%]
         tags:
             - { name: opifer.rulesengine.provider, alias: content }
 
     # Form types
     opifer.content.directory_type:
-        class: Opifer\ContentBundle\Form\Type\DirectoryType
+        class: %opifer.content.directory_type.class%
         arguments: [@translator, %opifer_content.directory_class%]
         tags:
             - { name: form.type, alias: opifer_directory }
 
     opifer.content.content_type:
-        class: Opifer\ContentBundle\Form\Type\ContentType
+        class: %opifer.content.content_type.class%
         arguments: [@translator, %opifer_content.directory_class%]
         tags:
             - { name: form.type, alias: opifer_content }
 
     opifer.content.content_init_type:
-        class: Opifer\ContentBundle\Form\Type\ContentInitType
-        arguments: [@translator, @router, %opifer_eav.template_class%, %opifer_content.content_class%] # %opifer_cms.allowed_locales%
+        class: %opifer.content.content_init_type.class%
+        arguments: [@translator, @router, %opifer_eav.template_class%, %opifer_content.content_class%]
         tags:
             - { name: form.type, alias: opifer_content_init }
 
     # Router
     opifer.content.content_router:
-        class: Opifer\ContentBundle\Router\ContentRouter
+        class: %opifer.content.content_router.class%
         arguments: [@request_stack, @opifer.content.content_manager]
 
     # Twig Extension
     opifer.content.twig.content_extension:
-        class: Opifer\ContentBundle\Twig\ContentExtension
+        class: %opifer.content.twig.content_extension.class%
         arguments: [@twig, @fragment.handler, @opifer.content.content_manager]
         tags:
             - { name: twig.extension }
