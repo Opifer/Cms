@@ -244,6 +244,35 @@ class ContentRepository extends EntityRepository
 
         return $query->getResult();
     }
+    
+    /**
+     * Find by template type sorted by title
+     *
+     * @param string $template
+     * @param string $order
+     * @return \Doctrine\Common\Collections\ArrayCollection
+     * @throws \InvalidArgumentException
+     */
+    public function findSortedByTemplateTitle($template, $order = 'ASC')
+    {
+        if (!is_string($template)) {
+            throw new \InvalidArgumentException('The first parameter of "findSortedByTemplateTitle" should be of type string');
+        }
+        
+        $query = $this->createQueryBuilder('c')
+            ->leftJoin('c.valueSet', 'vs')
+            ->leftJoin('vs.template', 't')
+            ->where('t.name = :template')
+            ->andWhere('c.active = :active')
+            ->andWhere('c.nestedIn IS NULL')
+            ->setParameter('template', $template)
+            ->setParameter('active', true)
+            ->orderBy('c.title', $order)
+            ->getQuery()
+        ;
+
+        return $query->getResult();
+    }
 
     /**
      * Find related content
