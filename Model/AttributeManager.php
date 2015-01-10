@@ -21,7 +21,7 @@ class AttributeManager
     public function __construct(EntityManagerInterface $em, $class)
     {
         if (!is_subclass_of($class, 'Opifer\EavBundle\Model\AttributeInterface')) {
-            throw new \Exception($class .' must implement Opifer\EavBundle\Model\AttributeInterface');
+            throw new \Exception($class.' must implement Opifer\EavBundle\Model\AttributeInterface');
         }
 
         $this->em = $em;
@@ -54,7 +54,7 @@ class AttributeManager
     /**
      * Save attribute
      *
-     * @param  AttributeInterface $attribute
+     * @param AttributeInterface $attribute
      *
      * @return AttributeInterface
      */

@@ -4,15 +4,12 @@ namespace Opifer\EavBundle\Model;
 
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
-
-use Gedmo\Mapping\Annotation as Gedmo;
-
 use Opifer\EavBundle\Entity\Value;
 
 /**
  * Option
  *
- * @ORM\MappedSuperclass 
+ * @ORM\MappedSuperclass
  */
 class Option implements OptionInterface
 {
@@ -27,7 +24,7 @@ class Option implements OptionInterface
 
     /**
      * @var AttributeInterface
-     * 
+     *
      * @ORM\ManyToOne(targetEntity="Opifer\EavBundle\Model\AttributeInterface", inversedBy="options", cascade={"persist"})
      * @ORM\JoinColumn(name="attribute_id", referencedColumnName="id")
      */
@@ -56,7 +53,7 @@ class Option implements OptionInterface
 
     /**
      * @var  ArrayCollection
-     * 
+     *
      * @ORM\ManyToMany(targetEntity="Opifer\EavBundle\Entity\Value", mappedBy="options", cascade={"all"}, orphanRemoval=true)
      */
     protected $values;

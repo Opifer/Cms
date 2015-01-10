@@ -76,7 +76,6 @@ class EavManager
         // Create empty entities for missing attributes
         $missingAttributes = array_diff($valueSet->getAttributes()->toArray(), $persistedAttributes);
         foreach ($missingAttributes as $attribute) {
-
             $provider = $this->providerPool->getValue($attribute->getValueType());
             $valueClass = $provider->getEntity();
 

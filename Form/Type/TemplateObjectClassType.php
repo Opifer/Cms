@@ -34,7 +34,7 @@ class TemplateObjectClassType extends AbstractType
         }
 
         $resolver->setDefaults([
-            'choices'  => $choices
+            'choices'  => $choices,
         ]);
     }
 

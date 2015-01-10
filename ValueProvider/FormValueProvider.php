@@ -3,7 +3,6 @@
 namespace Opifer\EavBundle\ValueProvider;
 
 use Symfony\Component\Form\FormBuilderInterface;
-
 use Doctrine\ORM\EntityRepository;
 
 class FormValueProvider extends AbstractValueProvider implements ValueProviderInterface
@@ -35,7 +34,7 @@ class FormValueProvider extends AbstractValueProvider implements ValueProviderIn
         $builder->add('value', 'text', [
             'label' => 'Success page',
             'attr' => [
-                'placeholder' => 'The URL the form has to redirect to after success'
+                'placeholder' => 'The URL the form has to redirect to after success',
             ]
         ]);
     }

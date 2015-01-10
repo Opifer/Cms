@@ -3,7 +3,6 @@
 namespace Opifer\EavBundle\EventListener;
 
 use Doctrine\ORM\Event\LoadClassMetadataEventArgs;
-
 use Opifer\EavBundle\ValueProvider\Pool;
 
 class DiscriminatorListener

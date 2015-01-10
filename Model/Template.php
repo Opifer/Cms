@@ -190,7 +190,7 @@ class Template implements TemplateInterface
     /**
      * Get an attribute by its name
      *
-     * @param  string $name
+     * @param string $name
      *
      * @return AttributeInterface|false
      */

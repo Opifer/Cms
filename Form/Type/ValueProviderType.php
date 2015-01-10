@@ -4,7 +4,6 @@ namespace Opifer\EavBundle\Form\Type;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
-
 use Opifer\EavBundle\ValueProvider\Pool;
 
 /**
@@ -33,7 +32,7 @@ class ValueProviderType extends AbstractType
 
         $resolver->setDefaults([
             'label'    => 'Type of value',
-            'choices'  => $choices
+            'choices'  => $choices,
         ]);
     }
 

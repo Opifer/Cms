@@ -3,7 +3,6 @@
 namespace Opifer\EavBundle\Tests\TestData;
 
 use Symfony\Component\Form\FormBuilderInterface;
-
 use Opifer\EavBundle\ValueProvider\AbstractValueProvider;
 use Opifer\EavBundle\ValueProvider\ValueProviderInterface;
 

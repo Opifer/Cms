@@ -9,8 +9,8 @@ interface ValueProviderInterface
     /**
      * Build form
      *
-     * @param  FormBuilderInterface $builder
-     * @param  array                $options
+     * @param FormBuilderInterface $builder
+     * @param array                $options
      *
      * @return void
      */

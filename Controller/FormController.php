@@ -8,10 +8,8 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\Routing\Exception\ResourceNotFoundException;
-
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-
 use Opifer\EavBundle\Form\Type\NestedContentType;
 
 class FormController extends Controller
@@ -102,7 +100,7 @@ class FormController extends Controller
 
         return new JsonResponse([
             'form'    => $form->getContent(),
-            'content' => json_decode($entity, true)
+            'content' => json_decode($entity, true),
         ]);
     }
 }

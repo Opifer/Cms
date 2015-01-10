@@ -4,7 +4,6 @@ namespace Opifer\EavBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
-
 use Opifer\EavBundle\Model\MediaInterface;
 
 /**
@@ -29,7 +28,7 @@ class MediaValue extends Value implements \IteratorAggregate
     public function __construct()
     {
         parent::__construct();
-        
+
         $this->medias = new ArrayCollection();
     }
 
