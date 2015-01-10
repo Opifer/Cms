@@ -3,7 +3,6 @@
 namespace Opifer\EavBundle\ValueProvider;
 
 use Symfony\Component\Form\FormBuilderInterface;
-
 use Opifer\EavBundle\Form\Transformer\AngularAttributeTransformer;
 
 class IntegerValueProvider extends AbstractValueProvider implements ValueProviderInterface

@@ -4,7 +4,6 @@ namespace Opifer\EavBundle\Model;
 
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
-
 use JMS\Serializer\Annotation as JMS;
 
 /**
@@ -168,7 +167,7 @@ class ValueSet implements ValueSetInterface
         usort($values, function ($value1, $value2) {
             return ($value1->getAttribute()->getSort() < $value2->getAttribute()->getSort()) ? 1 : -1;
         });
-        
+
         return $values;
     }
 
@@ -282,7 +281,7 @@ class ValueSet implements ValueSetInterface
             }
         }
 
-        throw new \BadMethodCallException('The valueset for template "'. $this->template->getName() .'" does not have a value called "' . $name . '".');
+        throw new \BadMethodCallException('The valueset for template "'.$this->template->getName().'" does not have a value called "'.$name.'".');
     }
 
     /**

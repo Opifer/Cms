@@ -10,8 +10,8 @@ use Symfony\Component\Validator\Constraints as Assert;
 /**
  * Attribute
  *
- * @ORM\MappedSuperclass 
- * 
+ * @ORM\MappedSuperclass
+ *
  * @JMS\ExclusionPolicy("none")
  */
 class Attribute implements AttributeInterface
@@ -69,7 +69,7 @@ class Attribute implements AttributeInterface
 
     /**
      * @var ArrayCollection
-     * 
+     *
      * @ORM\OneToMany(targetEntity="Opifer\EavBundle\Model\OptionInterface", mappedBy="attribute", cascade={"all"}, orphanRemoval=true)
      */
     protected $options;
@@ -87,7 +87,7 @@ class Attribute implements AttributeInterface
      */
     public function __toString()
     {
-        return $this->getId() .' '. $this->getDisplayName();
+        return $this->getId().' '.$this->getDisplayName();
     }
 
     /**
@@ -181,7 +181,7 @@ class Attribute implements AttributeInterface
     /**
      * Set sort
      *
-     * @param  integer   $sort
+     * @param integer $sort
      */
     public function setSort($sort)
     {

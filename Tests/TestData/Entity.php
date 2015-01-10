@@ -7,8 +7,6 @@ use Opifer\EavBundle\Model\EntityInterface;
 use Opifer\EavBundle\Model\Nestable;
 use Opifer\EavBundle\Model\TemplateInterface;
 use Opifer\EavBundle\Model\ValueSetInterface;
-use Opifer\EavBundle\Tests\TestData\Template;
-use Opifer\EavBundle\Tests\TestData\ValueSet;
 
 class Entity implements EntityInterface, Nestable
 {

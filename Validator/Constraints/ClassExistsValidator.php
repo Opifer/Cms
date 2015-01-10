@@ -10,8 +10,8 @@ class ClassExistsValidator extends ConstraintValidator
     /**
      * Checks if the passed value is an existing class
      *
-     * @param string       $value
-     * @param Constraint   $constraint
+     * @param string     $value
+     * @param Constraint $constraint
      *
      * @return void
      */

@@ -6,5 +6,4 @@ use Opifer\EavBundle\Model\Option as BaseOption;
 
 class Option extends BaseOption
 {
-
 }

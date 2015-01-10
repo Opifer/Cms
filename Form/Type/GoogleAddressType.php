@@ -40,37 +40,37 @@ class GoogleAddressType extends AbstractType
                 'error_bubbling' => false,
                 'constraints'    => [
                     new NotBlank(['message' => $this->translator->trans('form.google_address.street.not_blank')]),
-                    new Regex(['pattern' => '/(\d+)/', 'message' => $this->translator->trans('form.google_address.street.no_digit')])
+                    new Regex(['pattern' => '/(\d+)/', 'message' => $this->translator->trans('form.google_address.street.no_digit')]),
                 ]
             ])
             ->add('zipcode', 'hidden', [
                 'error_bubbling' => false,
                 'constraints'    => [
-                    new NotBlank(['message' => $this->translator->trans('form.google_address.zipcode.not_blank')])
+                    new NotBlank(['message' => $this->translator->trans('form.google_address.zipcode.not_blank')]),
                 ]
             ])
             ->add('city', 'hidden', [
                 'error_bubbling' => false,
                 'constraints'    => [
-                    new NotBlank(['message' => $this->translator->trans('form.google_address.city.not_blank')])
+                    new NotBlank(['message' => $this->translator->trans('form.google_address.city.not_blank')]),
                 ]
             ])
             ->add('country', 'hidden', [
                 'error_bubbling' => false,
                 'constraints'    => [
-                    new NotBlank(['message' => $this->translator->trans('form.google_address.country.not_blank')])
+                    new NotBlank(['message' => $this->translator->trans('form.google_address.country.not_blank')]),
                 ]
             ])
             ->add('lat', 'hidden', [
                 'error_bubbling' => false,
                 'constraints'    => [
-                    new NotBlank(['message' => $this->translator->trans('form.google_address.lat.not_blank')])
+                    new NotBlank(['message' => $this->translator->trans('form.google_address.lat.not_blank')]),
                 ]
             ])
             ->add('lng', 'hidden', [
                 'error_bubbling' => false,
                 'constraints'    => [
-                    new NotBlank(['message' => $this->translator->trans('form.google_address.lng.not_blank')])
+                    new NotBlank(['message' => $this->translator->trans('form.google_address.lng.not_blank')]),
                 ]
             ])
         ;

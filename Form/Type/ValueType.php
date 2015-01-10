@@ -7,7 +7,6 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 use Symfony\Component\Form\FormView;
 use Symfony\Component\Form\FormInterface;
-
 use Opifer\EavBundle\ValueProvider\Pool;
 
 class ValueType extends AbstractType
@@ -45,12 +44,12 @@ class ValueType extends AbstractType
     {
         $resolver->setRequired([
             'attribute',
-            'entity'
+            'entity',
         ]);
 
         $resolver->setDefaults([
             'data_class' => 'Opifer\EavBundle\Entity\Value',
-            'angular'    => []
+            'angular'    => [],
         ]);
     }
 

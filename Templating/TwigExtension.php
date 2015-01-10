@@ -3,7 +3,6 @@
 namespace Opifer\EavBundle\Templating;
 
 use Symfony\Component\Form\FormFactoryInterface;
-
 use Opifer\EavBundle\Entity\FormValue;
 use Opifer\EavBundle\Manager\EavManager;
 

@@ -6,9 +6,6 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 use Symfony\Component\Routing\RouterInterface;
-
-use Opifer\EavBundle\Form\Type\ValueSetType;
-
 class EavType extends AbstractType
 {
     /** @var RouterInterface */

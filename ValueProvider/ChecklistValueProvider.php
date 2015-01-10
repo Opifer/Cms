@@ -3,7 +3,6 @@
 namespace Opifer\EavBundle\ValueProvider;
 
 use Doctrine\ORM\EntityRepository;
-
 use Symfony\Component\Form\FormBuilderInterface;
 
 class ChecklistValueProvider extends AbstractValueProvider implements ValueProviderInterface
@@ -43,7 +42,7 @@ class ChecklistValueProvider extends AbstractValueProvider implements ValueProvi
             },
         ]);
     }
-    
+
     /**
      * {@inheritDoc}
      */

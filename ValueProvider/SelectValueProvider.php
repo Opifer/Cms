@@ -4,7 +4,6 @@ namespace Opifer\EavBundle\ValueProvider;
 
 use Doctrine\ORM\EntityRepository;
 use Symfony\Component\Form\FormBuilderInterface;
-
 use Opifer\EavBundle\Form\Transformer\CollectionToObjectTransformer;
 
 class SelectValueProvider extends AbstractValueProvider implements ValueProviderInterface

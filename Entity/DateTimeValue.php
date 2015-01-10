@@ -11,7 +11,6 @@ use Doctrine\ORM\Mapping as ORM;
 */
 class DateTimeValue extends Value
 {
-
     /**
     * Turn value into string for form field value purposes
     *
@@ -29,14 +28,14 @@ class DateTimeValue extends Value
      */
     public function getValue()
     {
-        return new \DateTime("@" . $this->value);
+        return new \DateTime("@".$this->value);
     }
 
     /**
      * Set value
      *
      * @param \DateTime $value
-     * 
+     *
      * @return DateTimeValue
      */
     public function setValue($value)

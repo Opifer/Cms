@@ -39,13 +39,13 @@ class OpiferEavExtension extends Extension implements PrependExtensionInterface
             'opifer_eav.nestable_class'  => $config['nestable_class'],
             'opifer_eav.option_class'    => $config['option_class'],
             'opifer_eav.template_class'  => $config['template_class'],
-            'opifer_eav.valueset_class'  => $config['valueset_class']
+            'opifer_eav.valueset_class'  => $config['valueset_class'],
         ];
 
         foreach ($config['entities'] as $label => $entity) {
             $params['opifer_eav.entities'][$label] = $entity;
         }
-        
+
         return $params;
     }
 
@@ -53,7 +53,7 @@ class OpiferEavExtension extends Extension implements PrependExtensionInterface
      * Prepend our config before other bundles, so we can preset
      * their config with our parameters
      *
-     * @param  ContainerBuilder $container
+     * @param ContainerBuilder $container
      *
      * @return void
      */
@@ -66,12 +66,12 @@ class OpiferEavExtension extends Extension implements PrependExtensionInterface
         foreach ($parameters as $key => $value) {
             $container->setParameter($key, $value);
         }
-        
+
         $resolvableEntities = [
             'Opifer\EavBundle\Model\AttributeInterface' => $config['attribute_class'],
             'Opifer\EavBundle\Model\OptionInterface'    => $config['option_class'],
             'Opifer\EavBundle\Model\TemplateInterface'  => $config['template_class'],
-            'Opifer\EavBundle\Model\ValueSetInterface'  => $config['valueset_class']
+            'Opifer\EavBundle\Model\ValueSetInterface'  => $config['valueset_class'],
         ];
 
         if ($config['nestable_class'] != '') {
@@ -87,7 +87,7 @@ class OpiferEavExtension extends Extension implements PrependExtensionInterface
                 case 'doctrine':
                     $container->prependExtensionConfig($name,  [
                         'orm' => [
-                            'resolve_target_entities' => $resolvableEntities
+                            'resolve_target_entities' => $resolvableEntities,
                         ],
                     ]);
                     break;
