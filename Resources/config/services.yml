@@ -23,7 +23,7 @@ services:
 
     # Form Types
     opifer.eav.form.eav_value:
-        class: %opifer.eav.form.eav_value%
+        class: %opifer.eav.form.eav_value.class%
         arguments: [@opifer.eav.value_provider.pool]
         tags:
             - { name: form.type, alias: eav_value }
