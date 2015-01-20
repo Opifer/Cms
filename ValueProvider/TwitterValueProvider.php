@@ -26,7 +26,7 @@ class TwitterValueProvider extends AbstractValueProvider implements ValueProvide
     {
         return 'Opifer\EavBundle\Entity\TwitterValue';
     }
-    
+
     /**
      * {@inheritDoc}
      */

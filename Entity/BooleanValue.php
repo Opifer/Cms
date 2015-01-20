@@ -32,7 +32,7 @@ class BooleanValue extends Value
     /**
      * Set value
      *
-     * @param  boolean $value
+     * @param boolean $value
      *
      * @return ValueInterface
      */

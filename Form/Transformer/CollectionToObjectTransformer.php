@@ -4,7 +4,6 @@ namespace Opifer\EavBundle\Form\Transformer;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
-
 use Symfony\Component\Form\DataTransformerInterface;
 
 class CollectionToObjectTransformer implements DataTransformerInterface

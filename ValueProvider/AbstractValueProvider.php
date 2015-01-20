@@ -13,7 +13,6 @@ abstract class AbstractValueProvider
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-
     }
 
     /**

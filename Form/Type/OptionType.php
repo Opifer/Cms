@@ -40,7 +40,7 @@ class OptionType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class'  => $this->optionClass,
-            'compound'    => true
+            'compound'    => true,
         ]);
     }
 

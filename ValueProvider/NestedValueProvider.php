@@ -17,7 +17,7 @@ class NestedValueProvider extends AbstractValueProvider implements ValueProvider
     public function __construct($nestedClass)
     {
         if ($nestedClass != '' && !is_subclass_of($nestedClass, 'Opifer\EavBundle\Model\Nestable')) {
-            throw new \Exception($nestedClass .' must implement Opifer\EavBundle\Model\Nestable');
+            throw new \Exception($nestedClass.' must implement Opifer\EavBundle\Model\Nestable');
         }
 
         if ($nestedClass == '') {

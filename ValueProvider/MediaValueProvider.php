@@ -18,7 +18,7 @@ class MediaValueProvider extends AbstractValueProvider implements ValueProviderI
     public function __construct($mediaClass)
     {
         if ($mediaClass != '' && !is_subclass_of($mediaClass, 'Opifer\EavBundle\Model\MediaInterface')) {
-            throw new \Exception($mediaClass .' must implement Opifer\EavBundle\Model\MediaInterface');
+            throw new \Exception($mediaClass.' must implement Opifer\EavBundle\Model\MediaInterface');
         }
 
         if ($mediaClass == '') {

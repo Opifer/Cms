@@ -1,15 +1,20 @@
 parameters:
+    opifer.eav.attribute_manager.class: Opifer\EavBundle\Model\AttributeManager
+    opifer.eav.eav_manager.class: Opifer\EavBundle\Manager\EavManager
+    opifer.eav.empty_value_listener.class: Opifer\EavBundle\EventListener\EmptyValueListener
+    opifer.eav.discriminator_listener.class: Opifer\EavBundle\EventListener\DiscriminatorListener
+    opifer.eav.form.eav_type.class: Opifer\EavBundle\Form\Type\EavType
+    opifer.eav.form.eav_value.class: Opifer\EavBundle\Form\Type\ValueType
+    opifer.eav.form.fauxtype.class: Opifer\EavBundle\Form\Type\FauxType
     opifer.eav.form.google_address.class: Opifer\EavBundle\Form\Type\GoogleAddressType
-    opifer.eav.form.nested_content.class: Opifer\EavBundle\Form\Type\NestedContentType
     opifer.eav.form.option_type.class: Opifer\EavBundle\Form\Type\OptionType
     opifer.eav.form.presentationeditor.class: Opifer\EavBundle\Form\Type\PresentationEditorType
     opifer.eav.form.template_object_class_type.class: Opifer\EavBundle\Form\Type\TemplateObjectClassType
     opifer.eav.form.value_provider_type.class: Opifer\EavBundle\Form\Type\ValueProviderType
-    opifer.eav.form.fauxtype.class: Opifer\EavBundle\Form\Type\FauxType
-    opifer.eav.template_sync_listener.class: Opifer\EavBundle\Listener\TemplateSyncListener
+    opifer.eav.form.valueset_type.class: Opifer\EavBundle\Form\Type\ValueSetType
+    opifer.eav.template_manager.class: Opifer\EavBundle\Model\TemplateManager
+    opifer.eav.twig_extension.class: Opifer\EavBundle\Templating\TwigExtension
     opifer.eav.value_provider.pool.class: Opifer\EavBundle\ValueProvider\Pool
-
-    opifer.eav.jsondiffpatch.class: Opifer\Component\Diff\JsonDiffPatch
 
 services:
     # Values provider pool
@@ -18,7 +23,7 @@ services:
 
     # Form Types
     opifer.eav.form.eav_value:
-        class: Opifer\EavBundle\Form\Type\ValueType
+        class: %opifer.eav.form.eav_value.class%
         arguments: [@opifer.eav.value_provider.pool]
         tags:
             - { name: form.type, alias: eav_value }
@@ -58,39 +63,39 @@ services:
             - { name: form.type, alias: eav_faux }
 
     opifer.eav.form.eav_type:
-        class: Opifer\EavBundle\Form\Type\EavType
+        class: %opifer.eav.form.eav_type.class%
         arguments: [@router]
         tags:
             - { name: form.type, alias: eav }
 
     opifer.eav.form.valueset_type:
-        class: Opifer\EavBundle\Form\Type\ValueSetType
+        class: %opifer.eav.form.valueset_type.class%
         arguments: [%opifer_eav.valueset_class%]
         tags:
             - { name: form.type, alias: opifer_valueset }
 
     # Entity Managers
     opifer.eav.attribute_manager:
-        class: Opifer\EavBundle\Model\AttributeManager
+        class: %opifer.eav.attribute_manager.class%
         arguments: [@opifer.eav.value_provider.pool, %opifer_eav.attribute_class%]
 
     opifer.eav.eav_manager:
-        class: Opifer\EavBundle\Manager\EavManager
+        class: %opifer.eav.eav_manager.class%
         arguments: [@opifer.eav.value_provider.pool, %opifer_eav.valueset_class%]
 
     opifer.eav.template_manager:
-        class: Opifer\EavBundle\Model\TemplateManager
+        class: %opifer.eav.template_manager.class%
         arguments: [@doctrine.orm.default_entity_manager, %opifer_eav.template_class%]
 
     # Listeners
     opifer.eav.discriminator_listener:
-        class: Opifer\EavBundle\EventListener\DiscriminatorListener
+        class: %opifer.eav.discriminator_listener.class%
         arguments: [@opifer.eav.value_provider.pool]
         tags:
             - { name: doctrine.event_listener, event: loadClassMetadata }
 
     opifer.eav.empty_value_listener:
-        class: Opifer\EavBundle\EventListener\EmptyValueListener
+        class: %opifer.eav.empty_value_listener.class%
         arguments: [@opifer.eav.eav_manager]
         tags:
             - { name: doctrine.event_listener, event: postLoad }
@@ -98,7 +103,7 @@ services:
 
     # Twig Extension
     opifer.eav.twig_extension:
-        class: Opifer\EavBundle\Templating\TwigExtension
+        class: %opifer.eav.twig_extension.class%
         arguments: [@form.factory, @opifer.eav.eav_manager, @router]
         tags:
             - { name: twig.extension }

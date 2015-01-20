@@ -15,7 +15,7 @@ class OptionRepository extends EntityRepository
             ->innerJoin('o.attribute', 'a')
             ->where('a.name = :name')
             ->setParameters([
-                'name'     => $name
+                'name'     => $name,
             ])
             ->getQuery()
         ;

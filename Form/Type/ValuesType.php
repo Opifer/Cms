@@ -4,8 +4,6 @@ namespace Opifer\EavBundle\Form\Type;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\OptionsResolver\OptionsResolverInterface;
-
 use Opifer\EavBundle\Form\EventListener\ValuesSubscriber;
 
 class ValuesType extends AbstractType
