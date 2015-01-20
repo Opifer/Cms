@@ -4,6 +4,7 @@ parameters:
     opifer.eav.empty_value_listener.class: Opifer\EavBundle\EventListener\EmptyValueListener
     opifer.eav.discriminator_listener.class: Opifer\EavBundle\EventListener\DiscriminatorListener
     opifer.eav.form.eav_type.class: Opifer\EavBundle\Form\Type\EavType
+    opifer.eav.form.eav_post_type.class: Opifer\EavBundle\Form\Type\EavPostType
     opifer.eav.form.eav_value.class: Opifer\EavBundle\Form\Type\ValueType
     opifer.eav.form.fauxtype.class: Opifer\EavBundle\Form\Type\FauxType
     opifer.eav.form.google_address.class: Opifer\EavBundle\Form\Type\GoogleAddressType
@@ -67,6 +68,12 @@ services:
         arguments: [@router]
         tags:
             - { name: form.type, alias: eav }
+    
+    opifer.eav.form.eav_post_type:
+        class: %opifer.eav.form.eav_post_type.class%
+        arguments: [@router]
+        tags:
+            - { name: form.type, alias: eav_post }
 
     opifer.eav.form.valueset_type:
         class: %opifer.eav.form.valueset_type.class%
