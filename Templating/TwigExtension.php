@@ -3,6 +3,7 @@
 namespace Opifer\EavBundle\Templating;
 
 use Symfony\Component\Form\FormFactoryInterface;
+use Symfony\Component\Routing\RouterInterface;
 
 use Opifer\EavBundle\Entity\FormValue;
 use Opifer\EavBundle\Manager\EavManager;
@@ -14,14 +15,18 @@ class TwigExtension extends \Twig_Extension
 
     /** @var \Opifer\EavBundle\Manager\EavManager */
     protected $eavManager;
+    
+    /** @var \Symfony\Component\Routing\RouterInterface */
+    protected $generator;
 
     /**
      * Constructor
      *
      * @param FormFactory $formFactory
      */
-    public function __construct(FormFactoryInterface $formFactory, EavManager $eavManager)
+    public function __construct(FormFactoryInterface $formFactory, EavManager $eavManager, RouterInterface $router)
     {
+        $this->generator = $router;
         $this->formFactory = $formFactory;
         $this->eavManager = $eavManager;
     }
@@ -54,6 +59,7 @@ class TwigExtension extends \Twig_Extension
         $entity = $this->eavManager->initializeEntity($template);
 
         $form = $this->formFactory->create('eav', $entity, [
+            'action' => $this->generator->generate('opifer_eav_form_submit', ['valueId' => $value->getId()]),
             'valueId' => $value->getId()
         ]);
 

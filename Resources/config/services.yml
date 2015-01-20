@@ -99,6 +99,6 @@ services:
     # Twig Extension
     opifer.eav.twig_extension:
         class: Opifer\EavBundle\Templating\TwigExtension
-        arguments: [@form.factory, @opifer.eav.eav_manager]
+        arguments: [@form.factory, @opifer.eav.eav_manager, @router]
         tags:
             - { name: twig.extension }
