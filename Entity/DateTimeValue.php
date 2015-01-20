@@ -28,7 +28,9 @@ class DateTimeValue extends Value
      */
     public function getValue()
     {
-        return new \DateTime("@".$this->value);
+        $datetime = new \DateTime();
+
+        return $datetime->setTimestamp($this->value);
     }
 
     /**
