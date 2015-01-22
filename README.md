@@ -66,7 +66,7 @@ First, make sure you installed all asset dependencies. You can download them man
 
 Then, add the dependencies to your templates.
 
-```
+```twig
 {% stylesheets
     'bundles/opifermedia/css/dropzone.less'
     'bundles/opifermedia/css/main.less'
