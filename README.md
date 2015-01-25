@@ -22,8 +22,8 @@ Register the bundle in `app/AppKernel.php`
 public function registerBundles()
 {
     $bundles = array(
-        ...
-        new JMS\SerializerBundle\JMSSerializerBundle($this),
+        // ...
+        new JMS\SerializerBundle\JMSSerializerBundle(),
         new Knp\Bundle\GaufretteBundle\KnpGaufretteBundle(),
         new Liip\ImagineBundle\LiipImagineBundle(),
         new Opifer\MediaBundle\OpiferMediaBundle()
@@ -70,7 +70,6 @@ Then, add the dependencies to your templates.
 {% stylesheets
     'bundles/opifermedia/css/dropzone.less'
     'bundles/opifermedia/css/main.less'
-    ...
     
     filter='less,cssrewrite' %}
     <link rel="stylesheet" href="{{ asset_url }}" />
@@ -180,7 +179,7 @@ class ContentType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ...
+            // ...
             ->add('image', 'mediapicker', [
                 'multiple' => false,
                 'property' => 'name',
