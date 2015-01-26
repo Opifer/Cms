@@ -162,12 +162,7 @@ class ContentManager implements ContentManagerInterface
             // We do not check the standard isValid() method here, cause our form
             // is not actually submitted.
             if (count($nestedContentForm->getErrors(true)) < 1) {
-                // In case the nested content has nested content, make sure to
-                // map that too.
-                $this->mapNested($nestedContent, $request);
-
-                $this->em->persist($nestedContent);
-                $this->em->flush();
+                $nestedContent = $this->save($nestedContent);
 
                 $ids[] = $nestedContent->getId();
                 $collection->add($nestedContent);

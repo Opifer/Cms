@@ -329,7 +329,7 @@ class ContentRepository extends EntityRepository
     public function findByIds($ids)
     {
         $query = $this->createQueryBuilder('c')
-            ->where('c.id in (:ids)')
+            ->where('c.id IN (:ids)')
             ->setParameter('ids', $ids)
             ->getQuery()
         ;
