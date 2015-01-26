@@ -110,7 +110,7 @@ class Content implements ContentInterface, EntityInterface, Nestable
     protected $directory;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Opifer\EavBundle\Entity\NestedValue", inversedBy="nested", cascade={"all"})
+     * @ORM\ManyToOne(targetEntity="Opifer\EavBundle\Entity\NestedValue", inversedBy="nested")
      * @ORM\JoinColumn(name="nested_in", referencedColumnName="id", nullable=true, onDelete="SET NULL")
      */
     protected $nestedIn;
