@@ -96,8 +96,9 @@ class ContentManager implements ContentManagerInterface
     {
         $nested = [];
         foreach ($content->getNestedContentAttributes() as $attribute => $value) {
+            $this->em->persist($value);
+            
             $nested = $this->saveNestedForm($attribute, $request);
-
             foreach ($nested as $nestedContent) {
                 $value->addNested($nestedContent);
                 $nestedContent->setNestedIn($value);
