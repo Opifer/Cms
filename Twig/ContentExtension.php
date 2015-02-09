@@ -6,6 +6,7 @@ use Symfony\Component\HttpKernel\Controller\ControllerReference;
 use Symfony\Component\HttpKernel\Fragment\FragmentHandler;
 
 use Opifer\ContentBundle\Model\ContentManager;
+use Opifer\ContentBundle\Model\ContentInterface;
 
 class ContentExtension extends \Twig_Extension
 {
@@ -49,6 +50,9 @@ class ContentExtension extends \Twig_Extension
                 'is_safe' => array('html')
             ]),
             new \Twig_SimpleFunction('nested_content', [$this, 'renderNestedContent'], [
+                'is_safe' => array('html')
+            ]),
+            new \Twig_SimpleFunction('breadcrumbs', [$this, 'getBreadcrumbs'], [
                 'is_safe' => array('html')
             ]),
         ];
@@ -149,6 +153,33 @@ class ContentExtension extends \Twig_Extension
         }
 
         return $content;
+    }
+    
+    public function getBreadcrumbs(ContentInterface $content)
+    {
+        $return = [];
+        $breadcrumbs = $content->getBreadcrumbs();
+        
+        if(sizeof($breadcrumbs) == 1 && key($breadcrumbs) == 'index') {
+            return $return;
+        }
+        
+        $index = 0;
+        foreach ($breadcrumbs as $slug => $title) {
+            if(substr($slug, -6) == '/index') {
+                continue;
+            }
+            
+            $indexSlug = (sizeof($breadcrumbs)-1 == $index) ? $slug : $slug.'/index';
+            
+            if($content = $this->contentManager->getRepository()->findOneBy(['slug' => $indexSlug])) {
+                $return[$slug] = $content->getTitle();
+            }
+            
+            $index++;
+        }
+        
+        return $return;
     }
 
     /**
