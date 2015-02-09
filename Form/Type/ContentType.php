@@ -8,6 +8,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
 use Opifer\EavBundle\Form\Type\ValueSetType;
+use Opifer\ContentBundle\Form\DataTransformer\SlugTransformer;
 
 class ContentType extends AbstractType
 {
@@ -33,6 +34,8 @@ class ContentType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+        $transformer = new SlugTransformer();
+        
         // Add the default form fields
         $builder
             ->add('title', 'text', [
@@ -47,12 +50,16 @@ class ContentType extends AbstractType
                     'placeholder' => $this->translator->trans('content.form.description.placeholder')
                 ]
             ])
-            ->add('slug', 'text', [
-                'attr' => [
-                    'placeholder' => $this->translator->trans('content.form.slug.placeholder'),
-                    'help_text'   => $this->translator->trans('form.slug.help_text')
-                ]
-            ])
+            ->add(
+                $builder->create(
+                    'slug', 'text', [
+                    'attr' => [
+                        'placeholder' => $this->translator->trans('content.form.slug.placeholder'),
+                        'help_text'   => $this->translator->trans('form.slug.help_text'),
+
+                    ]]
+                )->addViewTransformer($transformer)
+            )
             ->add('directory', 'entity', [
                 'class'       => $this->directoryClass,
                 'property'    => 'name',
