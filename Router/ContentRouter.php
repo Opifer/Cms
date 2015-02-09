@@ -17,6 +17,8 @@ use Opifer\ContentBundle\Model\ContentInterface;
 
 use Doctrine\ORM\NoResultException;
 
+use Symfony\Component\HttpFoundation\RedirectResponse;
+
 /**
  * Content Router
  */
@@ -91,8 +93,21 @@ class ContentRouter implements RouterInterface
                 // The route matches, now check if it actually exists
                 $result['content'] = $this->contentManager->findOneBySlug($result['slug']);
             } catch (NoResultException $e) {
-                throw new ResourceNotFoundException('No page found for slug ' . $pathinfo);
-            }   
+                try {
+                    //is it directory index
+                    if(substr($result['slug'], -1) == '/') {
+                        $result['content'] = $this->contentManager->findOneBySlug($result['slug'].'index');
+                    } else {
+                        if($this->contentManager->findOneBySlug($result['slug'].'/index')) {
+                            $redirect = new RedirectResponse($result['slug'].'/');
+                            $redirect->sendHeaders();
+                            exit;
+                        }
+                    }
+                }catch (NoResultException $ex) {
+                        throw new ResourceNotFoundException('No page found for slug ' . $pathinfo);
+                }
+            }
         }
 
         return $result;
