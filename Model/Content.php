@@ -93,10 +93,11 @@ class Content implements ContentInterface, EntityInterface, Nestable
      *
      * @JMS\Expose
      * @Gedmo\Slug(handlers={
-     *      @Gedmo\SlugHandler(class="Gedmo\Sluggable\Handler\RelativeSlugHandler", options={
+     *      @Gedmo\SlugHandler(class="Opifer\ContentBundle\Handler\SlugHandler", options={
      *          @Gedmo\SlugHandlerOption(name="relationField", value="directory"),
      *          @Gedmo\SlugHandlerOption(name="relationSlugField", value="slug"),
-     *          @Gedmo\SlugHandlerOption(name="separator", value="/")
+     *          @Gedmo\SlugHandlerOption(name="separator", value="/"),
+     *          @Gedmo\SlugHandlerOption(name="onSlugCompletion", value={"appendIndex"})
      *      })
      * }, fields={"title"}, unique_base="deletedAt")
      * @ORM\Column(name="slug", type="string", length=255)
