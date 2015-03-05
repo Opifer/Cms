@@ -27,4 +27,11 @@ class TemplateRepository extends EntityRepository
 
         return $qb->getQuery()->getArrayResult();
     }
+
+    public function findOneByName($name){
+        $qb = $this->createQueryBuilder('t');
+        $qb->andWhere('name =  :name')->setParameter('name', $name);
+
+        return $qb->getQuery()->getSingleResult();
+    }
 }
