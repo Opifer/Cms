@@ -72,14 +72,6 @@ class Value implements ValueInterface
     protected $options;
 
     /**
-     * @var
-     *
-     * @ORM\OneToOne(targetEntity="Opifer\CmsBundle\Entity\Address")
-     * @ORM\JoinColumn(name="address_id", referencedColumnName="id")
-     */
-    protected $address;
-
-    /**
      * Constructor
      */
     public function __construct()
