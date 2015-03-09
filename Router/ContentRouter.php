@@ -66,6 +66,14 @@ class ContentRouter implements RouterInterface
         ], [
             'expose'      => true
         ]));
+        $this->routeCollection->add('home', new Route('/', [
+            '_controller' => 'OpiferContentBundle:Frontend/Content:view',
+            'slug'        => ''
+        ], [
+            'slug'        => "[a-zA-Z0-9\-_\/]*"
+        ], [
+            'expose'      => true
+        ]));
     }
 
     /**
@@ -95,7 +103,7 @@ class ContentRouter implements RouterInterface
             } catch (NoResultException $e) {
                 try {
                     //is it directory index
-                    if(substr($result['slug'], -1) == '/') {
+                    if (substr($result['slug'], -1) == '/' || $result['slug'] == '') {
                         $result['content'] = $this->contentManager->findActiveBySlug($result['slug'].'index');
                     } else {
                         if($this->contentManager->findActiveBySlug($result['slug'].'/index')) {

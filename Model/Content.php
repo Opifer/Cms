@@ -244,6 +244,23 @@ class Content implements ContentInterface, EntityInterface, Nestable
     {
         return $this->slug;
     }
+    
+    /**
+     * Get slug without index appended
+     *
+     * @return string
+     */
+    public function getBaseSlug()
+    {
+        $slug = $this->slug;
+        
+        if(substr($slug, -6) == '/index') {
+            $slug = rtrim($slug, "index"); 
+            $slug = rtrim($slug, "/");
+        }
+
+        return $slug;
+    }
 
     /**
      * Set active
