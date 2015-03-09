@@ -53,6 +53,7 @@ form:
         help_text: "Use only letters and numbers, no spaces allowed a-z0-9_-"
     title: Title
     username: username
+    active: Active
 
 # Buttons
 button:

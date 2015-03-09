@@ -70,6 +70,7 @@ class ContentType extends AbstractType
                     'help_text' => $this->translator->trans('content.form.directory.help_text')
                 ]
             ])
+            ->add('active', 'checkbox')
             ->add('valueset', 'opifer_valueset')
         ;
 

@@ -54,6 +54,7 @@ form:
         help_text: "gebruik alleen letters en getallen, geen spaties toegestaan. a-z0-9_-"
     title: Titel
     username: gebruikersnaam
+    active: Active
 
 # Buttons
 button:

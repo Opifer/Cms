@@ -49,7 +49,7 @@ class Content implements ContentInterface, EntityInterface, Nestable
      *
      * @ORM\Column(name="active", type="boolean")
      */
-    protected $active = 1;
+    protected $active = true;
 
     /**
      * @var string

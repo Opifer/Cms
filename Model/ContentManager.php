@@ -88,6 +88,18 @@ class ContentManager implements ContentManagerInterface
     {
         return $this->getRepository()->findOneBySlug($slug);
     }
+    
+    /**
+     * Find published content
+     *
+     * @param string $slug
+     *
+     * @return ContentInterface
+     */
+    public function findActiveBySlug($slug)
+    {
+        return $this->getRepository()->findActiveBySlug($slug);
+    }
 
     /**
      * {@inheritDoc}
