@@ -28,7 +28,7 @@ class ContentRouterTest extends \PHPUnit_Framework_TestCase
     {
         $content = new Content();
 
-        $this->contentManager->shouldReceive('findOneBySlug')->andReturn($content);
+        $this->contentManager->shouldReceive('findActiveBySlug')->andReturn($content);
 
         $contentRouter = new ContentRouter($this->requestStack, $this->contentManager);
         $result = $contentRouter->match('/about');
@@ -41,7 +41,7 @@ class ContentRouterTest extends \PHPUnit_Framework_TestCase
      */
     public function testNotMatch()
     {
-        $this->contentManager->shouldReceive('findOneBySlug')->andThrow('Doctrine\ORM\NoResultException');
+        $this->contentManager->shouldReceive('findActiveBySlug')->andThrow('Doctrine\ORM\NoResultException');
 
         $contentRouter = new ContentRouter($this->requestStack, $this->contentManager);
         $result = $contentRouter->match('/about');
