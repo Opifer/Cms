@@ -8,8 +8,13 @@ parameters:
     opifer.content.content_init_type.class: Opifer\ContentBundle\Form\Type\ContentInitType
     opifer.content.content_router.class: Opifer\ContentBundle\Router\ContentRouter
     opifer.content.twig.content_extension.class: Opifer\ContentBundle\Twig\ContentExtension
+    opifer.content.services.default.class: Opifer\ContentBundle\Services\ContentService
 
 services:
+    opifer.content.services.default:
+        class: %opifer.content.services.default.class%
+        arguments: [@opifer.content.content_manager, @doctrine.orm.default_entity_manager]
+        
     opifer.content.content_manager.default:
         class: %opifer.content.content_manager.default.class%
         arguments: [@doctrine.orm.default_entity_manager, @form.factory, @opifer.eav.eav_manager, %opifer_content.content_class%, %opifer_eav.template_class%]

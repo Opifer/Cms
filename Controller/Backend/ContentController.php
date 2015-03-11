@@ -8,6 +8,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Opifer\ContentBundle\Event\ResponseEvent;
 use Opifer\ContentBundle\Event\ContentResponseEvent;
 use Opifer\ContentBundle\OpiferContentEvents as Events;
+use Opifer\ContentBundle\Services\ContentService;
 
 class ContentController extends Controller
 {
@@ -176,72 +177,12 @@ class ContentController extends Controller
             throw $this->createNotFoundException('No content found for id '.$id);
         }
 
-        //call duplication service 
-        $duplicate_content_id = $this->duplicate($content);
+        //call duplication service
+        $content_service = $this->get('opifer.content.services.default');
+
+        $duplicate_content_id = $content_service->duplicate($content);
 
         return $this->redirect($this->generateUrl('opifer_content_content_edit',[ 
             'id' => $duplicate_content_id ]));
-    }
-
-    /**
-     * Temp location - should be moved to service or smtng
-     * @param Opifer\CmsBundle\Entity\Content $id
-     */
-    private function duplicate($content, $nested_in=null)
-    {
-        $contentManager = $this->get('opifer.content.content_manager');
-
-        //get valueset to clone
-        $valueset = $content->getValueSet();
-
-        //clone valueset
-        $duplicated_valueset = clone $valueset;
-
-        $em = $this->getDoctrine()->getManager();
-        $em->detach($duplicated_valueset);
-        $em->persist($duplicated_valueset);
-        $em->flush();
-        
-        //duplicate content
-        $duplicated_content = clone $content;
-        $duplicated_content->setValueSet($duplicated_valueset);
-
-        if (!is_null($nested_in)) {
-            $duplicated_content->setNestedIn($nested_in);
-        }
-
-        $em->detach($duplicated_content);
-        $em->persist($duplicated_content);
-        $em->flush();
-        
-        //iterate values, clone each and assign duplicate valueset to it
-        foreach ($valueset->getValues() as $value) {
-
-            //skip empty attributes
-            if (is_null($value->getId())) continue;
-
-            $duplicated_value = clone ($value);
-
-            $duplicated_value->setValueSet($duplicated_valueset);
-
-            $em->detach($duplicated_value);
-            $em->persist($duplicated_value);
-            $em->flush();
-
-            //if type nested, find content that has nested_in value same as id of value
-            if ($value instanceof \Opifer\EavBundle\Entity\NestedValue) {
-//                var_dump($duplicated_value->getId());
-                $nested_contents = $contentManager->getRepository()->findby(['nestedIn' => $value->getId()]);
-
-
-                foreach ($nested_contents as $nested_content) {
-                    $this->duplicate($nested_content, $duplicated_value);
-                }
-
-            }
-            
-        }
-
-        return $duplicated_content->getId();
     }
 }
