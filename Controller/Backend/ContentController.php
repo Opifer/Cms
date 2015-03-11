@@ -23,8 +23,7 @@ class ContentController extends Controller
     public function initAction(Request $request)
     {
         $event = new ResponseEvent($request);
-        $this->get('event_dispatcher')->dispatch(Events::CONTENT_CONTROLLER_INIT,
-            $event);
+        $this->get('event_dispatcher')->dispatch(Events::CONTENT_CONTROLLER_INIT, $event);
         if (null !== $event->getResponse()) {
             return $event->getResponse();
         }
@@ -35,16 +34,14 @@ class ContentController extends Controller
         if ($form->isValid()) {
             $templateId = $form->get('template')->getData()->getId();
 
-            return $this->redirect($this->generateUrl('opifer_content_content_new',
-                        [
-                        'mode' => 'simple',
-                        'template' => $templateId
+            return $this->redirect($this->generateUrl('opifer_content_content_new', [
+                'mode' => 'simple',
+                'template' => $templateId
             ]));
         }
 
-        return $this->render('OpiferContentBundle:Content:new.html.twig',
-                [
-                'form' => $form->createView()
+        return $this->render('OpiferContentBundle:Content:new.html.twig', [
+            'form' => $form->createView()
         ]);
     }
 
@@ -64,15 +61,14 @@ class ContentController extends Controller
         }
 
         $event = new ResponseEvent($request);
-        $this->get('event_dispatcher')->dispatch(Events::CONTENT_CONTROLLER_NEW,
-            $event);
+        $this->get('event_dispatcher')->dispatch(Events::CONTENT_CONTROLLER_NEW, $event);
         if (null !== $event->getResponse()) {
             return $event->getResponse();
         }
 
         $contentManager = $this->get('opifer.content.content_manager');
-        $template       = $this->get('opifer.eav.template_manager')->getRepository()->find($template);
-        $content        = $this->get('opifer.eav.eav_manager')->initializeEntity($template);
+        $template = $this->get('opifer.eav.template_manager')->getRepository()->find($template);
+        $content = $this->get('opifer.eav.eav_manager')->initializeEntity($template);
 
         $form = $this->createForm('opifer_content', $content, ['mode' => $mode]);
         $form->handleRequest($request);
@@ -87,18 +83,16 @@ class ContentController extends Controller
                     ['%title%' => $content->getTitle()])
             );
 
-            return $this->redirect($this->generateUrl('opifer_content_content_edit',
-                        [
-                        'id' => $content->getId(),
-                        'mode' => $mode
+            return $this->redirect($this->generateUrl('opifer_content_content_edit', [
+                'id' => $content->getId(),
+                'mode' => $mode
             ]));
         }
 
-        return $this->render('OpiferContentBundle:Content:edit.html.twig',
-                [
-                'content' => $content,
-                'form' => $form->createView(),
-                'mode' => $mode
+        return $this->render('OpiferContentBundle:Content:edit.html.twig', [
+            'content' => $content,
+            'form' => $form->createView(),
+            'mode' => $mode
         ]);
     }
 
@@ -117,12 +111,11 @@ class ContentController extends Controller
         $content = $contentManager->getRepository()->find($id);
 
         if (!$content) {
-            throw $this->createNotFoundException('No content found for id '.$id);
+            throw $this->createNotFoundException('No content found for id ' . $id);
         }
 
         $event = new ContentResponseEvent($content, $request);
-        $this->get('event_dispatcher')->dispatch(Events::CONTENT_CONTROLLER_EDIT,
-            $event);
+        $this->get('event_dispatcher')->dispatch(Events::CONTENT_CONTROLLER_EDIT, $event);
         if (null !== $event->getResponse()) {
             return $event->getResponse();
         }
@@ -136,22 +129,19 @@ class ContentController extends Controller
 
             // Tell the user everything went well.
             $this->get('session')->getFlashBag()->add('success',
-                $this->get('translator')->trans('content.edit.success',
-                    ['%title%' => $content->getTitle()])
+                $this->get('translator')->trans('content.edit.success', ['%title%' => $content->getTitle()])
             );
 
-            return $this->redirect($this->generateUrl('opifer_content_content_edit',
-                        [
-                        'id' => $content->getId(),
-                        'mode' => $mode
+            return $this->redirect($this->generateUrl('opifer_content_content_edit', [
+                'id' => $content->getId(),
+                'mode' => $mode
             ]));
         }
 
-        return $this->render('OpiferContentBundle:Content:edit.html.twig',
-                [
-                'content' => $content,
-                'form' => $form->createView(),
-                'mode' => $mode
+        return $this->render('OpiferContentBundle:Content:edit.html.twig', [
+            'content' => $content,
+            'form' => $form->createView(),
+            'mode' => $mode
         ]);
     }
 
@@ -165,8 +155,7 @@ class ContentController extends Controller
     public function indexAction(Request $request)
     {
         $event = new ResponseEvent($request);
-        $this->get('event_dispatcher')->dispatch(Events::CONTENT_CONTROLLER_INDEX,
-            $event);
+        $this->get('event_dispatcher')->dispatch(Events::CONTENT_CONTROLLER_INDEX, $event);
         if (null !== $event->getResponse()) {
             return $event->getResponse();
         }
