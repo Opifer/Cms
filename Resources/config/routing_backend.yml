@@ -39,3 +39,9 @@ opifer_content_content_edit:
     defaults: { _controller: OpiferContentBundle:Backend/Content:edit, mode: simple }
     options:
         expose: true
+
+opifer_content_content_duplicate:
+    path: /content/duplicate/{id}
+    defaults: { _controller: OpiferContentBundle:Backend/Content:duplicate }
+    options:
+        expose: true

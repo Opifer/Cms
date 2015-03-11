@@ -34,7 +34,7 @@ angular.module('OpiferContent', ['angular-inview'])
                 receiver: '@'
             },
             templateUrl: '/bundles/opifercontent/app/content/content.html',
-            controller: function($scope, ContentService, DirectoryService) {
+            controller: function($scope, ContentService, DirectoryService, $attrs) {
                 $scope.navto = false;
                 $scope.maxPerPage = 25;
                 $scope.currentPage = 1;
@@ -48,6 +48,7 @@ angular.module('OpiferContent', ['angular-inview'])
                 $scope.confirmation = {
                     shown: false,
                     name: '',
+                    action: ''
                 }
 
                 if (typeof $scope.history === "undefined") {
@@ -166,11 +167,13 @@ angular.module('OpiferContent', ['angular-inview'])
                     $scope.confirmation.shown = false;
                 };
 
-                $scope.confirmDeleteContent = function(idx) {
+                $scope.confirmDeleteContent = function(idx, $event) {
                     var selected = $scope.contents[idx];
 
                     $scope.confirmation.idx = selected.id;
                     $scope.confirmation.name = selected.title;
+                    $scope.confirmation.dataset = $event.currentTarget.dataset;
+                    $scope.confirmation.action = $scope.deleteContent;
                     $scope.confirmation.shown = !$scope.confirmation.shown;
                 };
 
@@ -199,6 +202,20 @@ angular.module('OpiferContent', ['angular-inview'])
 
                 $scope.editContent = function(id) {
                     window.location = Routing.generate('opifer_content_content_edit', {'id': id});
+                };
+                
+                $scope.copyContent = function(id) {
+                    window.location = Routing.generate('opifer_content_content_duplicate', {'id': id});
+                };
+                
+                $scope.confirmCopyContent = function(idx, $event) {
+                    var selected = $scope.contents[idx];
+
+                    $scope.confirmation.idx = selected.id;
+                    $scope.confirmation.name = selected.title;
+                    $scope.confirmation.dataset = $event.currentTarget.dataset;
+                    $scope.confirmation.action = $scope.copyContent;
+                    $scope.confirmation.shown = !$scope.confirmation.shown;
                 };
 
                 $scope.loadMore = function(e) {
