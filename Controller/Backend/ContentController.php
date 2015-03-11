@@ -114,7 +114,7 @@ class ContentController extends Controller
     public function editAction(Request $request, $id, $mode = 'simple')
     {
         $contentManager = $this->get('opifer.content.content_manager');
-        $content        = $contentManager->getRepository()->find($id);
+        $content = $contentManager->getRepository()->find($id);
 
         if (!$content) {
             throw $this->createNotFoundException('No content found for id '.$id);
@@ -181,7 +181,7 @@ class ContentController extends Controller
     public function duplicateAction($id)
     {
         $contentManager = $this->get('opifer.content.content_manager');
-        $content        = $contentManager->getRepository()->find($id);
+        $content = $contentManager->getRepository()->find($id);
 
         if (!$content) {
             throw $this->createNotFoundException('No content found for id '.$id);
@@ -190,10 +190,8 @@ class ContentController extends Controller
         //call duplication service 
         $duplicate_content_id = $this->duplicate($content);
 
-        return $this->redirect($this->generateUrl('opifer_content_content_edit',
-                    [
-                    'id' => $duplicate_content_id
-        ]));
+        return $this->redirect($this->generateUrl('opifer_content_content_edit',[ 
+            'id' => $duplicate_content_id ]));
     }
 
     /**
