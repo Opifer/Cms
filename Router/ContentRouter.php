@@ -113,9 +113,13 @@ class ContentRouter implements RouterInterface
                         }
                     }
                 }catch (NoResultException $ex) {
-                        throw new ResourceNotFoundException('No page found for slug ' . $pathinfo);
+                    throw new ResourceNotFoundException('No page found for slug ' . $pathinfo);
                 }
             }
+        }
+        
+        if($result['content']->getAliasOf()) {
+            $result['content'] = $this->contentManager->getRepository()->findOneById($result['content']->getAliasOf());
         }
 
         return $result;

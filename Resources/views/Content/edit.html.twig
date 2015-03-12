@@ -52,6 +52,8 @@
                 </div>
             </div>
                 
+            {{ form_row(form.aliasOf) }}
+                
             <div class="form-group">
                 <label class="control-label col-lg-2"
                        for="opifer_content_active">{{ 'form.active'|trans|capitalize }}</label>
@@ -60,7 +62,9 @@
                 </div>
             </div>
             
-            {{ form_row(form.valueset) }}
+            {% if form.valueset is defined %}
+                {{ form_row(form.valueset) }}
+            {% endif %}
 
             {% if mode == 'advanced' %}
                 {{ form_row(form.realPresentation) }}
