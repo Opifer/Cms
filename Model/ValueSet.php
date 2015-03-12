@@ -65,7 +65,7 @@ class ValueSet implements ValueSetInterface
     {
         if ($this->id) {
             $this->setId(null);
-        };
+        }
     }
 
     /**

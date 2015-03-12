@@ -86,7 +86,7 @@ class Value implements ValueInterface
     {
         if ($this->id) {
             $this->setId(null);
-        };
+        }
     }
 
     /**
