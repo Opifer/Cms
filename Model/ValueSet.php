@@ -71,11 +71,13 @@ class ValueSet implements ValueSetInterface
     /**
      * Set id
      * @param integer $id Id of choice
-     * @return integer
+     * @return ValueSet
      */
     public function setId($id=null)
     {
-        return $this->id = $id;
+        $this->id = $id;
+
+        return $this;
     }
 
     /**
