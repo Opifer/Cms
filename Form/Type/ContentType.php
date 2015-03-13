@@ -87,9 +87,11 @@ class ContentType extends AbstractType
             ->add('active', 'checkbox')
         ;
         
-        if(!$content->getSymlink()) {
-            $builder->add('valueset', 'opifer_valueset');
-        }
+        $builder->add('valueset', 'opifer_valueset', [
+            'attr' => [
+                'class' => ($content->getSymlink() ? 'hidden' : '')
+            ]
+        ]);
 
         // Add advanced fields only on the advanced option page.
         if ($options['mode'] == 'advanced') {
