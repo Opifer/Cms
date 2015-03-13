@@ -168,6 +168,25 @@ class ContentRepository extends EntityRepository
 
         return $query->getSingleResult();
     }
+    
+    /**
+     * Find one by alias with active status
+     *
+     * @param string $alias
+     *
+     * @return ContentInterface
+     */
+    public function findActiveByAlias($alias)
+    {
+        $query = $this->createValuedQueryBuilder('c')
+            ->where("c.alias = :alias")
+            ->andWhere('c.active = :active')
+            ->setParameters(['alias' => $alias, 'active' => true ])
+            ->getQuery()
+        ;
+
+        return $query->getSingleResult();
+    }
 
     /**
      * Find an anonymously created item by it's ID

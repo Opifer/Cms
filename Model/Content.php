@@ -82,13 +82,23 @@ class Content implements ContentInterface, EntityInterface, Nestable
     protected $realPresentation;
 
     /**
-     * @var integer
+     * @var string
      * 
-     * @ORM\OneToOne(targetEntity="Content")
-     * @ORM\JoinColumn(name="alias_of", referencedColumnName="id", onDelete="CASCADE")
+     * @JMS\Expose
+     * @Gedmo\Slug(fields={"alias"}, unique_base="deletedAt")
+     * @ORM\Column(name="alias", type="string", length=255, nullable=true)
      *
      */
-    protected $aliasOf;
+    protected $alias;
+    
+    /**
+     * @var integer
+     * 
+     * @ORM\ManyToOne(targetEntity="Content")
+     * @ORM\JoinColumn(name="symlink", referencedColumnName="id", onDelete="CASCADE")
+     *
+     */
+    protected $symlink;
 
     /**
      * @var string
@@ -354,27 +364,51 @@ class Content implements ContentInterface, EntityInterface, Nestable
     }
 
     /**
-     * Set aliasOf
+     * Set symlink
      *
-     * @param string $aliasOf
+     * @param ContentInterface $symlink
      *
      * @return Content
      */
-    public function setAliasOf($aliasOf)
+    public function setSymlink(ContentInterface $symlink = null)
     {
-        $this->aliasOf = $aliasOf;
+        $this->symlink = $symlink;
 
         return $this;
     }
 
     /**
-     * Get aliasOf
+     * Get symlink
+     *
+     * @return ContentInterface
+     */
+    public function getSymlink()
+    {
+        return $this->symlink;
+    }
+    
+    /**
+     * Set alias
+     *
+     * @param string $alias
+     *
+     * @return Content
+     */
+    public function setAlias($alias)
+    {
+        $this->alias = $alias;
+
+        return $this;
+    }
+
+    /**
+     * Get alias
      *
      * @return string
      */
-    public function getAliasOf()
+    public function getAlias()
     {
-        return $this->aliasOf;
+        return $this->alias;
     }
 
     /**

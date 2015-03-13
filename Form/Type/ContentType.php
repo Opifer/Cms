@@ -79,13 +79,15 @@ class ContentType extends AbstractType
                     'help_text' => $this->translator->trans('content.form.directory.help_text')
                 ]
             ])
+            ->add('alias', 'text')
             ->add(
-                    $builder->create('aliasOf', 'contentpicker', [
-            ])->addModelTransformer($contentTransformer))
+                $builder->create('symlink', 'contentpicker')
+                    ->addModelTransformer($contentTransformer)
+            )
             ->add('active', 'checkbox')
         ;
         
-        if(!$content->getAliasOf()) {
+        if(!$content->getSymlink()) {
             $builder->add('valueset', 'opifer_valueset');
         }
 

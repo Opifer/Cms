@@ -102,6 +102,18 @@ class ContentManager implements ContentManagerInterface
     {
         return $this->getRepository()->findActiveBySlug($slug);
     }
+    
+    /**
+     * Find published content by alias
+     *
+     * @param string $alias
+     *
+     * @return ContentInterface
+     */
+    public function findActiveByAlias($alias)
+    {
+        return $this->getRepository()->findActiveByAlias($alias);
+    }
 
     /**
      * {@inheritDoc}
