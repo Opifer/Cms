@@ -177,10 +177,7 @@ class ContentController extends Controller
             throw $this->createNotFoundException('No content found for id '.$id);
         }
 
-        //call duplication service
-        $content_service = $this->get('opifer.content.services.default');
-
-        $duplicate_content_id = $content_service->duplicate($content);
+        $duplicate_content_id = $contentManager->duplicate($content);
 
         return $this->redirect($this->generateUrl('opifer_content_content_edit',[ 
             'id' => $duplicate_content_id ]));
