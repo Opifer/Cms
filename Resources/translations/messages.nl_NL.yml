@@ -55,6 +55,7 @@ form:
     title: Titel
     username: gebruikersnaam
     active: Active
+    symlink: Symlink voor
 
 # Buttons
 button:

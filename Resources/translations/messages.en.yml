@@ -54,6 +54,7 @@ form:
     title: Title
     username: username
     active: Active
+    symlink: Symlink for
 
 # Buttons
 button:

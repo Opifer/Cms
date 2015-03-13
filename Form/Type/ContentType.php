@@ -81,7 +81,9 @@ class ContentType extends AbstractType
             ])
             ->add('alias', 'text')
             ->add(
-                $builder->create('symlink', 'contentpicker')
+                $builder->create('symlink', 'contentpicker',[
+                    'label' => $this->translator->trans('form.symlink')
+                ])
                     ->addModelTransformer($contentTransformer)
             )
             ->add('active', 'checkbox')
