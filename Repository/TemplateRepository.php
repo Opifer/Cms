@@ -22,7 +22,7 @@ class TemplateRepository extends EntityRepository
         $qb = $this->createQueryBuilder('t');
 
         if ($request->get('name')) {
-            $qb->andWhere('name =  :name')->setParameter('name', $request->get('name'));
+            $qb->andWhere('t.name =  :name')->setParameter('name', $request->get('name'));
         }
 
         return $qb->getQuery()->getArrayResult();
@@ -30,7 +30,7 @@ class TemplateRepository extends EntityRepository
 
     public function findOneByName($name){
         $qb = $this->createQueryBuilder('t');
-        $qb->andWhere('name =  :name')->setParameter('name', $name);
+        $qb->andWhere('t.name =  :name')->setParameter('name', $name);
 
         return $qb->getQuery()->getSingleResult();
     }
