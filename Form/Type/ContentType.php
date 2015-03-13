@@ -10,6 +10,7 @@ use Doctrine\ORM\EntityRepository;
 
 use Opifer\EavBundle\Form\Type\ValueSetType;
 use Opifer\ContentBundle\Form\DataTransformer\SlugTransformer;
+use Opifer\ContentBundle\Form\DataTransformer\IdToEntityTransformer;
 
 class ContentType extends AbstractType
 {
@@ -19,19 +20,19 @@ class ContentType extends AbstractType
     /** @var string */
     protected $directoryClass;
     
-    /** @var string */
-    protected $contentClass;
+    /** @var object */
+    protected $contentManager;
 
     /**
      * Constructor
      *
      * @param Translator $translator
      */
-    public function __construct(TranslatorInterface $translator, $directoryClass, $contentClass)
+    public function __construct(TranslatorInterface $translator, $directoryClass, $contentManager)
     {
         $this->translator = $translator;
         $this->directoryClass = $directoryClass;
-        $this->contentClass = $contentClass;
+        $this->contentManager = $contentManager;
     }
 
     /**
@@ -42,6 +43,7 @@ class ContentType extends AbstractType
         $content = $builder->getData();
         
         $transformer = new SlugTransformer();
+        $contentTransformer = new IdToEntityTransformer($this->contentManager);
         
         // Add the default form fields
         $builder
@@ -77,23 +79,9 @@ class ContentType extends AbstractType
                     'help_text' => $this->translator->trans('content.form.directory.help_text')
                 ]
             ])
-            ->add('aliasOf', 'entity', [
-                'class'       => $this->contentClass,
-                'query_builder' => function(EntityRepository $er) use ($content) {
-                    $return = $er->createQueryBuilder('u');
-                    
-                    if($content->getId()) {
-                        $return->where('u.id != :id')
-                            ->setParameter('id', $content->getId());
-                    }
-                    
-                    return $return;
-                },
-                'property'    => 'title',
-                'empty_value' => 'none',
-                'required'    => false,
-                'empty_data'  => null,
-            ])
+            ->add(
+                    $builder->create('aliasOf', 'contentpicker', [
+            ])->addModelTransformer($contentTransformer))
             ->add('active', 'checkbox')
         ;
         
