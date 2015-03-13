@@ -13,6 +13,24 @@ angular.module('OpiferContent', ['angular-inview'])
         });
     }])
 
+    .controller('ContentPickerController', ['$scope', function ($scope) {
+        $scope.content = {};
+        
+        /**
+         * Set content
+         *
+         * @param  {array} content
+         */
+        $scope.init = function(content) {
+            $scope.content = JSON.parse(content);
+        };
+        
+        $scope.pickContent = function(content) {
+            $scope.content = content;
+            $scope.isPickerOpen = false;
+        };
+    }])
+
     /**
      * Content browser directive
      */
@@ -232,11 +250,17 @@ angular.module('OpiferContent', ['angular-inview'])
                 $scope.unpickObject = function(contentId) {
                     $scope.$parent.unpickObject(contentId);
                 };
+                
+                $scope.pickContent = function(content) {
+                    $scope.$parent.pickContent(content);
+                };
 
                 $scope.hasObject = function(contentId) {
+                    
                     if (angular.isUndefined($scope.$parent.subject.right.value)) {
                         return false;
                     }
+                    
                     var idx = $scope.$parent.subject.right.value.indexOf(contentId);
 
                     return (idx >= 0) ? true : false;

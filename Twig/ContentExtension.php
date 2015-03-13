@@ -46,6 +46,9 @@ class ContentExtension extends \Twig_Extension
             new \Twig_SimpleFunction('get_content', [$this, 'getContent'], [
                 'is_safe' => array('html')
             ]),
+            new \Twig_SimpleFunction('get_content_by_id', [$this, 'getContentById'], [
+                'is_safe' => array('html')
+            ]),
             new \Twig_SimpleFunction('render_content', [$this, 'renderContent'], [
                 'is_safe' => array('html')
             ]),
@@ -67,6 +70,19 @@ class ContentExtension extends \Twig_Extension
     {
         $content = $this->contentManager->getRepository()
             ->findOneBySlug($slug);
+
+        return $content;
+    }
+    
+    /**
+     * Get a content item by its id
+     *
+     * @return \Opifer\CmsBundle\Entity\Content
+     */
+    public function getContentById($id)
+    {
+        $content = $this->contentManager->getRepository()
+            ->findOneById($id);
 
         return $content;
     }
