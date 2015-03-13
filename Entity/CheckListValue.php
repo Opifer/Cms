@@ -11,4 +11,9 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class CheckListValue extends OptionValue
 {
+    public function getValue()
+    {
+       return $this->value;
+    }
+
 }
