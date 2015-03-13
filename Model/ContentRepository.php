@@ -149,6 +149,25 @@ class ContentRepository extends EntityRepository
 
         return $query->getSingleResult();
     }
+    
+    /**
+     * Find one by slug with active status
+     *
+     * @param string $slug
+     *
+     * @return ContentInterface
+     */
+    public function findActiveBySlug($slug)
+    {
+        $query = $this->createValuedQueryBuilder('c')
+            ->where("c.slug = :slug")
+            ->andWhere('c.active = :active')
+            ->setParameters(['slug' => $slug, 'active' => true ])
+            ->getQuery()
+        ;
+
+        return $query->getSingleResult();
+    }
 
     /**
      * Find an anonymously created item by it's ID

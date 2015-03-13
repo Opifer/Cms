@@ -51,8 +51,20 @@
                     {{ form_widget(form.slug) }}
                 </div>
             </div>
-
-            {{ form_row(form.valueset) }}
+                
+            {{ form_row(form.aliasOf) }}
+                
+            <div class="form-group">
+                <label class="control-label col-lg-2"
+                       for="opifer_content_active">{{ 'form.active'|trans|capitalize }}</label>
+                <div class="col-xs-8 col-lg-8">
+                    {{ form_widget(form.active, { 'attr' : {'class' : 'opifer-content-active'} }) }}
+                </div>
+            </div>
+            
+            {% if form.valueset is defined %}
+                {{ form_row(form.valueset) }}
+            {% endif %}
 
             {% if mode == 'advanced' %}
                 {{ form_row(form.realPresentation) }}

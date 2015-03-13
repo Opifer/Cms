@@ -99,23 +99,27 @@ class ContentRouter implements RouterInterface
         if (!empty($result)) {
             try {
                 // The route matches, now check if it actually exists
-                $result['content'] = $this->contentManager->findOneBySlug($result['slug']);
+                $result['content'] = $this->contentManager->findActiveBySlug($result['slug']);
             } catch (NoResultException $e) {
                 try {
                     //is it directory index
                     if (substr($result['slug'], -1) == '/' || $result['slug'] == '') {
-                        $result['content'] = $this->contentManager->findOneBySlug($result['slug'].'index');
+                        $result['content'] = $this->contentManager->findActiveBySlug($result['slug'].'index');
                     } else {
-                        if ($this->contentManager->findOneBySlug($result['slug'].'/index')) {
+                        if($this->contentManager->findActiveBySlug($result['slug'].'/index')) {
                             $redirect = new RedirectResponse($result['slug'].'/');
                             $redirect->sendHeaders();
                             exit;
                         }
                     }
                 }catch (NoResultException $ex) {
-                        throw new ResourceNotFoundException('No page found for slug ' . $pathinfo);
+                    throw new ResourceNotFoundException('No page found for slug ' . $pathinfo);
                 }
             }
+        }
+        
+        if($result['content']->getAliasOf()) {
+            $result['content'] = $this->contentManager->getRepository()->findOneById($result['content']->getAliasOf());
         }
 
         return $result;

@@ -49,7 +49,7 @@ class Content implements ContentInterface, EntityInterface, Nestable
      *
      * @ORM\Column(name="active", type="boolean")
      */
-    protected $active = 1;
+    protected $active = true;
 
     /**
      * @var string
@@ -82,11 +82,13 @@ class Content implements ContentInterface, EntityInterface, Nestable
     protected $realPresentation;
 
     /**
-     * @var string
+     * @var integer
+     * 
+     * @ORM\OneToOne(targetEntity="Content")
+     * @ORM\JoinColumn(name="alias_of", referencedColumnName="id", onDelete="CASCADE")
      *
-     * @ORM\Column(name="alias", type="string", length=255, nullable=true)
      */
-    protected $alias;
+    protected $aliasOf;
 
     /**
      * @var string
@@ -352,27 +354,27 @@ class Content implements ContentInterface, EntityInterface, Nestable
     }
 
     /**
-     * Set alias
+     * Set aliasOf
      *
-     * @param string $alias
+     * @param string $aliasOf
      *
      * @return Content
      */
-    public function setAlias($alias)
+    public function setAliasOf($aliasOf)
     {
-        $this->alias = $alias;
+        $this->aliasOf = $aliasOf;
 
         return $this;
     }
 
     /**
-     * Get alias
+     * Get aliasOf
      *
      * @return string
      */
-    public function getAlias()
+    public function getAliasOf()
     {
-        return $this->alias;
+        return $this->aliasOf;
     }
 
     /**
