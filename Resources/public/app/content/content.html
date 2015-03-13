@@ -67,11 +67,14 @@
                     <a href="#" ng-click="pickObject(content.id)" ng-show="!hasObject(content.id)">Add</a>
                     <span class="text-muted" ng-show="hasObject(content.id)">Added</span>&nbsp;
                 </td>
+                <td class="actions" ng-if="mode == 'PICKER_SINGLE'">
+                    <a href="#" ng-click="pickContent(content)">Choose</a>
+                </td>
             </tr>
         </table>
 
         <button ng-click="loadMore()" in-view="loadMore()" type="button" class="btn btn-paginate" ng-hide="(maxPerPage * currentPage) > numberOfResults">
-            {{ lblPaginate}}
+            {{ lblPaginate }}
         </button>
     </section>
 </div>
