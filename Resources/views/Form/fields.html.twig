@@ -147,14 +147,15 @@
         {% set content = get_content_by_id(form.vars.value.content_id) %}
     {% endif %}
     
-    <div ng-controller="ContentPickerController" ng-cloak ng-init="init('{{ {'id':content.id|default(''),'title':content.title|default('')}|json_encode() }}')">
+    <div class="content-picker" ng-controller="ContentPickerController" ng-cloak ng-init="init('{{ {'id':content.id|default(''),'title':content.title|default('')}|json_encode() }}')">
         
         {{ form_row(form.content_id, {'attr': {'ng-value': 'content.id'} }) }}
         
         {% verbatim %}
-            <button type="button" class="btn btn-default" ng-click="isPickerOpen = !isPickerOpen">Choose item</button>
-            <tt>{{content.title}} <a class="fa fa-times danger" ng-show="content.id" ng-click="content={}"></a></tt>
-            
+            <div class="wrapper">
+                <button type="button" class="btn btn-default" ng-click="isPickerOpen = !isPickerOpen">Choose item</button>
+                <span>{{content.title}} <a class="fa fa-times danger" ng-show="content.id" ng-click="content={}"></a></span>
+            </div>
             <ng-modal show="isPickerOpen">
                 <content-browser site-id="0" locale="nl_NL" directory-id="0" mode="PICKER_SINGLE"></content-browser>
             </ng-modal>
