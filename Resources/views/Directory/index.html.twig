@@ -13,16 +13,16 @@
         <table class="table">
             <thead>
                 <tr>
-                    <th><input type="checkbox" /></th>
+                    {#<th><input type="checkbox" /></th>#}
                     <th>Id</th>
-                    <th>{{ 'form.title'|trans|capitalize }}</th>
+                    <th>{{ 'form.name'|trans|capitalize }}</th>
                     <th></th>
             </thead>
             <tbody>
             {% macro tree_walk(directoryTree, level) %}
                 {% for directory in directoryTree %}
                     <tr>
-                        <td width="25"><input type="checkbox" name="item[]" value="{{ directory.id }}" /></td>
+                        {#<td width="25"><input type="checkbox" name="item[]" value="{{ directory.id }}" /></td>#}
                         <td width="25">{{ directory.id }}</td>
                         <td>{% if level %}{% for i in 0..level %}&nbsp;&nbsp;&nbsp;&nbsp;{% endfor %}{% endif %}{{ directory.name }}</td>
                         <td>

@@ -59,6 +59,7 @@ form:
 
 # Buttons
 button:
+    submit: Opslaan
     add: nieuwe toevoegen
     all: toon alles
     cancel: annuleren
