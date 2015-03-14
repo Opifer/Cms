@@ -9,7 +9,7 @@ content:
         description:
             placeholder: Omschrijving van de pagina
         directory:
-            help_text: De map waarin de pagina geplaatst dient te worden
+            help_text: De URL van de pagina wordt gemaakt op basis van de map waarin deze geplaatst wordt
         init:
             submit: naar stap 2
         locale:
@@ -47,7 +47,7 @@ form:
     description: Beschrijving
     email: Email
     parent: Bovenliggende
-    permalink: pagina link
+    permalink: Pagina URL
     presentation: presentatie
     slug:
         label: "URL-vriendelijke naam"

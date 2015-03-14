@@ -19,7 +19,7 @@ class ContentType extends AbstractType
 
     /** @var string */
     protected $directoryClass;
-    
+
     /** @var object */
     protected $contentManager;
 
@@ -41,22 +41,24 @@ class ContentType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $content = $builder->getData();
-        
+
         $transformer = new SlugTransformer();
         $contentTransformer = new IdToEntityTransformer($this->contentManager);
-        
+
         // Add the default form fields
         $builder
             ->add('title', 'text', [
                 'label' => $this->translator->trans('form.title'),
                 'attr'  => [
-                    'placeholder' => $this->translator->trans('content.form.title.placeholder')
+                    'placeholder' => $this->translator->trans('content.form.title.placeholder'),
+                    'help_text'   => $this->translator->trans('content.form.title.help_text'),
                 ]
             ])
             ->add('description', 'text', [
                 'label' => $this->translator->trans('form.description'),
                 'attr'  => [
-                    'placeholder' => $this->translator->trans('content.form.description.placeholder')
+                    'placeholder' => $this->translator->trans('content.form.description.placeholder'),
+                    'help_text'   => $this->translator->trans('content.form.description.help_text'),
                 ]
             ])
             ->add(
@@ -71,7 +73,12 @@ class ContentType extends AbstractType
             )
             ->add('directory', 'entity', [
                 'class'       => $this->directoryClass,
-                'property'    => 'name',
+                'query_builder' => function($er) {
+                    return $er->createQueryBuilder('d')
+                        ->orderBy('d.root', 'ASC')
+                        ->addOrderBy('d.lft', 'ASC');
+                },
+                'property'    => 'slug',
                 'empty_value' => '/',
                 'required'    => false,
                 'empty_data'  => null,
@@ -79,7 +86,12 @@ class ContentType extends AbstractType
                     'help_text' => $this->translator->trans('content.form.directory.help_text')
                 ]
             ])
-            ->add('alias', 'text')
+            ->add('alias', 'text', [
+                'attr'        => [
+                    'help_text' => $this->translator->trans('content.form.alias.help_text'),
+                    'widget_col' => 4,
+                ]
+            ])
             ->add(
                 $builder->create('symlink', 'contentpicker',[
                     'label' => $this->translator->trans('form.symlink')
@@ -88,7 +100,7 @@ class ContentType extends AbstractType
             )
             ->add('active', 'checkbox')
         ;
-        
+
         $builder->add('valueset', 'opifer_valueset', [
             'attr' => [
                 'class' => ($content->getSymlink() ? 'hidden' : '')

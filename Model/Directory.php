@@ -295,6 +295,9 @@ class Directory implements DirectoryInterface
     /**
      * Get slug
      *
+     * @JMS\VirtualProperty
+     * @JMS\SerializedName("slug")
+     *
      * @return string
      */
     public function getSlug()

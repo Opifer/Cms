@@ -45,7 +45,7 @@
             <tr ng-repeat="directory in directorys">
                 <td ng-click="navigateToDirectory(directory)" class="cell-folder cell-cover"></td>
                 <td><a ng-click="navigateToDirectory(directory)" class="text-muted">{{ directory.name}}</a></td>
-                <td class="detail hidden-xs"><span class="light"></span></td>
+                <td class="detail hidden-xs"><span class="light">/{{ directory.slug}}</span></td>
                 <td class="detail hidden-xs"></td>
                 <td class="actions"><a ng-click="navigateToDirectory(directory)" class="next">Open</a></td>
             </tr>
@@ -55,7 +55,7 @@
                 </td>
                 <td class="cell-file" ng-click="editContent(content.id)" ng-if="!content.pivotedAttributes.coverImage"></td>
                 <td ng-click="editContent(content.id)" class="title">{{ content.title}}</td>
-                <td ng-click="editContent(content.id)" class="detail hidden-xs">{{ content.slug}}</td>
+                <td ng-click="editContent(content.id)" class="detail hidden-xs">/{{ content.slug}}</td>
                 <td ng-click="editContent(content.id)" class="detail hidden-xs"><span class="label label-info">{{ content.templateDisplayName}}</span></td>
                 <td class="actions" ng-if="mode == 'ADMIN'">
                     <a class="text-muted js-delete-confirm" ng-click="confirmCopyContent($index, $event)" data-action_title="Duplicate" data-confirmation_message="Do you really want to duplicate " data-name="{{ content.title }}">Duplicate</a>&nbsp;
