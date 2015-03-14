@@ -99,6 +99,16 @@ class Directory implements DirectoryInterface
     }
 
     /**
+     * Get indented name which is used by Form Types to build
+     * a nested view in selects
+     *
+     * @return string
+     */
+    public function getIndentedName() {
+        return str_repeat(". . . . ", $this->lvl). $this->name;
+    }
+
+    /**
      * Get id
      *
      * @return integer

@@ -33,8 +33,13 @@ class DirectoryType extends AbstractType
         $builder
             ->add('parent', 'entity', [
                 'label'       => $this->translator->trans('directory.parent.label'),
+                'query_builder' => function($er) {
+                    return $er->createQueryBuilder('d')
+                        ->orderBy('d.root', 'ASC')
+                        ->addOrderBy('d.lft', 'ASC');
+                },
                 'class'       => $this->entity,
-                'property'    => 'name',
+                'property'    => 'indentedName',
                 'required'    => false,
                 'empty_value' => $this->translator->trans('directory.parent.empty'),
                 'empty_data'  => null,
