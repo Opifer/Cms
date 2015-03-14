@@ -83,17 +83,17 @@ class Content implements ContentInterface, EntityInterface, Nestable
 
     /**
      * @var string
-     * 
+     *
      * @JMS\Expose
      * @Gedmo\Slug(fields={"alias"}, unique_base="deletedAt")
      * @ORM\Column(name="alias", type="string", length=255, nullable=true)
      *
      */
     protected $alias;
-    
+
     /**
      * @var integer
-     * 
+     *
      * @ORM\ManyToOne(targetEntity="Content")
      * @ORM\JoinColumn(name="symlink", referencedColumnName="id", onDelete="CASCADE")
      *
@@ -198,7 +198,7 @@ class Content implements ContentInterface, EntityInterface, Nestable
         return $this->id = $id;
     }
 
-    
+
     /**
      * Get id
      *
@@ -277,7 +277,7 @@ class Content implements ContentInterface, EntityInterface, Nestable
     {
         return $this->slug;
     }
-    
+
     /**
      * Get slug without index appended
      *
@@ -286,9 +286,9 @@ class Content implements ContentInterface, EntityInterface, Nestable
     public function getBaseSlug()
     {
         $slug = $this->slug;
-        
+
         if(substr($slug, -6) == '/index') {
-            $slug = rtrim($slug, "index"); 
+            $slug = rtrim($slug, "index");
             $slug = rtrim($slug, "/");
         }
 
@@ -386,7 +386,7 @@ class Content implements ContentInterface, EntityInterface, Nestable
     {
         return $this->symlink;
     }
-    
+
     /**
      * Set alias
      *
@@ -773,6 +773,20 @@ class Content implements ContentInterface, EntityInterface, Nestable
     public function getTemplateName()
     {
         return $this->getValueSet()->getTemplate()->getName();
+    }
+
+    /**
+     * Returns display name of the Template for the ValueSet
+     *
+     * @JMS\VirtualProperty
+     * @JMS\SerializedName("templateDisplayName")
+     * @JMS\Groups({"elastica", "customgroup"})
+     *
+     * @return array
+     */
+    public function getTemplateDisplayName()
+    {
+        return $this->getValueSet()->getTemplate()->getDisplayName();
     }
 
     /**

@@ -5,7 +5,8 @@
         <header class="page-header">
             <h1>{{ content.title }}</h1>
 
-            {% if content.id != null %}
+            {# hide until properly implemented and documented #}
+            {% if content.id != null and false %}
                 <div class="nav-wrapper pull-right">
                     <ul class="nav nav-pills">
                         <li {% if mode == 'simple' %}class="active"{% endif %}>
@@ -51,10 +52,10 @@
                     {{ form_widget(form.slug) }}
                 </div>
             </div>
-                
+
             {{ form_row(form.alias) }}
             {{ form_row(form.symlink) }}
-                
+
             <div class="form-group">
                 <label class="control-label col-lg-2"
                        for="opifer_content_active">{{ 'form.active'|trans|capitalize }}</label>
@@ -62,7 +63,7 @@
                     {{ form_widget(form.active, { 'attr' : {'class' : 'opifer-content-active'} }) }}
                 </div>
             </div>
-            
+
             {% if form.valueset is defined %}
                 {{ form_row(form.valueset) }}
             {% endif %}
