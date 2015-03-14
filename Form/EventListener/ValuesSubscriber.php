@@ -44,6 +44,9 @@ class ValuesSubscriber implements EventSubscriberInterface
             throw new UnexpectedTypeException($data, 'array or (\Traversable and \ArrayAccess)');
         }
 
+        // Sorting values so that they display in sorted order of the attributes
+        uasort($data, function($a, $b) { return $a->getAttribute()->getSort() > $b->getAttribute()->getSort(); });
+
         foreach ($data as $name => $value) {
             // Do not add fields dynamically if they've already been set statically.
             // This allows us to override the formtypes from inside the form type
