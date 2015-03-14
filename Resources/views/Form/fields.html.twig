@@ -2,7 +2,7 @@
 
 {% block eav_value_row %}
     {% spaceless %}
-        <div class="form-group">
+        <div class="form-group {% if form.vars.attribute.valueType == 'nested' %}form-group-nested-content{% endif %}">
             {{ form_label(form) }}
             <div class="col-lg-10">
                 {% for child in form.children %}
@@ -146,15 +146,15 @@
     {% if(form.vars.value.content_id) %}
         {% set content = get_content_by_id(form.vars.value.content_id) %}
     {% endif %}
-    
+
     <div class="content-picker" ng-controller="ContentPickerController" ng-cloak ng-init="init('{{ {'id':content.id|default(''),'title':content.title|default('')}|json_encode() }}')">
-        
+
         {{ form_row(form.content_id, {'attr': {'ng-value': 'content.id'} }) }}
-        
+
         {% verbatim %}
             <div class="wrapper">
                 <button type="button" class="btn btn-default" ng-click="isPickerOpen = !isPickerOpen">Choose item</button>
-                <span>{{content.title}} <a class="fa fa-times danger" ng-show="content.id" ng-click="content={}"></a></span>
+                <div class="content-picked-item" ng-show="content.id"><div style="background-image: url({{ content.pivotedAttributes.coverImage }});" class="content-cover"></div> <span class="content-title">{{content.title}}</span> <a class="fa fa-times danger" ng-click="content={}"></a></div>
             </div>
             <ng-modal show="isPickerOpen">
                 <content-browser site-id="0" locale="nl_NL" directory-id="0" mode="PICKER_SINGLE"></content-browser>
