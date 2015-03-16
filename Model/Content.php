@@ -660,7 +660,7 @@ class Content implements ContentInterface, EntityInterface, Nestable
     }
 
     /**
-     * Gets the attributes and places them in an (by Twig) easily accessable array
+     * Gets the attributes and places them in an (by Twig) easily accessible array
      *
      * @return array
      */
