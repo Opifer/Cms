@@ -52,6 +52,12 @@ class ContentExtension extends \Twig_Extension
             new \Twig_SimpleFunction('render_content', [$this, 'renderContent'], [
                 'is_safe' => array('html')
             ]),
+            new \Twig_SimpleFunction('render_content_by_id', [$this, 'renderContentById'], [
+                'is_safe' => array('html')
+            ]),
+            new \Twig_SimpleFunction('content_picker', [$this, 'contentPicker'], [
+                'is_safe' => array('html')
+            ]),
             new \Twig_SimpleFunction('nested_content', [$this, 'renderNestedContent'], [
                 'is_safe' => array('html')
             ]),
@@ -88,18 +94,49 @@ class ContentExtension extends \Twig_Extension
     }
 
     /**
-     * Render a content item by its slug
+     * Render a content item by its slug or passed content object
      *
      * @return string
      */
-    public function renderContent($slug)
+    public function renderContent($contentItem)
     {
-        $content = $this->getContent($slug);
+        $content = ($contentItem instanceof ContentInterface) ? $contentItem : $this->getContent($contentItem);
 
         $action = new ControllerReference('OpiferContentBundle:Frontend/Content:view', ['content' => $content]);
         $string = $this->fragmentHandler->render($action);
 
         return $string;
+    }
+    
+    /**
+     * Render a content item by its slug
+     *
+     * @return string
+     */
+    public function renderContentById($id)
+    {
+        $content = $this->getContentById($id);
+
+        $action = new ControllerReference('OpiferContentBundle:Frontend/Content:view', ['content' => $content]);
+        $string = $this->fragmentHandler->render($action);
+
+        return $string;
+    }
+    
+    /**
+     * Render a content picker item or slug content
+     *
+     * @return string
+     */
+    public function contentPicker($contentValue, $default)
+    {
+        if($contentValue && $contentValue->getValue()) {
+            $contentItem = $this->getContentById($contentValue->getValue());
+        } else {
+            $contentItem = $default;
+        }
+        
+        return $this->renderContent($contentItem);
     }
 
     /**
