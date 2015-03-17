@@ -167,16 +167,6 @@ class Content implements ContentInterface, EntityInterface, Nestable
     }
 
     /**
-     * For purpose of entity cloning
-     */
-    public function __clone()
-    {
-        if ($this->id) {
-            $this->setId(null);
-        };
-    }
-
-    /**
      * Set id
      * @param integer $id Id of choice
      * @return integer
