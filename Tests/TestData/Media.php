@@ -21,7 +21,7 @@ class Media implements MediaInterface
         return $this->name;
     }
 
-    public function setReference()
+    public function setReference($reference)
     {
         $this->reference = $reference;
 
