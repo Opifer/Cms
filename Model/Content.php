@@ -165,17 +165,6 @@ class Content implements ContentInterface, EntityInterface, Nestable
     {
         $this->attributeValues = new ArrayCollection();
     }
-
-    /**
-     * Set id
-     * @param integer $id Id of choice
-     * @return integer
-     */
-    public function setId($id=null)
-    {
-        return $this->id = $id;
-    }
-
     
     /**
      * Get id
