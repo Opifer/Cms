@@ -177,9 +177,10 @@ class ContentController extends Controller
             throw $this->createNotFoundException('No content found for id '.$id);
         }
 
-        $duplicate_content_id = $contentManager->duplicate($content);
+        $duplicateContentId = $contentManager->duplicate($content);
 
         return $this->redirect($this->generateUrl('opifer_content_content_edit',[ 
-            'id' => $duplicate_content_id ]));
+            'id' => $duplicateContentId
+        ]));
     }
 }
