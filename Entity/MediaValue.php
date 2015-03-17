@@ -11,7 +11,7 @@ use Opifer\EavBundle\Model\MediaInterface;
  *
  * @ORM\Entity
  */
-class MediaValue extends Value implements \IteratorAggregate
+class MediaValue extends Value implements \IteratorAggregate, \Countable
 {
     /**
      * @ORM\ManyToMany(targetEntity="Opifer\EavBundle\Model\MediaInterface")
@@ -105,5 +105,15 @@ class MediaValue extends Value implements \IteratorAggregate
     public function isEmpty()
     {
         return (count($this->medias) < 1) ? true : false;
+    }
+
+    /**
+     * Count the amount of mapped media items
+     *
+     * @return int
+     */
+    public function count()
+    {
+        return count($this->medias);
     }
 }
