@@ -25,6 +25,6 @@ class MediaValueTest extends \PHPUnit_Framework_TestCase
         $this->value->addMedia($media);
         $this->value->addMedia($media2);
 
-        $this->assertCount(2, count($this->value));
+        $this->assertCount(2, $this->value);
     }
 }
