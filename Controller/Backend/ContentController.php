@@ -8,14 +8,12 @@ use Symfony\Component\HttpFoundation\Response;
 use Opifer\ContentBundle\Event\ResponseEvent;
 use Opifer\ContentBundle\Event\ContentResponseEvent;
 use Opifer\ContentBundle\OpiferContentEvents as Events;
-use Opifer\ContentBundle\Services\ContentService;
 
 class ContentController extends Controller
 {
-
     /**
      * Select the type of content, the site and the language before actually
-     * creating a new content item
+     * creating a new content item.
      *
      * @param Request $request
      *
@@ -37,21 +35,21 @@ class ContentController extends Controller
 
             return $this->redirect($this->generateUrl('opifer_content_content_new', [
                 'mode' => 'simple',
-                'template' => $templateId
+                'template' => $templateId,
             ]));
         }
 
         return $this->render('OpiferContentBundle:Content:new.html.twig', [
-            'form' => $form->createView()
+            'form' => $form->createView(),
         ]);
     }
 
     /**
-     * New
+     * New.
      *
-     * @param  Request $request
-     * @param  integer $template
-     * @param  string  $mode     [simple|advanced]
+     * @param Request $request
+     * @param integer $template
+     * @param string  $mode     [simple|advanced]
      *
      * @return Response
      */
@@ -86,23 +84,23 @@ class ContentController extends Controller
 
             return $this->redirect($this->generateUrl('opifer_content_content_edit', [
                 'id' => $content->getId(),
-                'mode' => $mode
+                'mode' => $mode,
             ]));
         }
 
         return $this->render('OpiferContentBundle:Content:edit.html.twig', [
             'content' => $content,
             'form' => $form->createView(),
-            'mode' => $mode
+            'mode' => $mode,
         ]);
     }
 
     /**
-     * Edit Action
+     * Edit Action.
      *
      * @param Request $request
      * @param integer $id
-     * @param string  $mode     [simple|advanced]
+     * @param string  $mode    [simple|advanced]
      *
      * @return \Symfony\Component\HttpFoundation\Response
      */
@@ -112,7 +110,7 @@ class ContentController extends Controller
         $content = $contentManager->getRepository()->find($id);
 
         if (!$content) {
-            throw $this->createNotFoundException('No content found for id ' . $id);
+            throw $this->createNotFoundException('No content found for id '.$id);
         }
 
         $event = new ContentResponseEvent($content, $request);
@@ -135,21 +133,21 @@ class ContentController extends Controller
 
             return $this->redirect($this->generateUrl('opifer_content_content_edit', [
                 'id' => $content->getId(),
-                'mode' => $mode
+                'mode' => $mode,
             ]));
         }
 
         return $this->render('OpiferContentBundle:Content:edit.html.twig', [
             'content' => $content,
             'form' => $form->createView(),
-            'mode' => $mode
+            'mode' => $mode,
         ]);
     }
 
     /**
-     * Index action
+     * Index action.
      *
-     * @param  Request $request
+     * @param Request $request
      *
      * @return \Symfony\Component\HttpFoundation\Response
      */
@@ -166,6 +164,7 @@ class ContentController extends Controller
 
     /**
      * @param integer $id Id of content which is about to be duplicated
+     *
      * @return Response
      */
     public function duplicateAction($id)
@@ -179,8 +178,8 @@ class ContentController extends Controller
 
         $duplicateContentId = $contentManager->duplicate($content);
 
-        return $this->redirect($this->generateUrl('opifer_content_content_edit',[ 
-            'id' => $duplicateContentId
+        return $this->redirect($this->generateUrl('opifer_content_content_edit', [
+            'id' => $duplicateContentId,
         ]));
     }
 }
