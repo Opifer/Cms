@@ -77,8 +77,8 @@ angular.module('OpiferNestedContent', ['ui.sortable'])
                 '   <header ng-click="toggle()" class="form-group">' +
                 '       <div class="col-xs-12 col-sm-9 col-lg-10">'+
                 '           <div class="title">'+
-                '               <div class="cell-icon cell-columns" ng-if="!subject.data.pivotedAttributes.coverImage"></div>'+
-                '               <div style="background-image: url({{ subject.data.pivotedAttributes.coverImage }});" ng-if="subject.data.pivotedAttributes.coverImage" class="content-cover"></div>'+
+                '               <div class="cell-icon cell-columns" ng-if="!subject.data.coverImage"></div>'+
+                '               <div style="background-image: url({{ subject.data.coverImage }});" ng-if="subject.data.coverImage" class="content-cover"></div>'+
                 '               <h3>{{ subject.data.title }}</h3>'+
                 '           </div>'+
                 '           <span class="template form-control-static"><span class="label label-info">{{ subject.data.templateDisplayName }}</span></span>'+
@@ -108,8 +108,8 @@ angular.module('OpiferNestedContent', ['ui.sortable'])
                     scope.subject.form = data.form;
                     scope.subject.data = data.content;
 
-                    if (scope.subject.data.pivotedAttributes.coverImage) {
-                        scope.subject.data.pivotedAttributes.coverImage = Routing.generate('liip_imagine_filter', {'path':  scope.subject.data.pivotedAttributes.coverImage, 'filter' : 'medialibrary'});
+                    if (scope.subject.data.coverImage) {
+                        scope.subject.data.coverImage = Routing.generate('liip_imagine_filter', {'path':  scope.subject.data.coverImage, 'filter' : 'medialibrary'});
                     }
 
                     // If the subject's name is not an ID, it means it's a new nested content

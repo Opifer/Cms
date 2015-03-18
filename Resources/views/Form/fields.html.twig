@@ -154,7 +154,7 @@
         {% verbatim %}
             <div class="wrapper">
                 <button type="button" class="btn btn-default" ng-click="isPickerOpen = !isPickerOpen">Choose item</button>
-                <div class="content-picked-item" ng-show="content.id"><div style="background-image: url({{ content.pivotedAttributes.coverImage }});" class="content-cover"></div> <span class="content-title">{{content.title}}</span> <a class="fa fa-times danger" ng-click="content={}"></a></div>
+                <div class="content-picked-item" ng-show="content.id"><div style="background-image: url({{ content.coverImage }});" class="content-cover"></div> <span class="content-title">{{content.title}}</span> <a class="fa fa-times danger" ng-click="content={}"></a></div>
             </div>
             <ng-modal show="isPickerOpen">
                 <content-browser site-id="0" locale="nl_NL" directory-id="0" mode="PICKER_SINGLE"></content-browser>
