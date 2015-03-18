@@ -15,7 +15,7 @@ angular.module('OpiferContent', ['angular-inview'])
 
     .controller('ContentPickerController', ['$scope', function ($scope) {
         $scope.content = {};
-        
+
         /**
          * Set content
          *
@@ -24,7 +24,7 @@ angular.module('OpiferContent', ['angular-inview'])
         $scope.init = function(content) {
             $scope.content = JSON.parse(content);
         };
-        
+
         $scope.pickContent = function(content) {
             $scope.content = content;
             $scope.isPickerOpen = false;
@@ -101,8 +101,8 @@ angular.module('OpiferContent', ['angular-inview'])
                     },
                     function(response, headers) {
                         for (var key in response.results) {
-                            if (response.results[key].pivotedAttributes.coverImage) {
-                                response.results[key].pivotedAttributes.coverImage = Routing.generate('liip_imagine_filter', {'path':  response.results[key].pivotedAttributes.coverImage, 'filter' : 'medialibrary'});
+                            if (response.results[key].coverImage) {
+                                response.results[key].coverImage = Routing.generate('liip_imagine_filter', {'path':  response.results[key].coverImage, 'filter' : 'medialibrary'});
                             }
                             $scope.contents.push(response.results[key]);
                         }
@@ -124,8 +124,8 @@ angular.module('OpiferContent', ['angular-inview'])
                         $scope.directorys = [];
                         $scope.contents = [];
                         for (var key in response.results) {
-                            if (response.results[key].pivotedAttributes.coverImage) {
-                                response.results[key].pivotedAttributes.coverImage = Routing.generate('liip_imagine_filter', {'path':  response.results[key].pivotedAttributes.coverImage, 'filter' : 'medialibrary'});
+                            if (response.results[key].coverImage) {
+                                response.results[key].coverImage = Routing.generate('liip_imagine_filter', {'path':  response.results[key].coverImage, 'filter' : 'medialibrary'});
                             }
                             $scope.contents.push(response.results[key]);
                         }
@@ -221,11 +221,11 @@ angular.module('OpiferContent', ['angular-inview'])
                 $scope.editContent = function(id) {
                     window.location = Routing.generate('opifer_content_content_edit', {'id': id});
                 };
-                
+
                 $scope.copyContent = function(id) {
                     window.location = Routing.generate('opifer_content_content_duplicate', {'id': id});
                 };
-                
+
                 $scope.confirmCopyContent = function(idx, $event) {
                     var selected = $scope.contents[idx];
 
@@ -250,17 +250,17 @@ angular.module('OpiferContent', ['angular-inview'])
                 $scope.unpickObject = function(contentId) {
                     $scope.$parent.unpickObject(contentId);
                 };
-                
+
                 $scope.pickContent = function(content) {
                     $scope.$parent.pickContent(content);
                 };
 
                 $scope.hasObject = function(contentId) {
-                    
+
                     if (angular.isUndefined($scope.$parent.subject.right.value)) {
                         return false;
                     }
-                    
+
                     var idx = $scope.$parent.subject.right.value.indexOf(contentId);
 
                     return (idx >= 0) ? true : false;

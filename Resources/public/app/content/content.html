@@ -50,10 +50,10 @@
                 <td class="actions"><a ng-click="navigateToDirectory(directory)" class="next">Open</a></td>
             </tr>
             <tr ng-repeat="content in contents track by $index">
-                <td class="cell-coverimg" ng-click="editContent(content.id)" ng-if="content.pivotedAttributes.coverImage">
-                    <div style="background-image: url({{ content.pivotedAttributes.coverImage }});" class="content-cover"></div>
+                <td class="cell-coverimg" ng-click="editContent(content.id)" ng-if="content.coverImage">
+                    <div style="background-image: url({{ content.coverImage }});" class="content-cover"></div>
                 </td>
-                <td class="cell-file" ng-click="editContent(content.id)" ng-if="!content.pivotedAttributes.coverImage"></td>
+                <td class="cell-file" ng-click="editContent(content.id)" ng-if="!content.coverImage"></td>
                 <td ng-click="editContent(content.id)" class="title">{{ content.title}}</td>
                 <td ng-click="editContent(content.id)" class="detail hidden-xs">/{{ content.slug}}</td>
                 <td ng-click="editContent(content.id)" class="detail hidden-xs"><span class="label label-info">{{ content.templateDisplayName}}</span></td>

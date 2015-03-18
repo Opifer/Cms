@@ -13,6 +13,8 @@ use Opifer\ContentBundle\Event\ContentResponseEvent;
 use Opifer\ContentBundle\Event\ResponseEvent;
 use Opifer\ContentBundle\OpiferContentEvents as Events;
 
+use JMS\Serializer\SerializationContext;
+
 class ContentController extends Controller
 {
     /**
@@ -34,7 +36,7 @@ class ContentController extends Controller
             ->getPaginatedByRequest($request);
 
         $contents = $paginator->getCurrentPageResults();
-        $contents = $this->get('jms_serializer')->serialize(iterator_to_array($contents), 'json');
+        $contents = $this->get('jms_serializer')->serialize(iterator_to_array($contents), 'json', SerializationContext::create()->setGroups(['list'])->enableMaxDepthChecks());
 
         $data = [
             'results'       => json_decode($contents, true),

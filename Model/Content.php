@@ -33,6 +33,7 @@ class Content implements ContentInterface, EntityInterface, Nestable
      * @ORM\GeneratedValue(strategy="AUTO")
      *
      * @JMS\Expose
+     * @JMS\Groups({"detail", "list"})
      */
     protected $id;
 
@@ -55,6 +56,7 @@ class Content implements ContentInterface, EntityInterface, Nestable
      * @var string
      *
      * @JMS\Expose
+     * @JMS\Groups({"detail", "list"})
      * @ORM\Column(name="title", type="string", length=255)
      * @Assert\NotBlank()
      */
@@ -64,6 +66,7 @@ class Content implements ContentInterface, EntityInterface, Nestable
      * @var string
      *
      * @JMS\Expose
+     * @JMS\Groups({"detail", "list"})
      * @ORM\Column(name="description", type="text", nullable=true)
      */
     protected $description;
@@ -72,6 +75,7 @@ class Content implements ContentInterface, EntityInterface, Nestable
      * @var string
      *
      * @JMS\Expose
+     * @JMS\Groups({"detail"})
      * @ORM\Column(name="presentation", type="text", nullable=true)
      */
     protected $presentation;
@@ -104,6 +108,7 @@ class Content implements ContentInterface, EntityInterface, Nestable
      * @var string
      *
      * @JMS\Expose
+     * @JMS\Groups({"detail", "list"})
      * @Gedmo\Slug(handlers={
      *      @Gedmo\SlugHandler(class="Opifer\ContentBundle\Handler\SlugHandler", options={
      *          @Gedmo\SlugHandlerOption(name="relationField", value="directory"),
@@ -138,6 +143,8 @@ class Content implements ContentInterface, EntityInterface, Nestable
      *
      * @var datetime
      *
+     * @JMS\Expose
+     * @JMS\Groups({"detail", "list"})
      * @Gedmo\Timestampable(on="create")
      * @ORM\Column(name="created_at", type="datetime")
      */
@@ -148,6 +155,8 @@ class Content implements ContentInterface, EntityInterface, Nestable
      *
      * @var datetime
      *
+     * @JMS\Expose
+     * @JMS\Groups({"detail", "list"})
      * @Gedmo\Timestampable(on="update")
      * @ORM\Column(name="updated_at", type="datetime")
      */
@@ -705,68 +714,11 @@ class Content implements ContentInterface, EntityInterface, Nestable
     }
 
     /**
-     * @todo clean this mess up
-     *
-     * Gets the attributes and places them in an (by Twig) easily accessable array
-     *
-     * @JMS\VirtualProperty
-     * @JMS\SerializedName("attributes")
-     * @JMS\Groups({"elastica", "customgroup"})
-     *
-     * @return array
-     */
-    public function getPivotedAttributes()
-    {
-        $array = [];
-        $array['coverImage'] = false;
-        foreach ($this->getValueSet()->getValues() as $value) {
-            switch (get_class($value)) {
-                case 'Opifer\EavBundle\Entity\AddressValue':
-                    $array[$value->getAttribute()->getName()] = [
-                        'street' => $value->getAddress()->getStreet(),
-                        'city' => $value->getAddress()->getCity(),
-                        'country' => $value->getAddress()->getCountry(),
-                        'location' => [
-                            'lat' => floatval($value->getAddress()->getLat()),
-                            'lon' => floatval($value->getAddress()->getLng())
-                        ]
-                    ];
-                    break;
-                case 'Opifer\EavBundle\Entity\CheckListValue':
-                    $array[$value->getAttribute()->getName()] = array();
-                    foreach ($value->getOptions() as $option) {
-                        $array[$value->getAttribute()->getName()][] = [
-                            'id' => $option->getId(),
-                            'name' => $option->getName()
-                        ];
-                    }
-                    break;
-                case 'Opifer\EavBundle\Entity\MediaValue':
-                    $array[$value->getAttribute()->getName()] = array();
-                    foreach ($value->getMedias() as $media) {
-                        if (!$array['coverImage']) {
-                            $array['coverImage'] = $media->getReference();
-                        }
-                        $array[$value->getAttribute()->getName()][] = [
-                            'name' => $media->getName(),
-                            'file' => $media->getFile()
-                        ];
-                    }
-                    break;
-                default:
-                    $array[$value->getAttribute()->getName()] = $value->getValue();
-            }
-        }
-
-        return $array;
-    }
-
-    /**
      * Returns name of the Template for the ValueSet
      *
      * @JMS\VirtualProperty
      * @JMS\SerializedName("templateName")
-     * @JMS\Groups({"elastica", "customgroup"})
+     * @JMS\Groups({"detail"})
      *
      * @return array
      */
@@ -780,7 +732,7 @@ class Content implements ContentInterface, EntityInterface, Nestable
      *
      * @JMS\VirtualProperty
      * @JMS\SerializedName("templateDisplayName")
-     * @JMS\Groups({"elastica", "customgroup"})
+     * @JMS\Groups({"detail", "list"})
      *
      * @return array
      */
