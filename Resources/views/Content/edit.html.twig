@@ -72,7 +72,7 @@
 
                 <div class="col-xs-8 col-lg-8">
                     <div class="btn-group" data-toggle="buttons">
-                        <label class="btn btn-publication active">
+                        <label class="btn btn-publication {% if form.active.vars.checked %}active{% endif %}">
                             {{ form_widget(form.active) }} <i class="icon-state"></i> {{ 'content.form.active.label'|trans|capitalize }}
                         </label>
                     </div>
