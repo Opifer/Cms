@@ -11,7 +11,6 @@ parameters:
     opifer.eav.string_value_provider.class: Opifer\EavBundle\ValueProvider\StringValueProvider
     opifer.eav.text_value_provider.class: Opifer\EavBundle\ValueProvider\TextValueProvider
     opifer.eav.twitter_value_provider.class: Opifer\EavBundle\ValueProvider\TwitterValueProvider
-    opifer.eav.content_value_provider.class: Opifer\EavBundle\ValueProvider\ContentValueProvider
 
 services:
     opifer.eav.boolean_value_provider:
@@ -78,11 +77,6 @@ services:
         arguments: [%opifer_eav.option_class%]
         tags:
             - { name: opifer.eav.value_provider, alias: select }
-    
-    opifer.eav.content_value_provider:
-        class: %opifer.eav.content_value_provider.class%
-        tags:
-            - { name: opifer.eav.value_provider, alias: content }
 
     # opifer.eav.date_value_provider:
     #     class: Opifer\EavBundle\ValueProvider\DateValueProvider
