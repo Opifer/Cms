@@ -24,9 +24,11 @@ class ContentType extends AbstractType
     protected $contentManager;
 
     /**
-     * Constructor
-     *
-     * @param Translator $translator
+     * Contstructor
+     * 
+     * @param TranslatorInterface $translator
+     * @param string $directoryClass
+     * @param object $contentManager
      */
     public function __construct(TranslatorInterface $translator, $directoryClass, $contentManager)
     {
@@ -43,7 +45,6 @@ class ContentType extends AbstractType
         $content = $builder->getData();
 
         $transformer = new SlugTransformer();
-        $contentTransformer = new IdToEntityTransformer($this->contentManager);
 
         // Add the default form fields
         $builder
@@ -92,12 +93,9 @@ class ContentType extends AbstractType
                     'widget_col' => 4,
                 ]
             ])
-            ->add(
-                $builder->create('symlink', 'contentpicker',[
-                    'label' => $this->translator->trans('form.symlink')
-                ])
-                    ->addModelTransformer($contentTransformer)
-            )
+            ->add('symlink', 'contentpicker',[
+                'label' => $this->translator->trans('form.symlink')
+            ])
             ->add('active', 'checkbox')
         ;
 
