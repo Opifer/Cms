@@ -58,7 +58,10 @@
             </div>
 
             {{ form_row(form.alias) }}
-            {{ form_row(form.symlink) }}
+
+            {% if mode == 'advanced' %}
+                {{ form_row(form.symlink) }}
+            {% endif %}
 
             <div class="form-group">
                 <label class="control-label col-lg-2"
