@@ -54,7 +54,7 @@ angular.module('OpiferContent', ['angular-inview'])
             templateUrl: '/bundles/opifercontent/app/content/content.html',
             controller: function($scope, ContentService, DirectoryService, $attrs) {
                 $scope.navto = false;
-                $scope.maxPerPage = 25;
+                $scope.maxPerPage = 10;
                 $scope.currentPage = 1;
                 $scope.numberOfResults = 0;
                 $scope.remainingResults = 0;
@@ -107,7 +107,8 @@ angular.module('OpiferContent', ['angular-inview'])
                             $scope.contents.push(response.results[key]);
                         }
                         $scope.numberOfResults = response.total_results;
-                        $scope.lblPaginate = "Meer content (" + ($scope.numberOfResults - ($scope.currentPage * $scope.maxPerPage)) + ")";
+                        $scope.remainingResults = $scope.numberOfResults - ($scope.currentPage * $scope.maxPerPage);
+                        $scope.lblPaginate = "Meer content (" + $scope.remainingResults + ")";
                     });
                 };
 
@@ -130,6 +131,7 @@ angular.module('OpiferContent', ['angular-inview'])
                             $scope.contents.push(response.results[key]);
                         }
                         $scope.numberOfResults = response.total_results;
+                        $scope.btnPaginate.button('reset');
                         $scope.lblPaginate = "Meer content (" + ($scope.numberOfResults - ($scope.currentPage * $scope.maxPerPage)) + ")";
                     });
                 };
@@ -237,9 +239,8 @@ angular.module('OpiferContent', ['angular-inview'])
                 };
 
                 $scope.loadMore = function(e) {
-                    if ($scope.remainingResults == 0) return;
+                    if ($scope.remainingResults === 0) return;
                     $scope.currentPage++;
-                    $scope.lblPaginate = "Laden…";
                     $scope.fetchContents();
                 };
 

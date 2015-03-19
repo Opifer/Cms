@@ -4,7 +4,7 @@
             <!-- Brand and toggle get grouped for better mobile display -->
             <div class="navbar-header">
                 <div class="btn-group navbar-btn navbar-left">
-                    <button type="button" class="btn btn-default" ng-click="previous()"ng-disabled="histPointer < 1"><i class="fa fa-chevron-left"></i></button>
+                    <button type="button" class="btn btn-default" ng-click="previous()" ng-disabled="histPointer < 1"><i class="fa fa-chevron-left"></i></button>
                     <button type="button" class="btn btn-default" ng-click="next()" ng-disabled="histPointer + 1 >= history.length"><i class="fa fa-chevron-right"></i></button>
                 </div>
                 <form class="navbar-form navbar-right" role="search">
@@ -73,10 +73,11 @@
                 </td>
             </tr>
         </table>
-
-        <button ng-click="loadMore()" in-view="loadMore()" type="button" class="btn btn-paginate" ng-hide="(maxPerPage * currentPage) > numberOfResults">
-            {{ lblPaginate }}
-        </button>
+        <nav class="center-block panel-body text-center">
+            <button ng-model="btnPaginate" ng-click="loadMore()" type="button" data-loading-text="Loading..."  class="btn btn-primary" ng-hide="(maxPerPage * currentPage) > numberOfResults">
+                {{ lblPaginate }}
+            </button>
+        </nav>
     </section>
 </div>
 
