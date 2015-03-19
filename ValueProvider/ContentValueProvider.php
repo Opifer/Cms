@@ -32,6 +32,6 @@ class ContentValueProvider extends AbstractValueProvider implements ValueProvide
      */
     public function getLabel()
     {
-        return 'Content picker';
+        return 'Content item';
     }
 }
