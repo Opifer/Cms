@@ -144,13 +144,13 @@
 {% block contentpicker_widget %}
 {% spaceless %}
     {% if(form.vars.value.content_id) %}
-        {% set content = get_content_by_id(form.vars.value.content_id) %}
+        {% set content = form.vars.value.content_id %}
     {% endif %}
 
     <div class="content-picker" ng-controller="ContentPickerController" ng-cloak ng-init="init('{{ {'id':content.id|default(''),'title':content.title|default('')}|json_encode() }}')">
 
         {{ form_row(form.content_id, {'attr': {'ng-value': 'content.id'} }) }}
-
+        
         {% verbatim %}
             <div class="wrapper">
                 <button type="button" class="btn btn-default" ng-click="isPickerOpen = !isPickerOpen">Choose item</button>
