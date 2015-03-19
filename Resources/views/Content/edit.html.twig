@@ -61,6 +61,8 @@
 
             {% if mode == 'advanced' %}
                 {{ form_row(form.symlink) }}
+            {% else %}
+                {% do form.symlink.setRendered %}
             {% endif %}
 
             <div class="form-group">
