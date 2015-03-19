@@ -8,6 +8,10 @@ content:
     form:
         description:
             placeholder: Omschrijving van de pagina
+        active:
+            description:  Publicatie
+            label:  Actief
+            help_text: Publicatie status van het content item waarbij inactief de content niet bezocht kan worden
         directory:
             help_text: De URL van de pagina wordt gemaakt op basis van de map waarin deze geplaatst wordt
         init:

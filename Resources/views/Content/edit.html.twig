@@ -3,7 +3,9 @@
 {% block opifer_content_body %}
     <article>
         <header class="page-header">
-            <h1>{{ content.title }} <small>{{ content.valueSet.template.displayName }} • <a href="{{ url('_content', {'slug': content.slug}) }}" target="_blank">{{ 'content.edit.visit'|trans }}</a></small></h1>
+            <h1>{{ content.title }}
+                <small>{{ content.valueSet.template.displayName }} • <a href="{{ url('_content', {'slug': content.slug}) }}" target="_blank">{{ 'content.edit.visit'|trans }}</a></small>
+            </h1>
 
             {# hide until properly implemented and documented #}
             {% if content.id != null and false %}
@@ -66,10 +68,15 @@
             {% endif %}
 
             <div class="form-group">
-                <label class="control-label col-lg-2"
-                       for="opifer_content_active">{{ 'form.active'|trans|capitalize }}</label>
+                <label class="control-label col-lg-2" for="opifer_content_active">{{ 'content.form.active.description'|trans|capitalize }}</label>
+
                 <div class="col-xs-8 col-lg-8">
-                    {{ form_widget(form.active, { 'attr' : {'class' : 'opifer-content-active'} }) }}
+                    <div class="btn-group" data-toggle="buttons">
+                        <label class="btn btn-publication active">
+                            {{ form_widget(form.active) }} <i class="icon-state"></i> {{ 'content.form.active.label'|trans|capitalize }}
+                        </label>
+                    </div>
+                    <span class="help-block">{{ 'content.form.active.help_text'|trans }}</span>
                 </div>
             </div>
 
@@ -87,8 +94,7 @@
                         {{ form_widget(form.save) }}
                     </div>
                     <div class="pull-right">
-                        <a href="{{ path('opifer_content_content_index') }}"
-                           class="btn btn-link">{{ 'button.cancel'|trans|capitalize }}</a>
+                        <a href="{{ path('opifer_content_content_index') }}" class="btn btn-link">{{ 'button.cancel'|trans|capitalize }}</a>
                     </div>
                 </div>
             </div>
