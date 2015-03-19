@@ -69,6 +69,7 @@ class OpiferContentExtension extends Extension implements PrependExtensionInterf
                         'orm' => [
                             'resolve_target_entities' => [
                                 'Opifer\ContentBundle\Model\DirectoryInterface' => $config['directory_class'],
+                                'Opifer\ContentBundle\Model\ContentInterface' => $config['content_class'],
                             ],
                         ],
                     ]);

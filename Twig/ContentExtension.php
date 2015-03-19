@@ -100,6 +100,12 @@ class ContentExtension extends \Twig_Extension
      */
     public function renderContent($contentItem)
     {
+        $string = '';
+                
+        if($contentItem === false) {
+            return $string;
+        }
+        
         $content = ($contentItem instanceof ContentInterface) ? $contentItem : $this->getContent($contentItem);
 
         $action = new ControllerReference('OpiferContentBundle:Frontend/Content:view', ['content' => $content]);
@@ -121,22 +127,6 @@ class ContentExtension extends \Twig_Extension
         $string = $this->fragmentHandler->render($action);
 
         return $string;
-    }
-    
-    /**
-     * Render a content picker item or slug content
-     *
-     * @return string
-     */
-    public function contentPicker($contentValue, $default)
-    {
-        if($contentValue && $contentValue->getValue()) {
-            $contentItem = $this->getContentById($contentValue->getValue());
-        } else {
-            $contentItem = $default;
-        }
-        
-        return $this->renderContent($contentItem);
     }
 
     /**

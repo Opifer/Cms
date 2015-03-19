@@ -8,6 +8,8 @@ parameters:
     opifer.content.content_init_type.class: Opifer\ContentBundle\Form\Type\ContentInitType
     opifer.content.content_router.class: Opifer\ContentBundle\Router\ContentRouter
     opifer.content.twig.content_extension.class: Opifer\ContentBundle\Twig\ContentExtension
+    opifer.content.content_value_provider.class: Opifer\ContentBundle\ValueProvider\ContentValueProvider
+    opifer.content.form.contentpicker_type.class: Opifer\ContentBundle\Form\Type\ContentPickerType
 
 services:        
     opifer.content.content_manager.default:
@@ -59,3 +61,14 @@ services:
         arguments: [@twig, @fragment.handler, @opifer.content.content_manager]
         tags:
             - { name: twig.extension }
+    
+    opifer.content.content_value_provider:
+        class: %opifer.content.content_value_provider.class%
+        tags:
+            - { name: opifer.eav.value_provider, alias: content }
+    
+    opifer.content.form.contentpicker_type:
+        class: %opifer.content.form.contentpicker_type.class%
+        arguments: [@opifer.content.content_manager]
+        tags:
+            - { name: form.type, alias: contentpicker }
