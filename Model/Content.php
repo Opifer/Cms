@@ -48,6 +48,8 @@ class Content implements ContentInterface, EntityInterface, Nestable
     /**
      * @var boolean
      *
+     * @JMS\Expose
+     * @JMS\Groups({"detail", "list"})
      * @ORM\Column(name="active", type="boolean")
      */
     protected $active = true;
