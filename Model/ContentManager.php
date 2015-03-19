@@ -10,6 +10,8 @@ use Symfony\Component\HttpFoundation\Request;
 use Opifer\CrudBundle\Pagination\Paginator;
 use Opifer\EavBundle\Form\Type\NestedContentType;
 use Opifer\EavBundle\Manager\EavManager;
+use Opifer\EavBundle\Entity\NestedValue;
+use Opifer\CmsBundle\Entity\Content;
 
 class ContentManager implements ContentManagerInterface
 {
@@ -216,5 +218,64 @@ class ContentManager implements ContentManagerInterface
         }
 
         $this->em->flush();
+    }
+
+    /**
+     * @param ContentInterface $content
+     * @param NestedValue $nestedIn
+     */
+    public function duplicate(ContentInterface $content, NestedValue $nestedIn = null)
+    {
+        //get valueset to clone
+        $valueset = $content->getValueSet();
+
+        //clone valueset
+        $duplicatedValueset = clone $valueset;
+
+        $this->detachAndPersist($duplicatedValueset);
+
+        //duplicate content
+        $duplicatedContent = clone $content;
+        $duplicatedContent->setValueSet($duplicatedValueset);
+
+        if (!is_null($nestedIn)) {
+            $duplicatedContent->setNestedIn($nestedIn);
+        }
+
+        $this->detachAndPersist($duplicatedContent);
+
+        //iterate values, clone each and assign duplicate valueset to it
+        foreach ($valueset->getValues() as $value) {
+
+            //skip empty attributes
+            if (is_null($value->getId())) continue;
+
+            $duplicatedValue = clone ($value);
+            $duplicatedValue->setValueSet($duplicatedValueset);
+
+            $this->detachAndPersist($duplicatedValue);
+
+            //if type nested, find content that has nested_in value same as id of value
+            if ($value instanceof \Opifer\EavBundle\Entity\NestedValue) {
+                $nestedContents = $this->getRepository()->findby(['nestedIn' => $value->getId()]);
+
+                foreach ($nestedContents as $nestedContent) {
+                    $this->duplicate($nestedContent, $duplicatedValue);
+                }
+            }
+        }
+        $this->em->flush();
+
+        return $duplicatedContent->getId();
+    }
+
+    /**
+     * For cloning purpose
+     * @param Opifer\ContentBundle\Model\Content|Opifer\EavBundle\Model\ValueSet|Opifer\EavBundle\Entity\Value $entity
+     */
+    private function detachAndPersist($entity)
+    {
+        $this->em->detach($entity);
+        $this->em->persist($entity);
     }
 }
