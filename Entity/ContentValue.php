@@ -4,8 +4,6 @@ namespace Opifer\ContentBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Opifer\EavBundle\Entity\Value;
-use Opifer\EavBundle\Model\ValueInterface;
-//use Opifer\ContentBundle\Model\ContentInterface;
 
 /**
  * ContentValue
@@ -65,7 +63,6 @@ class ContentValue extends Value
      */
     public function getContent()
     {
-//        dump($this->content);
         return $this->content;
     }
 }
