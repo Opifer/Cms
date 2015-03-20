@@ -59,6 +59,28 @@ class ValueSet implements ValueSetInterface
     }
 
     /**
+     * For purpose of entity cloning
+     */
+    public function __clone()
+    {
+        if ($this->id) {
+            $this->setId(null);
+        }
+    }
+
+    /**
+     * Set id
+     * @param integer $id Id of choice
+     * @return ValueSet
+     */
+    public function setId($id=null)
+    {
+        $this->id = $id;
+
+        return $this;
+    }
+
+    /**
      * Get id
      *
      * @return integer
