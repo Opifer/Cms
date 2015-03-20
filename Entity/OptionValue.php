@@ -3,15 +3,15 @@
 namespace Opifer\EavBundle\Entity;
 
 /**
-* Option value
-*/
+ * Option value
+ */
 abstract class OptionValue extends Value
 {
     /**
-    * Turn value into a simple array
-    *
-    * @return array
-    */
+     * Turn value into a simple array
+     *
+     * @return array
+     */
     public function getOptionsAsArray()
     {
         $array = [];
@@ -24,20 +24,20 @@ abstract class OptionValue extends Value
     }
 
     /**
-    * Turn the options into a json string
-    *
-    * @return string
-    */
+     * Turn the options into a json string
+     *
+     * @return string
+     */
     public function getOptionsAsJson()
     {
         return json_encode($this->getOptionsAsArray(), true);
     }
 
     /**
-    * Get an array of option ids
-    *
-    * @return array
-    */
+     * Get an array of option ids
+     *
+     * @return array
+     */
     public function getIds()
     {
         $array = [];
@@ -50,10 +50,10 @@ abstract class OptionValue extends Value
     }
 
     /**
-    * Get the option ids as a string
-    *
-    * @return string
-    */
+     * Get the option ids as a string
+     *
+     * @return string
+     */
     public function getIdsAsString()
     {
         $array = $this->getIds();
@@ -62,10 +62,10 @@ abstract class OptionValue extends Value
     }
 
     /**
-    * Get names of options
-    *
-    * @return array
-    */
+     * Get names of options
+     *
+     * @return array
+     */
     public function getNames()
     {
         $array = [];
@@ -78,10 +78,10 @@ abstract class OptionValue extends Value
     }
 
     /**
-    * Get the value
-    *
-    * @return array
-    */
+     * Get the value
+     *
+     * @return array
+     */
     public function getValue()
     {
         return $this->options;
