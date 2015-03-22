@@ -275,7 +275,7 @@ angular.module('mediaLibrary', ['infinite-scroll', 'ngModal', 'angularFileUpload
                     this.items.push(items[i]);
                 }
 
-                if ((data.total_results / data.results_per_page) < this.page) {
+                if ((data.total_results / data.results_per_page) <= this.page) {
                     this.end = true;
                 }
 
