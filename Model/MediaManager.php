@@ -67,7 +67,7 @@ class MediaManager implements MediaManagerInterface
         $qb = $this->getRepository()->createQueryBuilderFromRequest($request);
 
         $paginator = new Pagerfanta(new DoctrineORMAdapter($qb));
-        $paginator->setMaxPerPage($request->get('limit', 100));
+        $paginator->setMaxPerPage($request->get('limit', 50));
         $paginator->setCurrentPage($request->get('page', 1));
 
         return $paginator;
