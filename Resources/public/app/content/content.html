@@ -74,7 +74,7 @@
             </tr>
         </table>
         <nav class="center-block panel-body text-center">
-            <button ng-model="btnPaginate" ng-click="loadMore()" in-view="loadMore()" type="button" data-loading-text="Loading..."  class="btn btn-primary" ng-hide="(maxPerPage * currentPage) > numberOfResults">
+            <button ng-model="btnPaginate" ng-click="loadMore()" in-view="loadMore()" type="button" data-loading-text="Loading..."  class="btn btn-primary" ng-if="active" ng-hide="(maxPerPage * currentPage) > numberOfResults">
                 {{ lblPaginate }}
             </button>
         </nav>
