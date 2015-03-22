@@ -46,6 +46,7 @@ angular.module('OpiferContent', ['angular-inview'])
                 provider: '@',
                 context: '@',
                 siteId: '@',
+                active: '@',
                 directoryId: '@',
                 //locale: '@',
                 mode: '@',
@@ -63,6 +64,8 @@ angular.module('OpiferContent', ['angular-inview'])
                 $scope.lblPaginate = "Meer resultaten";
                 $scope.query = null;
                 $scope.inSearch = false;
+                $scope.busyLoading = false;
+                $scope.active = false;
                 $scope.confirmation = {
                     shown: false,
                     name: '',
@@ -109,6 +112,7 @@ angular.module('OpiferContent', ['angular-inview'])
                         $scope.numberOfResults = response.total_results;
                         $scope.remainingResults = $scope.numberOfResults - ($scope.currentPage * $scope.maxPerPage);
                         $scope.lblPaginate = "Meer content (" + $scope.remainingResults + ")";
+                        $scope.busyLoading = false;
                     });
                 };
 
@@ -239,8 +243,9 @@ angular.module('OpiferContent', ['angular-inview'])
                 };
 
                 $scope.loadMore = function(e) {
-                    if ($scope.remainingResults === 0) return;
+                    if (!$scope.active || $scope.busyLoading || $scope.remainingResults <= 0) return;
                     $scope.currentPage++;
+                    $scope.busyLoading = true;
                     $scope.fetchContents();
                 };
 
