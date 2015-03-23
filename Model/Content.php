@@ -91,7 +91,12 @@ class Content implements ContentInterface, EntityInterface, Nestable
      * @var string
      *
      * @JMS\Expose
-     * @Gedmo\Slug(fields={"alias"}, unique_base="deletedAt")
+     * @Gedmo\Slug(handlers={
+     *      @Gedmo\SlugHandler(class="Opifer\ContentBundle\Handler\AliasHandler", options={
+     *          @Gedmo\SlugHandlerOption(name="field", value="slug"),
+     *          @Gedmo\SlugHandlerOption(name="separator", value="-")
+     *      })
+     * }, fields={"alias"}, unique_base="deletedAt")
      * @ORM\Column(name="alias", type="string", length=255, nullable=true)
      *
      */
