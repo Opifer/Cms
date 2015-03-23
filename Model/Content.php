@@ -501,10 +501,23 @@ class Content implements ContentInterface, EntityInterface, Nestable
     }
 
     /**
+     * Set updated at
+     *
+     * @param  \DateTime $updatedAt
+     * @return Content
+     */
+    public function setUpdatedAt($updatedAt)
+    {
+        $this->updatedAt = $updatedAt;
+
+        return $this;
+    }
+
+    /**
      * Set deletedAt
      *
      * @param  \DateTime $deletedAt
-     * @return File
+     * @return Content
      */
     public function setDeletedAt($deletedAt)
     {
