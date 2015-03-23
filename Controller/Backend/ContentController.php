@@ -125,6 +125,9 @@ class ContentController extends Controller
         $form->handleRequest($request);
 
         if ($form->isValid()) {
+            // Set updatedAt for every save as Timestampable does not take Values into account
+            $content->setUpdatedAt(new \DateTime('now'));
+
             $contentManager->mapNested($content, $request);
             $contentManager->save($content);
 
@@ -179,7 +182,7 @@ class ContentController extends Controller
 
         $duplicate_content_id = $contentManager->duplicate($content);
 
-        return $this->redirect($this->generateUrl('opifer_content_content_edit',[ 
+        return $this->redirect($this->generateUrl('opifer_content_content_edit',[
             'id' => $duplicate_content_id ]));
     }
 }
