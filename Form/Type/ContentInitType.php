@@ -47,14 +47,15 @@ class ContentInitType extends AbstractType
         $builder
             ->add('template', 'entity', [
                 'class'    => $this->templateClass,
-                'property' => 'name',
+                'property' => 'displayName',
                 'attr'     => [
                     'help_text' => $this->translator->trans('content.form.template.help_text')
                 ],
                 'query_builder' => function(EntityRepository $repository) {
                     return $repository->createQueryBuilder('c')
                         ->where('c.objectClass = :objectClass')
-                        ->setParameter('objectClass', $this->contentClass);
+                        ->setParameter('objectClass', $this->contentClass)
+                        ->orderBy('c.displayName', 'ASC');
                 }
             ])
             ->add('save', 'submit', [
