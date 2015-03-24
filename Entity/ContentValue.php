@@ -17,7 +17,7 @@ class ContentValue extends Value
      * @var <Content>
      *
      * @ORM\ManyToOne(targetEntity="Opifer\ContentBundle\Model\ContentInterface")
-     * @ORM\JoinColumn(name="content_id", referencedColumnName="id")
+     * @ORM\JoinColumn(name="content_id", referencedColumnName="id", nullable=true, onDelete="SET NULL")
      *
      */
     protected $content;

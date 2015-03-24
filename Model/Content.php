@@ -130,7 +130,7 @@ class Content implements ContentInterface, EntityInterface, Nestable
 
     /**
      * @ORM\ManyToOne(targetEntity="Opifer\ContentBundle\Model\DirectoryInterface")
-     * @ORM\JoinColumn(name="directory_id", referencedColumnName="id")
+     * @ORM\JoinColumn(name="directory_id", referencedColumnName="id", nullable=true, onDelete="SET NULL")
      */
     protected $directory;
 
