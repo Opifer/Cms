@@ -45,7 +45,9 @@ class ValuesSubscriber implements EventSubscriberInterface
         }
 
         // Sorting values so that they display in sorted order of the attributes
-        uasort($data, function($a, $b) { return $a->getAttribute()->getSort() > $b->getAttribute()->getSort(); });
+        uasort($data, function($a, $b) {
+            return $a->getAttribute()->getSort() > $b->getAttribute()->getSort();
+        });
 
         foreach ($data as $name => $value) {
             // Do not add fields dynamically if they've already been set statically.
