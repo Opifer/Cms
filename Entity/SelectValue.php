@@ -19,8 +19,12 @@ class SelectValue extends OptionValue
     public function getValue()
     {
         $options = parent::getValue();
-
-        return $options[0]->getName();
+        
+        if(isset($options[0]) && $options[0]) {
+            return $options[0]->getName();
+        }
+        
+        return null;
     }
 
     /**
