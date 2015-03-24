@@ -25,6 +25,7 @@ content:
             help_text: 'Het soort content'
         title:
             placeholder: De titel van de pagina
+            help_text: De titel van de pagina wordt in de browser weergegeven in het tabblad en in zoekmachines getoond
     new:
         title: Bepaal het soort content
 
