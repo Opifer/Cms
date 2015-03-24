@@ -58,9 +58,9 @@
                 <td ng-click="editContent(content.id)" class="hidden-xs" ng-class="content.active ? '' : 'text-muted'"><s ng-if="!content.active">/{{ content.slug}}</s><span ng-if="content.active">/{{ content.slug}}</span></td>
                 <td ng-click="editContent(content.id)" class="detail hidden-xs"><span class="label label-info">{{ content.templateDisplayName}}</span></td>
                 <td class="actions" ng-if="mode == 'ADMIN'">
-                    <a class="text-muted js-delete-confirm" ng-click="confirmCopyContent($index, $event)" data-action_title="Duplicate" data-confirmation_message="Do you really want to duplicate " data-name="{{ content.title }}">Duplicate</a>&nbsp;
+                    <a class="text-muted js-delete-confirm" ng-click="confirmCopyContent($index, $event)" data-action_title="Duplicate" data-btn_type="btn-primary" data-confirmation_message="Do you really want to duplicate " data-name="{{ content.title }}">Duplicate</a>&nbsp;
                     <a href="#" ng-click="editContent(content.id)">Edit</a>&nbsp;
-                    <a class="danger js-delete-confirm" ng-click="confirmDeleteContent($index, $event)" data-action_title="Delete" data-confirmation_message="Do you really want to delete " data-name="{{ content.title }}">Delete</a>
+                    <a class="danger js-delete-confirm" ng-click="confirmDeleteContent($index, $event)" data-action_title="Delete" data-btn_type="btn-danger" data-confirmation_message="Do you really want to delete " data-name="{{ content.title }}">Delete</a>
                     <!-- <a  class="danger js-delete-confirm" ng-click="confirmDeleteContent(content.id)" data-name="{{ content.title }}" data-toggle="modal" data-target="#modalDelete">Delete</a> -->
                     <!--ng-click="deleteContent(content.id)"-->
                 </td>
@@ -74,7 +74,7 @@
             </tr>
         </table>
         <nav class="center-block panel-body text-center">
-            <button ng-model="btnPaginate" ng-click="loadMore()" in-view="loadMore()" type="button" data-loading-text="Loading..."  class="btn btn-primary" ng-if="active" ng-hide="(maxPerPage * currentPage) > numberOfResults">
+            <button ng-model="btnPaginate" ng-click="loadMore()" in-view="loadMore()" type="button" data-loading-text="Loading..."  class="btn btn-primary" ng-hide="(maxPerPage * currentPage) > numberOfResults">
                 {{ lblPaginate }}
             </button>
         </nav>
@@ -92,7 +92,7 @@
         <button type="button" class="btn btn-link" ng-click="confirmation.shown = false">
             Cancel
         </button>
-        <button class="btn btn-danger modal-confirm-button" ng-click="confirmation.action(confirmation.idx)" title="{{ confirmation.action_description }}">
+        <button class="btn {{ confirmation.dataset.btn_type }} modal-confirm-button" ng-click="confirmation.action(confirmation.idx)" title="{{ confirmation.action_description }}">
             {{ confirmation.dataset.action_title }}
         </button>
     </div>
