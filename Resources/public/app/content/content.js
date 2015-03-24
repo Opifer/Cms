@@ -23,9 +23,6 @@ angular.module('OpiferContent', ['angular-inview'])
          */
         $scope.init = function(content) {
             $scope.content = JSON.parse(content);
-            if ($scope.content.coverImage) {
-                $scope.content.coverImage = Routing.generate('liip_imagine_filter', {'path': $scope.content.coverImage, 'filter': 'medialibrary'});
-            }
         };
 
         $scope.pickContent = function(content) {
@@ -107,9 +104,6 @@ angular.module('OpiferContent', ['angular-inview'])
                     },
                     function(response, headers) {
                         for (var key in response.results) {
-                            if (response.results[key].coverImage) {
-                                response.results[key].coverImage = Routing.generate('liip_imagine_filter', {'path':  response.results[key].coverImage, 'filter' : 'medialibrary'});
-                            }
                             $scope.contents.push(response.results[key]);
                         }
                         $scope.numberOfResults = response.total_results;
@@ -132,9 +126,6 @@ angular.module('OpiferContent', ['angular-inview'])
                         $scope.directorys = [];
                         $scope.contents = [];
                         for (var key in response.results) {
-                            if (response.results[key].coverImage) {
-                                response.results[key].coverImage = Routing.generate('liip_imagine_filter', {'path':  response.results[key].coverImage, 'filter' : 'medialibrary'});
-                            }
                             $scope.contents.push(response.results[key]);
                         }
                         $scope.numberOfResults = response.total_results;
