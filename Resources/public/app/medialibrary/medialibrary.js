@@ -14,7 +14,7 @@ angular.module('mediaLibrary', ['infinite-scroll', 'ngModal', 'angularFileUpload
         }
         $scope.confirmation = {
             shown: false,
-            name: '',
+            name: ''
         }
         $scope.picker = {
             pickerShown: false,
@@ -56,15 +56,6 @@ angular.module('mediaLibrary', ['infinite-scroll', 'ngModal', 'angularFileUpload
                         .success(function(data) {
                             var results = data.results;
                             for (var i = 0; i < results.length; i++) {
-
-                                if (results[i].provider != 'image') {
-                                    var reference = results[i].thumb.reference;
-                                } else {
-                                    var reference = results[i].reference;
-                                }
-
-                                results[i].image = Routing.generate('liip_imagine_filter', {'path': reference, 'filter' : 'medialibrary'});
-
                                 $scope.selecteditems.push(results[i]);
                             }
                         })
@@ -267,13 +258,7 @@ angular.module('mediaLibrary', ['infinite-scroll', 'ngModal', 'angularFileUpload
             // Retrieve more items and add them to the already loaded items
             $http.get(Routing.generate('opifer_api_media', {'page': this.page, 'search': this.search})).success(function(data) {
 
-                var items = data.results;
-
-                for (var i = 0; i < items.length; i++) {
-                    items[i].image = Routing.generate('liip_imagine_filter', {'path': items[i].reference, 'filter' : 'medialibrary'});
-
-                    this.items.push(items[i]);
-                }
+                this.items = data.results;
 
                 if ((data.total_results / data.results_per_page) <= this.page) {
                     this.end = true;
