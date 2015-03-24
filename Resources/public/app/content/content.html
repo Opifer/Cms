@@ -59,7 +59,7 @@
                 <td ng-click="editContent(content.id)" class="detail hidden-xs"><span class="label label-info">{{ content.templateDisplayName}}</span></td>
                 <td class="actions" ng-if="mode == 'ADMIN'">
                     <a class="text-muted js-delete-confirm" ng-click="confirmCopyContent($index, $event)" data-action_title="Duplicate" data-btn_type="btn-primary" data-confirmation_message="Do you really want to duplicate " data-name="{{ content.title }}">Duplicate</a>&nbsp;
-                    <a href="#" ng-click="editContent(content.id)">Edit</a>&nbsp;
+                    <a href="{{ editUrl(content.id) }}">Edit</a>&nbsp;
                     <a class="danger js-delete-confirm" ng-click="confirmDeleteContent($index, $event)" data-action_title="Delete" data-btn_type="btn-danger" data-confirmation_message="Do you really want to delete " data-name="{{ content.title }}">Delete</a>
                     <!-- <a  class="danger js-delete-confirm" ng-click="confirmDeleteContent(content.id)" data-name="{{ content.title }}" data-toggle="modal" data-target="#modalDelete">Delete</a> -->
                     <!--ng-click="deleteContent(content.id)"-->

@@ -231,6 +231,10 @@ angular.module('OpiferContent', ['angular-inview'])
                     window.location = Routing.generate('opifer_content_content_edit', {'id': id});
                 };
 
+                $scope.editUrl = function(id) {
+                    return Routing.generate('opifer_content_content_edit', {'id': id});
+                };
+
                 $scope.copyContent = function(id) {
                     window.location = Routing.generate('opifer_content_content_duplicate', {'id': id});
                 };
