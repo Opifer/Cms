@@ -34,7 +34,7 @@
 
         <div class="clearfix" ng-cloak>
             <div ng-repeat="item in mediaCollection.items" class="item {{ item.provider }}">
-                <img ng-src="{{ item.image }}" class="visual" alt="">
+                <img ng-src="{{ item.images.sm }}" class="visual" alt="{{ item.name }}">
                 <div class="image-wrapper">
                     <div class="extended-data">
                         <span class="details">{{ item.metadata.width }}x{{ item.metadata.height }}px</span>

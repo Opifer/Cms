@@ -14,6 +14,13 @@ services:
         tags:
             - { name: doctrine.event_subscriber }
 
+    # Serializer
+    media.handler.serialization:
+        class: Opifer\MediaBundle\Serializer\MediaEventSubscriber
+        arguments: [@liip_imagine.cache.manager]
+        tags:
+            - { name: jms_serializer.event_subscriber }
+
     # Form Types
     opifer.media.form.dropzone:
         class: Opifer\MediaBundle\Form\Type\DropzoneType
