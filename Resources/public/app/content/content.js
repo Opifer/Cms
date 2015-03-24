@@ -23,6 +23,9 @@ angular.module('OpiferContent', ['angular-inview'])
          */
         $scope.init = function(content) {
             $scope.content = JSON.parse(content);
+            if ($scope.content.coverImage) {
+                $scope.content.coverImage = Routing.generate('liip_imagine_filter', {'path': $scope.content.coverImage, 'filter': 'medialibrary'});
+            }
         };
 
         $scope.pickContent = function(content) {
