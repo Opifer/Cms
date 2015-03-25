@@ -15,8 +15,8 @@ services:
             - { name: doctrine.event_subscriber }
 
     # Serializer
-    media.handler.serialization:
-        class: Opifer\MediaBundle\Serializer\MediaEventSubscriber
+    opifer.media.handler.serialization:
+        class: Opifer\MediaBundle\EventListener\Serializer\MediaEventSubscriber
         arguments: [@liip_imagine.cache.manager]
         tags:
             - { name: jms_serializer.event_subscriber }
@@ -33,7 +33,6 @@ services:
         tags:
             - { name: form.type, alias: mediapicker }
 
-
     # Providers
     opifer.media.provider.pool:
         class: Opifer\MediaBundle\Provider\Pool
@@ -49,7 +48,6 @@ services:
         arguments: [@opifer.media.media_manager, @translator, %opifer_media.providers.youtube.api_key%]
         tags:
             - { name: opifer.media.provider, alias: youtube }
-
 
     # Image processors
     opifer.media.aws_s3.client:
@@ -80,6 +78,7 @@ services:
             - { name: 'liip_imagine.cache.resolver', resolver: 'aws_storage' }
         calls:
             - [setCachePrefix, ["cache"]]
+
     opifer.imagine.cache.resolver.amazon_s3.proxy:
         class: Liip\ImagineBundle\Imagine\Cache\Resolver\ProxyResolver
         arguments:

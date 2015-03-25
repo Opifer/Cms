@@ -1,6 +1,6 @@
 <?php
 
-namespace Opifer\MediaBundle\Serializer;
+namespace Opifer\MediaBundle\EventListener\Serializer;
 
 use JMS\Serializer\EventDispatcher\EventSubscriberInterface;
 use JMS\Serializer\EventDispatcher\ObjectEvent;
