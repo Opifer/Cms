@@ -12,7 +12,7 @@ use Opifer\ContentBundle\Model\Content;
 /**
  * Class ContentEventSubscriber
  *
- * @package  Opifer\ContentBundle\Serializer
+ * @package  Opifer\ContentBundle\EventListener\Serializer
  */
 class ContentEventSubscriber implements EventSubscriberInterface
 {
