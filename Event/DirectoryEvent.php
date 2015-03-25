@@ -1,6 +1,6 @@
 <?php
 
-namespace Opifer\ContentBundle\EventListener;
+namespace Opifer\ContentBundle\Event;
 
 use Opifer\ContentBundle\Model\DirectoryInterface;
 use Symfony\Component\EventDispatcher\Event;

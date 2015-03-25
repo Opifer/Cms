@@ -8,7 +8,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 use Opifer\ContentBundle\Model\DirectoryInterface;
-use Opifer\ContentBundle\EventListener\ResponseEvent;
+use Opifer\ContentBundle\Event\ResponseEvent;
 use Opifer\ContentBundle\OpiferContentEvents as Events;
 
 class DirectoryController extends Controller

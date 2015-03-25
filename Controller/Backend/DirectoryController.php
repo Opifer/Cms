@@ -9,8 +9,8 @@ use Symfony\Component\HttpFoundation\Request;
 
 use Opifer\ContentBundle\Entity;
 use Opifer\ContentBundle\Entity\Directory;
-use Opifer\ContentBundle\EventListener\ResponseEvent;
-use Opifer\ContentBundle\EventListener\DirectoryResponseEvent;
+use Opifer\ContentBundle\Event\ResponseEvent;
+use Opifer\ContentBundle\Event\DirectoryResponseEvent;
 use Opifer\ContentBundle\OpiferContentEvents as Events;
 
 class DirectoryController extends Controller
