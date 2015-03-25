@@ -1,6 +1,6 @@
 <?php
 
-namespace Opifer\ContentBundle\Event;
+namespace Opifer\ContentBundle\EventListener;
 
 use Opifer\ContentBundle\Model\ContentInterface;
 use Symfony\Component\EventDispatcher\Event;

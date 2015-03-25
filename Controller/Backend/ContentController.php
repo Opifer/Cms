@@ -5,10 +5,10 @@ namespace Opifer\ContentBundle\Controller\Backend;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Opifer\ContentBundle\Event\ResponseEvent;
-use Opifer\ContentBundle\Event\ContentResponseEvent;
+
+use Opifer\ContentBundle\EventListener\ResponseEvent;
+use Opifer\ContentBundle\EventListener\ContentResponseEvent;
 use Opifer\ContentBundle\OpiferContentEvents as Events;
-use Opifer\ContentBundle\Services\ContentService;
 
 class ContentController extends Controller
 {

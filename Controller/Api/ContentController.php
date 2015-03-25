@@ -9,8 +9,8 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 use Opifer\ContentBundle\Model\ContentInterface;
-use Opifer\ContentBundle\Event\ContentResponseEvent;
-use Opifer\ContentBundle\Event\ResponseEvent;
+use Opifer\ContentBundle\EventListener\ContentResponseEvent;
+use Opifer\ContentBundle\EventListener\ResponseEvent;
 use Opifer\ContentBundle\OpiferContentEvents as Events;
 
 use JMS\Serializer\SerializationContext;
