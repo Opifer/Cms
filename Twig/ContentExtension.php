@@ -216,7 +216,7 @@ class ContentExtension extends \Twig_Extension
             $indexSlug = (sizeof($breadcrumbs)-1 == $index) ? $slug : $slug.'/index';
             
             if($content = $this->contentManager->getRepository()->findOneBy(['slug' => $indexSlug])) {
-                $return[$slug] = $content->getTitle();
+                $return[$slug.'/'] = $content->getTitle();
             }
             
             $index++;
