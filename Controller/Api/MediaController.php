@@ -7,8 +7,8 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-use Opifer\MediaBundle\EventListener\MediaResponseEvent;
-use Opifer\MediaBundle\EventListener\ResponseEvent;
+use Opifer\MediaBundle\Event\MediaResponseEvent;
+use Opifer\MediaBundle\Event\ResponseEvent;
 use Opifer\MediaBundle\OpiferMediaEvents;
 
 class MediaController extends Controller

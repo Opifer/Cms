@@ -6,8 +6,8 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-use Opifer\MediaBundle\EventListener\MediaResponseEvent;
-use Opifer\MediaBundle\EventListener\ResponseEvent;
+use Opifer\MediaBundle\Event\MediaResponseEvent;
+use Opifer\MediaBundle\Event\ResponseEvent;
 use Opifer\MediaBundle\Form\Type\MediaType;
 use Opifer\MediaBundle\Form\Type\DropzoneFieldType;
 use Opifer\MediaBundle\OpiferMediaEvents;

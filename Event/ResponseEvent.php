@@ -1,6 +1,6 @@
 <?php
 
-namespace Opifer\MediaBundle\EventListener;
+namespace Opifer\MediaBundle\Event;
 
 use Symfony\Component\EventDispatcher\Event;
 use Symfony\Component\HttpFoundation\Response;
