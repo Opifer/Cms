@@ -305,7 +305,6 @@ class Content implements ContentInterface, EntityInterface, Nestable
 
         if(substr($slug, -6) == '/index') {
             $slug = rtrim($slug, "index");
-            $slug = rtrim($slug, "/");
         }
 
         return $slug;
