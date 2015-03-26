@@ -27,7 +27,7 @@
                         <td>{% if level %}{% for i in 0..level %}&nbsp;&nbsp;&nbsp;&nbsp;{% endfor %}{% endif %}{{ directory.name }}</td>
                         <td>
                             <a href="{{ path('opifer_content_directory_edit', {'id' : directory.id}) }}">{{ 'button.edit'|trans|capitalize }}</a>&nbsp;
-                            <a href="{{ path('opifer_content_directory_delete', {'id' : directory.id}) }}" class="danger">{{ 'button.delete'|trans|capitalize }}</a>
+                            <a data-name="{{ directory.name }}" data-type="{{ 'directory.type'|trans }}" data-href="{{ path('opifer_content_directory_delete', {'id' : directory.id}) }}" href="{{ path('opifer_content_directory_delete', {'id' : directory.id}) }}" class="danger delete">{{ 'button.delete'|trans|capitalize }}</a>
                         </td>
                     </tr>
                    {{ _self.tree_walk(directory.__children, (level+1)) }}
