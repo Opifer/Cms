@@ -38,7 +38,9 @@ class CollectionToObjectTransformer implements DataTransformerInterface
         }
 
         $collection = new ArrayCollection();
-        $collection->add($value);
+        if(null !== $value) {
+            $collection->add($value);
+        }
 
         return $collection;
     }
