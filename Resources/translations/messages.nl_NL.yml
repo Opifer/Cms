@@ -45,6 +45,7 @@ directory:
         default:
             label: standaard
     submit: map opslaan
+    type: Map
 
 # Form field labels
 form:

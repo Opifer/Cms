@@ -45,6 +45,7 @@ directory:
         default:
             label: default
     submit: Save directory
+    type: Directory
 
 # Form field labels
 form:
