@@ -51,7 +51,7 @@
             </tr>
             <tr ng-repeat="content in contents track by $index">
                 <td class="cell-coverimg" ng-click="editContent(content.id)" ng-if="content.coverImage" ng-class="content.active ? '' : 'cell-inactive'">
-                    <div style="background-image: url({{ content.coverImage }});" class="content-cover"></div>
+                    <div afkl-lazy-image="{{ content.coverImage }}" afkl-lazy-image-options='{"background": true}' class="afkl-lazy-wrapper afkl-img-ratio-1-1 content-cover"></div>
                 </td>
                 <td class="cell-file" ng-click="editContent(content.id)" ng-if="!content.coverImage"></td>
                 <td ng-click="editContent(content.id)" class="" ng-class="content.active ? '' : 'text-muted'">{{ content.title}}</td>

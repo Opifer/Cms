@@ -55,7 +55,7 @@ angular.module('OpiferContent', ['angular-inview'])
             templateUrl: '/bundles/opifercontent/app/content/content.html',
             controller: function($scope, ContentService, DirectoryService, $attrs) {
                 $scope.navto = false;
-                $scope.maxPerPage = 25;
+                $scope.maxPerPage = 100;
                 $scope.currentPage = 1;
                 $scope.numberOfResults = 0;
                 $scope.remainingResults = 0;
