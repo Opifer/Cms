@@ -17,6 +17,8 @@ class DirectoryManager implements DirectoryManagerInterface
      *
      * @param EntityManagerInterface $em
      * @param string                 $class
+     *
+     * @throws \Exception
      */
     public function __construct(EntityManagerInterface $em, $class)
     {
@@ -74,14 +76,6 @@ class DirectoryManager implements DirectoryManagerInterface
     {
         $repository = $this->getRepository();
 
-        if (true !== $errors = $repository->verify()) {
-            throw new \Exception('Directory tree is invalid');
-        }
-
-        $repository->recover();
-
-        $this->em->flush();
-
         return $repository->childrenHierarchy();
     }
 
@@ -101,11 +95,24 @@ class DirectoryManager implements DirectoryManagerInterface
      *
      * @param  DirectoryInterface $directory
      *
+     * @throws \Exception
+     *
      * @return DirectoryInterface
      */
     public function save(DirectoryInterface $directory)
     {
         $this->em->persist($directory);
+        $this->em->flush();
+
+        $repository = $this->getRepository();
+
+        // Tree verification is a very (!) expensive operation. So only
+        // run when needed.
+        if (true !== $errors = $repository->verify()) {
+            throw new \Exception('Directory tree is invalid');
+        }
+
+        $repository->recover();
         $this->em->flush();
 
         return $directory;
