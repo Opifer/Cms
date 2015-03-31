@@ -265,6 +265,24 @@ class Attribute implements AttributeInterface
     {
         $this->options->removeElement($options);
     }
+    
+    /**
+     * Get an option by its name
+     *
+     * @param string $name
+     *
+     * @return OptionInterface|false
+     */
+    public function getOptionByName($name)
+    {
+        foreach ($this->options as $option) {
+            if ($option->getName() == $name) {
+                return $option;
+            }
+        }
+
+        return false;
+    }
 
     /**
      * Set valueType
