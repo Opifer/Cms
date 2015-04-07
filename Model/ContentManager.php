@@ -233,28 +233,28 @@ class ContentManager implements ContentManagerInterface
     }
 
     /**
-     * @param Content $content
-     * @param NestedValue $nested_in
+     * @param ContentInterface $content
+     * @param NestedValue $nestedIn
      */
-    public function duplicate(Content $content, NestedValue $nested_in = null)
+    public function duplicate(ContentInterface $content, NestedValue $nestedIn = null)
     {
         //get valueset to clone
         $valueset = $content->getValueSet();
 
         //clone valueset
-        $duplicated_valueset = clone $valueset;
+        $duplicatedValueset = clone $valueset;
 
-        $this->detachAndPersist($duplicated_valueset);
+        $this->detachAndPersist($duplicatedValueset);
 
         //duplicate content
-        $duplicated_content = clone $content;
-        $duplicated_content->setValueSet($duplicated_valueset);
+        $duplicatedContent = clone $content;
+        $duplicatedContent->setValueSet($duplicatedValueset);
 
-        if (!is_null($nested_in)) {
-            $duplicated_content->setNestedIn($nested_in);
+        if (!is_null($nestedIn)) {
+            $duplicatedContent->setNestedIn($nestedIn);
         }
 
-        $this->detachAndPersist($duplicated_content);
+        $this->detachAndPersist($duplicatedContent);
 
         //iterate values, clone each and assign duplicate valueset to it
         foreach ($valueset->getValues() as $value) {
@@ -262,23 +262,23 @@ class ContentManager implements ContentManagerInterface
             //skip empty attributes
             if (is_null($value->getId())) continue;
 
-            $duplicated_value = clone ($value);
-            $duplicated_value->setValueSet($duplicated_valueset);
+            $duplicatedValue = clone ($value);
+            $duplicatedValue->setValueSet($duplicatedValueset);
 
-            $this->detachAndPersist($duplicated_value);
+            $this->detachAndPersist($duplicatedValue);
 
             //if type nested, find content that has nested_in value same as id of value
             if ($value instanceof \Opifer\EavBundle\Entity\NestedValue) {
-                $nested_contents = $this->getRepository()->findby(['nestedIn' => $value->getId()]);
+                $nestedContents = $this->getRepository()->findby(['nestedIn' => $value->getId()]);
 
-                foreach ($nested_contents as $nested_content) {
-                    $this->duplicate($nested_content, $duplicated_value);
+                foreach ($nestedContents as $nestedContent) {
+                    $this->duplicate($nestedContent, $duplicatedValue);
                 }
             }
         }
         $this->em->flush();
 
-        return $duplicated_content->getId();
+        return $duplicatedContent->getId();
     }
 
     /**
