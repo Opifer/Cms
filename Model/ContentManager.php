@@ -11,7 +11,6 @@ use Opifer\CrudBundle\Pagination\Paginator;
 use Opifer\EavBundle\Form\Type\NestedContentType;
 use Opifer\EavBundle\Manager\EavManager;
 use Opifer\EavBundle\Entity\NestedValue;
-use Opifer\CmsBundle\Entity\Content;
 
 class ContentManager implements ContentManagerInterface
 {
