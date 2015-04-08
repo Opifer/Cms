@@ -73,7 +73,7 @@ class ContentController extends Controller
         $form->handleRequest($request);
 
         if ($form->isValid()) {
-            $contentManager->mapNested($content, $request);
+            $contentManager->handleNestedContentForm($content, $request);
             $content = $contentManager->save($content);
 
             // Tell the user everything went well.
@@ -126,7 +126,7 @@ class ContentController extends Controller
             // Set updatedAt for every save as Timestampable does not take Values into account
             $content->setUpdatedAt(new \DateTime('now'));
 
-            $contentManager->mapNested($content, $request);
+            $contentManager->handleNestedContentForm($content, $request);
             $contentManager->save($content);
 
             // Tell the user everything went well.

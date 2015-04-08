@@ -57,7 +57,7 @@ class ContentEventSubscriber implements EventSubscriberInterface
             return;
         }
 
-        $coverImage = $this->cacheManager->getBrowserPath($coverImage, 'media_sm');
+        $coverImage = $this->cacheManager->getBrowserPath($coverImage, 'medialibrary');
         $event->getVisitor()->addData('coverImage', $coverImage);
     }
 
