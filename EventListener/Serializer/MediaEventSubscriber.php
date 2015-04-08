@@ -57,7 +57,7 @@ class MediaEventSubscriber implements EventSubscriberInterface
             $reference = $event->getObject()->getThumb()->getReference();
         }
 
-        $small = $this->cacheManager->getBrowserPath($reference, 'media_sm');
+        $small = $this->cacheManager->getBrowserPath($reference, 'medialibrary');
         $event->getVisitor()->addData('images', ['sm' => $small]);
     }
 }
