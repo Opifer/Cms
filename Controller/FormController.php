@@ -71,7 +71,6 @@ class FormController extends Controller
      *     options={"expose"=true}
      * )
      *
-     * @param Request        $request
      * @param string         $attribute
      * @param integer|string $id
      * @param integer        $index
@@ -85,15 +84,25 @@ class FormController extends Controller
         if (is_numeric($id)) {
             $object = $this->container->getParameter('opifer_eav.nestable_class');
             $entity = $em->getRepository($object)->find($id);
+            $template = $entity->getTemplate();
         } else {
-            $template = $this->get('opifer.eav.template_manager')->getRepository()->findOneByName($id);
+            $template = $this->get('opifer.eav.template_manager')->getRepository()->find($request->get('template'));
+
+            if (!$template) {
+                throw new \Exception(sprintf('No template found with ID %d', $request->get('template')));
+            }
 
             $entity = $this->get('opifer.eav.eav_manager')->initializeEntity($template);
+            $id = $template->getName();
         }
 
-        // In case of newly added nested content, we need to add an index
-        // to the form type name, to avoid same template name conflicts.
-        $id = $id.NestedContentType::NAME_SEPARATOR.$index;
+        //In case of newly added nested content, we need to add an index
+        //to the form type name, to avoid same template name conflicts.
+        if ($request->get('parent')) {
+            $id = $request->get('parent').NestedContentType::NAME_SEPARATOR.$attribute.NestedContentType::NAME_SEPARATOR.$id.NestedContentType::NAME_SEPARATOR.$index;
+        } else {
+            $id = $id.NestedContentType::NAME_SEPARATOR.$index;
+        }
 
         $form = $this->createForm(new NestedContentType($attribute, $id), $entity);
         $form = $this->render('OpiferEavBundle:Form:render.html.twig', ['form' => $form->createView()]);
@@ -103,6 +112,7 @@ class FormController extends Controller
         return new JsonResponse([
             'form'    => $form->getContent(),
             'content' => json_decode($entity, true),
+            'name'    => $id
         ]);
     }
 }

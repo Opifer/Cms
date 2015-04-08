@@ -27,7 +27,11 @@ class NestedContentType extends AbstractType
      */
     public function __construct($attribute, $id)
     {
-        $this->name = 'nested_content'.self::NAME_SEPARATOR.$attribute.self::NAME_SEPARATOR.$id;
+        if (strpos($id, 'nested_content') !== false) {
+            $this->name = $id;
+        } else {
+            $this->name = 'nested_content'.self::NAME_SEPARATOR.$attribute.self::NAME_SEPARATOR.$id;
+        }
     }
 
     /**

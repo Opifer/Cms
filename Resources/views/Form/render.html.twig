@@ -1,3 +1,5 @@
 {# Only render the form fields and avoid rendering the form_start and form_end #}
-{{ form_row(form.title, {'style' : 'horizontal'}) }}
-{{ form_rest(form) }}
+<div data-form-name="{{ form.vars.name }}" class="nested-form-wrapper">
+    {{ form_row(form.title, {'style' : 'horizontal'}) }}
+    {{ form_rest(form) }}
+</div>
