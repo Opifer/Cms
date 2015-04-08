@@ -20,7 +20,11 @@ class SelectValue extends OptionValue
     {
         $options = parent::getValue();
 
-        return $options[0]->getName();
+        if (count($options)) {
+            return $options[0]->getName();
+        }
+        
+        return '';
     }
 
     /**
