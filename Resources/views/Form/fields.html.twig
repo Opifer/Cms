@@ -2,7 +2,7 @@
 
 {% block eav_value_row %}
     {% spaceless %}
-        <div class="form-group">
+        <div class="form-group {% if form.vars.attribute.valueType == 'nested' %}form-group-nested-content{% endif %}">
             {{ form_label(form) }}
             <div class="col-lg-10">
                 {% for child in form.children %}

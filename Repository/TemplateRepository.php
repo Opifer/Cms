@@ -25,6 +25,8 @@ class TemplateRepository extends EntityRepository
             $qb->andWhere('t.name = :name')->setParameter('name', $request->get('name'));
         }
 
+        $qb->orderBy('t.displayName', 'ASC');
+
         return $qb->getQuery()->getArrayResult();
     }
 }
