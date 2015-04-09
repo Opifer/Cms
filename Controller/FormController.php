@@ -98,10 +98,11 @@ class FormController extends Controller
 
         //In case of newly added nested content, we need to add an index
         //to the form type name, to avoid same template name conflicts.
+        $separator = NestedContentType::SEPARATOR;
         if ($request->get('parent')) {
-            $id = $request->get('parent').NestedContentType::NAME_SEPARATOR.$attribute.NestedContentType::NAME_SEPARATOR.$id.NestedContentType::NAME_SEPARATOR.$index;
+            $id = $request->get('parent') . $separator . $attribute . $separator . $id . $separator . $index;
         } else {
-            $id = $id.NestedContentType::NAME_SEPARATOR.$index;
+            $id = $id . $separator . $index;
         }
 
         $form = $this->createForm(new NestedContentType($attribute, $id), $entity);

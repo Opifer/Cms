@@ -10,7 +10,7 @@ use Symfony\Component\Form\FormBuilderInterface;
  */
 class NestedContentType extends AbstractType
 {
-    const NAME_SEPARATOR = '__';
+    const SEPARATOR = '__';
 
     /** @var string */
     protected $name;
@@ -30,7 +30,7 @@ class NestedContentType extends AbstractType
         if (strpos($id, 'nested_content') !== false) {
             $this->name = $id;
         } else {
-            $this->name = 'nested_content'.self::NAME_SEPARATOR.$attribute.self::NAME_SEPARATOR.$id;
+            $this->name = 'nested_content' . self::SEPARATOR . $attribute . self::SEPARATOR . $id;
         }
     }
 
