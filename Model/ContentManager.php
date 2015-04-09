@@ -3,7 +3,6 @@
 namespace Opifer\ContentBundle\Model;
 
 use Doctrine\ORM\EntityManagerInterface;
-use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -122,9 +121,9 @@ class ContentManager implements ContentManagerInterface
      *
      * @throws \Exception
      */
-    public function handleNestedContentForm(ContentInterface $content, Request $request)
+    public function handleNestedContentForm(Request $request, ContentInterface $content)
     {
-        $this->recursiveContentMapper($content, $request);
+        $this->recursiveContentMapper($request, $content);
     }
 
     /**
@@ -133,21 +132,22 @@ class ContentManager implements ContentManagerInterface
      * @param ContentInterface $content
      * @param $request
      * @param int $level
-     * @param null $parent
+     * @param int $parent
+     * @param string $parentKey
      *
      * @return bool
      *
      * @throws \Exception
      */
-    public function recursiveContentMapper(ContentInterface $content, $request, $level = 1, $parent = null)
+    public function recursiveContentMapper(Request $request, ContentInterface $content, $level = 1, $parent = null, $parentKey = 'opifer_content')
     {
         $formdata = $request->request->all();
 
         $relatedformdata = $this->getFormDataByLevel($formdata, $level, $parent);
 
         foreach ($content->getNestedContentAttributes() as $attribute => $value) {
-
-            $oldIds = explode(',', $formdata['eav_nested_content_value_'.$attribute]);
+            // Store the original Ids, so we can check later what items were removed
+            $oldIds = explode(',', $formdata[$parentKey.'_valueset_namedvalues_'.$attribute]);
             $ids = [];
 
             $sort = 0;
@@ -178,7 +178,7 @@ class ContentManager implements ContentManagerInterface
 
                 $level++;
 
-                $this->recursiveContentMapper($nestedContent, $request, $level, $nestedContent->getId());
+                $this->recursiveContentMapper($nestedContent, $request, $level, $nestedContent->getId(), $key);
             }
 
             $this->remove(array_diff($oldIds, $ids));
@@ -197,7 +197,7 @@ class ContentManager implements ContentManagerInterface
      *
      * @param int|string $reference
      *
-     * @return \Opifer\ContentBundle\Model\ContentInterface
+     * @return ContentInterface
      */
     public function getContentByReference($reference)
     {
@@ -229,7 +229,7 @@ class ContentManager implements ContentManagerInterface
     {
         $collection = [];
         foreach ($formdata as $key => $data) {
-            if (!strpos($key, NestedContentType::NAME_SEPARATOR)) {
+            if (!strpos($key, NestedContentType::NAME_SEPARATOR) || strpos($key, 'valueset_namedvalues')) {
                 continue;
             }
 
@@ -296,6 +296,8 @@ class ContentManager implements ContentManagerInterface
     }
 
     /**
+     * Duplicate a content item
+     *
      * @param ContentInterface $content
      * @param NestedValue $nestedIn
      */
@@ -346,7 +348,8 @@ class ContentManager implements ContentManagerInterface
 
     /**
      * For cloning purpose
-     * @param \Opifer\ContentBundle\Model\ContentInterface|\Opifer\EavBundle\Model\ValueSetInterface|\Opifer\EavBundle\Entity\Value $entity
+     *
+     * @param ContentInterface|\Opifer\EavBundle\Model\ValueSetInterface|\Opifer\EavBundle\Entity\Value $entity
      */
     private function detachAndPersist($entity)
     {

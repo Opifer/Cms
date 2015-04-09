@@ -74,7 +74,7 @@ class ContentController extends Controller
 
         if ($form->isValid()) {
             $contentManager->handleNestedContentForm($content, $request);
-            $content = $contentManager->save($content);
+            $contentManager->save($content);
 
             // Tell the user everything went well.
             $this->get('session')->getFlashBag()->add('success',
