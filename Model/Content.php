@@ -33,6 +33,7 @@ class Content implements ContentInterface, EntityInterface, Nestable
      * @ORM\GeneratedValue(strategy="AUTO")
      *
      * @JMS\Expose
+     * @JMS\Groups({"detail", "list"})
      */
     protected $id;
 
@@ -47,6 +48,8 @@ class Content implements ContentInterface, EntityInterface, Nestable
     /**
      * @var boolean
      *
+     * @JMS\Expose
+     * @JMS\Groups({"detail", "list"})
      * @ORM\Column(name="active", type="boolean")
      */
     protected $active = true;
@@ -55,6 +58,7 @@ class Content implements ContentInterface, EntityInterface, Nestable
      * @var string
      *
      * @JMS\Expose
+     * @JMS\Groups({"detail", "list"})
      * @ORM\Column(name="title", type="string", length=255)
      * @Assert\NotBlank()
      */
@@ -64,6 +68,7 @@ class Content implements ContentInterface, EntityInterface, Nestable
      * @var string
      *
      * @JMS\Expose
+     * @JMS\Groups({"detail", "list"})
      * @ORM\Column(name="description", type="text", nullable=true)
      */
     protected $description;
@@ -72,6 +77,7 @@ class Content implements ContentInterface, EntityInterface, Nestable
      * @var string
      *
      * @JMS\Expose
+     * @JMS\Groups({"detail"})
      * @ORM\Column(name="presentation", type="text", nullable=true)
      */
     protected $presentation;
@@ -84,14 +90,32 @@ class Content implements ContentInterface, EntityInterface, Nestable
     /**
      * @var string
      *
+     * @JMS\Expose
+     * @Gedmo\Slug(handlers={
+     *      @Gedmo\SlugHandler(class="Opifer\ContentBundle\Handler\AliasHandler", options={
+     *          @Gedmo\SlugHandlerOption(name="field", value="slug"),
+     *          @Gedmo\SlugHandlerOption(name="separator", value="-")
+     *      })
+     * }, fields={"alias"}, unique_base="deletedAt")
      * @ORM\Column(name="alias", type="string", length=255, nullable=true)
+     *
      */
     protected $alias;
+
+    /**
+     * @var integer
+     *
+     * @ORM\ManyToOne(targetEntity="Content")
+     * @ORM\JoinColumn(name="symlink", referencedColumnName="id", onDelete="CASCADE")
+     *
+     */
+    protected $symlink;
 
     /**
      * @var string
      *
      * @JMS\Expose
+     * @JMS\Groups({"detail", "list"})
      * @Gedmo\Slug(handlers={
      *      @Gedmo\SlugHandler(class="Opifer\ContentBundle\Handler\SlugHandler", options={
      *          @Gedmo\SlugHandlerOption(name="relationField", value="directory"),
@@ -106,7 +130,7 @@ class Content implements ContentInterface, EntityInterface, Nestable
 
     /**
      * @ORM\ManyToOne(targetEntity="Opifer\ContentBundle\Model\DirectoryInterface")
-     * @ORM\JoinColumn(name="directory_id", referencedColumnName="id")
+     * @ORM\JoinColumn(name="directory_id", referencedColumnName="id", nullable=true, onDelete="SET NULL")
      */
     protected $directory;
 
@@ -126,6 +150,8 @@ class Content implements ContentInterface, EntityInterface, Nestable
      *
      * @var datetime
      *
+     * @JMS\Expose
+     * @JMS\Groups({"detail", "list"})
      * @Gedmo\Timestampable(on="create")
      * @ORM\Column(name="created_at", type="datetime")
      */
@@ -136,6 +162,8 @@ class Content implements ContentInterface, EntityInterface, Nestable
      *
      * @var datetime
      *
+     * @JMS\Expose
+     * @JMS\Groups({"detail", "list"})
      * @Gedmo\Timestampable(on="update")
      * @ORM\Column(name="updated_at", type="datetime")
      */
@@ -165,7 +193,7 @@ class Content implements ContentInterface, EntityInterface, Nestable
     {
         $this->attributeValues = new ArrayCollection();
     }
-    
+
     /**
      * Get id
      *
@@ -244,7 +272,7 @@ class Content implements ContentInterface, EntityInterface, Nestable
     {
         return $this->slug;
     }
-    
+
     /**
      * Get slug without index appended
      *
@@ -253,10 +281,9 @@ class Content implements ContentInterface, EntityInterface, Nestable
     public function getBaseSlug()
     {
         $slug = $this->slug;
-        
+
         if(substr($slug, -6) == '/index') {
-            $slug = rtrim($slug, "index"); 
-            $slug = rtrim($slug, "/");
+            $slug = rtrim($slug, "index");
         }
 
         return $slug;
@@ -328,6 +355,30 @@ class Content implements ContentInterface, EntityInterface, Nestable
     public function getDirectory()
     {
         return $this->directory;
+    }
+
+    /**
+     * Set symlink
+     *
+     * @param ContentInterface $symlink
+     *
+     * @return Content
+     */
+    public function setSymlink(ContentInterface $symlink = null)
+    {
+        $this->symlink = $symlink;
+
+        return $this;
+    }
+
+    /**
+     * Get symlink
+     *
+     * @return ContentInterface
+     */
+    public function getSymlink()
+    {
+        return $this->symlink;
     }
 
     /**
@@ -433,10 +484,23 @@ class Content implements ContentInterface, EntityInterface, Nestable
     }
 
     /**
+     * Set updated at
+     *
+     * @param  \DateTime $updatedAt
+     * @return Content
+     */
+    public function setUpdatedAt($updatedAt)
+    {
+        $this->updatedAt = $updatedAt;
+
+        return $this;
+    }
+
+    /**
      * Set deletedAt
      *
      * @param  \DateTime $deletedAt
-     * @return File
+     * @return Content
      */
     public function setDeletedAt($deletedAt)
     {
@@ -603,7 +667,7 @@ class Content implements ContentInterface, EntityInterface, Nestable
     }
 
     /**
-     * Gets the attributes and places them in an (by Twig) easily accessable array
+     * Gets the attributes and places them in an (by Twig) easily accessible array
      *
      * @return array
      */
@@ -648,74 +712,31 @@ class Content implements ContentInterface, EntityInterface, Nestable
     }
 
     /**
-     * @todo clean this mess up
-     *
-     * Gets the attributes and places them in an (by Twig) easily accessable array
-     *
-     * @JMS\VirtualProperty
-     * @JMS\SerializedName("attributes")
-     * @JMS\Groups({"elastica", "customgroup"})
-     *
-     * @return array
-     */
-    public function getPivotedAttributes()
-    {
-        $array = [];
-        $array['coverImage'] = false;
-        foreach ($this->getValueSet()->getValues() as $value) {
-            switch (get_class($value)) {
-                case 'Opifer\EavBundle\Entity\AddressValue':
-                    $array[$value->getAttribute()->getName()] = [
-                        'street' => $value->getAddress()->getStreet(),
-                        'city' => $value->getAddress()->getCity(),
-                        'country' => $value->getAddress()->getCountry(),
-                        'location' => [
-                            'lat' => floatval($value->getAddress()->getLat()),
-                            'lon' => floatval($value->getAddress()->getLng())
-                        ]
-                    ];
-                    break;
-                case 'Opifer\EavBundle\Entity\CheckListValue':
-                    $array[$value->getAttribute()->getName()] = array();
-                    foreach ($value->getOptions() as $option) {
-                        $array[$value->getAttribute()->getName()][] = [
-                            'id' => $option->getId(),
-                            'name' => $option->getName()
-                        ];
-                    }
-                    break;
-                case 'Opifer\EavBundle\Entity\MediaValue':
-                    $array[$value->getAttribute()->getName()] = array();
-                    foreach ($value->getMedias() as $media) {
-                        if (!$array['coverImage']) {
-                            $array['coverImage'] = $media->getReference();
-                        }
-                        $array[$value->getAttribute()->getName()][] = [
-                            'name' => $media->getName(),
-                            'file' => $media->getFile()
-                        ];
-                    }
-                    break;
-                default:
-                    $array[$value->getAttribute()->getName()] = $value->getValue();
-            }
-        }
-
-        return $array;
-    }
-
-    /**
      * Returns name of the Template for the ValueSet
      *
      * @JMS\VirtualProperty
      * @JMS\SerializedName("templateName")
-     * @JMS\Groups({"elastica", "customgroup"})
+     * @JMS\Groups({"detail"})
      *
      * @return array
      */
     public function getTemplateName()
     {
         return $this->getValueSet()->getTemplate()->getName();
+    }
+
+    /**
+     * Returns display name of the Template for the ValueSet
+     *
+     * @JMS\VirtualProperty
+     * @JMS\SerializedName("templateDisplayName")
+     * @JMS\Groups({"detail", "list"})
+     *
+     * @return array
+     */
+    public function getTemplateDisplayName()
+    {
+        return $this->getValueSet()->getTemplate()->getDisplayName();
     }
 
     /**

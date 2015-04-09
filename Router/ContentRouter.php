@@ -11,16 +11,12 @@ use Symfony\Component\Routing\RouterInterface;
 use Symfony\Component\Routing\RouteCollection;
 use Symfony\Component\Routing\Matcher\UrlMatcher;
 use Symfony\Component\HttpFoundation\RequestStack;
-
 use Opifer\ContentBundle\Model\ContentManagerInterface;
-use Opifer\ContentBundle\Model\ContentInterface;
-
 use Doctrine\ORM\NoResultException;
-
 use Symfony\Component\HttpFoundation\RedirectResponse;
 
 /**
- * Content Router
+ * Content Router.
  */
 class ContentRouter implements RouterInterface
 {
@@ -40,7 +36,7 @@ class ContentRouter implements RouterInterface
     protected $request;
 
     /**
-     * The constructor for this service
+     * The constructor for this service.
      *
      * @param ContainerInterface $container
      */
@@ -54,25 +50,25 @@ class ContentRouter implements RouterInterface
     }
 
     /**
-     * Create the routes
+     * Create the routes.
      */
     private function createRoutes()
     {
         $this->routeCollection->add('_content', new Route('/{slug}', [
             '_controller' => 'OpiferContentBundle:Frontend/Content:view',
-            'slug'        => ''
+            'slug'        => '',
         ], [
-            'slug'        => "[a-zA-Z0-9\-_\/]*"
+            'slug'        => "[a-zA-Z0-9\-_\/]*",
         ], [
-            'expose'      => true
+            'expose'      => true,
         ]));
         $this->routeCollection->add('home', new Route('/', [
             '_controller' => 'OpiferContentBundle:Frontend/Content:view',
-            'slug'        => ''
+            'slug'        => '',
         ], [
-            'slug'        => "[a-zA-Z0-9\-_\/]*"
+            'slug'        => "[a-zA-Z0-9\-_\/]*",
         ], [
-            'expose'      => true
+            'expose'      => true,
         ]));
     }
 
@@ -102,27 +98,36 @@ class ContentRouter implements RouterInterface
                 $result['content'] = $this->contentManager->findActiveBySlug($result['slug']);
             } catch (NoResultException $e) {
                 try {
+
                     //is it directory index
                     if (substr($result['slug'], -1) == '/' || $result['slug'] == '') {
                         $result['content'] = $this->contentManager->findActiveBySlug($result['slug'].'index');
                     } else {
-                        if($this->contentManager->findActiveBySlug($result['slug'].'/index')) {
-                            $redirect = new RedirectResponse($result['slug'].'/');
+                        if ($this->contentManager->findActiveBySlug($result['slug'].'/index')) {
+                            $redirect = new RedirectResponse($this->request->getBaseUrl()."/".$result['slug'].'/');
                             $redirect->sendHeaders();
                             exit;
                         }
                     }
-                }catch (NoResultException $ex) {
-                        throw new ResourceNotFoundException('No page found for slug ' . $pathinfo);
+                } catch (NoResultException $ex) {
+                    try {
+                        $result['content'] = $this->contentManager->findActiveByAlias($result['slug']);
+                    } catch (NoResultException $ex) {
+                        throw new ResourceNotFoundException('No page found for slug '.$pathinfo);
+                    }
                 }
             }
+        }
+
+        if ($result['content']->getSymlink()) {
+            $result['content'] = $this->contentManager->getRepository()->findOneById($result['content']->getSymlink());
         }
 
         return $result;
     }
 
     /**
-     * Generate an url for a supplied route
+     * Generate an url for a supplied route.
      *
      * @param string $name       The path
      * @param array  $parameters The route parameters
@@ -163,7 +168,7 @@ class ContentRouter implements RouterInterface
     }
 
     /**
-     * Getter for routeCollection
+     * Getter for routeCollection.
      *
      * @return \Symfony\Component\Routing\RouteCollection
      */

@@ -8,6 +8,10 @@ content:
     form:
         description:
             placeholder: Description for your page
+        active:
+            description:  Publish
+            label:  Active
+            help_text: Status of publication of the content item where inactive means the content is not public accessible
         directory:
             help_text: Directory this page will be stored in
         init:
@@ -21,6 +25,7 @@ content:
             help_text: 'Define the type of content you want to create'
         title:
             placeholder: Enter a title for your page
+            help_text: The title of the page is displayed in the browser tab and in searchengines
     new:
         title: define the type of content
 
@@ -40,11 +45,13 @@ directory:
         default:
             label: default
     submit: Save directory
+    type: Directory
 
 # Form field labels
 form:
     name: Name
     description: Description
+    email: Email
     parent: parent
     permalink: permalink
     presentation: presentation
@@ -54,9 +61,11 @@ form:
     title: Title
     username: username
     active: Active
+    symlink: Symlink for
 
 # Buttons
 button:
+    submit: Save
     add: add new
     all: show all
     cancel: cancel

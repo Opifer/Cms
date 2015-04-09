@@ -3,7 +3,6 @@
 namespace Opifer\ContentBundle\Model;
 
 use Doctrine\ORM\EntityManagerInterface;
-use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -62,7 +61,7 @@ class ContentManager implements ContentManagerInterface
     /**
      * Get repository
      *
-     * @return Doctrine\ORM\EntityRepository
+     * @return \Doctrine\ORM\EntityRepository
      */
     public function getRepository()
     {
@@ -101,94 +100,168 @@ class ContentManager implements ContentManagerInterface
     {
         return $this->getRepository()->findActiveBySlug($slug);
     }
-
+    
     /**
-     * {@inheritDoc}
+     * Find published content by alias
+     *
+     * @param string $alias
+     *
+     * @return ContentInterface
      */
-    public function mapNested(ContentInterface $content, Request $request)
+    public function findActiveByAlias($alias)
     {
-        $nested = [];
-        foreach ($content->getNestedContentAttributes() as $attribute => $value) {
-            $nested = $this->saveNestedForm($attribute, $request);
-            foreach ($nested as $nestedContent) {
-                $this->em->persist($value);
-                $value->addNested($nestedContent);
-                $nestedContent->setNestedIn($value);
-
-                $this->save($nestedContent);
-
-                $nested[] = $nestedContent;
-            }
-        }
-
-        return $nested;
+        return $this->getRepository()->findActiveByAlias($alias);
     }
 
     /**
-     * Save nested content forms from request and return the added/updated ids
+     * Handle the nested content forms
      *
+     * @param ContentInterface $content
      * @param Request $request
      *
-     * @return array
+     * @throws \Exception
      */
-    public function saveNestedForm($attribute, Request $request)
+    public function handleNestedContentForm(Request $request, ContentInterface $content)
+    {
+        $this->recursiveContentMapper($request, $content);
+    }
+
+    /**
+     * Maps the formdata to the related nestedcontent item resursively
+     *
+     * @param ContentInterface $content
+     * @param $request
+     * @param int $level
+     * @param int $parent
+     * @param string $parentKey
+     *
+     * @return bool
+     *
+     * @throws \Exception
+     */
+    public function recursiveContentMapper(Request $request, ContentInterface $content, $level = 1, $parentKey = 'opifer_content')
     {
         $formdata = $request->request->all();
 
-        $oldIds = explode(',', $formdata['eav_nested_content_value_'.$attribute]);
-        $ids = [];
-        $collection = new ArrayCollection();
+        $relatedformdata = $this->getFormDataByLevel($formdata, $level, $content->getId());
 
-        $sortCount = 0;
-        foreach ($formdata as $key => $nestedContent) {
-            $keys = explode(NestedContentType::NAME_SEPARATOR, $key);
+        foreach ($content->getNestedContentAttributes() as $attribute => $value) {
+            // Store the original Ids, so we can check later what items were removed
+            $oldIds = explode(',', $formdata[$parentKey.'_valueset_namedvalues_'.$attribute]);
+            $ids = [];
 
-            if (count($keys) < 2 || $keys[1] !== $attribute) {
+            $sort = 0;
+            foreach ($relatedformdata as $key => $data) {
+                $keys = $this->separateKeys($key);
+
+                $nestedContent = $this->getContentByReference($keys['reference']);
+
+                $form = new NestedContentType($keys['attribute'], $key);
+                $form = $this->formFactory->create($form, $nestedContent);
+                $form->handleRequest($request);
+
+                $nestedContent->setNestedSort($sort);
+                $sort++;
+
+                // We do not check the standard isValid() method here, because our form
+                // is not actually submitted.
+                if (count($form->getErrors(true)) < 1) {
+                    $this->em->persist($value);
+                    $value->addNested($nestedContent);
+                    $nestedContent->setNestedIn($value);
+                    $this->save($nestedContent);
+
+                    $ids[] = $nestedContent->getId();
+                } else {
+                    throw new \Exception('Something went wrong while saving nested content. Message: '. $form->getErrors());
+                }
+
+                $level++;
+
+                $this->recursiveContentMapper($request, $nestedContent, $level, $key);
+            }
+
+            $this->remove(array_diff($oldIds, $ids));
+        }
+
+        return true;
+    }
+
+    /**
+     * Get the content by a reference
+     *
+     * If the passed reference is a numeric, it must be the content ID from a
+     * to-be-updated content item.
+     * If not, the reference must be the template name for a to-be-created
+     * content item.
+     *
+     * @param int|string $reference
+     *
+     * @return ContentInterface
+     */
+    public function getContentByReference($reference)
+    {
+        if (is_numeric($reference)) {
+            // If the reference is numeric, it must be the content ID from an existing
+            // content item, which has to be updated.
+            $nestedContent = $this->getRepository()->find($reference);
+        } else {
+            // If not, $reference is a template name for a to-be-created content item.
+            $template = $this->em->getRepository($this->templateClass)->findOneByName($reference);
+
+            $nestedContent = $this->eavManager->initializeEntity($template);
+            $nestedContent->setNestedDefaults();
+        }
+
+        return $nestedContent;
+    }
+
+    /**
+     * Get the formdata related to the level and optionally the parent
+     *
+     * @param array $formdata
+     * @param int $level
+     * @param null $parent
+     *
+     * @return array
+     */
+    private function getFormDataByLevel($formdata, $level = 1, $parent = null)
+    {
+        $collection = [];
+        foreach ($formdata as $key => $data) {
+            if (!strpos($key, NestedContentType::SEPARATOR) || strpos($key, 'valueset_namedvalues')) {
                 continue;
             }
 
-            // In case of a newly added nested content item, the $keys array has
-            // a fourth value, which is the form index.
-            list($formType, $attribute, $key) = $keys;
+            $keys = explode(NestedContentType::SEPARATOR, $key);
+            array_shift($keys);
 
-            if (is_numeric($key)) {
-                // If the key is numeric, it must be the content ID from an existing
-                // content item, which has to be updated.
-                $nestedContent = $this->getRepository()->find($key);
-            } else {
-                // If not, $key is a template name for a to-be-created content item.
-                $template = $this->em->getRepository($this->templateClass)->findOneByName($key);
-
-                $nestedContent = $this->eavManager->initializeEntity($template);
-                $nestedContent->setNestedDefaults();
-            }
-
-            // Add an index to the form type name, to avoid same template name conflicts.
-            $key = $key.NestedContentType::NAME_SEPARATOR.$keys[3];
-
-            $nestedContentForm = $this->formFactory->create(new NestedContentType($attribute, $key), $nestedContent);
-            $nestedContentForm->handleRequest($request);
-
-            $nestedContent->setNestedSort($sortCount);
-            $sortCount++;
-
-            // We do not check the standard isValid() method here, cause our form
-            // is not actually submitted.
-            if (count($nestedContentForm->getErrors(true)) < 1) {
-                $nestedContent = $this->save($nestedContent);
-
-                $ids[] = $nestedContent->getId();
-                $collection->add($nestedContent);
-            } else {
-                // @todo show the user a decent error message
-                throw new \Exception('Something went wrong while saving nested content. Message: '. $nestedContentForm->getErrors());
+            if (count($keys) == ($level * 3)) {
+                if (($level > 1 && ($parent == $keys[count($keys) - 5])) || $level == 1) {
+                    $collection[$key] = $data;
+                }
             }
         }
 
-        // Remove the deleted items from the database
-        $this->remove(array_diff($oldIds, $ids));
-
         return $collection;
+    }
+
+    /**
+     * Parses the keys string to a usable array
+     *
+     * @param $key
+     *
+     * @return array
+     */
+    private function separateKeys($key)
+    {
+        $keys = explode(NestedContentType::SEPARATOR, $key);
+
+        return [
+            'index' => end($keys),
+            'reference' => prev($keys),
+            'attribute' => prev($keys)
+        ];
     }
 
     /**
@@ -196,7 +269,10 @@ class ContentManager implements ContentManagerInterface
      */
     public function save(ContentInterface $content)
     {
-        $this->em->persist($content);
+        if (!$content->getId()) {
+            $this->em->persist($content);
+        }
+
         $this->em->flush();
 
         return $content;
@@ -220,6 +296,8 @@ class ContentManager implements ContentManagerInterface
     }
 
     /**
+     * Duplicate a content item
+     *
      * @param ContentInterface $content
      * @param NestedValue $nestedIn
      */
@@ -270,7 +348,8 @@ class ContentManager implements ContentManagerInterface
 
     /**
      * For cloning purpose
-     * @param Opifer\ContentBundle\Model\Content|Opifer\EavBundle\Model\ValueSet|Opifer\EavBundle\Entity\Value $entity
+     *
+     * @param ContentInterface|\Opifer\EavBundle\Model\ValueSetInterface|\Opifer\EavBundle\Entity\Value $entity
      */
     private function detachAndPersist($entity)
     {

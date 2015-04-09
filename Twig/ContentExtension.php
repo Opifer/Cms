@@ -46,7 +46,16 @@ class ContentExtension extends \Twig_Extension
             new \Twig_SimpleFunction('get_content', [$this, 'getContent'], [
                 'is_safe' => array('html')
             ]),
+            new \Twig_SimpleFunction('get_content_by_id', [$this, 'getContentById'], [
+                'is_safe' => array('html')
+            ]),
             new \Twig_SimpleFunction('render_content', [$this, 'renderContent'], [
+                'is_safe' => array('html')
+            ]),
+            new \Twig_SimpleFunction('render_content_by_id', [$this, 'renderContentById'], [
+                'is_safe' => array('html')
+            ]),
+            new \Twig_SimpleFunction('content_picker', [$this, 'contentPicker'], [
                 'is_safe' => array('html')
             ]),
             new \Twig_SimpleFunction('nested_content', [$this, 'renderNestedContent'], [
@@ -70,15 +79,49 @@ class ContentExtension extends \Twig_Extension
 
         return $content;
     }
+    
+    /**
+     * Get a content item by its id
+     *
+     * @return \Opifer\CmsBundle\Entity\Content
+     */
+    public function getContentById($id)
+    {
+        $content = $this->contentManager->getRepository()
+            ->findOneById($id);
 
+        return $content;
+    }
+
+    /**
+     * Render a content item by its slug or passed content object
+     *
+     * @return string
+     */
+    public function renderContent($contentItem)
+    {
+        $string = '';
+                
+        if($contentItem === false) {
+            return $string;
+        }
+        
+        $content = ($contentItem instanceof ContentInterface) ? $contentItem : $this->getContent($contentItem);
+
+        $action = new ControllerReference('OpiferContentBundle:Frontend/Content:view', ['content' => $content]);
+        $string = $this->fragmentHandler->render($action);
+
+        return $string;
+    }
+    
     /**
      * Render a content item by its slug
      *
      * @return string
      */
-    public function renderContent($slug)
+    public function renderContentById($id)
     {
-        $content = $this->getContent($slug);
+        $content = $this->getContentById($id);
 
         $action = new ControllerReference('OpiferContentBundle:Frontend/Content:view', ['content' => $content]);
         $string = $this->fragmentHandler->render($action);
@@ -173,7 +216,7 @@ class ContentExtension extends \Twig_Extension
             $indexSlug = (sizeof($breadcrumbs)-1 == $index) ? $slug : $slug.'/index';
             
             if($content = $this->contentManager->getRepository()->findOneBy(['slug' => $indexSlug])) {
-                $return[$slug] = $content->getTitle();
+                $return[$slug.'/'] = $content->getTitle();
             }
             
             $index++;

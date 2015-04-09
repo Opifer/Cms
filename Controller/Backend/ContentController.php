@@ -73,8 +73,8 @@ class ContentController extends Controller
         $form->handleRequest($request);
 
         if ($form->isValid()) {
-            $contentManager->mapNested($content, $request);
-            $content = $contentManager->save($content);
+            $contentManager->handleNestedContentForm($request, $content);
+            $contentManager->save($content);
 
             // Tell the user everything went well.
             $this->get('session')->getFlashBag()->add('success',
@@ -123,7 +123,10 @@ class ContentController extends Controller
         $form->handleRequest($request);
 
         if ($form->isValid()) {
-            $contentManager->mapNested($content, $request);
+            // Set updatedAt for every save as Timestampable does not take Values into account
+            $content->setUpdatedAt(new \DateTime('now'));
+
+            $contentManager->handleNestedContentForm($request, $content);
             $contentManager->save($content);
 
             // Tell the user everything went well.

@@ -3,9 +3,12 @@
 {% block opifer_content_body %}
     <article>
         <header class="page-header">
-            <h1>{{ content.title }}</h1>
+            <h1>{{ content.title }}
+                <small>{{ content.valueSet.template.displayName }} • <a href="{{ url('_content', {'slug': content.slug}) }}" target="_blank">{{ 'content.edit.visit'|trans }}</a></small>
+            </h1>
 
-            {% if content.id != null %}
+            {# hide until properly implemented and documented #}
+            {% if content.id != null and false %}
                 <div class="nav-wrapper pull-right">
                     <ul class="nav nav-pills">
                         <li {% if mode == 'simple' %}class="active"{% endif %}>
@@ -41,26 +44,45 @@
             {{ form_row(form.description) }}
 
             <div class="form-group">
-                <label class="control-label col-lg-2"
-                       for="admin_content_form_directory">{{ 'form.permalink'|trans|capitalize }}</label>
+                <label class="control-label col-lg-2" for="admin_content_form_directory">{{ 'form.permalink'|trans }}</label>
 
-                <div class="col-xs-4 col-lg-2">
-                    {{ form_widget(form.directory) }}
-                </div>
-                <div class="col-xs-8 col-lg-8">
-                    {{ form_widget(form.slug) }}
+                <div class="col-xs-10">
+                    <div class="row">
+                        <div class="col-xs-4 col-lg-3">
+                            {{ form_widget(form.directory) }}
+                        </div>
+                        <div class="col-xs-8 col-lg-9">
+                            {{ form_widget(form.slug) }}
+                        </div>
+                    </div>
+                    <span class="help-block">{{ 'content.form.directory.help_text'|trans }}</span>
                 </div>
             </div>
-                
+
+            {{ form_row(form.alias) }}
+
+            {% if mode == 'advanced' %}
+                {{ form_row(form.symlink) }}
+            {% else %}
+                {% do form.symlink.setRendered %}
+            {% endif %}
+
             <div class="form-group">
-                <label class="control-label col-lg-2"
-                       for="opifer_content_active">{{ 'form.active'|trans|capitalize }}</label>
+                <label class="control-label col-lg-2" for="opifer_content_active">{{ 'content.form.active.description'|trans|capitalize }}</label>
+
                 <div class="col-xs-8 col-lg-8">
-                    {{ form_widget(form.active, { 'attr' : {'class' : 'opifer-content-active'} }) }}
+                    <div class="btn-group" data-toggle="buttons">
+                        <label class="btn btn-publication {% if form.active.vars.checked %}active{% endif %}">
+                            {{ form_widget(form.active) }} <i class="icon-state"></i> {{ 'content.form.active.label'|trans|capitalize }}
+                        </label>
+                    </div>
+                    <span class="help-block">{{ 'content.form.active.help_text'|trans }}</span>
                 </div>
             </div>
-            
-            {{ form_row(form.valueset) }}
+
+            {% if form.valueset is defined %}
+                {{ form_row(form.valueset) }}
+            {% endif %}
 
             {% if mode == 'advanced' %}
                 {{ form_row(form.realPresentation) }}
@@ -72,8 +94,7 @@
                         {{ form_widget(form.save) }}
                     </div>
                     <div class="pull-right">
-                        <a href="{{ path('opifer_content_content_index') }}"
-                           class="btn btn-link">{{ 'button.cancel'|trans|capitalize }}</a>
+                        <a href="{{ path('opifer_content_content_index') }}" class="btn btn-link">{{ 'button.cancel'|trans|capitalize }}</a>
                     </div>
                 </div>
             </div>

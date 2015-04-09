@@ -30,7 +30,7 @@ interface DirectoryManagerInterface
     /**
      * Get repository
      *
-     * @return Doctrine\ORM\EntityRepository
+     * @return \Gedmo\Tree\Entity\Repository\NestedTreeRepository
      */
     public function getRepository();
 }

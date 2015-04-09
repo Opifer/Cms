@@ -13,21 +13,21 @@
         <table class="table">
             <thead>
                 <tr>
-                    <th><input type="checkbox" /></th>
+                    {#<th><input type="checkbox" /></th>#}
                     <th>Id</th>
-                    <th>{{ 'form.title'|trans|capitalize }}</th>
+                    <th>{{ 'form.name'|trans|capitalize }}</th>
                     <th></th>
             </thead>
             <tbody>
             {% macro tree_walk(directoryTree, level) %}
                 {% for directory in directoryTree %}
                     <tr>
-                        <td width="25"><input type="checkbox" name="item[]" value="{{ directory.id }}" /></td>
+                        {#<td width="25"><input type="checkbox" name="item[]" value="{{ directory.id }}" /></td>#}
                         <td width="25">{{ directory.id }}</td>
                         <td>{% if level %}{% for i in 0..level %}&nbsp;&nbsp;&nbsp;&nbsp;{% endfor %}{% endif %}{{ directory.name }}</td>
                         <td>
                             <a href="{{ path('opifer_content_directory_edit', {'id' : directory.id}) }}">{{ 'button.edit'|trans|capitalize }}</a>&nbsp;
-                            <a href="{{ path('opifer_content_directory_delete', {'id' : directory.id}) }}" class="danger">{{ 'button.delete'|trans|capitalize }}</a>
+                            <a data-name="{{ directory.name }}" data-type="{{ 'directory.type'|trans }}" data-href="{{ path('opifer_content_directory_delete', {'id' : directory.id}) }}" href="{{ path('opifer_content_directory_delete', {'id' : directory.id}) }}" class="danger delete">{{ 'button.delete'|trans|capitalize }}</a>
                         </td>
                     </tr>
                    {{ _self.tree_walk(directory.__children, (level+1)) }}

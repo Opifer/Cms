@@ -8,8 +8,12 @@ content:
     form:
         description:
             placeholder: Omschrijving van de pagina
+        active:
+            description:  Publicatie
+            label:  Actief
+            help_text: Publicatie status van het content item waarbij inactief de content niet bezocht kan worden
         directory:
-            help_text: De map waarin de pagina geplaatst dient te worden
+            help_text: De URL van de pagina wordt gemaakt op basis van de map waarin deze geplaatst wordt
         init:
             submit: naar stap 2
         locale:
@@ -21,6 +25,7 @@ content:
             help_text: 'Het soort content'
         title:
             placeholder: De titel van de pagina
+            help_text: De titel van de pagina wordt in de browser weergegeven in het tabblad en in zoekmachines getoond
     new:
         title: Bepaal het soort content
 
@@ -40,6 +45,7 @@ directory:
         default:
             label: standaard
     submit: map opslaan
+    type: Map
 
 # Form field labels
 form:
@@ -47,7 +53,7 @@ form:
     description: Beschrijving
     email: Email
     parent: Bovenliggende
-    permalink: pagina link
+    permalink: Pagina URL
     presentation: presentatie
     slug:
         label: "URL-vriendelijke naam"
@@ -55,9 +61,11 @@ form:
     title: Titel
     username: gebruikersnaam
     active: Active
+    symlink: Symlink voor
 
 # Buttons
 button:
+    submit: Opslaan
     add: nieuwe toevoegen
     all: toon alles
     cancel: annuleren
