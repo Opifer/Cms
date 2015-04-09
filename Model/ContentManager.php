@@ -3,6 +3,7 @@
 namespace Opifer\ContentBundle\Model;
 
 use Doctrine\ORM\EntityManagerInterface;
+use Opifer\ContentBundle\Exception\NestedContentFormException;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -143,12 +144,15 @@ class ContentManager implements ContentManagerInterface
     {
         $formdata = $request->request->all();
 
-        $relatedformdata = $this->getFormDataByLevel($formdata, $level, $content->getId());
+        $relatedformdata = $this->getFormDataByLevel($formdata, $level, $parentKey);
 
         foreach ($content->getNestedContentAttributes() as $attribute => $value) {
             // Store the original Ids, so we can check later what items were removed
-            $oldIds = explode(',', $formdata[$parentKey.'_valueset_namedvalues_'.$attribute]);
             $ids = [];
+            $oldIds = [];
+            if ($formdata[$parentKey.'_valueset_namedvalues_'.$attribute] != '') {
+                $oldIds = explode(',', $formdata[$parentKey.'_valueset_namedvalues_'.$attribute]);
+            }
 
             $sort = 0;
             foreach ($relatedformdata as $key => $data) {
@@ -173,7 +177,7 @@ class ContentManager implements ContentManagerInterface
 
                     $ids[] = $nestedContent->getId();
                 } else {
-                    throw new \Exception('Something went wrong while saving nested content. Message: '. $form->getErrors());
+                    throw new NestedContentFormException('Something went wrong while saving nested content. Message: '. $form->getErrors());
                 }
 
                 $level++;
@@ -225,7 +229,7 @@ class ContentManager implements ContentManagerInterface
      *
      * @return array
      */
-    private function getFormDataByLevel($formdata, $level = 1, $parent = null)
+    private function getFormDataByLevel($formdata, $level = 1, $parent)
     {
         $collection = [];
         foreach ($formdata as $key => $data) {
@@ -237,7 +241,8 @@ class ContentManager implements ContentManagerInterface
             array_shift($keys);
 
             if (count($keys) == ($level * 3)) {
-                if (($level > 1 && ($parent == $keys[count($keys) - 5])) || $level == 1) {
+                $pos = strpos($key, $parent);
+                if (($level > 1 && ($pos !== false)) || $level == 1) {
                     $collection[$key] = $data;
                 }
             }
