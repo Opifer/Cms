@@ -258,7 +258,7 @@ angular.module('mediaLibrary', ['infinite-scroll', 'ngModal', 'angularFileUpload
             // Retrieve more items and add them to the already loaded items
             $http.get(Routing.generate('opifer_api_media', {'page': this.page, 'search': this.search})).success(function(data) {
 
-                this.items = data.results;
+                this.items = this.items.concat(data.results);
 
                 if ((data.total_results / data.results_per_page) <= this.page) {
                     this.end = true;
