@@ -139,11 +139,11 @@ class ContentManager implements ContentManagerInterface
      *
      * @throws \Exception
      */
-    public function recursiveContentMapper(Request $request, ContentInterface $content, $level = 1, $parent = null, $parentKey = 'opifer_content')
+    public function recursiveContentMapper(Request $request, ContentInterface $content, $level = 1, $parentKey = 'opifer_content')
     {
         $formdata = $request->request->all();
 
-        $relatedformdata = $this->getFormDataByLevel($formdata, $level, $parent);
+        $relatedformdata = $this->getFormDataByLevel($formdata, $level, $content->getId());
 
         foreach ($content->getNestedContentAttributes() as $attribute => $value) {
             // Store the original Ids, so we can check later what items were removed
@@ -178,7 +178,7 @@ class ContentManager implements ContentManagerInterface
 
                 $level++;
 
-                $this->recursiveContentMapper($nestedContent, $request, $level, $nestedContent->getId(), $key);
+                $this->recursiveContentMapper($request, $nestedContent, $level, $key);
             }
 
             $this->remove(array_diff($oldIds, $ids));
@@ -229,15 +229,15 @@ class ContentManager implements ContentManagerInterface
     {
         $collection = [];
         foreach ($formdata as $key => $data) {
-            if (!strpos($key, NestedContentType::NAME_SEPARATOR) || strpos($key, 'valueset_namedvalues')) {
+            if (!strpos($key, NestedContentType::SEPARATOR) || strpos($key, 'valueset_namedvalues')) {
                 continue;
             }
 
-            $keys = explode(NestedContentType::NAME_SEPARATOR, $key);
+            $keys = explode(NestedContentType::SEPARATOR, $key);
             array_shift($keys);
 
             if (count($keys) == ($level * 3)) {
-                if (($parent && ($parent == $keys[count($keys) - 5])) || !$parent) {
+                if (($level > 1 && ($parent == $keys[count($keys) - 5])) || $level == 1) {
                     $collection[$key] = $data;
                 }
             }
@@ -255,7 +255,7 @@ class ContentManager implements ContentManagerInterface
      */
     private function separateKeys($key)
     {
-        $keys = explode(NestedContentType::NAME_SEPARATOR, $key);
+        $keys = explode(NestedContentType::SEPARATOR, $key);
 
         return [
             'index' => end($keys),
