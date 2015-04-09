@@ -18,7 +18,7 @@ angular.module('OpiferNestedContent', ['ui.sortable'])
             '<div ui-sortable ng-model="subjects">' +
             '   <div nested-content-form ng-repeat="subject in subjects track by $index"></div>' +
             '</div>' +
-            '<select class="form-control" ng-options="template.name for (key, template) in templates" ng-model="selected" ng-change="addSubject()">' +
+            '<select class="form-control select-template" ng-options="template.displayName for (key, template) in templates | orderBy:\'displayName\'" ng-model="selected" ng-change="addSubject()">' +
             '    <option value="">Add template...</option>' +
             '</select>'
         ;
@@ -31,10 +31,9 @@ angular.module('OpiferNestedContent', ['ui.sortable'])
                 attribute: '@'
             },
             link: function(scope, element, attrs) {
-
                 scope.addSubject = function() {
                     // Add the template to the subjects array
-                    scope.subjects.push(this.selected);
+                    scope.subjects.push(angular.copy(this.selected));
 
                     // Clear the select field so we can re-use it for adding more
                     // nested content.
@@ -47,12 +46,12 @@ angular.module('OpiferNestedContent', ['ui.sortable'])
                 };
             },
             controller: function($scope, $http, $attrs, TemplateService) {
-                // Query all available templates to make them available in the 
+                // Query all available templates to make them available in the
                 // select field.
                 $scope.templates = TemplateService.index();
                 $scope.subjects = [];
 
-                // Retrieve all predefined nested content and add them to the 
+                // Retrieve all predefined nested content and add them to the
                 // subjects array.
                 if (typeof $scope.ids !== 'undefined') {
 
@@ -77,19 +76,21 @@ angular.module('OpiferNestedContent', ['ui.sortable'])
                 '   <header ng-click="toggle()" class="form-group">' +
                 '       <div class="col-xs-12 col-sm-9 col-lg-10">'+
                 '           <div class="title">'+
-                '               <div class="cell-icon cell-columns" ng-if="!subject.data.pivotedAttributes.coverImage"></div>'+
-                '               <div style="background-image: url({{ subject.data.pivotedAttributes.coverImage }});" ng-if="subject.data.pivotedAttributes.coverImage" class="content-cover"></div>'+
+                '               <div class="cell-icon cell-columns" ng-if="!subject.data.coverImage"></div>'+
+                '               <div style="background-image: url({{ subject.data.coverImage }});" ng-if="subject.data.coverImage" class="content-cover"></div>'+
                 '               <h3>{{ subject.data.title }}</h3>'+
                 '           </div>'+
-                '           <span class="template form-control-static">{{ subject.data.templateName }}</span>'+
+                '           <span class="template form-control-static"><span class="label label-info">{{ subject.data.templateDisplayName }}</span></span>'+
                 '       </div>'+
                 '       <div class="col-xs-12 col-sm-3 col-lg-2">'+
-                '           <div class="btn-group"><a class="btn btn-sm btn-danger" ng-click="removeSubject($index)">Delete</a>'+
-                '       </div> '+
-                '       <div class="btn-group"><a class="btn btn-sm btn-drag"></a></div></div>'+
+                '           <div class="pull-right">'+
+                '               <div class="btn-group"><a class="btn btn-sm btn-danger" ng-click="removeSubject($index)">Delete</a></div>'+
+                '               <div class="btn-group"><a class="btn btn-sm btn-drag"></a></div>'+
+                '           </div>'+
+            '           </div>'+
                 '   </header>' +
                 '   <div ng-hide="hidden">' +
-                '       <div class="col-xs-12 col-sm-9 col-lg-10" compile="subject.form"></div>'+
+                '       <div class="form-nested-content" compile="subject.form"></div>'+
                 '   </div>' +
                 '</article>',
             replace: true,
@@ -97,17 +98,27 @@ angular.module('OpiferNestedContent', ['ui.sortable'])
                 scope.subject.data = {};
                 scope.subject.form = '';
 
+                if (angular.isUndefined(scope.$parent.$parent.subject)) {
+                    var parent = '';
+                } else {
+                    var parent = scope.$parent.$parent.subject.name;
+                    //console.log(parent);
+                }
+
                 // Request the form template and compile it
                 $http.post(Routing.generate('opifer_eav_form_render', {
                     attribute: scope.attribute,
                     id: scope.subject.name,
-                    index: scope.$index
+                    index: scope.$index,
+                    parent: parent,
+                    template: scope.subject.id
                 }), {}).success(function(data) {
                     scope.subject.form = data.form;
                     scope.subject.data = data.content;
-                    
-                    if (scope.subject.data.pivotedAttributes.coverImage) {
-                        scope.subject.data.pivotedAttributes.coverImage = Routing.generate('liip_imagine_filter', {'path':  scope.subject.data.pivotedAttributes.coverImage, 'filter' : 'medialibrary'});
+                    scope.subject.name = data.name;
+
+                    if (scope.subject.data.coverImage) {
+                        scope.subject.data.coverImage = Routing.generate('liip_imagine_filter', {'path':  scope.subject.data.coverImage, 'filter' : 'medialibrary'});
                     }
 
                     // If the subject's name is not an ID, it means it's a new nested content
@@ -126,7 +137,7 @@ angular.module('OpiferNestedContent', ['ui.sortable'])
                     }
                 }
             },
-            controller: function($scope, $http, $attrs, TemplateService) {
+            controller: function($scope) {
                 // Initially hide each form, to keep the form view clean.
                 $scope.hidden = true;
             }

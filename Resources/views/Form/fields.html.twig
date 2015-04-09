@@ -2,7 +2,7 @@
 
 {% block eav_value_row %}
     {% spaceless %}
-        <div class="form-group">
+        <div class="form-group {% if form.vars.attribute.valueType == 'nested' %}form-group-nested-content{% endif %}">
             {{ form_label(form) }}
             <div class="col-lg-10">
                 {% for child in form.children %}
@@ -11,12 +11,12 @@
 
                 {% if form.vars.attribute.valueType == 'nested' %}
                     <section class="nested-content-wrapper">
-                        <input name="eav_nested_content_value_{{ name }}" type="hidden" value="{{ form.vars.value }}">
+                        <input name="{{ form.vars.id }}" type="hidden" value="{{ form.vars.value }}">
                         <nested-content attribute="{{ name }}" ids="{{ form.vars.value }}"></nested-content>
                     </section>
                 {% endif %}
             </div>
-            {{ block('form_help')}}
+            {{ block('form_help') }}
         </div>
     {% endspaceless %}
 {% endblock %}
