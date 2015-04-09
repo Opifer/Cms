@@ -11,7 +11,7 @@
 
                 {% if form.vars.attribute.valueType == 'nested' %}
                     <section class="nested-content-wrapper">
-                        <input name="eav_nested_content_value_{{ form.vars.name }}" type="hidden" value="{{ form.vars.value }}">
+                        <input name="{{ form.vars.id }}" type="hidden" value="{{ form.vars.value }}">
                         <nested-content attribute="{{ name }}" ids="{{ form.vars.value }}"></nested-content>
                     </section>
                 {% endif %}
