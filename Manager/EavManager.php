@@ -141,7 +141,7 @@ class EavManager
             $parsedParent = explode('_valueset', $parent);
             $parent = array_shift($parsedParent);
         } else {
-            $parent = 'nested_content';
+            $parent = NestedType::PREFIX;
         }
 
         $key = implode(NestedType::SEPARATOR, [$parent, $attribute, $id, $index]);

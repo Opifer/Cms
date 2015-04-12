@@ -11,6 +11,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 class NestedType extends AbstractType
 {
     const SEPARATOR = '__';
+    const PREFIX = 'nested_content';
 
     /** @var string */
     protected $name;
