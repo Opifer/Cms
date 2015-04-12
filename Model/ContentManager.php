@@ -8,7 +8,7 @@ use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\HttpFoundation\Request;
 
 use Opifer\CrudBundle\Pagination\Paginator;
-use Opifer\EavBundle\Form\Type\NestedContentType;
+use Opifer\EavBundle\Form\Type\NestedType;
 use Opifer\EavBundle\Manager\EavManager;
 use Opifer\EavBundle\Entity\NestedValue;
 
@@ -143,10 +143,12 @@ class ContentManager implements ContentManagerInterface
     public function recursiveContentMapper(Request $request, ContentInterface $content, $level = 1, $parentKey = 'opifer_content')
     {
         $formdata = $request->request->all();
-
-        $relatedformdata = $this->getFormDataByLevel($formdata, $level, $parentKey);
+        $oldLevel = $level;
 
         foreach ($content->getNestedContentAttributes() as $attribute => $value) {
+
+            $relatedformdata = $this->eavManager->getFormDataByLevel($formdata, $attribute, $level, $parentKey);
+
             // Store the original Ids, so we can check later what items were removed
             $ids = [];
             $oldIds = [];
@@ -156,11 +158,11 @@ class ContentManager implements ContentManagerInterface
 
             $sort = 0;
             foreach ($relatedformdata as $key => $data) {
-                $keys = $this->separateKeys($key);
+                $keys = $this->eavManager->parseNestedTypeName($key);
 
                 $nestedContent = $this->getContentByReference($keys['reference']);
 
-                $form = new NestedContentType($keys['attribute'], $key);
+                $form = new NestedType($key);
                 $form = $this->formFactory->create($form, $nestedContent);
                 $form->handleRequest($request);
 
@@ -181,11 +183,12 @@ class ContentManager implements ContentManagerInterface
                 }
 
                 $level++;
-
                 $this->recursiveContentMapper($request, $nestedContent, $level, $key);
             }
 
             $this->remove(array_diff($oldIds, $ids));
+
+            $level = $oldLevel;
         }
 
         return true;
@@ -218,55 +221,6 @@ class ContentManager implements ContentManagerInterface
         }
 
         return $nestedContent;
-    }
-
-    /**
-     * Get the formdata related to the level and optionally the parent
-     *
-     * @param array $formdata
-     * @param int $level
-     * @param null $parent
-     *
-     * @return array
-     */
-    private function getFormDataByLevel($formdata, $level = 1, $parent)
-    {
-        $collection = [];
-        foreach ($formdata as $key => $data) {
-            if (!strpos($key, NestedContentType::SEPARATOR) || strpos($key, 'valueset_namedvalues')) {
-                continue;
-            }
-
-            $keys = explode(NestedContentType::SEPARATOR, $key);
-            array_shift($keys);
-
-            if (count($keys) == ($level * 3)) {
-                $pos = strpos($key, $parent);
-                if (($level > 1 && ($pos !== false)) || $level == 1) {
-                    $collection[$key] = $data;
-                }
-            }
-        }
-
-        return $collection;
-    }
-
-    /**
-     * Parses the keys string to a usable array
-     *
-     * @param $key
-     *
-     * @return array
-     */
-    private function separateKeys($key)
-    {
-        $keys = explode(NestedContentType::SEPARATOR, $key);
-
-        return [
-            'index' => end($keys),
-            'reference' => prev($keys),
-            'attribute' => prev($keys)
-        ];
     }
 
     /**
