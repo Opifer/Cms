@@ -140,7 +140,7 @@ class ContentManager implements ContentManagerInterface
      *
      * @throws \Exception
      */
-    public function recursiveContentMapper(Request $request, ContentInterface $content, $level = 1, $parentKey = 'opifer_content')
+    public function recursiveContentMapper(Request $request, ContentInterface $content, $level = 1, $parentKey = NestedType::PREFIX)
     {
         $formdata = $request->request->all();
         $oldLevel = $level;
