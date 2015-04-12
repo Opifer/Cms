@@ -92,6 +92,37 @@ class EavManager
     }
 
     /**
+     * Get the formdata related to the level and optionally the parent
+     *
+     * @param array $formdata
+     * @param string $formdata
+     * @param int $level
+     * @param string $parent
+     *
+     * @return array
+     */
+    public function getFormDataByLevel($formdata, $attribute, $level = 1, $parent)
+    {
+        $collection = [];
+        foreach ($formdata as $key => $data) {
+            if (!strpos($key, NestedType::SEPARATOR) || strpos($key, 'valueset_namedvalues')) {
+                continue;
+            }
+
+            $keys = $this->parseNestedTypeName($key);
+
+            if ($keys['level'] == $level && $keys['attribute'] == $attribute) {
+                $pos = strpos($key, $parent);
+                if (($level > 1 && ($pos !== false)) || $level == 1) {
+                    $collection[$key] = $data;
+                }
+            }
+        }
+
+        return $collection;
+    }
+
+    /**
      * Generate a unique name for the nested item
      *
      * In case of newly added nested content, we need to add an index
