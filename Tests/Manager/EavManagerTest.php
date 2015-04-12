@@ -28,4 +28,42 @@ class EavManagerTest extends \PHPUnit_Framework_TestCase
 
         $this->assertInstanceOf('Opifer\EavBundle\Model\EntityInterface', $entity);
     }
+
+    public function testParseNestedTypeName()
+    {
+        $key = 'nested_content__blocks__nesting__0';
+
+        $manager = new EavManager($this->pool, 'Opifer\EavBundle\Tests\TestData\ValueSet');
+
+        $expected = [
+            'level' => 1,
+            'index' => 0,
+            'reference' => 'nesting',
+            'attribute' => 'blocks',
+            'key' => 'nested_content__blocks__nesting__0'
+        ];
+
+        $actual = $manager->parseNestedTypeName($key);
+
+        $this->assertEquals($expected, $actual);
+    }
+
+    public function testParseLevel2NestedTypeName()
+    {
+        $key = 'nested_content__blocks__nesting__0__blocks__nesting__3';
+
+        $manager = new EavManager($this->pool, 'Opifer\EavBundle\Tests\TestData\ValueSet');
+
+        $expected = [
+            'level' => 2,
+            'index' => 3,
+            'reference' => 'nesting',
+            'attribute' => 'blocks',
+            'key' => 'nested_content__blocks__nesting__0__blocks__nesting__3'
+        ];
+
+        $actual = $manager->parseNestedTypeName($key);
+
+        $this->assertEquals($expected, $actual);
+    }
 }

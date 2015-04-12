@@ -101,8 +101,7 @@ angular.module('OpiferNestedContent', ['ui.sortable'])
                 if (angular.isUndefined(scope.$parent.$parent.subject)) {
                     var parent = '';
                 } else {
-                    var parent = scope.$parent.$parent.subject.name;
-                    //console.log(parent);
+                    var parent = element.parent().parent().parent().find('input')[0].name;
                 }
 
                 // Request the form template and compile it
