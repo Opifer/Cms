@@ -6,11 +6,12 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 
 /**
- * Nested content form type
+ * Nested form type
  */
-class NestedContentType extends AbstractType
+class NestedType extends AbstractType
 {
     const SEPARATOR = '__';
+    const PREFIX = 'nested_content';
 
     /** @var string */
     protected $name;
@@ -22,16 +23,11 @@ class NestedContentType extends AbstractType
      * If we don't do this, it's not possible to create multiple forms of the same
      * type on one angular page.
      *
-     * @param string         $attribute
-     * @param integer|string $id
+     * @param string $name
      */
-    public function __construct($attribute, $id)
+    public function __construct($name)
     {
-        if (strpos($id, 'nested_content') !== false) {
-            $this->name = $id;
-        } else {
-            $this->name = 'nested_content' . self::SEPARATOR . $attribute . self::SEPARATOR . $id;
-        }
+        $this->name = $name;
     }
 
     /**

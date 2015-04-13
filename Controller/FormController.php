@@ -10,7 +10,7 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\Routing\Exception\ResourceNotFoundException;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Opifer\EavBundle\Form\Type\NestedContentType;
+use Opifer\EavBundle\Form\Type\NestedType;
 
 class FormController extends Controller
 {
@@ -84,7 +84,6 @@ class FormController extends Controller
         if (is_numeric($id)) {
             $object = $this->container->getParameter('opifer_eav.nestable_class');
             $entity = $em->getRepository($object)->find($id);
-            $template = $entity->getTemplate();
         } else {
             $template = $this->get('opifer.eav.template_manager')->getRepository()->find($request->get('template'));
 
@@ -96,16 +95,10 @@ class FormController extends Controller
             $id = $template->getName();
         }
 
-        //In case of newly added nested content, we need to add an index
-        //to the form type name, to avoid same template name conflicts.
-        $separator = NestedContentType::SEPARATOR;
-        if ($request->get('parent')) {
-            $id = $request->get('parent') . $separator . $attribute . $separator . $id . $separator . $index;
-        } else {
-            $id = $id . $separator . $index;
-        }
+        $key = $this->get('opifer.eav.eav_manager')
+            ->generateNestedTypeName($attribute, $id, $index, $request->get('parent'));
 
-        $form = $this->createForm(new NestedContentType($attribute, $id), $entity);
+        $form = $this->createForm(new NestedType($key), $entity);
         $form = $this->render('OpiferEavBundle:Form:render.html.twig', ['form' => $form->createView()]);
 
         $entity = $this->get('jms_serializer')->serialize($entity, 'json');
