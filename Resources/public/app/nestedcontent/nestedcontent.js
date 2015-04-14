@@ -116,10 +116,6 @@ angular.module('OpiferNestedContent', ['ui.sortable'])
                     scope.subject.data = data.content;
                     scope.subject.name = data.name;
 
-                    if (scope.subject.data.coverImage) {
-                        scope.subject.data.coverImage = Routing.generate('liip_imagine_filter', {'path':  scope.subject.data.coverImage, 'filter' : 'medialibrary'});
-                    }
-
                     // If the subject's name is not an ID, it means it's a new nested content
                     // form, so don't hide it.
                     if (isNaN(parseFloat(scope.subject.name)) || !isFinite(scope.subject.name)) {
