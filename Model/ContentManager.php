@@ -133,7 +133,6 @@ class ContentManager implements ContentManagerInterface
      * @param ContentInterface $content
      * @param $request
      * @param int $level
-     * @param int $parent
      * @param string $parentKey
      *
      * @return bool
@@ -143,7 +142,6 @@ class ContentManager implements ContentManagerInterface
     public function recursiveContentMapper(Request $request, ContentInterface $content, $level = 1, $parentKey = 'opifer_content')
     {
         $formdata = $request->request->all();
-        $oldLevel = $level;
 
         foreach ($content->getNestedContentAttributes() as $attribute => $value) {
 
@@ -182,13 +180,10 @@ class ContentManager implements ContentManagerInterface
                     throw new NestedContentFormException('Something went wrong while saving nested content. Message: '. $form->getErrors());
                 }
 
-                $level++;
-                $this->recursiveContentMapper($request, $nestedContent, $level, $key);
+                $this->recursiveContentMapper($request, $nestedContent, $level+1, $key);
             }
 
             $this->remove(array_diff($oldIds, $ids));
-
-            $level = $oldLevel;
         }
 
         return true;
