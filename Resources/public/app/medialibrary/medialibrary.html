@@ -1,4 +1,4 @@
-<div ng-file-drop="onFileSelect($files)" ng-file-drag-over-class="file-drop-area-hover" ng-show="dropSupported" class="file-drop-area">
+<div ng-file-drop ng-file-change="onFileSelect($files)" ng-file-drag-over-class="file-drop-area-hover" ng-show="dropSupported" class="file-drop-area">
     <div class="file-drop-area-overlay">
         <h3>Drop files to upload</h3>
     </div>
