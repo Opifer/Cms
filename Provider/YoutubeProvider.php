@@ -84,6 +84,14 @@ class YoutubeProvider extends AbstractProvider
     /**
      * {@inheritDoc}
      */
+    public function getThumb(MediaManagerInterface $media)
+    {
+        return $media->getThumb()->getReference();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
     public function editView()
     {
         return 'OpiferMediaBundle:Youtube:edit.html.twig';

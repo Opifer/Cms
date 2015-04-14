@@ -56,6 +56,14 @@ abstract class AbstractProvider implements ProviderInterface
     /**
      * {@inheritdoc}
      */
+    public function getThumb(MediaInterface $media)
+    {
+        return '';
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function prePersist(MediaInterface $media)
     {
         // Do nothing, or override in child class

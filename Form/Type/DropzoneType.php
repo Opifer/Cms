@@ -8,11 +8,27 @@ use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormView;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
+use Opifer\MediaBundle\Form\Transformer\CollectionToStringTransformer;
+use Opifer\MediaBundle\Model\MediaManagerInterface;
+
 /**
  * The dropzone form type
  */
 class DropzoneType extends AbstractType
 {
+    /**
+     * @var MediaManagerInterface
+     */
+    private $mediaManager;
+
+    /**
+     * @param MediaManagerInterface $mm
+     */
+    public function __construct(MediaManagerInterface $mm)
+    {
+        $this->mediaManager = $mm;
+    }
+
     /**
      * {@inheritDoc}
      */
@@ -25,6 +41,8 @@ class DropzoneType extends AbstractType
 
             $builder->setAttribute('prototype', $prototype->getForm());
         }
+
+        $builder->addViewTransformer(new CollectionToStringTransformer($this->mediaManager));
     }
 
     /**

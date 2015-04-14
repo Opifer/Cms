@@ -7,7 +7,8 @@ use JMS\Serializer\EventDispatcher\ObjectEvent;
 
 use Liip\ImagineBundle\Imagine\Cache\CacheManager;
 
-use Opifer\MediaBundle\Model\Media;
+use Opifer\MediaBundle\Model\MediaInterface;
+use Opifer\MediaBundle\Provider\Pool;
 
 /**
  * Class MediaEventSubscriber
@@ -22,13 +23,19 @@ class MediaEventSubscriber implements EventSubscriberInterface
     private $cacheManager;
 
     /**
+     * @var Pool
+     */
+    protected $pool;
+
+    /**
      * Constructor.
      *
      * @param CacheManager $cacheManager
      */
-    public function __construct(CacheManager $cacheManager)
+    public function __construct(CacheManager $cacheManager, Pool $pool)
     {
         $this->cacheManager = $cacheManager;
+        $this->pool = $pool;
     }
 
     /**
@@ -36,9 +43,9 @@ class MediaEventSubscriber implements EventSubscriberInterface
      */
     public static function getSubscribedEvents()
     {
-        return array(
-            array('event' => 'serializer.post_serialize', 'method' => 'onPostSerialize'),
-        );
+        return [
+            ['event' => 'serializer.post_serialize', 'method' => 'onPostSerialize'],
+        ];
     }
 
     /**
@@ -47,17 +54,14 @@ class MediaEventSubscriber implements EventSubscriberInterface
     public function onPostSerialize(ObjectEvent $event)
     {
         // getSubscribedEvents doesn't seem to support parent classes
-        if (!$event->getObject() instanceof Media) {
+        if (!$event->getObject() instanceof MediaInterface) {
             return;
         }
 
-        if ($event->getObject()->getProvider() == 'image') {
-            $reference = $event->getObject()->getReference();
-        } else {
-            $reference = $event->getObject()->getThumb()->getReference();
-        }
+        $thumbnail = $this->pool->getProvider($event->getObject()->getProvider())
+            ->getThumb($event->getObject());
 
-        $small = $this->cacheManager->getBrowserPath($reference, 'medialibrary');
+        $small = $this->cacheManager->getBrowserPath($thumbnail, 'medialibrary');
         $event->getVisitor()->addData('images', ['sm' => $small]);
     }
 }

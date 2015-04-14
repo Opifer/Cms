@@ -124,7 +124,7 @@ abstract class Media implements MediaInterface
     /**
      * This is just a temporary file holder, for file uploads through a form.
      *
-     * @var  Symfony\Component\HttpFoundation\File\UploadedFile
+     * @var  \Symfony\Component\HttpFoundation\File\UploadedFile
      *
      * @Assert\File(maxSize="6000000")
      */

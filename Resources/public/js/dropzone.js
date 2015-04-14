@@ -72,10 +72,10 @@ if ($('.dropzone').length) {
         }
     });
 
-    if ($('.dropzone').attr('data-mapped')) {
-        var mapping = $('.dropzone').attr('data-mapped');
-        var mapping = $('#' + mapping).val();
-
-        var mediaRequest = Routing.generate('opifer_api_media', {'ids' : mapping});
-    }
+    //if ($('.dropzone').attr('data-mapped')) {
+    //    var mapping = $('.dropzone').attr('data-mapped');
+    //    var mapping = $('#' + mapping).val();
+    //
+    //    var mediaRequest = Routing.generate('opifer_api_media', {'ids' : mapping});
+    //}
 };

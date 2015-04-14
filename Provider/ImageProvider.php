@@ -12,6 +12,14 @@ class ImageProvider extends FileProvider
     /**
      * {@inheritDoc}
      */
+    public function getThumb(MediaInterface $media)
+    {
+        return $media->getReference();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
     public function getLabel()
     {
         return $this->translator->trans('image.label');

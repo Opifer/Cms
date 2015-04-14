@@ -29,14 +29,23 @@ interface ProviderInterface
     public function getLabel();
 
     /**
+     * Return the thumbnail of the media item
+     *
+     * @param MediaInterface $media
+     *
+     * @return string
+     */
+    public function getThumb(MediaInterface $media);
+
+    /**
      * The 'create new' form
      *
      * Symfony Form Documentation:
      * http://symfony.com/doc/current/book/forms.html
      * http://symfony.com/doc/current/reference/forms/types.html
      *
-     * @param Symfony\Component\Form\FormBuilderInterface $builder
-     * @param array                                       $options
+     * @param FormBuilderInterface $builder
+     * @param array $options
      *
      * @return void
      */
@@ -48,8 +57,8 @@ interface ProviderInterface
      * By default, when extending AbstractProvider, this redirects to the
      * newForm() method.
      *
-     * @param Symfony\Component\Form\FormBuilderInterface $builder
-     * @param array                                       $options
+     * @param FormBuilderInterface $builder
+     * @param array $options
      *
      * @return void
      */
