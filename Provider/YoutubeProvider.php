@@ -84,7 +84,7 @@ class YoutubeProvider extends AbstractProvider
     /**
      * {@inheritDoc}
      */
-    public function getThumb(MediaManagerInterface $media)
+    public function getThumb(MediaInterface $media)
     {
         return $media->getThumb()->getReference();
     }
