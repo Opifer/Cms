@@ -38,30 +38,13 @@ class ImageProvider extends FileProvider
      */
     public function prePersist(MediaInterface $media)
     {
-        if ($media->getFile() === null) {
+        if ($file = $media->getFile() === null) {
             return;
         }
 
-        $file = $media->getFile();
-        $filename = $this->createUniqueFileName($file);
-
-        // The status might have been set before. For example when the current
-        // image is used as a thumbnail for another media item.
-        if (!$media->getStatus()) {
-            $media->setStatus(self::ENABLED);
-        }
+        parent::prePersist($media);
 
         $size = getimagesize($file);
-
-        if (!$media->getName()) {
-            $media->setName($filename);
-        }
-
-        $media
-            ->setReference($filename)
-            ->setContentType($file->getClientMimeType())
-            ->setFilesize($file->getSize())
-            ->setMetadata(['width' => $size[0], 'height' => $size[1]])
-        ;
+        $media->setMetadata(['width' => $size[0], 'height' => $size[1]]);
     }
 }
