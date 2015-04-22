@@ -62,6 +62,10 @@ class ContentRepository extends EntityRepository
             }
         }
 
+        if ($ids = $request->get('ids')) {
+            $qb->andWhere('c.id IN (:ids)')->setParameter('ids', $ids);
+        }
+
         $qb->andWhere('c.deletedAt IS NULL');  // @TODO fix SoftDeleteAble filter
 
         $qb->orderBy('c.slug');

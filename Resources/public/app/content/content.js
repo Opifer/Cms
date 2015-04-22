@@ -13,21 +13,58 @@ angular.module('OpiferContent', ['angular-inview'])
         });
     }])
 
-    .controller('ContentPickerController', ['$scope', function ($scope) {
+    .controller('ContentPickerController', ['$scope', '$http', function ($scope, $http) {
         $scope.content = {};
+        $scope.selecteditems = [];
+        $scope.formname = '';
+        $scope.multiple = false;
 
         /**
          * Set content
          *
          * @param  {array} content
          */
-        $scope.init = function(content) {
-            $scope.content = JSON.parse(content);
+        $scope.init = function(content, formname, multiple) {
+            $scope.formname = formname;
+
+            if (angular.isDefined(multiple) && multiple) {
+                $scope.multiple = multiple;
+            }
+
+            if ($scope.multiple) {
+                // When items have been passed to the init function, retrieve the related data.
+                if (angular.isDefined(content) && content.length) {
+                    content = JSON.parse(content);
+                    content = content.toString();
+
+                    $http.get(Routing.generate('opifer_content_api_content', {'ids': content}))
+                        .success(function(data) {
+                            var results = data.results;
+                            for (var i = 0; i < results.length; i++) {
+                                $scope.selecteditems.push(results[i]);
+                            }
+                        })
+                    ;
+                }
+
+                console.log($scope.selecteditems);
+            } else {
+                $scope.content = JSON.parse(content);
+            }
         };
 
         $scope.pickContent = function(content) {
-            $scope.content = content;
+            if ($scope.multiple) {
+                $scope.selecteditems.push(content);
+            } else {
+                $scope.content = content;
+            }
+
             $scope.isPickerOpen = false;
+        };
+
+        $scope.removeContent = function(idx) {
+            $scope.selecteditems.splice(idx, 1);
         };
     }])
 

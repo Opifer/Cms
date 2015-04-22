@@ -7,10 +7,12 @@
 {% endspaceless %}
 {% endblock %}
 
-
+{#
+    The single content picker widget.
+#}
 {% block contentpicker_widget %}
     {% spaceless %}
-        {% if(form.vars.value.content_id) %}
+        {% if form.vars.value.content_id %}
             {% set content = form.vars.value.content_id %}
         {% endif %}
 
@@ -26,6 +28,38 @@
             <ng-modal show="isPickerOpen">
                 <content-browser site-id="0" locale="nl_NL" directory-id="0" mode="PICKER_SINGLE" active="{{ isPickerOpen }}"></content-browser>
             </ng-modal>
+            {% endverbatim %}
+        </div>
+    {% endspaceless %}
+{% endblock %}
+
+{#
+    The multi content picker widget.
+#}
+{% block multicontentpicker_widget %}
+    {% spaceless %}
+
+        {% set content = form.vars.value|json_encode()|default('[]') %}
+
+        <div class="content-picker" ng-controller="ContentPickerController" ng-cloak ng-init="init('{{ content }}', '{{ full_name }}', true)">
+            {% verbatim %}
+                <div class="content-picked-item" ng-repeat="item in selecteditems" style="display:block;">
+                    <input type="hidden" id="" name="{{ formname }}" value="{{ item.id }}">
+                    <div style="background-image: url({{ item.coverImage }});" class="content-cover"></div>
+                    <span class="content-title">{{ item.title }}</span> <a class="fa fa-times danger" ng-click="removeContent($index)"></a>
+                </div>
+
+                <div class="wrapper">
+                    <button type="button" class="btn btn-default" ng-click="isPickerOpen = !isPickerOpen">Add content</button>
+                    <div class="content-picked-item" ng-show="content.id">
+                        <div style="background-image: url({{ content.coverImage }});" class="content-cover"></div>
+                        <span class="content-title">{{ content.title }}</span> <a class="fa fa-times danger" ng-click="content={}"></a>
+                    </div>
+                </div>
+
+                <ng-modal show="isPickerOpen">
+                    <content-browser site-id="0" locale="nl_NL" directory-id="0" mode="PICKER_SINGLE" active="{{ isPickerOpen }}"></content-browser>
+                </ng-modal>
             {% endverbatim %}
         </div>
     {% endspaceless %}
