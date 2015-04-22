@@ -13,21 +13,79 @@ angular.module('OpiferContent', ['angular-inview'])
         });
     }])
 
-    .controller('ContentPickerController', ['$scope', function ($scope) {
+    .controller('ContentPickerController', ['$scope', '$http', function ($scope, $http) {
         $scope.content = {};
+        $scope.selecteditems = [];
+        $scope.formname = '';
+        $scope.multiple = false;
+        $scope.order = {
+            sort: 'manual',
+            order: []
+        };
+
+        $scope.sortableOptions = {
+            // Update the order variable when the order of items has changed
+            stop: function () {
+                var order = [];
+                for (var i = 0; i < $scope.selecteditems.length; i++) {
+                    order.push($scope.selecteditems[i].id);
+                }
+
+                $scope.order.order = order;
+            }
+        };
 
         /**
          * Set content
          *
          * @param  {array} content
          */
-        $scope.init = function(content) {
-            $scope.content = JSON.parse(content);
+        $scope.init = function(content, formname, multiple) {
+            $scope.formname = formname;
+
+            if (angular.isDefined(multiple) && multiple) {
+                $scope.multiple = multiple;
+            }
+
+            if ($scope.multiple) {
+                // When items have been passed to the init function, retrieve the related data.
+                if (angular.isDefined(content)) {
+                    content = JSON.parse(content);
+                    if (content.length) {
+                        $scope.order.order = content;
+                        content = content.toString();
+
+                        $http.get(Routing.generate('opifer_content_api_content_ids', {'ids': content}))
+                            .success(function(data) {
+                                var results = data.results;
+                                for (var i = 0; i < results.length; i++) {
+                                    $scope.selecteditems.push(results[i]);
+                                }
+                            })
+                        ;
+                    }
+                }
+            } else {
+                $scope.content = JSON.parse(content);
+            }
         };
 
+        // Select a content item
         $scope.pickContent = function(content) {
-            $scope.content = content;
+            if ($scope.multiple) {
+                $scope.selecteditems.push(content);
+
+                $scope.order.order.push(content.id);
+            } else {
+                $scope.content = content;
+            }
+
             $scope.isPickerOpen = false;
+        };
+
+        // Remove a content item
+        $scope.removeContent = function(idx) {
+            $scope.selecteditems.splice(idx, 1);
         };
     }])
 

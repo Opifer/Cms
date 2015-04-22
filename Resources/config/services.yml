@@ -1,15 +1,17 @@
 parameters:
-    opifer.content.content_manager.default.class: Opifer\ContentBundle\Model\ContentManager
-    opifer.content.directory_manager.default.class: Opifer\ContentBundle\Model\DirectoryManager
-    opifer.content.layout_manager.class: Opifer\ContentBundle\Model\LayoutManager
-    opifer.rulesengine.provider.content.class: Opifer\ContentBundle\RulesEngine\ContentRulesProvider
-    opifer.content.directory_type.class: Opifer\ContentBundle\Form\Type\DirectoryType
-    opifer.content.content_type.class: Opifer\ContentBundle\Form\Type\ContentType
     opifer.content.content_init_type.class: Opifer\ContentBundle\Form\Type\ContentInitType
+    opifer.content.content_list_value_provider.class: Opifer\ContentBundle\ValueProvider\ContentListValueProvider
+    opifer.content.content_manager.default.class: Opifer\ContentBundle\Model\ContentManager
     opifer.content.content_router.class: Opifer\ContentBundle\Router\ContentRouter
-    opifer.content.twig.content_extension.class: Opifer\ContentBundle\Twig\ContentExtension
+    opifer.content.content_type.class: Opifer\ContentBundle\Form\Type\ContentType
     opifer.content.content_value_provider.class: Opifer\ContentBundle\ValueProvider\ContentValueProvider
+    opifer.content.directory_manager.default.class: Opifer\ContentBundle\Model\DirectoryManager
+    opifer.content.directory_type.class: Opifer\ContentBundle\Form\Type\DirectoryType
     opifer.content.form.contentpicker_type.class: Opifer\ContentBundle\Form\Type\ContentPickerType
+    opifer.content.form.content_list_picker_type.class: Opifer\ContentBundle\Form\Type\ContentListPickerType
+    opifer.content.layout_manager.class: Opifer\ContentBundle\Model\LayoutManager
+    opifer.content.twig.content_extension.class: Opifer\ContentBundle\Twig\ContentExtension
+    opifer.rulesengine.provider.content.class: Opifer\ContentBundle\RulesEngine\ContentRulesProvider
 
 services:
     opifer.content.content_manager.default:
@@ -74,8 +76,20 @@ services:
         tags:
             - { name: opifer.eav.value_provider, alias: content }
 
+    opifer.content.content_list_value_provider:
+        class: %opifer.content.content_list_value_provider.class%
+        arguments: [%opifer_content.content_class%]
+        tags:
+            - { name: opifer.eav.value_provider, alias: content_list }
+
     opifer.content.form.contentpicker_type:
         class: %opifer.content.form.contentpicker_type.class%
         arguments: [@opifer.content.content_manager]
         tags:
             - { name: form.type, alias: contentpicker }
+
+    opifer.content.form.content_list_picker_type:
+        class: %opifer.content.form.content_list_picker_type.class%
+        arguments: [@doctrine, @property_accessor]
+        tags:
+            - { name: form.type, alias: content_list_picker }

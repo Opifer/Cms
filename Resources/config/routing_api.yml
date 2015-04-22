@@ -5,6 +5,13 @@ opifer_content_api_content:
     options:
         expose: true
 
+opifer_content_api_content_ids:
+    path: /contents/ids/{ids}
+    defaults: { _controller: OpiferContentBundle:Api/Content:ids }
+    methods: [GET]
+    options:
+        expose: true
+
 opifer_content_api_content_view:
     path: /contents/{id}
     defaults: { _controller: OpiferContentBundle:Api/Content:view }
