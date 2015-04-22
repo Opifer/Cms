@@ -16,6 +16,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 class Attribute implements AttributeInterface
 {
+
     /**
      * @var integer
      *
@@ -59,6 +60,14 @@ class Attribute implements AttributeInterface
     protected $displayName;
 
     /**
+     * @var string
+     *
+     * @ORM\Column(name="description", type="string", length=1000)
+     *
+     */
+    protected $description;
+
+    /**
      * @var integer
      *
      * @ORM\Column(name="sort", type="integer")
@@ -80,6 +89,7 @@ class Attribute implements AttributeInterface
      */
     protected $values;
 
+
     /**
      * Do not remove, for diff purposes on array of objects
      *
@@ -87,8 +97,9 @@ class Attribute implements AttributeInterface
      */
     public function __toString()
     {
-        return $this->getId().' '.$this->getDisplayName();
+        return $this->getId() . ' ' . $this->getDisplayName();
     }
+
 
     /**
      * Get id
@@ -100,10 +111,12 @@ class Attribute implements AttributeInterface
         return $this->id;
     }
 
+
     /**
      * Set name
      *
-     * @param  string    $name
+     * @param  string $name
+     *
      * @return Attribute
      */
     public function setName($name)
@@ -112,6 +125,7 @@ class Attribute implements AttributeInterface
 
         return $this;
     }
+
 
     /**
      * Get name
@@ -123,10 +137,12 @@ class Attribute implements AttributeInterface
         return $this->name;
     }
 
+
     /**
      * Set displayName
      *
-     * @param  string    $displayName
+     * @param  string $displayName
+     *
      * @return Attribute
      */
     public function setDisplayName($displayName)
@@ -135,6 +151,7 @@ class Attribute implements AttributeInterface
 
         return $this;
     }
+
 
     /**
      * Get displayName
@@ -146,10 +163,34 @@ class Attribute implements AttributeInterface
         return $this->displayName;
     }
 
+
+    /**
+     * Set Description
+     *
+     * @param string $description
+     */
+    public function setDescription($description)
+    {
+        $this->description = $description;
+    }
+
+
+    /**
+     * Get Description
+     *
+     * @return string
+     */
+    public function getDescription()
+    {
+        return $this->description;
+    }
+
+
     /**
      * Set template
      *
      * @param  TemplateInterface $template
+     *
      * @return Attribute
      */
     public function setTemplate(TemplateInterface $template = null)
@@ -158,6 +199,7 @@ class Attribute implements AttributeInterface
 
         return $this;
     }
+
 
     /**
      * Get template
@@ -169,14 +211,16 @@ class Attribute implements AttributeInterface
         return $this->template;
     }
 
+
     /**
      * Constructor
      */
     public function __construct()
     {
-        $this->values = new ArrayCollection();
+        $this->values  = new ArrayCollection();
         $this->options = new ArrayCollection();
     }
+
 
     /**
      * Set sort
@@ -190,6 +234,7 @@ class Attribute implements AttributeInterface
         return $this;
     }
 
+
     /**
      * Get sort
      *
@@ -200,10 +245,12 @@ class Attribute implements AttributeInterface
         return $this->sort;
     }
 
+
     /**
      * Add values
      *
      * @param  ValueInterface $values
+     *
      * @return Attribute
      */
     public function addValue(ValueInterface $values)
@@ -212,6 +259,7 @@ class Attribute implements AttributeInterface
 
         return $this;
     }
+
 
     /**
      * Remove values
@@ -223,6 +271,7 @@ class Attribute implements AttributeInterface
         $this->values->removeElement($values);
     }
 
+
     /**
      * Get values
      *
@@ -232,6 +281,7 @@ class Attribute implements AttributeInterface
     {
         return $this->values;
     }
+
 
     /**
      * Get options
@@ -243,10 +293,12 @@ class Attribute implements AttributeInterface
         return $this->options;
     }
 
+
     /**
      * Add options
      *
      * @param  OptionInterface $options
+     *
      * @return Attribute
      */
     public function addOption(OptionInterface $options)
@@ -255,6 +307,7 @@ class Attribute implements AttributeInterface
 
         return $this;
     }
+
 
     /**
      * Remove options
@@ -265,7 +318,8 @@ class Attribute implements AttributeInterface
     {
         $this->options->removeElement($options);
     }
-    
+
+
     /**
      * Get an option by its name
      *
@@ -284,10 +338,12 @@ class Attribute implements AttributeInterface
         return false;
     }
 
+
     /**
      * Set valueType
      *
-     * @param  string    $valueType
+     * @param  string $valueType
+     *
      * @return Attribute
      */
     public function setValueType($valueType)
@@ -296,6 +352,7 @@ class Attribute implements AttributeInterface
 
         return $this;
     }
+
 
     /**
      * Get valueType
@@ -306,6 +363,7 @@ class Attribute implements AttributeInterface
     {
         return $this->valueType;
     }
+
 
     /**
      * Build a new value
