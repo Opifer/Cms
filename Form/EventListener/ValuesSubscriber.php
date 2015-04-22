@@ -60,7 +60,8 @@ class ValuesSubscriber implements EventSubscriberInterface
             $form->add($name, 'eav_value', [
                 'label'     => $value->getAttribute()->getDisplayName(),
                 'attribute' => $value->getAttribute(),
-                'entity'    => get_class($value)
+                'entity'    => get_class($value),
+                'value'     => $value
             ]);
         }
     }
