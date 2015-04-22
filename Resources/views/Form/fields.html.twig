@@ -36,9 +36,8 @@
 {#
     The multi content picker widget.
 #}
-{% block multicontentpicker_widget %}
+{% block content_list_picker_widget %}
     {% spaceless %}
-
 
         {% set content = form.vars.value|json_encode() %}
         {% set formname = full_name|replace({'[content][]': ''}) %}

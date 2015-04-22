@@ -143,6 +143,10 @@ class ContentListValue extends Value implements \IteratorAggregate, \Countable
      */
     public function getOrdered()
     {
+        if (!$this->sort) {
+            return $this->content;
+        }
+
         $unordered = [];
         foreach ($this->content as $content) {
             $unordered[$content->getId()] = $content;
@@ -152,7 +156,9 @@ class ContentListValue extends Value implements \IteratorAggregate, \Countable
         $sort = json_decode($this->sort, true);
         $order = $sort['order'];
         foreach ($order as $id) {
-            $ordered[] = $unordered[$id];
+            if (isset($unordered[$id])) {
+                $ordered[] = $unordered[$id];
+            }
         }
 
         return $ordered;

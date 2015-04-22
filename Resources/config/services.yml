@@ -1,5 +1,6 @@
 parameters:
     opifer.content.content_init_type.class: Opifer\ContentBundle\Form\Type\ContentInitType
+    opifer.content.content_list_value_provider.class: Opifer\ContentBundle\ValueProvider\ContentListValueProvider
     opifer.content.content_manager.default.class: Opifer\ContentBundle\Model\ContentManager
     opifer.content.content_router.class: Opifer\ContentBundle\Router\ContentRouter
     opifer.content.content_type.class: Opifer\ContentBundle\Form\Type\ContentType
@@ -9,7 +10,6 @@ parameters:
     opifer.content.form.contentpicker_type.class: Opifer\ContentBundle\Form\Type\ContentPickerType
     opifer.content.form.content_list_picker_type.class: Opifer\ContentBundle\Form\Type\ContentListPickerType
     opifer.content.layout_manager.class: Opifer\ContentBundle\Model\LayoutManager
-    opifer.content.content_list_value_provider.class: Opifer\ContentBundle\ValueProvider\MultiContentValueProvider
     opifer.content.twig.content_extension.class: Opifer\ContentBundle\Twig\ContentExtension
     opifer.rulesengine.provider.content.class: Opifer\ContentBundle\RulesEngine\ContentRulesProvider
 

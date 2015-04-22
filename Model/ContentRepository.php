@@ -385,7 +385,9 @@ class ContentRepository extends EntityRepository
 
         $ordered = [];
         foreach ($ids as $id) {
-            $ordered[] = $unordered[$id];
+            if (isset($unordered[$id])) {
+                $ordered[] = $unordered[$id];
+            }
         }
 
         return $ordered;

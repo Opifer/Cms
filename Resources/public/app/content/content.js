@@ -74,6 +74,8 @@ angular.module('OpiferContent', ['angular-inview'])
         $scope.pickContent = function(content) {
             if ($scope.multiple) {
                 $scope.selecteditems.push(content);
+
+                $scope.order.order.push(content.id);
             } else {
                 $scope.content = content;
             }

@@ -29,6 +29,6 @@ class ContentListPickerType extends EntityType
      */
     public function getName()
     {
-        return 'contentlistpicker';
+        return 'content_list_picker';
     }
 }

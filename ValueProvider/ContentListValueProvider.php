@@ -35,7 +35,7 @@ class ContentListValueProvider extends AbstractValueProvider implements ValuePro
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder->add('sort', 'hidden');
-        $builder->add('content', 'multicontentpicker', [
+        $builder->add('content', 'content_list_picker', [
             'label'    => $options['attribute']->getDisplayName(),
             'multiple' => true,
             'property' => 'title',
@@ -49,6 +49,6 @@ class ContentListValueProvider extends AbstractValueProvider implements ValuePro
      */
     public function getEntity()
     {
-        return 'Opifer\ContentBundle\Entity\MultiContentValue';
+        return 'Opifer\ContentBundle\Entity\ContentListValue';
     }
 }
