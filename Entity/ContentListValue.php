@@ -12,7 +12,7 @@ use Opifer\ContentBundle\Model\ContentInterface;
  *
  * @ORM\Entity
  */
-class MultiContentValue extends Value implements \IteratorAggregate, \Countable
+class ContentListValue extends Value implements \IteratorAggregate, \Countable
 {
     /**
      * @var ArrayCollection
@@ -134,5 +134,27 @@ class MultiContentValue extends Value implements \IteratorAggregate, \Countable
         }
 
         return $array;
+    }
+
+    /**
+     * Get content items ordered by the sort property
+     *
+     * @return array
+     */
+    public function getOrdered()
+    {
+        $unordered = [];
+        foreach ($this->content as $content) {
+            $unordered[$content->getId()] = $content;
+        }
+
+        $ordered = [];
+        $sort = json_decode($this->sort, true);
+        $order = $sort['order'];
+        foreach ($order as $id) {
+            $ordered[] = $unordered[$id];
+        }
+
+        return $ordered;
     }
 }

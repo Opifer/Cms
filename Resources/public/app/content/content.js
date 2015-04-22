@@ -18,6 +18,22 @@ angular.module('OpiferContent', ['angular-inview'])
         $scope.selecteditems = [];
         $scope.formname = '';
         $scope.multiple = false;
+        $scope.order = {
+            sort: 'manual',
+            order: []
+        };
+
+        $scope.sortableOptions = {
+            // Update the order variable when the order of items has changed
+            stop: function () {
+                var order = [];
+                for (var i = 0; i < $scope.selecteditems.length; i++) {
+                    order.push($scope.selecteditems[i].id);
+                }
+
+                $scope.order.order = order;
+            }
+        };
 
         /**
          * Set content
@@ -33,26 +49,28 @@ angular.module('OpiferContent', ['angular-inview'])
 
             if ($scope.multiple) {
                 // When items have been passed to the init function, retrieve the related data.
-                if (angular.isDefined(content) && content.length) {
+                if (angular.isDefined(content)) {
                     content = JSON.parse(content);
-                    content = content.toString();
+                    if (content.length) {
+                        $scope.order.order = content;
+                        content = content.toString();
 
-                    $http.get(Routing.generate('opifer_content_api_content', {'ids': content}))
-                        .success(function(data) {
-                            var results = data.results;
-                            for (var i = 0; i < results.length; i++) {
-                                $scope.selecteditems.push(results[i]);
-                            }
-                        })
-                    ;
+                        $http.get(Routing.generate('opifer_content_api_content_ids', {'ids': content}))
+                            .success(function(data) {
+                                var results = data.results;
+                                for (var i = 0; i < results.length; i++) {
+                                    $scope.selecteditems.push(results[i]);
+                                }
+                            })
+                        ;
+                    }
                 }
-
-                console.log($scope.selecteditems);
             } else {
                 $scope.content = JSON.parse(content);
             }
         };
 
+        // Select a content item
         $scope.pickContent = function(content) {
             if ($scope.multiple) {
                 $scope.selecteditems.push(content);
@@ -63,6 +81,7 @@ angular.module('OpiferContent', ['angular-inview'])
             $scope.isPickerOpen = false;
         };
 
+        // Remove a content item
         $scope.removeContent = function(idx) {
             $scope.selecteditems.splice(idx, 1);
         };

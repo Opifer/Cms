@@ -39,14 +39,19 @@
 {% block multicontentpicker_widget %}
     {% spaceless %}
 
-        {% set content = form.vars.value|json_encode()|default('[]') %}
 
-        <div class="content-picker" ng-controller="ContentPickerController" ng-cloak ng-init="init('{{ content }}', '{{ full_name }}', true)">
+        {% set content = form.vars.value|json_encode() %}
+        {% set formname = full_name|replace({'[content][]': ''}) %}
+
+        <div class="content-picker" ng-controller="ContentPickerController" ng-cloak ng-init="init('{{ content }}', '{{ formname }}', true)">
             {% verbatim %}
-                <div class="content-picked-item" ng-repeat="item in selecteditems" style="display:block;">
-                    <input type="hidden" id="" name="{{ formname }}" value="{{ item.id }}">
-                    <div style="background-image: url({{ item.coverImage }});" class="content-cover"></div>
-                    <span class="content-title">{{ item.title }}</span> <a class="fa fa-times danger" ng-click="removeContent($index)"></a>
+                <input type="hidden" name="{{ formname }}[sort]" value="{{ order }}"/>
+                <div class="wrapper" ui-sortable="sortableOptions" ng-model="selecteditems">
+                    <div class="content-picked-item" ng-repeat="item in selecteditems" style="display:block;">
+                        <input type="hidden" id="" name="{{ formname }}[content][]" value="{{ item.id }}">
+                        <div style="background-image: url({{ item.coverImage }});" class="content-cover"></div>
+                        <span class="content-title">{{ item.title }}</span> <a class="fa fa-times danger" ng-click="removeContent($index)"></a>
+                    </div>
                 </div>
 
                 <div class="wrapper">

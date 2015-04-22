@@ -2,12 +2,11 @@
 
 namespace Opifer\ContentBundle\ValueProvider;
 
-use Doctrine\ORM\EntityRepository;
 use Symfony\Component\Form\FormBuilderInterface;
 use Opifer\EavBundle\ValueProvider\AbstractValueProvider;
 use Opifer\EavBundle\ValueProvider\ValueProviderInterface;
 
-class MultiContentValueProvider extends AbstractValueProvider implements ValueProviderInterface
+class ContentListValueProvider extends AbstractValueProvider implements ValueProviderInterface
 {
     /** @var string */
     protected $contentClass;
@@ -35,14 +34,13 @@ class MultiContentValueProvider extends AbstractValueProvider implements ValuePr
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+        $builder->add('sort', 'hidden');
         $builder->add('content', 'multicontentpicker', [
-            'label'         => $options['attribute']->getDisplayName(),
-            'multiple'      => true,   // Multiple selection allowed
-            'property'      => 'title', // Assuming that the entity has a "name" property
-            'class'         => $this->contentClass,
-            'query_builder' => function (EntityRepository $contentRepository) {
-                return $contentRepository->createQueryBuilder('c')->add('orderBy', 'c.title ASC');
-            }
+            'label'    => $options['attribute']->getDisplayName(),
+            'multiple' => true,
+            'property' => 'title',
+            'class'    => $this->contentClass,
+            'data'     => $options['value']->getOrdered()
         ]);
     }
 
