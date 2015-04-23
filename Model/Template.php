@@ -85,7 +85,7 @@ class Template implements TemplateInterface
     {
         return $this->id;
     }
-    
+
     /**
      * Set objectClass
      *
