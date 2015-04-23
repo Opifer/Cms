@@ -72,6 +72,12 @@ class Value implements ValueInterface
     protected $options;
 
     /**
+     * @var string
+     * @ORM\Column(name="sort", type="text", nullable=true)
+     */
+    protected $sort;
+
+    /**
      * Constructor
      */
     public function __construct()
@@ -224,5 +230,28 @@ class Value implements ValueInterface
     public function isEmpty()
     {
         return (is_null($this->getValue()) && count($this->options) < 1) ? true : false;
+    }
+
+    /**
+     * Get the sorting in case the value has multiple values
+     *
+     * @return string
+     */
+    public function getSort()
+    {
+        return $this->sort;
+    }
+
+    /**
+     * Set the sort
+     *
+     * @param string $sort
+     * @return $this
+     */
+    public function setSort($sort)
+    {
+        $this->sort = $sort;
+
+        return $this;
     }
 }

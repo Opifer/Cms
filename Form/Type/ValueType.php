@@ -45,6 +45,7 @@ class ValueType extends AbstractType
         $resolver->setRequired([
             'attribute',
             'entity',
+            'value'
         ]);
 
         $resolver->setDefaults([
