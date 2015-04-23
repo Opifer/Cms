@@ -68,6 +68,14 @@ class Attribute implements AttributeInterface
     protected $description;
 
     /**
+     * @var string
+     *
+     * @ORM\Column(name="description", type="string", length=1000)
+     *
+     */
+    protected $description;
+
+    /**
      * @var integer
      *
      * @ORM\Column(name="sort", type="integer")
