@@ -86,6 +86,16 @@ class Template implements TemplateInterface
     }
 
     /**
+     * Set id
+     *
+     * @param int $id
+     */
+    public function setId($id)
+    {
+        $this->id = $id;
+    }
+
+    /**
      * Set objectClass
      *
      * @param  string   $objectClass
