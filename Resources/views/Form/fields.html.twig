@@ -8,15 +8,14 @@
                 {% for child in form.children %}
                     {{ form_widget(child, {'attr': attr}) }}
                 {% endfor %}
-
                 {% if form.vars.attribute.valueType == 'nested' %}
                     <section class="nested-content-wrapper">
                         <input name="{{ form.vars.id }}" type="hidden" value="{{ form.vars.value }}">
                         <nested-content attribute="{{ name }}" ids="{{ form.vars.value }}"></nested-content>
                     </section>
                 {% endif %}
+                {{ block('form_help') }}
             </div>
-            {{ block('form_help') }}
         </div>
     {% endspaceless %}
 {% endblock %}
