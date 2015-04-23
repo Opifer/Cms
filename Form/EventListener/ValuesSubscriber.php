@@ -62,6 +62,7 @@ class ValuesSubscriber implements EventSubscriberInterface
                 'label'     => $value->getAttribute()->getDisplayName(),
                 'attribute' => $value->getAttribute(),
                 'entity'    => get_class($value),
+                'value'     => $value,
                 'attr'      => [ 'help_text' => $value->getAttribute()->getDescription() ]
             ]);
         }
