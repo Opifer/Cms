@@ -370,7 +370,9 @@ class ContentRepository extends EntityRepository
      */
     public function findByIds($ids)
     {
-        $ids = explode(',', $ids);
+        if (!is_array($ids)) {
+            $ids = explode(',', $ids);
+        }
 
         $qb = $this->createValuedQueryBuilder('c')
             ->andWhere('c.nestedIn IS NULL')
