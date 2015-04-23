@@ -44,20 +44,20 @@ class Attribute implements AttributeInterface
     /**
      * @var string
      *
-     * @ORM\Column(name="name", type="string", length=128)
-     *
-     * @Assert\NotBlank()
-     */
-    protected $name;
-
-    /**
-     * @var string
-     *
      * @ORM\Column(name="display_name", type="string", length=255)
      *
      * @Assert\NotBlank()
      */
     protected $displayName;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="name", type="string", length=128)
+     *
+     * @Assert\Regex("/^[a-z-_]+$/")
+     */
+    protected $name;
 
     /**
      * @var string
