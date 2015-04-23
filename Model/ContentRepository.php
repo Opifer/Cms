@@ -6,8 +6,6 @@ use Doctrine\ORM\EntityRepository;
 
 use Symfony\Component\HttpFoundation\Request;
 
-use Opifer\CrudBundle\Pagination\Paginator;
-
 /**
  * ContentRepository
  *
@@ -62,6 +60,12 @@ class ContentRepository extends EntityRepository
             }
         }
 
+        if ($ids = $request->get('ids')) {
+            $ids = explode(',', $ids);
+
+            $qb->andWhere('c.id IN (:ids)')->setParameter('ids', $ids);
+        }
+
         $qb->andWhere('c.deletedAt IS NULL');  // @TODO fix SoftDeleteAble filter
 
         $qb->orderBy('c.slug');
@@ -75,7 +79,7 @@ class ContentRepository extends EntityRepository
      * @param integer $user
      * @param string  $template
      *
-     * @return \Doctrine\ORM\Collections\ArrayCollection
+     * @return \Doctrine\Common\Collections\ArrayCollection
      */
     public function findUserContentByTemplate($user, $template)
     {
@@ -318,7 +322,7 @@ class ContentRepository extends EntityRepository
      * @param Content $content
      * @param integer $limit
      *
-     * @return \Doctrine\ORM\Collections\ArrayCollection
+     * @return \Doctrine\Common\Collections\ArrayCollection
      */
     public function findRelated(Content $content, $limit = 10)
     {
@@ -343,7 +347,7 @@ class ContentRepository extends EntityRepository
      *
      * @param integer $limit
      *
-     * @return \Doctrine\ORM\Collections\ArrayCollection
+     * @return \Doctrine\Common\Collections\ArrayCollection
      */
     public function findLatest($limit = 5)
     {
@@ -362,16 +366,30 @@ class ContentRepository extends EntityRepository
      *
      * @param array $ids
      *
-     * @return \Doctrine\ORM\Collections\ArrayCollection
+     * @return \Doctrine\Common\Collections\ArrayCollection
      */
     public function findByIds($ids)
     {
-        $query = $this->createQueryBuilder('c')
-            ->where('c.id IN (:ids)')
-            ->setParameter('ids', $ids)
-            ->getQuery()
-        ;
+        $ids = explode(',', $ids);
 
-        return $query->getResult();
+        $qb = $this->createValuedQueryBuilder('c')
+            ->andWhere('c.nestedIn IS NULL')
+            ->andWhere('c.id IN (:ids)')->setParameter('ids', $ids)
+            ->andWhere('c.deletedAt IS NULL');
+        $items = $qb->getQuery()->getResult();
+
+        $unordered = [];
+        foreach ($items as $content) {
+            $unordered[$content->getId()] = $content;
+        }
+
+        $ordered = [];
+        foreach ($ids as $id) {
+            if (isset($unordered[$id])) {
+                $ordered[] = $unordered[$id];
+            }
+        }
+
+        return $ordered;
     }
 }
