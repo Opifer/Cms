@@ -8,6 +8,7 @@ use JMS\Serializer\EventDispatcher\ObjectEvent;
 use Liip\ImagineBundle\Imagine\Cache\CacheManager;
 
 use Opifer\ContentBundle\Model\Content;
+use Symfony\Component\Routing\RouterInterface;
 
 /**
  * Class ContentEventSubscriber
@@ -20,15 +21,20 @@ class ContentEventSubscriber implements EventSubscriberInterface
      * @var CacheManager
      */
     private $cacheManager;
+    /**
+     * @var RouterInterface
+     */
+    private $router;
 
     /**
      * Constructor.
      *
      * @param CacheManager $cacheManager
      */
-    public function __construct(CacheManager $cacheManager)
+    public function __construct(CacheManager $cacheManager, RouterInterface $router)
     {
         $this->cacheManager = $cacheManager;
+        $this->router = $router;
     }
 
     /**
@@ -53,12 +59,12 @@ class ContentEventSubscriber implements EventSubscriberInterface
             return;
         }
 
-        if (false === $coverImage = $this->getCoverImage($object)) {
-            return;
+        if (false !== $coverImage = $this->getCoverImage($object)) {
+            $coverImage = $this->cacheManager->getBrowserPath($coverImage, 'medialibrary');
+            $event->getVisitor()->addData('coverImage', $coverImage);
         }
 
-        $coverImage = $this->cacheManager->getBrowserPath($coverImage, 'medialibrary');
-        $event->getVisitor()->addData('coverImage', $coverImage);
+        $event->getVisitor()->addData('path', $this->router->generate('_content', ['slug' => $object->getSlug()]));
     }
 
     /**
