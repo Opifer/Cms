@@ -40,7 +40,7 @@
 
         {{ form_start(form, {'action': '#', 'attr' : {'novalidate': 'novalidate', 'class': 'prevent-enter-submit'}, 'style': 'horizontal'}) }}
         <section class="page-section">
-            {{ form_row(form.title) }}
+            {{ form_row(form.title, {'attr' : {'class': 'slugify', 'data-slugify-target': '#opifer_content_slug'}}) }}
             {{ form_row(form.description) }}
 
             <div class="form-group">
@@ -108,4 +108,4 @@
 {% block javascripts %}
     {{ parent() }}
     {{ form_javascript(form) }}
-{% endblock %}
+ {% endblock %}
