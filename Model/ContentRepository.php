@@ -374,19 +374,54 @@ class ContentRepository extends EntityRepository
             $ids = explode(',', $ids);
         }
 
-        $qb = $this->createValuedQueryBuilder('c')
+        $items = $this->createValuedQueryBuilder('c')
+            ->andWhere('c.id IN (:ids)')->setParameter('ids', $ids)
+            ->andWhere('c.deletedAt IS NULL')
+            ->getQuery()->getResult();
+
+        return $this->sortByArray($items, $ids);
+    }
+
+    /**
+     * Find content items by multiple ids
+     *
+     * @param array $ids
+     *
+     * @return \Doctrine\Common\Collections\ArrayCollection
+     */
+    public function findAddressableByIds($ids)
+    {
+        if (!is_array($ids)) {
+            $ids = explode(',', $ids);
+        }
+
+        $items = $this->createValuedQueryBuilder('c')
             ->andWhere('c.nestedIn IS NULL')
             ->andWhere('c.id IN (:ids)')->setParameter('ids', $ids)
-            ->andWhere('c.deletedAt IS NULL');
-        $items = $qb->getQuery()->getResult();
+            ->andWhere('c.deletedAt IS NULL')
+            ->getQuery()
+            ->getResult();
 
+        return $this->sortByArray($items, $ids);
+    }
+
+    /**
+     * Sort the items by an array of ids
+     *
+     * @param ArrayCollection $items
+     * @param array $order
+     *
+     * @return array
+     */
+    private function sortByArray($items, array $order)
+    {
         $unordered = [];
         foreach ($items as $content) {
             $unordered[$content->getId()] = $content;
         }
 
         $ordered = [];
-        foreach ($ids as $id) {
+        foreach ($order as $id) {
             if (isset($unordered[$id])) {
                 $ordered[] = $unordered[$id];
             }
