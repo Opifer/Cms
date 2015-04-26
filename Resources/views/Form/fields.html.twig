@@ -2,9 +2,9 @@
     Presentation Editor Widget
 #}
 {% block presentationeditor_widget %}
-{% spaceless %}
-    <presentation-editor formid="{{ id }}" name="{{ full_name }}" value="{{ form.vars.value|replace({"\n": '', ' ': ''})|json_encode() }}"></presentation-editor>
-{% endspaceless %}
+    {% spaceless %}
+        <presentation-editor formid="{{ id }}" name="{{ full_name }}" value="{{ form.vars.value|replace({"\n": '', ' ': ''})|json_encode() }}"></presentation-editor>
+    {% endspaceless %}
 {% endblock %}
 
 {#
@@ -50,33 +50,34 @@
 
         <div class="content-picker content-picker-list" ng-controller="ContentPickerController" ng-cloak ng-init="init('{{ content }}', '{{ formname }}', true)">
             {% verbatim %}
-                <input type="hidden" name="{{ formname }}[sort]" value="{{ order }}"/>
-                <div class="wrapper" ui-sortable="sortableOptions" ng-model="selecteditems">
-                    <div class="content-picked-item" ng-repeat="item in selecteditems" style="display:block;">
-                        <input type="hidden" id="" name="{{ formname }}[content][]" value="{{ item.id }}">
-                        <div style="background-image: url({{ item.coverImage }});" class="content-cover"></div>
-                        <div class="content-picked-details">
-                            <span class="content-title">{{ item.title }}</span>
-                            <span class="content-path">{{ item.path }}</span>
-                        </div><a class="fa fa-times danger" ng-click="removeContent($index)"></a>
+            <input type="hidden" name="{{ formname }}[sort]" value="{{ order }}"/>
+            <div class="wrapper" ui-sortable="sortableOptions" ng-model="selecteditems">
+                <div class="content-picked-item" ng-repeat="item in selecteditems" style="display:block;">
+                    <input type="hidden" id="" name="{{ formname }}[content][]" value="{{ item.id }}">
+                    <div style="background-image: url({{ item.coverImage }});" class="content-cover"></div>
+                    <div class="content-picked-details">
+                        <span class="content-title">{{ item.title }}</span>
+                        <span class="content-path">{{ item.path }}</span>
                     </div>
+                    <a class="fa fa-times danger" ng-click="removeContent($index)"></a>
                 </div>
+            </div>
 
-                <div class="wrapper">
-                    <button type="button" class="btn btn-default" ng-click="isPickerOpen = !isPickerOpen">Add items</button>
-                    <div class="content-picked-item" ng-show="content.id">
-                        <div style="background-image: url({{ content.coverImage }});" class="content-cover"></div>
-                        <div class="content-picked-details">
-                            <span class="content-title">{{ content.title }}</span>
-                            <span class="content-path">{{ content.path }}</span>
-                        </div>
-                        <a class="fa fa-times danger" ng-click="content={}"></a>
+            <div class="wrapper">
+                <button type="button" class="btn btn-default" ng-click="isPickerOpen = !isPickerOpen">Add items</button>
+                <div class="content-picked-item" ng-show="content.id">
+                    <div style="background-image: url({{ content.coverImage }});" class="content-cover"></div>
+                    <div class="content-picked-details">
+                        <span class="content-title">{{ content.title }}</span>
+                        <span class="content-path">{{ content.path }}</span>
                     </div>
+                    <a class="fa fa-times danger" ng-click="content={}"></a>
                 </div>
+            </div>
 
-                <ng-modal show="isPickerOpen">
-                    <content-browser site-id="0" locale="nl_NL" directory-id="0" mode="PICKER_SINGLE" active="{{ isPickerOpen }}"></content-browser>
-                </ng-modal>
+            <ng-modal show="isPickerOpen">
+                <content-browser site-id="0" locale="nl_NL" directory-id="0" mode="PICKER_SINGLE" active="{{ isPickerOpen }}"></content-browser>
+            </ng-modal>
             {% endverbatim %}
         </div>
     {% endspaceless %}
