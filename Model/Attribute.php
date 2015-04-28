@@ -55,7 +55,7 @@ class Attribute implements AttributeInterface
      *
      * @ORM\Column(name="name", type="string", length=128)
      *
-     * @Assert\Regex("/^[a-z-_]+$/")
+     * @Assert\Regex("/^[a-z0-9_]+$/")
      */
     protected $name;
 
