@@ -48,8 +48,21 @@ class FormController extends Controller
             $em = $this->getDoctrine()->getManager();
             $em->persist($entity);
             $em->flush();
-
-            if (is_null($value->getValue()) || $value->getValue() == '') {
+            
+            if($request->isXmlHttpRequest()) {
+                $response = [
+                    "success" => true,
+                    'payload' => [
+                        'message' => 'Form was submitted successfully!'
+                    ]
+                ];
+                
+                if($value->getValue()) {
+                    $response['payload']['redirect'] = $value->getValue();
+                }
+                
+                return new JsonResponse($response);
+            } elseif (is_null($value->getValue()) || $value->getValue() == '') {
                 return new Response('Form was submitted successfully!');
             } else {
                 return new RedirectResponse($value->getValue());
