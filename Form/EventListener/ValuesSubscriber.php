@@ -14,6 +14,7 @@ use Symfony\Component\Form\FormEvents;
  */
 class ValuesSubscriber implements EventSubscriberInterface
 {
+
     /**
      * {@inheritDoc}
      */
@@ -23,6 +24,7 @@ class ValuesSubscriber implements EventSubscriberInterface
             FormEvents::PRE_SET_DATA => 'preSetData',
         ];
     }
+
 
     /**
      * Listens to the PRE_SET_DATA event and adds form fields dynamically.
@@ -37,15 +39,15 @@ class ValuesSubscriber implements EventSubscriberInterface
         $form = $event->getForm();
 
         if (null === $data || '' === $data) {
-            $data = [];
+            $data = [ ];
         }
 
-        if (!is_array($data) && !($data instanceof \Traversable && $data instanceof \ArrayAccess)) {
+        if ( ! is_array($data) && ! ( $data instanceof \Traversable && $data instanceof \ArrayAccess )) {
             throw new UnexpectedTypeException($data, 'array or (\Traversable and \ArrayAccess)');
         }
 
         // Sorting values so that they display in sorted order of the attributes
-        uasort($data, function($a, $b) {
+        uasort($data, function ($a, $b) {
             return $a->getAttribute()->getSort() > $b->getAttribute()->getSort();
         });
 
@@ -56,11 +58,12 @@ class ValuesSubscriber implements EventSubscriberInterface
             if ($form->has($name)) {
                 continue;
             }
-
             $form->add($name, 'eav_value', [
                 'label'     => $value->getAttribute()->getDisplayName(),
                 'attribute' => $value->getAttribute(),
-                'entity'    => get_class($value)
+                'entity'    => get_class($value),
+                'value'     => $value,
+                'attr'      => [ 'help_text' => $value->getAttribute()->getDescription() ]
             ]);
         }
     }
