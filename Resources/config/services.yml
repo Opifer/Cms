@@ -17,7 +17,7 @@ services:
     # Serializer
     opifer.media.handler.serialization:
         class: Opifer\MediaBundle\EventListener\Serializer\MediaEventSubscriber
-        arguments: [@liip_imagine.cache.manager]
+        arguments: [@liip_imagine.cache.manager, @liip_imagine.filter.configuration]
         tags:
             - { name: jms_serializer.event_subscriber }
 

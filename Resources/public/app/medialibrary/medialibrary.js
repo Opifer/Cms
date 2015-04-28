@@ -4,7 +4,7 @@ angular.module('mediaLibrary', ['infinite-scroll', 'ngModal', 'angularFileUpload
     /**
      * The media library Controller
      */
-    .controller('MediaLibraryController', ['$scope', '$http', '$location', '$upload', 'MediaCollection', function($scope, $http, $location, $upload, MediaCollection) {
+    .controller('MediaLibraryController', ['$scope', '$rootScope', '$http', '$location', '$upload', 'MediaCollection', function($scope, $rootScope, $http, $location, $upload, MediaCollection) {
         $scope.mediaCollection = new MediaCollection();
         $scope.selecteditems = [];
         $scope.searchmedia = '';
@@ -33,12 +33,12 @@ angular.module('mediaLibrary', ['infinite-scroll', 'ngModal', 'angularFileUpload
          *
          * @return {void}
          */
-        $scope.init = function(type, providers, name, items, multiple) {
+        $scope.init = function(type, providers, name, items, multiple, defer) {
             $scope.type = type;
             $scope.picker.multiple = multiple;
             $scope.picker.name = name;
 
-            if ($scope.type != 'picker') {
+            if (typeof defer === 'undefined' || defer === true) {
                 // Do a first load of media items when the controller is setup
                 $scope.mediaCollection.loadMore();
             }
@@ -130,6 +130,8 @@ angular.module('mediaLibrary', ['infinite-scroll', 'ngModal', 'angularFileUpload
          */
         $scope.selectMedia = function(id) {
             var selected = $scope.mediaCollection.items[id];
+
+            $rootScope.$emit('mediaLibrary.selectMedia', selected);
 
             if ($scope.type == 'picker') {
                 if (selected.provider == 'youtube') {

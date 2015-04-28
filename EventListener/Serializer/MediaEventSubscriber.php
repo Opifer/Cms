@@ -7,6 +7,7 @@ use JMS\Serializer\EventDispatcher\ObjectEvent;
 
 use Liip\ImagineBundle\Imagine\Cache\CacheManager;
 
+use Liip\ImagineBundle\Imagine\Filter\FilterConfiguration;
 use Opifer\MediaBundle\Model\Media;
 
 /**
@@ -22,13 +23,19 @@ class MediaEventSubscriber implements EventSubscriberInterface
     private $cacheManager;
 
     /**
+     * @var FilterConfiguration
+     */
+    private $filterConfig;
+
+    /**
      * Constructor.
      *
      * @param CacheManager $cacheManager
      */
-    public function __construct(CacheManager $cacheManager)
+    public function __construct(CacheManager $cacheManager, FilterConfiguration $filterConfig)
     {
         $this->cacheManager = $cacheManager;
+        $this->filterConfig = $filterConfig;
     }
 
     /**
@@ -57,7 +64,13 @@ class MediaEventSubscriber implements EventSubscriberInterface
             $reference = $event->getObject()->getThumb()->getReference();
         }
 
-        $small = $this->cacheManager->getBrowserPath($reference, 'medialibrary');
-        $event->getVisitor()->addData('images', ['sm' => $small]);
+        $filters = array_keys($this->filterConfig->all());
+
+        $variants = [];
+        foreach ($filters as $filter) {
+            $variants[$filter] = $this->cacheManager->getBrowserPath($reference, $filter);
+        }
+
+        $event->getVisitor()->addData('images', $variants);
     }
 }
