@@ -51,7 +51,9 @@ class FileProviderTest extends \PHPUnit_Framework_TestCase
         $file->shouldReceive(array(
             'guessExtension' => 'jpg',
             'getClientMimeType' => 'image/jpeg',
-            'getSize' => 2954043
+            'getSize' => 2954043,
+            'getClientOriginalExtension' => 'jpg',
+            'getClientOriginalName' => 'testimage.png',
         ));
 
         $this->media->shouldReceive(array(
@@ -60,9 +62,20 @@ class FileProviderTest extends \PHPUnit_Framework_TestCase
             'setContentType' => $this->media,
             'setFilesize' => $this->media,
             'setMetadata' => $this->media,
+            'getStatus' => 1,
+            'getName' => 'Testname',
         ));
+        
+        $this->filesystem->shouldReceive([
+            'listKeys' => ['keys' => [
+                'testimage.png',
+                'testimage-1.png',
+                'testiamge-3.png'
+            ]]
+        ]);
 
         $this->provider->prePersist($this->media);
+        
     }
 
     public function testPostRemoveDeletesFile()
