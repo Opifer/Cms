@@ -6,7 +6,7 @@ angular.module('mediaLibrary', ['infinite-scroll', 'ngModal', 'angularFileUpload
      */
     .factory('MediaService', ['$resource', '$routeParams', function($resource, $routeParams) {
         return $resource(Routing.generate('opifer_api_media'), {}, {
-            index: {method: 'GET', cache: true, params: {ids: $routeParams.ids}}
+            index: {method: 'GET', cache: true, params: {}}
         });
     }])
 
