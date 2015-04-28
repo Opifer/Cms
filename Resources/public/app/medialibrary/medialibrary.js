@@ -2,25 +2,35 @@
 angular.module('mediaLibrary', ['infinite-scroll', 'ngModal', 'angularFileUpload'])
 
     /**
+     * Media Service
+     */
+    .factory('MediaService', ['$resource', '$routeParams', function($resource, $routeParams) {
+        return $resource(Routing.generate('opifer_api_media'), {}, {
+            index: {method: 'GET', cache: true, params: {ids: $routeParams.ids}}
+        });
+    }])
+
+    /**
      * The media library Controller
      */
-    .controller('MediaLibraryController', ['$scope', '$rootScope', '$http', '$location', '$upload', 'MediaCollection', function($scope, $rootScope, $http, $location, $upload, MediaCollection) {
+
+    .controller('MediaLibraryController', ['$scope', '$rootScope', '$http', '$location', '$upload', 'MediaCollection', 'MediaService', function($scope, $rootScope, $http, $location, $upload, MediaCollection, MediaService) {
         $scope.mediaCollection = new MediaCollection();
         $scope.selecteditems = [];
         $scope.searchmedia = '';
         $scope.type = 'default';
         $scope.uploader = {
             shown: false
-        }
+        };
         $scope.confirmation = {
             shown: false,
             name: ''
-        }
+        };
         $scope.picker = {
             pickerShown: false,
             name: "",
             multiple: false
-        }
+        };
 
         /**
          * Initialize the media library
@@ -52,14 +62,13 @@ angular.module('mediaLibrary', ['infinite-scroll', 'ngModal', 'angularFileUpload
                 items = JSON.parse(items);
                 items = items.toString();
                 if (items) {
-                    $http.get(Routing.generate('opifer_api_media', {'ids': items}))
-                        .success(function(data) {
-                            var results = data.results;
-                            for (var i = 0; i < results.length; i++) {
-                                $scope.selecteditems.push(results[i]);
-                            }
-                        })
-                    ;
+                    MediaService.index({ids: items}, function(response, headers) {
+                        var results = response.results;
+
+                        for (var i = 0; i < results.length; i++) {
+                            $scope.selecteditems.push(results[i]);
+                        }
+                    });
                 }
             }
         };
