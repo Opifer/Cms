@@ -1,4 +1,5 @@
 parameters:
+    opifer.media.file_provider.class: Opifer\MediaBundle\Provider\FileProvider
     opifer.media.image_provider.class: Opifer\MediaBundle\Provider\ImageProvider
     opifer.media.youtube_provider.class: Opifer\MediaBundle\Provider\YoutubeProvider
     opifer.media.media_manager.class: Opifer\MediaBundle\Model\MediaManager
@@ -17,13 +18,14 @@ services:
     # Serializer
     opifer.media.handler.serialization:
         class: Opifer\MediaBundle\EventListener\Serializer\MediaEventSubscriber
-        arguments: [@liip_imagine.cache.manager, @liip_imagine.filter.configuration]
+        arguments: [@liip_imagine.cache.manager, @liip_imagine.filter.configuration, @opifer.media.provider.pool]
         tags:
             - { name: jms_serializer.event_subscriber }
 
     # Form Types
     opifer.media.form.dropzone:
         class: Opifer\MediaBundle\Form\Type\DropzoneType
+        arguments: [@opifer.media.media_manager]
         tags:
             - { name: form.type, alias: dropzone }
 
@@ -36,6 +38,12 @@ services:
     # Providers
     opifer.media.provider.pool:
         class: Opifer\MediaBundle\Provider\Pool
+
+    opifer.media.file_provider:
+        class: %opifer.media.file_provider.class%
+        arguments: [@gaufrette.file_storage_filesystem, @translator, @router]
+        tags:
+            - { name: opifer.media.provider, alias: file }
 
     opifer.media.image_provider:
         class: %opifer.media.image_provider.class%

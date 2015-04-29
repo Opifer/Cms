@@ -12,17 +12,17 @@ use Opifer\MediaBundle\Model\MediaInterface;
 class FileProvider extends AbstractProvider
 {
     /**
-     * @var  Gaufrette\FileSystem
+     * @var  FileSystem
      */
     protected $filesystem;
 
     /**
-     * @var  Symfony\Component\Translation\TranslatorInterface
+     * @var  TranslatorInterface
      */
     protected $translator;
 
     /**
-     * @var  Symfony\Component\Routing\RouterInterface
+     * @var  RouterInterface
      */
     protected $router;
 
@@ -54,8 +54,8 @@ class FileProvider extends AbstractProvider
     /**
      * Build the add file form
      *
-     * @param Symfony\Component\Form\FormBuilderInterface $builder
-     * @param array                                       $options
+     * @param FormBuilderInterface $builder
+     * @param array $options
      *
      * @return void
      */
@@ -93,10 +93,19 @@ class FileProvider extends AbstractProvider
             return;
         }
 
-        $filename = 'originalfilename';
+        $file = $media->getFile();
+        $filename = $this->createUniqueFileName($file);
+
+        if (!$media->getStatus()) {
+            $media->setStatus(self::ENABLED);
+        }
+
+        if (!$media->getName()) {
+            $media->setName($filename);
+        }
 
         $media
-            ->setReference($filename.'.'.$media->getFile()->guessExtension())
+            ->setReference($filename)
             ->setContentType($media->getFile()->getClientMimeType())
             ->setFilesize($media->getFile()->getSize())
             ->setMetadata('metadata')
@@ -200,7 +209,7 @@ class FileProvider extends AbstractProvider
     /**
      * Get Filesystem
      *
-     * @return Gaufrette\FileSystem
+     * @return FileSystem
      */
     public function getFileSystem()
     {

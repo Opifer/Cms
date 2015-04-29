@@ -7,8 +7,9 @@ use JMS\Serializer\EventDispatcher\ObjectEvent;
 
 use Liip\ImagineBundle\Imagine\Cache\CacheManager;
 
+use Opifer\MediaBundle\Model\MediaInterface;
+use Opifer\MediaBundle\Provider\Pool;
 use Liip\ImagineBundle\Imagine\Filter\FilterConfiguration;
-use Opifer\MediaBundle\Model\Media;
 
 /**
  * Class MediaEventSubscriber
@@ -23,19 +24,26 @@ class MediaEventSubscriber implements EventSubscriberInterface
     private $cacheManager;
 
     /**
+     * @var Pool
+     */
+    protected $pool;
+
+    /**
      * @var FilterConfiguration
      */
-    private $filterConfig;
+    protected $filterConfig;
 
     /**
      * Constructor.
      *
      * @param CacheManager $cacheManager
      */
-    public function __construct(CacheManager $cacheManager, FilterConfiguration $filterConfig)
+
+    public function __construct(CacheManager $cacheManager, FilterConfiguration $filterConfig, Pool $pool)
     {
         $this->cacheManager = $cacheManager;
         $this->filterConfig = $filterConfig;
+        $this->pool = $pool;
     }
 
     /**
@@ -43,9 +51,9 @@ class MediaEventSubscriber implements EventSubscriberInterface
      */
     public static function getSubscribedEvents()
     {
-        return array(
-            array('event' => 'serializer.post_serialize', 'method' => 'onPostSerialize'),
-        );
+        return [
+            ['event' => 'serializer.post_serialize', 'method' => 'onPostSerialize'],
+        ];
     }
 
     /**
@@ -54,15 +62,12 @@ class MediaEventSubscriber implements EventSubscriberInterface
     public function onPostSerialize(ObjectEvent $event)
     {
         // getSubscribedEvents doesn't seem to support parent classes
-        if (!$event->getObject() instanceof Media) {
+        if (!$event->getObject() instanceof MediaInterface) {
             return;
         }
 
-        if ($event->getObject()->getProvider() == 'image') {
-            $reference = $event->getObject()->getReference();
-        } else {
-            $reference = $event->getObject()->getThumb()->getReference();
-        }
+        $reference = $this->pool->getProvider($event->getObject()->getProvider())
+            ->getThumb($event->getObject());
 
         $filters = array_keys($this->filterConfig->all());
 

@@ -13,7 +13,7 @@ if ($('.dropzone').length) {
 
         maxFilesize: 11, // MB
         maxFiles: 10,
-        acceptedFiles: 'image/jpeg,image/png,image/gif',
+        acceptedFiles: 'image/jpeg,image/png,image/gif,application/pdf',
 
         // Listen to all dropzone events
         init: function() {
@@ -49,8 +49,8 @@ if ($('.dropzone').length) {
                 // If the dropzone has the data-mapped attribute set to true,
                 // remove the media ID from the hidden field
                 if ($('.dropzone').attr('data-mapped')) {
-                    var response = JSON.parse(file.xhr.response);
-                    response = response[0]['id'];
+                    //var response = JSON.parse(file.xhr.response);
+                    //response = response[0]['id'];
 
                     var mapping = $('.dropzone').attr('data-mapped');
                     var str = $('#' + mapping).val();
@@ -72,10 +72,10 @@ if ($('.dropzone').length) {
         }
     });
 
-    if ($('.dropzone').attr('data-mapped')) {
-        var mapping = $('.dropzone').attr('data-mapped');
-        var mapping = $('#' + mapping).val();
-
-        var mediaRequest = Routing.generate('opifer_api_media', {'ids' : mapping});
-    }
+    //if ($('.dropzone').attr('data-mapped')) {
+    //    var mapping = $('.dropzone').attr('data-mapped');
+    //    var mapping = $('#' + mapping).val();
+    //
+    //    var mediaRequest = Routing.generate('opifer_api_media', {'ids' : mapping});
+    //}
 };

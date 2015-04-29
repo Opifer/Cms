@@ -16,7 +16,7 @@ class MediaType extends AbstractType
     /**
      * Build the form
      *
-     * @param Symfony\Component\Form\FormBuilderInterface $builder
+     * @param FormBuilderInterface $builder
      * @param array                                       $options
      *
      * @return void
@@ -38,7 +38,7 @@ class MediaType extends AbstractType
      * Sets defaults, but also enables custom options that should be able to get
      * passed to the buildForm method from the controller. (e.g. 'provider')
      *
-     * @param Symfony\Component\OptionsResolver\OptionsResolverInterface $resolver
+     * @param OptionsResolverInterface $resolver
      *
      * @return void
      */
