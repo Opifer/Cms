@@ -69,7 +69,12 @@ class MediaEventSubscriber implements EventSubscriberInterface
         $reference = $this->pool->getProvider($event->getObject()->getProvider())
             ->getThumb($event->getObject());
 
-        $filters = array_keys($this->filterConfig->all());
+        $groups = $event->getContext()->attributes->get('groups')->get();
+        if (in_array('detail', $groups)) {
+            $filters = array_keys($this->filterConfig->all());
+        } else {
+            $filters = ['medialibrary'];
+        }
 
         $variants = [];
         foreach ($filters as $filter) {

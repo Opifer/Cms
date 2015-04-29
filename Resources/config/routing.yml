@@ -40,6 +40,13 @@ opifer_api_media:
     options:
         expose: true
 
+opifer_api_media_detail:
+    path: /api/media/{id}
+    defaults: { _controller: OpiferMediaBundle:Api/Media:detail }
+    methods: [GET]
+    options:
+        expose: true
+
 opifer_api_media_upload:
     path: /api/media/upload
     defaults: { _controller: OpiferMediaBundle:Api/Media:upload }
