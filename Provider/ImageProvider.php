@@ -38,7 +38,7 @@ class ImageProvider extends FileProvider
      */
     public function prePersist(MediaInterface $media)
     {
-        if ($file = $media->getFile() === null) {
+        if (is_null($file = $media->getFile())) {
             return;
         }
 
