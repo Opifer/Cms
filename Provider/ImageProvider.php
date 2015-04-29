@@ -36,7 +36,7 @@ class ImageProvider extends FileProvider
     /**
      * {@inheritDoc}
      */
-    public function prePersist(MediaInterface $media, $test=null)
+    public function prePersist(MediaInterface $media)
     {
         if (is_null($file = $media->getFile())) {
             return;
