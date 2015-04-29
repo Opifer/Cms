@@ -38,7 +38,7 @@
     The Mediapicker widget.
 #}
 {% block mediapicker_widget %}
-    <div class="media-picker" ng-controller="MediaLibraryController" ng-init="init('picker', '{{ providers|json_encode() }}', '{{ full_name }}', '{{ form.vars.value|json_encode() }}', '{{ multiple }}')" ng-cloak>
+    <div class="media-picker" ng-controller="MediaLibraryController" ng-init="init('picker', '{{ providers|json_encode() }}', '{{ full_name }}', '{{ form.vars.value|json_encode() }}', '{{ multiple }}', false)" ng-cloak>
         {% verbatim %}
         <div class="picker-selected-items">
             <div class="inner clearfix">
@@ -47,7 +47,7 @@
                 </div>
                 <div ng-repeat="item in selecteditems" class="item">
                     <input type="hidden" id="" name="{{ picker.name }}" value="{{ item.id }}">
-                    <img ng-src="{{ item.images.sm }}" alt="">
+                    <img ng-src="{{ item.images.medialibrary }}" alt="">
                     <div class="image-wrapper">
                         <span class="name">{{ item.name }}</span><br>
                         <div class="controls">

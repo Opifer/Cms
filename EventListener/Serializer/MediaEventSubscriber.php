@@ -9,6 +9,7 @@ use Liip\ImagineBundle\Imagine\Cache\CacheManager;
 
 use Opifer\MediaBundle\Model\MediaInterface;
 use Opifer\MediaBundle\Provider\Pool;
+use Liip\ImagineBundle\Imagine\Filter\FilterConfiguration;
 
 /**
  * Class MediaEventSubscriber
@@ -28,13 +29,20 @@ class MediaEventSubscriber implements EventSubscriberInterface
     protected $pool;
 
     /**
+     * @var FilterConfiguration
+     */
+    protected $filterConfig;
+
+    /**
      * Constructor.
      *
      * @param CacheManager $cacheManager
      */
-    public function __construct(CacheManager $cacheManager, Pool $pool)
+
+    public function __construct(CacheManager $cacheManager, FilterConfiguration $filterConfig, Pool $pool)
     {
         $this->cacheManager = $cacheManager;
+        $this->filterConfig = $filterConfig;
         $this->pool = $pool;
     }
 
@@ -58,10 +66,16 @@ class MediaEventSubscriber implements EventSubscriberInterface
             return;
         }
 
-        $thumbnail = $this->pool->getProvider($event->getObject()->getProvider())
+        $reference = $this->pool->getProvider($event->getObject()->getProvider())
             ->getThumb($event->getObject());
 
-        $small = $this->cacheManager->getBrowserPath($thumbnail, 'medialibrary');
-        $event->getVisitor()->addData('images', ['sm' => $small]);
+        $filters = array_keys($this->filterConfig->all());
+
+        $variants = [];
+        foreach ($filters as $filter) {
+            $variants[$filter] = $this->cacheManager->getBrowserPath($reference, $filter);
+        }
+
+        $event->getVisitor()->addData('images', $variants);
     }
 }
