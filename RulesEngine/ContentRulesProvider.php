@@ -85,7 +85,7 @@ class ContentRulesProvider extends AbstractProvider implements ProviderInterface
                 $condition = false;
                 switch ($attribute->getValueType()) {
                     case 'Opifer\EavBundle\Entity\TextValue':
-                    case 'Opifer\EavBundle\Entity\HtmlValue':
+                    case 'Opifer\CmsBundle\Entity\HtmlValue':
                     case 'Opifer\EavBundle\Entity\StringValue':
                         $condition = new StringValueCondition();
                         $condition->setOperatorOpts(array('equals', 'notequals', 'contains'));
