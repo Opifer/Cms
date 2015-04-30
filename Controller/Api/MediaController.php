@@ -46,7 +46,7 @@ class MediaController extends Controller
      */
     public function detailAction($id = null)
     {
-        $media = $this->get('opifer.media.media_manager')->getRepository()->findOneBy(['id' => $id]);
+        $media = $this->get('opifer.media.media_manager')->getRepository()->find($id);
 
         $media = $this->get('jms_serializer')->serialize($media, 'json', SerializationContext::create()->setGroups(['Default', 'detail']));
 
