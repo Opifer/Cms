@@ -2,6 +2,7 @@
 
 namespace Opifer\MediaBundle\Controller\Api;
 
+use JMS\Serializer\SerializationContext;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -30,13 +31,26 @@ class MediaController extends Controller
 
         $media = $this->get('opifer.media.media_manager')->getPaginatedByRequest($request);
 
-        $items = $this->get('jms_serializer')->serialize(iterator_to_array($media->getCurrentPageResults()), 'json');
+        $items = $this->get('jms_serializer')->serialize(iterator_to_array($media->getCurrentPageResults()), 'json', SerializationContext::create()->setGroups(['Default', 'list']));
 
         return new JsonResponse([
             'results'          => json_decode($items, true),
             'total_results'    => $media->getNbResults(),
             'results_per_page' => $media->getMaxPerPage()
         ]);
+    }
+    /**
+     * Detail
+     *
+     * @return JsonResponse
+     */
+    public function detailAction($id = null)
+    {
+        $media = $this->get('opifer.media.media_manager')->getRepository()->find($id);
+
+        $media = $this->get('jms_serializer')->serialize($media, 'json', SerializationContext::create()->setGroups(['Default', 'detail']));
+
+        return new JsonResponse(json_decode($media, true));
     }
 
     /**
