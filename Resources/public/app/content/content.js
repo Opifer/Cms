@@ -13,7 +13,7 @@ angular.module('OpiferContent', ['angular-inview'])
         });
     }])
 
-    .controller('ContentPickerController', ['$scope', '$http', function ($scope, $http) {
+    .controller('ContentPickerController', ['$scope', '$http', '$rootScope', function ($scope, $http, $rootScope) {
         $scope.content = {};
         $scope.selecteditems = [];
         $scope.formname = '';
@@ -72,6 +72,8 @@ angular.module('OpiferContent', ['angular-inview'])
 
         // Select a content item
         $scope.pickContent = function(content) {
+            $rootScope.$emit('contentPicker.pickContent', content);
+
             if ($scope.multiple) {
                 $scope.selecteditems.push(content);
 
