@@ -67,6 +67,13 @@ class Template implements TemplateInterface
      */
     protected $presentation;
 
+    /**
+     * @var ArrayCollection
+     *
+     * @ORM\ManyToMany(targetEntity="Opifer\EavBundle\Model\AttributeInterface", mappedBy="allowedTemplates")
+     **/
+    protected $allowedInAttributes;
+
 
     /**
      * Constructor
@@ -74,6 +81,7 @@ class Template implements TemplateInterface
     public function __construct()
     {
         $this->attributes = new ArrayCollection();
+        $this->allowedInAttributes = new ArrayCollection();
     }
 
     /**
@@ -243,5 +251,51 @@ class Template implements TemplateInterface
     public function getPresentation()
     {
         return $this->presentation;
+    }
+
+    /**
+     * Add allowed in attribute
+     *
+     * @param  AttributeInterface $attribute
+     *
+     * @return  TemplateInterface
+     */
+    public function addAllowedInAttribute(AttributeInterface $attribute)
+    {
+        $this->allowedInAttributes[] = $attribute;
+
+        return $this;
+    }
+
+    /**
+     * Remove allowed template
+     *
+     * @param AttributeInterface $attribute
+     */
+    public function removeAllowedInAttribute(AttributeInterface $attribute)
+    {
+        $this->allowedInAttributes->removeElement($attribute);
+    }
+
+    /**
+     * Get allowed in attributes
+     *
+     * @return ArrayCollection
+     */
+    public function getAllowedInAttributes()
+    {
+        return $this->allowedInAttributes;
+    }
+
+    /**
+     * @param ArrayCollection $allowedInAttributes
+     *
+     * @return Template
+     */
+    public function setAllowedInAttributes(ArrayCollection $allowedInAttributes)
+    {
+        $this->allowedInAttributes = $allowedInAttributes;
+
+        return $this;
     }
 }

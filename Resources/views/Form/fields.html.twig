@@ -11,7 +11,7 @@
                 {% if form.vars.attribute.valueType == 'nested' %}
                     <section class="nested-content-wrapper">
                         <input name="{{ form.vars.id }}" type="hidden" value="{{ form.vars.value }}">
-                        <nested-content attribute="{{ name }}" ids="{{ form.vars.value }}"></nested-content>
+                        <nested-content attribute="{{ name }}" attribute-id="{{ form.vars.attribute.id }}" ids="{{ form.vars.value }}"></nested-content>
                     </section>
                 {% endif %}
                 {{ block('form_help') }}

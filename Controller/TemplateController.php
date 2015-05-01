@@ -23,6 +23,17 @@ class TemplateController extends Controller
      */
     public function indexAction(Request $request)
     {
+        if ($request->get('attribute')) {
+            $attribute = $this->get('opifer.eav.attribute_manager')->getRepository()
+                ->find($request->get('attribute'));
+
+            if ($attribute->getAllowedTemplates()->count() === 0) {
+                // Remove attribute from request because we want all templates if this attribute doesn't
+                // have any allowed templates.
+                $request->query->remove('attribute');
+            }
+        }
+
         $templates = $this->get('opifer.eav.template_manager')->getRepository()->findByRequest($request);
 
         $data = $this->get('jms_serializer')->serialize($templates, 'json');
@@ -44,6 +55,15 @@ class TemplateController extends Controller
 
         $form = $this->createForm('eav_template', $template);
         $form->handleRequest($request);
+
+
+        if ($form->isValid()) {
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($template);
+            $em->flush();
+
+            $this->get('session')->getFlashBag()->add('success', $this->get('translator')->trans('crud.new.success'));
+        }
 
         return $this->render('OpiferEavBundle:Template:edit.html.twig', [
             'template' => $template,

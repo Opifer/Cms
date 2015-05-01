@@ -1,25 +1,31 @@
 <?php
 
-
 namespace Opifer\EavBundle\Form\Type;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Translation\TranslatorInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+use Symfony\Component\Form\FormEvent;
+use Symfony\Component\Form\FormEvents;
+use Doctrine\ORM\EntityRepository;
 
 class AttributeType extends AbstractType
 {
-
     /**
      * @var  Symfony\Bundle\FrameworkBundle\Translation\Translator
      */
     protected $translator;
 
     /**
-     * @var
+     * @var string
      */
     protected $attributeClass;
+
+    /**
+     * @var string
+     */
+    protected $templateClass;
 
     protected $optionType;
 
@@ -29,13 +35,15 @@ class AttributeType extends AbstractType
      *
      * @param TranslatorInterface $translator
      * @param OptionType          $optionType
-     * @param                     $attributeClass
+     * @param string              $attributeClass
+     * @param string              $templateClass
      */
-    public function __construct(TranslatorInterface $translator, OptionType $optionType, $attributeClass)
+    public function __construct(TranslatorInterface $translator, OptionType $optionType, $attributeClass, $templateClass)
     {
         $this->translator     = $translator;
         $this->optionType     = $optionType;
         $this->attributeClass = $attributeClass;
+        $this->templateClass  = $templateClass;
     }
 
 
@@ -77,6 +85,31 @@ class AttributeType extends AbstractType
             'allow_delete' => true,
             'type'         => $this->optionType
         ]);
+
+        $builder->addEventListener(FormEvents::PRE_SET_DATA, function (FormEvent $event) {
+            $attribute = $event->getData();
+            $form = $event->getForm();
+
+            if ($attribute && $attribute->getValueType() == 'nested') {
+                $form->add(
+                    'allowedTemplates',
+                    'entity',
+                    [
+                        'class' => $this->templateClass,
+                        'property' => 'displayName',
+                        'query_builder' => function (EntityRepository $er) {
+                            return $er->createQueryBuilder('t')
+                                ->orderBy('t.displayName', 'ASC');
+                        },
+                        'by_reference' => false,
+                        'expanded' => true,
+                        'multiple' => true,
+                        'label' => $this->translator->trans('attribute.allowed_templates'),
+                        'attr' => ['help_text' => $this->translator->trans('form.allowed_templates.help_text')]
+                    ]
+                );
+            }
+        });
     }
 
 
