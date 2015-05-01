@@ -46,7 +46,7 @@ class MediaRepository extends EntityRepository
     {
         $query = $this->requestQueryBuilder($request)->getQuery();
 
-        return $qb->getResult();
+        return $query->getResult();
     }
 
     /**
