@@ -56,6 +56,15 @@ class TemplateController extends Controller
         $form = $this->createForm('eav_template', $template);
         $form->handleRequest($request);
 
+
+        if ($form->isValid()) {
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($template);
+            $em->flush();
+
+            $this->get('session')->getFlashBag()->add('success', $this->get('translator')->trans('crud.new.success'));
+        }
+
         return $this->render('OpiferEavBundle:Template:edit.html.twig', [
             'template' => $template,
             'form'     => $form->createView()

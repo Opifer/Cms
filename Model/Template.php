@@ -71,7 +71,6 @@ class Template implements TemplateInterface
      * @var ArrayCollection
      *
      * @ORM\ManyToMany(targetEntity="Opifer\EavBundle\Model\AttributeInterface", mappedBy="allowedTemplates")
-     * @ORM\JoinTable(name="attribute_allowed_template")
      **/
     protected $allowedInAttributes;
 
