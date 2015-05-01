@@ -1,9 +1,12 @@
 # Content
 content:
     edit:
+        create:
+            title: create new content
         mode:
             simple: simple
             advanced: advanced
+        return: return to directory
         success: "%title% was saved successfully!"
     form:
         description:

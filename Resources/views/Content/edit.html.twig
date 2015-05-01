@@ -3,8 +3,11 @@
 {% block opifer_content_body %}
     <article>
         <header class="page-header">
-            <h1>{{ content.title }}
-                <small>{{ content.valueSet.template.displayName }} • <a href="{{ url('_content', {'slug': content.slug}) }}" target="_blank">{{ 'content.edit.visit'|trans }}</a></small>
+            <h1>{% if content.title|default %}{{ content.title }}{% else %}{{ 'content.edit.create.title'|trans|capitalize }}{% endif %}
+                <small>{{ content.valueSet.template.displayName }}{% if content.slug|default %} • <a
+                        href="{{ url('_content', {'slug': content.slug}) }}"
+                        target="_blank">{{ 'content.edit.visit'|trans }}</a>• <a
+                            href="{{ path('opifer_content_content_index', {'directoryId': directoryId|default(0) }) }}">{{ 'content.edit.return'|trans|capitalize }}</a>{% endif %}</small>
             </h1>
 
             {# hide until properly implemented and documented #}
@@ -28,8 +31,8 @@
 
         {#{% if menu %}
             <div class="page-tabs">
-                {{ knp_menu_render(menu, {'style': 'tabs'}) }}
-            </div>
+            {{ knp_menu_render(menu, {'style': 'tabs'}) }}
+        </div>
         {%endif %}#}
 
         {% if not form.vars.valid %}
@@ -108,4 +111,4 @@
 {% block javascripts %}
     {{ parent() }}
     {{ form_javascript(form) }}
- {% endblock %}
+{% endblock %}

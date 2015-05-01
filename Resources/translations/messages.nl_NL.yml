@@ -1,9 +1,12 @@
 # Content
 content:
     edit:
+        create:
+            title: creëer nieuwe content
         mode:
             simple: simpel
             advanced: geavanceerd
+        return: bovenliggende map
         success: "%title% is succesvol opgeslagen!"
     form:
         description:

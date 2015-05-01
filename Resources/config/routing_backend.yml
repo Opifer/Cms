@@ -22,10 +22,6 @@ opifer_content_directory_delete:
     defaults: { _controller: OpiferContentBundle:Backend/Directory:delete }
 
 # Backend content
-opifer_content_content_index:
-    path: /content
-    defaults: { _controller: OpiferContentBundle:Backend/Content:index }
-
 opifer_content_content_init:
     path: /content/init
     defaults: { _controller: OpiferContentBundle:Backend/Content:init }
@@ -35,8 +31,8 @@ opifer_content_content_new:
     defaults: { _controller: OpiferContentBundle:Backend/Content:new, template: 0, mode: simple }
 
 opifer_content_content_edit:
-    path: /content/edit/{id}/{mode}
-    defaults: { _controller: OpiferContentBundle:Backend/Content:edit, mode: simple }
+    path: /content/edit/{id}/{directoryId}/{mode}
+    defaults: { _controller: OpiferContentBundle:Backend/Content:edit, mode: simple, directoryId: 0 }
     options:
         expose: true
 
@@ -45,3 +41,9 @@ opifer_content_content_duplicate:
     defaults: { _controller: OpiferContentBundle:Backend/Content:duplicate }
     options:
         expose: true
+
+opifer_content_content_index:
+    path: /content/{directoryId}
+    defaults: { _controller: OpiferContentBundle:Backend/Content:index, directoryId: 0 }
+    requirements:
+        directoryId:  \d+

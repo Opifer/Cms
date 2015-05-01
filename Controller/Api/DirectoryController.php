@@ -13,6 +13,7 @@ use Opifer\ContentBundle\OpiferContentEvents as Events;
 
 class DirectoryController extends Controller
 {
+
     /**
      * Index
      *
@@ -28,10 +29,14 @@ class DirectoryController extends Controller
             return $event->getResponse();
         }
 
-        $directories = $this->get('opifer.content.directory_manager')->findChildren($request->get('directory_id'));
+        $directoryId = $request->get('directory_id');
 
-        $data = $this->get('jms_serializer')->serialize($directories, 'json');
+        $directories = $this->get('opifer.content.directory_manager')->findChildren($directoryId);
 
-        return new Response($data, 200, ['Content-Type' => 'application/json']);
+        $parents = $this->get('opifer.content.directory_manager')->findParent($directoryId);
+
+        $data = $this->get('jms_serializer')->serialize([ 'directories' => $directories, 'parents' => $parents ], 'json');
+
+        return new Response($data, 200, [ 'Content-Type' => 'application/json' ]);
     }
 }

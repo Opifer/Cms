@@ -6,11 +6,13 @@ use Doctrine\ORM\EntityManagerInterface;
 
 class DirectoryManager implements DirectoryManagerInterface
 {
+
     /** @var EntityManager */
     protected $em;
 
     /** @var string */
     protected $class;
+
 
     /**
      * Constructor
@@ -22,13 +24,14 @@ class DirectoryManager implements DirectoryManagerInterface
      */
     public function __construct(EntityManagerInterface $em, $class)
     {
-        if (!is_subclass_of($class, 'Opifer\ContentBundle\Model\DirectoryInterface')) {
-            throw new \Exception($class .' must implement Opifer\ContentBundle\Model\DirectoryInterface');
+        if ( ! is_subclass_of($class, 'Opifer\ContentBundle\Model\DirectoryInterface')) {
+            throw new \Exception($class . ' must implement Opifer\ContentBundle\Model\DirectoryInterface');
         }
 
-        $this->em = $em;
+        $this->em    = $em;
         $this->class = $class;
     }
+
 
     /**
      * {@inheritDoc}
@@ -38,6 +41,7 @@ class DirectoryManager implements DirectoryManagerInterface
         return $this->class;
     }
 
+
     /**
      * {@inheritDoc}
      */
@@ -46,13 +50,15 @@ class DirectoryManager implements DirectoryManagerInterface
         return $this->getRepository()->find($id);
     }
 
+
     /**
      * {@inheritDoc}
      */
-    public function findBy(array $criteria = [])
+    public function findBy(array $criteria = [ ])
     {
         return $this->getRepository()->findBy($criteria);
     }
+
 
     /**
      * {@inheritDoc}
@@ -60,14 +66,55 @@ class DirectoryManager implements DirectoryManagerInterface
     public function findChildren($parent = null)
     {
         if ((int) $parent) {
+            $directories  = [ ];
             $curDirectory = $this->find($parent);
-            $directories = $curDirectory->getChildren();
+            if ( ! empty( $curDirectory )) {
+                $directories = $curDirectory->getChildren();
+            }
         } else {
-            $directories = $this->findBy(['parent' => null]);
+            $directories = $this->findBy([ 'parent' => null ]);
         }
 
         return $directories;
     }
+
+
+    /**
+     * Return all parent directory ids
+     *
+     * @param $id
+     *
+     * @return mixed
+     */
+    public function findParent($id)
+    {
+        return $this->getParentChain($id, [ ]);
+    }
+
+
+    /**
+     * Recursive method that retrieves parent directory ids
+     *
+     * @param      $id
+     * @param      $result
+     *
+     * @return mixed
+     */
+    private function getParentChain($id, $result)
+    {
+        $directory = $this->getRepository()->find($id);
+
+        if ( ! empty( $directory )) {
+            $parent = $directory->getParent();
+            if ( ! empty( $parent )) {
+                $result = $this->getParentChain($directory->getParent()->getId(), $result);
+            }
+            array_push($result, $directory->getId());
+        }
+
+        return $result;
+    }
+
 
     /**
      * {@inheritDoc}
@@ -79,16 +126,18 @@ class DirectoryManager implements DirectoryManagerInterface
         return $repository->childrenHierarchy();
     }
 
+
     /**
      * {@inheritDoc}
      */
     public function create()
     {
-        $class = $this->getClass();
+        $class     = $this->getClass();
         $directory = new $class();
 
         return $directory;
     }
+
 
     /**
      * Save directory
@@ -118,6 +167,7 @@ class DirectoryManager implements DirectoryManagerInterface
         return $directory;
     }
 
+
     /**
      * Remove a directory
      *
@@ -128,6 +178,7 @@ class DirectoryManager implements DirectoryManagerInterface
         $this->em->remove($directory);
         $this->em->flush();
     }
+
 
     /**
      * {@inheritDoc}

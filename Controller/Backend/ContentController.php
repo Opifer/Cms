@@ -131,21 +131,22 @@ class ContentController extends Controller
 
             // Tell the user everything went well.
             $this->get('session')->getFlashBag()->add('success',
-                $this->get('translator')->trans('content.edit.success', ['%title%' => $content->getTitle()])
-            );
+                $this->get('translator')->trans('content.edit.success', [ '%title%' => $content->getTitle() ]));
 
             return $this->redirect($this->generateUrl('opifer_content_content_edit', [
-                'id' => $content->getId(),
+                'id'   => $content->getId(),
                 'mode' => $mode,
             ]));
         }
 
         return $this->render('OpiferContentBundle:Content:edit.html.twig', [
-            'content' => $content,
-            'form' => $form->createView(),
-            'mode' => $mode,
+            'content'     => $content,
+            'form'        => $form->createView(),
+            'mode'        => $mode,
+            'directoryId' => $directoryId
         ]);
     }
+
 
     /**
      * Index action.
@@ -154,7 +155,7 @@ class ContentController extends Controller
      *
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function indexAction(Request $request)
+    public function indexAction(Request $request, $directoryId)
     {
         $event = new ResponseEvent($request);
         $this->get('event_dispatcher')->dispatch(Events::CONTENT_CONTROLLER_INDEX, $event);
@@ -162,8 +163,9 @@ class ContentController extends Controller
             return $event->getResponse();
         }
 
-        return $this->render('OpiferContentBundle:Content:index.html.twig');
+        return $this->render('OpiferContentBundle:Content:index.html.twig', [ 'directoryId' => $directoryId ]);
     }
+
 
     /**
      * @param integer $id Id of content which is about to be duplicated
