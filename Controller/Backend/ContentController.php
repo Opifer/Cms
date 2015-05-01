@@ -100,11 +100,12 @@ class ContentController extends Controller
      *
      * @param Request $request
      * @param integer $id
+     * @param integer $directoryId
      * @param string  $mode    [simple|advanced]
      *
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function editAction(Request $request, $id, $mode = 'simple')
+    public function editAction(Request $request, $id, $directoryId = 0, $mode = 'simple')
     {
         $contentManager = $this->get('opifer.content.content_manager');
         $content = $contentManager->getRepository()->find($id);
