@@ -66,8 +66,9 @@ class DirectoryManager implements DirectoryManagerInterface
     public function findChildren($parent = null)
     {
         if ((int) $parent) {
-            $directories = [ ];
-            if ( ! empty( $curDirectory = $this->find($parent) )) {
+            $directories  = [ ];
+            $curDirectory = $this->find($parent);
+            if ( ! empty( $curDirectory )) {
                 $directories = $curDirectory->getChildren();
             }
         } else {
