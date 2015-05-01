@@ -105,7 +105,8 @@ class DirectoryManager implements DirectoryManagerInterface
         $directory = $this->getRepository()->find($id);
 
         if ( ! empty( $directory )) {
-            if ( ! empty( $directory->getParent() )) {
+            $parent = $directory->getParent();
+            if ( ! empty( $parent )) {
                 $result = $this->getParentChain($directory->getParent()->getId(), $result);
             }
             array_push($result, $directory->getId());
