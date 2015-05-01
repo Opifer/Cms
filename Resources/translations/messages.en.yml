@@ -4,6 +4,7 @@ attribute:
     name: Name
     description: Description
     sort: Sort
+    allowed_templates: Allowed
 template:
     display_name: Display Name
     name: Name
@@ -28,4 +29,6 @@ form:
     submit: submit
     value_type:
         placeholder: ""
+        help_text: ""
+    allowed_templates:
         help_text: ""
