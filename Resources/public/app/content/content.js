@@ -1,15 +1,15 @@
 angular.module('OpiferContent', ['angular-inview'])
 
-    .factory('ContentService', ['$resource', '$routeParams', function($resource, $routeParams) {
+    .factory('ContentService', ['$resource', '$routeParams', function ($resource, $routeParams) {
         return $resource(Routing.generate('opifer_content_api_content') + '/:id', {}, {
-            index:  {method: 'GET', params: {}, cache: true},
+            index: {method: 'GET', params: {}, cache: true},
             delete: {method: 'DELETE', params: {id: $routeParams.id}}
         });
     }])
 
-    .factory('DirectoryService', ['$resource', '$routeParams', function($resource, $routeParams) {
+    .factory('DirectoryService', ['$resource', '$routeParams', function ($resource, $routeParams) {
         return $resource(Routing.generate('opifer_content_api_directory'), {}, {
-            index: {method: 'GET', isArray: true, params: {}, cache: true}
+            index: {method: 'GET', params: {}, cache: true}
         });
     }])
 
@@ -39,8 +39,11 @@ angular.module('OpiferContent', ['angular-inview'])
          * Set content
          *
          * @param  {array} content
+         * @param  {string} formname
+         * @param {bool} multiple
+         * @param {string} directoryId
          */
-        $scope.init = function(content, formname, multiple) {
+        $scope.init = function (content, formname, multiple) {
             $scope.formname = formname;
 
             if (angular.isDefined(multiple) && multiple) {
@@ -56,7 +59,7 @@ angular.module('OpiferContent', ['angular-inview'])
                         content = content.toString();
 
                         $http.get(Routing.generate('opifer_content_api_content_ids', {'ids': content}))
-                            .success(function(data) {
+                            .success(function (data) {
                                 var results = data.results;
                                 for (var i = 0; i < results.length; i++) {
                                     $scope.selecteditems.push(results[i]);
@@ -86,15 +89,15 @@ angular.module('OpiferContent', ['angular-inview'])
         };
 
         // Remove a content item
-        $scope.removeContent = function(idx) {
+        $scope.removeContent = function (idx) {
             $scope.selecteditems.splice(idx, 1);
         };
     }])
 
-    /**
-     * Content browser directive
-     */
-    .directive('contentBrowser', function() {
+/**
+ * Content browser directive
+ */
+    .directive('contentBrowser', function () {
 
         return {
             restrict: 'E',
@@ -113,7 +116,8 @@ angular.module('OpiferContent', ['angular-inview'])
                 receiver: '@'
             },
             templateUrl: '/bundles/opifercontent/app/content/content.html',
-            controller: function($scope, ContentService, DirectoryService, $attrs) {
+            controller: function ($scope, ContentService, DirectoryService, $attrs) {
+                var pageLoaded = false;
                 $scope.navto = false;
                 $scope.maxPerPage = 100;
                 $scope.currentPage = 1;
@@ -130,7 +134,7 @@ angular.module('OpiferContent', ['angular-inview'])
                     shown: false,
                     name: '',
                     action: ''
-                }
+                };
 
                 if (typeof $scope.history === "undefined") {
                     $scope.history = [];
@@ -138,7 +142,7 @@ angular.module('OpiferContent', ['angular-inview'])
                     $scope.history.push(0);
                 }
 
-                $scope.$watch('directoryId', function(newValue, oldValue) {
+                $scope.$watch('directoryId', function (newValue, oldValue) {
                     if ($scope.navto === true) {
                         if ($scope.history.length) {
                             $scope.history.splice($scope.histPointer + 1, 99);
@@ -153,48 +157,48 @@ angular.module('OpiferContent', ['angular-inview'])
                 });
 
 
-                $scope.fetchContents = function() {
+                $scope.fetchContents = function () {
                     ContentService.index({
-                        site_id: $scope.siteId,
-                        directory_id: $scope.directoryId,
-                        //locale: $scope.locale,
-                        q: $scope.query,
-                        p: $scope.currentPage,
-                        limit: $scope.maxPerPage
-                    },
-                    function(response, headers) {
-                        for (var key in response.results) {
-                            $scope.contents.push(response.results[key]);
-                        }
-                        $scope.numberOfResults = response.total_results;
-                        $scope.remainingResults = $scope.numberOfResults - ($scope.currentPage * $scope.maxPerPage);
-                        $scope.lblPaginate = "Meer content (" + $scope.remainingResults + ")";
-                        $scope.busyLoading = false;
-                    });
+                            site_id: $scope.siteId,
+                            directory_id: $scope.directoryId,
+                            //locale: $scope.locale,
+                            q: $scope.query,
+                            p: $scope.currentPage,
+                            limit: $scope.maxPerPage
+                        },
+                        function (response, headers) {
+                            for (var key in response.results) {
+                                $scope.contents.push(response.results[key]);
+                            }
+                            $scope.numberOfResults = response.total_results;
+                            $scope.remainingResults = $scope.numberOfResults - ($scope.currentPage * $scope.maxPerPage);
+                            $scope.lblPaginate = "Meer content (" + $scope.remainingResults + ")";
+                            $scope.busyLoading = false;
+                        });
                 };
 
-                $scope.searchContents = function() {
+                $scope.searchContents = function () {
                     ContentService.index({
-                        site_id: $scope.siteId,
-                        directory_id: 0,
-                        //locale: $scope.locale,
-                        q: $scope.query,
-                        p: $scope.currentPage,
-                        limit: $scope.maxPerPage
-                    },
-                    function(response, headers) {
-                        $scope.directorys = [];
-                        $scope.contents = [];
-                        for (var key in response.results) {
-                            $scope.contents.push(response.results[key]);
-                        }
-                        $scope.numberOfResults = response.total_results;
-                        $scope.btnPaginate.button('reset');
-                        $scope.lblPaginate = "Meer content (" + ($scope.numberOfResults - ($scope.currentPage * $scope.maxPerPage)) + ")";
-                    });
+                            site_id: $scope.siteId,
+                            directory_id: 0,
+                            //locale: $scope.locale,
+                            q: $scope.query,
+                            p: $scope.currentPage,
+                            limit: $scope.maxPerPage
+                        },
+                        function (response, headers) {
+                            $scope.directorys = [];
+                            $scope.contents = [];
+                            for (var key in response.results) {
+                                $scope.contents.push(response.results[key]);
+                            }
+                            $scope.numberOfResults = response.total_results;
+                            $scope.btnPaginate.button('reset');
+                            $scope.lblPaginate = "Meer content (" + ($scope.numberOfResults - ($scope.currentPage * $scope.maxPerPage)) + ")";
+                        });
                 };
 
-                $scope.$watchCollection('[query]', _.debounce(function() {
+                $scope.$watchCollection('[query]', _.debounce(function () {
                     if ($scope.query) {
                         $scope.currentPage = 1;
                         $scope.inSearch = true;
@@ -205,26 +209,34 @@ angular.module('OpiferContent', ['angular-inview'])
                 }, 300));
                 $scope.fetchContents();
 
-                $scope.fetchDirectorys = function() {
+                $scope.fetchDirectorys = function () {
                     DirectoryService.index({
-                        site_id: $scope.siteId,
-                        directory_id: $scope.directoryId,
-                        //locale: $scope.locale
-                    },
-                    function(directorys) {
-                        $scope.directorys = directorys;
-                    });
+                            site_id: $scope.siteId,
+                            directory_id: $scope.directoryId,
+                            //locale: $scope.locale
+                        },
+                        function (response) {
+                            $scope.directorys = response.directories;
+                            if (!pageLoaded) {
+                                var parents = response.parents;
+                                angular.forEach(parents, function (value, key) {
+                                    $scope.histPointer++;
+                                    $scope.history.push(value);
+                                });
+                                pageLoaded = true;
+                            }
+                        });
                 };
                 $scope.fetchDirectorys();
 
-                $scope.reloadContents = function() {
+                $scope.reloadContents = function () {
                     $scope.contents = [];
                     $scope.currentPage = 1;
                     $scope.fetchContents();
                     $scope.fetchDirectorys();
                 };
 
-                $scope.clearSearch = function() {
+                $scope.clearSearch = function () {
                     $scope.query = null;
                     $scope.inSearch = false;
                     $scope.currentPage = 1;
@@ -233,10 +245,10 @@ angular.module('OpiferContent', ['angular-inview'])
                     $scope.fetchDirectorys();
                 };
 
-                $scope.deleteContent = function(id) {
-                    angular.forEach($scope.contents, function(c, index) {
+                $scope.deleteContent = function (id) {
+                    angular.forEach($scope.contents, function (c, index) {
                         if (c.id === id) {
-                            ContentService.delete({id: c.id}, function() {
+                            ContentService.delete({id: c.id}, function () {
                                 $scope.contents.splice(index, 1);
                             });
                         }
@@ -245,7 +257,7 @@ angular.module('OpiferContent', ['angular-inview'])
                     $scope.confirmation.shown = false;
                 };
 
-                $scope.confirmDeleteContent = function(idx, $event) {
+                $scope.confirmDeleteContent = function (idx, $event) {
                     var selected = $scope.contents[idx];
 
                     $scope.confirmation.idx = selected.id;
@@ -255,7 +267,7 @@ angular.module('OpiferContent', ['angular-inview'])
                     $scope.confirmation.shown = !$scope.confirmation.shown;
                 };
 
-                $scope.previous = function() {
+                $scope.previous = function () {
                     if ($scope.history.length) {
                         $scope.directoryId = $scope.history[$scope.histPointer - 1];
                         $scope.histPointer--;
@@ -263,7 +275,7 @@ angular.module('OpiferContent', ['angular-inview'])
                     }
                 };
 
-                $scope.next = function() {
+                $scope.next = function () {
                     if ($scope.history.length) {
                         $scope.directoryId = $scope.history[$scope.histPointer + 1];
                         $scope.histPointer++;
@@ -271,26 +283,26 @@ angular.module('OpiferContent', ['angular-inview'])
                     }
                 };
 
-                $scope.navigateToDirectory = function(directory) {
+                $scope.navigateToDirectory = function (directory) {
                     $scope.navto = true;
                     $scope.directoryId = directory.id;
                     $scope.numberOfResults = $scope.maxPerPage - 1; // prevent infinitescrolling
                     $scope.reloadContents();
                 };
 
-                $scope.editContent = function(id) {
-                    window.location = Routing.generate('opifer_content_content_edit', {'id': id});
+                $scope.editContent = function (id) {
+                    window.location = Routing.generate('opifer_content_content_edit', {'id': id, 'directoryId': $scope.directoryId});
                 };
 
-                $scope.editUrl = function(id) {
-                    return Routing.generate('opifer_content_content_edit', {'id': id});
+                $scope.editUrl = function (id) {
+                    return Routing.generate('opifer_content_content_edit', {'id': id, 'directoryId': $scope.directoryId});
                 };
 
-                $scope.copyContent = function(id) {
+                $scope.copyContent = function (id) {
                     window.location = Routing.generate('opifer_content_content_duplicate', {'id': id});
                 };
 
-                $scope.confirmCopyContent = function(idx, $event) {
+                $scope.confirmCopyContent = function (idx, $event) {
                     var selected = $scope.contents[idx];
 
                     $scope.confirmation.idx = selected.id;
@@ -300,26 +312,26 @@ angular.module('OpiferContent', ['angular-inview'])
                     $scope.confirmation.shown = !$scope.confirmation.shown;
                 };
 
-                $scope.loadMore = function(e) {
+                $scope.loadMore = function (e) {
                     if (!$scope.active || $scope.busyLoading || $scope.remainingResults <= 0) return;
                     $scope.currentPage++;
                     $scope.busyLoading = true;
                     $scope.fetchContents();
                 };
 
-                $scope.pickObject = function(contentId) {
+                $scope.pickObject = function (contentId) {
                     $scope.$parent.pickObject(contentId);
                 };
 
-                $scope.unpickObject = function(contentId) {
+                $scope.unpickObject = function (contentId) {
                     $scope.$parent.unpickObject(contentId);
                 };
 
-                $scope.pickContent = function(content) {
+                $scope.pickContent = function (content) {
                     $scope.$parent.pickContent(content);
                 };
 
-                $scope.hasObject = function(contentId) {
+                $scope.hasObject = function (contentId) {
 
                     if (angular.isUndefined($scope.$parent.subject.right.value)) {
                         return false;
@@ -330,8 +342,10 @@ angular.module('OpiferContent', ['angular-inview'])
                     return (idx >= 0) ? true : false;
                 };
             },
-            compile: function(element, attrs ){
-               if (!attrs.mode) { attrs.mode = 'ADMIN'; }
+            compile: function (element, attrs) {
+                if (!attrs.mode) {
+                    attrs.mode = 'ADMIN';
+                }
             }
         };
     })
