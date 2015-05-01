@@ -1,0 +1,31 @@
+attribute:
+    value_type: Type of value
+    display_name: Display Name
+    name: Name
+    description: Description
+    sort: Sort
+template:
+    display_name: Display Name
+    name: Name
+    object_class: Object Class
+    presentation: Presentation
+    success:  Template was saved successfully!
+form:
+    description:
+        help_text: ""
+    display_name:
+        placeholder: ""
+        help_text: ""
+    name:
+        placeholder: ""
+        help_text: ""
+    object_class:
+        help_text: ""
+    presentation:
+        help_text: ""
+    sort:
+        help_text: ""
+    submit: submit
+    value_type:
+        placeholder: ""
+        help_text: ""
