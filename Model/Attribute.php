@@ -92,11 +92,8 @@ class Attribute implements AttributeInterface
     /**
      * @var ArrayCollection
      *
-     * @ORM\ManyToMany(targetEntity="Opifer\EavBundle\Model\TemplateInterface", inversedBy="allowedInAttributes")
-     * @ORM\JoinTable(name="attribute_allowed_template",
-     *          joinColumns={@ORM\JoinColumn(name="attribute_id", referencedColumnName="id")},
-     *          inverseJoinColumns={@ORM\JoinColumn(name="template_id", referencedColumnName="id")}
-     *      )
+     * @ORM\ManyToMany(targetEntity="Opifer\EavBundle\Model\TemplateInterface", inversedBy="allowedInAttributes", cascade={"persist"})
+     * @ORM\JoinTable(name="attribute_allowed_template")
      **/
     protected $allowedTemplates;
 
@@ -386,6 +383,30 @@ class Attribute implements AttributeInterface
         $className = $this->valueType;
 
         return new $className();
+    }
+
+    /**
+     * Add allowed template
+     *
+     * @param  TemplateInterface $template
+     *
+     * @return  AttributeInterface
+     */
+    public function addAllowedTemplate(TemplateInterface $template)
+    {
+        $this->allowedTemplates[] = $template;
+
+        return $this;
+    }
+
+    /**
+     * Remove allowed template
+     *
+     * @param TemplateInterface $template
+     */
+    public function removeAllowedTemplate(TemplateInterface $template)
+    {
+        $this->allowedTemplates->removeElement($template);
     }
 
     /**

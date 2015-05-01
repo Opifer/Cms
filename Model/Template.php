@@ -254,6 +254,29 @@ class Template implements TemplateInterface
         return $this->presentation;
     }
 
+    /**
+     * Add allowed in attribute
+     *
+     * @param  AttributeInterface $attribute
+     *
+     * @return  TemplateInterface
+     */
+    public function addAllowedInAttribute(AttributeInterface $attribute)
+    {
+        $this->allowedInAttributes[] = $attribute;
+
+        return $this;
+    }
+
+    /**
+     * Remove allowed template
+     *
+     * @param AttributeInterface $attribute
+     */
+    public function removeAllowedInAttribute(AttributeInterface $attribute)
+    {
+        $this->allowedInAttributes->removeElement($attribute);
+    }
 
     /**
      * Get allowed in attributes

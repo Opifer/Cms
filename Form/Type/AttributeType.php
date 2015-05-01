@@ -12,7 +12,6 @@ use Doctrine\ORM\EntityRepository;
 
 class AttributeType extends AbstractType
 {
-
     /**
      * @var  Symfony\Bundle\FrameworkBundle\Translation\Translator
      */
@@ -87,7 +86,6 @@ class AttributeType extends AbstractType
             'type'         => $this->optionType
         ]);
 
-
         $builder->addEventListener(FormEvents::PRE_SET_DATA, function (FormEvent $event) {
             $attribute = $event->getData();
             $form = $event->getForm();
@@ -103,6 +101,7 @@ class AttributeType extends AbstractType
                             return $er->createQueryBuilder('t')
                                 ->orderBy('t.displayName', 'ASC');
                         },
+                        'by_reference' => false,
                         'expanded' => true,
                         'multiple' => true,
                         'label' => $this->translator->trans('attribute.allowed_templates'),
