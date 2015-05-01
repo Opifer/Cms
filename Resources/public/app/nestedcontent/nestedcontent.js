@@ -28,7 +28,8 @@ angular.module('OpiferNestedContent', ['ui.sortable'])
             template: tpl,
             scope: {
                 ids: '@',
-                attribute: '@'
+                attribute: '@',
+                attributeId: '@'
             },
             link: function(scope, element, attrs) {
                 scope.addSubject = function() {
@@ -48,7 +49,7 @@ angular.module('OpiferNestedContent', ['ui.sortable'])
             controller: function($scope, $http, $attrs, TemplateService) {
                 // Query all available templates to make them available in the
                 // select field.
-                $scope.templates = TemplateService.index();
+                $scope.templates = TemplateService.index({attribute: $scope.attributeId });
                 $scope.subjects = [];
 
                 // Retrieve all predefined nested content and add them to the

@@ -68,7 +68,7 @@ services:
         arguments: [@router]
         tags:
             - { name: form.type, alias: eav }
-    
+
     opifer.eav.form.eav_post_type:
         class: %opifer.eav.form.eav_post_type.class%
         arguments: [@router]
@@ -84,7 +84,7 @@ services:
     # Entity Managers
     opifer.eav.attribute_manager:
         class: %opifer.eav.attribute_manager.class%
-        arguments: [@opifer.eav.value_provider.pool, %opifer_eav.attribute_class%]
+        arguments: [@doctrine.orm.default_entity_manager, %opifer_eav.attribute_class%]
 
     opifer.eav.eav_manager:
         class: %opifer.eav.eav_manager.class%

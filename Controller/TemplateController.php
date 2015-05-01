@@ -22,6 +22,17 @@ class TemplateController extends Controller
      */
     public function indexAction(Request $request)
     {
+        if ($request->get('attribute')) {
+            $attribute = $this->get('opifer.eav.attribute_manager')->getRepository()
+                ->find($request->get('attribute'));
+
+            if ($attribute->getAllowedTemplates()->count() === 0) {
+                // Remove attribute from request because we want all templates if this attribute doesn't
+                // have any allowed templates.
+                $request->query->remove('attribute');
+            }
+        }
+
         $templates = $this->get('opifer.eav.template_manager')->getRepository()
             ->findByRequest($request);
 

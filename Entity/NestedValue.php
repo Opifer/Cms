@@ -14,7 +14,7 @@ use Opifer\EavBundle\Model\Nestable;
 class NestedValue extends Value implements \IteratorAggregate
 {
     /**
-     * @var <Content>
+     * @var <Nestable>
      *
      * @ORM\OneToMany(targetEntity="Opifer\EavBundle\Model\Nestable", mappedBy="nestedIn")
      * @ORM\OrderBy({"nestedSort" = "ASC"})
@@ -28,6 +28,7 @@ class NestedValue extends Value implements \IteratorAggregate
     {
         parent::__construct();
         $this->nested = new ArrayCollection();
+        $this->allowedTemplates = new ArrayCollection();
     }
 
     /**

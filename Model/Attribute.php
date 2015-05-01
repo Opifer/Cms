@@ -66,7 +66,7 @@ class Attribute implements AttributeInterface
      *
      */
     protected $description;
-    
+
     /**
      * @var integer
      *
@@ -88,6 +88,17 @@ class Attribute implements AttributeInterface
      * @ORM\OneToMany(targetEntity="Opifer\EavBundle\Entity\Value", mappedBy="attribute", cascade={"all"}, orphanRemoval=true)
      */
     protected $values;
+
+    /**
+     * @var ArrayCollection
+     *
+     * @ORM\ManyToMany(targetEntity="Opifer\EavBundle\Model\TemplateInterface", inversedBy="allowedInAttributes")
+     * @ORM\JoinTable(name="attribute_allowed_template",
+     *          joinColumns={@ORM\JoinColumn(name="attribute_id", referencedColumnName="id")},
+     *          inverseJoinColumns={@ORM\JoinColumn(name="template_id", referencedColumnName="id")}
+     *      )
+     **/
+    protected $allowedTemplates;
 
 
     /**
@@ -368,12 +379,32 @@ class Attribute implements AttributeInterface
     /**
      * Build a new value
      *
-     * @return Opifer\EavBundle\Eav\ValueInterface
+     * @return Opifer\EavBundle\Model\ValueInterface
      */
     public function buildNewValue()
     {
         $className = $this->valueType;
 
         return new $className();
+    }
+
+    /**
+     * @return ArrayCollection
+     */
+    public function getAllowedTemplates()
+    {
+        return $this->allowedTemplates;
+    }
+
+    /**
+     * @param ArrayCollection $allowedTemplates
+     *
+     * @return Attribute
+     */
+    public function setAllowedTemplates(ArrayCollection $allowedTemplates)
+    {
+        $this->allowedTemplates = $allowedTemplates;
+
+        return $this;
     }
 }

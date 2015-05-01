@@ -25,6 +25,12 @@ class TemplateRepository extends EntityRepository
             $qb->andWhere('t.name = :name')->setParameter('name', $request->get('name'));
         }
 
+        if ($request->get('attribute')) {
+            $qb->join('t.allowedInAttributes', 'a')
+                ->andWhere('a.id = :attributeId')
+                ->setParameter('attributeId', $request->get('attribute'));
+        }
+
         $qb->orderBy('t.displayName', 'ASC');
 
         return $qb->getQuery()->getArrayResult();
