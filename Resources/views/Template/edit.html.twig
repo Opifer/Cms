@@ -1,0 +1,31 @@
+{% extends 'OpiferEavBundle::base.html.twig' %}
+
+{% block opifer_eav_body %}
+    <article>
+        <header class="page-header">
+            <h1>{% if template.displayName|default %}{{ template.displayName }}{% else %}{{ 'template.edit.create.title'|trans|capitalize }}{% endif %}</h1>
+        </header>
+
+        {% if not form.vars.valid %}
+            <div class="alert alert-error">
+                {{ form_errors(form) }}
+            </div>
+        {% endif %}
+
+        {{ form_start(form, {'action': '#', 'attr' : {'novalidate': 'novalidate', 'class': 'prevent-enter-submit'}, 'style': 'horizontal'}) }}
+        <section class="page-section">
+            {{ form_row(form.displayName) }}
+            {{ form_row(form.name) }}
+            {{ form_row(form.object_class) }}
+            {{ form_row(form.presentation) }}
+            {{ form_row(form.attributes) }}
+            {{ form_row(form.save) }}
+            {{ form_end(form) }}
+        </section>
+    </article>
+{% endblock opifer_eav_body %}
+
+{% block javascripts %}
+    {{ parent() }}
+    {{ form_javascript(form) }}
+{% endblock %}
