@@ -6,11 +6,13 @@ use Doctrine\ORM\EntityManagerInterface;
 
 class TemplateManager
 {
+
     /** @var EntityManager */
     protected $em;
 
     /** @var string */
     protected $class;
+
 
     /**
      * Constructor
@@ -20,13 +22,14 @@ class TemplateManager
      */
     public function __construct(EntityManagerInterface $em, $class)
     {
-        if (!is_subclass_of($class, 'Opifer\EavBundle\Model\TemplateInterface')) {
-            throw new \Exception($class.' must implement Opifer\EavBundle\Model\TemplateInterface');
+        if ( ! is_subclass_of($class, 'Opifer\EavBundle\Model\TemplateInterface')) {
+            throw new \Exception($class . ' must implement Opifer\EavBundle\Model\TemplateInterface');
         }
 
-        $this->em = $em;
+        $this->em    = $em;
         $this->class = $class;
     }
+
 
     /**
      * Get class
@@ -38,6 +41,7 @@ class TemplateManager
         return $this->class;
     }
 
+
     /**
      * Create a new template instance
      *
@@ -45,11 +49,12 @@ class TemplateManager
      */
     public function create()
     {
-        $class = $this->getClass();
+        $class    = $this->getClass();
         $template = new $class();
 
         return $template;
     }
+
 
     /**
      * Save template
@@ -60,11 +65,16 @@ class TemplateManager
      */
     public function save(TemplateInterface $template)
     {
+        foreach ($template->getAttributes() as $attribute) {
+            $attribute->setTemplate($template);
+            $this->em->persist($attribute);
+        }
         $this->em->persist($template);
         $this->em->flush();
 
         return $template;
     }
+
 
     /**
      * Get repository
