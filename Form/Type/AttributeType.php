@@ -9,6 +9,7 @@ use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 use Doctrine\ORM\EntityRepository;
+use Opifer\EavBundle\Entity\OptionValue;
 
 class AttributeType extends AbstractType
 {
@@ -65,30 +66,36 @@ class AttributeType extends AbstractType
                 'data-slugify-target'    => '.slugify-target-__name__',
                 'data-slugify-separator' => '_',
                 'placeholder'            => $this->translator->trans('form.display_name.placeholder'),
-                'help_text'              => $this->translator->trans('form.display_name.help_text')
+                'help_text'              => $this->translator->trans('form.display_name.help_text'),
+                'widget_col' => 6
             ]
         ])->add('name', 'text', [
             'label' => $this->translator->trans('attribute.name'),
             'attr'  => [
                 'class'       => 'slugify-target-__name__',
                 'placeholder' => $this->translator->trans('form.name.placeholder'),
-                'help_text'   => $this->translator->trans('form.name.help_text')
+                'help_text'   => $this->translator->trans('form.name.help_text'),
+                'widget_col' => 6
             ]
         ])->add('description', 'text', [
             'label' => $this->translator->trans('attribute.description'),
             'attr'  => [ 'help_text' => $this->translator->trans('form.description.help_text') ]
         ])->add('sort', 'integer', [
             'label' => $this->translator->trans('attribute.sort'),
-            'attr'  => [ 'help_text' => $this->translator->trans('form.sort.help_text') ]
-        ])->add('options', 'collapsible_collection', [
-            'allow_add'    => true,
-            'allow_delete' => true,
-            'type'         => $this->optionType
+            'attr'  => [ 'help_text' => $this->translator->trans('form.sort.help_text'), 'widget_col' => 2 ]
         ]);
 
         $builder->addEventListener(FormEvents::PRE_SET_DATA, function (FormEvent $event) {
             $attribute = $event->getData();
             $form = $event->getForm();
+
+            if ($attribute && in_array($attribute->getValueType(), ['checklist', 'select'])) {
+                $form->add('options', 'collapsible_collection', [
+                    'allow_add'    => true,
+                    'allow_delete' => true,
+                    'type'         => $this->optionType
+                ]);
+            }
 
             if ($attribute && $attribute->getValueType() == 'nested') {
                 $form->add(

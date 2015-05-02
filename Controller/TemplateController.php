@@ -10,7 +10,6 @@ use Symfony\Component\HttpFoundation\Response;
 
 class TemplateController extends Controller
 {
-
     /**
      * @Route(
      *     "/templates",
@@ -39,35 +38,5 @@ class TemplateController extends Controller
         $data = $this->get('jms_serializer')->serialize($templates, 'json');
 
         return new Response($data, 200, [ 'Content-Type' => 'application/json' ]);
-    }
-
-
-    /**
-     * @param Request $request
-     * @param         $templateId
-     *
-     * @return Response
-     */
-    public function editAction(Request $request, $templateId)
-    {
-        $templateManager = $this->get('opifer.eav.template_manager');
-        $template        = $templateManager->getRepository()->find($templateId);
-
-        $form = $this->createForm('eav_template', $template);
-        $form->handleRequest($request);
-
-
-        if ($form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($template);
-            $em->flush();
-
-            $this->get('session')->getFlashBag()->add('success', $this->get('translator')->trans('crud.new.success'));
-        }
-
-        return $this->render('OpiferEavBundle:Template:edit.html.twig', [
-            'template' => $template,
-            'form'     => $form->createView()
-        ]);
     }
 }
