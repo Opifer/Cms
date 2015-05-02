@@ -2,10 +2,6 @@ opifer.eav.form:
     resource: "@OpiferEavBundle/Controller/FormController.php"
     type:     annotation
 
-opifer_eav_template_edit:
-    pattern: /templates/edit/{templateId}
-    defaults: { _controller: OpiferEavBundle:Template:edit }
-
 _opifer_api_template:
     resource: "@OpiferEavBundle/Controller/TemplateController.php"
     type:     annotation
