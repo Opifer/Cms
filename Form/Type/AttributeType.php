@@ -63,7 +63,7 @@ class AttributeType extends AbstractType
             'label' => $this->translator->trans('attribute.display_name'),
             'attr'  => [
                 'class'                  => 'slugify',
-                'data-slugify-target'    => '.slugify-target-__name__',
+                'data-slugify-target'    => '.slugify-target-' . $builder->getName(),
                 'data-slugify-separator' => '_',
                 'placeholder'            => $this->translator->trans('form.display_name.placeholder'),
                 'help_text'              => $this->translator->trans('form.display_name.help_text'),
@@ -72,7 +72,7 @@ class AttributeType extends AbstractType
         ])->add('name', 'text', [
             'label' => $this->translator->trans('attribute.name'),
             'attr'  => [
-                'class'       => 'slugify-target-__name__',
+                'class'       => 'slugify-target-' . $builder->getName(),
                 'placeholder' => $this->translator->trans('form.name.placeholder'),
                 'help_text'   => $this->translator->trans('form.name.help_text'),
                 'widget_col' => 6
