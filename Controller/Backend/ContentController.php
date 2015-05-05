@@ -11,6 +11,7 @@ use Opifer\ContentBundle\OpiferContentEvents as Events;
 
 class ContentController extends Controller
 {
+
     /**
      * Select the type of content, the site and the language before actually
      * creating a new content item.
@@ -27,14 +28,14 @@ class ContentController extends Controller
             return $event->getResponse();
         }
 
-        $form = $this->createForm('opifer_content_init', []);
+        $form = $this->createForm('opifer_content_init', [ ]);
         $form->handleRequest($request);
 
         if ($form->isValid()) {
             $templateId = $form->get('template')->getData()->getId();
 
             return $this->redirect($this->generateUrl('opifer_content_content_new', [
-                'mode' => 'simple',
+                'mode'     => 'simple',
                 'template' => $templateId,
             ]));
         }
@@ -44,12 +45,13 @@ class ContentController extends Controller
         ]);
     }
 
+
     /**
      * New.
      *
      * @param Request $request
      * @param integer $template
-     * @param string  $mode     [simple|advanced]
+     * @param string  $mode [simple|advanced]
      *
      * @return Response
      */
@@ -66,10 +68,10 @@ class ContentController extends Controller
         }
 
         $contentManager = $this->get('opifer.content.content_manager');
-        $template = $this->get('opifer.eav.template_manager')->getRepository()->find($template);
-        $content = $this->get('opifer.eav.eav_manager')->initializeEntity($template);
+        $template       = $this->get('opifer.eav.template_manager')->getRepository()->find($template);
+        $content        = $this->get('opifer.eav.eav_manager')->initializeEntity($template);
 
-        $form = $this->createForm('opifer_content', $content, ['mode' => $mode]);
+        $form = $this->createForm('opifer_content', $content, [ 'mode' => $mode ]);
         $form->handleRequest($request);
 
         if ($form->isValid()) {
@@ -78,22 +80,21 @@ class ContentController extends Controller
 
             // Tell the user everything went well.
             $this->get('session')->getFlashBag()->add('success',
-                $this->get('translator')->trans('content.edit.success',
-                    ['%title%' => $content->getTitle()])
-            );
+                $this->get('translator')->trans('content.edit.success', [ '%title%' => $content->getTitle() ]));
 
             return $this->redirect($this->generateUrl('opifer_content_content_edit', [
-                'id' => $content->getId(),
+                'id'   => $content->getId(),
                 'mode' => $mode,
             ]));
         }
 
         return $this->render('OpiferContentBundle:Content:edit.html.twig', [
             'content' => $content,
-            'form' => $form->createView(),
-            'mode' => $mode,
+            'form'    => $form->createView(),
+            'mode'    => $mode,
         ]);
     }
+
 
     /**
      * Edit Action.
@@ -101,17 +102,17 @@ class ContentController extends Controller
      * @param Request $request
      * @param integer $id
      * @param integer $directoryId
-     * @param string  $mode    [simple|advanced]
+     * @param string  $mode [simple|advanced]
      *
      * @return \Symfony\Component\HttpFoundation\Response
      */
     public function editAction(Request $request, $id, $directoryId = 0, $mode = 'simple')
     {
         $contentManager = $this->get('opifer.content.content_manager');
-        $content = $contentManager->getRepository()->find($id);
+        $content        = $contentManager->getRepository()->find($id);
 
-        if (!$content) {
-            throw $this->createNotFoundException('No content found for id '.$id);
+        if ( ! $content) {
+            throw $this->createNotFoundException('No content found for id ' . $id);
         }
 
         $event = new ContentResponseEvent($content, $request);
@@ -120,7 +121,7 @@ class ContentController extends Controller
             return $event->getResponse();
         }
 
-        $form = $this->createForm('opifer_content', $content, ['mode' => $mode]);
+        $form = $this->createForm('opifer_content', $content, [ 'mode' => $mode ]);
         $form->handleRequest($request);
 
         if ($form->isValid()) {
@@ -135,8 +136,9 @@ class ContentController extends Controller
                 $this->get('translator')->trans('content.edit.success', [ '%title%' => $content->getTitle() ]));
 
             return $this->redirect($this->generateUrl('opifer_content_content_edit', [
-                'id'   => $content->getId(),
-                'mode' => $mode,
+                'id'          => $content->getId(),
+                'directoryId' => $directoryId,
+                'mode'        => $mode,
             ]));
         }
 
@@ -176,10 +178,10 @@ class ContentController extends Controller
     public function duplicateAction($id)
     {
         $contentManager = $this->get('opifer.content.content_manager');
-        $content = $contentManager->getRepository()->find($id);
+        $content        = $contentManager->getRepository()->find($id);
 
-        if (!$content) {
-            throw $this->createNotFoundException('No content found for id '.$id);
+        if ( ! $content) {
+            throw $this->createNotFoundException('No content found for id ' . $id);
         }
 
         $duplicateContentId = $contentManager->duplicate($content);

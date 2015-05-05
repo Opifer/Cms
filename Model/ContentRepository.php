@@ -153,7 +153,7 @@ class ContentRepository extends EntityRepository
 
         return $query->getSingleResult();
     }
-    
+
     /**
      * Find one by slug with active status
      *
@@ -172,7 +172,25 @@ class ContentRepository extends EntityRepository
 
         return $query->getSingleResult();
     }
-    
+
+    /**
+     * Find one by alias
+     *
+     * @param string $alias
+     *
+     * @return ContentInterface
+     */
+    public function findOneByAlias($alias)
+    {
+        $query = $this->createValuedQueryBuilder('c')
+            ->where("c.alias = :alias")
+            ->setParameter('alias', $alias)
+            ->getQuery()
+        ;
+
+        return $query->getSingleResult();
+    }
+
     /**
      * Find one by alias with active status
      *
@@ -257,12 +275,12 @@ class ContentRepository extends EntityRepository
 
         return $query->getResult();
     }
-    
+
     /**
      * Find latest items by template type
-     * 
+     *
      * @param string $template
-     * 
+     *
      * @return \Doctrine\Common\Collections\ArrayCollection
      * @throws \InvalidArgumentException
      */
@@ -271,7 +289,7 @@ class ContentRepository extends EntityRepository
         if (!is_string($template)) {
             throw new \InvalidArgumentException('The first parameter of "findLatestByTemplate" should be of type string');
         }
-        
+
         $query = $this->createQueryBuilder('c')
             ->leftJoin('c.valueSet', 'vs')
             ->leftJoin('vs.template', 't')
@@ -286,7 +304,7 @@ class ContentRepository extends EntityRepository
 
         return $query->getResult();
     }
-    
+
     /**
      * Find by template type sorted by title
      *
@@ -300,7 +318,7 @@ class ContentRepository extends EntityRepository
         if (!is_string($template)) {
             throw new \InvalidArgumentException('The first parameter of "findSortedByTemplateTitle" should be of type string');
         }
-        
+
         $query = $this->createQueryBuilder('c')
             ->leftJoin('c.valueSet', 'vs')
             ->leftJoin('vs.template', 't')
