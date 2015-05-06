@@ -57,7 +57,7 @@ class ContentController extends Controller
      * @return null|\Symfony\Component\HttpFoundation\RedirectResponse|Response
      * @throws \Exception
      */
-    public function newAction(Request $request, $template = 0, $directoryId = 0, $mode = 'simple')
+    public function newAction(Request $request, $template = 0, $mode = 'simple')
     {
         if ($template == 0) {
             return $this->forward('OpiferContentBundle:Backend/Content:init');
@@ -94,8 +94,7 @@ class ContentController extends Controller
         return $this->render('OpiferContentBundle:Content:edit.html.twig', [
             'content'     => $content,
             'form'        => $form->createView(),
-            'mode'        => $mode,
-            'directoryId' => $directoryId
+            'mode'        => $mode
         ]);
     }
 
