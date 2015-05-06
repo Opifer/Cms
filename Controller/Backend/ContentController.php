@@ -47,15 +47,17 @@ class ContentController extends Controller
 
 
     /**
-     * New.
+     * New
      *
      * @param Request $request
-     * @param integer $template
-     * @param string  $mode [simple|advanced]
+     * @param int     $template
+     * @param int     $directoryId
+     * @param string  $mode
      *
-     * @return Response
+     * @return null|\Symfony\Component\HttpFoundation\RedirectResponse|Response
+     * @throws \Exception
      */
-    public function newAction(Request $request, $template = 0, $mode = 'simple')
+    public function newAction(Request $request, $template = 0, $directoryId = 0, $mode = 'simple')
     {
         if ($template == 0) {
             return $this->forward('OpiferContentBundle:Backend/Content:init');
@@ -83,15 +85,17 @@ class ContentController extends Controller
                 $this->get('translator')->trans('content.edit.success', [ '%title%' => $content->getTitle() ]));
 
             return $this->redirect($this->generateUrl('opifer_content_content_edit', [
-                'id'   => $content->getId(),
-                'mode' => $mode,
+                'id'          => $content->getId(),
+                'directoryId' => $directoryId,
+                'mode'        => $mode,
             ]));
         }
 
         return $this->render('OpiferContentBundle:Content:edit.html.twig', [
-            'content' => $content,
-            'form'    => $form->createView(),
-            'mode'    => $mode,
+            'content'     => $content,
+            'form'        => $form->createView(),
+            'mode'        => $mode,
+            'directoryId' => $directoryId
         ]);
     }
 
@@ -140,6 +144,11 @@ class ContentController extends Controller
                 'directoryId' => $directoryId,
                 'mode'        => $mode,
             ]));
+        }
+
+        //Set the DirectoryId
+        if ($directoryId === 0 && ! empty( $content->getDirectory() )) {
+            $directoryId = $content->getDirectory()->getId();
         }
 
         return $this->render('OpiferContentBundle:Content:edit.html.twig', [
