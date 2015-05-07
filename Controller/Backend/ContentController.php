@@ -86,7 +86,6 @@ class ContentController extends Controller
 
             return $this->redirect($this->generateUrl('opifer_content_content_edit', [
                 'id'          => $content->getId(),
-                'directoryId' => $directoryId,
                 'mode'        => $mode,
             ]));
         }
