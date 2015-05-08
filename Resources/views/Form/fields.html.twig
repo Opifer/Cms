@@ -3,8 +3,8 @@
 {% block eav_value_row %}
     {% spaceless %}
         <div class="form-group {% if form.vars.attribute.valueType == 'nested' %}form-group-nested-content{% endif %}">
-            {{ form_label(form) }}
-            <div class="col-lg-10">
+            <label class="{{ form.vars.attr.label_class|default('control-label col-lg-2 required') }}">{{ form.vars.label }}</label>
+            <div class="{{ form.vars.attr.column_class|default('col-lg-10') }}">
                 {% for child in form.children %}
                     {{ form_widget(child, {'attr': attr}) }}
                 {% endfor %}

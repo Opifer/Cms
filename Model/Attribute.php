@@ -176,10 +176,14 @@ class Attribute implements AttributeInterface
      * Set Description
      *
      * @param string $description
+     *
+     * @return Attribute
      */
     public function setDescription($description)
     {
         $this->description = $description;
+
+        return $this;
     }
 
 
