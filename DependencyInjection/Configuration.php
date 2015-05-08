@@ -71,7 +71,6 @@ class Configuration implements ConfigurationInterface
                                 ->arrayNode('proxies')
                                     ->prototype('scalar')->end()
                                 ->end()
-                                ->scalarNode('cache')->defaultValue('null')->end()
                             ->end()
                         ->end()
                     ->end()
