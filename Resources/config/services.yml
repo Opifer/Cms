@@ -95,13 +95,13 @@ services:
         tags:
             - { name: 'liip_imagine.cache.resolver', resolver: 'proxy_aws_storage' }
     
-    cache.apccache:
+    opifer.cache.apc:
         class: %doctrine.orm.cache.apc.class%
     
     opifer.imagine.cache.resolver.amazon_s3.cache:
         class: Liip\ImagineBundle\Imagine\Cache\Resolver\CacheResolver
         arguments:
-            - "@cache.apccache"
+            - "@opifer.cache.apc"
             - "@opifer.imagine.cache.resolver.amazon_s3.proxy"
             -
                 prefix: "amazon_s3"
