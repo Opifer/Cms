@@ -48,7 +48,7 @@ class EavManager
         $entity = new $entity();
 
         if (!$entity instanceof EntityInterface) {
-            throw new \Exception('The entity specified in the "'.$template->getName().'" template must implement Opifer\EavBundle\Eav\EntityInterface.');
+            throw new \Exception('The entity specified in the "'.$template->getName().'" template must implement Opifer\EavBundle\Model\EntityInterface.');
         }
 
         $entity->setValueSet($valueSet);
