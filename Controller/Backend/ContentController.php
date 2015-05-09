@@ -144,9 +144,10 @@ class ContentController extends Controller
             ]));
         }
 
-        //Set the DirectoryId
-        if ($directoryId === 0 && ! empty( $content->getDirectory() )) {
-            $directoryId = $content->getDirectory()->getId();
+        // Set the DirectoryId
+        $directory = $content->getDirectory();
+        if ($directoryId === 0 && ! empty($directory)) {
+            $directoryId = $directory->getId();
         }
 
         return $this->render('OpiferContentBundle:Content:edit.html.twig', [
