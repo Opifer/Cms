@@ -279,6 +279,7 @@ class ContentManager implements ContentManagerInterface
 
         //duplicate content
         $duplicatedContent = clone $content;
+        $duplicatedContent->setSlug(null);
         $duplicatedContent->setValueSet($duplicatedValueset);
 
         if (!is_null($nestedIn)) {
