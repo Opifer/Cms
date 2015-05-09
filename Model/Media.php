@@ -103,6 +103,7 @@ abstract class Media implements MediaInterface
      *
      * @ORM\Column(name="created_at", type="datetime")
      * @Gedmo\Timestampable(on="create")
+     * @JMS\Expose
      */
     protected $createdAt;
 
@@ -140,7 +141,7 @@ abstract class Media implements MediaInterface
     public function setFile(UploadedFile $file = null)
     {
         $this->file = $file;
-        
+
         return $this;
     }
 

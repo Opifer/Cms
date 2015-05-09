@@ -32,6 +32,11 @@ class MediaRepository extends EntityRepository
             $qb->andWhere('m.name LIKE :term')->setParameter('term', '%' . $request->get('search') . '%');
         }
 
+        if ($request->get('order')) {
+            $direction = ($request->get('orderdir')) ? $request->get('orderdir') : 'asc';
+            $qb->orderBy('m.'.$request->get('order'), $direction);
+        }
+
         return $qb;
     }
 
