@@ -89,7 +89,7 @@ class AttributeType extends AbstractType
             $attribute = $event->getData();
             $form = $event->getForm();
 
-            if ($attribute && in_array($attribute->getValueType(), ['checklist', 'select'])) {
+            if ($attribute && in_array($attribute->getValueType(), ['checklist', 'select', 'radio'])) {
                 $form->add('options', 'collapsible_collection', [
                     'allow_add'    => true,
                     'allow_delete' => true,
