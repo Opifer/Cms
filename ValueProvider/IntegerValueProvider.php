@@ -28,4 +28,12 @@ class IntegerValueProvider extends AbstractValueProvider implements ValueProvide
     {
         return 'Opifer\EavBundle\Entity\IntegerValue';
     }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getLabel()
+    {
+        return 'Number';
+    }
 }

@@ -55,4 +55,12 @@ class RadioValueProvider extends AbstractValueProvider implements ValueProviderI
     {
         return 'Opifer\EavBundle\Entity\RadioValue';
     }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getLabel()
+    {
+        return 'Radiobutton';
+    }
 }

@@ -21,4 +21,12 @@ class TextValueProvider extends AbstractValueProvider implements ValueProviderIn
     {
         return 'Opifer\EavBundle\Entity\TextValue';
     }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getLabel()
+    {
+        return 'Textarea';
+    }
 }

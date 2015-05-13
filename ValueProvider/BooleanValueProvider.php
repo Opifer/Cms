@@ -10,8 +10,8 @@ use Symfony\Component\Form\FormBuilderInterface;
 class BooleanValueProvider extends AbstractValueProvider implements ValueProviderInterface
 {
     /**
-    * {@inheritDoc}
-    */
+     * {@inheritDoc}
+     */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder->add('value', 'checkbox', [
@@ -20,10 +20,18 @@ class BooleanValueProvider extends AbstractValueProvider implements ValueProvide
     }
 
     /**
-    * {@inheritDoc}
-    */
+     * {@inheritDoc}
+     */
     public function getEntity()
     {
         return 'Opifer\EavBundle\Entity\BooleanValue';
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getLabel()
+    {
+        return 'True / False';
     }
 }

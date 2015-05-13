@@ -59,4 +59,12 @@ class SelectValueProvider extends AbstractValueProvider implements ValueProvider
     {
         return 'Opifer\EavBundle\Entity\SelectValue';
     }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getLabel()
+    {
+        return 'Selectfield';
+    }
 }

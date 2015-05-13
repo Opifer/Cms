@@ -24,4 +24,12 @@ class StringValueProvider extends AbstractValueProvider implements ValueProvider
     {
         return 'Opifer\EavBundle\Entity\StringValue';
     }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getLabel()
+    {
+        return 'Textfield';
+    }
 }

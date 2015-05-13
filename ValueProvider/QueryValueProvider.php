@@ -29,4 +29,12 @@ class QueryValueProvider extends AbstractValueProvider implements ValueProviderI
     {
         return 'Opifer\EavBundle\Entity\QueryValue';
     }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getLabel()
+    {
+        return 'Content conditions';
+    }
 }
