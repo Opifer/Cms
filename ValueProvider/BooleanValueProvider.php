@@ -32,6 +32,6 @@ class BooleanValueProvider extends AbstractValueProvider implements ValueProvide
      */
     public function getLabel()
     {
-        return 'True / False';
+        return 'Checkbox';
     }
 }
