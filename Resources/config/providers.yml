@@ -1,6 +1,7 @@
 parameters:
     opifer.eav.boolean_value_provider.class: Opifer\EavBundle\ValueProvider\BooleanValueProvider
     opifer.eav.checklist_value_provider.class: Opifer\EavBundle\ValueProvider\ChecklistValueProvider
+    opifer.eav.radio_value_provider.class: Opifer\EavBundle\ValueProvider\RadioValueProvider
     opifer.eav.form_value_provider.class: Opifer\EavBundle\ValueProvider\FormValueProvider
     opifer.eav.integer_value_provider.class: Opifer\EavBundle\ValueProvider\IntegerValueProvider
     opifer.eav.media_value_provider.class: Opifer\EavBundle\ValueProvider\MediaValueProvider
@@ -22,6 +23,12 @@ services:
          arguments: [%opifer_eav.option_class%]
          tags:
              - { name: opifer.eav.value_provider, alias: checklist }
+    
+    opifer.eav.radio_value_provider:
+        class: %opifer.eav.radio_value_provider.class%
+        arguments: [%opifer_eav.option_class%]
+        tags:
+            - { name: opifer.eav.value_provider, alias: radio }
 
     opifer.eav.datetime_value_provider:
         class: Opifer\EavBundle\ValueProvider\DatetimeValueProvider
