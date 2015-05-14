@@ -95,3 +95,16 @@ services:
             - %opifer_media.storages.aws_s3.proxies%
         tags:
             - { name: 'liip_imagine.cache.resolver', resolver: 'proxy_aws_storage' }
+    
+    opifer.cache.apc:
+        class: %doctrine.orm.cache.apc.class%
+    
+    opifer.imagine.cache.resolver.amazon_s3.cache:
+        class: Liip\ImagineBundle\Imagine\Cache\Resolver\CacheResolver
+        arguments:
+            - "@opifer.cache.apc"
+            - "@opifer.imagine.cache.resolver.amazon_s3.proxy"
+            -
+                prefix: "amazon_s3"
+        tags:
+            - { name: 'liip_imagine.cache.resolver', resolver: 'cached_proxy_aws' }

@@ -225,6 +225,8 @@ angular.module('mediaLibrary', ['infinite-scroll', 'ngModal', 'angularFileUpload
             this.busy = false;
             this.end = false;
             this.page = 1;
+            this.orderBy = 'createdAt';
+            this.orderDir = 'desc';
             this.search = '';
         };
 
@@ -267,7 +269,7 @@ angular.module('mediaLibrary', ['infinite-scroll', 'ngModal', 'angularFileUpload
             }
 
             // Retrieve more items and add them to the already loaded items
-            $http.get(Routing.generate('opifer_api_media', {'page': this.page, 'search': this.search})).success(function(data) {
+            $http.get(Routing.generate('opifer_api_media', {'page': this.page, 'search': this.search, 'order': this.orderBy, 'orderdir': this.orderDir})).success(function(data) {
 
                 this.items = this.items.concat(data.results);
 
