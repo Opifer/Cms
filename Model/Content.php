@@ -274,6 +274,22 @@ class Content implements ContentInterface, EntityInterface, Nestable
     }
 
     /**
+     * Set a slug for nested content
+     *
+     * @param ContentInterface $parent
+     *
+     * @return $this
+     */
+    public function setNestedSlug(ContentInterface $parent)
+    {
+        if (strpos($this->getSlug(), 'nested-in-'.$parent->getId()) === false) {
+            $this->setSlug('nested-in-'.$parent->getId());
+        }
+
+        return $this;
+    }
+
+    /**
      * Get slug without index appended
      *
      * @return string
