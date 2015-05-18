@@ -1,0 +1,23 @@
+{
+    "name": "opifer/redirect-bundle",
+    "description": "Opifer Redirect Bundle",
+    "homepage": "https://github.com/Opifer/RedirectBundle",
+    "type": "symfony-bundle",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Opifer",
+            "email": "info@opifer.nl"
+        }
+    ],
+    "require": {
+        "php": ">=5.4",
+        "symfony/symfony": "~2.5",
+        "doctrine/orm": "~2.4"
+    },
+    "require-dev": {
+    },
+    "autoload": {
+        "psr-4": {"Opifer\\RedirectBundle\\": "."}
+    }
+}

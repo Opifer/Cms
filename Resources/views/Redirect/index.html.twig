@@ -1,0 +1,42 @@
+{% extends 'OpiferRedirectBundle::base.html.twig' %}
+
+{% block opifer_redirect_body %}
+    {% spaceless %}
+        <div class="page-header clearfix">
+            <h1 class="pull-left">Redirects</h1>
+            <a href="{{ path('opifer_redirect_redirect_new') }}" class="btn btn-primary pull-right">
+                New redirect
+            </a>
+        </div>
+
+        <div class="container">
+            <div class="row">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Origin</th>
+                            <th>Target</th>
+                            <th>Permanent</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for redirect in redirects %}
+                            <tr>
+                                <td>{{ redirect.id }}</td>
+                                <td>{{ redirect.origin }}</td>
+                                <td>{{ redirect.target }}</td>
+                                <td>{{ redirect.permanent }}</td>
+                                <td>
+                                    <a href="{{ path('opifer_redirect_redirect_edit', {'id': redirect.id}) }}"><i class="fa fa-edit"></i></a>
+                                    <a href="{{ path('opifer_redirect_redirect_delete', {'id': redirect.id}) }}"><i class="fa fa-remove"></i></a>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    {% endspaceless %}
+{% endblock opifer_redirect_body %}

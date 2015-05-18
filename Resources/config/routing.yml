@@ -1,0 +1,15 @@
+opifer_redirect_redirect_index:
+    path:     /
+    defaults: { _controller: OpiferRedirectBundle:Redirect:index }
+
+opifer_redirect_redirect_new:
+    path:     /new
+    defaults: { _controller: OpiferRedirectBundle:Redirect:new }
+
+opifer_redirect_redirect_edit:
+    path:     /edit/{id}
+    defaults: { _controller: OpiferRedirectBundle:Redirect:edit }
+
+opifer_redirect_redirect_delete:
+    path:     /delete/{id}
+    defaults: { _controller: OpiferRedirectBundle:Redirect:delete }
