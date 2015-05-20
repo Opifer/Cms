@@ -65,7 +65,7 @@ opifer_redirect:
 Add the `RedirectRouter` to your chain router. For example, when you're using [CMFRoutingBundle](https://github.com/symfony-cmf/RoutingBundle), 
 add the `opifer.redirect.redirect_router` to the `cmf_routing` config.
 
-```
+```yml
 cmf_routing:
     chain:
         routers_by_id:
