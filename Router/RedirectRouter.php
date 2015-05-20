@@ -35,6 +35,9 @@ class RedirectRouter implements RouterInterface
 
     /** @var Request */
     protected $request;
+    
+    /** @var array */
+    protected $redirects;
 
     /**
      * The constructor for this service.
@@ -46,24 +49,7 @@ class RedirectRouter implements RouterInterface
         $this->routeCollection = new RouteCollection();
         $this->request = $requestStack->getCurrentRequest();
         $this->redirectManager = $redirectManager;
-
-        $this->createRoutes();
-    }
-
-    /**
-     * Create the routes.
-     */
-    private function createRoutes()
-    {
-        $redirects = $this->redirectManager->getRepository()->findAll();
-
-        foreach ($redirects as $redirect) {
-            $this->routeCollection->add('_redirect_'.$redirect->getId(), new Route($redirect->getOrigin(), [
-                '_controller' => 'FrameworkBundle:Redirect:urlRedirect',
-                'path' => $redirect->getTarget(),
-                'permanent' => $redirect->isPermanent(),
-            ]));
-        }
+        $this->redirects = false;
     }
 
     /**
@@ -135,6 +121,18 @@ class RedirectRouter implements RouterInterface
      */
     public function getRouteCollection()
     {
+        if($this->redirects === false) {
+            $this->redirects = $this->redirectManager->getRepository()->findAll();
+            
+            foreach ($this->redirects as $redirect) {
+                $this->routeCollection->add('_redirect_'.$redirect->getId(), new Route($redirect->getOrigin(), [
+                    '_controller' => 'FrameworkBundle:Redirect:urlRedirect',
+                    'path' => $redirect->getTarget(),
+                    'permanent' => $redirect->isPermanent(),
+                ]));
+            }
+        }
+        
         return $this->routeCollection;
     }
 }
