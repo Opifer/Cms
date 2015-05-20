@@ -66,21 +66,23 @@ class MediaEventSubscriber implements EventSubscriberInterface
             return;
         }
 
-        $reference = $this->pool->getProvider($event->getObject()->getProvider())
-            ->getThumb($event->getObject());
+        $provider = $this->pool->getProvider($event->getObject()->getProvider());
+        if ($provider->getName() == 'image') {
+            $reference = $provider->getThumb($event->getObject());
 
-        $groups = $event->getContext()->attributes->get('groups')->get();
-        if (in_array('detail', $groups)) {
-            $filters = array_keys($this->filterConfig->all());
-        } else {
-            $filters = ['medialibrary'];
+            $groups = $event->getContext()->attributes->get('groups')->get();
+            if (in_array('detail', $groups)) {
+                $filters = array_keys($this->filterConfig->all());
+            } else {
+                $filters = ['medialibrary'];
+            }
+
+            $variants = [];
+            foreach ($filters as $filter) {
+                $variants[$filter] = $this->cacheManager->getBrowserPath($reference, $filter);
+            }
+
+            $event->getVisitor()->addData('images', $variants);
         }
-
-        $variants = [];
-        foreach ($filters as $filter) {
-            $variants[$filter] = $this->cacheManager->getBrowserPath($reference, $filter);
-        }
-
-        $event->getVisitor()->addData('images', $variants);
     }
 }

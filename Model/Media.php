@@ -67,6 +67,7 @@ abstract class Media implements MediaInterface
      * @var string
      *
      * @ORM\Column(name="content_type", type="string", length=255, nullable=true)
+     * @JMS\Expose
      */
     protected $contentType;
 
