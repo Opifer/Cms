@@ -58,7 +58,7 @@ class ContentRouter implements RouterInterface
             '_controller' => 'OpiferContentBundle:Frontend/Content:view',
             'slug'        => '',
         ], [
-            'slug'        => "[a-zA-Z0-9\-_\/]*",
+            'slug'        => "[a-zA-Z0-9\-_\/\%]*",
         ], [
             'expose'      => true,
         ]));
@@ -66,7 +66,7 @@ class ContentRouter implements RouterInterface
             '_controller' => 'OpiferContentBundle:Frontend/Content:view',
             'slug'        => '',
         ], [
-            'slug'        => "[a-zA-Z0-9\-_\/]*",
+            'slug'        => "[a-zA-Z0-9\-_\/\%]*",
         ], [
             'expose'      => true,
         ]));
