@@ -40,7 +40,7 @@ class Content implements ContentInterface, EntityInterface, Nestable
     /**
      * @var ValueSetInterface
      *
-     * @ORM\ManyToOne(targetEntity="Opifer\EavBundle\Model\ValueSetInterface", cascade={"persist"}, fetch="EAGER")
+     * @ORM\ManyToOne(targetEntity="Opifer\EavBundle\Model\ValueSetInterface", cascade={"persist"})
      * @ORM\JoinColumn(name="valueset_id", referencedColumnName="id")
      */
     protected $valueSet;
@@ -271,6 +271,22 @@ class Content implements ContentInterface, EntityInterface, Nestable
     public function getSlug()
     {
         return $this->slug;
+    }
+
+    /**
+     * Set a slug for nested content
+     *
+     * @param ContentInterface $parent
+     *
+     * @return $this
+     */
+    public function setNestedSlug(ContentInterface $parent)
+    {
+        if (strpos($this->getSlug(), 'nested-in-'.$parent->getId()) === false) {
+            $this->setSlug('nested-in-'.$parent->getId());
+        }
+
+        return $this;
     }
 
     /**
