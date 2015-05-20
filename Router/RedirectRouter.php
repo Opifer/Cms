@@ -49,7 +49,6 @@ class RedirectRouter implements RouterInterface
         $this->routeCollection = new RouteCollection();
         $this->request = $requestStack->getCurrentRequest();
         $this->redirectManager = $redirectManager;
-        $this->redirects = false;
     }
 
     /**
@@ -121,7 +120,7 @@ class RedirectRouter implements RouterInterface
      */
     public function getRouteCollection()
     {
-        if($this->redirects === false) {
+        if ($this->redirects === null) {
             $this->redirects = $this->redirectManager->getRepository()->findAll();
             
             foreach ($this->redirects as $redirect) {
