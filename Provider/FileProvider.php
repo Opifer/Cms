@@ -2,6 +2,7 @@
 
 namespace Opifer\MediaBundle\Provider;
 
+use Gaufrette\Adapter\AwsS3;
 use Gaufrette\FileSystem;
 use Symfony\Component\Translation\TranslatorInterface;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -163,6 +164,23 @@ class FileProvider extends AbstractProvider
 
         // clean up the file property as you won't need it anymore
         $media->setFile(null);
+    }
+
+    /**
+     * Get the full url to the original file
+     *
+     * @param MediaInterface $media
+     * @return string
+     */
+    public function getUrl(MediaInterface $media)
+    {
+        $adapter = $this->filesystem->getAdapter();
+
+        if ($adapter instanceof AwsS3) {
+            return $adapter->getUrl($media->getReference());
+        }
+
+        return $media->getReference();
     }
 
     /**

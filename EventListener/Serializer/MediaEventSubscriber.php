@@ -67,6 +67,7 @@ class MediaEventSubscriber implements EventSubscriberInterface
         }
 
         $provider = $this->pool->getProvider($event->getObject()->getProvider());
+
         if ($provider->getName() == 'image') {
             $reference = $provider->getThumb($event->getObject());
 
@@ -84,5 +85,7 @@ class MediaEventSubscriber implements EventSubscriberInterface
 
             $event->getVisitor()->addData('images', $variants);
         }
+
+        $event->getVisitor()->addData('original', $provider->getUrl($event->getObject()));
     }
 }
