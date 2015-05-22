@@ -97,10 +97,6 @@ class OpiferMediaExtension extends Extension implements PrependExtensionInterfac
                                 'filters' => [
                                     'relative_resize' => ['heighten' => 160]
                                 ]
-                            ],
-                            'original' => [
-                                'quality' => 100,
-                                'filters' => []
                             ]
                         ]
                     ]);
