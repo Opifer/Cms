@@ -14,6 +14,8 @@ parameters:
     opifer.eav.form.template_type.class: Opifer\EavBundle\Form\Type\TemplateType
     opifer.eav.form.template_object_class_type.class: Opifer\EavBundle\Form\Type\TemplateObjectClassType
     opifer.eav.form.value_provider_type.class: Opifer\EavBundle\Form\Type\ValueProviderType
+    opifer.eav.form.values_subscriber.class: Opifer\EavBundle\Form\EventListener\ValuesSubscriber
+    opifer.eav.form.values_type.class: Opifer\EavBundle\Form\Type\ValuesType
     opifer.eav.form.valueset_type.class: Opifer\EavBundle\Form\Type\ValueSetType
     opifer.eav.template_manager.class: Opifer\EavBundle\Model\TemplateManager
     opifer.eav.twig_extension.class: Opifer\EavBundle\Templating\TwigExtension
@@ -23,6 +25,9 @@ services:
     # Values provider pool
     opifer.eav.value_provider.pool:
         class: %opifer.eav.value_provider.pool.class%
+
+    opifer.eav.form.values_subscriber:
+        class: %opifer.eav.form.values_subscriber.class%
 
     # Form Types
     opifer.eav.form.eav_value:
@@ -94,6 +99,12 @@ services:
         arguments: [%opifer_eav.valueset_class%]
         tags:
             - { name: form.type, alias: opifer_valueset }
+
+    opifer.eav.form.values_type:
+        class: %opifer.eav.form.values_type.class%
+        arguments: [@opifer.eav.form.values_subscriber]
+        tags:
+            - { name: form.type, alias: values_collection }
 
     # Entity Managers
     opifer.eav.attribute_manager:

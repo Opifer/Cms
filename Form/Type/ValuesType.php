@@ -8,12 +8,24 @@ use Opifer\EavBundle\Form\EventListener\ValuesSubscriber;
 
 class ValuesType extends AbstractType
 {
+    protected $valuesSubscriber;
+
+    /**
+     * Constructor
+     *
+     * @param ValuesSubscriber $valueSubscriber
+     */
+    public function __construct(ValuesSubscriber $valuesSubscriber)
+    {
+        $this->valuesSubscriber = $valuesSubscriber;
+    }
+
     /**
      * {@inheritDoc}
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->addEventSubscriber(new ValuesSubscriber());
+        $builder->addEventSubscriber($this->valuesSubscriber);
     }
 
     /**
