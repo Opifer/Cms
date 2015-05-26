@@ -26,7 +26,7 @@ class ValueSetType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('namedvalues', new ValuesType());
+        $builder->add('namedvalues', 'values_collection');
     }
 
     /**
