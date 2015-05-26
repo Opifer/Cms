@@ -76,6 +76,22 @@ abstract class OptionValue extends Value
 
         return $array;
     }
+    
+    /**
+     * Get display names of the options
+     *
+     * @return array
+     */
+    public function getDisplayNames()
+    {
+        $array = [];
+
+        foreach ($this->options as $option) {
+            $array[] = $option->getDisplayName();
+        }
+
+        return $array;
+    }
 
     /**
      * Get the value
