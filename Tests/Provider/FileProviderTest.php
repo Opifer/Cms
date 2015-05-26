@@ -106,6 +106,7 @@ class FileProviderTest extends \PHPUnit_Framework_TestCase
             'getReference' => 'filename.jpg',
             'setFile' => $this->media
         ));
+        $this->filesystem->shouldReceive('getAdapter');
         $this->filesystem->shouldReceive('write')->with('filename.jpg', 'content');
 
         $this->provider->upload($this->media);

@@ -152,7 +152,13 @@ class FileProvider extends AbstractProvider
         if (null === $media->getFile()) {
             return;
         }
-
+        
+        $adapter = $this->filesystem->getAdapter();
+        
+        if ($adapter instanceof AwsS3) {
+            $adapter->setMetadata($media->getReference(), ['ContentType' => $media->getContentType()] );
+        }
+        
         $this->filesystem->write($media->getReference(), file_get_contents($media->getFile()));
 
         if (isset($media->temp)) {
