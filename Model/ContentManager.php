@@ -171,7 +171,7 @@ class ContentManager implements ContentManagerInterface
                 $keys = $this->eavManager->parseNestedTypeName($key);
 
                 $nestedContent = $this->getContentByReference($keys['reference']);
-                $nestedContent->setSlug('nested-'.$attribute.'-'.$sort);
+                $nestedContent->setSlug(md5(time() + rand()));
 
                 $form = new NestedType($key);
                 $form = $this->formFactory->create($form, $nestedContent);
