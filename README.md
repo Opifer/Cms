@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/Opifer/CmsBundle.svg)](https://travis-ci.org/Opifer/CmsBundle)
+
 Opifer CmsBundle
 ================
 
