@@ -1,0 +1,192 @@
+parameters:
+    opifer.cms.acl_manager.class: Opifer\CmsBundle\Security\AclManager
+    opifer.cms.address_value_provider.class: Opifer\CmsBundle\ValueProvider\AddressValueProvider
+    opifer.cms.content_init_form.class: Opifer\CmsBundle\Form\ContentInitForm
+    opifer.cms.content_menu.class: Opifer\CmsBundle\Menu\ContentMenu
+    opifer.cms.exception_router.class: Opifer\CmsBundle\Router\ExceptionRouter
+    opifer.cms.form.attribute_parameters.class: Opifer\CmsBundle\Form\Type\AttributeParametersType
+    opifer.cms.form.ckeditor_type.class: Opifer\CmsBundle\Form\Type\CKEditorType
+    opifer.cms.form.content.class: Opifer\CmsBundle\Form\ContentForm
+    opifer.cms.form.directory_form.class: Opifer\CmsBundle\Form\DirectoryForm
+    opifer.cms.form.google_address.class: Opifer\CmsBundle\Form\Type\GoogleAddressType
+    opifer.cms.form.menu.class: Opifer\CmsBundle\Form\Type\MenuType
+    opifer.cms.form.menu_group.class: Opifer\CmsBundle\Form\Type\MenuGroupType
+    opifer.cms.form.menu_parameters.class: Opifer\CmsBundle\Form\Type\MenuParametersType
+    opifer.cms.html_value_provider.class: Opifer\CmsBundle\ValueProvider\HtmlValueProvider
+    opifer.cms.listener.post_notify_listener.class: Opifer\CmsBundle\EventListener\PostNotifyListener
+    opifer.cms.listener.redirect_after_login_listener.class: Opifer\CmsBundle\EventListener\RedirectAfterLoginListener
+    opifer.cms.menu_group.class: Opifer\CmsBundle\Entity\MenuGroup
+    opifer.cms.menu_group_value_provider.class: Opifer\CmsBundle\ValueProvider\MenuGroupValueProvider
+    opifer.cms.menu_manager.class: Opifer\CmsBundle\Manager\MenuManager
+    opifer.cms.setting_manager.class: Opifer\CmsBundle\Manager\SettingManager
+    opifer.cms.settings.class: Opifer\CmsBundle\DependencyInjection\Settings
+    opifer.cms.sitemap_listener.class: Opifer\CmsBundle\EventListener\SitemapListener
+    opifer.cms.slug_form_type.class: Opifer\CmsBundle\Form\Type\SlugType
+    opifer.cms.tableprefix_listener.class: Opifer\CmsBundle\EventListener\TablePrefixListener
+    opifer.cms.user_form.class: Opifer\CmsBundle\Form\UserForm
+    twig.extension.intl.class: Twig_Extensions_Extension_Intl
+
+services:
+    twig.extension.intl:
+        class: %twig.extension.intl.class%
+        tags:
+            - { name: twig.extension }
+
+    # Forms
+    opifer.cms.user_form:
+        class: %opifer.cms.user_form.class%
+        arguments: [%security.role_hierarchy.roles%, %opifer_cms.user.class%]
+        tags:
+            - { name: form.type, alias: admin_user_form }
+
+    opifer.cms.form.content:
+        class: %opifer.cms.form.content.class%
+        arguments: [@translator]
+        tags:
+            - { name: form.type, alias: admin_content_form }
+
+    opifer.cms.form.google_address:
+        class: %opifer.cms.form.google_address.class%
+        arguments: [@translator]
+        tags:
+            - { name: form.type, alias: google_address }
+
+    opifer.cms.content_init_form:
+        class: %opifer.cms.content_init_form.class%
+        arguments: [@translator, @router, %opifer_cms.allowed_locales%]
+        tags:
+            - { name: form.type, alias: admin_content_init_form }
+
+    opifer.cms.form.ckeditor_type:
+        class: %opifer.cms.form.ckeditor_type.class%
+        arguments: [@translator]
+        tags:
+            - { name: form.type, alias: ckeditor }
+
+    opifer.cms.form.menu:
+        class: %opifer.cms.form.menu.class%
+        arguments: [@translator]
+        tags:
+            - { name: form.type, alias: admin_menu }
+
+    opifer.cms.form.menu_group:
+        class: %opifer.cms.form.menu_group.class%
+        arguments: [%opifer.cms.menu_group.class%,  @opifer.cms.menu_manager]
+        tags:
+            - { name: form.type, alias: admin_menu_group }
+
+    opifer.cms.form.directory_form:
+        class: %opifer.cms.form.directory_form.class%
+        arguments: [@translator]
+        tags:
+            - { name: form.type, alias: admin_directory_form }
+
+    opifer.cms.slug_form_type:
+        class: %opifer.cms.slug_form_type.class%
+        arguments: [@translator]
+        tags:
+            - { name: form.type, alias: slug }
+
+    # ACL
+    opifer.cms.acl_manager:
+        class: %opifer.cms.acl_manager.class%
+        arguments: [@security.acl.provider, @security.context]
+
+    # Listener
+    opifer.cms.listener.redirect_after_login_listener:
+        class: %opifer.cms.listener.redirect_after_login_listener.class%
+        arguments: [@router, @security.context, @event_dispatcher]
+        tags:
+            - { name: kernel.event_listener, event: security.interactive_login, method: onSecurityInteractiveLogin }
+
+    opifer.cms.listener.post_notify_listener:
+        class: %opifer.cms.listener.post_notify_listener.class%
+        arguments: ["@service_container"]
+        tags:
+            - { name: doctrine.event_listener, event: onFlush }
+            - { name: doctrine.event_listener, event: postFlush }
+
+    opifer.cms.sitemap_listener:
+        class: %opifer.cms.sitemap_listener.class%
+        arguments: [@router, @doctrine.orm.entity_manager]
+        tags:
+            - {name: 'presta.sitemap.listener'}
+
+    # Settings
+    opifer.cms.setting_manager:
+        class: %opifer.cms.setting_manager.class%
+        arguments: [@doctrine.orm.default_entity_manager]
+
+    opifer.cms.settings:
+        class: %opifer.cms.settings.class%
+        arguments: [@doctrine.orm.default_entity_manager]
+
+    opifer.cms.tableprefix_listener:
+        class: %opifer.cms.tableprefix_listener.class%
+        arguments: [%database_table_prefix%]
+        tags:
+            - { name: doctrine.event_subscriber }
+
+    # Menus
+    opifer.cms.menu_manager:
+        class: %opifer.cms.menu_manager.class%
+        arguments: [@doctrine.orm.default_entity_manager]
+
+    opifer.cms.content_menu:
+        class: %opifer.cms.content_menu.class%
+        arguments: [@translator, @router, %opifer_cms.allowed_locales%, %locale%]
+
+    # Value provider
+    opifer.cms.address_value_provider:
+        class: %opifer.cms.address_value_provider.class%
+        tags:
+            - { name: opifer.eav.value_provider, alias: address }
+
+    opifer.cms.menu_group_value_provider:
+        class: %opifer.cms.menu_group_value_provider.class%
+        arguments: [%opifer.cms.menu_group.class%]
+        tags:
+            - { name: opifer.eav.value_provider, alias: menu_group }
+
+    opifer.cms.html_value_provider:
+        class: %opifer.cms.html_value_provider.class%
+        tags:
+            - { name: opifer.eav.value_provider, alias: html }
+
+    # MenuParameters form; override this in project services
+    opifer.cms.form.menu_parameters:
+        class: %opifer.cms.form.menu_parameters.class%
+        tags:
+            - { name: form.type, alias: admin_menu_parameters }
+
+    # AttributeParameters form
+    opifer.cms.form.attribute_parameters:
+        class: %opifer.cms.form.attribute_parameters.class%
+        tags:
+            - { name: form.type, alias: admin_attribute_parameters }
+
+    # Routers
+    opifer.cms.exception_router:
+        class: %opifer.cms.exception_router.class%
+        arguments: [@service_container]
+
+    # Logging
+    #opifer.cms.logstash_formatter:
+    #    class: Monolog\Formatter\LogstashFormatter
+    #    arguments: ['opifer.nl', null, null, 1]
+
+    #opifer.cms.redis_handler:
+    #    class: Monolog\Handler\RedisHandler
+    #    arguments: [@opifer.cms.redis_client, 'cms']
+
+    #opifer.cms.redis_client:
+    #    class: Opifer\CmsBundle\Logging\RedisClient
+    #    arguments: [%redis_host%, %redis_password%, %redis_port%]
+
+    # Currently disabled
+    # opifer.cms.logging.doctrine_handler:
+    #     class: Opifer\CmsBundle\Logging\DoctrineHandler
+    #     arguments:
+    #         - @service_container
+    #     tags:
+    #         - { name: log_handler }

@@ -1,0 +1,202 @@
+# Base
+base:
+    cronjobs: cron jobs
+    content: content
+    forms: formulieren
+    help: help
+    imagefilters: afbeeldingsinstellingen
+    layouts: layouts
+    logout: uitloggen
+    profile: mijn profiel
+    redirects: verwijzingen
+    settings: instellingen
+    sitemenu: menu
+    sites: websites
+    system: systeem
+    templates: templates
+    users: gebruikers
+
+# Content
+content:
+    edit:
+        visit: Open pagina
+        mode:
+            simple: simpel
+            advanced: geavanceerd
+        success: "%title% is succesvol opgeslagen!"
+    form:
+        description:
+            placeholder: Omschrijving van de pagina
+            help_text: Geef een korte omschrijving op van de pagina en gebruik hierbij belangrijke sleutelwoorden
+        directory:
+            help_text: De URL van de pagina wordt gemaakt op basis van de map waarin deze geplaatst wordt
+        init:
+            submit: naar stap 2
+        locale:
+            help_text: ""
+        site:
+            help_text: Kies de website waarin het content item geplaatst dient te worden
+        alias:
+            help_text: Geef een verkorte url als alias op voor deze pagina (optioneel)
+        slug:
+            placeholder: Unieke permalink voor de pagina
+        submit: Opslaan
+        template:
+            help_text: 'Het type content. Als het template nog niet bestaat, <a href="%url%">maak hem hier aan.</a>'
+        title:
+            placeholder: De titel van de pagina
+            help_text: De titel van de pagina wordt in de browser weergegeven in het tabblad en in zoekmachines getoond
+    new:
+        title: Bepaal het soort content
+
+# Dashboard
+dashboard:
+    content:
+        latest: laatst toegevoegde content
+    title: Dashboard
+    user:
+        latest: nieuwste gebruikers
+
+# Directory
+directory:
+    index:
+        title: mappen
+    edit:
+        title: bewerk map
+    parent:
+        label: Bovenliggende map
+        empty: "(Geen bovenliggende map)"
+        help_text: kies een bovenliggende map indien van toepassing
+    name:
+        help_text: de naam voor deze map
+    menu:
+        default:
+            label: standaard
+    submit: map opslaan
+
+# Menu
+menu:
+    edit:
+        title: bewerk menu
+    panel:
+        id: Id
+        name: Naam
+    confirmation:
+        delete:
+            title: "Delete bevestiging"
+            description: "Weet u zeker dat u wilt verwijderen"
+    form:
+        content:
+            empty: geen gerelateerde content
+            help_text: verbind het menu item met een content item
+        name:
+            help_text: De naam die weergegeven wordt
+        link:
+            help_text: Voeg een link aan het menu item toe. Laat leeg wanneer er een gerelateerd content item geselecteerd is
+        parent:
+            help_text: Plaats dit item onder een andere menu-item of laat leeg voor het bovenste niveau
+        sort:
+            help_text: Geeft de positie aan van dit item op het huidige niveau
+    group:
+        add: nieuwe menu groep
+        type: Menu groep
+    index:
+        title: menus
+    item:
+        add: nieuw menu item
+        type: Menu item
+
+# Navigation
+nav:
+    dashboard: dashboard
+    content: Content
+    directory: Mappen
+    media: Media
+    menu: Navigatie
+    sitemenu: menus
+    edit:
+        title: bewerk menu
+    index:
+        title: navigatie
+    group:
+        add: menu toevoegen
+    item:
+        add: menu item toevoegen
+    form:
+        parent:
+            help_text: Kies een parent menu item indien van toepassing
+        name:
+            help_text: De naam van het menu
+        content:
+            empty: (leeg)
+            help_text: Link het menu item naar dit content item
+        link:
+            help_text: Link het menu item naar een harde link
+
+# Profile
+profile:
+    edit:
+        title: bewerk uw persoonlijke informatie
+    show:
+        title: Uw persoonlijke informatie
+
+# Security
+security:
+    login:
+        title: inloggen
+        email: "Email:"
+        username: "Gebruikersnaam:"
+        password: "Wachtwoord:"
+        remember_me: Blijf ingelogd
+        submit: Inloggen
+
+# Settings
+setting:
+    index:
+        title: instellingen
+    edit:
+        success: 'De instellingen zijn opgeslagen! Om deze door te voeren moet de cache <a href="%url%">geleegd</a> worden.'
+
+# Sites
+site:
+    new: site toevoegen
+
+# Users
+user:
+    edit:
+        success: %username% is bijgewerkt!
+    new:
+        success: '%username% is succesvol aangemaakt onder ID "%id%"'
+
+# Form field labels
+form:
+    current_password: Huidige wachtwoord
+    name: Naam
+    description: Beschrijving
+    email: Email
+    new_password: Nieuw wachtwoord
+    new_password_confirmation: Verifieer nieuw wachtwoord
+    parent: Bovenliggende
+    password: Wachtwoord
+    password_confirmation: Verifieer wachtwoord
+    permalink: pagina url
+    presentation: presentatie
+    slug:
+        label: "URL-vriendelijke naam"
+        help_text: "gebruik alleen letters en getallen, geen spaties toegestaan. a-z0-9_-"
+    title: Titel
+    username: gebruikersnaam
+
+# Buttons
+button:
+    add: nieuwe toevoegen
+    all: toon alles
+    cancel: annuleren
+    delete: verwijderen
+    edit: bewerken
+
+#Delete confirmation
+confirmation:
+    delete:
+        title: "Verwijder bevestiging"
+        description: "Weet u zeker dat u wilt verwijderen"

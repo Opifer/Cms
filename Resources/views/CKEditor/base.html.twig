@@ -1,0 +1,20 @@
+{% extends 'OpiferCmsBundle::base.html.twig' %}
+{% set hide_nav = true %}
+
+{% block body %}
+    {% if app.request.get('type') == 'link' %}
+        <header class="mainnav">
+            <nav class="navbar navbar-inverse navbar-static-top" role="navigation">
+                <div class="container-fluid">
+                    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                        <ul class="nav navbar-nav">
+                            <li><a href="{{ path('opifer_ckeditor_content', {'CKEditorFuncNum' : funcNum, 'CKEditor': CKEditor, 'type': type}) }}">{{ "nav.content"|trans|capitalize }}</a></li>
+                            <li><a href="{{ path('opifer_ckeditor_media', {'CKEditorFuncNum' : funcNum, 'CKEditor': CKEditor, 'type': type}) }}">{{ "nav.media"|trans|capitalize }}</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+        </header>
+    {% endif %}
+    {% block selector %}{% endblock selector %}
+{% endblock body %}

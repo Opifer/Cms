@@ -1,0 +1,108 @@
+
+/* Nested content */
+.nested-content-wrapper {
+    .nested-content-item {
+        border: 1px solid #d4d4d4;
+        background: white;
+        box-shadow: 0 1px 1px rgba(0,0,0,.05);
+        border-radius: 3px;
+        margin-bottom: @padding-large-vertical;
+        padding-top: @padding-large-vertical;
+        padding-bottom: @padding-large-vertical;
+        position: relative;
+        .clearfix;
+    }
+
+    header {
+        .clearfix;
+        margin-bottom: 0;
+        cursor: pointer;
+
+        .title {
+            .make-md-column(5);
+
+            .content-cover,
+            .cell-icon,
+            .cell-cover,
+            .cell-file {
+                float: left;
+                margin-right: 1em;
+            }
+
+            h3 {
+                float: left;
+                margin: 0;
+                font-family: @font-family-base;
+                line-height: @line-height-base;
+                font-size: @font-size-base;
+                .form-control-static;
+            }
+        }
+
+        &:hover {
+            .content-cover {
+                position: relative;
+                overflow: hidden;
+
+                &:before {
+                    .fa('\f141');
+                    padding-top: 20%;
+                    font-size: @font-size-large;
+                    text-align: center;
+                    position: absolute;
+                    background: rgba(0,0,0,.4);
+                    color: white;
+                    width: 100%;
+                    height: 100%;
+
+                }
+            }
+        }
+
+        .template {
+            color: @gray-light;
+            .make-md-column(3);
+        }
+
+        .form-control-static {
+            padding-top: @padding-large-vertical;
+            padding-bottom: @padding-large-vertical;
+        }
+    }
+
+    .select-template {
+        background: white !important;
+        border: 1px solid #ccc;
+    }
+
+    .control-label {
+        .make-lg-column(2);
+    }
+    .col-widget-input {
+        .make-lg-column(10);
+    }
+
+    .btn-group {
+        padding-top: @padding-base-vertical;
+    }
+
+    .ui-sortable-placeholder {
+        background: #eee;
+        border-color: #eee;
+        box-shadow: none;
+        visibility: visible !important;
+    }
+}
+
+.form-nested-content {
+    .make-xs-column(12);
+    margin-top: 10px;
+}
+
+.form-group-nested-content {
+    background: #f6f6f6;
+    border-top: 1px solid @gray-lighter;
+    border-bottom: 1px solid @gray-lighter;
+    padding-top: @padding-large-vertical*2;
+    padding-bottom: @padding-large-vertical*2;
+}

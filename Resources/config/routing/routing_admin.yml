@@ -1,0 +1,46 @@
+
+opifer.cms.dashboard:
+    resource: "@OpiferCmsBundle/Controller/DashboardController.php"
+    type:     annotation
+
+opifer.cms.menu:
+    resource: "@OpiferCmsBundle/Controller/MenuController.php"
+    type:     annotation
+
+opifer.cms.setting:
+    resource: "@OpiferCmsBundle/Controller/SettingController.php"
+    type:     annotation
+
+opifer.cms.command:
+    resource: "@OpiferCmsBundle/Controller/CommandController.php"
+    type:     annotation
+
+opifer.cms.user:
+    resource: "@OpiferCmsBundle/Controller/UserController.php"
+    type:     annotation
+
+opifer_ckeditor_content:
+    path: /ckeditor/content
+    defaults: { _controller: OpiferCmsBundle:CKEditor:content }
+    options:
+        expose: true
+
+opifer_ckeditor_media:
+    path: /ckeditor/media
+    defaults: { _controller: OpiferCmsBundle:CKEditor:media }
+    options:
+        expose: true
+
+# Users
+fos_user_security_login:
+    pattern:  /login
+    defaults: { _controller: FOSUserBundle:Security:login }
+
+fos_user_group:
+    resource: "@FOSUserBundle/Resources/config/routing/group.xml"
+    prefix:   /group
+
+# Place all routes above the crud routing, to allow easy overriding
+opifer_crud:
+    resource: "@OpiferCrudBundle/Resources/config/routing.yml"
+    prefix:   /

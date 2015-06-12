@@ -1,0 +1,103 @@
+.mainnav {
+    .clearfix;
+}
+
+.navbar {
+    margin-bottom: 0;
+
+    .whitelabel-switch-form {
+        margin: 10px 0;
+    }
+}
+
+.nav-tabs {
+    > li > a {
+        color: white;
+    }
+}
+
+
+nav {
+    background-color: transparent;
+}
+
+.navbar-inverse {
+    background-color: rgba(0, 0, 0, .7);
+    border-color: rgba(0, 0, 0, .7);
+    border-bottom: 0;
+}
+
+.navbar {
+    .navbar-nav {
+        > li {
+            > a,
+            > span {
+                font-family: @headings-font-family;
+                color: white;
+                font-size: 14px;
+
+                &:hover {
+                    color: #fff;
+                }
+            }
+
+            .fa {
+                display: block;
+                text-align: center;
+                font-size: @font-size-large;
+                padding-bottom: 4px;
+                font-weight: 100;
+            }
+
+            .fa-angle-down {
+                font-size: @font-size-small;
+                display: inline-block;
+                padding: 0;
+            }
+        }
+    }
+}
+
+
+.nav-pills {
+    border: 1px solid @gray-lighter;
+    border-radius: @border-radius-base;
+    background-color: @gray-lighter;
+
+    a {
+        color: @gray-light;
+        padding: @padding-base-vertical @padding-base-horizontal !important;
+    }
+    li + li {
+        margin-left: 0;
+    }
+    > li.active > a,
+    > li > a:hover,
+    > li.active > a:focus {
+        .btn-default;
+        background: white !important;
+        color: @gray-darker;
+    }
+}
+
+.nav-tabs {
+    height: 30px;
+}
+
+.nav-tabs > li > a {
+    padding: 5px 10px;
+    color: @text-color;
+}
+
+.nav-tabs > li.active > a,
+.nav-tabs > li.active > a:hover,
+.nav-tabs > li.active > a:focus {
+    font-weight: bold;
+}
+
+.page-tabs {
+    margin-top: 20px;
+    li.first {
+        margin-left: 20px;
+    }
+}

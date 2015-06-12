@@ -1,0 +1,36 @@
+security:
+    encoders:
+        FOS\UserBundle\Model\UserInterface: sha512
+
+    role_hierarchy:
+        ROLE_SOCIAL:      ROLE_USER
+        ROLE_ADMIN:       ROLE_USER
+        ROLE_SUPER_ADMIN: ROLE_ADMIN
+
+    providers:
+        chain_provider:
+            chain:
+                providers: [fos_userbundle]
+        fos_userbundle:
+            # Log in with either username or email
+            id: fos_user.user_provider.username_email
+
+    firewalls:
+        main:
+            entry_point: opifer.cms.security.loginentrypoint
+            pattern: ^/
+            form_login:
+                provider:      fos_userbundle
+                csrf_provider: form.csrf_provider
+            logout:    true
+            anonymous: true
+
+    access_control:
+        - { path: ^/login$, role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/register, role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/resetting, role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/admin/login$, role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/admin/, role: ROLE_ADMIN }
+
+    acl:
+        connection: default

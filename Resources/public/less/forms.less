@@ -1,0 +1,166 @@
+
+.form-group {
+    /*margin-bottom: @padding-large-vertical;*/
+
+    ul.help-block {
+        margin-left: 0;
+        padding-left: 0;
+        list-style: none;
+    }
+
+//    .col-widget-input {
+//        .make-lg-column(10);
+//    }
+}
+
+
+.search-group {
+    .form-control {
+        border: 0;
+        background: @gray-lighter;
+        color: @gray-darker;
+        border-top-left-radius: 3px;
+        border-bottom-left-radius: 3px;
+
+        &::-webkit-input-placeholder {
+            color: @gray-light;
+        }
+    }
+    .input-group-btn,
+    .input-group-addon {
+        border: 0;
+        background: @gray-lighter;
+        color: @gray;
+        border-top-right-radius: 3px;
+        border-bottom-right-radius: 3px;
+
+        .btn {
+          border: 0;
+          background: none;
+          color: @gray;
+        }
+    }
+
+}
+
+.faux-label {
+    .form-control;
+    background: #eee;
+    border-color: rgba(0,0,0,0);
+}
+
+.has-error {
+    .form-control {
+        box-shadow: none;
+    }
+}
+
+.form-horizontal .radio, .form-horizontal .checkbox {
+    min-height: 24px;
+}
+
+.help-block {
+    color: @gray-light;
+    font-size: 12px;
+    margin-top: 2px;
+    margin-bottom: 5px;
+}
+
+.bc-collection {
+    margin-bottom: 0;
+
+    > li > .row {
+        margin-bottom: @padding-large-vertical;
+    }
+}
+
+
+#form_valueset_values {
+
+    .col-lg-10 .col-lg-10 {
+        .make-lg-column(12);
+    }
+
+    textarea.form-control {
+        min-height: 120px;
+    }
+}
+
+.angular-form {
+    margin-top: 30px;
+}
+// Necessary for Angular google-map directive to show
+.angular-google-map-container {
+    height: 400px;
+}
+
+.cke_chrome {
+    box-shadow: none !important;
+    border-color: @input-border !important;
+}
+
+
+select.form-control {
+  background: @gray-lighter;
+  border: 0;
+}
+
+.form-control {
+  border-radius: 0;
+  box-shadow: none;
+  color: black;
+
+  &.textbody-md {
+    height: 100px;
+  }
+
+  &.textbody-lg {
+    height: 220px;
+  }
+
+  &:focus {
+    box-shadow: none !important;
+  }
+}
+
+.control-label {
+    font-weight: 500;
+}
+
+.has-success {
+  .form-control-validation(@state-success-bg; @state-success-bg; @state-success-text);
+}
+.has-warning {
+  .form-control-validation(@state-warning-bg; @state-warning-bg; @state-warning-text);
+}
+.has-error {
+  .form-control-validation(@state-danger-bg; @state-danger-bg; @state-danger-text);
+}
+
+.wysiwyg-editor {
+    .preview {
+        &:extend(.form-control);
+        color: @gray;
+        min-height: 300px;
+        cursor: text;
+        position: relative;
+        overflow: hidden;
+
+        &:hover {
+            color: @text-color;
+        }
+
+        &:before {
+            .fa(@fa-var-paperclip);
+            position: absolute;
+            top: @padding-base-vertical;
+            right: @padding-base-horizontal;
+            font-size: @font-size-large;
+            color: @gray-light;
+        }
+
+        * {
+            font-family: Arial !important;
+        }
+    }
+}

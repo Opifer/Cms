@@ -1,0 +1,22 @@
+{% extends "OpiferCmsBundle::base.html.twig" %}
+
+{% block body %}
+    <div class="page-header clearfix">
+        <h1 class="pull-left">{{ 'profile.show.title'|trans|capitalize }}</h1>
+    </div>
+
+    <section class="page-section">
+        <table class="table table-striped">
+            <tbody>
+                <tr>
+                    <td>{{ 'form.username'|trans|choice }}</td>
+                    <td>{{ user.username }}</td>
+                </tr>
+                <tr>
+                    <td>{{ 'form.email'|trans|choice }}</td>
+                    <td>{{ user.email }}</td>
+                </tr>
+            </tbody>
+        </table>
+    </section>
+{% endblock %}

@@ -1,0 +1,32 @@
+framework:
+    router:
+        resource: "%kernel.root_dir%/config/routing_dev.yml"
+        strict_requirements: true
+    profiler: { only_exceptions: false }
+
+web_profiler:
+    toolbar: true
+    intercept_redirects: false
+
+monolog:
+    handlers:
+        main:
+            type:  stream
+            path:  %kernel.logs_dir%/%kernel.environment%.log
+            level: debug
+        # doctrine: # currently disabled.
+        #     type: service
+        #     id: opifer.cms.logging.doctrine_handler
+        #     level: info
+        firephp:
+            type:  firephp
+            level: info
+        chromephp:
+            type:  chromephp
+            level: info
+
+assetic:
+    use_controller: false
+
+#swiftmailer:
+#    delivery_address: me@example.com

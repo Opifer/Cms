@@ -1,0 +1,65 @@
+{
+    "name": "opifer/cms-bundle",
+    "type": "symfony-bundle",
+    "description": "Opifer CMS",
+    "authors": [
+        {
+            "name": "Opifer",
+            "homepage": "http://www.opifer.nl/"
+        }
+    ],
+    "require": {
+        "php": ">=5.4",
+        "symfony/symfony": "~2.7",
+        "doctrine/orm": "~2.2,>=2.2.3",
+        "doctrine/doctrine-bundle": "~1.2",
+        "twig/extensions": "~1.2",
+        "symfony/swiftmailer-bundle": "~2.3",
+        "symfony/monolog-bundle": "~2.7",
+        "sensio/distribution-bundle": "~3.0",
+        "sensio/framework-extra-bundle": "~3.0",
+        "incenteev/composer-parameter-handler": "~2.0",
+
+        "opifer/content-bundle": "~0.1",
+        "opifer/crud-bundle": "~0.1",
+        "opifer/eav-bundle": "~0.1",
+        "opifer/media-bundle": "~0.1",
+        "opifer/redirect-bundle": "~0.1",
+        "opifer/rulesengine-bundle": "~0.1",
+        "opifer/rulesengine": "~0.1",
+
+        "aws/aws-sdk-php": "2.5.*",
+        "braincrafted/bootstrap-bundle": "2.1.0",
+        "doctrine/doctrine-migrations-bundle": "~1.0",
+        "doctrine/migrations": "~1.0@dev",
+        "egeloen/google-map": "~1.4.1",
+        "egeloen/google-map-bundle": "~2.2.1",
+        "friendsofsymfony/advanced-encoder-bundle": "~1.0",
+        "friendsofsymfony/elastica-bundle": "~3.0.5",
+        "friendsofsymfony/jsrouting-bundle": "~1.5",
+        "friendsofsymfony/user-bundle": "~2.0@dev",
+        "gedmo/doctrine-extensions": "~2.3",
+        "hwi/oauth-bundle": "~0.3",
+        "infinite-networks/form-bundle": "@dev",
+        "jms/serializer-bundle": "~0.13",
+        "knplabs/knp-menu-bundle":"~2.0",
+        "knplabs/knp-markdown-bundle": "~1.3",
+        "mtdowling/cron-expression": "1.0.*",
+        "pagerfanta/pagerfanta": "~1.0.3",
+        "presta/sitemap-bundle": "~1.3",
+        "symfony-cmf/routing-bundle": "~1.2",
+        "willdurand/geocoder": "~2.8",
+        "willdurand/js-translation-bundle": "~2.2"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "~4.2",
+        "symfony/phpunit-bridge": "~2.7",
+        "sensio/generator-bundle": "~2.3",
+        "doctrine/doctrine-fixtures-bundle": "@dev",
+        "fzaninotto/faker": "~1.4",
+        "mockery/mockery": "~0.9"
+    },
+    "autoload": {
+        "psr-4": {"Opifer\\CmsBundle\\": "."}
+    }
+}
