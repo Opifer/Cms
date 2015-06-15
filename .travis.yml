@@ -8,9 +8,9 @@ php:
 env:
   - SYMFONY_DEPRECATIONS_HELPER=weak
 
-before_install: composer selfupdate
-
-install: composer update --prefer-dist --no-interaction
+before_script:
+  - composer selfupdate
+  - composer install -n
 
 script: phpunit --coverage-text
 
