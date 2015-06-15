@@ -51,83 +51,18 @@ opifer_media:
     resource: "@OpiferMediaBundle/Resources/config/routing.yml"
     prefix:   /admin
 
-##### SITEBUNDLE ######
-#opifer.site.home:
-#    pattern:  /
-#    defaults: { _controller: OpiferSiteBundle:Page:home }
-#    options: {sitemap: true}
+opifer_cms_home:
+    pattern:  /
+    defaults: { _controller: OpiferCmsBundle:Front/Page:home }
+    options: {sitemap: true}
 
-#opifer.site.profile:
-#    resource: "@OpiferSiteBundle/Controller/ProfileController.php"
-#    type:     annotation
+opifer_cms_login:
+    pattern:  /login
+    defaults: { _controller: FOSUserBundle:Security:login }
 
 opifer_cms_exception:
     resource: "@OpiferCmsBundle/Controller/Front/ExceptionController.php"
     type:     annotation
-
-#opifer.site.change_password:
-#    pattern:  /profile/change-password
-#    defaults: { _controller: FOSUserBundle:ChangePassword:changePassword }
-#    methods:  [GET,POST]
-#
-#opifer.site.content:
-#    resource: "@OpiferSiteBundle/Controller/ContentController.php"
-#    type:     annotation
-
-# Authentication
-#opifer.site.login:
-#    pattern:  /login
-#    defaults: { _controller: FOSUserBundle:Security:login }
-
-#opifer.site.register:
-#    pattern:  /register
-#    defaults: { _controller: OpiferSiteBundle:Authentication:authenticate }
-#    options: { sitemap: true }
-#
-#opifer.site.security.login:
-#    pattern:  /authenticate/login
-#    defaults: { _controller: OpiferSiteBundle:Security:login }
-#
-#opifer.site.registration.register:
-#    pattern:  /authenticate/register
-#    defaults: { _controller: OpiferSiteBundle:Registration:register }
-#
-#opifer.site.registration.check_mail:
-#    pattern:  /register/check-email
-#    defaults: { _controller: OpiferSiteBundle:Registration:checkEmail }
-#    methods:  [GET]
-#
-#opifer.site.registration.confirm:
-#    pattern:  /register/confirm/{token}
-#    defaults: { _controller: OpiferSiteBundle:Registration:confirm }
-#    methods:  [GET]
-#
-#opifer.site.registration.confirmed:
-#    pattern:  /register/confirmed
-#    defaults: { _controller: OpiferSiteBundle:Registration:confirmed }
-#    methods:  [GET]
-
-# Resetting
-
-#opifer.site.resetting.request:
-#    pattern:  /password/reset
-#    defaults: { _controller: OpiferSiteBundle:Resetting:request }
-#    methods:  [GET]
-#
-#opifer.site.resetting.send_email:
-#    pattern:  /password/reset/send-email
-#    defaults: { _controller: OpiferSiteBundle:Resetting:sendEmail }
-#    methods:  [POST]
-#
-#opifer.site.resetting.check_email:
-#    pattern:  /password/reset/check-email
-#    defaults: { _controller: OpiferSiteBundle:Resetting:checkEmail }
-#    methods:  [GET]
-#
-#opifer.site.resetting.reset:
-#    pattern:  /password/reset/reset/{token}
-#    defaults: { _controller: OpiferSiteBundle:Resetting:reset }
-#    methods:  [GET,POST]
 
 PrestaSitemapBundle:
     resource: "@PrestaSitemapBundle/Resources/config/routing.yml"
@@ -139,41 +74,10 @@ fos_user_register:
     resource: "@FOSUserBundle/Resources/config/routing/registration.xml"
     prefix:   /register
 
-#fos_user_resetting_request:
-#    pattern:  /password/reset
-#    defaults: { _controller: OpiferSiteBundle:Resetting:request }
-#    methods:  [GET]
-#
-#fos_user_resetting_send_email:
-#    pattern:  /password/reset/send-email
-#    defaults: { _controller: OpiferSiteBundle:Resetting:sendEmail }
-#    methods:  [POST]
-#
-#fos_user_resetting_check_email:
-#    pattern:  /password/reset/check-email
-#    defaults: { _controller: OpiferSiteBundle:Resetting:checkEmail }
-#    methods:  [GET]
-#
-#fos_user_resetting_reset:
-#    pattern:  /password/reset/reset/{token}
-#    defaults: { _controller: OpiferSiteBundle:Resetting:reset }
-#    methods:  [GET,POST]
-#
-#fos_user_profile_show:
-#    pattern:  /profile
-#    defaults: { _controller: OpiferSiteBundle:Profile:edit }
-#    methods:  [GET]
-#
-#fos_user_profile_edit:
-#    pattern:  /profile
-#    defaults: { _controller: OpiferSiteBundle:Profile:edit }
-
 fos_user_change_password:
     pattern:  /change-password
     defaults: { _controller: FOSUserBundle:ChangePassword:changePassword }
     methods:  [GET,POST]
-
-##### END SITEBUNDLE ######
 
 _opifer_admin:
     resource: "routing_admin.yml"
