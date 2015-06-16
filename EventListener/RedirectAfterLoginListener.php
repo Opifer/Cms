@@ -60,7 +60,7 @@ class RedirectAfterLoginListener
         if ($this->security->isGranted('ROLE_ADMIN') && strpos($referer, 'admin') !== false) {
             $response = new RedirectResponse($this->router->generate('opifer.cms.dashboard.view'));
         } else {
-            $response = new RedirectResponse($this->router->generate('opifer.site.home'));
+            $response = new RedirectResponse($this->router->generate('opifer_cms_home'));
         }
 
         $event->setResponse($response);

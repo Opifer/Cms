@@ -123,14 +123,6 @@ fos_user:
             name:              public_registration
             validation_groups: []
 
-
-# Password encoding
-fos_advanced_encoder:
-    encoders:
-        default: sha512
-        legacy:
-            id: opifer.cms.security.legacy_password_encoder
-
 fos_js_routing:
     cache_control:
         # All are optional, defaults shown
@@ -188,7 +180,7 @@ twig:
             - 'OpiferCrudBundle:Form:fields.html.twig'
             - 'OpiferCmsBundle:Form:fields.html.twig' # At the bottom to make sure form action are being set to '#' when empty
     globals:
-        settings: @opifer.cms.settingconfiguration
+        settings: @opifer.cms.settings
 
 # Crud config
 opifer_crud:

@@ -17,7 +17,6 @@ security:
 
     firewalls:
         main:
-            entry_point: opifer.cms.security.loginentrypoint
             pattern: ^/
             form_login:
                 provider:      fos_userbundle

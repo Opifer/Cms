@@ -19,10 +19,10 @@ parameters:
     opifer.cms.menu_group_value_provider.class: Opifer\CmsBundle\ValueProvider\MenuGroupValueProvider
     opifer.cms.menu_manager.class: Opifer\CmsBundle\Manager\MenuManager
     opifer.cms.setting_manager.class: Opifer\CmsBundle\Manager\SettingManager
-    opifer.cms.settings.class: Opifer\CmsBundle\DependencyInjection\Settings
+    opifer.cms.settings.class: Opifer\CmsBundle\DependencyInjection\DynamicConfiguration
     opifer.cms.sitemap_listener.class: Opifer\CmsBundle\EventListener\SitemapListener
     opifer.cms.slug_form_type.class: Opifer\CmsBundle\Form\Type\SlugType
-    opifer.cms.tableprefix_listener.class: Opifer\CmsBundle\EventListener\TablePrefixListener
+    opifer.cms.tableprefix_listener.class: Opifer\CmsBundle\EventListener\TablePrefixSubscriber
     opifer.cms.user_form.class: Opifer\CmsBundle\Form\UserForm
     twig.extension.intl.class: Twig_Extensions_Extension_Intl
 

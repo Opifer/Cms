@@ -70,6 +70,36 @@ class ContentRepository extends BaseContentRepository
     }
 
     /**
+     * Search content by term including nested
+     *
+     * @param  string $term
+     *
+     * @return ArrayCollection
+     */
+    public function searchNested($term)
+    {
+        $qb = $this->_em->createQueryBuilder();
+
+        return $this->createValuedQueryBuilder('c')
+            ->leftJoin('c.directory', 'd')
+            ->where($qb->expr()->orX(
+                $qb->expr()->like('c.title', ':term'),
+                $qb->expr()->like('c.description', ':term'),
+                $qb->expr()->like('v.value', ':term'),
+                $qb->expr()->like('v.value', ':term_entities')
+            ))
+            ->andWhere('c.active = :active')
+            ->andWhere('c.searchable = :searchable OR c.nestedIn IS NOT NULL')
+            ->andWhere('d.searchable = :searchable OR c.directory IS NULL')
+            ->setParameter('term', '%'.$term.'%')
+            ->setParameter('term_entities', '%'.htmlentities($term).'%')
+            ->setParameter('active', 1)
+            ->setParameter('searchable', 1)
+            ->getQuery()
+            ->getResult();
+    }
+
+    /**
      * Get a querybuilder by request
      *
      * @param Request $request
