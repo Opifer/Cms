@@ -126,17 +126,20 @@ class ContentManager implements ContentManagerInterface
         return $this->getRepository()->findActiveByAlias($alias);
     }
 
+
     /**
      * Handle the nested content forms
      *
-     * @param ContentInterface $content
-     * @param Request $request
+     * @param Request          $request
      *
-     * @throws \Exception
+     * @param ContentInterface $content
+     * @param string           $parentKey
+     *
+     * @throws NestedContentFormException
      */
-    public function handleNestedContentForm(Request $request, ContentInterface $content)
+    public function handleNestedContentForm(Request $request, ContentInterface $content, $parentKey = 'opifer_content')
     {
-        $this->recursiveContentMapper($request, $content);
+        $this->recursiveContentMapper($request, $content, 1, $parentKey);
     }
 
     /**
