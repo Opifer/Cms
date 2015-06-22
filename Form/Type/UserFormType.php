@@ -1,12 +1,12 @@
 <?php
 
-namespace Opifer\CmsBundle\Form;
+namespace Opifer\CmsBundle\Form\Type;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
-class UserForm extends AbstractType
+class UserFormType extends AbstractType
 {
     /** @var array */
     protected $roles;

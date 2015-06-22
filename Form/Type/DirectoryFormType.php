@@ -1,12 +1,12 @@
 <?php
 
-namespace Opifer\CmsBundle\Form;
+namespace Opifer\CmsBundle\Form\Type;
 
 use Symfony\Bundle\FrameworkBundle\Translation\Translator;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 
-class DirectoryForm extends AbstractType
+class DirectoryFormType extends AbstractType
 {
     /**
      * @var  Symfony\Bundle\FrameworkBundle\Translation\Translator

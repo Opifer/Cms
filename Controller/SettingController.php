@@ -5,7 +5,7 @@ namespace Opifer\CmsBundle\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
-use Opifer\CmsBundle\Form\SettingForm;
+use Opifer\CmsBundle\Form\Type\SettingFormType;
 
 class SettingController extends Controller
 {
@@ -21,7 +21,7 @@ class SettingController extends Controller
         $em = $this->getDoctrine()->getManager();
         $settings = $em->getRepository('OpiferCmsBundle:Setting')->findAll();
 
-        $form = $this->createForm(new SettingForm(), $settings);
+        $form = $this->createForm(new SettingFormType(), $settings);
         $form->handleRequest($request);
 
         if ($form->isValid()) {
