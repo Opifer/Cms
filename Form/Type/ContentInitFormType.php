@@ -1,13 +1,13 @@
 <?php
 
-namespace Opifer\CmsBundle\Form;
+namespace Opifer\CmsBundle\Form\Type;
 
 use Symfony\Component\Translation\LoggingTranslator;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Routing\RouterInterface;
 
-class ContentInitForm extends AbstractType
+class ContentInitFormType extends AbstractType
 {
     /** @var  Symfony\Bundle\FrameworkBundle\Translation\Translator */
     protected $translator;

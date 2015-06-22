@@ -42,13 +42,6 @@ class Content extends BaseContent
     protected $searchable = 1;
 
     /**
-     * @var boolean
-     *
-     * @ORM\Column(name="reviewable", type="boolean", options={"default"=1})
-     */
-    protected $reviewable = 1;
-
-    /**
      * @var string
      *
      * @JMS\Expose
@@ -224,38 +217,6 @@ class Content extends BaseContent
     }
 
     /**
-     * Set reviewable
-     *
-     * @param boolean $reviewable
-     *
-     * @return Content
-     */
-    public function setReviewable($reviewable)
-    {
-        $this->reviewable = $reviewable;
-
-        return $this;
-    }
-
-    /**
-     * Get reviewable
-     *
-     * @return boolean
-     */
-    public function getReviewable()
-    {
-        return $this->reviewable;
-    }
-
-    /**
-     * Checks if the content is reviewable
-     */
-    public function isReviewable()
-    {
-        return ($this->reviewable) ? true : false;
-    }
-
-    /**
      * @todo clean this mess up
      *
      * Finds first available image for listing purposes
@@ -302,17 +263,6 @@ class Content extends BaseContent
         $array = [];
         foreach ($this->getValueSet()->getValues() as $value) {
             switch (get_class($value)) {
-                case 'Opifer\EavBundle\Entity\AddressValue':
-                    $array[$value->getAttribute()->getName()] = [
-                        'street' => $value->getAddress()->getStreet(),
-                        'city' => $value->getAddress()->getCity(),
-                        'country' => $value->getAddress()->getCountry(),
-                        'location' => [
-                            'lat' => floatval($value->getAddress()->getLat()),
-                            'lon' => floatval($value->getAddress()->getLng()),
-                        ],
-                    ];
-                    break;
                 case 'Opifer\EavBundle\Entity\CheckListValue':
                     $array[$value->getAttribute()->getName()] = array();
                     foreach ($value->getOptions() as $option) {
@@ -340,38 +290,14 @@ class Content extends BaseContent
     }
 
     /**
-     * @todo clean this mess up
-     *
-     * Gets the attributes and places them in an (by Twig) easily accessible array
-     * @JMS\VirtualProperty
-     * @JMS\SerializedName("location")
-     * @JMS\Groups({"detail", "geo"})
-     *
-     * @return array
-     */
-    public function getLocation()
-    {
-        $array = [];
-        foreach ($this->getValueSet()->getValues() as $value) {
-            switch (get_class($value)) {
-                case 'Opifer\EavBundle\Entity\AddressValue':
-                    $array = ['lat' => floatval($value->getAddress()->getLat()), 'lon' => floatval($value->getAddress()->getLng())];
-                    break;
-            }
-        }
-
-        return $array;
-    }
-
-    /**
      * Set defaults for nested content
      *
      * @return Content
      */
     public function setNestedDefaults()
     {
-        $this->reviewable = false;
         $this->searchable = false;
+        $this->indexable = false;
 
         return $this;
     }

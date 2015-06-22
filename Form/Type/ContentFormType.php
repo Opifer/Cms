@@ -1,6 +1,6 @@
 <?php
 
-namespace Opifer\CmsBundle\Form;
+namespace Opifer\CmsBundle\Form\Type;
 
 use Symfony\Component\Translation\TranslatorInterface;
 use Symfony\Component\Form\AbstractType;
@@ -8,7 +8,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 use Opifer\EavBundle\Form\Type\ValueSetType;
 
-class ContentForm extends AbstractType
+class ContentFormType extends AbstractType
 {
     /**
      * @var  Symfony\Bundle\FrameworkBundle\Translation\Translator
