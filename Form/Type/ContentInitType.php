@@ -3,7 +3,6 @@
 namespace Opifer\ContentBundle\Form\Type;
 
 use Doctrine\ORM\EntityRepository;
-
 use Symfony\Component\Translation\TranslatorInterface;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -14,7 +13,7 @@ class ContentInitType extends AbstractType
     /** @var  TranslatorInterface */
     protected $translator;
 
-    /** @var \Symfony\Component\Routing\RouterInterface */
+    /** @var RouterInterface */
     protected $router;
 
     /** @var string */

@@ -148,7 +148,7 @@ class Content implements ContentInterface, EntityInterface, Nestable
     /**
      * Created at
      *
-     * @var datetime
+     * @var \DateTime
      *
      * @JMS\Expose
      * @JMS\Groups({"detail", "list"})
@@ -160,7 +160,7 @@ class Content implements ContentInterface, EntityInterface, Nestable
     /**
      * Updated at
      *
-     * @var datetime
+     * @var \DateTime
      *
      * @JMS\Expose
      * @JMS\Groups({"detail", "list"})
@@ -282,8 +282,8 @@ class Content implements ContentInterface, EntityInterface, Nestable
     {
         $slug = $this->slug;
 
-        if(substr($slug, -6) == '/index') {
-            $slug = rtrim($slug, "index");
+        if (substr($slug, -6) == '/index') {
+            $slug = rtrim($slug, 'index');
         }
 
         return $slug;
@@ -409,6 +409,8 @@ class Content implements ContentInterface, EntityInterface, Nestable
      * Set nested in
      *
      * @param NestedValue $value
+     *
+     * @return $this
      */
     public function setNestedIn(NestedValue $value)
     {
@@ -441,6 +443,8 @@ class Content implements ContentInterface, EntityInterface, Nestable
      * Set nested in
      *
      * @param integer $value
+     *
+     * @return $this
      */
     public function setNestedSort($sort)
     {
@@ -454,7 +458,7 @@ class Content implements ContentInterface, EntityInterface, Nestable
      *
      * @param  \DateTime $date
      *
-     * @return Content
+     * @return $this
      */
     public function setCreatedAt(\DateTime $date)
     {
@@ -466,7 +470,7 @@ class Content implements ContentInterface, EntityInterface, Nestable
     /**
      * Get created at
      *
-     * @return datetime
+     * @return \DateTime
      */
     public function getCreatedAt()
     {
@@ -476,7 +480,7 @@ class Content implements ContentInterface, EntityInterface, Nestable
     /**
      * Get updated at
      *
-     * @return datetime
+     * @return \DateTime
      */
     public function getUpdatedAt()
     {
@@ -487,7 +491,8 @@ class Content implements ContentInterface, EntityInterface, Nestable
      * Set updated at
      *
      * @param  \DateTime $updatedAt
-     * @return Content
+     *
+     * @return $this
      */
     public function setUpdatedAt($updatedAt)
     {
@@ -500,7 +505,8 @@ class Content implements ContentInterface, EntityInterface, Nestable
      * Set deletedAt
      *
      * @param  \DateTime $deletedAt
-     * @return Content
+     *
+     * @return $this
      */
     public function setDeletedAt($deletedAt)
     {
@@ -524,7 +530,7 @@ class Content implements ContentInterface, EntityInterface, Nestable
      *
      * @param TemplateInterface $template
      *
-     * @return Content
+     * @return $this
      */
     public function setTemplate(TemplateInterface $template = null)
     {
@@ -548,7 +554,7 @@ class Content implements ContentInterface, EntityInterface, Nestable
      *
      * @param string $presentation
      *
-     * @return Template
+     * @return $this
      */
     public function setPresentation($presentation)
     {
@@ -609,13 +615,13 @@ class Content implements ContentInterface, EntityInterface, Nestable
     /**
      * Add attributeValues
      *
-     * @param Value $attributeValues
+     * @param Value $attributeValue
      *
-     * @return Content
+     * @return $this
      */
     public function addAttributeValue(Value $attributeValue)
     {
-        $this->attributeValues[] = $attributeValue;
+        $this->attributeValues->add($attributeValue);
 
         return $this;
     }
@@ -644,6 +650,8 @@ class Content implements ContentInterface, EntityInterface, Nestable
      * Set valueSet
      *
      * @param ValueSetInterface $valueSet
+     *
+     * @return $this
      */
     public function setValueSet(ValueSetInterface $valueSet = null)
     {
@@ -656,6 +664,8 @@ class Content implements ContentInterface, EntityInterface, Nestable
      * Get valueSet
      *
      * @return ValueSetInterface
+     *
+     * @throws \Exception
      */
     public function getValueSet()
     {

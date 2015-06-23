@@ -2,6 +2,7 @@
 
 namespace Opifer\ContentBundle\Form\Type;
 
+use Opifer\ContentBundle\Model\ContentManagerInterface;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 
@@ -13,15 +14,15 @@ use Opifer\ContentBundle\Form\DataTransformer\IdToEntityTransformer;
  */
 class ContentPickerType extends AbstractType
 {
-    /** @var object */
+    /** @var ContentManagerInterface */
     protected $contentManager;
 
     /**
      * Constructor
      *
-     * @param object $contentManager
+     * @param ContentManagerInterface $contentManager
      */
-    public function __construct($contentManager)
+    public function __construct(ContentManagerInterface $contentManager)
     {
         $this->contentManager = $contentManager;
     }
