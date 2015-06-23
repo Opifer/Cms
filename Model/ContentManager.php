@@ -2,6 +2,7 @@
 
 namespace Opifer\ContentBundle\Model;
 
+use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Opifer\ContentBundle\Exception\NestedContentFormException;
 use Symfony\Component\Form\FormFactoryInterface;

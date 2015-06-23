@@ -27,7 +27,7 @@ interface ContentManagerInterface
      *
      * @param  Request $request
      *
-     * @return ArrayCollection
+     * @return \Doctrine\Common\Collections\ArrayCollection
      */
     public function getPaginatedByRequest(Request $request);
 

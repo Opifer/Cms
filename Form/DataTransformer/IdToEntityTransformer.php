@@ -2,23 +2,25 @@
 
 namespace Opifer\ContentBundle\Form\DataTransformer;
 
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
+use Opifer\ContentBundle\Model\ContentManager;
+use Opifer\ContentBundle\Model\ContentManagerInterface;
 use Symfony\Component\Form\DataTransformerInterface;
-use Symfony\Component\Form\Exception\TransformationFailedException;
 
 class IdToEntityTransformer implements DataTransformerInterface
 {
-    protected $entityManager;
+    /**
+     * @var ContentManager
+     */
+    protected $contentManager;
 
     /**
      * Constructor
      *
-     * @param object $entityManager
+     * @param ContentManagerInterface $contentManager
      */
-    public function __construct($entityManager)
+    public function __construct(ContentManagerInterface $contentManager)
     {
-        $this->entityManager = $entityManager;
+        $this->contentManager = $contentManager;
     }
 
     /**
@@ -30,7 +32,7 @@ class IdToEntityTransformer implements DataTransformerInterface
      */
     public function transform($entity)
     {
-        if(is_null($entity)) {
+        if (is_null($entity)) {
             return null;
         }
         
@@ -46,15 +48,12 @@ class IdToEntityTransformer implements DataTransformerInterface
      */
     public function reverseTransform($id)
     {
-        if(null == $id) {
+        if (null == $id) {
             return null;
         }
-        
-        
-        $entity = $this->entityManager->getRepository()->findById($id);
-        
-        if($entity) {
-            return $entity[0];
-        }
+
+        $entity = $this->contentManager->getRepository()->find($id);
+
+        return $entity;
     }
 }
