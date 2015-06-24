@@ -195,7 +195,6 @@ class Cron
             case self::STATE_FINISHED:
             case self::STATE_FAILED:
             case self::STATE_TERMINATED:
-            case self::STATE_INCOMPLETE:
                 $this->endedAt = new \DateTime();
                 break;
 
