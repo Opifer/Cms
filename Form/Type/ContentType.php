@@ -10,7 +10,7 @@ use Doctrine\ORM\EntityRepository;
 
 use Opifer\EavBundle\Form\Type\ValueSetType;
 use Opifer\ContentBundle\Form\DataTransformer\SlugTransformer;
-use Opifer\ContentBundle\Form\DataTransformer\IdToEntityTransformer;
+use Opifer\ContentBundle\Form\DataTransformer\IdToContentTransformer;
 
 class ContentType extends AbstractType
 {

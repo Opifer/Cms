@@ -6,7 +6,7 @@ use Opifer\ContentBundle\Model\ContentManager;
 use Opifer\ContentBundle\Model\ContentManagerInterface;
 use Symfony\Component\Form\DataTransformerInterface;
 
-class IdToEntityTransformer implements DataTransformerInterface
+class IdToContentTransformer implements DataTransformerInterface
 {
     /**
      * @var ContentManager
@@ -35,7 +35,7 @@ class IdToEntityTransformer implements DataTransformerInterface
         if (is_null($entity)) {
             return null;
         }
-        
+
         return $entity->getId();
     }
 

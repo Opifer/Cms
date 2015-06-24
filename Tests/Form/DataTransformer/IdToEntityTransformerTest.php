@@ -3,7 +3,7 @@
 namespace Opifer\ContentBundle\Tests\Model;
 
 use Mockery as m;
-use Opifer\ContentBundle\Form\DataTransformer\IdToEntityTransformer;
+use Opifer\ContentBundle\Form\DataTransformer\IdToContentTransformer;
 use Opifer\ContentBundle\Tests\TestData\Entity;
 
 class IdToEntityTransformerTest extends \PHPUnit_Framework_TestCase
@@ -22,7 +22,7 @@ class IdToEntityTransformerTest extends \PHPUnit_Framework_TestCase
 
     public function testTransform()
     {
-        $transformer = new IdToEntityTransformer($this->contentManager);
+        $transformer = new IdToContentTransformer($this->contentManager);
         $result = $transformer->transform(null);
 
         $this->assertNull($result);
@@ -34,7 +34,7 @@ class IdToEntityTransformerTest extends \PHPUnit_Framework_TestCase
 
     public function testReverseTransform()
     {
-        $transformer = new IdToEntityTransformer($this->contentManager);
+        $transformer = new IdToContentTransformer($this->contentManager);
         $result = $transformer->reverseTransform(null);
 
         $this->assertNull($result);
@@ -42,7 +42,7 @@ class IdToEntityTransformerTest extends \PHPUnit_Framework_TestCase
         $this->contentManager->shouldReceive('getRepository')->andReturn($this->repository);
         $this->repository->shouldReceive('find')->andReturn($this->entity);
 
-        $transformer = new IdToEntityTransformer($this->contentManager);
+        $transformer = new IdToContentTransformer($this->contentManager);
         $result = $transformer->reverseTransform(1234);
 
         $this->assertEquals($this->entity, $result);
