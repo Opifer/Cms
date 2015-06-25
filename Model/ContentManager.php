@@ -245,10 +245,9 @@ class ContentManager implements ContentManagerInterface
     public function save(ContentInterface $content)
     {
         if (!$content->getId()) {
+            $content->setAuthor($this->tokenStorage->getToken()->getUser());
             $this->em->persist($content);
         }
-        
-        $content->setAuthor($this->tokenStorage->getToken()->getUser());
         
         $this->em->flush();
         
