@@ -2,26 +2,27 @@
 
 namespace Opifer\ContentBundle\Form\Type;
 
+use Opifer\ContentBundle\Model\ContentManagerInterface;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 
 use Opifer\ContentBundle\Form\DataTransformer\ArrayKeyTransformer;
-use Opifer\ContentBundle\Form\DataTransformer\IdToEntityTransformer;
+use Opifer\ContentBundle\Form\DataTransformer\IdToContentTransformer;
 
 /**
  * Content picker form type
  */
 class ContentPickerType extends AbstractType
 {
-    /** @var object */
+    /** @var ContentManagerInterface */
     protected $contentManager;
 
     /**
      * Constructor
      *
-     * @param object $contentManager
+     * @param ContentManagerInterface $contentManager
      */
-    public function __construct($contentManager)
+    public function __construct(ContentManagerInterface $contentManager)
     {
         $this->contentManager = $contentManager;
     }
@@ -32,8 +33,8 @@ class ContentPickerType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $transformer = new ArrayKeyTransformer('content_id');
-        $contentTransformer = new IdToEntityTransformer($this->contentManager);
-        
+        $contentTransformer = new IdToContentTransformer($this->contentManager);
+
         $builder->add(
             $builder->create('content_id', 'hidden')
                 ->addModelTransformer($contentTransformer)
