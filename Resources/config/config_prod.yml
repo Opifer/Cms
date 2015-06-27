@@ -14,11 +14,6 @@ monolog:
             type:         fingers_crossed
             action_level: error
             handler:      nested
-# disabled because throws The service definition "opifer.cms.redis_handler" does not exist.
-#        redis:
-#            type:  service
-#            id:    opifer.cms.redis_handler
-#            level: error
         nested:
             type:  stream
             path:  %kernel.logs_dir%/%kernel.environment%.log
