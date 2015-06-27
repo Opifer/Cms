@@ -52,7 +52,7 @@ services:
             - { name: form.type, alias: google_address }
 
     opifer.cms.form.content_init_form:
-        class: %opifer.cms.content_init_form.class%
+        class: %opifer.cms.form.content_init_form.class%
         arguments: [@translator, @router, %opifer_cms.allowed_locales%]
         tags:
             - { name: form.type, alias: admin_content_init_form }
