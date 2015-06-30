@@ -1,17 +1,22 @@
 {% extends 'BraincraftedBootstrapBundle:Form:bootstrap.html.twig' %}
 
 {% block eav_value_row %}
+    {% set col_size = col_size|default(bootstrap_get_col_size()) %}
+    {% set label_col = label_col|default(bootstrap_get_label_col()) %}
+    {% set widget_col = widget_col|default(bootstrap_get_widget_col()) %}
     {% spaceless %}
         <div class="form-group {% if form.vars.attribute.valueType == 'nested' %}form-group-nested-content{% endif %}">
-            <label class="{{ attr.label_class|default('control-label col-lg-2 required') }}">{{ form.vars.label }}</label>
-            <div class="{{ attr.column_class|default('col-lg-10') }}">
+            <label class="col-{{ col_size }}-{{ label_col }}">{{ form.vars.label }}</label>
+
+            <div class="col-{{ col_size }}-{{ widget_col }}">
                 {% for child in form.children %}
                     {{ form_widget(child, {'attr': attr}) }}
                 {% endfor %}
                 {% if form.vars.attribute.valueType == 'nested' %}
                     <section class="nested-content-wrapper">
                         <input name="{{ form.vars.id }}" type="hidden" value="{{ form.vars.value }}">
-                        <nested-content attribute="{{ name }}" attribute-id="{{ form.vars.attribute.id }}" ids="{{ form.vars.value }}"></nested-content>
+                        <nested-content attribute="{{ name }}" attribute-id="{{ form.vars.attribute.id }}"
+                                        ids="{{ form.vars.value }}"></nested-content>
                     </section>
                 {% endif %}
                 {{ block('form_help') }}
@@ -24,38 +29,39 @@
     Valueset Row
 #}
 {% block opifer_valueset_row %}
-{% spaceless %}
-    <section class="form-section">
-        {{ block('form_widget') }}
-    </section>
-{% endspaceless %}
+    {% spaceless %}
+        <section class="form-section">
+            {{ block('form_widget') }}
+        </section>
+    {% endspaceless %}
 {% endblock %}
 
 {#
     Values Collection Row
 #}
 {% block values_collection_row %}
-{% spaceless %}
-    {{ block('form_widget') }}
-{% endspaceless %}
+    {% spaceless %}
+        {{ block('form_widget') }}
+    {% endspaceless %}
 {% endblock %}
 
 {#
     Presentation Editor Widget
 #}
 {% block presentationeditor_widget %}
-{% spaceless %}
-    <presentation-editor formid="{{ id }}" name="{{ full_name }}" value="{{ form.vars.value|replace({"\n": '', ' ': ''})|json_encode() }}"></presentation-editor>
-{% endspaceless %}
+    {% spaceless %}
+        <presentation-editor formid="{{ id }}" name="{{ full_name }}"
+                             value="{{ form.vars.value|replace({"\n": '', ' ': ''})|json_encode() }}"></presentation-editor>
+    {% endspaceless %}
 {% endblock %}
 
 {#
     EAV Faux Widget
 #}
 {% block eav_faux_widget %}
-{% spaceless %}
-    <input type="text" value="{{ form.vars.value }}" disabled="disabled" class="form-control" />
-{% endspaceless %}
+    {% spaceless %}
+        <input type="text" value="{{ form.vars.value }}" disabled="disabled" class="form-control"/>
+    {% endspaceless %}
 {% endblock %}
 
 {#
