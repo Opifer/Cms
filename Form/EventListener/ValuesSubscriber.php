@@ -38,12 +38,25 @@ class ValuesSubscriber implements EventSubscriberInterface
         $data = $event->getData();
         $form = $event->getForm();
 
+        $fields       = $form->getConfig()->getOption('fields');
+        $filteredData = [ ];
+
         if (null === $data || '' === $data) {
             $data = [ ];
         }
 
         if ( ! is_array($data) && ! ( $data instanceof \Traversable && $data instanceof \ArrayAccess )) {
             throw new UnexpectedTypeException($data, 'array or (\Traversable and \ArrayAccess)');
+        }
+
+        foreach ($fields as $field) {
+            if (array_key_exists($field, $data)) {
+                $filteredData[] = $data[$field];
+            }
+        }
+
+        if ( ! empty( $filteredData )) {
+            $data = $filteredData;
         }
 
         // Sorting values so that they display in sorted order of the attributes
