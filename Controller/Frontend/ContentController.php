@@ -2,6 +2,7 @@
 
 namespace Opifer\ContentBundle\Controller\Frontend;
 
+use Opifer\ContentBundle\Model\Content;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -20,10 +21,13 @@ class ContentController extends Controller
      * or the ExceptionController.
      * @see Opifer\SiteBundle\Router\ContentRouter
      *
-     * @param Request $request
-     * @param Content $content
+     * @param Request          $request
+     * @param ContentInterface $content
+     * @param int              $statusCode
      *
      * @return Response
+     *
+     * @throws \Exception
      */
     public function viewAction(Request $request, ContentInterface $content, $statusCode = 200)
     {
@@ -63,10 +67,12 @@ class ContentController extends Controller
      *
      * @return Response
      */
-    public function nestedAction(Request $request, $id)
+    public function nestedAction(Request $request, $content)
     {
-        $content = $this->get('opifer.content.content_manager')->getRepository()
-            ->find($id);
+        if (!$content instanceof Content) {
+            $content = $this->get('opifer.content.content_manager')->getRepository()
+                ->findOneById($content);
+        }
 
         // If the content could not be found or is inactive, return an empty response
         // to avoid rendering 404 pages as nested content.

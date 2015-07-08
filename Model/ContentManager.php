@@ -248,8 +248,11 @@ class ContentManager implements ContentManagerInterface
         if (!$content->getId()) {
             $content->setAuthor($this->tokenStorage->getToken()->getUser());
             $this->em->persist($content);
+        } else {
+            $cacheDriver = $this->em->getConfiguration()->getResultCacheImpl();
+            $cacheDriver->deleteAll();
         }
-        
+
         $this->em->flush();
         
         return $content;
