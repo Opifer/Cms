@@ -334,37 +334,6 @@ class ContentRepository extends EntityRepository
     }
 
     /**
-     * Find related content
-     *
-     * @deprecated will be removed in 1.0
-     *
-     * @param Content $content
-     * @param integer $limit
-     *
-     * @return \Doctrine\Common\Collections\ArrayCollection
-     */
-    public function findRelated(Content $content, $limit = 10)
-    {
-        $city = $content->getValueSet()->getValueFor('address')->getAddress()->getCity();
-
-        $query = $this->createQueryBuilder('c')
-            ->innerJoin('c.valueSet', 'vs')
-            ->innerJoin('vs.values', 'v')
-            ->innerJoin('v.attribute', 'a')
-            ->innerJoin('v.address', 'addr')
-            ->where('addr.city = :city')
-            ->andWhere('c.active = 1')
-            ->andWhere('c.nestedIn IS NULL')
-            ->andWhere('c.id <> :id')
-            ->setParameter('id', $content->getId())
-            ->setParameter('city', $city)
-            ->setMaxResults($limit)
-            ->getQuery();
-
-        return $query->useResultCache(true, self::CACHE_TTL)->getResult();
-    }
-
-    /**
      * Find the latest created content items
      *
      * @param integer $limit
