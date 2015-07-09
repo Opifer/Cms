@@ -38,6 +38,8 @@ class ValuesSubscriber implements EventSubscriberInterface
         $data = $event->getData();
         $form = $event->getForm();
 
+        $fields       = $form->getConfig()->getOption('fields');
+
         if (null === $data || '' === $data) {
             $data = [ ];
         }
@@ -45,13 +47,16 @@ class ValuesSubscriber implements EventSubscriberInterface
         if ( ! is_array($data) && ! ( $data instanceof \Traversable && $data instanceof \ArrayAccess )) {
             throw new UnexpectedTypeException($data, 'array or (\Traversable and \ArrayAccess)');
         }
-
         // Sorting values so that they display in sorted order of the attributes
         uasort($data, function ($a, $b) {
             return $a->getAttribute()->getSort() > $b->getAttribute()->getSort();
         });
 
         foreach ($data as $name => $value) {
+            //Do not add fields when there not in fields value when giving.
+            if (count($fields) && !array_key_exists($name, $fields)) {
+                continue;
+            }
             // Do not add fields dynamically if they've already been set statically.
             // This allows us to override the formtypes from inside the form type
             // that's calling this subscriber.

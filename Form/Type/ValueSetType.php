@@ -5,11 +5,14 @@ namespace Opifer\EavBundle\Form\Type;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class ValueSetType extends AbstractType
 {
+
     /** @var string */
     protected $valueSetClass;
+
 
     /**
      * Constructor
@@ -21,23 +24,39 @@ class ValueSetType extends AbstractType
         $this->valueSetClass = $valueSetClass;
     }
 
+
     /**
      * {@inheritDoc}
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('namedvalues', 'values_collection');
+        $builder->add('namedvalues', 'values_collection', [ 'fields' => $options['fields'] ]);
     }
+
 
     /**
      * {@inheritDoc}
      */
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
+        $this->configureOptions($resolver);
+
+    }
+
+
+    /**
+     * {@inheritdoc}
+     *
+     * @param OptionsResolver $resolver
+     */
+    public function configureOptions(OptionsResolver $resolver)
+    {
         $resolver->setDefaults([
             'data_class' => $this->valueSetClass,
+            'fields'     => [ ]
         ]);
     }
+
 
     /**
      * {@inheritDoc}
