@@ -51,12 +51,12 @@ class ContentRepository extends EntityRepository
         $qb->andWhere('c.nestedIn IS NULL');
 
         if ($request->get('q')) {
-            $qb->andWhere("c.title LIKE :query")->setParameter('query', '%' . $request->get('q') . '%');
+            $qb->andWhere('c.title LIKE :query')->setParameter('query', '%' . $request->get('q') . '%');
         } else {
             if ($request->get('directory_id')) {
-                $qb->andWhere("c.directory = :directory")->setParameter('directory', $request->get('directory_id'));
+                $qb->andWhere('c.directory = :directory')->setParameter('directory', $request->get('directory_id'));
             } else {
-                $qb->andWhere("c.directory is NULL");
+                $qb->andWhere('c.directory is NULL');
             }
         }
 
@@ -102,18 +102,17 @@ class ContentRepository extends EntityRepository
      *
      * @param integer $siteId
      * @param integer $directoryId
-     * @param string $locale
      *
      * @return ArrayCollection
      */
-    public function findAttributedInDirectory($siteId = 0, $directoryId = 0, $locale = null)
+    public function findAttributedInDirectory($siteId = 0, $directoryId = 0)
     {
         $query = $this->createValuedQueryBuilder('c')
-            ->where("c.site = :site")
+            ->where('c.site = :site')
             ->setParameter('site', $siteId);
 
         if ($directoryId) {
-            $query->andWhere("c.directory = :directory")
+            $query->andWhere('c.directory = :directory')
                 ->setParameter('directory', $directoryId);
         }
 
@@ -130,7 +129,7 @@ class ContentRepository extends EntityRepository
     public function findOneById($id)
     {
         $query = $this->createValuedQueryBuilder('c')
-            ->where("c.id = :id")
+            ->where('c.id = :id')
             ->setParameter('id', $id)
             ->getQuery();
 
@@ -147,7 +146,7 @@ class ContentRepository extends EntityRepository
     public function findOneBySlug($slug)
     {
         $query = $this->createValuedQueryBuilder('c')
-            ->where("c.slug = :slug")
+            ->where('c.slug = :slug')
             ->setParameter('slug', $slug)
             ->getQuery();
 
@@ -164,7 +163,7 @@ class ContentRepository extends EntityRepository
     public function findActiveBySlug($slug)
     {
         $query = $this->createValuedQueryBuilder('c')
-            ->where("c.slug = :slug")
+            ->where('c.slug = :slug')
             ->andWhere('c.active = :active')
             ->setParameters(['slug' => $slug, 'active' => true])
             ->getQuery();
@@ -182,7 +181,7 @@ class ContentRepository extends EntityRepository
     public function findOneByAlias($alias)
     {
         $query = $this->createValuedQueryBuilder('c')
-            ->where("c.alias = :alias")
+            ->where('c.alias = :alias')
             ->setParameter('alias', $alias)
             ->getQuery();
 
@@ -199,7 +198,7 @@ class ContentRepository extends EntityRepository
     public function findActiveByAlias($alias)
     {
         $query = $this->createValuedQueryBuilder('c')
-            ->where("c.alias = :alias")
+            ->where('c.alias = :alias')
             ->andWhere('c.active = :active')
             ->setParameters(['alias' => $alias, 'active' => true])
             ->getQuery();
@@ -229,7 +228,7 @@ class ContentRepository extends EntityRepository
     /**
      * Find popular content items by template
      *
-     * @todo just retrieves random content items for now
+     * @deprecated will be removed in 1.0
      *
      * @param     $template
      * @param int $limit
@@ -336,6 +335,8 @@ class ContentRepository extends EntityRepository
 
     /**
      * Find related content
+     *
+     * @deprecated will be removed in 1.0
      *
      * @param Content $content
      * @param integer $limit
