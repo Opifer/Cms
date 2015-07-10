@@ -14,7 +14,6 @@ use Symfony\Component\Form\FormEvents;
  */
 class ValuesSubscriber implements EventSubscriberInterface
 {
-
     /**
      * {@inheritDoc}
      */
@@ -24,7 +23,6 @@ class ValuesSubscriber implements EventSubscriberInterface
             FormEvents::PRE_SET_DATA => 'preSetData',
         ];
     }
-
 
     /**
      * Listens to the PRE_SET_DATA event and adds form fields dynamically.
@@ -38,13 +36,13 @@ class ValuesSubscriber implements EventSubscriberInterface
         $data = $event->getData();
         $form = $event->getForm();
 
-        $fields       = $form->getConfig()->getOption('fields');
+        $fields = $form->getConfig()->getOption('fields');
 
         if (null === $data || '' === $data) {
-            $data = [ ];
+            $data = [];
         }
 
-        if ( ! is_array($data) && ! ( $data instanceof \Traversable && $data instanceof \ArrayAccess )) {
+        if (!is_array($data) && !($data instanceof \Traversable && $data instanceof \ArrayAccess)) {
             throw new UnexpectedTypeException($data, 'array or (\Traversable and \ArrayAccess)');
         }
         // Sorting values so that they display in sorted order of the attributes
@@ -54,7 +52,7 @@ class ValuesSubscriber implements EventSubscriberInterface
 
         foreach ($data as $name => $value) {
             //Do not add fields when there not in fields value when giving.
-            if (count($fields) && !array_key_exists($name, $fields)) {
+            if (!empty($fields) && !in_array($name, $fields)) {
                 continue;
             }
             // Do not add fields dynamically if they've already been set statically.
@@ -64,11 +62,11 @@ class ValuesSubscriber implements EventSubscriberInterface
                 continue;
             }
             $form->add($name, 'eav_value', [
-                'label'     => $value->getAttribute()->getDisplayName(),
+                'label' => $value->getAttribute()->getDisplayName(),
                 'attribute' => $value->getAttribute(),
-                'entity'    => get_class($value),
-                'value'     => $value,
-                'attr'      => [ 'help_text' => $value->getAttribute()->getDescription() ]
+                'entity' => get_class($value),
+                'value' => $value,
+                'attr' => ['help_text' => $value->getAttribute()->getDescription()]
             ]);
         }
     }
