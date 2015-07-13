@@ -138,13 +138,15 @@ class ContentExtension extends \Twig_Extension
      */
     public function renderNestedContent($values)
     {
-        $content = '';
-        foreach ($values as $value) {
-            $action = new ControllerReference('OpiferContentBundle:Frontend/Content:nested', ['id' => $value]);
-            $content .= $this->fragmentHandler->render($action);
+        $view = '';
+
+        $contents = $this->contentManager->getRepository()->findByIds($values);
+        foreach ($contents as $content) {
+            $action = new ControllerReference('OpiferContentBundle:Frontend/Content:nested', ['content' => $content]);
+            $view .= $this->fragmentHandler->render($action);
         }
 
-        return $content;
+        return $view;
     }
 
     /**

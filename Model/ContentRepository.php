@@ -2,8 +2,8 @@
 
 namespace Opifer\ContentBundle\Model;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\EntityRepository;
-
 use Symfony\Component\HttpFoundation\Request;
 
 /**
@@ -19,6 +19,8 @@ use Symfony\Component\HttpFoundation\Request;
  */
 class ContentRepository extends EntityRepository
 {
+    const CACHE_TTL = 3600;
+
     /**
      * Used by Elastica to transform results to model
      *
@@ -30,12 +32,10 @@ class ContentRepository extends EntityRepository
     {
         return $this->createQueryBuilder($entityAlias)
             ->select($entityAlias, 'vs', 'v', 'a', 'p')
-            ->select($entityAlias, 'vs', 'v', 'a')
             ->leftJoin($entityAlias . '.valueSet', 'vs')
             ->leftJoin('vs.values', 'v')
             ->leftJoin('v.attribute', 'a')
-            ->leftJoin('v.options', 'p')
-        ;
+            ->leftJoin('v.options', 'p');
     }
 
     /**
@@ -51,12 +51,12 @@ class ContentRepository extends EntityRepository
         $qb->andWhere('c.nestedIn IS NULL');
 
         if ($request->get('q')) {
-            $qb->andWhere("c.title LIKE :query")->setParameter('query', '%'.$request->get('q').'%');
+            $qb->andWhere('c.title LIKE :query')->setParameter('query', '%' . $request->get('q') . '%');
         } else {
             if ($request->get('directory_id')) {
-                $qb->andWhere("c.directory = :directory")->setParameter('directory', $request->get('directory_id'));
+                $qb->andWhere('c.directory = :directory')->setParameter('directory', $request->get('directory_id'));
             } else {
-                $qb->andWhere("c.directory is NULL");
+                $qb->andWhere('c.directory is NULL');
             }
         }
 
@@ -77,7 +77,7 @@ class ContentRepository extends EntityRepository
      * Finds all content by a template, created by a user
      *
      * @param integer $user
-     * @param string  $template
+     * @param string $template
      *
      * @return \Doctrine\Common\Collections\ArrayCollection
      */
@@ -89,13 +89,12 @@ class ContentRepository extends EntityRepository
             ->where('c.author = :user')
             ->andWhere('t.name = :template')
             ->setParameters([
-                'user'     => $user,
+                'user' => $user,
                 'template' => $template
             ])
-            ->getQuery()
-        ;
+            ->getQuery();
 
-        return $query->getResult();
+        return $query->useResultCache(true, self::CACHE_TTL)->getResult();
     }
 
     /**
@@ -103,19 +102,21 @@ class ContentRepository extends EntityRepository
      *
      * @param integer $siteId
      * @param integer $directoryId
-     * @param string  $locale
      *
-     * @return \Doctrine\ORM\Collections\ArrayCollection
+     * @return ArrayCollection
      */
-    public function findAttributedInDirectory($directoryId = 0)
+    public function findAttributedInDirectory($siteId = 0, $directoryId = 0)
     {
+        $query = $this->createValuedQueryBuilder('c')
+            ->where('c.site = :site')
+            ->setParameter('site', $siteId);
+
         if ($directoryId) {
-            $query->andWhere("c.directory = :directory")
-                ->setParameter('directory', $directoryId)
-            ;
+            $query->andWhere('c.directory = :directory')
+                ->setParameter('directory', $directoryId);
         }
 
-        return $query->getQuery()->getResult();
+        return $query->getQuery()->useResultCache(true, self::CACHE_TTL)->getResult();
     }
 
     /**
@@ -128,12 +129,11 @@ class ContentRepository extends EntityRepository
     public function findOneById($id)
     {
         $query = $this->createValuedQueryBuilder('c')
-            ->where("c.id = :id")
+            ->where('c.id = :id')
             ->setParameter('id', $id)
-            ->getQuery()
-        ;
+            ->getQuery();
 
-        return $query->getSingleResult();
+        return $query->useResultCache(true, self::CACHE_TTL)->getSingleResult();
     }
 
     /**
@@ -146,12 +146,11 @@ class ContentRepository extends EntityRepository
     public function findOneBySlug($slug)
     {
         $query = $this->createValuedQueryBuilder('c')
-            ->where("c.slug = :slug")
+            ->where('c.slug = :slug')
             ->setParameter('slug', $slug)
-            ->getQuery()
-        ;
+            ->getQuery();
 
-        return $query->getSingleResult();
+        return $query->useResultCache(true, self::CACHE_TTL)->getSingleResult();
     }
 
     /**
@@ -164,13 +163,12 @@ class ContentRepository extends EntityRepository
     public function findActiveBySlug($slug)
     {
         $query = $this->createValuedQueryBuilder('c')
-            ->where("c.slug = :slug")
+            ->where('c.slug = :slug')
             ->andWhere('c.active = :active')
-            ->setParameters(['slug' => $slug, 'active' => true ])
-            ->getQuery()
-        ;
+            ->setParameters(['slug' => $slug, 'active' => true])
+            ->getQuery();
 
-        return $query->getSingleResult();
+        return $query->useResultCache(true, self::CACHE_TTL)->getSingleResult();
     }
 
     /**
@@ -183,12 +181,11 @@ class ContentRepository extends EntityRepository
     public function findOneByAlias($alias)
     {
         $query = $this->createValuedQueryBuilder('c')
-            ->where("c.alias = :alias")
+            ->where('c.alias = :alias')
             ->setParameter('alias', $alias)
-            ->getQuery()
-        ;
+            ->getQuery();
 
-        return $query->getSingleResult();
+        return $query->useResultCache(true, self::CACHE_TTL)->getSingleResult();
     }
 
     /**
@@ -201,13 +198,12 @@ class ContentRepository extends EntityRepository
     public function findActiveByAlias($alias)
     {
         $query = $this->createValuedQueryBuilder('c')
-            ->where("c.alias = :alias")
+            ->where('c.alias = :alias')
             ->andWhere('c.active = :active')
-            ->setParameters(['alias' => $alias, 'active' => true ])
-            ->getQuery()
-        ;
+            ->setParameters(['alias' => $alias, 'active' => true])
+            ->getQuery();
 
-        return $query->getSingleResult();
+        return $query->useResultCache(true, self::CACHE_TTL)->getSingleResult();
     }
 
     /**
@@ -224,18 +220,24 @@ class ContentRepository extends EntityRepository
             ->andWhere('c.active = :active')
             //->andWhere('c.author IS NULL')
             ->setParameters(['id' => $id, 'active' => 0])
-            ->getQuery()
-        ;
+            ->getQuery();
 
-        return $query->getSingleResult();
+        return $query->useResultCache(true, self::CACHE_TTL)->getSingleResult();
     }
 
     /**
-     * @todo just retrieves random content items for now
+     * Find popular content items by template
+     *
+     * @deprecated will be removed in 1.0
+     *
+     * @param     $template
+     * @param int $limit
+     *
+     * @return \Doctrine\Common\Collections\ArrayCollection
      */
-    public function findPopularByTemplate($template)
+    public function findPopularByTemplate($template, $limit = 10)
     {
-        return $this->findRandomByTemplate($template);
+        return $this->findRandomByTemplate($template, $limit);
     }
 
     /**
@@ -244,7 +246,7 @@ class ContentRepository extends EntityRepository
      * orderBy('RAND()') or something similar is not available within Doctrine's DQL.
      * As a side note: Sorting with ORDER BY RAND() is painfully slow starting with 1000 rows.
      *
-     * @param string  $template
+     * @param string $template
      * @param integer $limit
      *
      * @return \Doctrine\Common\Collections\ArrayCollection
@@ -257,7 +259,7 @@ class ContentRepository extends EntityRepository
 
         $count = 20;
 
-        $offset = rand(0, (int) ($count - $limit)-1);
+        $offset = rand(0, (int)($count - $limit) - 1);
         $offset = ($offset) ? $offset : 1;
 
         $query = $this->createQueryBuilder('c')
@@ -270,10 +272,9 @@ class ContentRepository extends EntityRepository
             ->setParameter('active', true)
             ->setMaxResults($limit)
             ->setFirstResult($offset)
-            ->getQuery()
-        ;
+            ->getQuery();
 
-        return $query->getResult();
+        return $query->useResultCache(true, self::CACHE_TTL)->getResult();
     }
 
     /**
@@ -299,10 +300,9 @@ class ContentRepository extends EntityRepository
             ->setParameter('template', $template)
             ->setParameter('active', true)
             ->orderBy('c.id', 'DESC')
-            ->getQuery()
-        ;
+            ->getQuery();
 
-        return $query->getResult();
+        return $query->useResultCache(true, self::CACHE_TTL)->getResult();
     }
 
     /**
@@ -328,36 +328,9 @@ class ContentRepository extends EntityRepository
             ->setParameter('template', $template)
             ->setParameter('active', true)
             ->orderBy('c.title', $order)
-            ->getQuery()
-        ;
+            ->getQuery();
 
-        return $query->getResult();
-    }
-
-    /**
-     * Find related content
-     *
-     * @param Content $content
-     * @param integer $limit
-     *
-     * @return \Doctrine\Common\Collections\ArrayCollection
-     */
-    public function findRelated(Content $content, $limit = 10)
-    {
-        $query = $this->createQueryBuilder('c')
-            ->innerJoin('c.valueSet', 'vs')
-            ->innerJoin('vs.values', 'v')
-            ->innerJoin('v.attribute', 'a')
-            ->andWhere('c.active = 1')
-            ->andWhere('c.nestedIn IS NULL')
-            ->andWhere('c.id <> :id')
-            ->setParameter('id', $content->getId())
-            ->setParameter('city', $city)
-            ->setMaxResults($limit)
-            ->getQuery()
-        ;
-
-        return $query->getResult();
+        return $query->useResultCache(true, self::CACHE_TTL)->getResult();
     }
 
     /**
@@ -373,10 +346,9 @@ class ContentRepository extends EntityRepository
             ->where('c.nestedIn IS NULL')
             ->orderBy('c.createdAt', 'DESC')
             ->setMaxResults($limit)
-            ->getQuery()
-        ;
+            ->getQuery();
 
-        return $query->getResult();
+        return $query->useResultCache(true, self::CACHE_TTL)->getResult();
     }
 
     /**
@@ -395,7 +367,7 @@ class ContentRepository extends EntityRepository
         $items = $this->createValuedQueryBuilder('c')
             ->andWhere('c.id IN (:ids)')->setParameter('ids', $ids)
             ->andWhere('c.deletedAt IS NULL')
-            ->getQuery()->getResult();
+            ->getQuery()->useResultCache(true, self::CACHE_TTL)->getResult();
 
         return $this->sortByArray($items, $ids);
     }
@@ -418,6 +390,7 @@ class ContentRepository extends EntityRepository
             ->andWhere('c.id IN (:ids)')->setParameter('ids', $ids)
             ->andWhere('c.deletedAt IS NULL')
             ->getQuery()
+            ->useResultCache(true, self::CACHE_TTL)
             ->getResult();
 
         return $this->sortByArray($items, $ids);
