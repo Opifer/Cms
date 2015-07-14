@@ -7,7 +7,6 @@ use Doctrine\ORM\EntityManagerInterface;
 use Opifer\ContentBundle\Exception\NestedContentFormException;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorage;
 
 use Opifer\CrudBundle\Pagination\Paginator;
 use Opifer\EavBundle\Form\Type\NestedType;
@@ -30,9 +29,6 @@ class ContentManager implements ContentManagerInterface
 
     /** @var string */
     protected $templateClass;
-    
-    /** @var TokenStorage */
-    protected $tokenStorage;
 
     /**
      * Constructor
@@ -41,18 +37,17 @@ class ContentManager implements ContentManagerInterface
      * @param FormFactoryInterface   $formFactory
      * @param EavManager             $eavManager
      */
-    public function __construct(EntityManagerInterface $em, FormFactoryInterface $formFactory, EavManager $eavManager, $class, $templateClass, TokenStorage $tokenStorage)
+    public function __construct(EntityManagerInterface $em, FormFactoryInterface $formFactory, EavManager $eavManager, $class, $templateClass)
     {
         if (!is_subclass_of($class, 'Opifer\ContentBundle\Model\ContentInterface')) {
             throw new \Exception($class .' must implement Opifer\ContentBundle\Model\ContentInterface');
         }
-        
+
         $this->em = $em;
         $this->formFactory = $formFactory;
         $this->eavManager = $eavManager;
         $this->class = $class;
         $this->templateClass = $templateClass;
-        $this->tokenStorage = $tokenStorage;
     }
 
     /**
@@ -246,7 +241,6 @@ class ContentManager implements ContentManagerInterface
     public function save(ContentInterface $content)
     {
         if (!$content->getId()) {
-            $content->setAuthor($this->tokenStorage->getToken()->getUser());
             $this->em->persist($content);
         } else {
             $cacheDriver = $this->em->getConfiguration()->getResultCacheImpl();
@@ -254,7 +248,7 @@ class ContentManager implements ContentManagerInterface
         }
 
         $this->em->flush();
-        
+
         return $content;
     }
 
