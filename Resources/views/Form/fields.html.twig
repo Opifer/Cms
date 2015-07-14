@@ -2,9 +2,12 @@
 
 {% block eav_value_row %}
     {% spaceless %}
+        {% set col_size = col_size|default(bootstrap_get_col_size()) %}
+        {% set label_col = label_col|default(bootstrap_get_label_col()) %}
+        {% set widget_col = widget_col|default(bootstrap_get_widget_col()) %}
         <div class="form-group {% if form.vars.attribute.valueType == 'nested' %}form-group-nested-content{% endif %}">
-            <label class="{{ attr.label_class|default('control-label col-lg-2 required') }}">{{ form.vars.label }}</label>
-            <div class="{{ attr.column_class|default('col-lg-10') }}">
+            <label class="{{ attr.label_class|default('control-label col-' ~ col_size ~ '-' ~ label_col ~ ' required') }}">{{ form.vars.label }}</label>
+            <div class="{{ attr.column_class|default('col-' ~ col_size ~ '-' ~ widget_col) }}">
                 {% for child in form.children %}
                     {{ form_widget(child, {'attr': attr}) }}
                 {% endfor %}
