@@ -16,7 +16,7 @@ parameters:
 services:
     opifer.content.content_manager.default:
         class: %opifer.content.content_manager.default.class%
-        arguments: [@doctrine.orm.default_entity_manager, @form.factory, @opifer.eav.eav_manager, %opifer_content.content_class%, %opifer_eav.template_class%, @security.token_storage]
+        arguments: [@doctrine.orm.default_entity_manager, @form.factory, @opifer.eav.eav_manager, %opifer_content.content_class%, %opifer_eav.template_class%]
 
     opifer.content.directory_manager.default:
         class: %opifer.content.directory_manager.default.class%
