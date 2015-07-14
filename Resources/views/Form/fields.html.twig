@@ -1,22 +1,17 @@
 {% extends 'BraincraftedBootstrapBundle:Form:bootstrap.html.twig' %}
 
 {% block eav_value_row %}
-    {% set col_size = col_size|default(bootstrap_get_col_size()) %}
-    {% set label_col = label_col|default(bootstrap_get_label_col()) %}
-    {% set widget_col = widget_col|default(bootstrap_get_widget_col()) %}
     {% spaceless %}
         <div class="form-group {% if form.vars.attribute.valueType == 'nested' %}form-group-nested-content{% endif %}">
-            <label class="col-{{ col_size }}-{{ label_col }}">{{ form.vars.label }}</label>
-
-            <div class="col-{{ col_size }}-{{ widget_col }}">
+            <label class="{{ attr.label_class|default('control-label col-lg-2 required') }}">{{ form.vars.label }}</label>
+            <div class="{{ attr.column_class|default('col-lg-10') }}">
                 {% for child in form.children %}
                     {{ form_widget(child, {'attr': attr}) }}
                 {% endfor %}
                 {% if form.vars.attribute.valueType == 'nested' %}
                     <section class="nested-content-wrapper">
                         <input name="{{ form.vars.id }}" type="hidden" value="{{ form.vars.value }}">
-                        <nested-content attribute="{{ name }}" attribute-id="{{ form.vars.attribute.id }}"
-                                        ids="{{ form.vars.value }}"></nested-content>
+                        <nested-content attribute="{{ name }}" attribute-id="{{ form.vars.attribute.id }}" ids="{{ form.vars.value }}"></nested-content>
                     </section>
                 {% endif %}
                 {{ block('form_help') }}
