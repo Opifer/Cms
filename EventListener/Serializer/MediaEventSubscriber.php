@@ -10,6 +10,7 @@ use Liip\ImagineBundle\Imagine\Cache\CacheManager;
 use Opifer\MediaBundle\Model\MediaInterface;
 use Opifer\MediaBundle\Provider\Pool;
 use Liip\ImagineBundle\Imagine\Filter\FilterConfiguration;
+use PhpOption\None;
 
 /**
  * Class MediaEventSubscriber
@@ -71,8 +72,9 @@ class MediaEventSubscriber implements EventSubscriberInterface
         if ($provider->getName() == 'image') {
             $reference = $provider->getThumb($event->getObject());
 
-            $groups = $event->getContext()->attributes->get('groups')->get();
-            if (in_array('detail', $groups)) {
+            $groups = $event->getContext()->attributes->get('groups');
+            
+            if (!$groups instanceof None && in_array('detail', $groups->get())) {
                 $filters = array_keys($this->filterConfig->all());
             } else {
                 $filters = ['medialibrary'];
