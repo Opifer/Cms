@@ -6,8 +6,8 @@ parameters:
     opifer.cms.form.attribute_parameters.class: Opifer\CmsBundle\Form\Type\AttributeParametersType
     opifer.cms.form.ckeditor_type.class: Opifer\CmsBundle\Form\Type\CKEditorType
     opifer.cms.form.content.class: Opifer\CmsBundle\Form\ContentFormType
-    opifer.cms.form.content_init_form.class: Opifer\CmsBundle\Form\ContentInitFormType
-    opifer.cms.form.directory_form.class: Opifer\CmsBundle\Form\DirectoryFormType
+    opifer.cms.form.content_init_form.class: Opifer\CmsBundle\Form\Type\ContentInitFormType
+    opifer.cms.form.directory_form.class: Opifer\CmsBundle\Form\Type\DirectoryFormType
     opifer.cms.form.google_address.class: Opifer\CmsBundle\Form\Type\GoogleAddressType
     opifer.cms.form.menu.class: Opifer\CmsBundle\Form\Type\MenuType
     opifer.cms.form.menu_group.class: Opifer\CmsBundle\Form\Type\MenuGroupType
@@ -23,10 +23,18 @@ parameters:
     opifer.cms.sitemap_listener.class: Opifer\CmsBundle\EventListener\SitemapListener
     opifer.cms.slug_form_type.class: Opifer\CmsBundle\Form\Type\SlugType
     opifer.cms.tableprefix_listener.class: Opifer\CmsBundle\EventListener\TablePrefixSubscriber
-    opifer.cms.user_form.class: Opifer\CmsBundle\Form\UserFormType
+    opifer.cms.user_form.class: Opifer\CmsBundle\Form\Type\UserFormType
     twig.extension.intl.class: Twig_Extensions_Extension_Intl
 
+    opifer.cms.event_subscriber.load_orm_metadata.class: Opifer\CmsBundle\EventListener\LoadORMMetadataSubscriber
+
 services:
+    opifer.cms.event_subscriber.load_orm_metadata:
+        class: %opifer.cms.event_subscriber.load_orm_metadata.class%
+        arguments: [%opifer_cms.classes%]
+        tags:
+            - { name: doctrine.event_subscriber }
+
     twig.extension.intl:
         class: %twig.extension.intl.class%
         tags:
@@ -35,7 +43,7 @@ services:
     # Forms
     opifer.cms.user_form:
         class: %opifer.cms.user_form.class%
-        arguments: [%security.role_hierarchy.roles%, %opifer_cms.user.class%]
+        arguments: [%security.role_hierarchy.roles%, %opifer_cms.model.user.class%]
         tags:
             - { name: form.type, alias: admin_user_form }
 

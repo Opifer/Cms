@@ -9,7 +9,7 @@ use Opifer\EavBundle\Model\Option as BaseOption;
 /**
  * Option
  *
- * @ORM\Table(name="options")
+ * @ORM\Table(name="option")
  * @ORM\Entity(repositoryClass="Opifer\EavBundle\Repository\OptionRepository")
  */
 class Option extends BaseOption

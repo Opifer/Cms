@@ -81,7 +81,7 @@ doctrine:
                 enabled: true
         resolve_target_entities:
             # Define the user class
-            FOS\UserBundle\Model\UserInterface: %opifer_cms.user.class%
+            FOS\UserBundle\Model\UserInterface: %opifer_cms.model.user.class%
             # Define the entity used for nested content
             Opifer\EavBundle\Nesting\Nestable: Opifer\CmsBundle\Entity\Content
         mappings:
@@ -113,7 +113,7 @@ doctrine_migrations:
 fos_user:
     db_driver:       orm
     firewall_name:   main
-    user_class:      %opifer_cms.user.class%
+    user_class:      %opifer_cms.model.user.class%
     group:
         group_class: Opifer\CmsBundle\Entity\Group
     registration:

@@ -35,6 +35,18 @@ class Configuration implements ConfigurationInterface
                         ->integerNode('limit')->min(0)->defaultValue(2)->end()
                     ->end()
                 ->end()
+                ->arrayNode('classes')
+                    ->addDefaultsIfNotSet()
+                    ->children()
+                        ->arrayNode('user')
+                            ->addDefaultsIfNotSet()
+                            ->children()
+                                ->scalarNode('model')->defaultValue('Opifer\CmsBundle\Entity\User')->end()
+                                ->scalarNode('repository')->end()
+                            ->end()
+                        ->end()
+                    ->end()
+                ->end()
             ->end()
         ;
 
