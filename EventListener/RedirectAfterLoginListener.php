@@ -57,12 +57,19 @@ class RedirectAfterLoginListener
     {
         $referer = $event->getRequest()->headers->get('referer');
 
-        if ($this->security->isGranted('ROLE_ADMIN') && strpos($referer, 'admin') !== false) {
-            $response = new RedirectResponse($this->router->generate('opifer.cms.dashboard.view'));
-        } else {
-            $response = new RedirectResponse($this->router->generate('opifer_cms_home'));
-        }
+        // Overwrite the url with our own. Don't set a new RedirectResponse because we will lose other
+        // attributes like cookies.
+        if ($event->getResponse() instanceof RedirectResponse) {
 
-        $event->setResponse($response);
+            if ($this->security->isGranted('ROLE_ADMIN') && strpos($referer, 'admin') !== false) {
+                $newRoute = $this->router->generate('opifer.cms.dashboard.view');
+            } else {
+                $newRoute = $this->router->generate('opifer_account');
+            }
+
+            if ($newRoute) {
+                $event->getResponse()->setTargetUrl($newRoute);
+            }
+        }
     }
 }
