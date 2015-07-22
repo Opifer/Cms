@@ -46,6 +46,13 @@ class Address
     /**
      * @var string
      *
+     * @ORM\Column(name="state", type="string", length=255)
+     */
+    private $state;
+
+    /**
+     * @var string
+     *
      * @ORM\Column(name="country", type="string", length=2)
      */
     private $country;
@@ -166,6 +173,29 @@ class Address
     public function getCity()
     {
         return $this->city;
+    }
+
+    /**
+     * Set state
+     *
+     * @param  string  $state
+     * @return $this
+     */
+    public function setState($state)
+    {
+        $this->state = $state;
+
+        return $this;
+    }
+
+    /**
+     * Get city
+     *
+     * @return string
+     */
+    public function getState()
+    {
+        return $this->state;
     }
 
     /**
