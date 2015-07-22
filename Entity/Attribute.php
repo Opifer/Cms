@@ -12,8 +12,8 @@ use Opifer\EavBundle\Model\Attribute as BaseAttribute;
 /**
  * Attribute
  *
+ * @ORM\MappedSuperclass()
  * @ORM\Table(name="attribute")
- * @ORM\Entity
  * @JMS\ExclusionPolicy("none")
  */
 class Attribute extends BaseAttribute

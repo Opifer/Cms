@@ -13,7 +13,7 @@ use Opifer\CrudBundle\Annotation\Form;
 /**
  * Post entity
  *
- * @ORM\Entity()
+ * @ORM\MappedSuperclass()
  * @ORM\Table(name="post")
  * @JMS\ExclusionPolicy("all")
  * @Gedmo\SoftDeleteable(fieldName="deletedAt", timeAware=false)
@@ -32,7 +32,7 @@ class Post implements EntityInterface
     protected $id;
 
     /**
-     * @var Opifer\EavBundle\Entity\ValueSet
+     * @var ValueSetInterface
      *
      * @ORM\ManyToOne(targetEntity="ValueSet", cascade={"persist"}, fetch="EAGER")
      * @ORM\JoinColumn(name="valueset_id", referencedColumnName="id")

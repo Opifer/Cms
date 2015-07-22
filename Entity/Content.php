@@ -14,8 +14,8 @@ use Opifer\ContentBundle\Model\Content as BaseContent;
 /**
  * Content
  *
+ * @ORM\MappedSuperclass(repositoryClass="Opifer\CmsBundle\Repository\ContentRepository")
  * @ORM\Table(name="content")
- * @ORM\Entity(repositoryClass="Opifer\CmsBundle\Repository\ContentRepository")
  * @Gedmo\TranslationEntity(class="Opifer\CmsBundle\Entity\Translation\ContentTranslation")
  */
 class Content extends BaseContent

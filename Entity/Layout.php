@@ -8,7 +8,7 @@ use Opifer\ContentBundle\Model\Layout as BaseLayout;
 /**
  * Layout
  *
- * @ORM\Entity
+ * @ORM\MappedSuperclass()
  * @ORM\Table(name="layout")
  */
 class Layout extends BaseLayout

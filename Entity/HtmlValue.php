@@ -8,7 +8,7 @@ use Opifer\EavBundle\Entity\Value;
 /**
  * HtmlValue
  *
- * @ORM\Entity
+ * @ORM\MappedSuperclass()
  */
 class HtmlValue extends Value
 {

@@ -8,8 +8,8 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Address
  *
+ * @ORM\MappedSuperclass()
  * @ORM\Table(name="address")
- * @ORM\Entity
  */
 class Address
 {

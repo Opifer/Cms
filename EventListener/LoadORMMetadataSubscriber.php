@@ -41,30 +41,53 @@ class LoadORMMetadataSubscriber implements EventSubscriber
     {
         /** @var ClassMetadata $metadata */
         $metadata = $eventArgs->getClassMetadata();
-        $this->process($metadata);
-        if (!$metadata->isMappedSuperclass) {
-            $this->setAssociationMappings($metadata, $eventArgs->getEntityManager()->getConfiguration());
-        } else {
-            $this->unsetAssociationMappings($metadata);
+//        if ($metadata->name == 'AppBundle\Entity\User') {
+            $this->process($metadata, $eventArgs->getEntityManager()->getConfiguration());
+//        }
+//
+//        if (!$metadata->isMappedSuperclass) {
+//            $this->setAssociationMappings($metadata, $eventArgs->getEntityManager()->getConfiguration());
+//        } else {
+//            $this->unsetAssociationMappings($metadata);
+//        }
+    }
+
+    private function process(ClassMetadataInfo $metadata, $configuration)
+    {
+        foreach($this->classes as $entity) {
+            if (isset($entity['model']) && $entity['model'] === $metadata->getName()) {
+                 $metadata->isMappedSuperclass = false;
+//                $this->mergeFieldMappings($metadata, $configuration);
+                if (isset($entity['repository'])) {
+                    $metadata->setCustomRepositoryClass($entity['repository']);
+                }
+            }
         }
     }
 
-    private function process(ClassMetadataInfo $metadata)
+    private function mergeFieldMappings(ClassMetadataInfo $metadata, $configuration)
     {
-        foreach ($this->classes as $application => $classes) {
-            foreach ($classes as $class) {
-                if (isset($class['model']) && $class['model'] === $metadata->getName()) {
-                    $metadata->isMappedSuperclass = false;
-                    if (isset($class['repository'])) {
-                        $metadata->setCustomRepositoryClass($class['repository']);
+        foreach (class_parents($metadata->getName()) as $parent) {
+            $parentMetadata = new ClassMetadata(
+                $parent,
+                $configuration->getNamingStrategy()
+            );
+            if (in_array($parent, $configuration->getMetadataDriverImpl()->getAllClassNames())) {
+                $configuration->getMetadataDriverImpl()->loadMetadataForClass($parent, $parentMetadata);
+                if ($parentMetadata->isMappedSuperclass) {
+                    foreach ($parentMetadata->fieldMappings as $key => $value) {
+                        if (!isset($metadata->fieldMappings[$key])) {
+                            $metadata->fieldMappings[$key] = $value;
+                        }
                     }
-                } else {
-                    if (isset($class['translation']['model'])
-                        && $class['translation']['model'] === $metadata->getName()
-                    ) {
-                        $metadata->isMappedSuperclass = false;
-                        if (isset($class['translation']['repository'])) {
-                            $metadata->setCustomRepositoryClass($class['translation']['repository']);
+                    foreach ($parentMetadata->getFieldNames() as $key => $value) {
+                        if (!isset($metadata->fieldNames[$key])) {
+                            $metadata->fieldNames[$key] = $value;
+                        }
+                    }
+                    foreach ($parentMetadata->getColumnNames() as $key => $value) {
+                        if (!isset($metadata->columnNames[$key])) {
+                            $metadata->columnNames[$key] = $value;
                         }
                     }
                 }
@@ -91,7 +114,6 @@ class LoadORMMetadataSubscriber implements EventSubscriber
             }
         }
     }
-
     private function unsetAssociationMappings(ClassMetadataInfo $metadata)
     {
         foreach ($metadata->getAssociationMappings() as $key => $value) {
@@ -100,7 +122,6 @@ class LoadORMMetadataSubscriber implements EventSubscriber
             }
         }
     }
-
     private function hasRelation($type)
     {
         return in_array(

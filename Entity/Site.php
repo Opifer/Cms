@@ -10,7 +10,7 @@ use Doctrine\ORM\Mapping as ORM;
  * Site
  *
  * @ORM\Table(name="site")
- * @ORM\Entity()
+ * @ORM\MappedSuperclass()
  */
 class Site
 {
