@@ -44,7 +44,8 @@ class ContentController extends Controller
         if ($layout->getAction()) {
             return $this->forward($layout->getAction(), [
                 'content' => $content,
-                'layout'  => $layout
+                'layout'  => $layout,
+                'statusCode' => $statusCode
             ]);
         }
 
