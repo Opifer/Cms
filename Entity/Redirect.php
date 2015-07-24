@@ -7,7 +7,7 @@ use Opifer\CrudBundle\Annotation as Opifer;
 use Opifer\RedirectBundle\Model\Redirect as BaseRedirect;
 
 /**
- * @ORM\MappedSuperclass()
+ * @ORM\Entity()
  * @ORM\Table(name="redirect")
  */
 class Redirect extends BaseRedirect

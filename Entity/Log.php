@@ -5,7 +5,7 @@ namespace Opifer\CmsBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\MappedSuperclass()
+ * @ORM\Entity()
  * @ORM\Table(name="log")
  */
 class Log

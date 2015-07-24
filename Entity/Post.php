@@ -13,7 +13,7 @@ use Opifer\CrudBundle\Annotation\Form;
 /**
  * Post entity
  *
- * @ORM\MappedSuperclass()
+ * @ORM\Entity()
  * @ORM\Table(name="post")
  * @JMS\ExclusionPolicy("all")
  * @Gedmo\SoftDeleteable(fieldName="deletedAt", timeAware=false)

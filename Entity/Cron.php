@@ -10,7 +10,7 @@ use Opifer\CrudBundle\Annotation as Opifer;
 /**
  * Cron job
  *
- * @ORM\MappedSuperclass(repositoryClass="Opifer\CmsBundle\Repository\CronRepository")
+ * @ORM\Entity(repositoryClass="Opifer\CmsBundle\Repository\CronRepository")
  * @ORM\Table(name="cron")
  */
 class Cron

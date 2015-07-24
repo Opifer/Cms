@@ -12,7 +12,7 @@ use Opifer\EavBundle\Model\Attribute as BaseAttribute;
 /**
  * Attribute
  *
- * @ORM\MappedSuperclass()
+ * @ORM\Entity()
  * @ORM\Table(name="attribute")
  * @JMS\ExclusionPolicy("none")
  */

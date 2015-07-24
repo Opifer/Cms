@@ -7,7 +7,7 @@ use Opifer\EavBundle\Model\MediaInterface;
 use Opifer\MediaBundle\Model\Media as BaseMedia;
 
 /**
- * @ORM\MappedSuperclass(repositoryClass="Opifer\MediaBundle\Model\MediaRepository")
+ * @ORM\Entity(repositoryClass="Opifer\MediaBundle\Model\MediaRepository")
  * @ORM\Table(name="media")
  */
 class Media extends BaseMedia implements MediaInterface

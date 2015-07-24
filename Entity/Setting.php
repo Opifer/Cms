@@ -9,7 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Table(name="setting")
- * @ORM\MappedSuperclass()
+ * @ORM\Entity()
  */
 class Setting
 {

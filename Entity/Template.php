@@ -12,7 +12,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * Template
  *
  * @ORM\Table(name="template")
- * @ORM\MappedSuperclass(repositoryClass="Opifer\EavBundle\Repository\TemplateRepository")
+ * @ORM\Entity(repositoryClass="Opifer\EavBundle\Repository\TemplateRepository")
  * @CRUD\Form(type="eav_template")
  */
 class Template extends BaseTemplate

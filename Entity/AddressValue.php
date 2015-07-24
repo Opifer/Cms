@@ -9,7 +9,7 @@ use Opifer\EavBundle\Model\ValueInterface;
 /**
  * Address Value
  *
- * @ORM\MappedSuperclass()
+ * @ORM\Entity()
  */
 class AddressValue extends Value implements ValueInterface
 {

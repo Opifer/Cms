@@ -8,7 +8,7 @@ use Opifer\EavBundle\Model\ValueInterface;
 /**
  * MenuGroupValue
  *
- * @ORM\MappedSuperclass()
+ * @ORM\Entity()
  */
 class MenuGroupValue extends Value implements ValueInterface
 {
