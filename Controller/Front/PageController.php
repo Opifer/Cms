@@ -13,7 +13,7 @@ class PageController extends Controller
      */
     public function homeAction()
     {
-        $content = $this->getDoctrine()->getRepository('OpiferCmsBundle:Content')
+        $content = $this->get('opifer.cms.content_manager')->getRepository()
             ->findOneBySlug('index');
 
         if ($content) {
@@ -28,6 +28,9 @@ class PageController extends Controller
             ]);
         }
 
+        /**
+         * @todo fix this path
+         */
         return $this->render('OpiferSiteBundle:Layout:page.html.twig');
     }
 }

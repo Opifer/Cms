@@ -21,25 +21,6 @@ use Opifer\CrudBundle\Pagination\Paginator;
 class ContentRepository extends BaseContentRepository
 {
     /**
-     * Used by Elastica to transform results to model
-     *
-     * @param string $entityAlias
-     *
-     * @return \Doctrine\ORM\QueryBuilder
-     */
-    public function createValuedQueryBuilder($entityAlias)
-    {
-        return $this->createQueryBuilder($entityAlias)
-            ->select($entityAlias, 'vs', 'v', 'a', 'p', 't')
-            ->leftJoin($entityAlias.'.valueSet', 'vs')
-            ->leftJoin('vs.values', 'v')
-            ->leftJoin('vs.template', 't')
-            ->leftJoin('v.attribute', 'a')
-            ->leftJoin('v.options', 'p')
-        ;
-    }
-
-    /**
      * Search content by term
      *
      * @param string $term
@@ -134,92 +115,6 @@ class ContentRepository extends BaseContentRepository
     }
 
     /**
-     * Finds all content by a template, created by a user
-     *
-     * @param integer $user
-     * @param string  $template
-     *
-     * @return \Doctrine\ORM\Collections\ArrayCollection
-     */
-    public function findUserContentByTemplate($user, $template)
-    {
-        $query = $this->createQueryBuilder('c')
-            ->innerJoin('c.valueSet', 'vs')
-            ->innerJoin('vs.template', 't')
-            ->where('c.author = :user')
-            ->andWhere('t.name = :template')
-            ->setParameters([
-                'user'     => $user,
-                'template' => $template,
-            ])
-            ->getQuery()
-        ;
-
-        return $query->getResult();
-    }
-
-    /**
-     * Find attributed in directory
-     *
-     * @param integer $siteId
-     * @param integer $directoryId
-     * @param string  $locale
-     *
-     * @return \Doctrine\ORM\Collections\ArrayCollection
-     */
-    public function findAttributedInDirectory($siteId = 0, $directoryId = 0, $locale = null)
-    {
-        $query = $this->createValuedQueryBuilder('c')
-            ->where("c.site = :site")
-            ->setParameter('site', $siteId)
-        ;
-
-        if ($directoryId) {
-            $query->andWhere("c.directory = :directory")
-                ->setParameter('directory', $directoryId)
-            ;
-        }
-
-        return $query->getQuery()->getResult();
-    }
-
-    /**
-     * Find one by ID
-     *
-     * @param integer $id
-     *
-     * @return Content
-     */
-    public function findOneById($id)
-    {
-        $query = $this->createValuedQueryBuilder('c')
-            ->where("c.id = :id")
-            ->setParameter('id', $id)
-            ->getQuery()
-        ;
-
-        return $query->getSingleResult();
-    }
-
-    /**
-     * Find one by slug
-     *
-     * @param string $slug
-     *
-     * @return Content
-     */
-    public function findOneBySlug($slug)
-    {
-        $query = $this->createValuedQueryBuilder('c')
-            ->where("c.slug = :slug")
-            ->setParameter('slug', $slug)
-            ->getQuery()
-        ;
-
-        return $query->getSingleResult();
-    }
-
-    /**
      * Find an anonymously created item by it's ID
      *
      * @param integer $id
@@ -237,15 +132,6 @@ class ContentRepository extends BaseContentRepository
         ;
 
         return $query->getSingleResult();
-    }
-
-    /**
-     * Find popular content items by template
-     * @todo just retrieves random content items for now
-     */
-    public function findPopularByTemplate($template)
-    {
-        return $this->findRandomByTemplate($template);
     }
 
     /**
@@ -277,7 +163,7 @@ class ContentRepository extends BaseContentRepository
             ->getSingleScalarResult()
         ;
 
-        $offset = rand(0, (int) ($count - $limit)-1);
+        $offset = rand(0, (int) ($count - $limit) - 1);
         $offset = ($offset && $offset > 0) ? $offset : 0;
 
         $query = $this->createQueryBuilder('c')

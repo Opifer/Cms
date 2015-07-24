@@ -63,15 +63,15 @@ class Content extends BaseContent
     protected $description;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Site")
+     * @ORM\ManyToOne(targetEntity="Opifer\CmsBundle\Entity\Site")
      * @ORM\JoinColumn(name="site_id", referencedColumnName="id")
      */
-    private $site;
+    protected $site;
 
     /**
      * @Gedmo\Locale
      */
-    private $locale;
+    protected $locale;
 
     /**
      * Set translatable locale
