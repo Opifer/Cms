@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Address
  *
- * @ORM\Entity()
+ * @ORM\MappedSuperclass()
  * @ORM\Table(name="address")
  */
 class Address

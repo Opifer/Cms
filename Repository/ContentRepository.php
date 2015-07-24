@@ -240,6 +240,7 @@ class ContentRepository extends BaseContentRepository
     }
 
     /**
+     * Find popular content items by template
      * @todo just retrieves random content items for now
      */
     public function findPopularByTemplate($template)
@@ -277,7 +278,7 @@ class ContentRepository extends BaseContentRepository
         ;
 
         $offset = rand(0, (int) ($count - $limit)-1);
-        $offset = ($offset) ? $offset : 1;
+        $offset = ($offset && $offset > 0) ? $offset : 0;
 
         $query = $this->createQueryBuilder('c')
             ->leftJoin('c.valueSet', 'vs')
@@ -289,36 +290,6 @@ class ContentRepository extends BaseContentRepository
             ->setParameter('active', true)
             ->setMaxResults($limit)
             ->setFirstResult($offset)
-            ->getQuery()
-        ;
-
-        return $query->getResult();
-    }
-
-    /**
-     * Find related content
-     *
-     * @param Content $content
-     * @param integer $limit
-     *
-     * @return \Doctrine\Common\Collections\ArrayCollection
-     */
-    public function findRelated(Content $content, $limit = 10)
-    {
-        $city = $content->getValueSet()->getValueFor('address')->getAddress()->getCity();
-
-        $query = $this->createQueryBuilder('c')
-            ->innerJoin('c.valueSet', 'vs')
-            ->innerJoin('vs.values', 'v')
-            ->innerJoin('v.attribute', 'a')
-            ->innerJoin('v.address', 'addr')
-            ->where('addr.city = :city')
-            ->andWhere('c.active = 1')
-            ->andWhere('c.nestedIn IS NULL')
-            ->andWhere('c.id <> :id')
-            ->setParameter('id', $content->getId())
-            ->setParameter('city', $city)
-            ->setMaxResults($limit)
             ->getQuery()
         ;
 
