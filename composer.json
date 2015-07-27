@@ -19,8 +19,7 @@
         
         "friendsofsymfony/jsrouting-bundle": "~1.5.3",
         "gedmo/doctrine-extensions": "~2.3",
-        "jms/serializer": "~0.16",
-        "jms/serializer-bundle": "~0.13",
+        "jms/serializer-bundle": "~1.0",
         
         "opifer/eav-bundle": "@dev",
         "opifer/media-bundle": "@dev",
