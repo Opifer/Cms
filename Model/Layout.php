@@ -21,7 +21,7 @@ class Layout implements LayoutInterface
      * @ORM\Id
      * @ORM\Column(name="id", type="integer")
      * @ORM\GeneratedValue(strategy="AUTO")
-     * 
+     *
      * @JMS\Expose
      * @JMS\Type("integer")
      */
@@ -32,7 +32,7 @@ class Layout implements LayoutInterface
      *
      * @ORM\Column(name="name", type="string", length=128)
      * @Assert\NotBlank()
-     * 
+     *
      * @JMS\Expose
      * @JMS\Type("string")
      */
@@ -42,7 +42,7 @@ class Layout implements LayoutInterface
      * @var string
      *
      * @ORM\Column(name="description", type="text")
-     * 
+     *
      * @JMS\Expose
      * @JMS\Type("string")
      */
@@ -53,7 +53,7 @@ class Layout implements LayoutInterface
      *
      * @ORM\Column(name="filename", type="string", length=128)
      * @Assert\NotBlank()
-     * 
+     *
      * @JMS\Expose
      * @JMS\Type("string")
      */
@@ -72,7 +72,7 @@ class Layout implements LayoutInterface
      *
      * @ORM\Column(name="placeholderkeys", type="simple_array", nullable=true)
      */
-    protected $placeholderkeys;
+    protected $placeholderkeys = array();
 
     /**
      * @var string
