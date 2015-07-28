@@ -90,7 +90,7 @@ services:
 
     opifer.eav.form.template_type:
         class: %opifer.eav.form.template_type.class%
-        arguments: [@translator, @opifer.eav.form.attribute_type, %opifer_eav.template_class%]
+        arguments: [@opifer.eav.form.attribute_type, %opifer_eav.template_class%]
         tags:
             - { name: form.type, alias: eav_template }
 
