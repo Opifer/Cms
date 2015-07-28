@@ -32,7 +32,8 @@ class ValueSet implements ValueSetInterface
      * )
      * @ORM\JoinColumn(
      *     name="template_id",
-     *     referencedColumnName="id"
+     *     referencedColumnName="id",
+     *     onDelete="CASCADE"
      * )
      **/
     protected $template;
@@ -44,8 +45,9 @@ class ValueSet implements ValueSetInterface
      * @ORM\OneToMany(
      *     targetEntity="Opifer\EavBundle\Entity\Value",
      *     mappedBy="valueSet",
-     *     cascade={"persist"},
-     *     fetch="EAGER"
+     *     cascade={"all"},
+     *     fetch="EAGER",
+     *     orphanRemoval=true
      * )
      */
     protected $values;
