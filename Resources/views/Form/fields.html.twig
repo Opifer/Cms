@@ -48,8 +48,7 @@
 #}
 {% block presentationeditor_widget %}
     {% spaceless %}
-        <presentation-editor formid="{{ id }}" name="{{ full_name }}"
-                             value="{{ form.vars.value|replace({"\n": '', ' ': ''})|json_encode() }}"></presentation-editor>
+        <presentation-editor formid="{{ id }}" name="{{ full_name }}" value="{{ form.vars.value|replace({"\n": '', ' ': ''})|json_encode() }}"></presentation-editor>
     {% endspaceless %}
 {% endblock %}
 

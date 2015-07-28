@@ -16,7 +16,7 @@ class MediaValue extends Value implements \IteratorAggregate, \Countable
     /**
      * @ORM\ManyToMany(targetEntity="Opifer\EavBundle\Model\MediaInterface")
      * @ORM\JoinTable(name="value_media",
-     *      joinColumns={@ORM\JoinColumn(name="value_id", referencedColumnName="id")},
+     *      joinColumns={@ORM\JoinColumn(name="value_id", referencedColumnName="id", onDelete="cascade")},
      *      inverseJoinColumns={@ORM\JoinColumn(name="media_id", referencedColumnName="id", onDelete="cascade")}
      * )
      */

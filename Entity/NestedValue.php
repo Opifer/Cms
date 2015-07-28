@@ -11,7 +11,7 @@ use Opifer\EavBundle\Model\Nestable;
  *
  * @ORM\Entity
  */
-class NestedValue extends Value implements \IteratorAggregate
+class NestedValue extends Value implements \IteratorAggregate, \ArrayAccess
 {
     /**
      * @var <Nestable>
@@ -38,16 +38,16 @@ class NestedValue extends Value implements \IteratorAggregate
      */
     public function __toString()
     {
-        $string = '';
+        $ids = [];
         foreach ($this->nested as $nested) {
-            $string .= $nested->getId();
-
-            if ($this->nested->last() != $nested) {
-                $string .= ',';
+            if ($nested->getDeletedAt()) {
+                continue;
             }
+
+            array_push($ids, $nested->getId());
         }
 
-        return $string;
+        return (count($ids)) ? implode(',', $ids) : '';
     }
 
     /**
@@ -126,5 +126,41 @@ class NestedValue extends Value implements \IteratorAggregate
     public function isEmpty()
     {
         return (count($this->nested) < 1) ? true : false;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function offsetSet($offset, $value)
+    {
+        if (is_null($offset)) {
+            $this->nested[] = $value;
+        } else {
+            $this->nested[$offset] = $value;
+        }
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function offsetExists($offset)
+    {
+        return isset($this->nested[$offset]);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function offsetUnset($offset)
+    {
+        unset($this->nested[$offset]);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function offsetGet($offset)
+    {
+        return isset($this->nested[$offset]) ? $this->nested[$offset] : null;
     }
 }
