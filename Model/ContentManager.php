@@ -90,7 +90,7 @@ class ContentManager implements ContentManagerInterface
     {
         return $this->getRepository()->findOneBySlug($slug);
     }
-    
+
     /**
      * Find published content
      *
@@ -265,6 +265,10 @@ class ContentManager implements ContentManagerInterface
         foreach ($content as $item) {
             $this->em->remove($item);
         }
+
+        // Clear the result cache
+        $cacheDriver = $this->em->getConfiguration()->getResultCacheImpl();
+        $cacheDriver->deleteAll();
 
         $this->em->flush();
     }
