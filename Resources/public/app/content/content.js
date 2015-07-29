@@ -73,19 +73,35 @@ angular.module('OpiferContent', ['angular-inview'])
             }
         };
 
+        $scope.hasContent = function(content) {
+            for (var i = 0; i < $scope.selecteditems.length; i++) {
+                if (content.id == $scope.selecteditems[i].id) {
+                    return true;
+                }
+            }
+            return false;
+        };
+
         // Select a content item
         $scope.pickContent = function(content) {
             $rootScope.$emit('contentPicker.pickContent', content);
 
             if ($scope.multiple) {
                 $scope.selecteditems.push(content);
-
                 $scope.order.order.push(content.id);
             } else {
                 $scope.content = content;
+                $scope.isPickerOpen = false;
             }
+        };
 
-            $scope.isPickerOpen = false;
+        // Select a content item
+        $scope.unpickContent = function(content) {
+            for (var i = 0; i < $scope.selecteditems.length; i++) {
+                if (content.id == $scope.selecteditems[i].id) {
+                    $scope.selecteditems.splice(i, 1);
+                }
+            }
         };
 
         // Remove a content item
@@ -101,7 +117,6 @@ angular.module('OpiferContent', ['angular-inview'])
 
         return {
             restrict: 'E',
-            transclude: true,
             scope: {
                 name: '@',
                 value: '@',
@@ -109,7 +124,7 @@ angular.module('OpiferContent', ['angular-inview'])
                 provider: '@',
                 context: '@',
                 siteId: '@',
-                active: '@',
+                active: '=',
                 directoryId: '@',
                 //locale: '@',
                 mode: '@',
@@ -129,7 +144,6 @@ angular.module('OpiferContent', ['angular-inview'])
                 $scope.query = null;
                 $scope.inSearch = false;
                 $scope.busyLoading = false;
-                $scope.active = false;
                 $scope.confirmation = {
                     shown: false,
                     name: '',
@@ -158,6 +172,9 @@ angular.module('OpiferContent', ['angular-inview'])
 
 
                 $scope.fetchContents = function () {
+                    if ($scope.active == false) {
+                        return;
+                    }
                     ContentService.index({
                             site_id: $scope.siteId,
                             directory_id: $scope.directoryId,
@@ -331,16 +348,17 @@ angular.module('OpiferContent', ['angular-inview'])
                     $scope.$parent.pickContent(content);
                 };
 
-                $scope.hasObject = function (contentId) {
-
-                    if (angular.isUndefined($scope.$parent.subject.right.value)) {
-                        return false;
-                    }
-
-                    var idx = $scope.$parent.subject.right.value.indexOf(contentId);
-
-                    return (idx >= 0) ? true : false;
+                $scope.unpickContent = function (content) {
+                    $scope.$parent.unpickContent(content);
                 };
+
+                $scope.hasContent = function (content) {
+                    return $scope.$parent.hasContent(content);
+                };
+
+                $scope.$on('ngModal.close', function() {
+                    $scope.active = false;
+                });
             },
             compile: function (element, attrs) {
                 if (!attrs.mode) {
