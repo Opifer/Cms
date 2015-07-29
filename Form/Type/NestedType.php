@@ -36,7 +36,6 @@ class NestedType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('title', 'text')
             ->add('valueset', 'opifer_valueset')
         ;
     }
