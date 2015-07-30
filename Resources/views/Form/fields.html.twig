@@ -32,7 +32,7 @@
                 </div>
             </div>
             <ng-modal show="isPickerOpen">
-                <content-browser site-id="0" locale="nl_NL" directory-id="0" mode="PICKER_SINGLE" active="{{ isPickerOpen }}"></content-browser>
+                <content-browser site-id="0" locale="nl_NL" directory-id="0" mode="PICKER_SINGLE" active="isPickerOpen"></content-browser>
             </ng-modal>
             {% endverbatim %}
         </div>
@@ -76,7 +76,7 @@
             </div>
 
             <ng-modal show="isPickerOpen">
-                <content-browser site-id="0" locale="nl_NL" directory-id="0" mode="PICKER_SINGLE" active="{{ isPickerOpen }}"></content-browser>
+                <content-browser site-id="0" locale="nl_NL" directory-id="0" mode="PICKER" active="isPickerOpen"></content-browser>
             </ng-modal>
             {% endverbatim %}
         </div>

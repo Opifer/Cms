@@ -177,6 +177,10 @@ class ContentManager implements ContentManagerInterface
                 $nestedContent = $this->getContentByReference($keys['reference']);
                 $nestedContent->setSlug(md5(time() + rand()));
 
+                if ($nestedContent->getTitle() == "") {
+                    $nestedContent->setTitle('_');
+                }
+
                 $form = new NestedType($key);
                 $form = $this->formFactory->create($form, $nestedContent);
                 $form->handleRequest($request);

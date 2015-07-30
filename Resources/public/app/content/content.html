@@ -65,8 +65,8 @@
                     <!--ng-click="deleteContent(content.id)"-->
                 </td>
                 <td class="actions" ng-if="mode == 'PICKER'">
-                    <a href="#" ng-click="pickObject(content.id)" ng-show="!hasObject(content.id)">Add</a>
-                    <span class="text-muted" ng-show="hasObject(content.id)">Added</span>&nbsp;
+                    <a href="#" ng-click="pickContent(content)" ng-show="!hasContent(content)">Add</a>
+                    <a href="#" class="text-danger" ng-click="unpickContent(content)" ng-show="hasContent(content)">Remove</a>&nbsp;
                 </td>
                 <td class="actions" ng-if="mode == 'PICKER_SINGLE'">
                     <a href="#" ng-click="pickContent(content)">Choose</a>
