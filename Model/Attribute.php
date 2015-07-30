@@ -84,6 +84,8 @@ class Attribute implements AttributeInterface
     protected $options;
 
     /**
+     * @var ArrayCollection
+     *
      * @JMS\Type("array<Opifer\EavBundle\Entity\Value>")
      * @ORM\OneToMany(targetEntity="Opifer\EavBundle\Entity\Value", mappedBy="attribute", cascade={"all"}, orphanRemoval=true)
      */
@@ -97,6 +99,15 @@ class Attribute implements AttributeInterface
      **/
     protected $allowedTemplates;
 
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->values = new ArrayCollection;
+        $this->options = new ArrayCollection;
+        $this->allowedTemplates = new ArrayCollection;
+    }
 
     /**
      * Do not remove, for diff purposes on array of objects
@@ -107,7 +118,6 @@ class Attribute implements AttributeInterface
     {
         return $this->getId() . ' ' . $this->getDisplayName();
     }
-
 
     /**
      * Get id
@@ -221,16 +231,6 @@ class Attribute implements AttributeInterface
     public function getTemplate()
     {
         return $this->template;
-    }
-
-
-    /**
-     * Constructor
-     */
-    public function __construct()
-    {
-        $this->values  = new ArrayCollection();
-        $this->options = new ArrayCollection();
     }
 
 
@@ -398,7 +398,16 @@ class Attribute implements AttributeInterface
      */
     public function addAllowedTemplate(TemplateInterface $template)
     {
-        $this->allowedTemplates[] = $template;
+        $exists = false;
+        foreach ($this->allowedTemplates as $allowedTemplate) {
+            if ($allowedTemplate->getId() == $template->getId()) {
+                $exists = true;
+            }
+        }
+
+        if (!$exists) {
+            $this->allowedTemplates[] = $template;
+        }
 
         return $this;
     }

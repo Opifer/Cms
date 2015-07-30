@@ -74,12 +74,11 @@ angular.module('OpiferNestedContent', ['ui.sortable'])
         return {
             template:
                 '<article class="nested-content-item">'+
-                '   <header ng-click="toggle()" class="form-group">' +
+                '   <header class="form-group">' +
                 '       <div class="col-xs-12 col-sm-9 col-lg-10">'+
-                '           <div class="title">'+
+                '           <div class="title" ng-click="toggle()">'+
                 '               <div class="cell-icon cell-columns" ng-if="!subject.data.coverImage"></div>'+
                 '               <div style="background-image: url({{ subject.data.coverImage }});" ng-if="subject.data.coverImage" class="content-cover"></div>'+
-                '               <h3>{{ subject.data.title }}</h3>'+
                 '           </div>'+
                 '           <span class="template form-control-static"><span class="label label-info">{{ subject.data.templateDisplayName }}</span></span>'+
                 '       </div>'+
