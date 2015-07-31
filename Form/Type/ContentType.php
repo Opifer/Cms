@@ -4,7 +4,6 @@ namespace Opifer\CmsBundle\Form\Type;
 
 use Symfony\Component\Form\FormBuilderInterface;
 use Opifer\ContentBundle\Form\Type\ContentType as BaseContentType;
-use Opifer\CmsBundle\Form\DataTransformer\UsernameToUserTransformer;
 
 class ContentType extends BaseContentType
 {
@@ -13,25 +12,24 @@ class ContentType extends BaseContentType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $transformer = new UsernameToUserTransformer($this->contentManager->getEntityManager());
-
         $builder
             ->add('indexable', 'checkbox', [
+                'label' => 'content.form.indexable.label',
                 'attr'  => [
                     'align_with_widget' => true,
-                    'class' => 'before-form-section'
+                    'class' => 'before-form-section',
+                    'help_text' => 'content.form.indexable.help_text'
                 ]
             ])
             ->add('searchable', 'checkbox', [
+                'label' => 'content.form.searchable.label',
                 'attr'  => [
                     'align_with_widget' => true,
-                    'class' => 'before-form-section'
+                    'class' => 'before-form-section',
+                    'help_text' => 'content.form.searchable.help_text'
                 ]
             ])
-            ->add(
-                $builder->create('author', 'text', ['label' => 'User', 'attr' => ['class' => 'typeahead_users']])
-                    ->addModelTransformer($transformer)
-            );
+        ;
 
         parent::buildForm($builder, $options);
     }
