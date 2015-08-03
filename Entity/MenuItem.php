@@ -17,7 +17,7 @@ use Opifer\CrudBundle\Annotation as Opifer;
 class MenuItem extends Menu
 {
     /**
-     * @ORM\ManyToOne(targetEntity="Content", fetch="EAGER")
+     * @ORM\ManyToOne(targetEntity="Opifer\CmsBundle\Entity\Content", fetch="EAGER")
      * @ORM\JoinColumn(name="content_id", referencedColumnName="id", onDelete="CASCADE")
      * @Opifer\Form(editable=true)
      */
