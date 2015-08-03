@@ -19,8 +19,8 @@ class ContentListValue extends Value implements \IteratorAggregate, \Countable
      *
      * @ORM\ManyToMany(targetEntity="Opifer\ContentBundle\Model\ContentInterface")
      * @ORM\JoinTable(name="value_content",
-     *      joinColumns={@ORM\JoinColumn(name="value_id", referencedColumnName="id")},
-     *      inverseJoinColumns={@ORM\JoinColumn(name="content_id", referencedColumnName="id")}
+     *      joinColumns={@ORM\JoinColumn(name="value_id", referencedColumnName="id", onDelete="cascade")},
+     *      inverseJoinColumns={@ORM\JoinColumn(name="content_id", referencedColumnName="id", onDelete="cascade")}
      * )
      */
     private $content;
