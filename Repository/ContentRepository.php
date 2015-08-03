@@ -243,9 +243,9 @@ class ContentRepository extends BaseContentRepository
     /**
      * @todo just retrieves random content items for now
      */
-    public function findPopularByTemplate($template)
+    public function findPopularByTemplate($template, $limit = 10)
     {
-        return $this->findRandomByTemplate($template);
+        return $this->findRandomByTemplate($template, $limit);
     }
 
     /**
