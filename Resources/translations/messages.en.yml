@@ -209,3 +209,5 @@ confirmation:
 
 template:
     post_notify: E-mail notification
+    delete:
+        warning: "We're unable to remove this template. It might still be in use by content items."
