@@ -206,3 +206,7 @@ confirmation:
     delete:
         title: "Verwijder bevestiging"
         description: "Weet u zeker dat u wilt verwijderen"
+
+template:
+    delete:
+        warning: 'Dit template kan niet worden verwijderd. Het kan zijn dat deze nog gebruikt wordt door content items.'
