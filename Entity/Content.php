@@ -32,14 +32,14 @@ class Content extends BaseContent
      *
      * @ORM\Column(name="indexable", type="boolean")
      */
-    protected $indexable = 1;
+    protected $indexable = true;
 
     /**
      * @var boolean
      *
      * @ORM\Column(name="searchable", type="boolean")
      */
-    protected $searchable = 1;
+    protected $searchable = true;
 
     /**
      * @var string
