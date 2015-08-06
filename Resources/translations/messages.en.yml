@@ -25,19 +25,25 @@ content:
             advanced: advanced
         success: "%title% was saved successfully!"
     form:
+        alias:
+            help_text: Enter a shortened url as alias for this page (optional)
         description:
             placeholder: Description for your page
             help_text: Describe your page in a few important keywords
         directory:
             help_text: Directory this page will be stored in
+        indexable:
+            help_text: Allow search engines to index this page
+            label: Indexable
         init:
             submit: continue
         locale:
             help_text: ""
+        searchable:
+            help_text: Allow this page to end up in search results
+            label: Searchable
         site:
             help_text: Choose the site you want to create the content in
-        alias:
-            help_text: Enter a shortened url as alias for this page (optional)
         slug:
             placeholder: Unique permalink slug for this page
         submit: Save
@@ -203,3 +209,5 @@ confirmation:
 
 template:
     post_notify: E-mail notification
+    delete:
+        warning: "We're unable to remove this template. It might still be in use by content items."
