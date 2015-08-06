@@ -36,7 +36,6 @@ class RadioValueProvider extends AbstractValueProvider implements ValueProviderI
                 'expanded'      => true,   // Render as radio buttons
                 'property'      => 'displayName', // Assuming that the entity has a "name" property
                 'class'         => $this->optionClass,
-                'data_class'    => $this->optionClass,
                 'query_builder' => function (EntityRepository $optionRepository) use ($attributeId) {
                     return $optionRepository->createQueryBuilder('o')
                         ->add('orderBy', 'o.sort ASC')
