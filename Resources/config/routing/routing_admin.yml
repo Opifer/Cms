@@ -1,23 +1,29 @@
 
-opifer.cms.dashboard:
+opifer_cms_dashboard:
     resource: "@OpiferCmsBundle/Controller/DashboardController.php"
     type:     annotation
 
-opifer.cms.menu:
+opifer_cms_menu:
     resource: "@OpiferCmsBundle/Controller/MenuController.php"
     type:     annotation
 
-opifer.cms.setting:
+opifer_cms_setting:
     resource: "@OpiferCmsBundle/Controller/SettingController.php"
     type:     annotation
 
-opifer.cms.command:
+opifer_cms_command:
     resource: "@OpiferCmsBundle/Controller/CommandController.php"
     type:     annotation
 
-opifer.cms.user:
+opifer_cms_user:
     resource: "@OpiferCmsBundle/Controller/UserController.php"
     type:     annotation
+
+opifer_cms_template_delete:
+    path: /templates/delete/{id}
+    defaults: {_controller: OpiferCmsBundle:Template:delete}
+    requirements:
+        id: "\d+"
 
 opifer_ckeditor_content:
     path: /ckeditor/content
