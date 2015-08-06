@@ -35,6 +35,7 @@ gulp.task('js', function () {
         'Resources/public/components/ngInfiniteScroll/build/ng-infinite-scroll.js',
         'Resources/public/components/afkl-lazy-image/release/lazy-image.js',
         'Resources/public/components/ng-file-upload/angular-file-upload.min.js',
+        'Resources/public/components/typeahead.js/dist/typeahead.bundle.js',
         'vendor/braincrafted/bootstrap-bundle/Braincrafted/Bundle/BootstrapBundle/Resources/js/bc-bootstrap-collection.js',
         'vendor/infinite-networks/form-bundle/Resources/public/js/collections.js',
         'Resources/public/js/main.js',

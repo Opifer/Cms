@@ -106,3 +106,27 @@
     {% endif %}
 {% endspaceless %}
 {% endblock %}
+
+{% block opifer_autocomplete_javascript %}
+    {% dump(true) %}
+    <script type="text/javascript">
+        var {{ id }} = new Bloodhound({
+            datumTokenizer: Bloodhound.tokenizers.whitespace,
+            queryTokenizer: Bloodhound.tokenizers.whitespace,
+            name: '{{ name }}',
+            remote:
+            {
+                url: '{{ url('opifer.cms.autocomplete', {'alias': 'user', 'q': 'WILDCARD'}) }}',
+                wildcard: 'WILDCARD'
+            }
+        });
+
+        $('#{{ id }}').typeahead({
+            minLength: 3,
+            highlight: true
+        },
+        {
+            source: {{ id }}.ttAdapter()
+        });
+    </script>
+{% endblock %}

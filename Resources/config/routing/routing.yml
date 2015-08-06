@@ -56,6 +56,10 @@ opifer_cms_home:
     defaults: { _controller: OpiferCmsBundle:Front/Page:home }
     options: {sitemap: true}
 
+opifer_cms_auto_complete:
+    resource: "@OpiferCmsBundle/Controller/AutoCompleteController.php"
+    type: annotation
+
 opifer_cms_login:
     pattern:  /login
     defaults: { _controller: FOSUserBundle:Security:login }

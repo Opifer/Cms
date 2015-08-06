@@ -170,6 +170,13 @@ services:
         class: %opifer.cms.exception_router.class%
         arguments: [@service_container]
 
+    # Twig
+    opifer.cms.twig.form_extension:
+        class: Opifer\CmsBundle\Twig\Extension\FormExtension
+        arguments: [@twig.form.renderer]
+        tags:
+            - { name: twig.extension }
+
     # Logging
     #opifer.cms.logstash_formatter:
     #    class: Monolog\Formatter\LogstashFormatter
