@@ -1,30 +1,33 @@
 <!DOCTYPE html>
 <html lang="{{ app.request.locale }}" ng-app="MainApp">
-    <head>
-        <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <meta name="description" content="Content Management System">
-        <meta name="author" content="Opifer">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Content Management System">
+    <meta name="author" content="Opifer">
 
-        <title>{% block title %}CM – Opifer{% endblock %}</title>
+    <title>{% block title %}CM – Opifer{% endblock %}</title>
 
-        <link rel="stylesheet" href="{{ asset('bundles/opifercms/css/app.css') }}" />
-    </head>
-    <body>
-        {% spaceless %}
-        {% if is_granted("IS_AUTHENTICATED_REMEMBERED") and hide_nav|default != true %}
+    <link rel="stylesheet" href="{{ asset('bundles/opifercms/css/app.css') }}"/>
+</head>
+<body>
+{% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
+    {% block header %}
+        {% if hide_nav|default != true %}
             <header class="mainnav">
 
                 <nav class="navbar navbar-inverse navbar-static-top" role="navigation">
                     <div class="container-fluid">
                         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                             <ul class="nav navbar-nav">
+                                {% block navbar_items %}
                                 <li><a href="{{ path('opifer.cms.dashboard.view') }}"><i class="fa fa-rocket"></i></a></li>
                                 <li><a href="{{ path('opifer_content_content_index') }}">{{ "nav.content"|trans|capitalize }}</a></li>
                                 <li><a href="{{ path('opifer_media_media_index') }}"><i class="fa fa-photo visible-xs-block"></i> {{ "nav.media"|trans|capitalize }}</a></li>
                                 <li><a href="{{ path('opifer_content_directory_index') }}"><i class="fa fa-folder-o visible-xs-block"></i> {{ "nav.directory"|trans|capitalize }}</a></li>
                                 <li><a href="{{ path('opifer_cms_menu_index') }}"><i class="fa fa-navicon visible-xs-block"></i> {{ "nav.sitemenu"|trans|capitalize }}</a></li>
+                                {% endblock navbar_items %}
                             </ul>
 
                             <ul class="nav navbar-nav navbar-right">
@@ -34,10 +37,10 @@
                                     <ul class="dropdown-menu">
                                         <li role="presentation" class="dropdown-header">{{ 'new'|trans|capitalize }}</li>
                                         <li><a href="{{ path('opifer_cms_content_new') }}">{{ 'base.content'|trans|capitalize }}</a></li>
-                                        <li><a href="{{ path('opifer.crud.new', {'slug': 'templates'}) }}">{{ 'base.templates'|trans|capitalize }}</a></li>
+                                        <li><a href="{{ path('opifer.crud.new', {'slug': 'schemas'}) }}">{{ 'base.schemas'|trans|capitalize }}</a></li>
                                     </ul>
                                 </li>#}
-                                
+
                                 {# User menu #}
                                 <li class="dropdown">
                                     <a class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-smile-o visible-xs-block"></i> {{ app.user.username|capitalize }} <i class="fa fa-angle-down"></i></a>
@@ -61,8 +64,8 @@
                                             <li><a href="{{ path('opifer.crud.index', {'slug': 'redirects'}) }}">{{ 'base.redirects'|trans|capitalize }}</a></li>
                                             <li class="divider"></li>
                                             <li role="presentation" class="dropdown-header">{{ 'base.content'|trans|capitalize }}</li>
-                                            <li><a href="{{ path('opifer.crud.index', {'slug': 'templates'}) }}">{{ 'base.templates'|trans|capitalize }}</a></li>
-                                            <li><a href="{{ path('opifer.crud.index', {'slug': 'layouts'}) }}">{{ 'base.layouts'|trans|capitalize }}</a></li>
+                                            <li><a href="{{ path('opifer.crud.index', {'slug': 'schemas'}) }}">{{ 'base.schemas'|trans|capitalize }}</a></li>
+                                            <li><a href="{{ path('opifer_content_template_index') }}">{{ 'base.templates'|trans|capitalize }}</a></li>
                                             <li><a href="{{ path('opifer.crud.index', {'slug': 'sites'}) }}">{{ 'base.sites'|trans|capitalize }}</a></li>
                                         </ul>
                                     </li>
@@ -76,31 +79,29 @@
                     </div>
                 </nav>
             </header>
-            <div id="main" class="container-fluid">
-                <div class="viewmain">
-                {% endif %}
+        {% endif %}
+    {% endblock header %}
+    {% block main %}
+        <div id="main" class="container-fluid">
+            <div class="viewmain">
                 {% include 'OpiferCmsBundle:Components:flash.html.twig' with {'close': true } %}
                 {% block body %}{% endblock %}
-            {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
             </div>
             {% include 'OpiferCmsBundle:Components:confirmationDelete.html.twig' %}
         </div>
-        {#<footer>
-            <p>&copy; Opifer {{ "now"|date('Y') }}</p>
-        </footer>#}
-    {% endif %}
+    {% endblock main %}
+{% endif %}
 
-    {% endspaceless %}
 
-    {% block javascripts %}
-        <script>var CKEDITOR_BASEPATH = '/bundles/opifercms/components/ckeditor/';</script>
-        <script src="http://maps.google.com/maps/api/js?sensor=true&libraries=places&language=en-US"></script>
+{% block javascripts %}
+    <script>var CKEDITOR_BASEPATH = '/bundles/opifercms/components/ckeditor/';</script>
+    <script src="http://maps.google.com/maps/api/js?sensor=true&libraries=places&language=en-US"></script>
 
-        <script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
-        <script src="{{ asset('bundles/bazingajstranslation/js/translator.min.js') }}"></script>
-        <script type="text/javascript" src="{{ asset('bundles/opifercms/dist/js/app.js') }}"></script>
-        <script src="{{ url('bazinga_jstranslation_js') }}"></script>
-        <script src="{{ path('fos_js_routing_js', {"callback": "fos.Router.setData"}) }}"></script>
-    {% endblock %}
+    <script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
+    <script src="{{ asset('bundles/bazingajstranslation/js/translator.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/opifercms/dist/js/app.js') }}"></script>
+    <script src="{{ url('bazinga_jstranslation_js') }}"></script>
+    <script src="{{ path('fos_js_routing_js', {"callback": "fos.Router.setData"}) }}"></script>
+{% endblock %}
 </body>
 </html>

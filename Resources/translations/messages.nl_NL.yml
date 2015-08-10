@@ -13,7 +13,7 @@ base:
     sitemenu: menu
     sites: websites
     system: systeem
-    templates: templates
+    schemas: schemas
     users: gebruikers
 
 # Content
@@ -41,8 +41,8 @@ content:
         slug:
             placeholder: Unieke permalink voor de pagina
         submit: Opslaan
-        template:
-            help_text: 'Het type content. Als het template nog niet bestaat, <a href="%url%">maak hem hier aan.</a>'
+        schema:
+            help_text: 'Het type content. Als het schema nog niet bestaat, <a href="%url%">maak hem hier aan.</a>'
         title:
             placeholder: De titel van de pagina
             help_text: De titel van de pagina wordt in de browser weergegeven in het tabblad en in zoekmachines getoond

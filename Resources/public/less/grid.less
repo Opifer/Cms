@@ -1,1 +1,199 @@
 
+.grid {
+    table {
+        > thead,
+        > tbody,
+        > tfoot {
+            > tr {
+                > th {
+                    background: @gray-lighter;
+
+                    > a {
+                        color: @text-color;
+                    }
+                }
+
+                > td {
+                    white-space: nowrap;
+                }
+            }
+        }
+    }
+
+    select {
+        &:extend(.form-control);
+    }
+
+    .grid-row-titles {
+        th {
+            white-space: nowrap;
+            word-break: keep-all;
+        }
+    }
+
+    .sort_down {
+        display: inline;
+        margin-left: .5em;
+
+        &:after {
+            .fa(@fa-var-arrow-down);
+        }
+    }
+
+    .sort_up {
+        display: inline;
+        margin-left: .5em;
+
+        &:after {
+            .fa(@fa-var-arrow-up);
+        }
+    }
+
+    .btn-separator {
+        &:before {
+            content: " ";
+            float: left;
+            display: inline-block;
+            margin: 0 1em;
+            border-left: 1px solid @input-border;
+            height: @input-height-base;
+
+        }
+    }
+
+    .btn-group-columns {
+        .btn-columns {
+            padding: 6px 8px 3px;
+
+            i {
+                font-size: @font-size-large;
+                color: @gray;
+            }
+        }
+
+        .dropdown-menu {
+            padding: @panel-body-padding;
+            min-width: 200px;
+        }
+
+        .dropdown-header {
+            padding: 0;
+            margin-bottom: 10px;
+        }
+
+        .checkbox {
+            margin-top: 3px;
+            margin-bottom: 3px;
+        }
+    }
+
+    .pagination {
+        margin: 0;
+        .make-sm-column(5);
+
+        ul {
+            &:extend(.pagination all);
+            margin: 0;
+        }
+    }
+
+    .count {
+        .make-sm-column(3);
+        .text-center;
+        color: @gray;
+        line-height: @input-height-base;
+
+        select {
+            display: inline;
+            width: auto;
+        }
+    }
+
+    .grid_massactions,
+    .exports {
+        .make-sm-column(4);
+        text-align: right;
+
+        select {
+            display: inline-block;
+            width: 100px;
+            margin: 0 @padding-small-horizontal;
+        }
+    }
+
+    .grid_massactions_helper {
+        .make-sm-column(8);
+        vertical-align: baseline;
+        line-height: @input-height-base;
+    }
+
+    input[type=button],
+    input[type=submit] {
+        &:extend(.btn);
+        &:extend(.btn-default);
+
+        &.grid-search-reset {
+            .btn-sm;
+        }
+    }
+}
+
+.grid_header {
+    &:extend(.clearfix all);
+    &:extend(.row all);
+    margin-bottom: @line-height-computed;
+}
+
+
+.grid-filter-operator {
+    display: block;
+    margin-bottom: @padding-small-vertical;
+
+    select {
+        &:extend(.input-sm);
+    }
+}
+
+.grid-filter-input-query {
+    input {
+        &:extend(.form-control);
+        &:extend(.input-sm);
+    }
+}
+
+.grid_body {
+    &:extend(.table-responsive);
+    &:extend(.clearfix all);
+    margin-bottom: @line-height-computed;
+
+    table {
+        margin-bottom: 0;
+
+        th {
+            font-size: @font-size-small;
+        }
+    }
+}
+
+.grid_footer {
+    &:extend(.clearfix all);
+    &:extend(.row all);
+    margin-top: 20px;
+    margin-bottom: @line-height-computed;
+}
+
+.grid-row-actions {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+
+    li {
+        margin: 0 1em 0 0;
+        padding: 0;
+        display: inline;
+
+        &:last-child {
+            margin-right: 0;
+        }
+    }
+}

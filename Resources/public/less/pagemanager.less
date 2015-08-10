@@ -1,0 +1,486 @@
+@import url(https://fonts.googleapis.com/icon?family=Material+Icons);
+@import "bootstrap-variables.less";
+
+.pm-body {
+    margin: 0 !important; /* Remove body margin/padding */
+    padding: 0 !important;
+    overflow: hidden !important; /* Remove scroll bars on browser window */
+}
+
+.pm {
+    @import "fonts.less";
+    @import "bootstrap.less";
+    @import "fontawesome.less";
+    @import "grid.less";
+    @import "buttons.less";
+    @import "content-picker.less";
+    @import "dashboard.less";
+    @import "forms.less";
+    @import "navs.less";
+    @import "pagination.less";
+    @import "labels.less";
+    @import "manual.less";
+    @import "media-picker.less";
+    @import "modals.less";
+    @import "nested-content.less";
+    @import "panels.less";
+    @import "rules.less";
+    @import "type.less";
+    @import "tables.less";
+    @import "vendor.less";
+    @import "angular.less";
+    @import "crud.less";
+    @import "menu.less";
+    @import '../../../../media-bundle/Resources/public/css/main.less';
+    @import '../../../../media-bundle/Resources/public/css/dropzone.less';
+
+    //
+    //    -ms-text-size-adjust: 100%;
+    //    -webkit-text-size-adjust: 100%;
+    //    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+
+    // Previously inside "body {"
+    font-family: @font-family-base !important;
+    font-size: @font-size-base;
+    line-height: @line-height-base;
+    color: @text-color;
+
+    h1, h2, h3, h4 {
+        -webkit-font-smoothing: auto;
+    }
+
+    .navbar {
+        margin-bottom: 0;
+        height: auto;
+
+        .btn-default {
+            border: 1px solid @btn-default-border !important;
+            background: white !important;
+            color: @text-color;
+        }
+
+        .btn-group {
+            .btn {
+                border: 1px solid @btn-default-border;
+                background: white;
+            }
+        }
+
+        .btn-link {
+            color: @text-color;
+        }
+    }
+
+    .navbar-header {
+        height: auto;
+        padding: 0;
+    }
+
+    .navbar-default {
+        background-color: #e6e6e6;
+        border-bottom: 1px solid #ccc;
+    }
+
+    .navbar-collapse {
+        padding-right: @grid-gutter-width/2 !important;
+    }
+
+    .pm-navbar-title {
+        position: absolute;
+        width: 100%;
+        left: 0;
+        text-align: center;
+        font-size: 16px;
+        color: @gray-dark;
+        .navbar-vertical-align(@line-height-computed);
+        z-index: -1;
+    }
+
+    .navbar-static-top {
+        z-index: 200;
+    }
+
+    #pm-navbar {
+        &.isloading {
+            .pm-navbar-title {
+                color: @brand-primary;
+
+                &:after {
+                    content: " loading…";
+                }
+            }
+        }
+    }
+
+    .material-icons {
+        font: normal normal normal 20px/1 'Material Icons';
+        font-size: inherit;
+        display: inline-block;
+        width: 1em;
+        height: 1em;
+        line-height: 1;
+        text-transform: none;
+        letter-spacing: normal;
+        word-wrap: normal;
+
+        /* Support for all WebKit browsers. */
+        -webkit-font-smoothing: antialiased;
+        /* Support for Safari and Chrome. */
+        text-rendering: optimizeLegibility;
+
+        /* Support for Firefox. */
+        -moz-osx-font-smoothing: grayscale;
+
+        /* Support for IE. */
+        font-feature-settings: 'liga';
+    }
+
+    .btn-icon {
+        .material-icons {
+            position: absolute;
+            font-size: 24px;
+            left: 8px;
+            top: 4px;
+        }
+
+        &:after {
+            position: relative;
+            content: "\0000a0\0000a0\0000a0\0000a0";
+        }
+    }
+
+    .list-group {
+        .col-visual {
+            position: absolute;
+            background: #F5F7F9;
+            border: 1px solid #B3C0CE;
+            color: #0A539E;
+            width: 45px;
+            height: 40px;
+            top: 8px;
+            text-align: center;
+            border-radius: 2px;
+
+            .material-icons {
+                font-size: 30px;
+                line-height: 38px;
+            }
+        }
+
+        .col-text {
+            margin-left: 58px;
+        }
+    }
+
+    .list-group-item-heading {
+        font-size: @font-size-base;
+    }
+
+    .list-group-item-text {
+        font-size: @font-size-small;
+    }
+}
+
+.ui-draggable-dragging {
+    z-index: 10000;
+}
+
+
+
+//
+// Core Pagemanager
+//
+
+.pm-layout {
+    > .pm-toolbar {
+        background-color: #eecdcf;
+    }
+
+    &.pm-layout-accept {
+        border: 1px dashed @brand-primary;
+
+//        .pm-placeholder {
+//            min-height
+//        }
+    }
+}
+
+.pm-placeholder-droparea {
+    min-height: 100px;
+    border: 1px dashed @gray-light;
+    padding:  @padding-base-vertical @padding-base-horizontal;
+    background: fade(#FFD92E, 30%);
+    margin: @grid-gutter-width/2 @grid-gutter-width/4;
+}
+//
+//.pm-container-placeholder {
+//}
+
+.pm-placeholder {
+    height: 100%;
+    padding: 1px;
+}
+
+.pm-caption {
+    color: @gray-light;
+    font-size: 12px;
+
+    .key {
+        font-weight: bold;
+        display: block;
+    }
+}
+
+.pm-block {
+    position: relative;
+
+    > .pm-toolbar {
+        display: none;
+    }
+}
+
+.pm-toolbar {
+    background: #ccc;
+    font-size: 12px;
+
+    .btn {
+        font-size: 12px;
+    }
+}
+
+.pm-toolbar-text {
+    display: inline-block;
+    padding: @padding-base-vertical @padding-base-horizontal;
+}
+
+.pm-content {
+    min-height: 60px;
+}
+
+.pm-editor {
+    position: relative;
+    height: 100%;
+    width: 100%;
+    overflow: hidden;
+    z-index: 550;
+}
+
+.pm-preview {
+    &.pm-viewmode-content {
+        .pm-content {
+            margin: @grid-gutter-width/2 @grid-gutter-width/4;
+
+            > .pm-toolbar {
+                display: block;
+                background: @gray-lighter;
+
+            }
+        }
+
+        .pm-placeholder.pm-empty {
+            border: 1px dashed #ddd;
+            padding:  @padding-large-vertical @padding-base-horizontal;
+            margin: @grid-gutter-width/2 @grid-gutter-width/4;
+            min-height: 120px;
+        }
+    }
+
+    &.pm-viewmode-layout {
+        .pm-content {
+            position: relative;
+
+            &:after {
+                content: " ";
+                position: absolute;
+                z-index: 200;
+                background: fade(#eecdcf, 50%);
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+            }
+        }
+
+        .pm-layout {
+            margin: @grid-gutter-width/2 @grid-gutter-width/4;
+            min-height: @grid-gutter-width*2;
+
+            > .pm-toolbar {
+                display: block;
+                color: darken(#eecdcf, 40%);
+
+                a, .btn {
+                    color: darken(#eecdcf, 40%);
+                }
+            }
+        }
+    }
+
+    &.pm-dragging {
+        .pm-placeholder {
+            min-height: 150px;
+        }
+    }
+}
+
+.pm-toolset-body {
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    background: white;
+    width: 100%;
+    height: 100%;
+    padding: 0;
+    overflow: auto;
+}
+
+.pm-toolset-card {
+    width: 100%;
+    border-bottom: 1px solid #ccc;
+
+    &:last-child {
+        border-bottom: 0;
+    }
+
+    iframe {
+        border: 0;
+        width: 100%;
+    }
+}
+
+#left-component {
+    min-width: 30em;
+    right: 30em;
+    margin-right: 5px;
+    z-index: 80;
+}
+
+#my-divider {
+    right: 30em;
+    width: 5px;
+}
+
+#right-component {
+    width: 30em;
+    min-width: 300px;
+    z-index: 90;
+}
+
+//
+// Split-pane
+//
+.split-pane.fixed-top > .split-pane-component,
+.split-pane.fixed-bottom > .split-pane-component,
+.split-pane.horizontal-percent > .split-pane-component {
+    position: absolute;
+    left: 0;
+    width: 100%;
+    overflow: auto;
+    top: auto;
+    bottom: 0;
+    z-index: 1;
+}
+
+.split-pane.fixed-top > .split-pane-component:first-child,
+.split-pane.fixed-bottom > .split-pane-component:first-child,
+.split-pane.horizontal-percent > .split-pane-component:first-child {
+    top: 0;
+    bottom: auto;
+}
+
+.split-pane.fixed-top > .split-pane-divider,
+.split-pane.fixed-bottom > .split-pane-divider,
+.split-pane.horizontal-percent > .split-pane-divider {
+    position: absolute;
+    width: 100%;
+    left: 0;
+    cursor: ns-resize;
+    cursor: n-resize;
+    z-index: 2;
+}
+
+.split-pane.fixed-top > .split-pane-divider > .split-pane-divider-inner,
+.split-pane.fixed-bottom > .split-pane-divider > .split-pane-divider-inner,
+.split-pane.horizontal-percent > .split-pane-divider > .split-pane-divider-inner {
+    position: absolute;
+    top: -5px;
+    left: 0;
+    box-sizing: content-box;
+    width: 100%;
+    height: 100%;
+    padding: 5px 0;
+}
+
+.split-pane.fixed-left > .split-pane-component,
+.split-pane.fixed-right > .split-pane-component,
+.split-pane.vertical-percent > .split-pane-component {
+    position: absolute;
+    top: 0;
+    height: 100%;
+    overflow: auto;
+    left: auto;
+    right: 0;
+    z-index: 1;
+}
+
+.split-pane.fixed-left > .split-pane-component:first-child,
+.split-pane.fixed-right > .split-pane-component:first-child,
+.split-pane.vertical-percent > .split-pane-component:first-child {
+    left: 0;
+    right: auto;
+}
+
+.split-pane.fixed-left > .split-pane-divider,
+.split-pane.fixed-right > .split-pane-divider,
+.split-pane.vertical-percent > .split-pane-divider {
+    position: absolute;
+    height: 100%;
+    top: 0;
+    cursor: ew-resize;
+    cursor: w-resize;
+    z-index: 2;
+}
+
+.split-pane.fixed-left > .split-pane-divider > .split-pane-divider-inner,
+.split-pane.fixed-right > .split-pane-divider > .split-pane-divider-inner,
+.split-pane.vertical-percent > .split-pane-divider > .split-pane-divider-inner {
+    position: absolute;
+    top: 0;
+    left: -5px;
+    box-sizing: content-box;
+    width: 100%;
+    height: 100%;
+    padding: 0 5px;
+}
+
+.split-pane-resize-shim {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 10000;
+    display: none;
+}
+
+.split-pane.fixed-left > .split-pane-resize-shim,
+.split-pane.fixed-right > .split-pane-resize-shim,
+.split-pane.vertical-percent > .split-pane-resize-shim {
+    cursor: ew-resize;
+    cursor: w-resize;
+}
+
+.split-pane.fixed-top > .split-pane-resize-shim,
+.split-pane.fixed-bottom > .split-pane-resize-shim,
+.split-pane.horizontal-percent > .split-pane-resize-shim {
+    cursor: ns-resize;
+    cursor: n-resize;
+}
+
+.split-pane-divider {
+    right: 10em; /* Same as left component width */
+    width: 5px;
+    border-left: 1px solid #ccc;
+    border-right: 1px solid #ccc;
+    background-color: #e6e6e6;
+}
+

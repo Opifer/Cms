@@ -110,7 +110,7 @@ class User extends FOSUser implements EncoderAwareInterface
     /**
      * @var ArrayCollection
      *
-     * @ORM\OneToMany(targetEntity="Opifer\CmsBundle\Entity\Content", mappedBy="author")
+     * @ORM\OneToMany(targetEntity="Opifer\ContentBundle\Model\ContentInterface", mappedBy="author")
      */
     protected $contents;
 

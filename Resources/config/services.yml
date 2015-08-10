@@ -98,7 +98,7 @@ services:
     # Managers
     opifer.cms.content_manager:
         class: Opifer\CmsBundle\Manager\ContentManager
-        arguments: [@doctrine.orm.default_entity_manager, @form.factory, @opifer.eav.eav_manager, %opifer_content.content_class%, %opifer_eav.template_class%, @security.token_storage]
+        arguments: [@doctrine.orm.default_entity_manager, @form.factory, @opifer.eav.eav_manager, %opifer_content.content_class%, %opifer_eav.schema_class%, @security.token_storage]
 
     # ACL
     opifer.cms.acl_manager:

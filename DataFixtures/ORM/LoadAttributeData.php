@@ -19,7 +19,7 @@ class LoadAttributeData extends AbstractFixture implements OrderedFixtureInterfa
         $attribute->setName('content');
         $attribute->setDisplayName('Content');
         $attribute->setValueType('html');
-        $attribute->setTemplate($this->getReference('page-template'));
+        $attribute->setSchema($this->getReference('page-template'));
         $attribute->setSort(10);
 
         $manager->persist($attribute);

@@ -27,11 +27,11 @@ class ContentType extends BaseContentType
                     'align_with_widget' => true,
                     'class' => 'before-form-section'
                 ]
-            ])
-            ->add(
-                $builder->create('author', 'text', ['label' => 'User', 'attr' => ['class' => 'typeahead_users']])
-                    ->addModelTransformer($transformer)
-            );
+            ]);
+//            ->add(
+//                $builder->create('author', 'text', ['label' => 'User', 'attr' => ['class' => 'typeahead_users']])
+//                    ->addModelTransformer($transformer)
+//            );
 
         parent::buildForm($builder, $options);
     }

@@ -2,18 +2,18 @@
 
 namespace Opifer\CmsBundle\Tests\Entity;
 
-use Opifer\CmsBundle\Entity\Template;
+use Opifer\CmsBundle\Entity\Schema;
 
-class TemplateTest extends \PHPUnit_Framework_TestCase
+class SchemaTest extends \PHPUnit_Framework_TestCase
 {
     public function testPostNotify()
     {
-        $template = new Template();
+        $schema = new Schema();
         $postNotify = 'Some Post Notify';
 
         $expected = $postNotify;
-        $template->setPostNotify($postNotify);
-        $actual = $template->getPostNotify();
+        $schema->setPostNotify($postNotify);
+        $actual = $schema->getPostNotify();
 
         $this->assertSame($expected, $actual);
     }

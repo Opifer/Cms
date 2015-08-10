@@ -32,7 +32,6 @@ abstract class Kernel extends BaseKernel
             new \FOS\JsRoutingBundle\FOSJsRoutingBundle(),
             new \FOS\UserBundle\FOSUserBundle(),
             new \Genemu\Bundle\FormBundle\GenemuFormBundle(),
-            new \Infinite\FormBundle\InfiniteFormBundle(),
             new \JMS\SerializerBundle\JMSSerializerBundle($this),
             new \Knp\Bundle\GaufretteBundle\KnpGaufretteBundle(),
             new \Knp\Bundle\MenuBundle\KnpMenuBundle(),

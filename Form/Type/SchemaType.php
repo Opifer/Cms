@@ -3,10 +3,10 @@
 namespace Opifer\CmsBundle\Form\Type;
 
 use Symfony\Component\Form\FormBuilderInterface;
-use Opifer\EavBundle\Form\Type\TemplateType as EavTemplateType;
+use Opifer\EavBundle\Form\Type\SchemaType as EavSchemaType;
 use Opifer\CmsBundle\Entity\Post;
 
-class TemplateType extends EavTemplateType
+class SchemaType extends EavSchemaType
 {
     /**
      * {@inheritDoc}
@@ -23,7 +23,7 @@ class TemplateType extends EavTemplateType
             $builder->remove('attributes');
 
             $builder->add('postNotify', 'email', [
-                'label' => $this->translator->trans('template.post_notify'),
+                'label' => $this->translator->trans('schema.post_notify'),
                 'attr'  => [
                     'placeholder' => $this->translator->trans('form.post_notify.placeholder'),
                     'help_text' => $this->translator->trans('form.post_notify.help_text'),

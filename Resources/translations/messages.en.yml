@@ -13,7 +13,7 @@ base:
     sitemenu: menu
     sites: websites
     system: system
-    templates: templates
+    schemas: schemas
     users: users
 
 # Content
@@ -41,8 +41,8 @@ content:
         slug:
             placeholder: Unique permalink slug for this page
         submit: Save
-        template:
-            help_text: 'Define the type of content. If you want to add a new template, <a href="%url%">create it here</a>'
+        schema:
+            help_text: 'Define the type of content. If you want to add a new schema, <a href="%url%">create it here</a>'
         title:
             placeholder: Enter a title for your page
     new:
@@ -201,5 +201,5 @@ confirmation:
         title: "Delete confirmation"
         description: "Are you sure you want to delete"
 
-template:
+schema:
     post_notify: E-mail notification

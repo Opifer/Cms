@@ -5,7 +5,7 @@ namespace Opifer\CmsBundle\Controller\Front;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
 
-use Opifer\CmsBundle\Entity\Content;
+use AppBundle\Entity\Content;
 use Opifer\CmsBundle\Entity\Layout;
 
 use Pagerfanta\Adapter\ArrayAdapter;
