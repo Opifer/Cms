@@ -30,10 +30,16 @@ content:
             help_text: Geef een korte omschrijving op van de pagina en gebruik hierbij belangrijke sleutelwoorden
         directory:
             help_text: De URL van de pagina wordt gemaakt op basis van de map waarin deze geplaatst wordt
+        indexable:
+            help_text: Toestaan dat zoekmachines de pagina indexeren
+            label: Indexeerbaar
         init:
             submit: naar stap 2
         locale:
             help_text: ""
+        searchable:
+            help_text: Toestaan dat deze pagina in zoekresultaten getoond wordt
+            label: Zoekbaar
         site:
             help_text: Kies de website waarin het content item geplaatst dient te worden
         alias:
@@ -200,3 +206,7 @@ confirmation:
     delete:
         title: "Verwijder bevestiging"
         description: "Weet u zeker dat u wilt verwijderen"
+
+template:
+    delete:
+        warning: 'Dit template kan niet worden verwijderd. Het kan zijn dat deze nog gebruikt wordt door content items.'

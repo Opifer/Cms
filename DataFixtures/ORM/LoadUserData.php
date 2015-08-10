@@ -8,7 +8,6 @@ use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
-use Opifer\CmsBundle\Entity\User;
 
 class LoadUserData extends AbstractFixture implements OrderedFixtureInterface, FixtureInterface, ContainerAwareInterface
 {
@@ -16,6 +15,8 @@ class LoadUserData extends AbstractFixture implements OrderedFixtureInterface, F
      * @var ContainerInterface
      */
     private $container;
+
+    protected $userManager;
 
     /**
      * {@inheritDoc}
@@ -30,7 +31,10 @@ class LoadUserData extends AbstractFixture implements OrderedFixtureInterface, F
      */
     public function load(ObjectManager $manager)
     {
-        $admin = new User();
+        $this->userManager = $this->container->get('fos_user.user_manager');
+        $class = $this->userManager->getClass();
+
+        $admin = new $class;
         $admin->setUsername($this->container->getParameter('admin_username'));
         $admin->setEmail($this->container->getParameter('admin_email'));
         $admin->setPlainPassword($this->container->getParameter('admin_password'));
