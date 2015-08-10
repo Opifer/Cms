@@ -4,7 +4,7 @@
     <article>
         <header class="page-header">
             <h1>{% if content.title|default %}{{ content.title }}{% else %}{{ 'content.edit.create.title'|trans|capitalize }}{% endif %}
-                <small>{{ content.valueSet.template.displayName }}{% if content.slug|default %} • <a
+                <small>{{ content.valueSet.schema.displayName }}{% if content.slug|default %} • <a
                         href="{{ url('_content', {'slug': content.slug}) }}"
                         target="_blank">{{ 'content.edit.visit'|trans }}</a>• <a
                             href="{{ path('opifer_content_content_index', {'directoryId': directoryId|default(0) }) }}">{{ 'content.edit.return'|trans|capitalize }}</a>{% endif %}</small>

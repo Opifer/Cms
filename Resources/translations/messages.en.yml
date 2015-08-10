@@ -24,7 +24,7 @@ content:
         slug:
             placeholder: Unique permalink slug for this page
         submit: Save
-        template:
+        schema:
             help_text: 'Define the type of content you want to create'
         title:
             placeholder: Enter a title for your page

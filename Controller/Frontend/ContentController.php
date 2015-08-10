@@ -33,7 +33,7 @@ class ContentController extends Controller
     {
         $presentation = json_decode($content->getRealPresentation(), true);
         if (!$presentation) {
-            throw new \Exception('The template '.$content->getTemplate()->getName().' does not have a layout attached.');
+            throw new \Exception('The template '.$content->getSchema()->getName().' does not have a layout attached.');
         }
 
         $layout = json_encode($presentation);

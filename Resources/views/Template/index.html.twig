@@ -1,0 +1,14 @@
+{% extends 'OpiferContentBundle::base.html.twig' %}
+
+{% block opifer_content_body %}
+    <div class="page-header">
+        <h1>{{ title|default|trans }}</h1>
+    </div>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-xs-12">
+                {{ grid(grid, 'OpiferContentBundle:Grid:grid.html.twig') }}
+            </div>
+        </div>
+    </div>
+{% endblock opifer_content_body %}

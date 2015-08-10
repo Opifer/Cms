@@ -12,7 +12,7 @@ use Opifer\EavBundle\Entity\NestedValue;
 use Opifer\EavBundle\Entity\Value;
 use Opifer\EavBundle\Model\EntityInterface;
 use Opifer\EavBundle\Model\Nestable;
-use Opifer\EavBundle\Model\TemplateInterface;
+use Opifer\EavBundle\Model\SchemaInterface;
 use Opifer\EavBundle\Model\ValueSetInterface;
 
 /**
@@ -72,20 +72,6 @@ class Content implements ContentInterface, EntityInterface, Nestable
      * @ORM\Column(name="description", type="text", nullable=true)
      */
     protected $description;
-
-    /**
-     * @var string
-     *
-     * @JMS\Expose
-     * @JMS\Groups({"detail"})
-     * @ORM\Column(name="presentation", type="text", nullable=true)
-     */
-    protected $presentation;
-
-    /**
-     * @var string
-     */
-    protected $realPresentation;
 
     /**
      * @var string
@@ -177,7 +163,7 @@ class Content implements ContentInterface, EntityInterface, Nestable
     protected $deletedAt;
 
     /**
-     * @var TemplateInterface
+     * @var SchemaInterface
      */
     public $template;
 
@@ -528,11 +514,11 @@ class Content implements ContentInterface, EntityInterface, Nestable
     /**
      * Set template
      *
-     * @param TemplateInterface $template
+     * @param SchemaInterface $template
      *
      * @return $this
      */
-    public function setTemplate(TemplateInterface $template = null)
+    public function setTemplate(SchemaInterface $template = null)
     {
         $this->getValueSet()->setTemplate($template);
 
@@ -542,74 +528,11 @@ class Content implements ContentInterface, EntityInterface, Nestable
     /**
      * Get template
      *
-     * @return TemplateInterface
+     * @return SchemaInterface
      */
-    public function getTemplate()
+    public function getSchema()
     {
-        return $this->getValueSet()->getTemplate();
-    }
-
-    /**
-     * Set presentation
-     *
-     * @param string $presentation
-     *
-     * @return $this
-     */
-    public function setPresentation($presentation)
-    {
-        $this->presentation = $presentation;
-
-        return $this;
-    }
-
-    /**
-     * Get presentation
-     *
-     * For usage in frontend, use getRealPresentation() to avoid returning a 'null' value
-     *
-     * @return string
-     */
-    public function getPresentation()
-    {
-        return $this->presentation;
-    }
-
-    /**
-     * Sets the real presentation
-     *
-     * If the presentation is different from the template presentation, it means
-     * the presentation is edited for the current content, so we have to save
-     * it on the content. Otherwise, leave it null
-     *
-     * @param string $presentation
-     *
-     * @return Content
-     */
-    public function setRealPresentation($presentation)
-    {
-        if ($presentation != $this->getTemplate()->getPresentation()) {
-            $this->presentation = $presentation;
-        }
-
-        return $this;
-    }
-
-    /**
-     * Get the real presentation.
-     *
-     * Returns the current presentation if its set. Otherwise it falls back
-     * to the default presentation on the template
-     *
-     * @return string
-     */
-    public function getRealPresentation()
-    {
-        if (null != $this->presentation) {
-            return $this->presentation;
-        }
-
-        return $this->getTemplate()->getPresentation();
+        return $this->getValueSet()->getSchema();
     }
 
     /**
@@ -722,7 +645,7 @@ class Content implements ContentInterface, EntityInterface, Nestable
     }
 
     /**
-     * Returns name of the Template for the ValueSet
+     * Returns name of the Schema for the ValueSet
      *
      * @JMS\VirtualProperty
      * @JMS\SerializedName("templateName")
@@ -730,13 +653,13 @@ class Content implements ContentInterface, EntityInterface, Nestable
      *
      * @return array
      */
-    public function getTemplateName()
+    public function getSchemaName()
     {
-        return $this->getValueSet()->getTemplate()->getName();
+        return $this->getValueSet()->getSchema()->getName();
     }
 
     /**
-     * Returns display name of the Template for the ValueSet
+     * Returns display name of the Schema for the ValueSet
      *
      * @JMS\VirtualProperty
      * @JMS\SerializedName("templateDisplayName")
@@ -744,9 +667,9 @@ class Content implements ContentInterface, EntityInterface, Nestable
      *
      * @return array
      */
-    public function getTemplateDisplayName()
+    public function getSchemaDisplayName()
     {
-        return $this->getValueSet()->getTemplate()->getDisplayName();
+        return $this->getValueSet()->getSchema()->getDisplayName();
     }
 
     /**

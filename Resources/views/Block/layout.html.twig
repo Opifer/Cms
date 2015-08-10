@@ -1,0 +1,10 @@
+{% set colCount = block.columnCount|default(1) %}
+{% set colSize = 12/colCount %}
+
+<div class="row">
+    {% for i in 0..colCount-1 %}
+    <div class="col-xs-{{ colSize }}">
+        {{ render_placeholder(i) }}
+    </div>
+    {% endfor %}
+</div>

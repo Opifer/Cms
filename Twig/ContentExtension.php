@@ -2,11 +2,13 @@
 
 namespace Opifer\ContentBundle\Twig;
 
+use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpKernel\Controller\ControllerReference;
 use Symfony\Component\HttpKernel\Fragment\FragmentHandler;
 
 use Opifer\ContentBundle\Model\ContentManager;
 use Opifer\ContentBundle\Model\ContentInterface;
+use Opifer\ContentBundle\Model\BlockInterface;
 
 class ContentExtension extends \Twig_Extension
 {
@@ -19,18 +21,26 @@ class ContentExtension extends \Twig_Extension
     /** @var ContentManager */
     protected $contentManager;
 
+    /** @var string */
+    protected $blockMode;
+
+    /** @var ContainerInterface */
+    protected $container;
+
     /**
      * Constructor
      *
-     * @param Twig_Environment $twig
-     * @param FragmentHandler  $fragmentHandler
-     * @param ContentManager   $contentManager
+     * @param Twig_Environment   $twig
+     * @param FragmentHandler    $fragmentHandler
+     * @param ContentManager     $contentManager
+     * @param ContainerInterface $container
      */
-    public function __construct(\Twig_Environment $twig, FragmentHandler $fragmentHandler, ContentManager $contentManager)
+    public function __construct(\Twig_Environment $twig, FragmentHandler $fragmentHandler, ContentManager $contentManager, ContainerInterface $container)
     {
         $this->twig = $twig;
         $this->fragmentHandler = $fragmentHandler;
         $this->contentManager = $contentManager;
+        $this->container = $container;
     }
 
     /**
@@ -39,7 +49,10 @@ class ContentExtension extends \Twig_Extension
     public function getFunctions()
     {
         return [
-            new \Twig_SimpleFunction('placeholder', [$this, 'getPlaceholder'], array(
+            new \Twig_SimpleFunction('render_block', [$this, 'renderBlock'], [
+                'is_safe' => array('html')
+            ]),
+            new \Twig_SimpleFunction('render_placeholder', [$this, 'renderPlaceholder'], array(
                 'is_safe' => array('html'),
                 'needs_context' => true
             )),
@@ -79,7 +92,58 @@ class ContentExtension extends \Twig_Extension
 
         return $content;
     }
-    
+
+    /**
+     * @param BlockInterface $block
+     * @param array          $arguments
+     *
+     * @return string
+     */
+    public function renderBlock(BlockInterface $block, $arguments = array())
+    {
+        if (isset($arguments['block_mode'])) {
+            $this->blockMode = $arguments['block_mode'];
+        }
+
+        $service = $this->container->get('opifer.content.block_manager')->getService($block);
+
+        if ($this->blockMode && $this->blockMode === 'manage') {
+            return $service->manage($block)->getContent();
+        }
+
+        return $service->execute($block)->getContent();
+    }
+
+    /**
+     *
+     *
+     * @param $context
+     * @param $key
+     *
+     * @return mixed
+     */
+    public function renderPlaceholder($context, $key)
+    {
+        $content = '';
+
+        if (isset($context['block'])) {
+            $container = $context['block'];
+            foreach ($container->getChildren() as $block) {
+                if ($block->getPosition() === ''.$key || ($key.'' === '0' && $block->getPosition() === '')) {
+                    $content .= $this->renderBlock($block);
+                }
+
+                continue; // skip blocks that are not supposed to render at this placeholder key
+            }
+        }
+
+        if ($this->blockMode && $this->blockMode === 'manage') {
+            $content = $this->container->get('templating')->render('OpiferContentBundle:Block:manage.html.twig', ['content' => $content, 'key' => $key, 'manage_type' => 'placeholder']);
+        }
+
+        return $content;
+    }
+
     /**
      * Get a content item by its id
      *
@@ -101,11 +165,11 @@ class ContentExtension extends \Twig_Extension
     public function renderContent($contentItem)
     {
         $string = '';
-                
+
         if($contentItem === false) {
             return $string;
         }
-        
+
         $content = ($contentItem instanceof ContentInterface) ? $contentItem : $this->getContent($contentItem);
 
         $action = new ControllerReference('OpiferContentBundle:Frontend/Content:view', ['content' => $content]);
@@ -113,7 +177,7 @@ class ContentExtension extends \Twig_Extension
 
         return $string;
     }
-    
+
     /**
      * Render a content item by its slug
      *
@@ -199,31 +263,32 @@ class ContentExtension extends \Twig_Extension
 
         return $content;
     }
-    
+
+
     public function getBreadcrumbs(ContentInterface $content)
     {
         $return = [];
         $breadcrumbs = $content->getBreadcrumbs();
-        
+
         if(sizeof($breadcrumbs) == 1 && key($breadcrumbs) == 'index') {
             return $return;
         }
-        
+
         $index = 0;
         foreach ($breadcrumbs as $slug => $title) {
             if(substr($slug, -6) == '/index') {
                 continue;
             }
-            
+
             $indexSlug = (sizeof($breadcrumbs)-1 == $index) ? $slug : $slug.'/index';
-            
+
             if($content = $this->contentManager->getRepository()->findOneBy(['slug' => $indexSlug])) {
                 $return[$slug.'/'] = $content->getTitle();
             }
-            
+
             $index++;
         }
-        
+
         return $return;
     }
 
@@ -234,4 +299,22 @@ class ContentExtension extends \Twig_Extension
     {
         return 'opifer.content.twig.content_extension';
     }
+
+    /**
+     * @return string
+     */
+    public function getBlockMode()
+    {
+        return $this->blockMode;
+    }
+
+    /**
+     * @param string $blockMode
+     */
+    public function setBlockMode($blockMode)
+    {
+        $this->blockMode = $blockMode;
+    }
+
+
 }

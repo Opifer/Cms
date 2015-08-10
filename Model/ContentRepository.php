@@ -51,7 +51,8 @@ class ContentRepository extends EntityRepository
         $qb->andWhere('c.nestedIn IS NULL');
 
         if ($request->get('q')) {
-            $qb->andWhere('c.title LIKE :query')->setParameter('query', '%' . $request->get('q') . '%');
+            $qb->leftJoin('vs.template', 't');
+            $qb->andWhere('c.title LIKE :query OR c.alias LIKE :query OR c.slug LIKE :query OR t.displayName LIKE :query')->setParameter('query', '%' . $request->get('q') . '%');
         } else {
             if ($request->get('directory_id')) {
                 $qb->andWhere('c.directory = :directory')->setParameter('directory', $request->get('directory_id'));

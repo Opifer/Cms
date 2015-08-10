@@ -1,0 +1,45 @@
+parameters:
+    opifer.content.block_manager.class: Opifer\ContentBundle\Block\BlockManager
+    opifer.content.content_block.class: Opifer\ContentBundle\Block\ContentBlockService
+    opifer.content.image_block.class: Opifer\ContentBundle\Block\ImageBlockService
+#    opifer.content.image_gallery_block.class: Opifer\ContentBundle\Block\ImageGalleryBlockService
+#    opifer.content.list_block.class: Opifer\ContentBundle\Block\ListBlockService
+    opifer.content.layout_block.class: Opifer\ContentBundle\Block\LayoutBlockService
+    opifer.content.template_block.class: Opifer\ContentBundle\Block\TemplateBlockService
+#    opifer.content.two_column_block.class: Opifer\ContentBundle\Block\TwoColumnBlockService
+#    opifer.content.two_one_third_column_block.class: Opifer\ContentBundle\Block\TwoOneThirdBlockService
+
+services:
+    opifer.content.block_manager:
+        class: %opifer.content.block_manager.class%
+        arguments: [@doctrine.orm.default_entity_manager]
+
+    opifer.content.content_block:
+        class: %opifer.content.content_block.class%
+        arguments: [@templating]
+        tags:
+            - { name: opifer.content.block_service, alias: content }
+
+    opifer.content.image_block:
+        class: %opifer.content.image_block.class%
+        arguments: [@templating]
+        tags:
+            - { name: opifer.content.block_service, alias: image }
+
+    opifer.content.template_block:
+        class: %opifer.content.template_block.class%
+        arguments: [@templating]
+        tags:
+            - { name: opifer.content.block_service, alias: template }
+
+    opifer.content.layout_block:
+        class: %opifer.content.layout_block.class%
+        arguments: [@templating]
+        tags:
+            - { name: opifer.content.block_service, alias: layout }
+#
+#    opifer.content.two_column_block:
+#        class: %opifer.content.two_column_block.class%
+#        arguments: [@templating]
+#        tags:
+#            - { name: opifer.content.block_service, alias: two_column }

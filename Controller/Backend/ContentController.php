@@ -51,7 +51,6 @@ class ContentController extends Controller
      *
      * @param Request $request
      * @param int     $template
-     * @param int     $directoryId
      * @param string  $mode
      *
      * @return null|\Symfony\Component\HttpFoundation\RedirectResponse|Response
@@ -70,7 +69,7 @@ class ContentController extends Controller
         }
 
         $contentManager = $this->get('opifer.content.content_manager');
-        $template       = $this->get('opifer.eav.template_manager')->getRepository()->find($template);
+        $template       = $this->get('opifer.eav.schema_manager')->getRepository()->find($template);
         $content        = $this->get('opifer.eav.eav_manager')->initializeEntity($template);
 
         $form = $this->createForm('opifer_content', $content, [ 'mode' => $mode ]);
@@ -104,7 +103,7 @@ class ContentController extends Controller
      * @param Request $request
      * @param integer $id
      * @param integer $directoryId
-     * @param string  $mode [simple|advanced]
+     * @param string  $mode[simple|advanced]
      *
      * @return \Symfony\Component\HttpFoundation\Response
      */
@@ -163,6 +162,7 @@ class ContentController extends Controller
      * Index action.
      *
      * @param Request $request
+     * @param integer $directoryId
      *
      * @return \Symfony\Component\HttpFoundation\Response
      */
@@ -179,7 +179,9 @@ class ContentController extends Controller
 
 
     /**
-     * @param integer $id Id of content which is about to be duplicated
+     * Duplicates content based on their id.
+     *
+     * @param integer $id
      *
      * @return Response
      */

@@ -21,6 +21,7 @@ class OpiferContentExtension extends Extension implements PrependExtensionInterf
     public function load(array $configs, ContainerBuilder $container)
     {
         $loader = new Loader\YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
+        $loader->load('blocks.yml');
         $loader->load('services.yml');
     }
 
@@ -37,7 +38,7 @@ class OpiferContentExtension extends Extension implements PrependExtensionInterf
             'opifer_content.directory_class' => $config['directory_class'],
             'opifer_content.layout_class' => $config['layout_class']
         ];
-        
+
         return $params;
     }
 

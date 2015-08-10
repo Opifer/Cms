@@ -13,12 +13,12 @@ use Opifer\RulesEngine\Rule\Condition\StringValueCondition;
 use Opifer\RulesEngine\Rule\Condition\AddressValueCityCondition;
 use Opifer\RulesEngine\Rule\Condition\TemplateCondition;
 use Opifer\RulesEngine\Rule\RuleSet;
-use Opifer\EavBundle\Model\TemplateManager;
+use Opifer\EavBundle\Model\SchemaManager;
 
 class ContentRulesProvider extends AbstractProvider implements ProviderInterface
 {
-    /** @var TemplateManager */
-    protected $templateManager;
+    /** @var SchemaManager */
+    protected $schemaManager;
 
     /** @var string */
     protected $contentClass;
@@ -26,11 +26,11 @@ class ContentRulesProvider extends AbstractProvider implements ProviderInterface
     /**
      * Constructor
      *
-     * @param TemplateManager $templateManager
+     * @param SchemaManager $schemaManager
      */
-    public function __construct(TemplateManager $templateManager, $contentClass)
+    public function __construct(SchemaManager $schemaManager, $contentClass)
     {
-        $this->templateManager = $templateManager;
+        $this->templateManager = $schemaManager;
         $this->contentClass = $contentClass;
     }
 
@@ -45,7 +45,7 @@ class ContentRulesProvider extends AbstractProvider implements ProviderInterface
         $rules[] = new RuleSet();
 
         $condition = new TemplateCondition();
-        $condition->setGroup('Content')->setName('Template')->setEntity($this->contentClass)->setAttribute('id');
+        $condition->setGroup('Content')->setName('Schema')->setEntity($this->contentClass)->setAttribute('id');
 
         $templateRepository = $this->templateManager->getRepository();
         $templates = $templateRepository->findBy(['objectClass' => $this->contentClass]);

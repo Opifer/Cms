@@ -4,7 +4,7 @@ namespace Opifer\ContentBundle\Tests\Model;
 
 use Opifer\ContentBundle\Model\Content;
 use Opifer\ContentBundle\Model\Directory;
-use Opifer\ContentBundle\Tests\TestData\Template;
+use Opifer\ContentBundle\Tests\TestData\Schema;
 use Opifer\EavBundle\Entity\NestedValue;
 use Opifer\EavBundle\Entity\Value;
 use Opifer\EavBundle\Tests\TestData\ValueSet;
@@ -212,15 +212,15 @@ class ContentTest extends \PHPUnit_Framework_TestCase
     {
         $content = $this->getContent();
 
-        $template = new Template();
+        $template = new Schema();
 
         $content->setValueSet(new ValueSet());
         $content->setTemplate($template);
-        $this->assertEquals($template, $content->getTemplate());
+        $this->assertEquals($template, $content->getSchema());
 
         $content = $this->getContent();
         $this->setExpectedException('Exception', 'Make sure to give Content a ValueSet on creation');
-        $content->getTemplate();
+        $content->getSchema();
 
     }
 
@@ -231,7 +231,7 @@ class ContentTest extends \PHPUnit_Framework_TestCase
 
     private function getContentWithTemplate($presentation = null)
     {
-        $template = new Template();
+        $template = new Schema();
         $template->setPresentation($presentation);
 
         $valueSet = new ValueSet();

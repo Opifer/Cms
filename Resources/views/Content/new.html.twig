@@ -4,12 +4,12 @@
     <div class="page-header clearfix">
         <h1>{{ 'content.new.title'|trans|capitalize }}</h1>
     </div>
-    
+
     <section class="page-section">
         {{ form_start(form, {'attr' : { 'novalidate' : 'novalidate' }, 'style': 'horizontal' }) }}
-            
-            {{ form_row(form.template) }}
-        
+
+            {{ form_row(form.schema) }}
+
             <div class="form-group">
                 <div class="col-xs-12 col-lg-10 col-lg-offset-2">
                     <div class="pull-left">

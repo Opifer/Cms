@@ -39,3 +39,31 @@ opifer_content_api_layout:
     methods: [GET]
     options:
         expose: true
+
+opifer_content_api_pagemanager_create_block:
+    path: /pagemanager/createblock/{type}/{parentId}/{placeholder}
+    defaults: { _controller: OpiferContentBundle:Api/PageManager:createBlock }
+    methods: [POST]
+    options:
+        expose: true
+
+opifer_content_api_pagemanager_move_block:
+    path: /pagemanager/moveblock
+    defaults: { _controller: OpiferContentBundle:Api/PageManager:moveBlock }
+    methods: [POST]
+    options:
+        expose: true
+
+opifer_content_api_pagemanager_view_block:
+    path: /pagemanager/viewblock/{id}
+    defaults: { _controller: OpiferContentBundle:Api/PageManager:viewBlock }
+    methods: [GET]
+    options:
+        expose: true
+
+opifer_content_api_pagemanager_remove_block:
+    path: /pagemanager/removeblock/{id}
+    defaults: { _controller: OpiferContentBundle:Api/PageManager:removeBlock }
+    methods: [DELETE]
+    options:
+        expose: true
