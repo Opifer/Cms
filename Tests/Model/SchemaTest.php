@@ -2,68 +2,68 @@
 
 namespace Opifer\EavBundle\Tests\Model;
 
-use Opifer\EavBundle\Model\Template;
+use Opifer\EavBundle\Model\Schema;
 use Doctrine\Common\Collections\ArrayCollection;
 use Mockery as m;
 
-class TemplateTest extends \PHPUnit_Framework_TestCase
+class SchemaTest extends \PHPUnit_Framework_TestCase
 {
     public function testObjectClass()
     {
-        $template = new Template();
+        $schema = new Schema();
         $objectClass= 'Some ObjectClass';
 
         $expected = $objectClass;
-        $template->setObjectClass($objectClass);
-        $actual = $template->getObjectClass();
+        $schema->setObjectClass($objectClass);
+        $actual = $schema->getObjectClass();
 
         $this->assertSame($expected, $actual);
     }
 
     public function testName()
     {
-        $template = new Template();
+        $schema = new Schema();
         $name = 'Some Name';
 
         $expected = $name;
-        $template->setName($name);
-        $actual = $template->getName();
+        $schema->setName($name);
+        $actual = $schema->getName();
 
         $this->assertSame($expected, $actual);
     }
 
     public function testDisplayName()
     {
-        $template = new Template();
+        $schema = new Schema();
         $displayName = 'Some Displayname';
 
         $expected = $displayName;
-        $template->setDisplayName($displayName);
-        $actual = $template->getDisplayName();
+        $schema->setDisplayName($displayName);
+        $actual = $schema->getDisplayName();
 
         $this->assertSame($expected, $actual);
     }
 
     public function testPresentation()
     {
-        $template = new Template();
+        $schema = new Schema();
         $presentation = 'presentation';
 
         $expected = $presentation;
-        $template->setPresentation($presentation);
-        $actual = $template->getPresentation();
+        $schema->setPresentation($presentation);
+        $actual = $schema->getPresentation();
 
         $this->assertSame($expected, $actual);
     }
 
     public function testAllowedInAttributes()
     {
-        $template = new Template();
+        $schema = new Schema();
         $arrayCollection = new ArrayCollection();
 
         $expected = $arrayCollection;
-        $template->setAllowedInAttributes($arrayCollection);
-        $actual = $template->getAllowedInAttributes();
+        $schema->setAllowedInAttributes($arrayCollection);
+        $actual = $schema->getAllowedInAttributes();
 
         $this->assertSame($expected, $actual);
     }

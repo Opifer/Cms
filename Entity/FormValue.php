@@ -3,46 +3,46 @@
 namespace Opifer\EavBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use Opifer\EavBundle\Model\TemplateInterface;
+use Opifer\EavBundle\Model\SchemaInterface;
 
 /**
  * FormValue
  *
- * Has a relation to a Template, which defines the formfields in the form.
+ * Has a relation to a Schema, which defines the formfields in the form.
  *
  * @ORM\Entity
  */
 class FormValue extends Value
 {
     /**
-     * @var TemplateInterface
+     * @var SchemaInterface
      *
-     * @ORM\ManyToOne(targetEntity="Opifer\EavBundle\Model\TemplateInterface", cascade={"persist"})
-     * @ORM\JoinColumn(name="template_id", referencedColumnName="id")
+     * @ORM\ManyToOne(targetEntity="Opifer\EavBundle\Model\SchemaInterface", cascade={"persist"})
+     * @ORM\JoinColumn(name="schema_id", referencedColumnName="id")
      */
-    protected $template;
+    protected $schema;
 
     /**
-     * Set template
+     * Set schema
      *
-     * @param  TemplateInterface $template
+     * @param  SchemaInterface $schema
      * @return Value
      */
-    public function setTemplate(TemplateInterface $template = null)
+    public function setSchema(SchemaInterface $schema = null)
     {
-        $this->template = $template;
+        $this->schema = $schema;
 
         return $this;
     }
 
     /**
-     * Get template
+     * Get schema
      *
-     * @return TemplateInterface
+     * @return SchemaInterface
      */
-    public function getTemplate()
+    public function getSchema()
     {
-        return $this->template;
+        return $this->schema;
     }
 
     /**
@@ -50,6 +50,6 @@ class FormValue extends Value
      */
     public function isEmpty()
     {
-        return (is_null($this->template)) ? true : false;
+        return (is_null($this->schema)) ? true : false;
     }
 }

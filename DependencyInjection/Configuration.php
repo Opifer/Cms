@@ -35,7 +35,7 @@ class Configuration implements ConfigurationInterface
                 ->scalarNode('option_class')
                     ->isRequired()
                 ->end()
-                ->scalarNode('template_class')
+                ->scalarNode('schema_class')
                     ->isRequired()
                 ->end()
                 ->scalarNode('valueset_class')

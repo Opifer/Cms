@@ -28,7 +28,7 @@ class NestedValue extends Value implements \IteratorAggregate, \ArrayAccess
     {
         parent::__construct();
         $this->nested = new ArrayCollection();
-        $this->allowedTemplates = new ArrayCollection();
+        $this->allowedSchemas = new ArrayCollection();
     }
 
     /**

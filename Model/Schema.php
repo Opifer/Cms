@@ -8,11 +8,11 @@ use Symfony\Component\Validator\Constraints as Assert;
 use Opifer\EavBundle\Validator\Constraints as OpiferAssert;
 
 /**
- * Template
+ * Schema
  *
  * @ORM\MappedSuperclass
  */
-class Template implements TemplateInterface
+class Schema implements SchemaInterface
 {
 
     /**
@@ -54,23 +54,16 @@ class Template implements TemplateInterface
     /**
      * @var ArrayCollection
      *
-     * @ORM\OneToMany(targetEntity="Opifer\EavBundle\Model\AttributeInterface", mappedBy="template", cascade={"all"}, orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity="Opifer\EavBundle\Model\AttributeInterface", mappedBy="schema", cascade={"all"}, orphanRemoval=true)
      *
      * @Assert\Valid()
      */
     protected $attributes;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="presentation", type="text", nullable=true)
-     */
-    protected $presentation;
-
-    /**
      * @var ArrayCollection
      *
-     * @ORM\ManyToMany(targetEntity="Opifer\EavBundle\Model\AttributeInterface", mappedBy="allowedTemplates")
+     * @ORM\ManyToMany(targetEntity="Opifer\EavBundle\Model\AttributeInterface", mappedBy="allowedSchemas")
      **/
     protected $allowedInAttributes;
 
@@ -99,7 +92,7 @@ class Template implements TemplateInterface
      *
      * @param  string $objectClass
      *
-     * @return Template
+     * @return Schema
      */
     public function setObjectClass($objectClass)
     {
@@ -125,7 +118,7 @@ class Template implements TemplateInterface
      *
      * @param  string $name
      *
-     * @return Template
+     * @return Schema
      */
     public function setName($name)
     {
@@ -151,7 +144,7 @@ class Template implements TemplateInterface
      *
      * @param  string $displayName
      *
-     * @return Template
+     * @return Schema
      */
     public function setDisplayName($displayName)
     {
@@ -177,7 +170,7 @@ class Template implements TemplateInterface
      *
      * @param  AttributeInterface $attributes
      *
-     * @return Template
+     * @return Schema
      */
     public function addAttribute(AttributeInterface $attributes)
     {
@@ -227,38 +220,12 @@ class Template implements TemplateInterface
         return false;
     }
 
-
-    /**
-     * Set presentation
-     *
-     * @param  string $presentation
-     *
-     * @return Template
-     */
-    public function setPresentation($presentation)
-    {
-        $this->presentation = $presentation;
-
-        return $this;
-    }
-
-
-    /**
-     * Get presentation
-     *
-     * @return string
-     */
-    public function getPresentation()
-    {
-        return $this->presentation;
-    }
-
     /**
      * Add allowed in attribute
      *
      * @param  AttributeInterface $attribute
      *
-     * @return  TemplateInterface
+     * @return  SchemaInterface
      */
     public function addAllowedInAttribute(AttributeInterface $attribute)
     {
@@ -268,7 +235,7 @@ class Template implements TemplateInterface
     }
 
     /**
-     * Remove allowed template
+     * Remove allowed schema
      *
      * @param AttributeInterface $attribute
      */
@@ -290,7 +257,7 @@ class Template implements TemplateInterface
     /**
      * @param ArrayCollection $allowedInAttributes
      *
-     * @return Template
+     * @return Schema
      */
     public function setAllowedInAttributes(ArrayCollection $allowedInAttributes)
     {

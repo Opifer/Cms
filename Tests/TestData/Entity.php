@@ -5,14 +5,14 @@ namespace Opifer\EavBundle\Tests\TestData;
 use Opifer\EavBundle\Entity\NestedValue;
 use Opifer\EavBundle\Model\EntityInterface;
 use Opifer\EavBundle\Model\Nestable;
-use Opifer\EavBundle\Model\TemplateInterface;
+use Opifer\EavBundle\Model\SchemaInterface;
 use Opifer\EavBundle\Model\ValueSetInterface;
 
 class Entity implements EntityInterface, Nestable
 {
     protected $valueSet;
 
-    protected $template;
+    protected $schema;
 
     protected $nestedIn;
 
@@ -28,16 +28,16 @@ class Entity implements EntityInterface, Nestable
         return $this->valueSet;
     }
 
-    public function setTemplate(TemplateInterface $template)
+    public function setSchema(SchemaInterface $schema)
     {
-        $this->template = $template;
+        $this->schema = $schema;
 
         return $this;
     }
 
-    public function getTemplate()
+    public function getSchema()
     {
-        return $this->template;
+        return $this->schema;
     }
 
     public function setNestedIn(NestedValue $value)

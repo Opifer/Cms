@@ -112,7 +112,7 @@ class Value implements ValueInterface
     /**
      * Get value
      *
-     * Override this method in child templates to return the desired format
+     * Override this method in child schemas to return the desired format
      *
      * @return string
      */

@@ -40,19 +40,19 @@ class TwigExtension extends \Twig_Extension
     }
 
     /**
-     * Get a form by a template
+     * Get a form by a schema
      *
-     * @param string $template
+     * @param string $schema
      *
      * @return FormView
      */
     public function formFromValue(FormValue $value)
     {
-        if (null === $template = $value->getTemplate()) {
+        if (null === $schema = $value->getSchema()) {
             return false;
         }
 
-        $entity = $this->eavManager->initializeEntity($template);
+        $entity = $this->eavManager->initializeEntity($schema);
 
         $form = $this->formFactory->create('eav_post', $entity, [
             'valueId' => $value->getId()

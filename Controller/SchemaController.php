@@ -8,12 +8,17 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-class TemplateController extends Controller
+/**
+ * Class SchemaController
+ *
+ * @package Opifer\EavBundle\Controller
+ */
+class SchemaController extends Controller
 {
     /**
      * @Route(
-     *     "/templates",
-     *     name="opifer_eav_api_template",
+     *     "/schemas",
+     *     name="opifer_eav_api_schema",
      *     options={"expose"=true}
      * )
      * @Method({"GET"})
@@ -26,16 +31,16 @@ class TemplateController extends Controller
             $attribute = $this->get('opifer.eav.attribute_manager')->getRepository()
                 ->find($request->get('attribute'));
 
-            if ($attribute->getAllowedTemplates()->count() === 0) {
-                // Remove attribute from request because we want all templates if this attribute doesn't
-                // have any allowed templates.
+            if ($attribute->getAllowedSchemas()->count() === 0) {
+                // Remove attribute from request because we want all schemas if this attribute doesn't
+                // have any allowed schemas.
                 $request->query->remove('attribute');
             }
         }
 
-        $templates = $this->get('opifer.eav.template_manager')->getRepository()->findByRequest($request);
+        $schemas = $this->get('opifer.eav.schema_manager')->getRepository()->findByRequest($request);
 
-        $data = $this->get('jms_serializer')->serialize($templates, 'json');
+        $data = $this->get('jms_serializer')->serialize($schemas, 'json');
 
         return new Response($data, 200, [ 'Content-Type' => 'application/json' ]);
     }

@@ -7,11 +7,11 @@ use Doctrine\ORM\EntityRepository;
 
 class FormValueProvider extends AbstractValueProvider implements ValueProviderInterface
 {
-    protected $templateClass;
+    protected $schemaClass;
 
-    public function __construct($templateClass)
+    public function __construct($schemaClass)
     {
-        $this->templateClass = $templateClass;
+        $this->schemaClass = $schemaClass;
     }
 
     /**
@@ -19,11 +19,11 @@ class FormValueProvider extends AbstractValueProvider implements ValueProviderIn
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('template', 'entity', [
+        $builder->add('schema', 'entity', [
             'empty_value'   => '-- None --',
             'expanded'      => false,
             'multiple'      => false,
-            'class'         => $this->templateClass,
+            'class'         => $this->schemaClass,
             'property'      => 'displayName',
             'query_builder' => function (EntityRepository $er) {
                 return $er->createQueryBuilder('t')

@@ -23,7 +23,7 @@ services:
          arguments: [%opifer_eav.option_class%]
          tags:
              - { name: opifer.eav.value_provider, alias: checklist }
-    
+
     opifer.eav.radio_value_provider:
         class: %opifer.eav.radio_value_provider.class%
         arguments: [%opifer_eav.option_class%]
@@ -37,7 +37,7 @@ services:
 
     opifer.eav.form_value_provider:
          class: %opifer.eav.form_value_provider.class%
-         arguments: [%opifer_eav.template_class%]
+         arguments: [%opifer_eav.schema_class%]
          tags:
              - { name: opifer.eav.value_provider, alias: form }
 

@@ -5,11 +5,11 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
 /**
- * ObjectClass form field for templates
+ * ObjectClass form field for schemas
  *
- * Gives the option to choose one of the available objectclasses for templates.
+ * Gives the option to choose one of the available objectclasses for schemas.
  */
-class TemplateObjectClassType extends AbstractType
+class SchemaObjectClassType extends AbstractType
 {
     protected $entities;
 
@@ -51,6 +51,6 @@ class TemplateObjectClassType extends AbstractType
      */
     public function getName()
     {
-        return 'template_object_class';
+        return 'schema_object_class';
     }
 }

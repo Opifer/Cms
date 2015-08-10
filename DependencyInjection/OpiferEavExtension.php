@@ -28,7 +28,8 @@ class OpiferEavExtension extends Extension implements PrependExtensionInterface
     /**
      * Simplifying parameter syntax
      *
-     * @param  array $config
+     * @param array $config
+     *
      * @return array
      */
     public function getParameters(array $config)
@@ -38,7 +39,7 @@ class OpiferEavExtension extends Extension implements PrependExtensionInterface
             'opifer_eav.media_class'     => $config['media_class'],
             'opifer_eav.nestable_class'  => $config['nestable_class'],
             'opifer_eav.option_class'    => $config['option_class'],
-            'opifer_eav.template_class'  => $config['template_class'],
+            'opifer_eav.schema_class'  => $config['schema_class'],
             'opifer_eav.valueset_class'  => $config['valueset_class'],
         ];
 
@@ -70,7 +71,7 @@ class OpiferEavExtension extends Extension implements PrependExtensionInterface
         $resolvableEntities = [
             'Opifer\EavBundle\Model\AttributeInterface' => $config['attribute_class'],
             'Opifer\EavBundle\Model\OptionInterface'    => $config['option_class'],
-            'Opifer\EavBundle\Model\TemplateInterface'  => $config['template_class'],
+            'Opifer\EavBundle\Model\SchemaInterface'  => $config['schema_class'],
             'Opifer\EavBundle\Model\ValueSetInterface'  => $config['valueset_class'],
         ];
 

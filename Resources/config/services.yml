@@ -11,13 +11,13 @@ parameters:
     opifer.eav.form.google_address.class: Opifer\EavBundle\Form\Type\GoogleAddressType
     opifer.eav.form.option_type.class: Opifer\EavBundle\Form\Type\OptionType
     opifer.eav.form.presentationeditor.class: Opifer\EavBundle\Form\Type\PresentationEditorType
-    opifer.eav.form.template_type.class: Opifer\EavBundle\Form\Type\TemplateType
-    opifer.eav.form.template_object_class_type.class: Opifer\EavBundle\Form\Type\TemplateObjectClassType
+    opifer.eav.form.schema_type.class: Opifer\EavBundle\Form\Type\SchemaType
+    opifer.eav.form.schema_object_class_type.class: Opifer\EavBundle\Form\Type\SchemaObjectClassType
     opifer.eav.form.value_provider_type.class: Opifer\EavBundle\Form\Type\ValueProviderType
     opifer.eav.form.values_subscriber.class: Opifer\EavBundle\Form\EventListener\ValuesSubscriber
     opifer.eav.form.values_type.class: Opifer\EavBundle\Form\Type\ValuesType
     opifer.eav.form.valueset_type.class: Opifer\EavBundle\Form\Type\ValueSetType
-    opifer.eav.template_manager.class: Opifer\EavBundle\Model\TemplateManager
+    opifer.eav.schema_manager.class: Opifer\EavBundle\Model\SchemaManager
     opifer.eav.twig_extension.class: Opifer\EavBundle\Templating\TwigExtension
     opifer.eav.value_provider.pool.class: Opifer\EavBundle\ValueProvider\Pool
 
@@ -44,15 +44,15 @@ services:
 
     opifer.eav.form.attribute_type:
         class: %opifer.eav.form.attribute_type.class%
-        arguments: [@translator, @opifer.eav.form.option_type, %opifer_eav.attribute_class%, %opifer_eav.template_class%]
+        arguments: [@translator, @opifer.eav.form.option_type, %opifer_eav.attribute_class%, %opifer_eav.schema_class%]
         tags:
             - { name: form.type, alias: eav_attribute }
 
-    opifer.eav.form.template_object_class_type:
-        class: %opifer.eav.form.template_object_class_type.class%
+    opifer.eav.form.schema_object_class_type:
+        class: %opifer.eav.form.schema_object_class_type.class%
         arguments: [%opifer_eav.entities%]
         tags:
-            - { name: form.type, alias: template_object_class }
+            - { name: form.type, alias: schema_object_class }
 
     opifer.eav.form.option_type:
         class: %opifer.eav.form.option_type.class%
@@ -88,11 +88,11 @@ services:
         tags:
             - { name: form.type, alias: eav_post }
 
-    opifer.eav.form.template_type:
-        class: %opifer.eav.form.template_type.class%
-        arguments: [@opifer.eav.form.attribute_type, %opifer_eav.template_class%]
+    opifer.eav.form.schema_type:
+        class: %opifer.eav.form.schema_type.class%
+        arguments: [@opifer.eav.form.attribute_type, %opifer_eav.schema_class%]
         tags:
-            - { name: form.type, alias: eav_template }
+            - { name: form.type, alias: eav_schema }
 
     opifer.eav.form.valueset_type:
         class: %opifer.eav.form.valueset_type.class%
@@ -115,9 +115,9 @@ services:
         class: %opifer.eav.eav_manager.class%
         arguments: [@opifer.eav.value_provider.pool, %opifer_eav.valueset_class%]
 
-    opifer.eav.template_manager:
-        class: %opifer.eav.template_manager.class%
-        arguments: [@doctrine.orm.default_entity_manager, %opifer_eav.template_class%]
+    opifer.eav.schema_manager:
+        class: %opifer.eav.schema_manager.class%
+        arguments: [@doctrine.orm.default_entity_manager, %opifer_eav.schema_class%]
 
     # Listeners
     opifer.eav.discriminator_listener:

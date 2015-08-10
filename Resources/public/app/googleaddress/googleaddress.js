@@ -13,7 +13,7 @@ angular.module('googleAddress', ['google-maps'])
             restrict: 'E',
             replace: true,
             transclude: true,
-            templateUrl: "/bundles/opifereav/app/googleaddress/googleaddress.html",
+            schemaUrl: "/bundles/opifereav/app/googleaddress/googleaddress.html",
             scope: {
                 location: '=',
                 formid: '@',
