@@ -44,18 +44,6 @@ class SchemaTest extends \PHPUnit_Framework_TestCase
         $this->assertSame($expected, $actual);
     }
 
-    public function testPresentation()
-    {
-        $schema = new Schema();
-        $presentation = 'presentation';
-
-        $expected = $presentation;
-        $schema->setPresentation($presentation);
-        $actual = $schema->getPresentation();
-
-        $this->assertSame($expected, $actual);
-    }
-
     public function testAllowedInAttributes()
     {
         $schema = new Schema();
