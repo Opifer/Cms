@@ -87,6 +87,12 @@ services:
         tags:
             - { name: form.type, alias: slug }
 
+    opifer.cms.autocomplete_form_type:
+        class: Opifer\CmsBundle\Form\Type\AutoCompleteType
+        arguments: [@doctrine.orm.default_entity_manager, %opifer_cms.autocomplete%]
+        tags:
+            - { name: form.type, alias: opifer_autocomplete }
+
     # ACL
     opifer.cms.acl_manager:
         class: %opifer.cms.acl_manager.class%
