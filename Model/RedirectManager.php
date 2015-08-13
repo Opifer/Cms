@@ -15,8 +15,10 @@ class RedirectManager implements RedirectManagerInterface
     /**
      * Constructor
      *
-     * @param ObjectManager $em
-     * @oaran string $class
+     * @param ObjectManager $om
+     * @param string $class
+     *
+     * @throws \Exception
      */
     public function __construct(ObjectManager $om, $class)
     {
@@ -49,7 +51,7 @@ class RedirectManager implements RedirectManagerInterface
      */
     public function createNew()
     {
-        $class     = $this->getClass();
+        $class    = $this->getClass();
         $redirect = new $class();
 
         return $redirect;
@@ -76,5 +78,21 @@ class RedirectManager implements RedirectManagerInterface
     {
         $this->om->remove($redirect);
         $this->om->flush();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function formatRouteRequirements(Redirect $redirect)
+    {
+        $requirements = $redirect->getRequirements();
+        $routeRequirements = [];
+
+        /** @var Requirement $r */
+        foreach ($requirements as $r) {
+            $routeRequirements[$r->getParameter()] = $r->getValue();
+        }
+
+        return $routeRequirements;
     }
 }

@@ -19,6 +19,13 @@ interface RedirectManagerInterface
     public function getRepository();
 
     /**
+     * Create a new redirect object
+     *
+     * @return Redirect
+     */
+    public function createNew();
+
+    /**
      * Save a redirect
      *
      * @param Redirect $redirect
@@ -31,4 +38,12 @@ interface RedirectManagerInterface
      * @param Redirect $redirect
      */
     public function remove(Redirect $redirect);
+
+    /**
+     * Transform a Redirect into valid Symfony route requirements
+     *
+     * @param Redirect $redirect
+     * @return array
+     */
+    public function formatRouteRequirements(Redirect $redirect);
 }

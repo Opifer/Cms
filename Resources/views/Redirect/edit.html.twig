@@ -1,0 +1,11 @@
+{% extends 'OpiferRedirectBundle::base.html.twig' %}
+
+{% block opifer_redirect_body %}
+    <div class="container">
+        <div class="page-header clearfix">
+            <h1>{{ "opifer_redirect.title.redirect"|trans|capitalize }}</h1>
+        </div>
+
+        {{ form(form, { 'style': 'horizontal', 'attr': {'novalidate':'novalidate'} })}}
+    </div>
+{% endblock %}
