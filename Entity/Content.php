@@ -14,8 +14,8 @@ use Opifer\ContentBundle\Model\Content as BaseContent;
 /**
  * Content
  *
+ * @ORM\MappedSuperclass(repositoryClass="Opifer\CmsBundle\Repository\ContentRepository")
  * @ORM\Table(name="content")
- * @ORM\Entity(repositoryClass="Opifer\CmsBundle\Repository\ContentRepository")
  * @Gedmo\TranslationEntity(class="Opifer\CmsBundle\Entity\Translation\ContentTranslation")
  */
 class Content extends BaseContent
@@ -32,14 +32,14 @@ class Content extends BaseContent
      *
      * @ORM\Column(name="indexable", type="boolean")
      */
-    protected $indexable = 1;
+    protected $indexable = true;
 
     /**
      * @var boolean
      *
      * @ORM\Column(name="searchable", type="boolean")
      */
-    protected $searchable = 1;
+    protected $searchable = true;
 
     /**
      * @var string
@@ -63,15 +63,15 @@ class Content extends BaseContent
     protected $description;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Site")
+     * @ORM\ManyToOne(targetEntity="Opifer\CmsBundle\Entity\Site")
      * @ORM\JoinColumn(name="site_id", referencedColumnName="id")
      */
-    private $site;
+    protected $site;
 
     /**
      * @Gedmo\Locale
      */
-    private $locale;
+    protected $locale;
 
     /**
      * Set translatable locale
@@ -127,26 +127,6 @@ class Content extends BaseContent
     public function getSite()
     {
         return $this->site;
-    }
-
-    /**
-     * Is content item public?
-     *
-     * @return boolean
-     */
-    public function isPublic()
-    {
-        return (is_null($this->nestedIn)) ? true : false;
-    }
-
-    /**
-     * Is content item private?
-     *
-     * @return boolean
-     */
-    public function isPrivate()
-    {
-        return (!is_null($this->nestedIn)) ? true : false;
     }
 
     /**
@@ -289,16 +269,4 @@ class Content extends BaseContent
         return $array;
     }
 
-    /**
-     * Set defaults for nested content
-     *
-     * @return Content
-     */
-    public function setNestedDefaults()
-    {
-        $this->searchable = false;
-        $this->indexable = false;
-
-        return $this;
-    }
 }

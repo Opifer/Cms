@@ -32,12 +32,18 @@ gulp.task('js', function () {
         'Resources/public/components/angular-loading-bar/build/loading-bar.js',
         'Resources/public/components/bootstrap/dist/js/bootstrap.js',
         'Resources/public/components/dropzone/dist/dropzone.js',
+        'Resources/public/components/iframe-resizer/src/iframeResizer.js',
         'Resources/public/components/ngInfiniteScroll/build/ng-infinite-scroll.js',
         'Resources/public/components/afkl-lazy-image/release/lazy-image.js',
+        'Resources/public/components/bootbox.js/bootbox.js',
+        'Resources/public/components/mprogress/mprogress.min.js',
         'Resources/public/components/ng-file-upload/angular-file-upload.min.js',
         'vendor/braincrafted/bootstrap-bundle/Braincrafted/Bundle/BootstrapBundle/Resources/js/bc-bootstrap-collection.js',
         'vendor/infinite-networks/form-bundle/Resources/public/js/collections.js',
+        'Resources/public/js/split-pane.js',
         'Resources/public/js/main.js',
+        'Resources/public/js/jquery-sortable-zindex.js',
+        'Resources/public/js/pagemanager.js',
         'Resources/public/app/app.js',
 
         'vendor/opifer/content-bundle/Resources/public/app/content/content.js',
@@ -56,13 +62,15 @@ gulp.task('js', function () {
         .pipe(gulp.dest('Resources/public/dist/js'));
 });
 
+
 // CSS TASK: write one minified css file out of bootstrap.less and all of my custom less files
 gulp.task('css', function () {
     return gulp.src([
         'vendor/opifer/media-bundle/Resources/public/css/main.less',
-        'Resources/public/less/main.less',
         'vendor/opifer/media-bundle/Resources/public/css/dropzone.less',
-        'Resources/public/components/angular-loading-bar/build/loading-bar.css'])
+        'Resources/public/components/angular-loading-bar/build/loading-bar.css',
+        'Resources/public/less/main.less'
+        ])
         .pipe(gulpif(/[.]less/, less()))
         .pipe(concat('app.css'))
         .pipe(uglifycss())
@@ -70,25 +78,36 @@ gulp.task('css', function () {
         .pipe(gulp.dest('Resources/public/css'));
 });
 
+
+// Pagemanager client side assets
+gulp.task('pagemanager-client-js', function () {
+    return gulp.src([
+        'Resources/public/components/jquery/dist/jquery.js',
+        'Resources/public/components/jquery-ui/ui/jquery-ui.js',
+        'Resources/public/js/pagemanager-client.js',
+    ])
+        .pipe(concat('client.js'))
+        .pipe(sourcemaps.write('./'))
+        .pipe(gulp.dest('Resources/public/dist/js'));
+});
+gulp.task('pagemanager-client-css', function () {
+    return gulp.src([
+        'Resources/public/less/pagemanager-client.less',
+    ])
+        .pipe(gulpif(/[.]less/, less()))
+        .pipe(concat('pagemanager-client.css'))
+        //.pipe(uglifycss())
+        .pipe(sourcemaps.write('./'))
+        .pipe(gulp.dest('Resources/public/css'));
+});
+
+
 //define executable tasks when running "gulp" command
-gulp.task('default', ['js', 'css']);
+gulp.task('pagemanager', ['pagemanager-client-js', 'pagemanager-client-css']);
+gulp.task('default', ['js', 'css', 'pagemanager']);
 
 //watch less files for changes
 gulp.task('watch', function() {
-
-    gulp.watch('app/Resources/public/less/**', ['css']);
-    gulp.watch('app/Resources/public/js/*.js', ['js']);
-    gulp.watch('app/Resources/public/img/**', ['img']);
-    gulp.watch('app/Resources/views/*.html', ['html']);
-
-    // Create LiveReload server
-    livereload.listen();
-
-    // Watch any files in dist/, reload on change
-    gulp.watch(['web/js/**']).on('change', livereload.changed);
-    gulp.watch(['web/img/**']).on('change', livereload.changed);
-    gulp.watch(['web/css/**']).on('change', livereload.changed);
-
-    // Watch any files in dist/, reload on change
-    gulp.watch(['app/Resources/views/**/*']).on('change', livereload.changed);
+    gulp.watch('Resources/public/less/*.less', ['default']);
+    gulp.watch('Resources/public/js/*.js', ['default']);
 });

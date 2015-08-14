@@ -81,9 +81,8 @@ doctrine:
                 enabled: true
         resolve_target_entities:
             # Define the user class
-            FOS\UserBundle\Model\UserInterface: %opifer_cms.user.class%
-            # Define the entity used for nested content
-            Opifer\EavBundle\Nesting\Nestable: Opifer\CmsBundle\Entity\Content
+            FOS\UserBundle\Model\UserInterface: %opifer_cms.model.user.class%
+            Opifer\ContentBundle\Model\ContentInterface: Opifer\CmsBundle\Entity\Content
         mappings:
             translatable:
                 type:   annotation
@@ -104,7 +103,7 @@ doctrine:
 # Migrations
 doctrine_migrations:
     dir_name:   %kernel.root_dir%/../src/AppBundle/Migrations
-    namespace:  Opifer\AppBundle\Migrations
+    namespace:  AppBundle\Migrations
     table_name: %database_table_prefix%migrations
     name:       Opifer Cms Migrations
 
@@ -113,7 +112,7 @@ doctrine_migrations:
 fos_user:
     db_driver:       orm
     firewall_name:   main
-    user_class:      %opifer_cms.user.class%
+    user_class:      %opifer_cms.model.user.class%
     group:
         group_class: Opifer\CmsBundle\Entity\Group
     registration:
@@ -172,7 +171,6 @@ twig:
     strict_variables:     %kernel.debug%
     form:
         resources:
-            - 'InfiniteFormBundle::collection_theme.html.twig'
             - 'OpiferEavBundle:Form:fields.html.twig'
             - 'OpiferMediaBundle:Form:fields.html.twig'
             - 'OpiferRulesEngineBundle:Form:fields.html.twig'
@@ -194,7 +192,7 @@ opifer_crud:
         settings: Opifer\CmsBundle\Entity\Setting
         cronjobs: Opifer\CmsBundle\Entity\Cron
         forms: Opifer\CmsBundle\Entity\Post
-        templates: Opifer\CmsBundle\Entity\Template
+        schemas: Opifer\CmsBundle\Entity\Schema
         layouts: Opifer\CmsBundle\Entity\Layout
         redirects: Opifer\CmsBUndle\Entity\Redirect
         sites: Opifer\CmsBundle\Entity\Site
@@ -236,9 +234,8 @@ opifer_content:
 opifer_eav:
     attribute_class: Opifer\CmsBundle\Entity\Attribute
     media_class:     Opifer\CmsBundle\Entity\Media
-    nestable_class:  Opifer\CmsBundle\Entity\Content
     option_class:    Opifer\CmsBundle\Entity\Option
-    template_class:  Opifer\CmsBundle\Entity\Template
+    schema_class:  Opifer\CmsBundle\Entity\Schema
     valueset_class:  Opifer\CmsBundle\Entity\ValueSet
     entities:
         content: Opifer\CmsBundle\Entity\Content

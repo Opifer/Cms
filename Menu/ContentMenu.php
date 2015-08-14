@@ -5,7 +5,7 @@ namespace Opifer\CmsBundle\Menu;
 use Knp\Menu\MenuFactory;
 use Symfony\Component\Translation\TranslatorInterface;
 use Symfony\Component\Routing\RouterInterface;
-use Opifer\CmsBundle\Entity\Content;
+use Opifer\CmsBundle\Entity\ContentInterface;
 
 class ContentMenu
 {
@@ -40,11 +40,11 @@ class ContentMenu
     /**
      * Build the menu
      *
-     * @param Content $content
+     * @param ContentInterface $content
      *
      * @return \Knp\Menu\MenuItem
      */
-    public function build(Content $content)
+    public function build(ContentInterface $content)
     {
         $menu = null;
         if (count($this->locales) > 1) {

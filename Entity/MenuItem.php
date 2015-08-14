@@ -4,6 +4,7 @@ namespace Opifer\CmsBundle\Entity;
 
 use Gedmo\Mapping\Annotation as Gedmo;
 use Doctrine\ORM\Mapping as ORM;
+use Opifer\ContentBundle\Model\ContentInterface;
 use Opifer\CrudBundle\Annotation as Opifer;
 
 /**
@@ -17,7 +18,7 @@ use Opifer\CrudBundle\Annotation as Opifer;
 class MenuItem extends Menu
 {
     /**
-     * @ORM\ManyToOne(targetEntity="Content", fetch="EAGER")
+     * @ORM\ManyToOne(targetEntity="Opifer\ContentBundle\Model\ContentInterface", fetch="EAGER")
      * @ORM\JoinColumn(name="content_id", referencedColumnName="id", onDelete="CASCADE")
      * @Opifer\Form(editable=true)
      */
@@ -76,6 +77,7 @@ class MenuItem extends Menu
      * Set link
      *
      * @param  string   $link
+     *
      * @return MenuItem
      */
     public function setLink($link)
@@ -98,10 +100,11 @@ class MenuItem extends Menu
     /**
      * Set content
      *
-     * @param  \Opifer\CmsBundle\Entity\Content $content
+     * @param ContentInterface $content
+     *
      * @return MenuItem
      */
-    public function setContent(\Opifer\CmsBundle\Entity\Content $content = null)
+    public function setContent(ContentInterface $content = null)
     {
         $this->content = $content;
 
@@ -111,7 +114,7 @@ class MenuItem extends Menu
     /**
      * Get content
      *
-     * @return \Opifer\CmsBundle\Entity\Content
+     * @return ContentInterface
      */
     public function getContent()
     {
@@ -201,7 +204,8 @@ class MenuItem extends Menu
     /**
      * Set $parameters
      *
-     * @param  array    $parameters
+     * @param array $parameters
+     *
      * @return MenuItem
      */
     public function setParameters($parameters)

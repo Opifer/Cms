@@ -13,7 +13,7 @@ base:
     sitemenu: menu
     sites: websites
     system: systeem
-    templates: templates
+    schemas: schemas
     users: gebruikers
 
 # Content
@@ -30,10 +30,16 @@ content:
             help_text: Geef een korte omschrijving op van de pagina en gebruik hierbij belangrijke sleutelwoorden
         directory:
             help_text: De URL van de pagina wordt gemaakt op basis van de map waarin deze geplaatst wordt
+        indexable:
+            help_text: Toestaan dat zoekmachines de pagina indexeren
+            label: Indexeerbaar
         init:
             submit: naar stap 2
         locale:
             help_text: ""
+        searchable:
+            help_text: Toestaan dat deze pagina in zoekresultaten getoond wordt
+            label: Zoekbaar
         site:
             help_text: Kies de website waarin het content item geplaatst dient te worden
         alias:
@@ -41,8 +47,8 @@ content:
         slug:
             placeholder: Unieke permalink voor de pagina
         submit: Opslaan
-        template:
-            help_text: 'Het type content. Als het template nog niet bestaat, <a href="%url%">maak hem hier aan.</a>'
+        schema:
+            help_text: 'Het type content. Als het schema nog niet bestaat, <a href="%url%">maak hem hier aan.</a>'
         title:
             placeholder: De titel van de pagina
             help_text: De titel van de pagina wordt in de browser weergegeven in het tabblad en in zoekmachines getoond
@@ -195,8 +201,45 @@ button:
     delete: verwijderen
     edit: bewerken
 
+# Links
+link:
+    editor: Editor
+
+
+# Labels
+label:
+    yes: Ja
+    no: Nee
+    column.xs: xs
+    column.sm: sm
+    column.md: md
+    column.lg: lg
+    gutter.xs: Gutter xs
+    gutter.sm: Gutter sm
+    gutter.md: Gutter md
+    gutter.lg: Gutter lg
+    style: Style
+    styling: Stijlen
+    label: Label
+    rich_text: RTF-editor
+    container_sizing: Container breedte
+    container_fluid: Volledige breedte (gerekt)
+    container_smooth: Scherm-afhankelijke breedte (gerekt)
+    container_fixed: Scherm-afhankelijke breedte (vast)
+
+help:
+    html_id: Een id attribuut voor dit html-element
+    extra_classes: Extra CSS klassen toepassen (bijvoorbeeld icm een CSS block)
+    column_spans: Verdeel 12 eenheden over de schermgroottes om andere breedte kolommen te maken.
+    html_styles: Pas extra CSS stijl-klassen toe op dit element.
+    container_sizing: Pas de weergave aan van de container
+
 #Delete confirmation
 confirmation:
     delete:
         title: "Verwijder bevestiging"
         description: "Weet u zeker dat u wilt verwijderen"
+
+template:
+    delete:
+        warning: 'Dit template kan niet worden verwijderd. Het kan zijn dat deze nog gebruikt wordt door content items.'

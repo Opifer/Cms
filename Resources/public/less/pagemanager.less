@@ -1,0 +1,479 @@
+.pm-body {
+    margin: 0 !important; /* Remove body margin/padding */
+    padding: 0 !important;
+    overflow: hidden !important; /* Remove scroll bars on browser window */
+}
+
+/* WAVE */
+@keyframes burst {
+    0% {opacity:1}
+    50% {transform:scale(1.8);opacity:0}
+    100%{opacity:0}
+}
+
+.faa-burst.animated,
+.faa-burst.animated-hover:hover,
+.faa-parent.animated-hover:hover > .faa-burst {
+    animation: burst 2s infinite linear
+}
+.faa-burst.animated.faa-fast,
+.faa-burst.animated-hover.faa-fast:hover,
+.faa-parent.animated-hover:hover > .faa-burst.faa-fast {
+    animation: burst 1s infinite linear
+}
+.faa-burst.animated.faa-slow,
+.faa-burst.animated-hover.faa-slow:hover,
+.faa-parent.animated-hover:hover > .faa-burst.faa-slow {
+    animation: burst 3s infinite linear
+}
+
+/* FLASHING */
+@keyframes flash {
+    0%,100%,50%{opacity:1}
+    25%,75%{opacity:0}
+}
+.faa-flash.animated,
+.faa-flash.animated-hover:hover,
+.faa-parent.animated-hover:hover > .faa-flash {
+    animation: flash 2s ease infinite;
+}
+.faa-flash.animated.faa-fast,
+.faa-flash.animated-hover.faa-fast:hover,
+.faa-parent.animated-hover:hover > .faa-flash.faa-fast {
+    animation: flash 1s ease infinite;
+}
+.faa-flash.animated.faa-slow,
+.faa-flash.animated-hover.faa-slow:hover,
+.faa-parent.animated-hover:hover > .faa-flash.faa-slow {
+    animation: flash 3s ease infinite;
+}
+
+@gray-bg: #D4D6D8;
+@gray-bg-lighter: #F8F8F8;
+
+.pm-body {
+    font-family: @font-family-base !important;
+    font-size: @font-size-base;
+    line-height: @line-height-base;
+    color: @text-color;
+
+    * {
+        -webkit-font-smoothing: auto !important;
+    }
+//
+//    .navbar {
+//        margin-bottom: 0;
+//        height: auto;
+//
+//        .btn-default {
+//            border: 1px solid @btn-default-border !important;
+//            background: white !important;
+//            color: @text-color;
+//        }
+//
+//        .btn-group {
+//            .btn {
+//                border: 1px solid @btn-default-border;
+//                background: white;
+//            }
+//        }
+//
+//        .btn-link {
+//            color: @text-color;
+//        }
+//    }
+
+
+    .navbar-default {
+        background: #D4D6D8;
+        border-color: darken(#D4D6D8, 5%);
+
+        .btn-default {
+            .button-variant(@text-color; white; white);
+            box-shadow: 0 1px 0 fade( darken(@brand-primary, 25%), 10%);
+        }
+
+        .btn-group .btn-default {
+            border-left-color: #D4D6D8;
+        }
+    }
+
+    .btn-default,
+    .btn-primary,
+    .btn-danger,
+    .btn-success {
+        border-radius: 0;
+        box-shadow: 0 1px 0 fade( darken(@brand-primary, 25%), 10%);
+    }
+
+    .navbar-header {
+        height: auto;
+        padding: 0;
+    }
+
+//    .navbar-default {
+//        background-color: #e6e6e6;
+//        border-bottom: 1px solid #ccc;
+//    }
+
+    .navbar-collapse {
+        padding-right: @grid-gutter-width/2 !important;
+    }
+
+    .pm-navbar-title {
+        position: absolute;
+        width: 100%;
+        left: 0;
+        text-align: center;
+        font-size: 16px;
+        .navbar-vertical-align(@line-height-computed);
+        z-index: -1;
+        color: @gray;
+    }
+
+    .navbar-static-top {
+        z-index: 200;
+    }
+
+    #pm-navbar {
+        &.isloading {
+            .pm-navbar-title {
+                .faa-flash.animated;
+            }
+        }
+    }
+
+    #btn-cancel {
+        position: absolute;
+        right: 0;
+        top: 0;
+        color: @gray-light;
+        z-index: 100;
+
+        &:hover {
+            color: @gray;
+        }
+    }
+
+    .btn-icon {
+        .material-icons {
+            position: absolute;
+            font-size: 24px;
+            left: 8px;
+            top: 4px;
+        }
+
+        &:after {
+            position: relative;
+            content: "\0000a0\0000a0\0000a0\0000a0";
+        }
+    }
+
+    .list-group {
+        .col-visual {
+            position: absolute;
+//            background: #F5F7F9;
+            color: #0A539E;
+            width: 45px;
+            height: 40px;
+            top: 8px;
+            text-align: center;
+
+            .material-icons {
+                font-size: 30px;
+                line-height: 38px;
+            }
+        }
+
+        .col-text {
+            margin-left: 58px;
+        }
+    }
+
+    .list-group-item {
+        margin: 2px 0;
+        border: 0;
+        border-radius: 0;
+    }
+
+    .list-group-item-heading {
+        font-size: @font-size-base;
+    }
+
+    .list-group-item-text {
+        font-size: @font-size-small;
+    }
+}
+
+.ui-draggable-dragging {
+    z-index: 10000;
+
+    &.list-group-item {
+        box-shadow: 0 8px 15px rgba(0,0,0,.1);
+    }
+}
+
+.pm-tools-blockset {
+    .title {
+        color: #555;
+        font-weight: normal;
+    }
+}
+
+//
+// Core Pagemanager
+//
+
+
+.pm-content {
+    min-height: 60px;
+}
+
+.pm-editor {
+    position: relative;
+    height: 100%;
+    width: 100%;
+    overflow: hidden;
+    z-index: 550;
+}
+
+#pm-iframe {
+    width: 100%;
+    min-height: 100%;
+    margin: 0 auto;
+    display: block;
+    .transition(~"width 300ms linear");
+}
+
+
+.pm-toolset-body {
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    background: white;
+    width: 100%;
+    height: 100%;
+    padding: 0;
+    overflow: auto;
+    background: @gray-bg-lighter;
+    padding-bottom: 100px; // scrolling issue?
+}
+
+.pm-toolset-card {
+
+}
+
+#pm-block-edit {
+    position: relative;
+    margin: @grid-gutter-width/2;
+    background: white;
+    box-shadow: 0 2px 5px rgba(0,0,0,.05);
+
+    .loading {
+        text-align: center;
+        padding: 50px;
+
+        &:before {
+            .fa(@fa-var-circle-o);
+            display: inline-block;
+            text-align: center;
+            padding: 10px;
+            color: @brand-primary;
+            .faa-burst.animated;
+            font-size: 35px;
+        }
+
+        span {
+            display: block;
+            color: fade(darken(@brand-primary, 15%), 40%);
+        }
+    }
+}
+
+#pm-document {
+    min-width: 35em;
+    right: 35em;
+    margin-right: 5px;
+    z-index: 80;
+    overflow-y: hidden;
+    background: desaturate(darken(@brand-primary, 30%), 40%);
+}
+
+#my-divider {
+    right: 35em;
+    width: 5px;
+}
+
+#right-component {
+    width: 35em;
+    min-width: 350px;
+    z-index: 90;
+}
+//
+// Bootbox
+//
+.bootbox.modal {
+    .modal-header {
+        padding-top: @padding-large-vertical;
+        padding-bottom: @padding-large-vertical;
+        border-bottom: 0;
+    }
+
+    .modal-title {
+        font-weight: normal;
+        font-family: @font-family-base;
+
+    }
+
+    .close {
+        .material-icons;
+        content: "close";
+        top: 8px;
+        position: absolute;
+        right: 12px;
+    }
+
+    .modal-content {
+        border-radius: 0;
+    }
+
+    .modal-body {
+        padding-top: @padding-large-vertical;
+        padding-bottom: @padding-large-vertical;
+        margin-bottom: @line-height-computed;
+    }
+
+    .modal-footer {
+        background: @gray-bg-lighter;
+
+        .btn {
+            &.btn-primary:focus {
+                border-color: @btn-primary-border;
+                outline: 0;
+                .box-shadow(~"0 1px 0 rgba(0,0,0,.2)");
+            }
+
+            .button-size(5px; 20px; @font-size-base; @line-height-base; 0);
+            box-shadow: 0 1px 0 fade( darken(@brand-primary, 25%), 10%);
+        }
+    }
+}
+
+//
+// Split-pane
+//
+.split-pane.fixed-top > .split-pane-component,
+.split-pane.fixed-bottom > .split-pane-component,
+.split-pane.horizontal-percent > .split-pane-component {
+    position: absolute;
+    left: 0;
+    width: 100%;
+    overflow: auto;
+    top: auto;
+    bottom: 0;
+    z-index: 1;
+}
+
+.split-pane.fixed-top > .split-pane-component:first-child,
+.split-pane.fixed-bottom > .split-pane-component:first-child,
+.split-pane.horizontal-percent > .split-pane-component:first-child {
+    top: 0;
+    bottom: auto;
+}
+
+.split-pane.fixed-top > .split-pane-divider,
+.split-pane.fixed-bottom > .split-pane-divider,
+.split-pane.horizontal-percent > .split-pane-divider {
+    position: absolute;
+    width: 100%;
+    left: 0;
+    cursor: ns-resize;
+    cursor: n-resize;
+    z-index: 2;
+}
+
+.split-pane.fixed-top > .split-pane-divider > .split-pane-divider-inner,
+.split-pane.fixed-bottom > .split-pane-divider > .split-pane-divider-inner,
+.split-pane.horizontal-percent > .split-pane-divider > .split-pane-divider-inner {
+    position: absolute;
+    top: -5px;
+    left: 0;
+    box-sizing: content-box;
+    width: 100%;
+    height: 100%;
+    padding: 5px 0;
+}
+
+.split-pane.fixed-left > .split-pane-component,
+.split-pane.fixed-right > .split-pane-component,
+.split-pane.vertical-percent > .split-pane-component {
+    position: absolute;
+    top: 0;
+    height: 100%;
+    overflow: auto;
+    left: auto;
+    right: 0;
+    z-index: 1;
+}
+
+.split-pane.fixed-left > .split-pane-component:first-child,
+.split-pane.fixed-right > .split-pane-component:first-child,
+.split-pane.vertical-percent > .split-pane-component:first-child {
+    left: 0;
+    right: auto;
+}
+
+.split-pane.fixed-left > .split-pane-divider,
+.split-pane.fixed-right > .split-pane-divider,
+.split-pane.vertical-percent > .split-pane-divider {
+    position: absolute;
+    height: 100%;
+    top: 0;
+    cursor: ew-resize;
+    cursor: w-resize;
+    z-index: 2;
+}
+
+.split-pane.fixed-left > .split-pane-divider > .split-pane-divider-inner,
+.split-pane.fixed-right > .split-pane-divider > .split-pane-divider-inner,
+.split-pane.vertical-percent > .split-pane-divider > .split-pane-divider-inner {
+    position: absolute;
+    top: 0;
+    left: -5px;
+    box-sizing: content-box;
+    width: 100%;
+    height: 100%;
+    padding: 0 5px;
+}
+
+.split-pane-resize-shim {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 10000;
+    display: none;
+}
+
+.split-pane.fixed-left > .split-pane-resize-shim,
+.split-pane.fixed-right > .split-pane-resize-shim,
+.split-pane.vertical-percent > .split-pane-resize-shim {
+    cursor: ew-resize;
+    cursor: w-resize;
+}
+
+.split-pane.fixed-top > .split-pane-resize-shim,
+.split-pane.fixed-bottom > .split-pane-resize-shim,
+.split-pane.horizontal-percent > .split-pane-resize-shim {
+    cursor: ns-resize;
+    cursor: n-resize;
+}
+
+.split-pane-divider {
+    right: 10em; /* Same as left component width */
+    width: 5px;
+    border-left: 1px solid #fff;
+    border-right: 1px solid #fff;
+    background-color: #f8f8f8;
+}
+

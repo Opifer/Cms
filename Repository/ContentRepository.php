@@ -2,6 +2,7 @@
 
 namespace Opifer\CmsBundle\Repository;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\HttpFoundation\Request;
 use Opifer\ContentBundle\Model\Content;
 use Opifer\ContentBundle\Model\ContentRepository as BaseContentRepository;
@@ -10,7 +11,7 @@ use Opifer\CrudBundle\Pagination\Paginator;
 /**
  * ContentRepository
  *
- * Because content items are used in different kinds of usecases, please specify
+ * Because content items are used in different kinds of use cases, please specify
  * the scope of the function inside the function name.
  * For example:
  *
@@ -20,25 +21,6 @@ use Opifer\CrudBundle\Pagination\Paginator;
  */
 class ContentRepository extends BaseContentRepository
 {
-    /**
-     * Used by Elastica to transform results to model
-     *
-     * @param string $entityAlias
-     *
-     * @return \Doctrine\ORM\QueryBuilder
-     */
-    public function createValuedQueryBuilder($entityAlias)
-    {
-        return $this->createQueryBuilder($entityAlias)
-            ->select($entityAlias, 'vs', 'v', 'a', 'p', 't')
-            ->leftJoin($entityAlias.'.valueSet', 'vs')
-            ->leftJoin('vs.values', 'v')
-            ->leftJoin('vs.template', 't')
-            ->leftJoin('v.attribute', 'a')
-            ->leftJoin('v.options', 'p')
-        ;
-    }
-
     /**
      * Search content by term
      *
@@ -59,7 +41,6 @@ class ContentRepository extends BaseContentRepository
             ))
             ->andWhere('c.active = :active')
             ->andWhere('c.indexable = :indexable')
-            ->andWhere('c.nestedIn IS NULL')
             ->andWhere('d.searchable = :searchable OR c.directory IS NULL')
             ->setParameter('term', '%'.$term.'%')
             ->setParameter('active', 1)
@@ -109,7 +90,6 @@ class ContentRepository extends BaseContentRepository
     public function findPaginatedByRequest(Request $request)
     {
         $qb = $this->createValuedQueryBuilder('c');
-        $qb->andWhere('c.nestedIn IS NULL');
 
         if ($request->get('site_id')) {
             $qb->andWhere("c.site = :site")->setParameter('site', $request->get('site_id'));
@@ -134,92 +114,6 @@ class ContentRepository extends BaseContentRepository
     }
 
     /**
-     * Finds all content by a template, created by a user
-     *
-     * @param integer $user
-     * @param string  $template
-     *
-     * @return \Doctrine\ORM\Collections\ArrayCollection
-     */
-    public function findUserContentByTemplate($user, $template)
-    {
-        $query = $this->createQueryBuilder('c')
-            ->innerJoin('c.valueSet', 'vs')
-            ->innerJoin('vs.template', 't')
-            ->where('c.author = :user')
-            ->andWhere('t.name = :template')
-            ->setParameters([
-                'user'     => $user,
-                'template' => $template,
-            ])
-            ->getQuery()
-        ;
-
-        return $query->getResult();
-    }
-
-    /**
-     * Find attributed in directory
-     *
-     * @param integer $siteId
-     * @param integer $directoryId
-     * @param string  $locale
-     *
-     * @return \Doctrine\ORM\Collections\ArrayCollection
-     */
-    public function findAttributedInDirectory($siteId = 0, $directoryId = 0, $locale = null)
-    {
-        $query = $this->createValuedQueryBuilder('c')
-            ->where("c.site = :site")
-            ->setParameter('site', $siteId)
-        ;
-
-        if ($directoryId) {
-            $query->andWhere("c.directory = :directory")
-                ->setParameter('directory', $directoryId)
-            ;
-        }
-
-        return $query->getQuery()->getResult();
-    }
-
-    /**
-     * Find one by ID
-     *
-     * @param integer $id
-     *
-     * @return Content
-     */
-    public function findOneById($id)
-    {
-        $query = $this->createValuedQueryBuilder('c')
-            ->where("c.id = :id")
-            ->setParameter('id', $id)
-            ->getQuery()
-        ;
-
-        return $query->getSingleResult();
-    }
-
-    /**
-     * Find one by slug
-     *
-     * @param string $slug
-     *
-     * @return Content
-     */
-    public function findOneBySlug($slug)
-    {
-        $query = $this->createValuedQueryBuilder('c')
-            ->where("c.slug = :slug")
-            ->setParameter('slug', $slug)
-            ->getQuery()
-        ;
-
-        return $query->getSingleResult();
-    }
-
-    /**
      * Find an anonymously created item by it's ID
      *
      * @param integer $id
@@ -240,14 +134,6 @@ class ContentRepository extends BaseContentRepository
     }
 
     /**
-     * @todo just retrieves random content items for now
-     */
-    public function findPopularByTemplate($template)
-    {
-        return $this->findRandomByTemplate($template);
-    }
-
-    /**
      * Find random content items by template
      *
      * orderBy('RAND()') or something similar is not available within Doctrine's DQL.
@@ -256,7 +142,7 @@ class ContentRepository extends BaseContentRepository
      * @param string  $template
      * @param integer $limit
      *
-     * @return \Doctrine\Common\Collections\ArrayCollection
+     * @return ArrayCollection
      */
     public function findRandomByTemplate($template, $limit = 10)
     {
@@ -270,14 +156,13 @@ class ContentRepository extends BaseContentRepository
             ->innerJoin('c.valueSet', 'vs')
             ->innerJoin('vs.template', 't')
             ->where('t.name = :template')
-            ->andWhere('c.nestedIn IS NULL')
             ->setParameter('template', $template)
             ->getQuery()
             ->getSingleScalarResult()
         ;
 
-        $offset = rand(0, (int) ($count - $limit)-1);
-        $offset = ($offset) ? $offset : 1;
+        $offset = rand(0, (int) ($count - $limit) - 1);
+        $offset = ($offset && $offset > 0) ? $offset : 0;
 
         $query = $this->createQueryBuilder('c')
             ->leftJoin('c.valueSet', 'vs')
@@ -296,46 +181,15 @@ class ContentRepository extends BaseContentRepository
     }
 
     /**
-     * Find related content
-     *
-     * @param Content $content
-     * @param integer $limit
-     *
-     * @return \Doctrine\Common\Collections\ArrayCollection
-     */
-    public function findRelated(Content $content, $limit = 10)
-    {
-        $city = $content->getValueSet()->getValueFor('address')->getAddress()->getCity();
-
-        $query = $this->createQueryBuilder('c')
-            ->innerJoin('c.valueSet', 'vs')
-            ->innerJoin('vs.values', 'v')
-            ->innerJoin('v.attribute', 'a')
-            ->innerJoin('v.address', 'addr')
-            ->where('addr.city = :city')
-            ->andWhere('c.active = 1')
-            ->andWhere('c.nestedIn IS NULL')
-            ->andWhere('c.id <> :id')
-            ->setParameter('id', $content->getId())
-            ->setParameter('city', $city)
-            ->setMaxResults($limit)
-            ->getQuery()
-        ;
-
-        return $query->getResult();
-    }
-
-    /**
      * Find the latest created content items
      *
      * @param integer $limit
      *
-     * @return \Doctrine\Common\Collections\ArrayCollection
+     * @return ArrayCollection
      */
     public function findLatest($limit = 5)
     {
         $query = $this->createQueryBuilder('c')
-            ->where('c.nestedIn IS NULL')
             ->orderBy('c.createdAt', 'DESC')
             ->setMaxResults($limit)
             ->getQuery()
@@ -349,17 +203,32 @@ class ContentRepository extends BaseContentRepository
      *
      * @param int $limit
      *
-     * @return \Doctrine\Common\Collections\ArrayCollection
+     * @return ArrayCollection
      */
     public function findLastUpdated($limit = 5)
     {
         $query = $this->createQueryBuilder('c')
-            ->where('c.nestedIn IS NULL')
             ->orderBy('c.updatedAt', 'DESC')
             ->setMaxResults($limit)
             ->getQuery()
         ;
 
         return $query->getResult();
+    }
+
+    /**
+     * Find all active and addressable content items
+     *
+     * @return ArrayCollection
+     */
+    public function findActiveAddressable()
+    {
+        return $this->createQueryBuilder('c')
+            ->leftJoin('c.directory', 'directory')
+            ->Andwhere('c.active = :active')
+            ->setParameter('active', '1')
+            ->orderBy('directory.name', 'ASC')
+            ->getQuery()
+            ->getResult();
     }
 }

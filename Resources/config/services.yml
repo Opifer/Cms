@@ -6,15 +6,14 @@ parameters:
     opifer.cms.form.attribute_parameters.class: Opifer\CmsBundle\Form\Type\AttributeParametersType
     opifer.cms.form.ckeditor_type.class: Opifer\CmsBundle\Form\Type\CKEditorType
     opifer.cms.form.content.class: Opifer\CmsBundle\Form\ContentFormType
-    opifer.cms.form.content_init_form.class: Opifer\CmsBundle\Form\ContentInitFormType
-    opifer.cms.form.directory_form.class: Opifer\CmsBundle\Form\DirectoryFormType
+    opifer.cms.form.content_init_form.class: Opifer\CmsBundle\Form\Type\ContentInitFormType
+    opifer.cms.form.directory_form.class: Opifer\CmsBundle\Form\Type\DirectoryFormType
     opifer.cms.form.google_address.class: Opifer\CmsBundle\Form\Type\GoogleAddressType
     opifer.cms.form.menu.class: Opifer\CmsBundle\Form\Type\MenuType
     opifer.cms.form.menu_group.class: Opifer\CmsBundle\Form\Type\MenuGroupType
     opifer.cms.form.menu_parameters.class: Opifer\CmsBundle\Form\Type\MenuParametersType
     opifer.cms.html_value_provider.class: Opifer\CmsBundle\ValueProvider\HtmlValueProvider
     opifer.cms.listener.post_notify_listener.class: Opifer\CmsBundle\EventListener\PostNotifyListener
-    opifer.cms.listener.redirect_after_login_listener.class: Opifer\CmsBundle\EventListener\RedirectAfterLoginListener
     opifer.cms.menu_group.class: Opifer\CmsBundle\Entity\MenuGroup
     opifer.cms.menu_group_value_provider.class: Opifer\CmsBundle\ValueProvider\MenuGroupValueProvider
     opifer.cms.menu_manager.class: Opifer\CmsBundle\Manager\MenuManager
@@ -23,19 +22,35 @@ parameters:
     opifer.cms.sitemap_listener.class: Opifer\CmsBundle\EventListener\SitemapListener
     opifer.cms.slug_form_type.class: Opifer\CmsBundle\Form\Type\SlugType
     opifer.cms.tableprefix_listener.class: Opifer\CmsBundle\EventListener\TablePrefixSubscriber
-    opifer.cms.user_form.class: Opifer\CmsBundle\Form\UserFormType
+    opifer.cms.user_form.class: Opifer\CmsBundle\Form\Type\UserFormType
     twig.extension.intl.class: Twig_Extensions_Extension_Intl
 
+    opifer.cms.event_subscriber.load_orm_metadata.class: Opifer\CmsBundle\EventListener\LoadORMMetadataSubscriber
+
 services:
+#    opifer.cms.event_subscriber.load_orm_metadata:
+#        class: %opifer.cms.event_subscriber.load_orm_metadata.class%
+#        arguments: [%opifer_cms.classes%]
+#        tags:
+#            - { name: doctrine.event_subscriber }
+
+    # Twig Extensions
+
     twig.extension.intl:
         class: %twig.extension.intl.class%
         tags:
             - { name: twig.extension }
 
-    # Forms
+    # Form Types
+
+    opifer.cms.form.attribute_parameters:
+        class: %opifer.cms.form.attribute_parameters.class%
+        tags:
+            - { name: form.type, alias: admin_attribute_parameters }
+
     opifer.cms.user_form:
         class: %opifer.cms.user_form.class%
-        arguments: [%security.role_hierarchy.roles%, %opifer_cms.user.class%]
+        arguments: [%security.role_hierarchy.roles%, %opifer_cms.model.user.class%]
         tags:
             - { name: form.type, alias: admin_user_form }
 
@@ -75,6 +90,11 @@ services:
         tags:
             - { name: form.type, alias: admin_menu_group }
 
+    opifer.cms.form.menu_parameters:
+        class: %opifer.cms.form.menu_parameters.class%
+        tags:
+            - { name: form.type, alias: admin_menu_parameters }
+
     opifer.cms.form.directory_form:
         class: %opifer.cms.form.directory_form.class%
         arguments: [@translator]
@@ -87,22 +107,19 @@ services:
         tags:
             - { name: form.type, alias: slug }
 
-    # Managers
+    # Entity Managers
+
     opifer.cms.content_manager:
         class: Opifer\CmsBundle\Manager\ContentManager
-        arguments: [@doctrine.orm.default_entity_manager, @form.factory, @opifer.eav.eav_manager, %opifer_content.content_class%, %opifer_eav.template_class%, @security.token_storage]
+        arguments: [@doctrine.orm.default_entity_manager, @form.factory, @opifer.eav.eav_manager, %opifer_content.content_class%, %opifer_eav.schema_class%, @security.token_storage]
 
     # ACL
+
     opifer.cms.acl_manager:
         class: %opifer.cms.acl_manager.class%
         arguments: [@security.acl.provider, @security.context]
 
-    # Listener
-    opifer.cms.listener.redirect_after_login_listener:
-        class: %opifer.cms.listener.redirect_after_login_listener.class%
-        arguments: [@router, @security.context, @event_dispatcher]
-        tags:
-            - { name: kernel.event_listener, event: security.interactive_login, method: onSecurityInteractiveLogin }
+    # Event Listeners
 
     opifer.cms.listener.post_notify_listener:
         class: %opifer.cms.listener.post_notify_listener.class%
@@ -117,7 +134,14 @@ services:
         tags:
             - {name: 'presta.sitemap.listener'}
 
+    opifer.cms.tableprefix_listener:
+        class: %opifer.cms.tableprefix_listener.class%
+        arguments: [%database_table_prefix%]
+        tags:
+            - { name: doctrine.event_subscriber }
+
     # Settings
+
     opifer.cms.setting_manager:
         class: %opifer.cms.setting_manager.class%
         arguments: [@doctrine.orm.default_entity_manager]
@@ -126,13 +150,8 @@ services:
         class: %opifer.cms.settings.class%
         arguments: [@doctrine.orm.default_entity_manager]
 
-    opifer.cms.tableprefix_listener:
-        class: %opifer.cms.tableprefix_listener.class%
-        arguments: [%database_table_prefix%]
-        tags:
-            - { name: doctrine.event_subscriber }
-
     # Menus
+
     opifer.cms.menu_manager:
         class: %opifer.cms.menu_manager.class%
         arguments: [@doctrine.orm.default_entity_manager]
@@ -141,7 +160,8 @@ services:
         class: %opifer.cms.content_menu.class%
         arguments: [@translator, @router, %opifer_cms.allowed_locales%, %locale%]
 
-    # Value provider
+    # Value providers
+
     opifer.cms.address_value_provider:
         class: %opifer.cms.address_value_provider.class%
         tags:
@@ -158,19 +178,8 @@ services:
         tags:
             - { name: opifer.eav.value_provider, alias: html }
 
-    # MenuParameters form; override this in project services
-    opifer.cms.form.menu_parameters:
-        class: %opifer.cms.form.menu_parameters.class%
-        tags:
-            - { name: form.type, alias: admin_menu_parameters }
-
-    # AttributeParameters form
-    opifer.cms.form.attribute_parameters:
-        class: %opifer.cms.form.attribute_parameters.class%
-        tags:
-            - { name: form.type, alias: admin_attribute_parameters }
-
     # Routers
+
     opifer.cms.exception_router:
         class: %opifer.cms.exception_router.class%
         arguments: [@service_container]

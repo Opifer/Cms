@@ -19,7 +19,7 @@ class AttributeType extends EavAttributeType
             $attribute = $event->getData();
             $form = $event->getForm();
 
-            if ($attribute && $attribute->getTemplate()->getObjectClass() == get_class(new Post())) {
+            if ($attribute && $attribute->getSchema()->getObjectClass() == get_class(new Post())) {
                 $form->add('parameters', 'admin_attribute_parameters', [
                     'label' => false,
                     'attr' => [

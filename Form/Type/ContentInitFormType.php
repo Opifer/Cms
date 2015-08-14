@@ -2,16 +2,17 @@
 
 namespace Opifer\CmsBundle\Form\Type;
 
-use Symfony\Component\Translation\LoggingTranslator;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Routing\RouterInterface;
 
+/**
+ * Class ContentInitFormType
+ *
+ * @package Opifer\CmsBundle\Form\Type
+ */
 class ContentInitFormType extends AbstractType
 {
-    /** @var  Symfony\Bundle\FrameworkBundle\Translation\Translator */
-    protected $translator;
-
     /** @var \Symfony\Component\Routing\RouterInterface */
     protected $router;
 
@@ -21,13 +22,11 @@ class ContentInitFormType extends AbstractType
     /**
      * Constructor
      *
-     * @param Translator $translator
-     * @param Router     $router
-     * @param array      $locales
+     * @param RouterInterface $router
+     * @param array           $locales
      */
-    public function __construct(LoggingTranslator $translator, RouterInterface $router, $locales)
+    public function __construct(RouterInterface $router, $locales)
     {
-        $this->translator = $translator;
         $this->router = $router;
         $this->locales = $locales;
     }
@@ -41,21 +40,20 @@ class ContentInitFormType extends AbstractType
             ->add('site', 'entity', [
                 'class'    => 'OpiferCmsBundle:Site',
                 'property' => 'name',
-                'attr'     => ['help_text' => $this->translator->trans('content.form.site.help_text')]
+                'attr'     => ['help_text' => 'content.form.site.help_text']
             ])
-            ->add('template', 'entity', [
-                'class'    => 'OpiferEavBundle:Template',
+            ->add('schema', 'entity', [
+                'class'    => 'OpiferEavBundle:Schema',
                 'property' => 'name',
-                'attr'     => ['help_text' => $this->translator->trans('content.form.template.help_text', ['%url%' => $this->router->generate('opifer.crud.new', ['slug' => 'templates'])])]
+                'attr'     => ['help_text' => 'content.form.schema.help_text', ['%url%' => $this->router->generate('opifer.crud.new', ['slug' => 'schemas'])]]
             ])
             ->add('locale', 'locale', [
                 'choices' => $this->locales,
-                'attr'    => ['help_text' => $this->translator->trans('content.form.locale.help_text')]
+                'attr'    => ['help_text' => 'content.form.locale.help_text']
             ])
             ->add('save', 'submit', [
-                'label' => ucfirst($this->translator->trans('content.form.init.submit'))
-            ])
-        ;
+                'label' => ucfirst('content.form.init.submit')
+            ]);
     }
 
     /**

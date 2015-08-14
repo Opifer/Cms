@@ -9,11 +9,11 @@ use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Opifer\CmsBundle\Entity\Layout;
-use Opifer\CmsBundle\Entity\Template;
+use Opifer\CmsBundle\Entity\Schema;
 use Opifer\CmsBundle\Entity\Attribute;
 use Opifer\CmsBundle\Entity\Option;
 
-abstract class TemplateFixtures extends AbstractFixture implements OrderedFixtureInterface, FixtureInterface, ContainerAwareInterface
+abstract class SchemaFixtures extends AbstractFixture implements OrderedFixtureInterface, FixtureInterface, ContainerAwareInterface
 {
     /**
      * @var ContainerInterface
@@ -76,16 +76,16 @@ abstract class TemplateFixtures extends AbstractFixture implements OrderedFixtur
     }
 
     /**
-     * Helper for retrieving an template entity
+     * Helper for retrieving an schema entity
      *
      * @param  string           $name
-     * @return Template|boolean
+     * @return Schema|boolean
      */
-    protected function getTemplate($name)
+    protected function getSchema($name)
     {
-        $templateEntity = $this->getEntityByName(new Template(), $name);
-        if ($templateEntity->getName() == $name) {
-            return $templateEntity;
+        $schemaEntity = $this->getEntityByName(new Schema(), $name);
+        if ($schemaEntity->getName() == $name) {
+            return $schemaEntity;
         }
 
         return false;
@@ -121,15 +121,15 @@ abstract class TemplateFixtures extends AbstractFixture implements OrderedFixtur
     }
 
     /**
-     * Update template attribute if it exists, works on already added attributes
+     * Update schema attribute if it exists, works on already added attributes
      *
-     * @param object $templateEntity
+     * @param object $schemaEntity
      * @param object $attribute
      * @param object $values
      */
-    protected function updateTemplateAttribute($templateEntity, $attribute, $values = [])
+    protected function updateSchemaAttribute($schemaEntity, $attribute, $values = [])
     {
-        if ($attributeEntity = $templateEntity->getAttribute($attribute)) {
+        if ($attributeEntity = $schemaEntity->getAttribute($attribute)) {
             if ($attributeEntity->getId()) {
                 foreach ($values as $key => $value) {
                     $update = 'set'.ucfirst($key);
@@ -138,7 +138,7 @@ abstract class TemplateFixtures extends AbstractFixture implements OrderedFixtur
 
                 $this->entityManager->persist($attributeEntity);
             } else {
-                $templateEntity->removeAttribute($attributeEntity);
+                $schemaEntity->removeAttribute($attributeEntity);
             }
         }
     }
@@ -168,25 +168,25 @@ abstract class TemplateFixtures extends AbstractFixture implements OrderedFixtur
     }
 
     /**
-     * Helper for adding templates
+     * Helper for adding schemas
      *
      * @param string $name
      * @param array  $values
      * @param Layout $layoutEntity
      *
-     * @return Template
+     * @return Schema
      */
-    protected function addTemplate($name, $values, $layoutEntity = false)
+    protected function addSchema($name, $values, $layoutEntity = false)
     {
         $serializer = $this->container->get('jms_serializer');
 
-        $templateEntity = $this->getEntityByName(new Template(), $name);
+        $schemaEntity = $this->getEntityByName(new Schema(), $name);
 
-        $templateEntity->setName($name);
+        $schemaEntity->setName($name);
 
         foreach ($values as $key => $value) {
             $update = 'set'.ucfirst($key);
-            $templateEntity->$update($value);
+            $schemaEntity->$update($value);
         }
 
         if ($layoutEntity !== false) {
@@ -194,37 +194,46 @@ abstract class TemplateFixtures extends AbstractFixture implements OrderedFixtur
                 $this->entityManager->flush();
             }
 
-            $templateEntity->setPresentation($serializer->serialize($layoutEntity, 'json'));
+            $schemaEntity->setPresentation($serializer->serialize($layoutEntity, 'json'));
         }
 
-        $this->entityManager->persist($templateEntity);
+        $this->entityManager->persist($schemaEntity);
 
-        return $templateEntity;
+        return $schemaEntity;
     }
 
     /**
-     * Helper for setting template attributes
+     * Helper for setting schema attributes
      *
-     * @param Template $templateEntity
+     * @param Schema $schemaEntity
      * @param array    $attributes
      *
      * @return array
      */
-    protected function addTemplateAttributes($templateEntity, $attributes)
+    protected function addSchemaAttributes($schemaEntity, $attributes)
     {
         foreach ($attributes as $id => $attribute) {
-            if (!$attributeEntity = $templateEntity->getAttribute($attribute['name'])) {
+            if (!$attributeEntity = $schemaEntity->getAttribute($attribute['name'])) {
                 $attributeEntity = new Attribute();
-                $templateEntity->addAttribute($attributeEntity);
+                $schemaEntity->addAttribute($attributeEntity);
             }
 
             $attributeEntity
                 ->setValueType($attribute['type'])
                 ->setName($attribute['name'])
                 ->setDisplayName($attribute['displayName'])
-                ->setDescription((isset($attribute['description']) ? $attribute['description'] : ''))
                 ->setSort($attribute['sort'])
-                ->setTemplate($templateEntity);
+                ->setSchema($schemaEntity);
+
+            if (isset($attribute['description'])) {
+                $attributeEntity->setDescription($attribute['description']);
+            }
+
+            if (isset($attribute['allowedSchemas']) && is_array($attribute['allowedSchemas'])) {
+                foreach ($attribute['allowedSchemas'] as $allowedReference) {
+                    $attributeEntity->addAllowedSchema($this->getReference($allowedReference));
+                }
+            }
 
             if (isset($attribute['options']) && is_array($attribute['options'])) {
                 $i = 1;
@@ -250,8 +259,8 @@ abstract class TemplateFixtures extends AbstractFixture implements OrderedFixtur
             $this->entityManager->persist($attributeEntity);
         }
 
-        $this->entityManager->persist($templateEntity);
+        $this->entityManager->persist($schemaEntity);
 
-        return $templateEntity->getAttributes();
+        return $schemaEntity->getAttributes();
     }
 }

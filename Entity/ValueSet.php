@@ -10,7 +10,7 @@ use Opifer\EavBundle\Model\ValueSet as BaseValueSet;
  * ValueSet
  *
  * @ORM\Table(name="valueset")
- * @ORM\Entity
+ * @ORM\Entity()
  * @JMS\ExclusionPolicy("all")
  */
 class ValueSet extends BaseValueSet

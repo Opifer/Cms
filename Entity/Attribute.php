@@ -12,8 +12,8 @@ use Opifer\EavBundle\Model\Attribute as BaseAttribute;
 /**
  * Attribute
  *
+ * @ORM\Entity()
  * @ORM\Table(name="attribute")
- * @ORM\Entity
  * @JMS\ExclusionPolicy("none")
  */
 class Attribute extends BaseAttribute
@@ -78,10 +78,10 @@ class Attribute extends BaseAttribute
     /**
      * @var ArrayCollection
      *
-     * @ORM\ManyToMany(targetEntity="Template", inversedBy="allowedInAttributes", cascade={"persist"})
-     * @ORM\JoinTable(name="attribute_allowed_template")
+     * @ORM\ManyToMany(targetEntity="Schema", inversedBy="allowedInAttributes", cascade={"persist"})
+     * @ORM\JoinTable(name="attribute_allowed_schema")
      **/
-    protected $allowedTemplates;
+    protected $allowedSchemas;
 
     /**
      * @var array

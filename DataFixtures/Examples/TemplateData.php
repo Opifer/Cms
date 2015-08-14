@@ -1,15 +1,15 @@
 <?php
 
-//namespace AppBundle\DataFixtures\ORM\Templates;
+//namespace AppBundle\DataFixtures\ORM\Schemas;
 //
-//use Opifer\CmsBundle\DataFixtures\Abstracts\TemplateFixtures;
+//use Opifer\CmsBundle\DataFixtures\Abstracts\SchemaFixtures;
 
 /**
  * Example class for adding layouts, templates, attributes & options
  *
  * As you can see in namespace it should be in app bundle
  */
-//class TemplateData extends TemplateFixtures
+//class SchemaData extends SchemaFixtures
 //{
     /**
      * must implement this method
@@ -22,8 +22,8 @@
 //            'placeholderkeys' => [],
 //        ]);
 //
-//        $templateEntity = $this->addTemplate('page', [
-//            'displayName' => 'Page Template',
+//        $templateEntity = $this->addSchema('page', [
+//            'displayName' => 'Page Schema',
 //            'objectClass' => 'Opifer\CmsBundle\Entity\Content'
 //        ], $layoutEntity);
 //
@@ -67,7 +67,7 @@
 //
 //        ];
 //
-//        $this->addTemplateAttributes($templateEntity, $attributes);
+//        $this->addSchemaAttributes($templateEntity, $attributes);
 //    }
 
     /**

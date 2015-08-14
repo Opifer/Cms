@@ -5,17 +5,17 @@ namespace Opifer\CmsBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
 use Opifer\CrudBundle\Annotation as CRUD;
-use Opifer\EavBundle\Model\Template as BaseTemplate;
+use Opifer\EavBundle\Model\Schema as BaseSchema;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * Template
+ * Schema
  *
- * @ORM\Table(name="template")
- * @ORM\Entity(repositoryClass="Opifer\EavBundle\Repository\TemplateRepository")
- * @CRUD\Form(type="eav_template")
+ * @ORM\Table(name="schema")
+ * @ORM\Entity(repositoryClass="Opifer\EavBundle\Repository\SchemaRepository")
+ * @CRUD\Form(type="eav_schema")
  */
-class Template extends BaseTemplate
+class Schema extends BaseSchema
 {
     /**
      * @var integer
@@ -58,7 +58,7 @@ class Template extends BaseTemplate
     /**
      * @var ArrayCollection
      *
-     * @ORM\OneToMany(targetEntity="Attribute", mappedBy="template", cascade={"all"}, orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity="Attribute", mappedBy="schema", cascade={"all"}, orphanRemoval=true)
      *
      * @CRUD\Grid(listable=true)
      */
@@ -74,7 +74,7 @@ class Template extends BaseTemplate
     /**
      * @var ArrayCollection
      *
-     * @ORM\ManyToMany(targetEntity="Attribute", mappedBy="allowedTemplates")
+     * @ORM\ManyToMany(targetEntity="Attribute", mappedBy="allowedSchemas")
      **/
     protected $allowedInAttributes;
 
@@ -93,7 +93,7 @@ class Template extends BaseTemplate
      *
      * @param string $postNotify
      *
-     * @return Template
+     * @return Schema
      */
     public function setPostNotify($postNotify)
     {

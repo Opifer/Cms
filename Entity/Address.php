@@ -8,8 +8,8 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Address
  *
+ * @ORM\MappedSuperclass()
  * @ORM\Table(name="address")
- * @ORM\Entity
  */
 class Address
 {
@@ -72,7 +72,7 @@ class Address
     private $lng;
 
     /**
-     * @ORM\OneToMany(targetEntity="AddressValue", mappedBy="address")
+     * @ORM\OneToMany(targetEntity="Opifer\CmsBundle\Entity\AddressValue", mappedBy="address")
      */
     protected $contents;
 

@@ -15,8 +15,8 @@ use Opifer\ContentBundle\Model\Directory as BaseDirectory;
  * @Gedmo\Tree(type="nested")
  * @JMS\ExclusionPolicy("all")
  *
- * @ORM\Table(name="directory")
  * @ORM\Entity(repositoryClass="Opifer\CmsBundle\Repository\DirectoryRepository")
+ * @ORM\Table(name="directory")
  */
 class Directory extends BaseDirectory
 {

@@ -6,26 +6,26 @@ use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
-use Opifer\CmsBundle\Entity\Template;
+use Opifer\CmsBundle\Entity\Schema;
 
-class LoadTemplateData extends AbstractFixture implements OrderedFixtureInterface, FixtureInterface
+class LoadSchemaData extends AbstractFixture implements OrderedFixtureInterface, FixtureInterface
 {
     /**
      * {@inheritDoc}
      */
     public function load(ObjectManager $manager)
     {
-        $template = new Template();
-        $template->setObjectClass('Opifer\CmsBundle\Entity\Content');
-        $template->setName('page');
-        $template->setDisplayName('Page');
+        $schema = new Schema();
+        $schema->setObjectClass('Opifer\CmsBundle\Entity\Content');
+        $schema->setName('page');
+        $schema->setDisplayName('Page');
 
         $presentation = '{"id":'.$this->getReference("page-layout")->getId().',"name":"page", "filename":"OpiferCmsBundle:Layout:page.html.twig"}';
         $presentation = json_encode(json_decode($presentation, true));
-        $template->setPresentation($presentation);
+        $schema->setPresentation($presentation);
 
-        $manager->persist($template);
-        $this->addReference('page-template', $template);
+        $manager->persist($schema);
+        $this->addReference('page-schema', $schema);
         $manager->flush();
     }
 

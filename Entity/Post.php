@@ -7,7 +7,7 @@ use Gedmo\Mapping\Annotation as Gedmo;
 use JMS\Serializer\Annotation as JMS;
 use Opifer\EavBundle\Model\EntityInterface;
 use Opifer\EavBundle\Model\ValueSetInterface;
-use Opifer\EavBundle\Model\TemplateInterface;
+use Opifer\EavBundle\Model\SchemaInterface;
 use Opifer\CrudBundle\Annotation\Form;
 
 /**
@@ -32,7 +32,7 @@ class Post implements EntityInterface
     protected $id;
 
     /**
-     * @var Opifer\EavBundle\Entity\ValueSet
+     * @var ValueSetInterface
      *
      * @ORM\ManyToOne(targetEntity="ValueSet", cascade={"persist"}, fetch="EAGER")
      * @ORM\JoinColumn(name="valueset_id", referencedColumnName="id")
@@ -58,9 +58,9 @@ class Post implements EntityInterface
     protected $deletedAt;
 
     /**
-     * @var TemplateInterface
+     * @var SchemaInterface
      */
-    public $template;
+    public $schema;
 
     /**
      * Get id
@@ -149,26 +149,26 @@ class Post implements EntityInterface
     }
 
     /**
-     * Set template
+     * Set schema
      *
-     * @param TemplateInterface $template
+     * @param SchemaInterface $schema
      *
      * @return Content
      */
-    public function setTemplate(TemplateInterface $template = null)
+    public function setSchema(SchemaInterface $schema = null)
     {
-        $this->getValueSet()->setTemplate($template);
+        $this->getValueSet()->setSchema($schema);
 
         return $this;
     }
 
     /**
-     * Get template
+     * Get schema
      *
-     * @return TemplateInterface
+     * @return SchemaInterface
      */
-    public function getTemplate()
+    public function getSchema()
     {
-        return $this->getValueSet()->getTemplate();
+        return $this->getValueSet()->getSchema();
     }
 }

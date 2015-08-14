@@ -8,8 +8,13 @@ use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
-use Opifer\CmsBundle\Entity\Content;
+use AppBundle\Entity\Content;
 
+/**
+ * Class LoadContentData
+ *
+ * @package Opifer\CmsBundle\DataFixtures\ORM
+ */
 class LoadContentData extends AbstractFixture implements OrderedFixtureInterface, FixtureInterface, ContainerAwareInterface
 {
     /**

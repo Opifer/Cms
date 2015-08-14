@@ -49,7 +49,7 @@ class PostNotifyListener
     {
         foreach ($this->inserted_entities as $entity) {
             if ($entity instanceof Post && $entity->getId() > 0) {
-                $email = $entity->getTemplate()->getPostNotify();
+                $email = $entity->getSchema()->getPostNotify();
 
                 if ($email) {
                     if (!$this->servicesLoaded) {
