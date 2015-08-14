@@ -9,7 +9,7 @@ https://raw.github.com/shagstrom/split-pane/master/LICENSE
 
 */
 (function($) {
-	
+
 	$.fn.splitPane = function() {
 		var $splitPanes = this;
 		$splitPanes.each(setMinHeightAndMinWidth);

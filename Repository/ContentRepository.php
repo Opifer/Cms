@@ -11,7 +11,7 @@ use Opifer\CrudBundle\Pagination\Paginator;
 /**
  * ContentRepository
  *
- * Because content items are used in different kinds of usecases, please specify
+ * Because content items are used in different kinds of use cases, please specify
  * the scope of the function inside the function name.
  * For example:
  *
@@ -41,7 +41,6 @@ class ContentRepository extends BaseContentRepository
             ))
             ->andWhere('c.active = :active')
             ->andWhere('c.indexable = :indexable')
-            ->andWhere('c.nestedIn IS NULL')
             ->andWhere('d.searchable = :searchable OR c.directory IS NULL')
             ->setParameter('term', '%'.$term.'%')
             ->setParameter('active', 1)
@@ -91,7 +90,6 @@ class ContentRepository extends BaseContentRepository
     public function findPaginatedByRequest(Request $request)
     {
         $qb = $this->createValuedQueryBuilder('c');
-        $qb->andWhere('c.nestedIn IS NULL');
 
         if ($request->get('site_id')) {
             $qb->andWhere("c.site = :site")->setParameter('site', $request->get('site_id'));
@@ -158,7 +156,6 @@ class ContentRepository extends BaseContentRepository
             ->innerJoin('c.valueSet', 'vs')
             ->innerJoin('vs.template', 't')
             ->where('t.name = :template')
-            ->andWhere('c.nestedIn IS NULL')
             ->setParameter('template', $template)
             ->getQuery()
             ->getSingleScalarResult()
@@ -193,7 +190,6 @@ class ContentRepository extends BaseContentRepository
     public function findLatest($limit = 5)
     {
         $query = $this->createQueryBuilder('c')
-            ->where('c.nestedIn IS NULL')
             ->orderBy('c.createdAt', 'DESC')
             ->setMaxResults($limit)
             ->getQuery()
@@ -212,7 +208,6 @@ class ContentRepository extends BaseContentRepository
     public function findLastUpdated($limit = 5)
     {
         $query = $this->createQueryBuilder('c')
-            ->where('c.nestedIn IS NULL')
             ->orderBy('c.updatedAt', 'DESC')
             ->setMaxResults($limit)
             ->getQuery()
@@ -230,7 +225,6 @@ class ContentRepository extends BaseContentRepository
     {
         return $this->createQueryBuilder('c')
             ->leftJoin('c.directory', 'directory')
-            ->where('c.nestedIn IS NULL')
             ->Andwhere('c.active = :active')
             ->setParameter('active', '1')
             ->orderBy('directory.name', 'ASC')

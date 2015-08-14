@@ -130,26 +130,6 @@ class Content extends BaseContent
     }
 
     /**
-     * Is content item public?
-     *
-     * @return boolean
-     */
-    public function isPublic()
-    {
-        return (is_null($this->nestedIn)) ? true : false;
-    }
-
-    /**
-     * Is content item private?
-     *
-     * @return boolean
-     */
-    public function isPrivate()
-    {
-        return (!is_null($this->nestedIn)) ? true : false;
-    }
-
-    /**
      * Set indexable
      *
      * @param boolean $indexable
@@ -289,16 +269,4 @@ class Content extends BaseContent
         return $array;
     }
 
-    /**
-     * Set defaults for nested content
-     *
-     * @return Content
-     */
-    public function setNestedDefaults()
-    {
-        $this->searchable = false;
-        $this->indexable = false;
-
-        return $this;
-    }
 }

@@ -1,3 +1,41 @@
+.va-container {
+    display: table;
+    position: relative;
+    height: 100%;
+    width: 100%;
+}
+
+.va-middle {
+    vertical-align: middle;
+}
+
+.va-middle,
+.va-top,
+.va-bottom {
+    display: table-cell;
+}
+
+.row-space-2 {
+    margin-bottom: @grid-gutter-width/2;
+}
+.row-space-4 {
+    margin-bottom: @grid-gutter-width;
+}
+.row-space-8 {
+    margin-bottom: @grid-gutter-width*2;
+}
+
+.row-space-top-2 {
+    margin-top: @grid-gutter-width/2;
+}
+.row-space-top-4 {
+    margin-top: @grid-gutter-width;
+}
+.row-space-top-8 {
+    margin-top: @grid-gutter-width*2;
+}
+
+
 
 .grid {
     table {

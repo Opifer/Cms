@@ -282,11 +282,12 @@ $(document).ready(function(){
     //
     pagemanager = (function() {
         var sortables;
+        var blockId = 0;
 
         var onReady = function() {
             // Toggle view between Content, Preview and Layout
             $('input[name="viewmode"]:radio').change(function () {
-                console.log('change', $(this));
+                pagemanager.unselectBlock();
                 if ($('input[name="viewmode"]:checked').val() == 'CONTENT') {
                     $('.pm-preview').removeClass('pm-viewmode-layout').addClass('pm-viewmode-content');
                     $('.pm-tools-blockset').addClass('hidden');
@@ -301,19 +302,17 @@ $(document).ready(function(){
                 }
             });
 
+            pagemanager.blockId = $('#pm-document').attr('data-pm-id');
+
             // Split page library
             $('.split-pane').splitPane();
-
-            // Resize iframe based on their contents (for block editing view)
-            //$('#pm-block-edit-iframe').iFrameResize();
-            //$('#pm-block-edit-iframe').bind('load', function () { pagemanager.isNotLoading(); });
 
             $(document).ajaxStart(function(e) {
                 pagemanager.isLoading();
             });
+
             $(document).ajaxComplete(function(e) {
                 pagemanager.isNotLoading();
-                angular.bootstrap($('#pm-block-edit form'), ["MainApp"]);
             });
 
             pagemanager.bindSortable();
@@ -327,6 +326,46 @@ $(document).ready(function(){
                 });
 
                 return false;
+            });
+
+            $(document).on('click', '.pm-block .btn-edit', function(e) {
+                e.preventDefault();
+                pagemanager.editBlock( $(this).closest('.pm-block').attr('data-pm-block-id'));
+            });
+
+            // Edit block (click)
+            $(document).on('click', '#pm-block-edit #btn-cancel', function(e) {
+                e.preventDefault();
+                pagemanager.closeEditBlock($(this).closest('.pm-block').attr('data-pm-block-id'));
+            });
+
+            // Delete block (click)
+            $(document).on('click', '.pm-block .btn-delete', function(e) {
+                e.preventDefault();
+                var element = $(this);
+                var id = $(this).closest('.pm-block').attr('data-pm-block-id');
+                $.ajax({
+                    url: Routing.generate('opifer_content_api_pagemanager_remove_block', {id: id}),
+                    type: 'DELETE',
+                    success: function (data) {
+                        element.closest('.pm-block').remove();
+                        pagemanager.paintEmptyPlaceholders();
+                        pagemanager.closeEditBlock(id);
+                    }
+                });
+            });
+
+            $('.pm-block-item').draggable({
+                appendTo: '#pm-list-group-container',
+                helper: 'clone',
+                connectToSortable: '.pm-placeholder',
+                start: function() {
+                    $('.pm-preview').addClass('pm-dragging');
+                },
+                stop: function() {
+                    $('.pm-preview').removeClass('pm-dragging');
+                    $('.pm-layout').removeClass('pm-layout-accept'); // cleaning up just to be sure
+                }
             });
         };
 
@@ -342,7 +381,7 @@ $(document).ready(function(){
 
         var refreshBlock = function(id) {
             $.get(Routing.generate('opifer_content_api_pagemanager_view_block', {id: id})).done(function (data) {
-                $('div[data-pm-block-id="'+id+'"]').replaceWith(data.view);
+                $('#pm-document div[data-pm-block-id="'+id+'"]').replaceWith(data.view);
             });
         };
 
@@ -356,13 +395,77 @@ $(document).ready(function(){
             });
         };
 
+        var getBlockElement = function (id) {
+            return $('#pm-document div[data-pm-block-id="'+id+'"]');
+        };
+
+        var selectBlock = function (id) {
+            $('#pm-document').find('.pm-block').removeClass('selected');
+            pagemanager.getBlockElement(id).addClass('selected');
+        };
+
+        var unselectBlock = function (id) {
+            $('#pm-document').find('.pm-block').removeClass('selected');
+        };
+
+        //
+        // Call API to request an edit view
+        //
+        var editBlock = function(id) {
+            if ($('#pm-block-edit').attr('data-pm-block-id') != id) {
+                pagemanager.selectBlock(id);
+
+                $('#pm-block-edit').html('<div class="loading panel-body">Loading…</div>').attr('data-pm-block-id', id);
+
+                console.log(id, Routing.generate('opifer_content_pagemanager_edit_block', {'id': id}));
+
+                $.get(Routing.generate('opifer_content_pagemanager_edit_block', {id: id})).success(function(data) {
+                    $('#pm-block-edit').html(data);
+
+                    // Bootstrap AngularJS app (media library etc) after altering DOM
+                    angular.bootstrap($('#pm-block-edit form'), ["MainApp"]);
+                });
+            }
+
+            $('#pm-block-edit').removeClass('hidden');
+
+            return this;
+        };
+
+        var closeEditBlock = function(id) {
+            pagemanager.unselectBlock(id);
+            $('#pm-block-edit').addClass('hidden');
+        };
+
+        //
+        // Call API to create a new block
+        //
+        var createBlock = function(block, reference) {
+            console.log('Creating new block', pagemanager.blockId, block);
+
+            $.post(Routing.generate('opifer_content_api_pagemanager_create_block', {ownerId: pagemanager.blockId}), block).done(function (data, textStatus, request) {
+                var viewUrl = request.getResponseHeader('Location');
+                var id = data.id;
+
+                console.log("Block created:", id, block);
+
+                $.get(viewUrl).done(function (data) {
+                    reference.replaceWith(data.view);
+                    // unbind and rebind sortable to allow new layouts with placeholders.
+                    pagemanager.editBlock(id);
+                    pagemanager.bindSortable();
+                    pagemanager.paintEmptyPlaceholders();
+                });
+            });
+        }
+
         //
         // Create a block by dropping in a placeholder
         //
         var bindSortable = function() {
             sortables = $('.pm-placeholder').sortable({
                 handle: '.pm-toolbar',
-                revert: true,
+                revert: false,
                 distance: 10,
                 connectWith: '.pm-placeholder',
                 //greedy: true,
@@ -372,32 +475,16 @@ $(document).ready(function(){
                     console.log('Received:', ui.item);
                     // Create new block
                     if ( $(ui.item).hasClass('pm-block-item') ) {
-                        var element = $(this).find('.pm-block-item');
+                        var reference = $(this).find('.pm-block-item');
                         var type = $(ui.item).attr('data-pm-block-type');
                         var parent = $(this).parent().closest('.pm-layout').attr('data-pm-block-id');
                         var placeholderKey = $(this).closest('.pm-placeholder').attr('data-pm-placeholder-key');
                         var data = $(ui.item).attr('data-pm-block-data');
 
-                        $(ui.item).attr('data-pm-block-id', '0');
+                        $(ui.item).attr('data-pm-block-id', '0'); // Set default so toArray won't trip and fall below
                         var sortOrder = $(this).sortable('toArray', {attribute: 'data-pm-block-id'});
 
-                        console.log('Creating new block', sortOrder);
-                        console.log('Creating new block', {type: type, parentId: parent, placeholder: placeholderKey}, {data: data, sort: sortOrder});
-                        $.post(Routing.generate('opifer_content_api_pagemanager_create_block', {type: type, parentId: parent, placeholder: placeholderKey}), {data: data, sort: sortOrder}).done(function (data, textStatus, request) {
-                            var viewUrl = request.getResponseHeader('Location');
-                            console.log("item dropped!", type, parent, sortOrder, data);
-                            $.get(viewUrl).done(function (data) {
-                                element.replaceWith(data.view);
-
-                                // unbind and rebind sortable to allow new layouts with placeholders.
-                                pagemanager.bindSortable();
-                                pagemanager.paintEmptyPlaceholders();
-                            });
-                        });
-                    }
-                    // Sort existing block
-                    if ( $(ui.item).hasClass('pm-block') ) {
-                        console.log('Sorting existing block', ui.item);
+                        pagemanager.createBlock({type: type, parent: parent, placeholder: placeholderKey, sort: sortOrder, data: data}, reference);
                     }
                 },
                 over: function( event, ui ) {
@@ -456,11 +543,18 @@ $(document).ready(function(){
         };
 
         return {
+            blockId : blockId,
             onReady : onReady,
             isLoading : isLoading,
             isNotLoading : isNotLoading,
             refreshBlock : refreshBlock,
+            selectBlock : selectBlock,
+            unselectBlock : unselectBlock,
+            getBlockElement : getBlockElement,
             paintEmptyPlaceholders : paintEmptyPlaceholders,
+            createBlock : createBlock,
+            editBlock : editBlock,
+            closeEditBlock : closeEditBlock,
             bindSortable : bindSortable,
             unbindSortable : unbindSortable,
             postBlockForm : postBlockForm
@@ -469,83 +563,7 @@ $(document).ready(function(){
 
     pagemanager.onReady();
 
-
-    $('.pm-block-item').draggable({
-        appendTo: '#pm-list-group-container',
-        helper: 'clone',
-        connectToSortable: '.pm-placeholder',
-        start: function() {
-            $('.pm-preview').addClass('pm-dragging');
-        },
-        stop: function() {
-            $('.pm-preview').removeClass('pm-dragging');
-            $('.pm-layout').removeClass('pm-layout-accept'); // cleaning up just to be sure
-        }
-    });
-
-
-    //
-    // Open block edit
-    //
-    $(document).on('click', '.pm-block .btn-delete', function(e) {
-        e.preventDefault();
-        var element = $(this);
-        var id = $(this).closest('.pm-block').attr('data-pm-block-id');
-        $.ajax({
-            url: Routing.generate('opifer_content_api_pagemanager_remove_block', {id: id}),
-            type: 'DELETE',
-            success: function (data) {
-                element.closest('.pm-block').remove();
-                pagemanager.paintEmptyPlaceholders();
-            }
-        });
-    });
-
-    //
-    // Open block edit
-    //
-    $(document).on('click', '.pm-block .btn-edit', function(e) {
-        e.preventDefault();
-        var id = $(this).closest('.pm-block').attr('data-pm-block-id');
-        console.log(id, Routing.generate('opifer_content_pagemanager_edit_block', {'id': id}));
-        $.get(Routing.generate('opifer_content_pagemanager_edit_block', {id: id})).success(function(data) {
-            $('#pm-block-edit').html(data);
-        });
-        $('#pm-block-edit').removeClass('hidden');
-
-    });
-
-
-    $(document).on('click', '#pm-block-edit #btn-cancel', function(e) {
-        $('#pm-block-edit').addClass('hidden');
-    });
-
-    ////
-    //// Block edit events in iframe
-    ////
-    //$('#pm-block-edit-iframe').load(function(){
-    //    var iframe = $('#pm-block-edit-iframe').contents();
-    //
-    //    iframe.find("form").submit(function(){
-    //        pagemanager.isLoading();
-    //    });
-    //
-    //    iframe.find("#btn-cancel").click(function(e){
-    //        e.preventDefault();
-    //    });
-    //});
 });
-
-//var placeholder = (function() {
-//
-//
-//})();
-//
-//var contentblock = (function() {
-//
-//
-//})();
-//
 
 (function( jQuery ) {
     var matched,

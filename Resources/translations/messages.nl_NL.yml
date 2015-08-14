@@ -201,6 +201,39 @@ button:
     delete: verwijderen
     edit: bewerken
 
+# Links
+link:
+    editor: Editor
+
+
+# Labels
+label:
+    yes: Ja
+    no: Nee
+    column.xs: xs
+    column.sm: sm
+    column.md: md
+    column.lg: lg
+    gutter.xs: Gutter xs
+    gutter.sm: Gutter sm
+    gutter.md: Gutter md
+    gutter.lg: Gutter lg
+    style: Style
+    styling: Stijlen
+    label: Label
+    rich_text: RTF-editor
+    container_sizing: Container breedte
+    container_fluid: Volledige breedte (gerekt)
+    container_smooth: Scherm-afhankelijke breedte (gerekt)
+    container_fixed: Scherm-afhankelijke breedte (vast)
+
+help:
+    html_id: Een id attribuut voor dit html-element
+    extra_classes: Extra CSS klassen toepassen (bijvoorbeeld icm een CSS block)
+    column_spans: Verdeel 12 eenheden over de schermgroottes om andere breedte kolommen te maken.
+    html_styles: Pas extra CSS stijl-klassen toe op dit element.
+    container_sizing: Pas de weergave aan van de container
+
 #Delete confirmation
 confirmation:
     delete:

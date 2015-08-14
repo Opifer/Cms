@@ -82,8 +82,7 @@ doctrine:
         resolve_target_entities:
             # Define the user class
             FOS\UserBundle\Model\UserInterface: %opifer_cms.model.user.class%
-            # Define the entity used for nested content
-            Opifer\EavBundle\Nesting\Nestable: Opifer\CmsBundle\Entity\Content
+            Opifer\ContentBundle\Model\ContentInterface: Opifer\CmsBundle\Entity\Content
         mappings:
             translatable:
                 type:   annotation
@@ -235,7 +234,6 @@ opifer_content:
 opifer_eav:
     attribute_class: Opifer\CmsBundle\Entity\Attribute
     media_class:     Opifer\CmsBundle\Entity\Media
-    nestable_class:  Opifer\CmsBundle\Entity\Content
     option_class:    Opifer\CmsBundle\Entity\Option
     schema_class:  Opifer\CmsBundle\Entity\Schema
     valueset_class:  Opifer\CmsBundle\Entity\ValueSet
