@@ -107,6 +107,12 @@ services:
         tags:
             - { name: form.type, alias: slug }
 
+    opifer.cms.autocomplete_form_type:
+        class: Opifer\CmsBundle\Form\Type\AutoCompleteType
+        arguments: [@doctrine.orm.default_entity_manager, %opifer_cms.autocomplete%]
+        tags:
+            - { name: form.type, alias: opifer_autocomplete }
+            
     # Entity Managers
 
     opifer.cms.content_manager:
@@ -183,6 +189,13 @@ services:
     opifer.cms.exception_router:
         class: %opifer.cms.exception_router.class%
         arguments: [@service_container]
+
+    # Twig
+    opifer.cms.twig.form_extension:
+        class: Opifer\CmsBundle\Twig\Extension\FormExtension
+        arguments: [@twig.form.renderer]
+        tags:
+            - { name: twig.extension }
 
     # Logging
     #opifer.cms.logstash_formatter:

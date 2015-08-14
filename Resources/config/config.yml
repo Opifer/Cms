@@ -243,3 +243,9 @@ opifer_eav:
 
 opifer_redirect:
     redirect_class: Opifer\CmsBundle\Entity\Redirect
+
+opifer_cms:
+    autocomplete:
+        user:
+            class: Opifer\CmsBundle\Entity\User
+            property: email

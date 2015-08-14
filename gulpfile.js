@@ -38,6 +38,7 @@ gulp.task('js', function () {
         'Resources/public/components/bootbox.js/bootbox.js',
         'Resources/public/components/mprogress/mprogress.min.js',
         'Resources/public/components/ng-file-upload/angular-file-upload.min.js',
+        'Resources/public/components/typeahead.js/dist/typeahead.bundle.js',
         'vendor/braincrafted/bootstrap-bundle/Braincrafted/Bundle/BootstrapBundle/Resources/js/bc-bootstrap-collection.js',
         'vendor/infinite-networks/form-bundle/Resources/public/js/collections.js',
         'Resources/public/js/split-pane.js',

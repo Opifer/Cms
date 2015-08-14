@@ -53,6 +53,7 @@ class OpiferCmsExtension extends Extension implements PrependExtensionInterface
     private function getParameters($config)
     {
         return [
+            'opifer_cms.autocomplete' => $config['autocomplete'],
             'opifer_cms.pagination.limit' => $config['pagination']['limit'],
             'opifer_cms.allowed_locales' => $config['allowed_locales'],
             'opifer_cms.classes' => $config['classes']
