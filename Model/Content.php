@@ -6,14 +6,13 @@ use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
 use Gedmo\Mapping\Annotation as Gedmo;
 use JMS\Serializer\Annotation as JMS;
+use Opifer\ContentBundle\Block\BlockContainerInterface;
 use Symfony\Component\Validator\Constraints as Assert;
 
-use Opifer\EavBundle\Entity\NestedValue;
 use Opifer\EavBundle\Entity\Value;
-use Opifer\EavBundle\Model\EntityInterface;
-use Opifer\EavBundle\Model\Nestable;
 use Opifer\EavBundle\Model\SchemaInterface;
 use Opifer\EavBundle\Model\ValueSetInterface;
+use Opifer\EavBundle\Model\EntityInterface;
 
 /**
  * Content
@@ -23,7 +22,7 @@ use Opifer\EavBundle\Model\ValueSetInterface;
  * @JMS\ExclusionPolicy("all")
  * @Gedmo\SoftDeleteable(fieldName="deletedAt", timeAware=false)
  */
-class Content implements ContentInterface, EntityInterface, Nestable
+class Content implements ContentInterface, EntityInterface, BlockInterface, BlockContainerInterface
 {
     /**
      * @var integer
@@ -119,21 +118,7 @@ class Content implements ContentInterface, EntityInterface, Nestable
      * @ORM\JoinColumn(name="directory_id", referencedColumnName="id", nullable=true, onDelete="SET NULL")
      */
     protected $directory;
-
     /**
-     * @ORM\ManyToOne(targetEntity="Opifer\EavBundle\Entity\NestedValue", inversedBy="nested")
-     * @ORM\JoinColumn(name="nested_in", referencedColumnName="id", nullable=true, onDelete="SET NULL")
-     */
-    protected $nestedIn;
-
-    /**
-     * @ORM\Column(name="nested_sort", type="integer", nullable=true)
-     */
-    protected $nestedSort;
-
-    /**
-     * Created at
-     *
      * @var \DateTime
      *
      * @JMS\Expose
@@ -144,8 +129,6 @@ class Content implements ContentInterface, EntityInterface, Nestable
     protected $createdAt;
 
     /**
-     * Updated at
-     *
      * @var \DateTime
      *
      * @JMS\Expose
@@ -165,7 +148,7 @@ class Content implements ContentInterface, EntityInterface, Nestable
     /**
      * @var SchemaInterface
      */
-    public $template;
+    public $schema;
 
     /**
      * @var ArrayCollection
@@ -173,11 +156,29 @@ class Content implements ContentInterface, EntityInterface, Nestable
     protected $attributeValues;
 
     /**
+     * @var \Opifer\ContentBundle\Entity\Template
+     *
+     * @ORM\ManyToOne(targetEntity="Opifer\ContentBundle\Entity\Template")
+     * @ORM\JoinColumn(name="template_id", referencedColumnName="id")
+     **/
+    protected $template;
+
+    /**
+     * @var ArrayCollection
+     *
+     * @ORM\OneToMany(targetEntity="Opifer\ContentBundle\Entity\Block", mappedBy="ownerContent")
+     * @ORM\OrderBy({"sort" = "ASC"})
+     **/
+    protected $blocks;
+
+
+    /**
      * Constructor
      */
     public function __construct()
     {
         $this->attributeValues = new ArrayCollection();
+        $this->blocks = new ArrayCollection();
     }
 
     /**
@@ -193,7 +194,7 @@ class Content implements ContentInterface, EntityInterface, Nestable
     /**
      * Set title
      *
-     * @param  string  $title
+     * @param string $title
      * @return Content
      */
     public function setTitle($title)
@@ -216,7 +217,7 @@ class Content implements ContentInterface, EntityInterface, Nestable
     /**
      * Set description
      *
-     * @param  string  $description
+     * @param string $description
      * @return Content
      */
     public function setDescription($description)
@@ -239,7 +240,7 @@ class Content implements ContentInterface, EntityInterface, Nestable
     /**
      * Set slug
      *
-     * @param  string  $slug
+     * @param  string $slug
      * @return Content
      */
     public function setSlug($slug)
@@ -297,26 +298,6 @@ class Content implements ContentInterface, EntityInterface, Nestable
     public function getActive()
     {
         return $this->active;
-    }
-
-    /**
-     * Is content item public?
-     *
-     * @return boolean
-     */
-    public function isPublic()
-    {
-        return (is_null($this->nestedIn)) ? true : false;
-    }
-
-    /**
-     * Is content item private?
-     *
-     * @return boolean
-     */
-    public function isPrivate()
-    {
-        return (!is_null($this->nestedIn)) ? true : false;
     }
 
     /**
@@ -392,54 +373,6 @@ class Content implements ContentInterface, EntityInterface, Nestable
     }
 
     /**
-     * Set nested in
-     *
-     * @param NestedValue $value
-     *
-     * @return $this
-     */
-    public function setNestedIn(NestedValue $value)
-    {
-        $this->nestedIn = $value;
-
-        return $this;
-    }
-
-    /**
-     * Get nested in
-     *
-     * @return NestedValue
-     */
-    public function getNestedIn()
-    {
-        return $this->nestedIn;
-    }
-
-    /**
-     * Get nested sort
-     *
-     * @return integer
-     */
-    public function getNestedSort()
-    {
-        return $this->nestedSort;
-    }
-
-    /**
-     * Set nested in
-     *
-     * @param integer $value
-     *
-     * @return $this
-     */
-    public function setNestedSort($sort)
-    {
-        $this->nestedSort = (int) $sort;
-
-        return $this;
-    }
-
-    /**
      * Set created at
      *
      * @param  \DateTime $date
@@ -512,21 +445,21 @@ class Content implements ContentInterface, EntityInterface, Nestable
     }
 
     /**
-     * Set template
+     * Set schema
      *
-     * @param SchemaInterface $template
+     * @param SchemaInterface $schema
      *
      * @return $this
      */
-    public function setTemplate(SchemaInterface $template = null)
+    public function setSchema(SchemaInterface $schema = null)
     {
-        $this->getValueSet()->setTemplate($template);
+        $this->getValueSet()->setSchema($schema);
 
         return $this;
     }
 
     /**
-     * Get template
+     * Get schema
      *
      * @return SchemaInterface
      */
@@ -592,10 +525,6 @@ class Content implements ContentInterface, EntityInterface, Nestable
      */
     public function getValueSet()
     {
-        if (null === $this->valueSet) {
-            throw new \Exception('Make sure to give Content a ValueSet on creation');
-        }
-
         return $this->valueSet;
     }
 
@@ -648,7 +577,7 @@ class Content implements ContentInterface, EntityInterface, Nestable
      * Returns name of the Schema for the ValueSet
      *
      * @JMS\VirtualProperty
-     * @JMS\SerializedName("templateName")
+     * @JMS\SerializedName("schemaName")
      * @JMS\Groups({"detail"})
      *
      * @return array
@@ -662,7 +591,7 @@ class Content implements ContentInterface, EntityInterface, Nestable
      * Returns display name of the Schema for the ValueSet
      *
      * @JMS\VirtualProperty
-     * @JMS\SerializedName("templateDisplayName")
+     * @JMS\SerializedName("schemaDisplayName")
      * @JMS\Groups({"detail", "list"})
      *
      * @return array
@@ -670,36 +599,6 @@ class Content implements ContentInterface, EntityInterface, Nestable
     public function getSchemaDisplayName()
     {
         return $this->getValueSet()->getSchema()->getDisplayName();
-    }
-
-    /**
-     * Set defaults for nested content
-     *
-     * @return Content
-     */
-    public function setNestedDefaults()
-    {
-        // Override to set some defaults for nested content.
-
-        return $this;
-    }
-
-    /**
-     * Check if the content item has a nested content attribute
-     *
-     * @return boolean
-     */
-    public function getNestedContentAttributes()
-    {
-        $attributes = array();
-
-        foreach ($this->getAttributes() as $key => $value) {
-            if (get_class($value) == 'Opifer\EavBundle\Entity\NestedValue') {
-                $attributes[$key] = $value;
-            }
-        }
-
-        return $attributes;
     }
 
     /**
@@ -722,4 +621,78 @@ class Content implements ContentInterface, EntityInterface, Nestable
 
         return $crumbs;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getBlocks()
+    {
+        return $this->blocks;
+    }
+
+    /**
+     * @param mixed $blocks
+     */
+    public function setBlocks($blocks)
+    {
+        $this->blocks = $blocks;
+    }
+
+    /**
+     * Add Block
+     *
+     * @param BlockInterface $block
+     *
+     * @return BlockInterface
+     */
+    public function addBlock(BlockInterface $block)
+    {
+        $this->blocks[] = $block;
+
+        return $this;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getChildBlocks()
+    {
+        $blocks = $this->getBlocks();
+        $children = array();
+
+        foreach ($blocks as $block) {
+            if ($block->getParent()) {
+                continue;
+            }
+            array_push($children, $block);
+        }
+
+        return $children;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getBlockType()
+    {
+        'root';
+    }
+
+    /**
+     * @return Template
+     */
+    public function getTemplate()
+    {
+        return $this->template;
+    }
+
+    /**
+     * @param Template $template
+     */
+    public function setTemplate(Template $template)
+    {
+        $this->template = $template;
+    }
+
+
 }

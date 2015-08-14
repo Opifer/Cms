@@ -1,52 +1,50 @@
-{#{% extends 'OpiferContentBundle::base.html.twig' %}#}
-{#{% block header %}{% endblock %}#}
 
-{#{% block opifer_content_body %}#}
     <div class="container-fluid">
+        <a href="#close" class="btn btn-link" id="btn-cancel"><i class="material-icons">close</i></a>
         <div class="row">
             <div class="col-xs-12 text-center">
-                <h3>{{ block_service.name }}</h3>
+                <h3>{{ block_service.name(block) }}</h3>
+            </div>
+        </div>
+
+        <div class="row row-space-2">
+            <div class="col-xs-8 col-xs-offset-2">
+                <div class="btn-group btn-group-sm btn-group-justified">
+                    {% if form.default|default %}<a class="btn btn-default active" href="#block-general" data-toggle="tab">General</a>{% endif %}
+                    <a class="btn btn-default{% if not form.default|default %} active{% endif %}" href="#block-properties" data-toggle="tab">Properties</a>
+                </div>
             </div>
         </div>
         <div class="row">
-            <div class="col-xs-8 col-xs-offset-2">
-                <div class="btn-group btn-group-sm btn-group-justified">
-                    <a class="btn btn-default active" href="#block-general" data-toggle="tab">General</a>
-                    <a class="btn btn-default" href="#block-properties" data-toggle="tab">Properties</a>
+            <div class="col-xs-12 clearfix">
+
+                {{ form_start(form, {'action': path('opifer_content_pagemanager_edit_block', {'id': block.id}), 'label_col': 3, 'widget_col': 9, 'attr' : {'data-pm-block-id': block.id, 'novalidate': 'novalidate', 'class': 'prevent-enter-submit'}, 'style': 'horizontal'}) }}
+                {% set form_save_btn = form_widget(form.save) %}
+
+                {% block block_body_tabs %}
+                <div class="tab-content">
+
+                    {% if form.default|default %}
+                    <div class="tab-pane active" id="block-general">
+                        {{ form_rest(form.default, {'label_col': 12, 'widget_col': 12}) }}
+                    </div>
+                    {% endif %}
+                    <div class="tab-pane{% if not form.default|default %} active{% endif %} form-group-sm" id="block-properties">
+                        {% if form.properties|default %}
+                            {% for type in form.properties %}
+                                {{ form_row(type, {'size': 'small'}) }}
+                            {% endfor %}
+                        {% endif %}
+                    </div>
                 </div>
+                {% endblock block_body_tabs %}
+
+                <div class="form-group clearfix">
+                    <div class="col-lg-12">
+                        {{ form_save_btn|raw }}
+                    </div>
+                </div>
+                {{ form_end(form) }}
             </div>
         </div>
-        <section class="">
-            <div class="row">
-                <div class="col-xs-12">
-                    {{ form_start(form, {'action': path('opifer_content_pagemanager_edit_block', {'id': block.id}), 'attr' : {'data-pm-block-id': block.id, 'novalidate': 'novalidate', 'class': 'prevent-enter-submit'}, 'style': 'horizontal'}) }}
-                    {% set form_save_btn = form_widget(form.save) %}
-                    <div class="tab-content">
-                        <div class="tab-pane active" id="block-general">
-                            {{ form_rest(form.default) }}
-                        </div>
-                        <div class="tab-pane" id="block-properties">
-                            <p class="text-muted">properties form</p>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <div class="col-xs-12 col-sm-10 col-sm-offset-2">
-                            <div class="pull-left">
-                                {{ form_save_btn|raw }}
-                            </div>
-                            <div class="pull-right">
-                                <a href="#close" class="btn btn-link" id="btn-cancel">{{ 'button.cancel'|trans|capitalize }}</a>
-                            </div>
-                        </div>
-                    </div>
-                    {{ form_end(form) }}
-                </div>
-            </div>
-        </section>
     </div>
-    {#{% if update_preview %}#}
-    {#<script type="text/javascript">#}
-        {#window.parent.pagemanager.refreshBlock({{ block.id }});#}
-    {#</script>#}
-    {#{% endif %}#}
-{#{% endblock opifer_content_body %}#}

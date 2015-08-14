@@ -26,12 +26,12 @@ opifer_content_template_index:
     defaults: { _controller: OpiferContentBundle:Backend/Template:index }
 
 opifer_content_template_editor:
-    path: /template/{id}
+    path: /template/editor/{id}
     defaults: { _controller: OpiferContentBundle:Backend/Template:editor }
 
-opifer_content_page_editor:
-    path: /pageeditor
-    defaults: { _controller: OpiferContentBundle:Backend/Content:pageEditor }
+opifer_content_template_editor_view:
+    path: /template/editor/view/{id}
+    defaults: { _controller: OpiferContentBundle:Backend/Template:editorView }
 
 opifer_content_pagemanager_edit_block:
     path: /pagemanager/editblock/{id}

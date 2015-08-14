@@ -1,24 +1,25 @@
 parameters:
     opifer.content.block_manager.class: Opifer\ContentBundle\Block\BlockManager
-    opifer.content.content_block.class: Opifer\ContentBundle\Block\ContentBlockService
+    opifer.content.html_block.class: Opifer\ContentBundle\Block\HtmlBlockService
     opifer.content.image_block.class: Opifer\ContentBundle\Block\ImageBlockService
+    opifer.content.jumbotron_block.class: Opifer\ContentBundle\Block\JumbotronBlockService
+    opifer.content.jumbotron_block.styles: ["jumbotron-sm", "jumbotron-lg"]
+    opifer.content.button_block.class: Opifer\ContentBundle\Block\ButtonBlockService
+    opifer.content.button_block.styles: ["btn-sm", "btn-lg", "btn-primary", "btn-default", "btn-block", "center-block"]
 #    opifer.content.image_gallery_block.class: Opifer\ContentBundle\Block\ImageGalleryBlockService
 #    opifer.content.list_block.class: Opifer\ContentBundle\Block\ListBlockService
     opifer.content.layout_block.class: Opifer\ContentBundle\Block\LayoutBlockService
-    opifer.content.template_block.class: Opifer\ContentBundle\Block\TemplateBlockService
-#    opifer.content.two_column_block.class: Opifer\ContentBundle\Block\TwoColumnBlockService
-#    opifer.content.two_one_third_column_block.class: Opifer\ContentBundle\Block\TwoOneThirdBlockService
 
 services:
     opifer.content.block_manager:
         class: %opifer.content.block_manager.class%
         arguments: [@doctrine.orm.default_entity_manager]
 
-    opifer.content.content_block:
-        class: %opifer.content.content_block.class%
+    opifer.content.html_block:
+        class: %opifer.content.html_block.class%
         arguments: [@templating]
         tags:
-            - { name: opifer.content.block_service, alias: content }
+            - { name: opifer.content.block_service, alias: html }
 
     opifer.content.image_block:
         class: %opifer.content.image_block.class%
@@ -26,20 +27,24 @@ services:
         tags:
             - { name: opifer.content.block_service, alias: image }
 
-    opifer.content.template_block:
-        class: %opifer.content.template_block.class%
+    opifer.content.jumbotron_block:
+        class: %opifer.content.jumbotron_block.class%
         arguments: [@templating]
         tags:
-            - { name: opifer.content.block_service, alias: template }
+            - { name: opifer.content.block_service, alias: jumbotron }
+        calls:
+            - [setStyles, [%opifer.content.jumbotron_block.styles%]]
+
+    opifer.content.button_block:
+        class: %opifer.content.button_block.class%
+        arguments: [@templating]
+        tags:
+            - { name: opifer.content.block_service, alias: button }
+        calls:
+            - [setStyles, [%opifer.content.button_block.styles%]]
 
     opifer.content.layout_block:
         class: %opifer.content.layout_block.class%
         arguments: [@templating]
         tags:
             - { name: opifer.content.block_service, alias: layout }
-#
-#    opifer.content.two_column_block:
-#        class: %opifer.content.two_column_block.class%
-#        arguments: [@templating]
-#        tags:
-#            - { name: opifer.content.block_service, alias: two_column }

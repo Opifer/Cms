@@ -10,7 +10,9 @@ namespace Opifer\ContentBundle\Model;
 interface BlockInterface
 {
     /**
+     * The string returned should match Block's service name
+     *
      * @return string
      */
-    public function getType();
+    public function getBlockType();
 }

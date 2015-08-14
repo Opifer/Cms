@@ -5,36 +5,35 @@ namespace Opifer\ContentBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * ContentBlock
+ * HtmlBlock
  *
  * @ORM\Entity
- * @ORM\Table(name="block_content")
  */
-class ContentBlock extends Block
+class HtmlBlock extends Block
 {
     /**
      * @var string
      *
      * @ORM\Column(type="text", nullable=true)
      */
-    protected $content;
+    protected $value;
 
     /**
      * @return string
      */
-    public function getContent()
+    public function getValue()
     {
-        return $this->content;
+        return $this->value;
     }
 
     /**
-     * @param string $content
+     * @param string $value
      *
      * @return $this
      */
-    public function setContent($content)
+    public function setValue($value)
     {
-        $this->content = $content;
+        $this->value = $value;
 
         return $this;
     }
@@ -42,8 +41,8 @@ class ContentBlock extends Block
     /**
      * @return string
      */
-    public function getType()
+    public function getBlockType()
     {
-        return 'content';
+        return 'html';
     }
 }

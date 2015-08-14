@@ -2,25 +2,25 @@
 
 namespace Opifer\ContentBundle\Block;
 
-use Opifer\ContentBundle\Entity\ImageBlock;
-use Opifer\ContentBundle\Model\BlockInterface;
+use Opifer\ContentBundle\Entity\HtmlBlock;
 use Symfony\Component\Form\FormBuilderInterface;
+use Opifer\ContentBundle\Model\BlockInterface;
 
 /**
- * Class ImageBlockService
+ * Class HtmlBlockService
  *
  * @package Opifer\ContentBundle\Block
  */
-class ImageBlockService extends AbstractBlockService implements BlockServiceInterface
+class HtmlBlockService extends AbstractBlockService implements BlockServiceInterface
 {
-    protected $view = 'OpiferContentBundle:Block:Content/image.html.twig';
+    protected $view = 'OpiferContentBundle:Block:Content/html.html.twig';
 
     /**
      * {@inheritDoc}
      */
     public function getName(BlockInterface $block = null)
     {
-        return 'Image';
+        return 'Content';
     }
 
     /**
@@ -32,13 +32,8 @@ class ImageBlockService extends AbstractBlockService implements BlockServiceInte
 
         // Default panel
         $builder->add(
-            $builder->create('default', 'form', ['virtual' => true])
-                ->add('media', 'mediapicker', [
-                    'required'  => false,
-                    'multiple' => false,
-                    'property' => 'name',
-                    'class' => 'OpiferCmsBundle:Media',
-                ])
+            $builder->create('default', 'form', ['inherit_data' => true])
+                    ->add('value', 'ckeditor', ['label' => 'label.rich_text', 'attr' => ['label_col' => 12, 'widget_col' => 12]])
         )->add(
             $builder->create('properties', 'form')
                 ->add('id', 'text', ['attr' => ['help_text' => 'help.html_id']])
@@ -51,7 +46,6 @@ class ImageBlockService extends AbstractBlockService implements BlockServiceInte
      */
     public function createBlock()
     {
-        return new ImageBlock;
+        return new HtmlBlock;
     }
-
 }

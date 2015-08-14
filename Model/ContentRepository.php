@@ -48,7 +48,6 @@ class ContentRepository extends EntityRepository
     public function getQueryBuilderFromRequest(Request $request)
     {
         $qb = $this->createValuedQueryBuilder('c');
-        $qb->andWhere('c.nestedIn IS NULL');
 
         if ($request->get('q')) {
             $qb->leftJoin('vs.template', 't');
@@ -268,7 +267,6 @@ class ContentRepository extends EntityRepository
             ->leftJoin('vs.template', 't')
             ->where('t.name = :template')
             ->andWhere('c.active = :active')
-            ->andWhere('c.nestedIn IS NULL')
             ->setParameter('template', $template)
             ->setParameter('active', true)
             ->setMaxResults($limit)
@@ -297,7 +295,6 @@ class ContentRepository extends EntityRepository
             ->leftJoin('vs.template', 't')
             ->where('t.name = :template')
             ->andWhere('c.active = :active')
-            ->andWhere('c.nestedIn IS NULL')
             ->setParameter('template', $template)
             ->setParameter('active', true)
             ->orderBy('c.id', 'DESC')
@@ -325,7 +322,6 @@ class ContentRepository extends EntityRepository
             ->leftJoin('vs.template', 't')
             ->where('t.name = :template')
             ->andWhere('c.active = :active')
-            ->andWhere('c.nestedIn IS NULL')
             ->setParameter('template', $template)
             ->setParameter('active', true)
             ->orderBy('c.title', $order)
@@ -344,7 +340,6 @@ class ContentRepository extends EntityRepository
     public function findLatest($limit = 5)
     {
         $query = $this->createQueryBuilder('c')
-            ->where('c.nestedIn IS NULL')
             ->orderBy('c.createdAt', 'DESC')
             ->setMaxResults($limit)
             ->getQuery();
@@ -387,7 +382,6 @@ class ContentRepository extends EntityRepository
         }
 
         $items = $this->createValuedQueryBuilder('c')
-            ->andWhere('c.nestedIn IS NULL')
             ->andWhere('c.id IN (:ids)')->setParameter('ids', $ids)
             ->andWhere('c.deletedAt IS NULL')
             ->getQuery()

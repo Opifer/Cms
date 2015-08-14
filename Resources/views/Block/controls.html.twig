@@ -30,6 +30,29 @@
     </div>
 {% endblock block_manage_layout %}
 
+{% block block_manage_stealth_toolbar %}
+    <div class="pm pm-toolbar clearfix">
+        <div class="row">
+            <div class="col-xs-6">
+                <span class="pm-toolbar-text"><code>{{ block.id }}</code>  {{ block_service.name }} </span>
+            </div>
+            <div class="col-xs-6">
+                <a href="#" class="btn btn-link btn-sm pull-right btn-delete"><i class="material-icons">close</i></a>
+                <a href="#" class="btn btn-link btn-sm pull-right btn-edit"><i class="material-icons">create</i></a>
+            </div>
+        </div>
+    </div>
+{% endblock block_manage_stealth_toolbar %}
+
+{% block block_manage_stealth %}
+    {% set block_stealth_class = "pm-block pm-content" %}
+    {% set block_stealth_attr = "data-pm-block-id=" ~ block.id ~ "" %}
+    {% set block_stealth_id = block.id %}
+    {% set block_stealth_service_name = block_service.name %}
+    {% set block_stealth_toolbar = block('block_manage_stealth_toolbar')%}
+    {% include block_view %}
+{% endblock block_manage_stealth %}
+
 {% block block_manage_default %}
     <div class="pm-block pm-content" data-pm-block-id="{{ block.id }}">
         <div class="pm pm-toolbar clearfix">

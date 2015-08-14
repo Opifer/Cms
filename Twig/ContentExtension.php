@@ -5,6 +5,7 @@ namespace Opifer\ContentBundle\Twig;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpKernel\Controller\ControllerReference;
 use Symfony\Component\HttpKernel\Fragment\FragmentHandler;
+use Symfony\Component\HttpFoundation\RequestStack;
 
 use Opifer\ContentBundle\Model\ContentManager;
 use Opifer\ContentBundle\Model\ContentInterface;
@@ -27,6 +28,9 @@ class ContentExtension extends \Twig_Extension
     /** @var ContainerInterface */
     protected $container;
 
+    /** @var RequestStack @var  */
+    private $requestStack;
+
     /**
      * Constructor
      *
@@ -35,12 +39,17 @@ class ContentExtension extends \Twig_Extension
      * @param ContentManager     $contentManager
      * @param ContainerInterface $container
      */
-    public function __construct(\Twig_Environment $twig, FragmentHandler $fragmentHandler, ContentManager $contentManager, ContainerInterface $container)
+    public function __construct(\Twig_Environment $twig, FragmentHandler $fragmentHandler, ContentManager $contentManager, ContainerInterface $container, RequestStack $requestStack)
     {
         $this->twig = $twig;
         $this->fragmentHandler = $fragmentHandler;
         $this->contentManager = $contentManager;
         $this->container = $container;
+        $this->requestStack = $requestStack;
+
+        if ($requestStack->getMasterRequest()->get('blockMode') === 'manage') {
+            $this->blockMode = 'manage';
+        }
     }
 
     /**
@@ -122,13 +131,13 @@ class ContentExtension extends \Twig_Extension
      *
      * @return mixed
      */
-    public function renderPlaceholder($context, $key)
+    public function renderPlaceholder($context, $key = 0)
     {
         $content = '';
 
         if (isset($context['block'])) {
             $container = $context['block'];
-            foreach ($container->getChildren() as $block) {
+            foreach ($container->getChildBlocks() as $block) {
                 if ($block->getPosition() === ''.$key || ($key.'' === '0' && $block->getPosition() === '')) {
                     $content .= $this->renderBlock($block);
                 }

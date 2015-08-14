@@ -281,9 +281,8 @@ class ContentManager implements ContentManagerInterface
      * Duplicate a content item
      *
      * @param ContentInterface $content
-     * @param NestedValue $nestedIn
      */
-    public function duplicate(ContentInterface $content, NestedValue $nestedIn = null)
+    public function duplicate(ContentInterface $content)
     {
         //get valueset to clone
         $valueset = $content->getValueSet();
@@ -298,10 +297,6 @@ class ContentManager implements ContentManagerInterface
         $duplicatedContent->setSlug(null);
         $duplicatedContent->setValueSet($duplicatedValueset);
 
-        if (!is_null($nestedIn)) {
-            $duplicatedContent->setNestedIn($nestedIn);
-        }
-
         $this->detachAndPersist($duplicatedContent);
 
         //iterate values, clone each and assign duplicate valueset to it
@@ -314,15 +309,6 @@ class ContentManager implements ContentManagerInterface
             $duplicatedValue->setValueSet($duplicatedValueset);
 
             $this->detachAndPersist($duplicatedValue);
-
-            //if type nested, find content that has nested_in value same as id of value
-            if ($value instanceof \Opifer\EavBundle\Entity\NestedValue) {
-                $nestedContents = $this->getRepository()->findby(['nestedIn' => $value->getId()]);
-
-                foreach ($nestedContents as $nestedContent) {
-                    $this->duplicate($nestedContent, $duplicatedValue);
-                }
-            }
         }
         $this->em->flush();
 

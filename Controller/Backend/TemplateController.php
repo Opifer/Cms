@@ -80,7 +80,24 @@ class TemplateController extends Controller
             $this->get('opifer.content.block_manager')->save($template);
         }
 
-        return $this->render('OpiferContentBundle:PageManager:editor.html.twig', ['block' => $template, 'form' => $form->createView()]);
+        $parameters = [
+            'subject_type' => 'template',
+            'subject_id' => $template->getId(),
+            'view_url' => $this->generateUrl('opifer_content_template_editor_view', ['id' => $template->getId()]),
+            'form' => $form->createView()];
+
+        return $this->render('OpiferContentBundle:PageManager:editor.html.twig', $parameters);
+    }
+
+    /**
+     * @param Template $template
+     *
+     * @return Response
+     */
+    public function editorViewAction(Request $request, Template $template)
+    {
+        $request->request->set('blockMode', 'manage');
+        return $this->render($template->getView(), ['block' => $template]);
     }
 
 }

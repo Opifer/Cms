@@ -82,3 +82,21 @@
         </div>
     {% endspaceless %}
 {% endblock %}
+
+
+
+{% block column_span_widget %}
+    {#{{ form|length }}#}
+        <table class="table-column-span" width="100%">
+            <tr>
+                {% for field in form %}
+                <td>{{ form_widget(field) }}</td>
+                {% endfor %}
+            </tr>
+            <tr>
+                {% for field in form %}
+                    <th align="center">{{ form_label(field) }}</th>
+                {% endfor %}
+            </tr>
+        </table>
+{% endblock %}

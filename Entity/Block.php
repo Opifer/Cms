@@ -6,13 +6,15 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation as JMS;
 use Opifer\ContentBundle\Model\BlockInterface;
+use Opifer\ContentBundle\Model\ContentInterface;
+use Opifer\ContentBundle\Block\BlockContainerInterface;
 
 /**
  * Block
  *
  * @ORM\Table(name="block")
  * @ORM\Entity(repositoryClass="Opifer\ContentBundle\Repository\BlockRepository")
- * @ORM\InheritanceType("JOINED")
+ * @ORM\InheritanceType("SINGLE_TABLE")
  * @ORM\DiscriminatorColumn(name="discr", type="string")
  *
  * The discriminatorMap is handled dynamically by the BlockDiscriminatorListener. It
@@ -34,18 +36,20 @@ abstract class Block implements BlockInterface
     protected $id;
 
     /**
-     * @var BlockInterface
+     * @var ContentInterface
      *
-     * @ORM\ManyToOne(targetEntity="Block", inversedBy="owns", cascade={})
+     * @ORM\ManyToOne(targetEntity="Opifer\ContentBundle\Model\ContentInterface", inversedBy="blocks", cascade={})
+     * @ORM\JoinColumn(name="owner_content_id", referencedColumnName="id", nullable=true, onDelete="SET NULL")
      */
-    protected $owner;
+    protected $ownerContent;
 
     /**
-     * @var ArrayCollection
+     * @var Template
      *
-     * @ORM\OneToMany(targetEntity="Block", mappedBy="owner")
-     **/
-    protected $owns;
+     * @ORM\ManyToOne(targetEntity="Opifer\ContentBundle\Entity\Template", inversedBy="blocks", cascade={})
+     * @ORM\JoinColumn(name="owner_template_id", referencedColumnName="id", nullable=true, onDelete="SET NULL")
+     */
+    protected $ownerTemplate;
 
     /**
      * @var BlockInterface
@@ -90,11 +94,12 @@ abstract class Block implements BlockInterface
      */
     protected $properties;
 
-
+    /**
+     * Constructor
+     */
     public function __construct()
     {
         $this->children = new ArrayCollection();
-        $this->owns = new ArrayCollection();
     }
 
     /**
@@ -114,35 +119,23 @@ abstract class Block implements BlockInterface
     }
 
     /**
-     * @return BlockInterface
+     * @return BlockContainerInterface
      */
     public function getOwner()
     {
-        return $this->owner;
+        return $this->getOwnerTemplate() ?: $this->getOwnerContent();
     }
 
     /**
-     * @param BlockInterface $owner
+     * @param BlockContainerInterface $owner
      */
-    public function setOwner($owner)
+    public function setOwner(BlockContainerInterface $owner)
     {
-        $this->owner = $owner;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getOwns()
-    {
-        return $this->owns;
-    }
-
-    /**
-     * @param mixed $owns
-     */
-    public function setOwns($owns)
-    {
-        $this->owns = $owns;
+        if ($owner instanceof ContentInterface) {
+            $this->setOwnerContent($owner);
+        } elseif ($owner instanceof Template) {
+            $this->setOwnerTemplate($owner);
+        }
     }
 
     /**
@@ -253,5 +246,37 @@ abstract class Block implements BlockInterface
     public function setProperties($properties)
     {
         $this->properties = $properties;
+    }
+
+    /**
+     * @return ContentInterface
+     */
+    public function getOwnerContent()
+    {
+        return $this->ownerContent;
+    }
+
+    /**
+     * @param ContentInterface $content
+     */
+    public function setOwnerContent($content)
+    {
+        $this->ownerContent = $content;
+    }
+
+    /**
+     * @return Template
+     */
+    public function getOwnerTemplate()
+    {
+        return $this->ownerTemplate;
+    }
+
+    /**
+     * @param Template $ownerTemplate
+     */
+    public function setOwnerTemplate($ownerTemplate)
+    {
+        $this->ownerTemplate = $ownerTemplate;
     }
 }

@@ -2,6 +2,7 @@
 
 namespace Opifer\ContentBundle\Controller\Backend;
 
+use Opifer\ContentBundle\Block\AbstractBlockService;
 use Opifer\ContentBundle\Form\Type\BlockAdapterFormType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
@@ -34,6 +35,7 @@ class PageManagerController extends Controller
         $service = $manager->getService($block);
 
         $form = $this->createForm(new BlockAdapterFormType($service), $block);
+
         $form->handleRequest($request);
 
         $updatePreview = false; // signals parent window preview from iframe to update preview
@@ -42,6 +44,6 @@ class PageManagerController extends Controller
             $updatePreview = true;
         }
 
-        return $this->render('OpiferContentBundle:PageManager:edit_block.html.twig', ['block_service' => $service, 'block' => $block, 'form' => $form->createView(), 'update_preview' => $updatePreview]);
+        return $this->render($service->getEditView(), ['block_service' => $service, 'block' => $block, 'form' => $form->createView(), 'update_preview' => $updatePreview]);
     }
 }

@@ -1,27 +1,16 @@
-<!DOCTYPE html>
-<html lang="{{ app.request.locale }}">
-<head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Content Management System">
-    <meta name="author" content="Opifer">
-
-    <title>{% block title %}CM – Opifer{% endblock %}</title>
-
-    <link rel="stylesheet" href="{{ asset('css/main.css') }}"/>
-    <link rel="stylesheet" href="{{ asset('bundles/opifercms/css/pagemanager.css') }}"/>
-
-</head>
-<body class="body">
+{% extends "OpiferContentBundle::base.html.twig" %}
+{% set no_angular = true %}
+{% set body_class = 'pm-body' %}
+{% block header %} {% endblock %}
+{% block main %}
 
 <div class="pm">
     <nav class="navbar navbar-default navbar-static-top" id="pm-navbar">
         {{ form_start(form) }}
         <div class="container-fluid">
             <div class="navbar-left">
-                {{ form_widget(form.save, {'attr': {'class': 'btn btn-default navbar-btn navbar-left'}}) }}
-                <a href="{{ path('opifer_content_template_index') }}" class="btn btn-link navbar-btn navbar-left">Cancel</a>
+                <input type="submit" name="submit" class="btn btn-default navbar-btn" value="{{ "button.submit"|trans }}" />
+                <a href="{{ path('opifer_content_template_index') }}" class="btn btn-link navbar-btn">Cancel</a>
                 <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false">
                     <span class="sr-only">Toggle navigation</span>
                     <span class="icon-bar"></span>
@@ -30,20 +19,26 @@
                 </button>
             </div>
             <div class="pm-navbar-title">
-                {{ block.name }} {{ form_widget(form.name) }}
+                {{ '?' }} {{ form_widget(form.name) }}
             </div>
             <div class="collapse navbar-collapse" id="navbar">
                 <div class="btn-toolbar navbar-right">
+                    <div class="btn-group navbar-btn" data-toggle="buttons" role="group" aria-label="">
+                        <label for="viewmode-xs" class="btn btn-icon btn-default"><input type="radio" name="screenwidth" id="viewmode-xs" value="xs" autocomplete="off"><i class="material-icons">phone_iphone</i></label>
+                        <label for="viewmode-sm" class="btn btn-icon btn-default"><input type="radio" name="screenwidth" id="viewmode-sm" value="sm" autocomplete="off"><i class="material-icons">tablet_mac</i></label>
+                        <label for="viewmode-md" class="btn btn-icon btn-default"><input type="radio" name="screenwidth" id="viewmode-md" value="md" autocomplete="off"><i class="material-icons">tablet</i></label>
+                        <label for="viewmode-lg" class="btn btn-icon btn-default active"><input type="radio" name="screenwidth" id="viewmode-lg" value="lg" autocomplete="off" checked><i class="material-icons">laptop_mac</i></label>
+                    </div>
                     <div class="btn-group navbar-btn">
-                        <a class="btn btn btn-default btn-icon btn-reload disabled"><i class="material-icons">autorenew</i></a>
+                        {#<a class="btn btn btn-default btn-icon btn-reload disabled"><i class="material-icons">autorenew</i></a>#}
                     </div>
                     <div class="btn-group navbar-btn">
                         <a class="btn btn btn-default disabled">Properties</a>
                     </div>
                     <div class="btn-group navbar-btn" data-toggle="buttons" role="group" aria-label="">
-                        <label for="viewmode-content" class="btn btn btn-default active"><input type="radio" name="viewmode" id="viewmode-content" value="CONTENT" autocomplete="off" checked>Content</label>
-                        <label for="viewmode-preview" class="btn btn btn-default"><input type="radio" name="viewmode" id="viewmode-preview" value="PREVIEW" autocomplete="off">Preview</label>
-                        <label for="viewmode-layout" class="btn btn btn-default"><input type="radio" name="viewmode" id="viewmode-layout" value="LAYOUT" autocomplete="off">Layout</label>
+                        <label for="viewmode-content" class="btn btn-default active"><input type="radio" name="viewmode" id="viewmode-content" value="CONTENT" autocomplete="off" checked>Content</label>
+                        <label for="viewmode-preview" class="btn btn-default"><input type="radio" name="viewmode" id="viewmode-preview" value="PREVIEW" autocomplete="off">Preview</label>
+                        <label for="viewmode-layout" class="btn btn-default"><input type="radio" name="viewmode" id="viewmode-layout" value="LAYOUT" autocomplete="off">Layout</label>
                     </div>
                 </div>
             </div>
@@ -52,11 +47,10 @@
     </nav>
 </div>
 
-
 <div class="pm-editor">
     <div class="split-pane fixed-right">
-        <div class="split-pane-component pm-preview pm-viewmode-content" id="left-component">
-            {{ render_block(block, {'block_mode': 'manage'}) }}
+        <div class="split-pane-component pm-preview pm-viewmode-content" id="pm-document" data-pm-type="{{ subject_type }}" data-pm-id="{{ subject_id }}">
+            <iframe src="{{ view_url }}" frameborder="no" id="pm-iframe"></iframe>
         </div>
         <div class="split-pane-divider" id="my-divider"></div>
         <div class="split-pane-component pm-toolset" id="right-component">
@@ -70,7 +64,7 @@
                         <div id="pm-tools-blocks" class="pm-tools-blockset">
                             <div class="row">
                                 <div class="col-xs-12 text-center">
-                                    <h4>Blocks</h4>
+                                    <h4 class="title">Blocks</h4>
                                 </div>
                             </div>
                             <div class="row">
@@ -85,7 +79,7 @@
                                                 <p class="list-group-item-text">Creates a link to a (external) page or content.</p>
                                             </div>
                                         </div>
-                                        <div class="list-group-item pm-block-item" data-pm-block-type="content">
+                                        <div class="list-group-item pm-block-item" data-pm-block-type="html">
                                             <div class="col-visual">
                                                 <i class="material-icons">subject</i>
                                             </div>
@@ -104,15 +98,6 @@
                                                 <p class="list-group-item-text">Provides an image from the library in the right size.</p>
                                             </div>
                                         </div>
-                                        <div class="list-group-item pm-block-item" data-pm-block-type="image_library">
-                                            <div class="col-visual">
-                                                <i class="material-icons">photo_library</i>
-                                            </div>
-                                            <div class="col-text">
-                                                <h4 class="list-group-item-heading">Image gallery</h4>
-                                                <p class="list-group-item-text">Creates a collection of images selectable from the media library.</p>
-                                            </div>
-                                        </div>
                                         <div class="list-group-item pm-block-item" data-pm-block-type="jumbotron">
                                             <div class="col-visual">
                                                 <i class="material-icons">settings_overscan</i>
@@ -120,6 +105,43 @@
                                             <div class="col-text">
                                                 <h4 class="list-group-item-heading">Jumbotron</h4>
                                                 <p class="list-group-item-text">Large piece of content with bigger font and optional background image.</p>
+                                            </div>
+                                        </div>
+                                        <div class="list-group-item pm-block-item" data-pm-block-type="carousel">
+                                            <div class="col-visual">
+                                                <i class="material-icons">view_carousel</i>
+                                            </div>
+                                            <div class="col-text">
+                                                <h4 class="list-group-item-heading">Carousel</h4>
+                                                <p class="list-group-item-text">Wrapping element container to hold columns in.</p>
+                                            </div>
+                                        </div>
+                                        <div class="list-group-item pm-block-item" data-pm-block-type="imagecardgrid">
+                                            <div class="col-visual">
+                                                <i class="material-icons text-success">apps</i>
+                                            </div>
+                                            <div class="col-text">
+                                                <h4 class="list-group-item-heading">Image cards</h4>
+                                                <p class="list-group-item-text">Tiled list overview sourced by a repository or single items.</p>
+                                            </div>
+                                        </div>
+                                        <div class="list-group-item pm-block-item" data-pm-block-type="imagecarditem">
+                                            <div class="col-visual">
+                                                <i class="material-icons text-success">stop</i>
+                                            </div>
+                                            <div class="col-text">
+                                                <h4 class="list-group-item-heading">Image cards item</h4>
+                                                <p class="list-group-item-text">Single card item to put in tiled list.</p>
+                                            </div>
+                                        </div>
+
+                                        {#<div class="list-group-item pm-block-item" data-pm-block-type="image_library">
+                                            <div class="col-visual">
+                                                <i class="material-icons">photo_library</i>
+                                            </div>
+                                            <div class="col-text">
+                                                <h4 class="list-group-item-heading">Image gallery</h4>
+                                                <p class="list-group-item-text">Creates a collection of images selectable from the media library.</p>
                                             </div>
                                         </div>
                                         <div class="list-group-item pm-block-item" data-pm-block-type="carousel">
@@ -158,20 +180,11 @@
                                                 <h4 class="list-group-item-heading">List view</h4>
                                                 <p class="list-group-item-text">Maecenas sed diam eget risus varius blandit.</p>
                                             </div>
-                                        </div>
-                                        <div class="list-group-item pm-block-item" data-pm-block-type="list_tiles">
-                                            <div class="col-visual">
-                                                <i class="material-icons">view_module</i>
-                                            </div>
-                                            <div class="col-text">
-                                                <h4 class="list-group-item-heading">Tiled view</h4>
-                                                <p class="list-group-item-text">Maecenas sed diam eget risus varius blandit.</p>
-                                            </div>
-                                        </div>
+                                        </div>#}
                                     </div>
                                 </div>
                             </div>
-                            <div class="row">
+                            {#<div class="row">
                                 <div class="col-xs-12 text-center">
                                     <h4>Scripts</h4>
                                 </div>
@@ -208,7 +221,7 @@
                                         </div>
                                     </div>
                                 </div>
-                            </div>
+                            </div>#}
                         </div>
                         {# end tools_blocks #}
 
@@ -218,13 +231,51 @@
                         <div id="pm-tools-layouts" class="pm-tools-blockset hidden">
                             <div class="row">
                                 <div class="col-xs-12 text-center">
-                                    <h4>Layout elements</h4>
+                                    <h4 class="title">Containers</h4>
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col-xs-12">
                                     <div class="list-group">
-                                        <div class="list-group-item pm-block-item" data-pm-block-type="layout" data-pm-block-data="{'columnCount': 1}">
+                                        <div class="list-group-item pm-block-item" data-pm-block-type="layout" data-pm-block-data='{"wrapper": "section"}'>
+                                            <div class="col-visual">
+                                                <i class="material-icons">crop_landscape</i>
+                                            </div>
+                                            <div class="col-text">
+                                                <h4 class="list-group-item-heading">Section</h4>
+                                                <p class="list-group-item-text">Wrapping element container to hold columns in.</p>
+                                            </div>
+                                        </div>
+                                        <div class="list-group-item pm-block-item" data-pm-block-type="layout" data-pm-block-data='{"wrapper": "container"}'>
+                                            <div class="col-visual">
+                                                <i class="material-icons">crop_landscape</i>
+                                            </div>
+                                            <div class="col-text">
+                                                <h4 class="list-group-item-heading">Container</h4>
+                                                <p class="list-group-item-text">Wrapping element container to hold columns in.</p>
+                                            </div>
+                                        </div>
+                                        <div class="list-group-item pm-block-item" data-pm-block-type="layout" data-pm-block-data='{"wrapper": "container", "properties": {"fluid": "true"}}'>
+                                            <div class="col-visual">
+                                                <i class="material-icons">crop_landscape</i>
+                                            </div>
+                                            <div class="col-text">
+                                                <h4 class="list-group-item-heading">Container Fluid</h4>
+                                                <p class="list-group-item-text">Wrapping element container to hold columns in.</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-xs-12 text-center">
+                                    <h4 class="title">Columns</h4>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-xs-12">
+                                    <div class="list-group">
+                                        <div class="list-group-item pm-block-item" data-pm-block-type="layout" data-pm-block-data='{"columnCount": 1}'>
                                             <div class="col-visual">
                                                 <i class="material-icons">view_column</i>
                                             </div>
@@ -233,7 +284,7 @@
                                                 <p class="list-group-item-text">Single column spanning 100% width.</p>
                                             </div>
                                         </div>
-                                        <div class="list-group-item pm-block-item" data-pm-block-type="layout" data-pm-block-data="{'columnCount': 2}">
+                                        <div class="list-group-item pm-block-item" data-pm-block-type="layout" data-pm-block-data='{"columnCount": 2}'>
                                             <div class="col-visual">
                                                 <i class="material-icons">view_column</i>
                                             </div>
@@ -242,13 +293,22 @@
                                                 <p class="list-group-item-text">Two equal columns both 50% width.</p>
                                             </div>
                                         </div>
-                                        <div class="list-group-item pm-block-item" data-pm-block-type="layout" data-pm-block-data="{'columnCount': 3}">
+                                        <div class="list-group-item pm-block-item" data-pm-block-type="layout" data-pm-block-data='{"columnCount": 3}'>
                                             <div class="col-visual">
                                                 <i class="material-icons">view_column</i>
                                             </div>
                                             <div class="col-text">
                                                 <h4 class="list-group-item-heading">33% 34% 33%</h4>
                                                 <p class="list-group-item-text">Three columns equal in width.</p>
+                                            </div>
+                                        </div>
+                                        <div class="list-group-item pm-block-item" data-pm-block-type="layout" data-pm-block-data='{"columnCount": 4}'>
+                                            <div class="col-visual">
+                                                <i class="material-icons">view_column</i>
+                                            </div>
+                                            <div class="col-text">
+                                                <h4 class="list-group-item-heading">25% 25% 25% 25%</h4>
+                                                <p class="list-group-item-text">Four columns equal in width.</p>
                                             </div>
                                         </div>
                                     </div>
@@ -263,21 +323,6 @@
         </div>
     </div>
 </div>
-
 <div class="pm"><div class="list-group" id="pm-list-group-container"></div></div>
-
-{% block javascripts %}
-    <script>var CKEDITOR_BASEPATH = '/bundles/opifercms/components/ckeditor/';</script>
-    <script src="http://maps.google.com/maps/api/js?sensor=true&libraries=places&language=en-US"></script>
-
-    <script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
-    <script src="{{ asset('bundles/bazingajstranslation/js/translator.min.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('bundles/opifercms/dist/js/app.js') }}"></script>
-    <script src="{{ url('bazinga_jstranslation_js') }}"></script>
-    <script src="{{ path('fos_js_routing_js', {"callback": "fos.Router.setData"}) }}"></script>
-
-    <script type="text/javascript" src="{{ asset('bundles/opifercms/dist/js/pagemanager.js') }}"></script>
-{% endblock %}
-
-</body>
-</html>
+<link rel="stylesheet" href="{{ asset('bundles/opifercms/components/mprogress/mprogress.min.css') }}"/>
+{% endblock main %}

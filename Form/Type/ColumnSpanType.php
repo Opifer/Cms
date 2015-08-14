@@ -6,19 +6,22 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 
 /**
- * Class PageManagerType
+ * Class ColumnSpanType
  *
  * @package Opifer\ContentBundle\Form\Type
  */
-class PageManagerType extends AbstractType
+class ColumnSpanType extends AbstractType
 {
     /**
      * {@inheritDoc}
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder
-            ->add('name', 'hidden');
+        $sizes = ['xs','sm', 'md', 'lg'];
+
+        foreach ($sizes as $size) {
+            $builder->add($size, 'text', ['label' => 'label.column.'.$size]);
+        }
     }
 
     /**
@@ -26,6 +29,6 @@ class PageManagerType extends AbstractType
      */
     public function getName()
     {
-        return 'page_manager';
+        return 'column_span';
     }
 }

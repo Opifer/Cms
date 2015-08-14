@@ -15,16 +15,20 @@ use Symfony\Component\Form\FormBuilderInterface;
 abstract class AbstractBlockService
 {
     /** @var string */
-    protected $view = 'OpiferContentBundle:Block:abstract_block.html.twig';
+    protected $view;
 
     /** @var string */
     protected $manageView = 'OpiferContentBundle:Block:manage.html.twig';
 
+    /** @var string */
+    protected $editView = 'OpiferContentBundle:PageManager:edit_block.html.twig';
+
     /** @var EngineInterface */
     protected $templating;
 
+    const FORM_GROUP_PROPERTIES = 'properties';
+
     /**
-     * @param string          $name
      * @param EngineInterface $templating
      */
     public function __construct(EngineInterface $templating)
@@ -52,6 +56,8 @@ abstract class AbstractBlockService
             'block_service'  => $this,
             'block'          => $block,
             'block_view'     => $this->getView(),
+            'block_mode'     => 'manage',
+            'manage_type'    => $this->getManageFormTypeName(),
         ), $response);
     }
 
@@ -77,6 +83,14 @@ abstract class AbstractBlockService
     public function getManageView()
     {
         return $this->manageView;
+    }
+
+    /**
+     * {@inheritView}
+     */
+    public function getEditView()
+    {
+        return $this->editView;
     }
 
     /**
@@ -147,12 +161,22 @@ abstract class AbstractBlockService
             ]);
     }
 
+//    public function buildPropertiesForm(FormBuilderInterface $builder, array $options)
+//    {
+//        return $builder->create('properties', 'form')
+//                        ->add('id', 'text')
+//                        ->add('extra_classes', 'text');
+//    }
+
     /**
      * BlockAdapterFormType calls this method to get the name of the FormType.
      *
      * @return string
      */
-    public abstract function getManageFormTypeName();
+    public function getManageFormTypeName()
+    {
+        return 'default';
+    }
 
     /**
      * Creates a new Block

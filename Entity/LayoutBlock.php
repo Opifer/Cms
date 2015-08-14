@@ -3,26 +3,33 @@
 namespace Opifer\ContentBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Opifer\ContentBundle\Block\BlockContainerInterface;
 
 /**
  * LayoutBlock
  *
  * @ORM\Entity
- * @ORM\Table(name="block_layout")
  */
-class LayoutBlock extends Block
+class LayoutBlock extends Block implements BlockContainerInterface
 {
     /**
      * @var integer
      *
-     * @ORM\Column(type="integer", name="column_count")
+     * @ORM\Column(type="integer", name="column_count", nullable=true)
      */
-    protected $columnCount = 1;
+    protected $columnCount;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(type="string", name="value", nullable=true)
+     */
+    protected $wrapper;
 
     /**
      * @return string
      */
-    public function getType()
+    public function getBlockType()
     {
         return 'layout';
     }
@@ -37,13 +44,37 @@ class LayoutBlock extends Block
 
     /**
      * @param int $columnCount
+     *
+     * @throws \Exception
      */
     public function setColumnCount($columnCount)
     {
-        if ($columnCount <= 0) {
-            throw \Exception("Column count should be 1 or more, not zero.");
-        }
-
         $this->columnCount = $columnCount;
     }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getChildBlocks()
+    {
+        return $this->getChildren();
+    }
+
+    /**
+     * @return wrapper
+     */
+    public function getWrapper()
+    {
+        return $this->wrapper;
+    }
+
+    /**
+     * @param wrapper $wrapper
+     */
+    public function setWrapper($wrapper)
+    {
+        $this->wrapper = $wrapper;
+    }
+
+
 }

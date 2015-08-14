@@ -41,7 +41,7 @@ opifer_content_api_layout:
         expose: true
 
 opifer_content_api_pagemanager_create_block:
-    path: /pagemanager/createblock/{type}/{parentId}/{placeholder}
+    path: /pagemanager/createblock/{ownerType}/{ownerId}
     defaults: { _controller: OpiferContentBundle:Api/PageManager:createBlock }
     methods: [POST]
     options:

@@ -1,0 +1,21 @@
+{% if block.wrapper|default == 'section' %}
+    <section class="clearfix {{ block.properties.styles|default|join(' ') }}">
+        <div class="container{{ (block.properties.container_size|default) ? '-'~block.properties.container_size: '' }} {{ block.properties.extra_classes|default }}">
+            {{ render_placeholder() }}
+        </div>
+    </section>
+{% elseif block.wrapper|default == 'container' %}
+    <div class="container{{ (block.properties.fluid) ? '-fluid' : '' }} {{ block.properties.styles|default|join(' ') }} {{ block.properties.extra_classes|default }}">
+        {{ render_placeholder() }}
+    </div>
+{% else %}
+    {% set col_count = block.columnCount|default(1) %}
+    <div class="row {{ block.properties.styles|default|join(' ') }} {{ block.properties.extra_classes|default }}">
+        {% for i in 0..col_count-1 %}
+            <div class="{{ span_styles[i]|default('col-xs-12') }}">
+                {{ render_placeholder(i) }}
+            </div>
+        {% endfor %}
+    </div>
+{% endif %}
+

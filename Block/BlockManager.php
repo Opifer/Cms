@@ -8,7 +8,7 @@ use Opifer\ContentBundle\Block\BlockServiceInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use Opifer\ContentBundle\Entity\Template;
 use Opifer\ContentBundle\Entity\LayoutBlock;
-use Opifer\ContentBundle\Entity\ContentBlock;
+use Opifer\ContentBundle\Entity\HtmlBlock;
 use Opifer\ContentBundle\Model\BlockInterface;
 
 /**
@@ -91,9 +91,9 @@ class BlockManager
      */
     public function getService($block)
     {
-        $blockType = ($block instanceof BlockInterface) ? $block->getType() : $block;
+        $blockType = ($block instanceof BlockInterface) ? $block->getBlockType() : $block;
         if (!isset($this->services[$blockType])) {
-            throw new \Exception(sprintf("No BlockService available by the alias %s for block %s, available: %s", $blockType, get_class($block), implode(', ', array_keys($this->services))));
+            throw new \Exception(sprintf("No BlockService available by the alias %s, available: %s", $blockType, implode(', ', array_keys($this->services))));
         }
 
         return $this->services[$blockType];
@@ -167,7 +167,7 @@ class BlockManager
         $main->setParent($template);
         $this->em->persist($header);
 
-        $paragraph = new ContentBlock;
+        $paragraph = new HtmlBlock;
         $paragraph->setLevel(2);
         $paragraph->setSort(0);
         $paragraph->setOwner($template);

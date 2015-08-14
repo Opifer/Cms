@@ -63,7 +63,7 @@ services:
     # Twig Extension
     opifer.content.twig.content_extension:
         class: %opifer.content.twig.content_extension.class%
-        arguments: [@twig, @fragment.handler, @opifer.content.content_manager, @service_container]
+        arguments: [@twig, @fragment.handler, @opifer.content.content_manager, @service_container, @request_stack]
         tags:
             - { name: twig.extension }
 
