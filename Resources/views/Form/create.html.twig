@@ -1,0 +1,18 @@
+{% extends 'OpiferFormBundle::base.html.twig' %}
+
+{% block opifer_form_body %}
+    {% spaceless %}
+        <div class="page-header clearfix">
+            <h1 class="pull-left">New form</h1>
+        </div>
+
+        <div class="container">
+            <div class="row">
+                {{ form_start(form_form) }}
+                    {{ form_widget(form_form) }}
+                    <input type="submit" value="Save"/>
+                {{ form_end(form_form) }}
+            </div>
+        </div>
+    {% endspaceless %}
+{% endblock opifer_form_body %}
