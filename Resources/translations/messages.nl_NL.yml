@@ -200,14 +200,21 @@ button:
     cancel: annuleren
     delete: verwijderen
     edit: bewerken
+    publish: Publiceren
+    discard_changes: Wis wijzigingen
 
 # Links
 link:
     editor: Editor
 
+heading:
+    properties: Eigenschappen
 
 # Labels
 label:
+    general: Algemeen
+    properties: Eigenschappen
+    slug: Slug
     yes: Ja
     no: Nee
     column.xs: xs
@@ -226,6 +233,7 @@ label:
     container_fluid: Volledige breedte (gerekt)
     container_smooth: Scherm-afhankelijke breedte (gerekt)
     container_fixed: Scherm-afhankelijke breedte (vast)
+    version_new: Nieuwe versie
 
 help:
     html_id: Een id attribuut voor dit html-element

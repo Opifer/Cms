@@ -79,10 +79,14 @@ doctrine:
             softdeleteable:
                 class:   Gedmo\SoftDeleteable\Filter\SoftDeleteableFilter
                 enabled: true
+            draftversion:
+                class:   Opifer\ContentBundle\Filter\DraftVersionFilter
+                enabled: true
         resolve_target_entities:
             # Define the user class
             FOS\UserBundle\Model\UserInterface: %opifer_cms.model.user.class%
             Opifer\ContentBundle\Model\ContentInterface: Opifer\CmsBundle\Entity\Content
+            Opifer\ContentBundle\Model\BlockInterface: Opifer\ContentBundle\Entity\Block
         mappings:
             translatable:
                 type:   annotation

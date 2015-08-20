@@ -112,7 +112,7 @@ services:
         arguments: [@doctrine.orm.default_entity_manager, %opifer_cms.autocomplete%]
         tags:
             - { name: form.type, alias: opifer_autocomplete }
-            
+
     # Entity Managers
 
     opifer.cms.content_manager:

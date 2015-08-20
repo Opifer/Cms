@@ -49,7 +49,7 @@
 }
 
 @gray-bg: #D4D6D8;
-@gray-bg-lighter: #F8F8F8;
+@gray-bg-lighter: #F3F3F3;
 
 .pm-body {
     font-family: @font-family-base !important;
@@ -100,10 +100,19 @@
 
     .btn-default,
     .btn-primary,
-    .btn-danger,
-    .btn-success {
+    .btn-danger {
         border-radius: 0;
         box-shadow: 0 1px 0 fade( darken(@brand-primary, 25%), 10%);
+    }
+
+    .btn-danger {
+        border-radius: 0;
+        box-shadow: 0 1px 0 fade( darken(@brand-danger, 25%), 10%);
+    }
+
+    .btn-success {
+        border-radius: 0;
+        box-shadow: 0 1px 0 fade( darken(@brand-success, 25%), 10%);
     }
 
     .navbar-header {
@@ -124,15 +133,16 @@
         position: absolute;
         width: 100%;
         left: 0;
+        padding-right: 200px;
         text-align: center;
         font-size: 16px;
         .navbar-vertical-align(@line-height-computed);
         z-index: -1;
-        color: @gray;
+        color: @text-color;
     }
 
     .navbar-static-top {
-        z-index: 200;
+        z-index: 600;
     }
 
     #pm-navbar {
@@ -220,6 +230,25 @@
     }
 }
 
+.dropdown-menu > li {
+    > a.pm-version-link {
+        position: relative;
+        line-height: @line-height-small/1.2;
+
+        .version {
+            min-width: 25px;
+            display: inline-block;
+        }
+
+        .material-icons {
+            font-size: 20px;
+            position: absolute;
+            left: 13px;
+            top: 7px;
+        }
+    }
+}
+
 //
 // Core Pagemanager
 //
@@ -230,11 +259,13 @@
 }
 
 .pm-editor {
-    position: relative;
-    height: 100%;
-    width: 100%;
     overflow: hidden;
     z-index: 550;
+    position: absolute;
+    top: 50px;
+    left: 0;
+    bottom: 0;
+    right: 0;
 }
 
 #pm-iframe {

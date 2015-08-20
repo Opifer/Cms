@@ -2,29 +2,6 @@
 @import "bootstrap-variables.less";
 @import "../components/bootstrap/less/mixins.less";
 
-.material-icons {
-    font: normal normal normal 20px/1 'Material Icons';
-    font-size: inherit;
-    display: inline-block;
-    width: 1em;
-    height: 1em;
-    line-height: 1;
-    text-transform: none;
-    letter-spacing: normal;
-    word-wrap: normal;
-
-    /* Support for all WebKit browsers. */
-    -webkit-font-smoothing: antialiased;
-    /* Support for Safari and Chrome. */
-    text-rendering: optimizeLegibility;
-
-    /* Support for Firefox. */
-    -moz-osx-font-smoothing: grayscale;
-
-    /* Support for IE. */
-    font-feature-settings: 'liga';
-}
-
 .pm {
 
     font-family: @font-family-base !important;
@@ -39,22 +16,28 @@
     a {
         color: @link-color;
     }
-}
 
-.pm-layout {
-    text-align: left;
+    .material-icons {
+        font: normal normal normal 20px/1 'Material Icons';
+        font-size: inherit;
+        display: inline-block;
+        width: 1em;
+        height: 1em;
+        line-height: 1;
+        text-transform: none;
+        letter-spacing: normal;
+        word-wrap: normal;
 
-    > .pm-toolbar {
-        background-color: #eecdcf;
-    }
+        /* Support for all WebKit browsers. */
+        -webkit-font-smoothing: antialiased;
+        /* Support for Safari and Chrome. */
+        text-rendering: optimizeLegibility;
 
-    &.pm-accept {
-        background: fade(#eecdcf, 20%);
-        padding: 10px;
+        /* Support for Firefox. */
+        -moz-osx-font-smoothing: grayscale;
 
-        //        .pm-placeholder {
-        //            min-height
-        //        }
+        /* Support for IE. */
+        font-feature-settings: 'liga';
     }
 }
 
@@ -91,17 +74,47 @@
 
 .pm-toolbar {
     font-size: @font-size-base;
+    text-align: left;
+
+    > .row {
+        margin: 0;
+    }
 
     .btn {
         font-size: @font-size-base;
+        border-radius: 0;
+    }
+
+    .btn-icon {
+        position: relative;
+
+        .material-icons {
+            position: absolute;
+            font-size: 18px;
+            left: 8px;
+            top: 6px;
+        }
+
+        &:after {
+            position: relative;
+            content: "\0000a0\0000a0\0000a0\0000a0";
+        }
+    }
+
+    .btn-edit {
+//        background: @brand-primary;
+    }
+    .btn-delete {
+//        background: @brand-danger;
     }
 }
 
 .pm-toolbar-text {
     font-weight: bold;
     display: inline-block;
-    padding: @padding-base-vertical @padding-base-horizontal;
+    padding: 5px @padding-base-horizontal 2px;
     overflow: hidden;
+    line-height: 20px;
     text-overflow: ellipsis;
     white-space: nowrap;
     width: 100%;
@@ -169,6 +182,27 @@
         }
     }
 
+    .pm-layout {
+        text-align: left;
+
+        > .pm-toolbar {
+            background-color: #eecdcf;
+        }
+
+        &.pm-accept {
+            background: fade(#eecdcf, 20%);
+            padding: 10px;
+
+            > .pm-toolbar {
+                border: 1px solid #b23d44;
+            }
+
+            //        .pm-placeholder {
+            //            min-height
+            //        }
+        }
+    }
+
     .pm-placeholder {
         .clearfix;
 
@@ -192,5 +226,54 @@
 .pm-dragging {
     .pm-placeholder {
         min-height: 150px;
+        padding: 5px;
+    }
+}
+
+
+.list-group-item.pm-block-item {
+    .pm;
+    background: white;
+    margin: 30px auto;
+    max-width: 450px;
+    border: 0;
+    border-radius: 0;
+    box-shadow: 0 1px 10px rgba(0,0,0,.1);
+
+    .col-visual {
+        position: absolute;
+        color: #0A539E;
+        width: 45px;
+        height: 40px;
+        top: 8px;
+        text-align: center;
+
+        .material-icons {
+            font-size: 30px;
+            line-height: 38px;
+        }
+    }
+
+    .col-text {
+        margin-left: 58px;
+    }
+
+    .list-group-item {
+        margin: 2px 0;
+        border: 0;
+        border-radius: 0;
+    }
+
+    .list-group-item-heading {
+        font-family: @font-family-base;
+        font-size: @font-size-base;
+        font-weight: normal;
+        font-size: 16px;
+        margin: 0;
+    }
+
+    .list-group-item-text {
+        font-family: @font-family-base;
+        font-size: @font-size-small;
     }
 }

@@ -154,7 +154,7 @@ class ContentRepository extends BaseContentRepository
             ->select('count(c.id)')
             ->from('OpiferCmsBundle:Content', 'c')
             ->innerJoin('c.valueSet', 'vs')
-            ->innerJoin('vs.template', 't')
+            ->innerJoin('c.template', 't')
             ->where('t.name = :template')
             ->setParameter('template', $template)
             ->getQuery()
@@ -166,7 +166,7 @@ class ContentRepository extends BaseContentRepository
 
         $query = $this->createQueryBuilder('c')
             ->leftJoin('c.valueSet', 'vs')
-            ->leftJoin('vs.template', 't')
+            ->leftJoin('c.template', 't')
             ->where('t.name = :template')
             ->andWhere('c.active = :active')
             ->andWhere('c.nestedIn IS NULL')

@@ -27,11 +27,11 @@ jq(document).ready(function() {
                 $('.pm-block').removeClass('hovered');
                 $(this).addClass('hovered');
             });
-
-            // create clone when dragging to retrieve original style
-            $(document).on('mousedown', '.pm-placeholder .pm-toolbar', function() {
-                server().setDragFloat( $(this).closest('.pm-block').css('float') );
-            });
+            //
+            //// create clone when dragging to retrieve original style
+            //$(document).on('mousedown', '.pm-placeholder .pm-toolbar', function() {
+            //    server().setDragFloat( $(this).closest('.pm-block').css('float') );
+            //});
 
             console.log('Pagemanager client ready.');
             server().onClientReady();
