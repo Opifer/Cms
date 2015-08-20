@@ -10,11 +10,11 @@ use Opifer\ContentBundle\Form\DataTransformer\SlugTransformer;
 use Opifer\ContentBundle\Form\DataTransformer\IdToContentTransformer;
 
 /**
- * Class ContentType
+ * Class ContentDetailsType
  *
  * @package Opifer\ContentBundle\Form\Type
  */
-class ContentType extends AbstractType
+class ContentDetailsType extends AbstractType
 {
 
     /** @var string */
@@ -40,12 +40,23 @@ class ContentType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $content = $builder->getData();
-
         $transformer = new SlugTransformer();
 
         // Add the default form fields
         $builder
+            ->add('template', 'entity', [
+                'class'    => 'OpiferContentBundle:Template',
+                'property' => 'displayName',
+                'attr'     => [
+                    'help_text' => 'label.help.template'
+                ],
+//                'query_builder' => function(EntityRepository $repository) {
+//                    return $repository->createQueryBuilder('c')
+//                        ->where('c.objectClass = :objectClass')
+//                        ->setParameter('objectClass', $this->contentClass)
+//                        ->orderBy('c.displayName', 'ASC');
+//                }
+            ])
             ->add('title', 'text', [
                 'label' => 'form.title',
                 'attr'  => [
@@ -63,11 +74,11 @@ class ContentType extends AbstractType
             ->add(
                 $builder->create(
                     'slug', 'text', [
-                    'attr' => [
-                        'placeholder' => 'content.form.slug.placeholder',
-                        'help_text'   => 'form.slug.help_text',
+                        'attr' => [
+                            'placeholder' => 'content.form.slug.placeholder',
+                            'help_text'   => 'form.slug.help_text',
 
-                    ]]
+                        ]]
                 )->addViewTransformer($transformer)
             )
             ->add('directory', 'entity', [
@@ -88,20 +99,15 @@ class ContentType extends AbstractType
             ->add('alias', 'text', [
                 'attr'        => [
                     'help_text' => 'content.form.alias.help_text',
-                    'widget_col' => 4,
                 ]
             ])
-            ->add('active', 'checkbox')
+            ->add('active', 'checkbox', [
+                'attr' => ['align_with_widget' => true],
+            ])
         ;
 
-        $builder->add('valueset', 'opifer_valueset', [
-            'attr' => [
-                'class' => ($content->getSymlink() ? 'hidden' : '')
-            ]
-        ]);
-
         $builder->add('save', 'submit', [
-            'label' => 'content.form.submit',
+            'label' => 'button.submit',
         ]);
     }
 
@@ -117,6 +123,6 @@ class ContentType extends AbstractType
      */
     public function getName()
     {
-        return 'opifer_content';
+        return 'opifer_content_details';
     }
 }

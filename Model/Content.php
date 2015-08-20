@@ -6,13 +6,14 @@ use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
 use Gedmo\Mapping\Annotation as Gedmo;
 use JMS\Serializer\Annotation as JMS;
-use Opifer\ContentBundle\Block\BlockContainerInterface;
 use Symfony\Component\Validator\Constraints as Assert;
 
 use Opifer\EavBundle\Entity\Value;
 use Opifer\EavBundle\Model\SchemaInterface;
 use Opifer\EavBundle\Model\ValueSetInterface;
 use Opifer\EavBundle\Model\EntityInterface;
+use Opifer\ContentBundle\Entity\Template;
+use Opifer\ContentBundle\Model\BlockInterface;
 
 /**
  * Content
@@ -22,7 +23,7 @@ use Opifer\EavBundle\Model\EntityInterface;
  * @JMS\ExclusionPolicy("all")
  * @Gedmo\SoftDeleteable(fieldName="deletedAt", timeAware=false)
  */
-class Content implements ContentInterface, EntityInterface, BlockInterface, BlockContainerInterface
+class Content implements ContentInterface, EntityInterface
 {
     /**
      * @var integer
@@ -158,18 +159,18 @@ class Content implements ContentInterface, EntityInterface, BlockInterface, Bloc
     /**
      * @var \Opifer\ContentBundle\Entity\Template
      *
-     * @ORM\ManyToOne(targetEntity="Opifer\ContentBundle\Entity\Template")
+     * @ORM\ManyToOne(targetEntity="Opifer\ContentBundle\Entity\Template", fetch="EAGER")
      * @ORM\JoinColumn(name="template_id", referencedColumnName="id")
      **/
     protected $template;
 
     /**
-     * @var ArrayCollection
+     * @var BlockInterface
      *
-     * @ORM\OneToMany(targetEntity="Opifer\ContentBundle\Entity\Block", mappedBy="ownerContent")
-     * @ORM\OrderBy({"sort" = "ASC"})
+     * @ORM\OneToOne(targetEntity="Opifer\ContentBundle\Model\BlockInterface", cascade={"persist", "remove"})
+     * @ORM\JoinColumn(name="block_id", referencedColumnName="id")
      **/
-    protected $blocks;
+    protected $block;
 
 
     /**
@@ -178,7 +179,6 @@ class Content implements ContentInterface, EntityInterface, BlockInterface, Bloc
     public function __construct()
     {
         $this->attributeValues = new ArrayCollection();
-        $this->blocks = new ArrayCollection();
     }
 
     /**
@@ -588,20 +588,6 @@ class Content implements ContentInterface, EntityInterface, BlockInterface, Bloc
     }
 
     /**
-     * Returns display name of the Schema for the ValueSet
-     *
-     * @JMS\VirtualProperty
-     * @JMS\SerializedName("schemaDisplayName")
-     * @JMS\Groups({"detail", "list"})
-     *
-     * @return array
-     */
-    public function getSchemaDisplayName()
-    {
-        return $this->getValueSet()->getSchema()->getDisplayName();
-    }
-
-    /**
      * Get breadcrumbs
      *
      * Loops through all parents to determine the breadcrumbs and stores them in
@@ -623,62 +609,6 @@ class Content implements ContentInterface, EntityInterface, BlockInterface, Bloc
     }
 
     /**
-     * @return mixed
-     */
-    public function getBlocks()
-    {
-        return $this->blocks;
-    }
-
-    /**
-     * @param mixed $blocks
-     */
-    public function setBlocks($blocks)
-    {
-        $this->blocks = $blocks;
-    }
-
-    /**
-     * Add Block
-     *
-     * @param BlockInterface $block
-     *
-     * @return BlockInterface
-     */
-    public function addBlock(BlockInterface $block)
-    {
-        $this->blocks[] = $block;
-
-        return $this;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function getChildBlocks()
-    {
-        $blocks = $this->getBlocks();
-        $children = array();
-
-        foreach ($blocks as $block) {
-            if ($block->getParent()) {
-                continue;
-            }
-            array_push($children, $block);
-        }
-
-        return $children;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function getBlockType()
-    {
-        'root';
-    }
-
-    /**
      * @return Template
      */
     public function getTemplate()
@@ -694,5 +624,20 @@ class Content implements ContentInterface, EntityInterface, BlockInterface, Bloc
         $this->template = $template;
     }
 
+    /**
+     * @return BlockInterface
+     */
+    public function getBlock()
+    {
+        return $this->block;
+    }
+
+    /**
+     * @param BlockInterface $block
+     */
+    public function setBlock($block)
+    {
+        $this->block = $block;
+    }
 
 }

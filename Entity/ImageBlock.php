@@ -2,6 +2,7 @@
 
 namespace Opifer\ContentBundle\Entity;
 
+use Gedmo\Mapping\Annotation as Gedmo;
 use Doctrine\ORM\Mapping as ORM;
 use Opifer\MediaBundle\Model\MediaInterface;
 
@@ -15,7 +16,8 @@ class ImageBlock extends Block
     /**
      * @var MediaInterface
      *
-     * @ORM\ManyToOne(targetEntity="Opifer\MediaBundle\Model\MediaInterface")
+     * @Gedmo\Versioned
+     * @ORM\ManyToOne(targetEntity="Opifer\MediaBundle\Model\MediaInterface", fetch="EAGER")
      * @ORM\JoinColumn(name="media_id", referencedColumnName="id", onDelete="SET NULL")
      */
     protected $media;

@@ -5,9 +5,9 @@ namespace Opifer\ContentBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 use APY\DataGridBundle\Grid\Mapping as GRID;
-use Opifer\ContentBundle\Block\BlockContainerInterface;
-use Opifer\ContentBundle\Model\BlockInterface;
 use Doctrine\Common\Collections\ArrayCollection;
+
+use Opifer\ContentBundle\Model\BlockInterface;
 
 /**
  * Template
@@ -17,7 +17,7 @@ use Doctrine\Common\Collections\ArrayCollection;
  *
  * @GRID\Source(columns="id, name, displayName")
  */
-class Template implements BlockInterface, BlockContainerInterface
+class Template
 {
     /**
      * @var integer
@@ -64,12 +64,12 @@ class Template implements BlockInterface, BlockContainerInterface
     protected $parent;
 
     /**
-     * @var ArrayCollection
+     * @var BlockInterface
      *
-     * @ORM\OneToMany(targetEntity="Opifer\ContentBundle\Entity\Block", mappedBy="ownerTemplate")
-     * @ORM\OrderBy({"sort" = "ASC"})
+     * @ORM\ManyToOne(targetEntity="Opifer\ContentBundle\Model\BlockInterface")
+     * @ORM\JoinColumn(name="block_id", referencedColumnName="id")
      **/
-    protected $blocks;
+    protected $block;
 
 
     /**
@@ -77,7 +77,6 @@ class Template implements BlockInterface, BlockContainerInterface
      */
     public function __construct()
     {
-        $this->blocks = new ArrayCollection();
     }
 
     /**
@@ -153,51 +152,19 @@ class Template implements BlockInterface, BlockContainerInterface
     }
 
     /**
-     * @return mixed
-     */
-    public function getBlocks()
-    {
-        return $this->blocks;
-    }
-
-    /**
-     * @param mixed $blocks
-     */
-    public function setBlocks($blocks)
-    {
-        $this->blocks = $blocks;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function getChildBlocks()
-    {
-        $blocks = $this->getBlocks();
-        $children = array();
-
-        foreach ($blocks as $block) {
-            if ($block->getParent()) {
-                continue;
-            }
-            array_push($children, $block);
-        }
-
-        return new ArrayCollection($children);
-    }
-
-    /**
-     * Add Block
-     *
-     * @param BlockInterface $block
-     *
      * @return BlockInterface
      */
-    public function addBlock(BlockInterface $block)
+    public function getBlock()
     {
-        $this->blocks[] = $block;
+        return $this->block;
+    }
 
-        return $this;
+    /**
+     * @param BlockInterface $block
+     */
+    public function setBlock($block)
+    {
+        $this->block = $block;
     }
 
     /**
@@ -215,5 +182,4 @@ class Template implements BlockInterface, BlockContainerInterface
     {
         $this->view = $view;
     }
-
 }

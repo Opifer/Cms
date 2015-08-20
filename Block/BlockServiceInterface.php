@@ -26,7 +26,7 @@ interface BlockServiceInterface
     /**
      * @return mixed
      */
-    public function getView();
+    public function getView(BlockInterface $block);
 
     /**
      * @return mixed

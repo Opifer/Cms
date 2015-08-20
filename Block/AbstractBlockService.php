@@ -6,6 +6,7 @@ use Symfony\Bundle\FrameworkBundle\Templating\EngineInterface;
 use Opifer\ContentBundle\Model\BlockInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
  * Class AbstractBlockService
@@ -21,7 +22,7 @@ abstract class AbstractBlockService
     protected $manageView = 'OpiferContentBundle:Block:manage.html.twig';
 
     /** @var string */
-    protected $editView = 'OpiferContentBundle:PageManager:edit_block.html.twig';
+    protected $editView = 'OpiferContentBundle:Editor:edit_block.html.twig';
 
     /** @var EngineInterface */
     protected $templating;
@@ -41,7 +42,7 @@ abstract class AbstractBlockService
      */
     public function execute(BlockInterface $block, Response $response = null)
     {
-        return $this->renderResponse($this->getView(), array(
+        return $this->renderResponse($this->getView($block), array(
             'block_service'  => $this,
             'block'          => $block,
         ), $response);
@@ -52,10 +53,10 @@ abstract class AbstractBlockService
      */
     public function manage(BlockInterface $block, Response $response = null)
     {
-        return $this->renderResponse($this->getManageView(), array(
+        return $this->renderResponse($this->getManageView($block), array(
             'block_service'  => $this,
             'block'          => $block,
-            'block_view'     => $this->getView(),
+            'block_view'     => $this->getView($block),
             'block_mode'     => 'manage',
             'manage_type'    => $this->getManageFormTypeName(),
         ), $response);
@@ -70,9 +71,21 @@ abstract class AbstractBlockService
     }
 
     /**
+     * @param string $view
+     *
+     * @return $this
+     */
+    public function setView($view)
+    {
+        $this->view = $view;
+
+        return $this;
+    }
+
+    /**
      * {@inheritdoc}
      */
-    public function getView()
+    public function getView(BlockInterface $block)
     {
         return $this->view;
     }
@@ -80,7 +93,7 @@ abstract class AbstractBlockService
     /**
      * {@inheritdoc}
      */
-    public function getManageView()
+    public function getManageView(BlockInterface $block)
     {
         return $this->manageView;
     }
@@ -168,6 +181,17 @@ abstract class AbstractBlockService
 //                        ->add('extra_classes', 'text');
 //    }
 
+
+    /**
+     * Configures the options for this type. (replaces the setDefaultOptions
+     * method that was deprecated since Symfony 2.7)
+     *
+     * @param OptionsResolver $resolver The resolver for the options.
+     */
+    public function configureManageOptions(OptionsResolver $resolver)
+    {
+    }
+
     /**
      * BlockAdapterFormType calls this method to get the name of the FormType.
      *
@@ -177,13 +201,6 @@ abstract class AbstractBlockService
     {
         return 'default';
     }
-
-    /**
-     * Creates a new Block
-     *
-     * @return BlockInterface
-     */
-    public abstract function createBlock();
 
     /**
      * Returns a Response object that can be cache-able.

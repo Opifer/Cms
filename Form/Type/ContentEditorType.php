@@ -6,19 +6,18 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 
 /**
- * Class PageManagerType
+ * Class ContentEditorType
  *
  * @package Opifer\ContentBundle\Form\Type
  */
-class PageManagerType extends AbstractType
+class ContentEditorType extends AbstractType
 {
     /**
      * {@inheritDoc}
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder
-            ->add('name', 'hidden');
+
     }
 
     /**
@@ -26,6 +25,6 @@ class PageManagerType extends AbstractType
      */
     public function getName()
     {
-        return 'page_manager';
+        return 'content_editor';
     }
 }

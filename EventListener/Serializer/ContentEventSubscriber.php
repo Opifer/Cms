@@ -76,6 +76,10 @@ class ContentEventSubscriber implements EventSubscriberInterface
      */
     public function getCoverImage(Content $content)
     {
+        if ($content->getValueSet() === null) {
+            return false;
+        }
+
         foreach ($content->getValueSet()->getValues() as $value) {
             switch (get_class($value)) {
                 case 'Opifer\EavBundle\Entity\NestedValue':

@@ -81,6 +81,7 @@ class TemplateController extends Controller
         }
 
         $parameters = [
+            'subject' => $template,
             'subject_type' => 'template',
             'subject_id' => $template->getId(),
             'view_url' => $this->generateUrl('opifer_content_template_editor_view', ['id' => $template->getId()]),

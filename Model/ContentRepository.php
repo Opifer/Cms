@@ -50,7 +50,7 @@ class ContentRepository extends EntityRepository
         $qb = $this->createValuedQueryBuilder('c');
 
         if ($request->get('q')) {
-            $qb->leftJoin('vs.template', 't');
+            $qb->leftJoin('c.template', 't');
             $qb->andWhere('c.title LIKE :query OR c.alias LIKE :query OR c.slug LIKE :query OR t.displayName LIKE :query')->setParameter('query', '%' . $request->get('q') . '%');
         } else {
             if ($request->get('directory_id')) {
@@ -85,7 +85,7 @@ class ContentRepository extends EntityRepository
     {
         $query = $this->createQueryBuilder('c')
             ->innerJoin('c.valueSet', 'vs')
-            ->innerJoin('vs.template', 't')
+            ->innerJoin('c.template', 't')
             ->where('c.author = :user')
             ->andWhere('t.name = :template')
             ->setParameters([
@@ -264,7 +264,7 @@ class ContentRepository extends EntityRepository
 
         $query = $this->createQueryBuilder('c')
             ->leftJoin('c.valueSet', 'vs')
-            ->leftJoin('vs.template', 't')
+            ->leftJoin('c.template', 't')
             ->where('t.name = :template')
             ->andWhere('c.active = :active')
             ->setParameter('template', $template)
@@ -292,7 +292,7 @@ class ContentRepository extends EntityRepository
 
         $query = $this->createQueryBuilder('c')
             ->leftJoin('c.valueSet', 'vs')
-            ->leftJoin('vs.template', 't')
+            ->leftJoin('c.template', 't')
             ->where('t.name = :template')
             ->andWhere('c.active = :active')
             ->setParameter('template', $template)
@@ -319,7 +319,7 @@ class ContentRepository extends EntityRepository
 
         $query = $this->createQueryBuilder('c')
             ->leftJoin('c.valueSet', 'vs')
-            ->leftJoin('vs.template', 't')
+            ->leftJoin('c.template', 't')
             ->where('t.name = :template')
             ->andWhere('c.active = :active')
             ->setParameter('template', $template)

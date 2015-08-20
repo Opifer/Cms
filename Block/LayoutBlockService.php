@@ -9,6 +9,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\Form\FormEvent;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
  * Class LayoutBlockService
@@ -19,9 +20,6 @@ class LayoutBlockService extends AbstractBlockService implements BlockServiceInt
 {
     /** @var string */
     protected $view = 'OpiferContentBundle:Block:Layout/layout.html.twig';
-
-    /** @var string */
-    protected $editView = 'OpiferContentBundle:PageManager:edit_layout_block.html.twig';
 
     /**
      * {@inheritdoc}
@@ -35,7 +33,7 @@ class LayoutBlockService extends AbstractBlockService implements BlockServiceInt
             'span_styles'    => $this->getSpanStyles($block),
         );
 
-        return $this->renderResponse($this->getView(), $parameters, $response);
+        return $this->renderResponse($this->getView($block), $parameters, $response);
     }
 
     /**
@@ -43,10 +41,10 @@ class LayoutBlockService extends AbstractBlockService implements BlockServiceInt
      */
     public function manage(BlockInterface $block, Response $response = null)
     {
-        return $this->renderResponse($this->getManageView(), array(
+        return $this->renderResponse($this->getManageView($block), array(
             'block_service'  => $this,
             'block'          => $block,
-            'block_view'     => $this->getView(),
+            'block_view'     => $this->getView($block),
             'span_styles'    => $this->getSpanStyles($block),
             'manage_type'    => $this->getManageFormTypeName(),
         ), $response);
@@ -131,6 +129,14 @@ class LayoutBlockService extends AbstractBlockService implements BlockServiceInt
             }
         });
     }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function configureManageOptions(OptionsResolver $resolver)
+    {
+    }
+
 
     /**
      * @param BlockInterface $block

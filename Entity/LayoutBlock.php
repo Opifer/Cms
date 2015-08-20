@@ -10,7 +10,7 @@ use Opifer\ContentBundle\Block\BlockContainerInterface;
  *
  * @ORM\Entity
  */
-class LayoutBlock extends Block implements BlockContainerInterface
+class LayoutBlock extends CompositeBlock implements BlockContainerInterface
 {
     /**
      * @var integer
@@ -25,6 +25,14 @@ class LayoutBlock extends Block implements BlockContainerInterface
      * @ORM\Column(type="string", name="value", nullable=true)
      */
     protected $wrapper;
+
+    /**
+     * @return string
+     */
+    public function __toString()
+    {
+        return sprintf("Block %d: %s with %d columns", $this->id, $this->wrapper, $this->columnCount);
+    }
 
     /**
      * @return string
@@ -50,14 +58,6 @@ class LayoutBlock extends Block implements BlockContainerInterface
     public function setColumnCount($columnCount)
     {
         $this->columnCount = $columnCount;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function getChildBlocks()
-    {
-        return $this->getChildren();
     }
 
     /**

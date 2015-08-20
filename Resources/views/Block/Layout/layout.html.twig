@@ -5,7 +5,7 @@
         </div>
     </section>
 {% elseif block.wrapper|default == 'container' %}
-    <div class="container{{ (block.properties.fluid) ? '-fluid' : '' }} {{ block.properties.styles|default|join(' ') }} {{ block.properties.extra_classes|default }}">
+    <div class="container{{ (block.properties.container_size|default) ? '-'~block.properties.container_size: '' }} {{ block.properties.styles|default|join(' ') }} {{ block.properties.extra_classes|default }}">
         {{ render_placeholder() }}
     </div>
 {% else %}

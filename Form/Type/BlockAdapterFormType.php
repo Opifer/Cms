@@ -71,6 +71,7 @@ class BlockAdapterFormType implements FormTypeInterface
      */
     public function configureOptions(OptionsResolver $resolver)
     {
+        $this->blockService->configureManageOptions($resolver);
     }
 
     /**

@@ -1,5 +1,5 @@
 parameters:
-    opifer.content.block_manager.class: Opifer\ContentBundle\Block\BlockManager
+    opifer.content.document_block.class: Opifer\ContentBundle\Block\DocumentBlockService
     opifer.content.html_block.class: Opifer\ContentBundle\Block\HtmlBlockService
     opifer.content.image_block.class: Opifer\ContentBundle\Block\ImageBlockService
     opifer.content.jumbotron_block.class: Opifer\ContentBundle\Block\JumbotronBlockService
@@ -11,9 +11,11 @@ parameters:
     opifer.content.layout_block.class: Opifer\ContentBundle\Block\LayoutBlockService
 
 services:
-    opifer.content.block_manager:
-        class: %opifer.content.block_manager.class%
-        arguments: [@doctrine.orm.default_entity_manager]
+    opifer.content.document_block:
+        class: %opifer.content.document_block.class%
+        arguments: [@templating]
+        tags:
+            - { name: opifer.content.block_service, alias: document }
 
     opifer.content.html_block:
         class: %opifer.content.html_block.class%

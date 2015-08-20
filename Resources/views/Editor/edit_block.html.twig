@@ -18,7 +18,7 @@
         <div class="row">
             <div class="col-xs-12 clearfix">
 
-                {{ form_start(form, {'action': path('opifer_content_pagemanager_edit_block', {'id': block.id}), 'label_col': 3, 'widget_col': 9, 'attr' : {'data-pm-block-id': block.id, 'novalidate': 'novalidate', 'class': 'prevent-enter-submit'}, 'style': 'horizontal'}) }}
+                {{ form_start(form, {'action': path('opifer_content_contenteditor_edit_block', {'id': block.id, 'rootVersion': block.rootVersion}), 'label_col': 3, 'widget_col': 9, 'attr' : {'data-pm-block-id': block.id, 'novalidate': 'novalidate', 'class': 'prevent-enter-submit'}, 'style': 'horizontal'}) }}
                 {% set form_save_btn = form_widget(form.save) %}
 
                 {% block block_body_tabs %}
