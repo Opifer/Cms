@@ -39,28 +39,4 @@ class Entity implements EntityInterface, Nestable
     {
         return $this->schema;
     }
-
-    public function setNestedIn(NestedValue $value)
-    {
-        $this->nestedIn = $value;
-
-        return $this;
-    }
-
-    public function getNestedIn()
-    {
-        return $this->nestedIn;
-    }
-
-    public function setNestedSort($sort)
-    {
-        $this->nestedSort = $sort;
-
-        return $this;
-    }
-
-    public function getNestedSort()
-    {
-        return $this->nestedSort;
-    }
 }

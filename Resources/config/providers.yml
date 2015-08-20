@@ -5,7 +5,6 @@ parameters:
     opifer.eav.form_value_provider.class: Opifer\EavBundle\ValueProvider\FormValueProvider
     opifer.eav.integer_value_provider.class: Opifer\EavBundle\ValueProvider\IntegerValueProvider
     opifer.eav.media_value_provider.class: Opifer\EavBundle\ValueProvider\MediaValueProvider
-    opifer.eav.nested_value_provider.class: Opifer\EavBundle\ValueProvider\NestedValueProvider
     opifer.eav.query_value_provider.class: Opifer\EavBundle\ValueProvider\QueryValueProvider
     opifer.eav.select_value_provider.class: Opifer\EavBundle\ValueProvider\SelectValueProvider
     opifer.eav.string_value_provider.class: Opifer\EavBundle\ValueProvider\StringValueProvider
@@ -51,12 +50,6 @@ services:
         arguments: [%opifer_eav.media_class%]
         tags:
             - { name: opifer.eav.value_provider, alias: media }
-
-    opifer.eav.nested_value_provider:
-        class: %opifer.eav.nested_value_provider.class%
-        arguments: [%opifer_eav.nestable_class%]
-        tags:
-            - { name: opifer.eav.value_provider, alias: nested }
 
     opifer.eav.query_value_provider:
         class: %opifer.eav.query_value_provider.class%
