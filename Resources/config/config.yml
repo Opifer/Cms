@@ -28,6 +28,16 @@ framework:
     fragments:       ~
     http_method_override: true
 
+assetic:
+    use_controller: false
+    bundles:
+        - OpiferCmsBundle
+        - OpiferMediaBundle
+    filters:
+        less:
+            node:       "/usr/local/bin/node"
+            node_paths: ["/usr/local/lib", "/usr/local/lib/node_modules"]
+        cssrewrite: ~
 
 # Templating
 braincrafted_bootstrap:
