@@ -35,7 +35,7 @@ class ContentEditorController extends Controller
         /** @var BlockManager $manager */
         $manager = $this->get('opifer.content.block_manager');
 
-        $block = $manager->find($id, $rootVersion);
+        $block = $manager->find($id, $rootVersion, true);
         $service = $manager->getService($block);
 
         $this->get('opifer.content.twig.content_extension')->setBlockMode('manage');
@@ -106,7 +106,7 @@ class ContentEditorController extends Controller
         try {
             $newVersion = $manager->getNewVersion($manager->find($id, $rootVersion));
 
-            if ($rootVersion !== $newVersion) {
+            if ((int) $rootVersion !== $newVersion) {
                 throw new \Exception("Only new versions can be editted. New version is {$newVersion} while you requested {$rootVersion}");
             }
 
@@ -181,11 +181,47 @@ class ContentEditorController extends Controller
         $rootVersion = (int) $request->request->get('version');
 
         try {
+            $newVersion = $manager->getNewVersion($manager->find($id, $rootVersion));
+
+            if ($rootVersion !== $newVersion) {
+                throw new \Exception("Only new versions can be published. New version is {$newVersion} while you requested {$rootVersion}");
+            }
+
             $block = $manager->find($id);
             $manager->publish($block, $rootVersion);
 
             $response->setStatusCode(200);
             $response->setData(['state' => 'published']);
+        } catch (\Exception $e) {
+            $response->setStatusCode(500);
+            $response->setData(['error' => $e->getMessage() . $e->getTraceAsString()]);
+        }
+
+        return $response;
+    }
+
+
+    /**
+     * Discards all changes to block and it's members
+     *
+     * @param Request $request
+     *
+     * @return JsonResponse
+     */
+    public function discardBlockAction(Request $request)
+    {
+        $this->getDoctrine()->getManager()->getFilters()->disable('draftversion');
+        /** @var BlockManager $manager */
+        $manager = $this->get('opifer.content.block_manager');
+        $response = new JsonResponse;
+        $id = (int) $request->request->get('id');
+        $rootVersion = (int) $request->request->get('version');
+
+        try {
+            $manager->discardAll($id, $rootVersion);
+
+            $response->setStatusCode(200);
+            $response->setData(['state' => 'discarded']);
         } catch (\Exception $e) {
             $response->setStatusCode(500);
             $response->setData(['error' => $e->getMessage()]);

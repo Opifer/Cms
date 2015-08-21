@@ -3,6 +3,8 @@
 namespace Opifer\ContentBundle\Block;
 
 use Doctrine\Common\Collections\ArrayCollection;
+use Gedmo\SoftDeleteable\SoftDeleteableListener;
+use Opifer\CmsBundle\EventListener\LoggableListener;
 use Opifer\ContentBundle\Block\BlockServiceInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use Opifer\ContentBundle\Model\BlockInterface;
@@ -109,13 +111,17 @@ class BlockManager
      *
      * @return BlockInterface
      */
-    public function find($id, $rootVersion = null)
+    public function find($id, $rootVersion = null, $recursive = false)
     {
         /** @var BlockInterface $block */
         $block = $this->getRepository()->find($id);
 
         if ($rootVersion) {
-            $this->revert($block, $rootVersion);
+            if (!$recursive) {
+                $this->revert($block, $rootVersion);
+            } else {
+                return $this->revertRecursiveFromNode($block, $rootVersion);
+            }
         }
 
         return $block;
@@ -129,6 +135,8 @@ class BlockManager
      */
     public function publish(BlockInterface $block, $rootVersion)
     {
+        $this->killLoggableListener();
+
         if ($block instanceof BlockContainerInterface) {
             $iterator = new \RecursiveIteratorIterator(
                 new RecursiveBlockIterator(
@@ -141,6 +149,7 @@ class BlockManager
                 $this->revertSingle($descendant, $rootVersion);
                 $descendant->setPublish(true);
                 $descendant->setVersion($rootVersion);
+                $descendant->setRootVersion($rootVersion);
                 $this->save($descendant);
             }
         }
@@ -148,6 +157,7 @@ class BlockManager
         $this->revertSingle($block, $rootVersion);
         $block->setPublish(true);
         $block->setVersion($rootVersion);
+        $block->setRootVersion($rootVersion);
         $this->save($block);
     }
 
@@ -159,26 +169,9 @@ class BlockManager
      */
     public function revert(BlockInterface $block, $rootVersion)
     {
-        if ($block instanceof BlockContainerInterface) {
-            $iterator = new \RecursiveIteratorIterator(
-                new RecursiveBlockIterator(
-                    ($block instanceof BlockOwnerInterface) ? $block->getOwning() : $block->getChildren()
-                ),
-                \RecursiveIteratorIterator::SELF_FIRST
-            );
-
-            $owning = new ArrayCollection();
-            foreach ($iterator as $descendant) {
-                $this->revertSingle($descendant, $rootVersion);
-                $owning->add($descendant);
-            }
-        }
-
-        $this->revertSingle($block, $rootVersion);
+        $block->accept(new RevertVisitor($this, $rootVersion));
 
         if ($block instanceof BlockContainerInterface) {
-            $block->setOwning($owning);
-            $block->setChildren($owning);
             self::treeAddMissingChildren($block);
             self::treeRemoveInvalidChildren($block);
             $block->accept(new SortVisitor());
@@ -195,7 +188,7 @@ class BlockManager
      * @param BlockInterface $block
      * @param integer        $rootVersion
      */
-    protected function revertSingle(BlockInterface $block, $rootVersion)
+    public function revertSingle(BlockInterface $block, $rootVersion)
     {
         // check for LogEntries
         /** @var BlockLogEntryRepository $repo */
@@ -207,9 +200,11 @@ class BlockManager
             $latest = current($logs)->getVersion();
             $repo->revert($block, $latest);  // We "revert" to the current working draft, as the Block itself is a published one
         } else {
-            // no logs where found, assume block was created in a later version
-            $block->getParent()->removeChild($block);
-            unset($block);
+            if ($block->getVersion() > $rootVersion) {
+                // no logs where found, assume block was created in a later version
+                $block->getParent()->removeChild($block);
+                unset($block);
+            }
         }
     }
 
@@ -264,6 +259,69 @@ class BlockManager
     }
 
     /**
+     * @param integer $ownerId
+     * @param integer $rootVersion
+     */
+    public function discardAll($ownerId, $rootVersion)
+    {
+        $owner = $this->find($ownerId, $rootVersion);
+        if (!$owner instanceof BlockOwnerInterface) {
+            throw new \Exception('Discard all changes is only possible on Block owners');
+        }
+
+        $this->killLoggableListener();
+        $this->killSoftDeletableListener();
+
+        $this->em->getRepository('OpiferContentBundle:BlockLogEntry')->discardAll($ownerId, $rootVersion);
+
+        if ($this->em->getFilters()->isEnabled('softdeleteable')) {
+            $this->em->getFilters()->disable('softdeleteable');
+        }
+
+        $stubs = $this->getRepository()->findBy(['owner' => $owner, 'version' => 0]);
+
+        foreach ($stubs as $stub) {
+            $this->em->remove($stub);
+        }
+
+        $this->em->flush();
+    }
+
+    /**
+     * Removes the LoggableListener from the EventManager
+     */
+    public function killLoggableListener()
+    {
+        foreach ($this->em->getEventManager()->getListeners() as $event => $listeners) {
+            foreach ($listeners as $hash => $listener) {
+                if ($listener instanceof LoggableListener) {
+                    $listenerInst = $listener;
+                    break 2;
+                }
+            }
+        }
+
+        $this->em->getEventManager()->removeEventListener(array('onFlush'), $listenerInst);
+    }
+
+    /**
+     * Removes the SoftDeleteableListener from the EventManager
+     */
+    public function killSoftDeletableListener()
+    {
+        foreach ($this->em->getEventManager()->getListeners() as $event => $listeners) {
+            foreach ($listeners as $hash => $listener) {
+                if ($listener instanceof SoftDeleteableListener) {
+                    $listenerInst = $listener;
+                    break 2;
+                }
+            }
+        }
+
+        $this->em->getEventManager()->removeEventListener(array('onFlush'), $listenerInst);
+    }
+
+    /**
      * TODO: refactor this
      *
      * @param integer      $ownerId
@@ -280,15 +338,17 @@ class BlockManager
      */
     public function createBlock($ownerId, $type, $parentId, $placeholder, $sort, $data = null, $rootVersion = null)
     {
+        $owner = $this->find($ownerId, $rootVersion);
         $className = $this->em->getClassMetadata($type)->getName();
         $block = new $className();
+        $parent = $this->find($parentId ?: $ownerId, $rootVersion);
+
         $block->setRootVersion($rootVersion);
         $block->setPosition($placeholder);
         $block->setSort(0); // < default, gets recalculated later for entire level
         $block->setLevel(0); // < need to be calculated when putting in the tree
 
         // Set owner
-        $owner = $this->find($ownerId, $rootVersion);
         $block->setOwner($owner);
         $owner->addOwning($block);
         $owner->setRootVersion($rootVersion);
@@ -301,11 +361,6 @@ class BlockManager
             }
         }
 
-        // Do we need to set a parent at this time? The changeset LogEntry will hold all data probably.
-        if (!$parentId) {
-            $parentId = $ownerId;
-        }
-        $parent = $this->find($parentId, $rootVersion);
         $block->setParent($parent);
         $parent->setRootVersion($rootVersion);
 
@@ -350,15 +405,11 @@ class BlockManager
     public function moveBlock($id, $parentId, $placeholder, $sort, $rootVersion)
     {
         $block = $this->find($id, $rootVersion);
+        $parent = ($parentId) ? $this->find($parentId, $rootVersion) : $block->getOwner();
 
         $block->setPosition($placeholder);
         $block->setRootVersion($rootVersion);
 
-        if (!$parentId) {
-            $parent = $block->getOwner();
-        } else {
-            $parent = $this->find($parentId, $rootVersion);
-        }
         $block->setParent($parent);
         $parent->addChild($block);
 
@@ -414,6 +465,34 @@ class BlockManager
         return false;
     }
 
+
+    public function revertRecursiveFromNode(BlockInterface $block, $rootVersion)
+    {
+        if (!$block->getOwner()) {
+            $this->revert($block, $rootVersion);
+
+            return $block;
+        }
+
+        $owner = $block->getOwner();
+        $this->revert($owner, $rootVersion);
+
+        $iterator = new \RecursiveIteratorIterator(
+            new RecursiveBlockIterator(
+                $owner->getChildren()
+            ),
+            \RecursiveIteratorIterator::SELF_FIRST
+        );
+
+        foreach ($iterator as $item) {
+            if ($block->getId() == $item->getId()) {
+                return $item;
+            }
+        }
+
+        throw new \Exception(sprintf('Unable to revert with recursion. Could not find your node %s in the tree anymore', $block));
+    }
+
     /**
      * @param array   $blocks
      * @param array   $sort
@@ -438,7 +517,9 @@ class BlockManager
      */
     public function getNewVersion(BlockInterface $block)
     {
-        return $block->getVersion() + 1;
+        $version = ($block instanceof BlockOwnerInterface) ? $block->getVersion() : $block->getOwner()->getVersion();
+
+        return $version + 1;
     }
 
     /**

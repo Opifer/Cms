@@ -46,6 +46,7 @@ abstract class Block implements BlockInterface, DraftVersionInterface
      * @var BlockInterface
      *
      * @ORM\ManyToOne(targetEntity="Opifer\ContentBundle\Model\BlockInterface", cascade={}, inversedBy="owning")
+     * @ORM\JoinColumn(name="owner_id", referencedColumnName="id", onDelete="SET NULL")
      */
     protected $owner;
 
@@ -62,6 +63,7 @@ abstract class Block implements BlockInterface, DraftVersionInterface
      *
      * @Gedmo\Versioned
      * @ORM\ManyToOne(targetEntity="Opifer\ContentBundle\Model\BlockInterface", cascade={}, inversedBy="children")
+     * @ORM\JoinColumn(name="parent_id", referencedColumnName="id", onDelete="SET NULL")
      */
     protected $parent; //
 

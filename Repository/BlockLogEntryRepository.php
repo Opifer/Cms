@@ -14,6 +14,21 @@ class BlockLogEntryRepository extends LogEntryRepository
 {
 
     /**
+     * @param integer $ownerId
+     * @param integer $rootVersion
+     */
+    public function discardAll($rootId, $rootVersion)
+    {
+        $dql = "DELETE FROM Opifer\ContentBundle\Entity\BlockLogEntry log";
+        $dql .= " WHERE log.rootId = :rootId";
+        $dql .= " AND log.rootVersion = :rootVersion";
+
+        $q = $this->_em->createQuery($dql);
+        $q->setParameters(compact('rootId', 'rootVersion', 'rootVersion'));
+        $q->execute();
+    }
+
+    /**
      * Returns a list of BlockLogEntries distinct by rootId
      *
      * @param integer $rootId

@@ -2,6 +2,7 @@
 
 namespace Opifer\ContentBundle\Entity;
 
+use Gedmo\Mapping\Annotation as Gedmo;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -15,6 +16,7 @@ class ButtonBlock extends Block
     /**
      * @var string
      *
+     * @Gedmo\Versioned
      * @ORM\Column(type="text", nullable=true)
      */
     protected $value;

@@ -15,7 +15,7 @@
 
 {% block block_manage_layout %}
     <div class="pm-block pm-layout" data-pm-block-id="{{ block.id }}">
-        <div class="pm pm-toolbar clearfix">
+        <div class="pm pm-toolbar clearfix hidden">
             <div class="row">
                 <div class="col-xs-6">
                     <span class="pm-toolbar-text"><code>{{ block.id }}</code> {{ block_service.name(block) }}</span>
@@ -30,8 +30,14 @@
     </div>
 {% endblock block_manage_layout %}
 
+
+
+
+
+
+
 {% block block_manage_stealth_toolbar %}
-    <div class="pm pm-toolbar clearfix">
+    <div class="pm pm-toolbar clearfix hidden">
         <div class="row">
             <div class="col-xs-6">
                 <span class="pm-toolbar-text"><code>{{ block.id }}</code>  {{ block_service.name }} </span>
@@ -55,7 +61,7 @@
 
 {% block block_manage_default %}
     <div class="pm-block pm-content" data-pm-block-id="{{ block.id }}">
-        <div class="pm pm-toolbar clearfix">
+        <div class="pm pm-toolbar clearfix hidden">
             <div class="row">
                 <div class="col-xs-6">
                     <span class="pm-toolbar-text"><code>{{ block.id }}</code> {{ block_service.name }}</span>

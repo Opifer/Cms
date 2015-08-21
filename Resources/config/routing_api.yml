@@ -74,3 +74,10 @@ opifer_content_api_contenteditor_publish:
     methods: [POST]
     options:
         expose: true
+
+opifer_content_api_contenteditor_discard:
+    path: /contenteditor/discard
+    defaults: { _controller: OpiferContentBundle:Api/ContentEditor:discardBlock }
+    methods: [POST]
+    options:
+        expose: true

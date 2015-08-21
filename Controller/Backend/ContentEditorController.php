@@ -55,6 +55,8 @@ class ContentEditorController extends Controller
      * @param integer $rootVersion
      *
      * @return Response
+     *
+     * @throws \Exception
      */
     public function editBlockAction(Request $request, $id, $rootVersion = 0)
     {
@@ -62,6 +64,11 @@ class ContentEditorController extends Controller
 
         /** @var BlockManager $manager */
         $manager = $this->get('opifer.content.block_manager');
+        $newVersion = $manager->getNewVersion($manager->find($id, (int) $rootVersion));
+
+        if ((int) $rootVersion !== $newVersion) {
+            throw new \Exception("Only new versions can be editted. New version is {$newVersion} while you requested {$rootVersion}");
+        }
 
         $block = $manager->find($id, $rootVersion);
 
