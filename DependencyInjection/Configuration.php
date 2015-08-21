@@ -29,12 +29,28 @@ class Configuration implements ConfigurationInterface
                     ->prototype('scalar')->end()
                     ->defaultValue(array('nl_NL'))
                 ->end()
+
+                ->arrayNode('autocomplete')
+                    ->useAttributeAsKey('id')
+                    ->prototype('array')
+                        ->children()
+                            ->scalarNode('class')
+                                ->cannotBeEmpty()
+                            ->end()
+                            ->scalarNode('property')
+                                ->cannotBeEmpty()
+                            ->end()
+                        ->end()
+                    ->end()
+                ->end()
+
                 ->arrayNode('pagination')
                     ->addDefaultsIfNotSet()
                     ->children()
                         ->integerNode('limit')->min(0)->defaultValue(2)->end()
                     ->end()
                 ->end()
+
             ->end()
         ;
 
