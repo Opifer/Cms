@@ -7,12 +7,22 @@ $(document).ready(function() {
     // PageManager: general encapsulation, you know, to organise and stuff
     //
     pagemanager = (function () {
+        var client = null;
         var ownerType = 'template';
         var ownerId = 0;
         var mprogress = null;
         var hasUnsavedChanges = false;
         var version = 0;
-        var version_published = 0;
+        var versionPublished = 0;
+        var btnPublish = $('#pm-btn-publish');
+        var btnDiscard = $('#pm-btn-discard');
+        var btnViewContent = $('#pm-btn-viewmode-content');
+        var btnViewPreview = $('#pm-btn-viewmode-preview');
+        var btnViewLayout = $('#pm-btn-viewmode-layout');
+        var VIEWMODE_CONTENT = 'CONTENT';
+        var VIEWMODE_LAYOUT = 'LAYOUT';
+        var VIEWMODE_PREVIEW = 'PREVIEW';
+        var iFrame = $('#pm-iframe');
 
         var onReady = function () {
             mprogress = new Mprogress({
@@ -23,18 +33,7 @@ $(document).ready(function() {
             // Toggle view between Content, Preview and Layout
             $('input[name="viewmode"]:radio').change(function () {
                 pagemanager.unselectBlock();
-                if ($('input[name="viewmode"]:checked').val() == 'CONTENT') {
-                    client().setViewMode('content');
-                    $('.pm-tools-blockset').addClass('hidden');
-                    $('#pm-tools-blocks').removeClass('hidden');
-                } else if ($('input[name="viewmode"]:checked').val() == 'LAYOUT') {
-                    client().setViewMode('layout');
-                    $('.pm-tools-blockset').addClass('hidden');
-                    $('#pm-tools-layouts').removeClass('hidden');
-                } else {
-                    client().setViewMode('preview');
-                    $('.pm-tools-blockset').addClass('hidden');
-                }
+                setViewMode($('input[name="viewmode"]:checked').val());
             });
 
             $('input[name="screenwidth"]:radio').change(function () {
@@ -58,7 +57,7 @@ $(document).ready(function() {
 
             ownerId = $('#pm-document').attr('data-pm-id');
             version = $('#pm-document').attr('data-pm-version');
-            version_published = $('#pm-document').attr('data-pm-version-published');
+            versionPublished = $('#pm-document').attr('data-pm-version-published');
 
             // Split page library
             $('.split-pane').splitPane();
@@ -68,11 +67,8 @@ $(document).ready(function() {
             });
 
             // Resize iframe based on their contents (for block editing view)
-            //$('#pm-iframe').iFrameResize();
-            $('#pm-iframe').bind('load', function () {
-                console.log(client());
-                pagemanager.isNotLoading();
-                sortables();
+            iFrame.bind('load', function () {
+                onClientReady();
             });
 
             $(document).ajaxComplete(function (e) {
@@ -122,6 +118,11 @@ $(document).ready(function() {
                 editProperties($(this).attr('href'));
             });
 
+            $(document).on('click', '#pm-btn-discard', function(e) {
+                e.preventDefault();
+                discardChanges();
+            });
+
             window.onbeforeunload = function() {
                 if (hasUnsavedChanges) {
                     return "Attention: you will possible lose changes made.";
@@ -129,9 +130,9 @@ $(document).ready(function() {
             }
         };
 
-        var client = function () {
-            return document.getElementById('pm-iframe').contentWindow['pagemanagerClient'];
-        };
+        //var client = function () {
+        //    return document.getElementById('pm-iframe').contentWindow['pagemanagerClient'];
+        //};
 
         // Start loading indicator
         var isLoading = function () {
@@ -148,6 +149,7 @@ $(document).ready(function() {
         var refreshBlock = function (id) {
             $.get(Routing.generate('opifer_content_api_contenteditor_view_block', {id: id, rootVersion: version})).done(function (data) {
                 getBlockElement(id).replaceWith(data.view);
+                showToolbars();
             });
         };
 
@@ -174,6 +176,39 @@ $(document).ready(function() {
             $('#pm-iframe').contents().find('.pm-block').removeClass('selected');
         };
 
+        var lockEditing = function() {
+            btnPublish.prop("disabled", true);
+            btnDiscard.prop("disabled", true);
+            btnViewContent.addClass('disabled');
+            btnViewLayout.addClass('disabled');
+            setViewMode(VIEWMODE_PREVIEW);
+        };
+
+        var unlockEditing = function() {
+            btnPublish.prop("disabled", false);
+            btnDiscard.prop("disabled", false);
+            btnViewContent.removeClass('disabled');
+            btnViewLayout.removeClass('disabled');
+        };
+
+        var setViewMode = function(mode) {
+            if (mode == VIEWMODE_CONTENT) {
+                $('.pm-tools-blockset').addClass('hidden');
+                $('#pm-tools-blocks').removeClass('hidden');
+            } else if (mode == VIEWMODE_LAYOUT) {
+                $('.pm-tools-blockset').addClass('hidden');
+                $('#pm-tools-layouts').removeClass('hidden');
+            } else {
+                $('.pm-tools-blockset').addClass('hidden');
+            }
+
+            iFrame.contents().find('body').removeClass (function (index, css) {
+                return (css.match (/(^|\s)pm-viewmode-\S+/g) || []).join(' ');
+            }).addClass('pm-viewmode-'+mode.toLowerCase());
+
+            return this;
+        };
+
         //
         // Call API to request an edit view
         //
@@ -190,6 +225,8 @@ $(document).ready(function() {
 
                     // Bootstrap AngularJS app (media library etc) after altering DOM
                     angular.bootstrap($('#pm-block-edit form'), ["MainApp"]);
+                }).fail(function(data){
+                    showAPIError(data);
                 });
             }
 
@@ -256,6 +293,7 @@ $(document).ready(function() {
                     sortables();
                     paintEmptyPlaceholders();
                     updateVersionPicker();
+                    showToolbars();
                 }).fail(function(data){
                     reference.remove();
                     showAPIError(data);
@@ -266,10 +304,15 @@ $(document).ready(function() {
             });;
         };
 
+        var showToolbars = function() {
+            iFrame.contents().find('.pm-toolbar').removeClass('hidden');
+        }
+
         var showAPIError = function(data) {
+            var message = (typeof data.responseJSON === "undefined") ? data.responseText : data.responseJSON.error;
             bootbox.dialog({
                 title: data.statusText,
-                message: '<code>'+data.responseJSON.error+'</code>',
+                message: '<code>' + message + '</code>',
                 buttons: {
                     ok: {
                         label: 'Ok',
@@ -280,8 +323,39 @@ $(document).ready(function() {
         };
 
         var onClientReady = function () {
-            $('.pm-placeholder', $('#pm-iframe').contents()).on('mousemove mouseup', function (event) {
+            sortables();
+
+            link = document.createElement('link');
+            link.type = "text/css";
+            link.rel = "stylesheet";
+            link.href = '/bundles/opifercms/css/pagemanager-client.css';
+            link.onload = function() {
+                showToolbars();
+            };
+
+            iFrame.contents().find('body').append(link);
+
+            $('.pm-placeholder', iFrame.contents()).on('mousemove mouseup', function (event) {
                 $(parent.document).trigger(event);
+            });
+
+            iFrame.contents().find('body').on('click', '.pm-block .btn-edit', function(e) {
+                e.preventDefault();
+                var id = $(this).closest('.pm-block').attr('data-pm-block-id');
+                editBlock(id);
+            });
+
+            // Delete block (click)
+            iFrame.contents().find('body').on('click', '.pm-block .btn-delete', function(e) {
+                e.preventDefault();
+                var id = $(this).closest('.pm-block').attr('data-pm-block-id');
+                deleteBlock(id);
+            });
+
+
+            iFrame.contents().find('.pm-block').mouseover(function() {
+                iFrame.contents().find('.pm-block').removeClass('hovered');
+                $(this).addClass('hovered');
             });
 
             $('.pm-block-item').draggable({
@@ -308,6 +382,12 @@ $(document).ready(function() {
             });
 
             //$('.pm-block-item').on('dragstop',autoResizeFrame);
+            console.log('Server: client reports ready.');
+            setViewMode(VIEWMODE_CONTENT);
+
+            if (version <= versionPublished) {
+                lockEditing();
+            }
 
             isNotLoading();
         };
@@ -316,11 +396,11 @@ $(document).ready(function() {
         // Create a block by dropping in a placeholder
         //
         var sortables = function () {
-            return $('#pm-iframe').contents().find('.pm-placeholder').sortable({
+            return iFrame.contents().find('.pm-placeholder').sortable({
                 handle: '.pm-toolbar',
                 revert: false,
                 distance: 10,
-                connectWith: $('#pm-iframe').contents().find('.pm-placeholder'),
+                connectWith: iFrame.contents().find('.pm-placeholder'),
                 //greedy: true,
                 iframeFix: true,
                 placeholder: 'pm-placeholder-droparea',
@@ -346,7 +426,7 @@ $(document).ready(function() {
                 over: function (event, ui) {
                     //if ($.ui.ddmanager.current)
                     //    $.ui.ddmanager.prepareOffsets($.ui.ddmanager.current, null);
-                    $('#pm-iframe').contents().find('.pm-block, .pm-placeholder').removeClass('pm-accept');
+                    iFrame.contents().find('.pm-block, .pm-placeholder').removeClass('pm-accept');
                     $(this).addClass('pm-accept').closest('.pm-layout').addClass('pm-accept');
 
                     var layoutId = $(this).addClass('pm-accept').closest('.pm-layout').attr('data-pm-block-id');
@@ -355,17 +435,17 @@ $(document).ready(function() {
                 out: function (event, ui) {
                     //if ($.ui.ddmanager.current)
                     //    $.ui.ddmanager.prepareOffsets($.ui.ddmanager.current, null);
-                    $('#pm-iframe').contents().find('.pm-block, .pm-placeholder').removeClass('pm-accept');
+                    iFrame.contents().find('.pm-block, .pm-placeholder').removeClass('pm-accept');
                 },
                 start: function (event, ui) {
                     $(this).addClass('pm-accept').closest('.pm-layout').addClass('pm-accept');
-                    $('#pm-iframe').contents().find('.pm-preview').addClass('pm-dragging');
+                    iFrame.contents().find('.pm-preview').addClass('pm-dragging');
                 },
                 stop: function (event, ui) {
                     $(document).scrollTop(0); // Fix for dissappearing .navbar.
                     console.log('Stopped sorting:', ui.placeholder);
-                    $('#pm-iframe').contents().find('.pm-preview').removeClass('pm-dragging');
-                    $('#pm-iframe').contents().find('.pm-block, .pm-placeholder').removeClass('pm-accept');
+                    iFrame.contents().find('.pm-preview').removeClass('pm-dragging');
+                    iFrame.contents().find('.pm-block, .pm-placeholder').removeClass('pm-accept');
                     paintEmptyPlaceholders();
 
                     if (!$(ui.item).hasClass('pm-block-item')) {
@@ -392,7 +472,7 @@ $(document).ready(function() {
 
         // Find placeholders for this layout specifically.
         var highlightPlaceholders = function(layoutId) {
-            $('#pm-iframe').contents().find('.pm-placeholder').removeClass('highlight');
+            iFrame.contents().find('.pm-placeholder').removeClass('highlight');
             $(this).find('.pm-placeholder').each(function(index) {
                 if ($(this).closest('.pm-layout').attr('data-pm-block-id') == layoutId) {
                     $(this).addClass('highlight');
@@ -422,6 +502,32 @@ $(document).ready(function() {
             });
         };
 
+
+        var discardChanges = function() {
+            bootbox.dialog({
+                title: 'Discard changes',
+                message: '<p>Are you sure you want to discard all changes of version ' + version + '?</p>',
+                buttons: {
+                    cancel: {
+                        label: "Cancel",
+                        className: "btn-default"
+                    },
+                    ok: {
+                        label: 'Discard',
+                        className: 'btn-danger',
+                        callback: function() {
+                            $.post(Routing.generate('opifer_content_api_contenteditor_discard'), {id: ownerId, version: version}).done(function (data, textStatus, request) {
+                                updateVersionPicker();
+                                bootbox.alert("Discarded.", function() {});
+                            }).error(function(data){
+                                showAPIError(data);
+                            });
+                        }
+                    }
+                }
+            });
+        };
+
         var publish = function() {
             bootbox.dialog({
                 title: 'Confirm publication of content',
@@ -435,10 +541,12 @@ $(document).ready(function() {
                         label: 'Publish',
                         className: 'btn-primary',
                         callback: function() {
-                            version_published = version;
+                            versionPublished = version;
                             $.post(Routing.generate('opifer_content_api_contenteditor_publish'), {id: ownerId, version: version}).done(function (data, textStatus, request) {
                                 updateVersionPicker();
                                 bootbox.alert("Published.", function() {});
+                            }).error(function(data){
+                                showAPIError(data);
                             });
                         }
                     }
@@ -447,7 +555,7 @@ $(document).ready(function() {
         };
 
         var updateVersionPicker = function() {
-            $.get(Routing.generate('opifer_content_contenteditor_version_picker', {id: ownerId, current: version, published: version_published})).done(function(data){
+            $.get(Routing.generate('opifer_content_contenteditor_version_picker', {id: ownerId, current: version, published: versionPublished})).done(function(data){
                 $('#pm-version-picker').replaceWith(data);
             });
         }
@@ -455,8 +563,9 @@ $(document).ready(function() {
         var loadVersion = function(versionToLoad) {
             isLoading();
             version = versionToLoad;
-            $('#pm-iframe').attr('src', Routing.generate('opifer_content_contenteditor_view', {id: ownerId, version: versionToLoad}));
+            iFrame.attr('src', Routing.generate('opifer_content_contenteditor_view', {id: ownerId, version: versionToLoad}));
             updateVersionPicker();
+            version <= versionPublished ? lockEditing() : unlockEditing();
         };
 
         return {

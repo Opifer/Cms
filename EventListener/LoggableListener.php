@@ -90,7 +90,7 @@ class LoggableListener extends BaseLoggableListener
                 $logEntry->setObjectId($wrapped->getIdentifier());
             }
             $newValues = array();
-            if ($action !== self::ACTION_REMOVE && isset($config['versioned'])) {
+            if (isset($config['versioned'])) { //$action !== self::ACTION_REMOVE &&
                 $newValues = $this->getObjectChangeSetData($ea, $object, $logEntry);
                 $logEntry->setData($newValues);
                 if (isset($this->changeSets[spl_object_hash($object)])) {

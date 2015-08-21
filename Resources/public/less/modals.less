@@ -1,4 +1,9 @@
-
+.modal {
+    &.fade .modal-dialog {
+        .translate(0, 0);
+        .transition-transform(~"0.3s opacity ease-out");
+    }
+}
 .modal-dialog {
     z-index: 1100;
 }
