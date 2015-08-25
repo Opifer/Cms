@@ -30,6 +30,7 @@ class Configuration implements ConfigurationInterface
                     ->defaultValue('opifer.media.media_manager.default')
                 ->end()
                 ->arrayNode('providers')
+                    ->addDefaultsIfNotSet()
                     ->children()
                         ->arrayNode('youtube')
                             ->addDefaultsIfNotSet()

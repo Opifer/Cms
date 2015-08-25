@@ -12,11 +12,13 @@ Note: This bundle is still very much a work in progress, so BC-breaks will happe
 Installation
 ------------
 
+Install `FOSJsRoutingBundle` according to it's [documentation](https://github.com/FriendsOfSymfony/FOSJsRoutingBundle/blob/master/Resources/doc/index.md)
+
 Add the bundle to your `composer.json`
 
     composer require opifer/media-bundle dev-master
 
-Register the bundle in `app/AppKernel.php`
+Register the bundle and its dependencies in `app/AppKernel.php`
 
 ```php
 public function registerBundles()
@@ -41,7 +43,7 @@ use Opifer\MediaBundle\Model\Media as BaseMedia;
 
 /**
  * @ORM\Table(name="media")
- * @ORM\Entity(repositoryClass="Opifer\MediaBundle\Repository\MediaRepository")
+ * @ORM\Entity(repositoryClass="Opifer\MediaBundle\Model\MediaRepository")
  */
 class Media extends BaseMedia
 {
@@ -109,6 +111,11 @@ angular.module('App', [
 ```
 
 Make sure you add the angular module in your template by adding the the file to your `{% javascripts %}` list.
+And initialize the Angular `App` in your template:
+
+```html
+<html ng-app="App">
+```
 
 To make the mediamanager accessible in the browser, add the routes to your `routing.yml`:
 
@@ -116,6 +123,24 @@ To make the mediamanager accessible in the browser, add the routes to your `rout
 opifer_media:
     resource: "@OpiferMediaBundle/Resources/config/routing.yml"
     prefix:   /admin
+```
+
+To use the mediamanager in your own layout, override `OpiferMediaBundle::base.html.twig`:
+
+```twig
+{# app/Resources/OpiferMediaBundle/views/base.html.twig #}
+{% extends 'base.html.twig' %}
+
+{% block body %}
+	{% block opifer_media_body %}{% endblock %}
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+
+    {% block opifer_media_javascripts %}{% endblock %}
+{% endblock %}
+
 ```
 
 Adding a mediapicker to a form
