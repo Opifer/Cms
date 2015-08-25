@@ -123,6 +123,11 @@ To make the mediamanager accessible in the browser, add the routes to your `rout
 opifer_media:
     resource: "@OpiferMediaBundle/Resources/config/routing.yml"
     prefix:   /admin
+
+_liip_imagine:
+    resource: "@LiipImagineBundle/Resources/config/routing.xml"
+    options:
+        expose: true
 ```
 
 To use the mediamanager in your own layout, override `OpiferMediaBundle::base.html.twig`:
