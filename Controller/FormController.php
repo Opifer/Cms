@@ -46,6 +46,14 @@ class FormController extends Controller
         $formType->handleRequest($request);
 
         if ($formType->isSubmitted() && $formType->isValid()) {
+            foreach ($formType->getData()->getTemplate()->getAttributes() as $attribute) {
+                $attribute->setTemplate($form->getTemplate());
+
+                foreach ($attribute->getOptions() as $option) {
+                    $option->setAttribute($attribute);
+                }
+            }
+
             $formManager->save($form);
 
             $this->addFlash('success', 'Form has been created successfully');
