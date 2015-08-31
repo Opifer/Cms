@@ -1,0 +1,39 @@
+{% extends 'OpiferCmsBundle::base.html.twig' %}
+
+{% block body %}
+    {% spaceless %}
+        <div class="page-header clearfix">
+            <h1 class="pull-left">Forms</h1>
+            <a href="{{ path('opifer_form_form_create') }}" class="btn btn-default pull-right">
+                {{ 'button.add'|trans|capitalize }}
+            </a>
+        </div>
+
+        <section class="panel-section">
+            <table class="table">
+                <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Name</th>
+                    <th>Posts</th>
+                    <th></th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for form in forms %}
+                    <tr>
+                        <td width="25">{{ form.id }}</td>
+                        <td><a href="{{ path('opifer_form_form_edit', {'id': form.id}) }}">{{ form.name }}</a></td>
+                        <td>{{ form.posts|length }}</td>
+                        <td>
+                            <a href="{{ path('opifer_form_form_edit', {'id': form.id}) }}">{#<i class="fa fa-edit"></i>#}{{ 'button.edit'|trans|capitalize }}</a>&nbsp;
+                            <a data-name="{{ form.name }}" data-type="{{ 'directory.type'|trans }}" data-href="{{ path('opifer_form_form_delete', {'id' : form.id}) }}" href="{{ path('opifer_form_form_delete', {'id' : form.id}) }}" class="danger delete">{{ 'button.delete'|trans|capitalize }}</a>
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+
+        </section>
+    {% endspaceless %}
+{% endblock body %}

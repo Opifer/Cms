@@ -158,6 +158,8 @@ $(document).ready(function() {
             filebrowserBrowseUrl: browsePath,
             filebrowserImageBrowseUrl: browsePathImages
         });
+        CKEDITOR.dtd.$removeEmpty['i'] = false;
+        CKEDITOR.dtd.$removeEmpty['span'] = false;
         $(this).hide();
 
         return false;

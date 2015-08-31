@@ -5,5 +5,4 @@ parameters:
     opifer_cms.user.class: Opifer\CmsBundle\Entity\User
     opifer.content.directory_type.class: Opifer\CmsBundle\Form\Type\DirectoryType
     opifer.content.content_type.class: Opifer\CmsBundle\Form\Type\ContentType
-    opifer.eav.form.template_type.class: Opifer\CmsBundle\Form\Type\TemplateType
     opifer.eav.form.attribute_type.class: Opifer\CmsBundle\Form\Type\AttributeType

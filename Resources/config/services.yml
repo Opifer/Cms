@@ -3,6 +3,7 @@ parameters:
     opifer.cms.address_value_provider.class: Opifer\CmsBundle\ValueProvider\AddressValueProvider
     opifer.cms.content_menu.class: Opifer\CmsBundle\Menu\ContentMenu
     opifer.cms.exception_router.class: Opifer\CmsBundle\Router\ExceptionRouter
+    opifer.cms.form_value_provider.class: Opifer\CmsBundle\ValueProvider\FormValueProvider
     opifer.cms.form.attribute_parameters.class: Opifer\CmsBundle\Form\Type\AttributeParametersType
     opifer.cms.form.ckeditor_type.class: Opifer\CmsBundle\Form\Type\CKEditorType
     opifer.cms.form.content.class: Opifer\CmsBundle\Form\ContentFormType
@@ -13,7 +14,6 @@ parameters:
     opifer.cms.form.menu_group.class: Opifer\CmsBundle\Form\Type\MenuGroupType
     opifer.cms.form.menu_parameters.class: Opifer\CmsBundle\Form\Type\MenuParametersType
     opifer.cms.html_value_provider.class: Opifer\CmsBundle\ValueProvider\HtmlValueProvider
-    opifer.cms.listener.post_notify_listener.class: Opifer\CmsBundle\EventListener\PostNotifyListener
     opifer.cms.menu_group.class: Opifer\CmsBundle\Entity\MenuGroup
     opifer.cms.menu_group_value_provider.class: Opifer\CmsBundle\ValueProvider\MenuGroupValueProvider
     opifer.cms.menu_manager.class: Opifer\CmsBundle\Manager\MenuManager
@@ -120,13 +120,6 @@ services:
 
     # Event Listeners
 
-    opifer.cms.listener.post_notify_listener:
-        class: %opifer.cms.listener.post_notify_listener.class%
-        arguments: ["@service_container"]
-        tags:
-            - { name: doctrine.event_listener, event: onFlush }
-            - { name: doctrine.event_listener, event: postFlush }
-
     opifer.cms.sitemap_listener:
         class: %opifer.cms.sitemap_listener.class%
         arguments: [@router, @doctrine.orm.entity_manager]
@@ -171,6 +164,12 @@ services:
         arguments: [%opifer.cms.menu_group.class%]
         tags:
             - { name: opifer.eav.value_provider, alias: menu_group }
+
+    opifer.cms.form_value_provider:
+         class: %opifer.cms.form_value_provider.class%
+         arguments: [%opifer_form.form_class%]
+         tags:
+             - { name: opifer.eav.value_provider, alias: form }
 
     opifer.cms.html_value_provider:
         class: %opifer.cms.html_value_provider.class%
