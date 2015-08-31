@@ -18,7 +18,6 @@ parameters:
     opifer.eav.form.values_type.class: Opifer\EavBundle\Form\Type\ValuesType
     opifer.eav.form.valueset_type.class: Opifer\EavBundle\Form\Type\ValueSetType
     opifer.eav.template_manager.class: Opifer\EavBundle\Model\TemplateManager
-    opifer.eav.twig_extension.class: Opifer\EavBundle\Templating\TwigExtension
     opifer.eav.value_provider.pool.class: Opifer\EavBundle\ValueProvider\Pool
 
 services:
@@ -132,10 +131,3 @@ services:
         tags:
             - { name: doctrine.event_listener, event: postLoad }
             - { name: doctrine.event_listener, event: postPersist }
-
-    # Twig Extension
-    opifer.eav.twig_extension:
-        class: %opifer.eav.twig_extension.class%
-        arguments: [@form.factory, @opifer.eav.eav_manager]
-        tags:
-            - { name: twig.extension }
