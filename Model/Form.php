@@ -30,8 +30,6 @@ class Form implements FormInterface
      * @var string
      *
      * @ORM\Column(name="name", type="string", length=128)
-     *
-     * @Assert\Regex("/^[a-z0-9-_]+$/")
      */
     protected $name;
 
