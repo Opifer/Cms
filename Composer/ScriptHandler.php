@@ -15,7 +15,11 @@ class ScriptHandler
         $cmdDirectory = $currentDirectory.'/vendor/opifer/cms-bundle';
 
         chdir($cmdDirectory);
-        exec('bower install', $output, $status);
+        
+        $command = 'bower install';
+        $command .= (getenv('SYMFONY_ENV') == 'prod') ? ' --allow-root' : '';
+        exec($command, $output, $status);
+        
         if ($status) {
             throw new \RuntimeException("Running bower install failed with $status\n");
         }
