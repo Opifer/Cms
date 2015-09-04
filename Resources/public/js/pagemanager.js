@@ -16,6 +16,7 @@ $(document).ready(function() {
         var versionPublished = 0;
         var btnPublish = $('#pm-btn-publish');
         var btnDiscard = $('#pm-btn-discard');
+        var btnRun = $('#pm-btn-run');
         var btnViewContent = $('#pm-btn-viewmode-content');
         var btnViewPreview = $('#pm-btn-viewmode-preview');
         var btnViewLayout = $('#pm-btn-viewmode-layout');
@@ -23,6 +24,7 @@ $(document).ready(function() {
         var VIEWMODE_LAYOUT = 'LAYOUT';
         var VIEWMODE_PREVIEW = 'PREVIEW';
         var iFrame = $('#pm-iframe');
+        var permalink = null;
 
         var onReady = function () {
             mprogress = new Mprogress({
@@ -58,6 +60,7 @@ $(document).ready(function() {
             ownerId = $('#pm-document').attr('data-pm-id');
             version = $('#pm-document').attr('data-pm-version');
             versionPublished = $('#pm-document').attr('data-pm-version-published');
+            permalink = $('#pm-document').attr('data-pm-permalink');
 
             // Split page library
             $('.split-pane').splitPane();
@@ -70,6 +73,8 @@ $(document).ready(function() {
             iFrame.bind('load', function () {
                 onClientReady();
             });
+
+            loadRunButton();
 
             $(document).ajaxComplete(function (e) {
                 isNotLoading();
@@ -161,6 +166,13 @@ $(document).ready(function() {
                     $(this).addClass('pm-empty');
                 }
             });
+        };
+
+        var loadRunButton = function () {
+            if (permalink) {
+                btnRun.attr('href', permalink);
+                btnRun.parent().removeClass('hidden');
+            }
         };
 
         var getBlockElement = function (id) {
