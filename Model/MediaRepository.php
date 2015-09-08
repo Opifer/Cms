@@ -21,7 +21,8 @@ class MediaRepository extends EntityRepository
     public function createQueryBuilderFromRequest(Request $request)
     {
         $qb = $this->createQueryBuilder('m');
-
+        $qb->andWhere('m.provider = :provider')->setParameter('provider', 'image');
+        
         if ($request->get('ids')) {
             $ids = explode(',', $request->get('ids'));
 
