@@ -1,5 +1,29 @@
 {% extends 'OpiferCmsBundle::base.html.twig' %}
 
 {% block body %}
-    Post view
+    {% spaceless %}
+        <div class="page-header clearfix">
+            <h1 class="pull-left">Post {{ post.id }} on "{{ post.form.name }}"</h1>
+            <a href="{{ path('opifer_form_post_index', {'formId': post.form.id}) }}" class="btn btn-default pull-right">
+                {{ 'back to posts'|trans|capitalize }}
+            </a>
+        </div>
+
+        <div class="container">
+            <div class="row">
+                <table class="table">
+                    <tr>
+                        <th>Property</th>
+                        <th>Value</th>
+                    </tr>
+                    {% for key, value in post.valueset.namedvalues %}
+                        <tr>
+                            <td>{{ value.attribute.displayName }}</td>
+                            <td>{{ value.value }}</td>
+                        </tr>
+                    {% endfor %}
+                </table>
+            </div>
+        </div>
+    {% endspaceless %}
 {% endblock body %}

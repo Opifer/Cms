@@ -31,7 +31,7 @@ class Template extends BaseTemplate
     /**
      * @var string
      *
-     * @ORM\Column(name="displayName", type="string", length=255)
+     * @ORM\Column(name="displayName", type="string", length=255, nullable=true)
      *
      * @CRUD\Grid(listable=true)
      */
@@ -40,7 +40,7 @@ class Template extends BaseTemplate
     /**
      * @var string
      *
-     * @ORM\Column(name="name", type="string", length=128, unique=true)
+     * @ORM\Column(name="name", type="string", length=128, unique=true, nullable=true)
      *
      * @CRUD\Grid(listable=true)
      */

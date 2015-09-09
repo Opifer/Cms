@@ -265,7 +265,7 @@ opifer_form:
         class: Opifer\CmsBundle\Entity\Post
         views:
             index: OpiferCmsBundle:Admin/Post:index.html.twig
-            view: OpiferCmsBundle:Admin/Form:view.html.twig
+            view: OpiferCmsBundle:Admin/Post:view.html.twig
 
 opifer_redirect:
     redirect_class: Opifer\CmsBundle\Entity\Redirect

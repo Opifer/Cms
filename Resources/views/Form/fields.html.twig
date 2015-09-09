@@ -107,6 +107,10 @@
 {% endspaceless %}
 {% endblock %}
 
+{% block opifer_form_template_row %}
+    {{ form_widget(form) }}
+{% endblock opifer_form_template_row %}
+
 {% block opifer_autocomplete_javascript %}
     <script type="text/javascript">
         $(document).ready(function() {
