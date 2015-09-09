@@ -29,9 +29,7 @@ class UserController extends Controller
         $form->handleRequest($request);
 
         if ($form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($user);
-            $em->flush();
+            $this->get('fos_user.user_manager')->updateUser($user, true);
 
             $this->get('session')->getFlashBag()->add('success',
                 $this->get('translator')->trans('user.new.success', [
@@ -73,8 +71,7 @@ class UserController extends Controller
         $form->handleRequest($request);
 
         if ($form->isValid()) {
-            $em->persist($user);
-            $em->flush();
+            $this->get('fos_user.user_manager')->updateUser($user, true);
 
             $this->get('session')->getFlashBag()->add('success',
                 $this->get('translator')->trans('user.edit.success', [
