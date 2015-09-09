@@ -47,8 +47,30 @@ td.actions {
     text-align: center;
 
     td, th {
-        text-align: center;
         padding: 0 0 2px 4px;
+
+        .material-icons {
+            display: inline-block;
+            font-size: 16px;
+            width: 19px;
+            line-height: 27px;
+
+            &.icon-xs:after {
+                content: "phone_iphone";
+            }
+
+            &.icon-sm:after {
+                content: "tablet_mac";
+            }
+
+            &.icon-md:after {
+                content: "tablet";
+            }
+
+            &.icon-lg:after {
+                content: "laptop_mac";
+            }
+        }
 
         label.control-label {
             display: inline;
