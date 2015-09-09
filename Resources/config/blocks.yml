@@ -3,7 +3,7 @@ parameters:
     opifer.content.html_block.class: Opifer\ContentBundle\Block\HtmlBlockService
     opifer.content.image_block.class: Opifer\ContentBundle\Block\ImageBlockService
     opifer.content.jumbotron_block.class: Opifer\ContentBundle\Block\JumbotronBlockService
-    opifer.content.jumbotron_block.styles: ["jumbotron-sm", "jumbotron-lg"]
+    opifer.content.jumbotron_block.styles: ["jumbotron-sm", "jumbotron-lg", "text-regular", "text-contrast"]
     opifer.content.button_block.class: Opifer\ContentBundle\Block\ButtonBlockService
     opifer.content.button_block.styles: ["btn-sm", "btn-lg", "btn-primary", "btn-default", "btn-block", "center-block"]
 #    opifer.content.image_gallery_block.class: Opifer\ContentBundle\Block\ImageGalleryBlockService

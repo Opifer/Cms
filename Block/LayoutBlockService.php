@@ -3,6 +3,8 @@
 namespace Opifer\ContentBundle\Block;
 
 use Opifer\ContentBundle\Entity\LayoutBlock;
+use Opifer\ContentBundle\Form\Event\ColumnGutterSubscriber;
+use Opifer\ContentBundle\Form\Event\ColumnSpanSubscriber;
 use Opifer\ContentBundle\Form\Type\ColumnSpanType;
 use Opifer\ContentBundle\Model\BlockInterface;
 use Symfony\Component\HttpFoundation\Response;
@@ -31,6 +33,7 @@ class LayoutBlockService extends AbstractBlockService implements BlockServiceInt
             'block_service'  => $this,
             'block'          => $block,
             'span_styles'    => $this->getSpanStyles($block),
+            'gutter_styles'    => $this->getGutterStyles($block),
         );
 
         return $this->renderResponse($this->getView($block), $parameters, $response);
@@ -46,6 +49,7 @@ class LayoutBlockService extends AbstractBlockService implements BlockServiceInt
             'block'          => $block,
             'block_view'     => $this->getView($block),
             'span_styles'    => $this->getSpanStyles($block),
+            'gutter_styles'  => $this->getGutterStyles($block),
             'manage_type'    => $this->getManageFormTypeName(),
         ), $response);
     }
@@ -118,14 +122,10 @@ class LayoutBlockService extends AbstractBlockService implements BlockServiceInt
                     $properties['styles'] = array();
                 }
 
-                if (!isset($properties['spans']) || !count($properties['spans'])) {
-                    $sizeKeys = range(0, $block->getColumnCount()-1);
-                    $properties['spans'] = array_fill_keys($sizeKeys, array_fill_keys(['xs','sm', 'md', 'lg'], 12/$block->getColumnCount()));
-                }
-
                 $block->setProperties($properties);
 
-                $form->get('properties')->add('spans', 'collection', ['type' => new ColumnSpanType(), 'options' => ['label' => false], 'attr' => ['help_text' => 'help.column_spans']]);
+                $form->get('properties')->add('spans', 'span_collection', ['column_count' => $block->getColumnCount(), 'label' => 'label.spans', 'attr' => ['help_text' => 'help.column_spans']]);
+                $form->get('properties')->add('gutters', 'gutter_collection', ['column_count' => $block->getColumnCount(), 'label' => 'label.gutters', 'attr' => ['help_text' => 'help.column_gutters']]);
             }
         });
     }
@@ -148,22 +148,43 @@ class LayoutBlockService extends AbstractBlockService implements BlockServiceInt
         $spanStyles = array();
 
         if ($block->getColumnCount()) {
-            $columnCount = $block->getColumnCount();
             $properties = $block->getProperties();
             if (isset($properties['spans']) && count($properties['spans']) > 0) {
-                for ($i = 0; $i < $columnCount; $i++) {
-                    array_walk($properties['spans'][$i], function(&$item, $key) {
-                        $item =  'col-'.$key.'-'.$item;
-                    });
-
-                    $spanStyles[$i] = implode(' ', $properties['spans'][$i]);
+                foreach ($properties['spans'] as $screen => $cols) {
+                    foreach ($cols as $col => $span) {
+                        $spanStyles[$col][] = "col-$screen-$span";
+                    }
                 }
             } else {
+                $columnCount = $block->getColumnCount();
                 $spanStyles = array_fill_keys(range(0, $columnCount), 'col-xs-'. (12/$columnCount));
             }
         }
 
         return $spanStyles;
+    }
+
+    /**
+     * @param BlockInterface $block
+     *
+     * @return array
+     */
+    public function getGutterStyles(BlockInterface $block)
+    {
+        $gutterStyles = array();
+
+        if ($block->getColumnCount()) {
+            $properties = $block->getProperties();
+            if (isset($properties['gutters']) && count($properties['gutters']) > 0) {
+                foreach ($properties['gutters'] as $screen => $cols) {
+                    foreach ($cols as $col => $span) {
+                        $gutterStyles[$col][] = "p-$screen-$span";
+                    }
+                }
+            }
+        }
+
+        return $gutterStyles;
     }
 
     /**

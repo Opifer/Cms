@@ -12,7 +12,7 @@
     {% set col_count = block.columnCount|default(1) %}
     <div class="row {{ block.properties.styles|default|join(' ') }} {{ block.properties.extra_classes|default }}">
         {% for i in 0..col_count-1 %}
-            <div class="{{ span_styles[i]|default('col-xs-12') }}">
+            <div class="{{ span_styles[i]|default(['col-xs-12'])|join(' ') }} {{ gutter_styles[i]|default|join(' ') }}">
                 {{ render_placeholder(i) }}
             </div>
         {% endfor %}

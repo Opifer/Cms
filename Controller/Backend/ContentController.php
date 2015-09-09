@@ -110,6 +110,7 @@ class ContentController extends Controller
             'block' => $content->getBlock(),
             'id' => $content->getId(),
             'title' => $content->getTitle(),
+            'permalink' => $this->generateUrl('_content', ['slug' => $content->getSlug()]),
             'version_current' => $version,
             'version_published' => $content->getBlock()->getVersion(),
             'url_properties' => $this->generateUrl('opifer_content_content_details', ['id' => $content->getId()]),

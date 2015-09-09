@@ -368,16 +368,18 @@ class BlockManager
         $this->save($block);
 
         if (count($sort) > 1) {
-            $value = "";
+            // Replace the zero value in the posted sort array
+            // with the newly created id to perform sorting
             $id = $block->getId();
-            array_map(
+            $sort = array_map(
                 function ($v) use ($value, $id) {
-                    return $v == $value ? $id : $v;
+                    return $v == "" || $v == "0" ? $id : $v;
                 },
                 $sort
             );
 
             $siblings = $this->getSiblings($block, $rootVersion);
+            $siblings[] = $block;
             if ($siblings) {
                 $siblings = $this->sortBlocksByIds($siblings, $sort);
 

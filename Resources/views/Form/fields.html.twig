@@ -84,19 +84,38 @@
 {% endblock %}
 
 
-
-{% block column_span_widget %}
-    {#{{ form|length }}#}
-        <table class="table-column-span" width="100%">
-            <tr>
-                {% for field in form %}
-                <td>{{ form_widget(field) }}</td>
-                {% endfor %}
-            </tr>
-            <tr>
-                {% for field in form %}
-                    <th align="center">{{ form_label(field) }}</th>
-                {% endfor %}
-            </tr>
-        </table>
+{% block span_collection_widget %}
+    {{ block('column_collection_widget') }}
 {% endblock %}
+
+{% block gutter_collection_widget %}
+    {{ block('column_collection_widget') }}
+{% endblock %}
+
+{% block column_collection_widget %}
+    {#{{ form|length }}#}
+    <table class="table-column-span" width="100%">
+        {% for row in form %}
+        <tr>
+            <th width="40" class="text-right"><label class="control-label text-right">{{ row.vars.name }}</label> <i class="material-icons icon-{{ row.vars.name }}"></i></th>
+            {% for field in row %}
+                <td>{{ form_widget(field) }}</td>
+            {% endfor %}
+        </tr>
+        {% endfor %}
+    </table>
+{% endblock %}
+
+{#{% block column_span_widget %}#}
+    {#&#123;&#35;{{ form|length }}&#35;&#125;#}
+            {#<tr>#}
+                {#{% for field in form %}#}
+                {#<td>{{ form_widget(field) }}</td>#}
+                {#{% endfor %}#}
+            {#</tr>#}
+            {#<tr>#}
+                {#{% for field in form %}#}
+                    {#<th>{{ form_label(field) }}</th>#}
+                {#{% endfor %}#}
+            {#</tr>#}
+{#{% endblock %}#}

@@ -24,7 +24,7 @@
                 <div class="collapse navbar-collapse" id="navbar">
                     <div class="btn-toolbar navbar-right">
                         <div class="btn-group navbar-btn hidden">
-                            <a href="#" target="_blank" class="btn btn btn-default btn-icon btn-reload"><i class="material-icons text-success">open_in_brower</i></a>
+                            <a href="#" target="_blank" id="pm-btn-run" class="btn btn btn-default btn-icon"><i class="material-icons">launch</i></a>
                         </div>
                         {{ render(controller('OpiferContentBundle:Backend/ContentEditor:versionPicker', {'id': block.id, 'current': version_current, 'published': version_published})) }}
                         <div class="btn-group navbar-btn">
@@ -54,7 +54,7 @@
     </div>
 
     <div class="pm-editor split-pane fixed-right">
-        <div class="split-pane-component pm-preview pm-viewmode-content" id="pm-document" data-pm-id="{{ block.id }}" data-pm-version="{{ version_current }}" data-pm-version-published="{{ version_published }}">
+        <div class="split-pane-component pm-preview pm-viewmode-content" id="pm-document" data-pm-id="{{ block.id }}" data-pm-version="{{ version_current }}" data-pm-version-published="{{ version_published }}" data-pm-permalink="{{ permalink|default }}">
             <iframe src="{{ url }}" frameborder="no" id="pm-iframe"></iframe>
         </div>
         <div class="split-pane-divider" id="my-divider"></div>

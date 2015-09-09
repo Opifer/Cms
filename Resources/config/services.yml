@@ -9,6 +9,8 @@ parameters:
     opifer.content.directory_manager.default.class: Opifer\ContentBundle\Model\DirectoryManager
     opifer.content.directory_type.class: Opifer\ContentBundle\Form\Type\DirectoryType
     opifer.content.form.contentpicker_type.class: Opifer\ContentBundle\Form\Type\ContentPickerType
+    opifer.content.form.gutter_collection_type.class: Opifer\ContentBundle\Form\Type\GutterCollectionType
+    opifer.content.form.span_collection_type.class: Opifer\ContentBundle\Form\Type\SpanCollectionType
     opifer.content.form.content_list_picker_type.class: Opifer\ContentBundle\Form\Type\ContentListPickerType
 #    opifer.content.block_adapter_type.class: Opifer\ContentBundle\Form\Type\BlockAdapterFormType
     opifer.content.twig.content_extension.class: Opifer\ContentBundle\Twig\ContentExtension
@@ -98,6 +100,16 @@ services:
         arguments: [@doctrine, @property_accessor]
         tags:
             - { name: form.type, alias: content_list_picker }
+
+    opifer.content.form.gutter_collection:
+        class: %opifer.content.form.gutter_collection_type.class%
+        tags:
+            - { name: form.type, alias: gutter_collection }
+
+    opifer.content.form.span_collection:
+        class: %opifer.content.form.span_collection_type.class%
+        tags:
+            - { name: form.type, alias: span_collection }
 
     opifer.content.block_manager:
         class: %opifer.content.block_manager.class%
