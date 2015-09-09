@@ -23,7 +23,7 @@ class PostController extends Controller
             return $this->createNotFoundException();
         }
 
-        return $this->render('OpiferFormBundle:Post:index.html.twig', [
+        return $this->render($this->getParameter('opifer_form.post_index_view'), [
             'form' => $form,
         ]);
     }
@@ -43,7 +43,7 @@ class PostController extends Controller
             return $this->createNotFoundException();
         }
 
-        return $this->render('OpiferFormBundle:Post:view.html.twig', [
+        return $this->render($this->getParameter('opifer_form.post_view_view'), [
             'post' => $post,
         ]);
     }

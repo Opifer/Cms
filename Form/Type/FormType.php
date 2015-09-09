@@ -35,9 +35,13 @@ class FormType extends AbstractType
     {
         $builder
             ->add('name')
-            ->add('notificationEmail', 'email')
-            ->add('redirectUrl')
-            ->add('template', 'eav_template')
+            ->add('notificationEmail', 'email', [
+                'required' => false
+            ])
+            ->add('redirectUrl', 'text', [
+                'required' => false
+            ])
+            ->add('template', 'opifer_form_template')
         ;
     }
 

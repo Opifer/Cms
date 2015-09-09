@@ -133,7 +133,7 @@ class FormController extends Controller
      */
     public function deleteAction($id)
     {
-        $form = $this->get('opifer.form.form_manager')->find($id);
+        $form = $this->get('opifer.form.form_manager')->getRepository()->find($id);
 
         if (!$form) {
             return $this->createNotFoundException();

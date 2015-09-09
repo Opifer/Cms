@@ -16,13 +16,17 @@ class FormManager
     /** @var string */
     protected $class;
 
+    /** @var PostManager */
+    protected $postManager;
+
     /**
-     * Constructor.
-     *
      * @param EntityManagerInterface $em
+     * @param TemplateManager        $templateManager
+     * @param PostManager            $postManager
      * @param string                 $class
+     * @throws \Exception
      */
-    public function __construct(EntityManagerInterface $em, TemplateManager $templateManager, $class)
+    public function __construct(EntityManagerInterface $em, TemplateManager $templateManager, PostManager $postManager, $class)
     {
         if (!is_subclass_of($class, 'Opifer\FormBundle\Model\FormInterface')) {
             throw new \Exception(sprintf('%s must implement Opifer\FormBundle\Model\FormInterface', $class));
@@ -30,6 +34,7 @@ class FormManager
 
         $this->em = $em;
         $this->templateManager = $templateManager;
+        $this->postManager = $postManager;
         $this->class = $class;
     }
 
@@ -54,6 +59,8 @@ class FormManager
         $form = new $class();
 
         $template = $this->templateManager->create();
+        $template->setObjectClass($this->postManager->getClass());
+
         $form->setTemplate($template);
 
         return $form;
