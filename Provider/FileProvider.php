@@ -97,10 +97,6 @@ class FileProvider extends AbstractProvider
         $file = $media->getFile();
         $filename = $this->createUniqueFileName($file);
 
-        if (!$media->getStatus()) {
-            $media->setStatus(self::ENABLED);
-        }
-
         if (!$media->getName()) {
             $media->setName($filename);
         }
