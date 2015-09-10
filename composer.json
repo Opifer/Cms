@@ -35,7 +35,7 @@
         "egeloen/google-map": "~1.4.1",
         "egeloen/google-map-bundle": "~2.2.1",
         "friendsofsymfony/advanced-encoder-bundle": "~1.0",
-        "friendsofsymfony/elastica-bundle": "dev-master",
+        "friendsofsymfony/elastica-bundle": "3.2.x-dev",
         "friendsofsymfony/jsrouting-bundle": "~1.5",
         "friendsofsymfony/user-bundle": "~2.0@dev",
         "gedmo/doctrine-extensions": "~2.3",
