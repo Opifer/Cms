@@ -14,9 +14,8 @@ class DatetimeValueProvider extends AbstractValueProvider implements ValueProvid
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('value', 'genemu_jquerydate', [
-            'label' => false,
-            'widget' => 'single_text'
+        $builder->add('value', 'opifer_eav_datetime_picker', [
+            'label' => false
         ]);
     }
 
