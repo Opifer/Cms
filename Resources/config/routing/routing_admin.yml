@@ -37,6 +37,18 @@ opifer_ckeditor_media:
     options:
         expose: true
 
+opifer_form_admin:
+    resource: "@OpiferFormBundle/Resources/config/routing_admin.yml"
+
+opifer_eav_admin:
+    resource: "@OpiferEavBundle/Resources/config/routing.yml"
+
+opifer_content_admin:
+    resource: "@OpiferContentBundle/Resources/config/routing.yml"
+
+opifer_media_admin:
+    resource: "@OpiferMediaBundle/Resources/config/routing.yml"
+
 # Users
 fos_user_security_login:
     pattern:  /login

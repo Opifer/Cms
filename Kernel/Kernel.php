@@ -47,6 +47,7 @@ abstract class Kernel extends BaseKernel
             new \Opifer\ContentBundle\OpiferContentBundle(),
             new \Opifer\CrudBundle\OpiferCrudBundle(),
             new \Opifer\EavBundle\OpiferEavBundle(),
+            new \Opifer\FormBundle\OpiferFormBundle(),
             new \Opifer\MediaBundle\OpiferMediaBundle(),
             new \Opifer\RedirectBundle\OpiferRedirectBundle(),
             new \Opifer\RulesEngineBundle\OpiferRulesEngineBundle(),

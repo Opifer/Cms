@@ -24,6 +24,7 @@
         "opifer/content-bundle": "~0.1",
         "opifer/crud-bundle": "~0.1",
         "opifer/eav-bundle": "~0.1",
+        "opifer/form-bundle": "~0.1",
         "opifer/media-bundle": "~0.1",
         "opifer/redirect-bundle": "~0.1",
         "opifer/rulesengine-bundle": "~0.1",

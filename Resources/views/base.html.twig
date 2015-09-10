@@ -32,6 +32,7 @@
                                 <li><a href="{{ path('opifer_media_media_index') }}"><i class="fa fa-photo visible-xs-block"></i> {{ "nav.media"|trans|capitalize }}</a></li>
                                 <li><a href="{{ path('opifer_content_directory_index') }}"><i class="fa fa-folder-o visible-xs-block"></i> {{ "nav.directory"|trans|capitalize }}</a></li>
                                 <li><a href="{{ path('opifer_cms_menu_index') }}"><i class="fa fa-navicon visible-xs-block"></i> {{ "nav.sitemenu"|trans|capitalize }}</a></li>
+                                <li><a href="{{ path('opifer_form_form_index') }}">{{ 'base.forms'|trans|capitalize }}</a></li>
                             </ul>
 
                             <ul class="nav navbar-nav navbar-right">
@@ -63,7 +64,6 @@
                                             <li role="presentation" class="dropdown-header">{{ 'base.system'|trans|capitalize }}</li>
                                             <li><a href="{{ path('opifer.crud.index', {'slug': 'settings'}) }}">{{ 'base.settings'|trans|capitalize }}</a></li>
                                             <li><a href="{{ path('opifer.crud.index', {'slug': 'cronjobs'}) }}">{{ 'base.cronjobs'|trans|capitalize }}</a></li>
-                                            <li><a href="{{ path('opifer.crud.index', {'slug': 'forms'}) }}">{{ 'base.forms'|trans|capitalize }}</a></li>
                                             <li><a href="{{ path('opifer.crud.index', {'slug': 'users'}) }}">{{ 'base.users'|trans|capitalize }}</a></li>
                                             <li><a href="{{ path('opifer.crud.index', {'slug': 'redirects'}) }}">{{ 'base.redirects'|trans|capitalize }}</a></li>
                                             <li class="divider"></li>

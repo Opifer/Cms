@@ -1,0 +1,37 @@
+{% extends 'OpiferCmsBundle::base.html.twig' %}
+
+{% block body %}
+    {% spaceless %}
+        <div class="page-header clearfix">
+            <h1 class="pull-left">Posts for {{ form.name }}</h1>
+            <a href="{{ path('opifer_form_form_edit', {'id': form.id}) }}" class="btn btn-default pull-right">
+                {{ 'back to form'|trans|capitalize }}
+            </a>
+        </div>
+
+        <section class="panel-section">
+            <table class="table">
+                <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Submitted At</th>
+                    <th></th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for post in form.posts %}
+                    <tr>
+                        <td width="25">{{ post.id }}</td>
+                        <td><a href="{{ path('opifer_form_post_view', {'id': post.id}) }}">{{ post.submittedAt|date('d-m-Y') }}</a></td>
+                        <td>
+                            <a href="{{ path('opifer_form_post_view', {'id': post.id}) }}"><i class="fa fa-eye"></i> View</a>
+                            <a href="{{ path('opifer_form_post_delete', {'id': post.id}) }}"><i class="fa fa-remove"></i> Delete</a>
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+
+        </section>
+    {% endspaceless %}
+{% endblock body %}

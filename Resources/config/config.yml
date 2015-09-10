@@ -203,10 +203,9 @@ opifer_crud:
         users: Opifer\CmsBundle\Entity\User
         settings: Opifer\CmsBundle\Entity\Setting
         cronjobs: Opifer\CmsBundle\Entity\Cron
-        forms: Opifer\CmsBundle\Entity\Post
-        templates: Opifer\CmsBundle\Entity\Template
         layouts: Opifer\CmsBundle\Entity\Layout
-        redirects: Opifer\CmsBUndle\Entity\Redirect
+        templates: Opifer\CmsBundle\Entity\Template
+        redirects: Opifer\CmsBundle\Entity\Redirect
         sites: Opifer\CmsBundle\Entity\Site
 
 # Media
@@ -253,6 +252,20 @@ opifer_eav:
     entities:
         content: Opifer\CmsBundle\Entity\Content
         post: Opifer\CmsBundle\Entity\Post
+
+opifer_form:
+    from_email: info@opifer.nl
+    form:
+        class: Opifer\CmsBundle\Entity\Form
+        views:
+            index: OpiferCmsBundle:Admin/Form:index.html.twig
+            create: OpiferCmsBundle:Admin/Form:create.html.twig
+            edit: OpiferCmsBundle:Admin/Form:edit.html.twig
+    post:
+        class: Opifer\CmsBundle\Entity\Post
+        views:
+            index: OpiferCmsBundle:Admin/Post:index.html.twig
+            view: OpiferCmsBundle:Admin/Post:view.html.twig
 
 opifer_redirect:
     redirect_class: Opifer\CmsBundle\Entity\Redirect
