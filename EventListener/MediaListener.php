@@ -58,11 +58,11 @@ class MediaListener implements EventSubscriber
     /**
      * Get the provider pool
      *
-     * @return Opifer\MediaBundle\Provider\ProviderInterface
+     * @return \Opifer\MediaBundle\Provider\ProviderInterface
      */
     public function getProvider(LifecycleEventArgs $args)
     {
-        $provider = $args->getEntity()->getProvider();
+        $provider = $args->getObject()->getProvider();
 
         if (!$provider) {
             throw new \Exception('Please set a provider on the entity before persisting any media');
@@ -78,8 +78,8 @@ class MediaListener implements EventSubscriber
      */
     public function prePersist(LifecycleEventArgs $args)
     {
-        if ($args->getEntity() instanceof MediaInterface) {
-            $this->getProvider($args)->prePersist($args->getEntity());
+        if ($args->getObject() instanceof MediaInterface) {
+            $this->getProvider($args)->prePersist($args->getObject());
         }
     }
 
@@ -90,8 +90,8 @@ class MediaListener implements EventSubscriber
      */
     public function postPersist(LifecycleEventArgs $args)
     {
-        if ($args->getEntity() instanceof MediaInterface) {
-            $this->getProvider($args)->postPersist($args->getEntity());
+        if ($args->getObject() instanceof MediaInterface) {
+            $this->getProvider($args)->postPersist($args->getObject());
         }
     }
 
@@ -102,8 +102,8 @@ class MediaListener implements EventSubscriber
      */
     public function preUpdate(LifecycleEventArgs $args)
     {
-        if ($args->getEntity() instanceof MediaInterface) {
-            $this->getProvider($args)->preUpdate($args->getEntity());
+        if ($args->getObject() instanceof MediaInterface) {
+            $this->getProvider($args)->preUpdate($args->getObject());
         }
     }
 
@@ -114,8 +114,8 @@ class MediaListener implements EventSubscriber
      */
     public function postUpdate(LifecycleEventArgs $args)
     {
-        if ($args->getEntity() instanceof MediaInterface) {
-            $this->getProvider($args)->postUpdate($args->getEntity());
+        if ($args->getObject() instanceof MediaInterface) {
+            $this->getProvider($args)->postUpdate($args->getObject());
         }
     }
 
@@ -126,8 +126,8 @@ class MediaListener implements EventSubscriber
      */
     public function preRemove(LifecycleEventArgs $args)
     {
-        if ($args->getEntity() instanceof MediaInterface) {
-            $this->getProvider($args)->preRemove($args->getEntity());
+        if ($args->getObject() instanceof MediaInterface) {
+            $this->getProvider($args)->preRemove($args->getObject());
         }
     }
 
@@ -138,8 +138,8 @@ class MediaListener implements EventSubscriber
      */
     public function postRemove(LifecycleEventArgs $args)
     {
-        if ($args->getEntity() instanceof MediaInterface) {
-            $this->getProvider($args)->postRemove($args->getEntity());
+        if ($args->getObject() instanceof MediaInterface) {
+            $this->getProvider($args)->postRemove($args->getObject());
         }
     }
 }

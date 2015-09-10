@@ -2,6 +2,7 @@
 
 namespace Opifer\MediaBundle\Provider;
 
+use Opifer\MediaBundle\Model\Media;
 use Symfony\Component\Translation\TranslatorInterface;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -124,10 +125,7 @@ class YoutubeProvider extends AbstractProvider
     {
         preg_match('/(?<=v(\=|\/))([-a-zA-Z0-9_]+)|(?<=youtu\.be\/)([-a-zA-Z0-9_]+)/', $media->getReference(), $matches);
 
-        $media
-            ->setReference($matches[2])
-            ->setStatus(self::ENABLED)
-        ;
+        $media->setReference($matches[2]);
 
         if (!isset($media->old) || $media->old->getReference() !== $media->getReference()) {
             $this->updateMedadata($media);
@@ -152,7 +150,7 @@ class YoutubeProvider extends AbstractProvider
             );
             $metadata = $this->getMetadata($media, $url);
         } catch (\RuntimeException $e) {
-            $media->setStatus(self::DISABLED);
+            $media->setStatus(Media::STATUS_DISABLED);
 
             return;
         }
@@ -220,7 +218,7 @@ class YoutubeProvider extends AbstractProvider
         $thumb = $this->mediaManager->createMedia();
 
         $thumb
-            ->setStatus(self::HASPARENT)
+            ->setStatus(Media::STATUS_HASPARENT)
             ->setName($media->getName() . '_thumb')
             ->setProvider('image')
         ;

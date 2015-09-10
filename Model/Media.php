@@ -20,6 +20,9 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 abstract class Media implements MediaInterface
 {
+    const STATUS_DISABLED = 0;
+    const STATUS_ENABLED = 1;
+    const STATUS_HASPARENT = 2;
 
     /**
      * @var integer
@@ -36,7 +39,7 @@ abstract class Media implements MediaInterface
      *
      * @ORM\Column(name="status", type="smallint")
      */
-    protected $status;
+    protected $status = self::STATUS_ENABLED;
 
     /**
      * @var string

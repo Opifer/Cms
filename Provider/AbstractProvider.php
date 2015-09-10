@@ -8,10 +8,6 @@ use Opifer\MediaBundle\Model\MediaInterface;
 
 abstract class AbstractProvider implements ProviderInterface
 {
-    const DISABLED = 0;
-    const ENABLED = 1;
-    const HASPARENT = 2;
-
     /**
      * {@inheritdoc}
      */
