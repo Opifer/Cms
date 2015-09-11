@@ -13,19 +13,20 @@ class PageController extends Controller
      */
     public function homeAction()
     {
+        /** @var BlockManager $manager */
+        $manager  = $this->get('opifer.content.block_manager');
+
         $content = $this->get('opifer.cms.content_manager')->getRepository()
             ->findOneBySlug('index');
 
         if ($content) {
-            $presentation = json_decode($content->getRealPresentation(), true);
-            $layout = json_encode($presentation);
-            $layout = $this->get('jms_serializer')->deserialize($layout, 'Opifer\CmsBundle\Entity\Layout', 'json');
+            $block = $content->getBlock();
 
-            return $this->render($layout->getFilename(), [
-                'site'    => $content->getSite(),
-                'content' => $content,
-                'layout'  => $layout
-            ]);
+            /** @var BlockServiceInterface $service */
+            $service = $manager->getService($block);
+            $service->setView($content->getTemplate()->getView());
+
+            return $service->execute($block);
         }
 
         /**
