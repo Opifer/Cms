@@ -12,6 +12,7 @@ parameters:
     opifer.media.listener.media_listener.class: Opifer\MediaBundle\EventListener\MediaListener
     opifer.media.media_manager.class: Opifer\MediaBundle\Model\MediaManager
     opifer.media.provider.pool.class: Opifer\MediaBundle\Provider\Pool
+    opifer.media.url_generator.class: Opifer\MediaBundle\Routing\UrlGenerator
     opifer.media.youtube_provider.class: Opifer\MediaBundle\Provider\YoutubeProvider
 
 
@@ -52,13 +53,13 @@ services:
 
     opifer.media.file_provider:
         class: %opifer.media.file_provider.class%
-        arguments: [@gaufrette.file_storage_filesystem, @translator, @router]
+        arguments: [@gaufrette.file_storage_filesystem, @translator, @router, @opifer.media.url_generator]
         tags:
             - { name: opifer.media.provider, alias: file }
 
     opifer.media.image_provider:
         class: %opifer.media.image_provider.class%
-        arguments: [@gaufrette.file_storage_filesystem, @translator, @router]
+        arguments: [@gaufrette.file_storage_filesystem, @translator, @router, @opifer.media.url_generator]
         tags:
             - { name: opifer.media.provider, alias: image }
 
@@ -67,6 +68,10 @@ services:
         arguments: [@opifer.media.media_manager, @translator, %opifer_media.providers.youtube.api_key%]
         tags:
             - { name: opifer.media.provider, alias: youtube }
+
+    opifer.media.url_generator:
+        class: %opifer.media.url_generator.class%
+        arguments: [@gaufrette.file_storage_filesystem, @request_stack, %opifer_media.storages.local.directory%]
 
     # Image processors
     opifer.media.aws_s3.client:

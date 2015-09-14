@@ -136,11 +136,16 @@ abstract class Media implements MediaInterface
     protected $file;
 
     /**
+     * @var string
+     */
+    protected $original;
+
+    /**
      * Sets file.
      *
      * @param UploadedFile $file
      *
-     * @return File
+     * @return Media
      */
     public function setFile(UploadedFile $file = null)
     {
@@ -164,7 +169,7 @@ abstract class Media implements MediaInterface
      *
      * @param string $status
      *
-     * @return File
+     * @return Media
      */
     public function setStatus($status)
     {
@@ -188,7 +193,7 @@ abstract class Media implements MediaInterface
      *
      * @param string $name
      *
-     * @return File
+     * @return Media
      */
     public function setName($name)
     {
@@ -212,7 +217,7 @@ abstract class Media implements MediaInterface
      *
      * @param string $provider
      *
-     * @return File
+     * @return Media
      */
     public function setProvider($provider)
     {
@@ -236,7 +241,7 @@ abstract class Media implements MediaInterface
      *
      * @param string $reference
      *
-     * @return File
+     * @return Media
      */
     public function setReference($reference)
     {
@@ -259,7 +264,7 @@ abstract class Media implements MediaInterface
      * Set contentType
      *
      * @param  string $contentType
-     * @return File
+     * @return Media
      */
     public function setContentType($contentType)
     {
@@ -282,7 +287,7 @@ abstract class Media implements MediaInterface
      * Set metadata
      *
      * @param  string $metadata
-     * @return File
+     * @return Media
      */
     public function setMetadata($metadata)
     {
@@ -305,7 +310,7 @@ abstract class Media implements MediaInterface
      * Set thumb
      *
      * @param  string $thumb
-     * @return File
+     * @return Media
      */
     public function setThumb(Media $thumb = null)
     {
@@ -329,7 +334,7 @@ abstract class Media implements MediaInterface
      *
      * @param \DateTime $createdAt
      *
-     * @return File
+     * @return Media
      */
     public function setCreatedAt($createdAt)
     {
@@ -353,7 +358,7 @@ abstract class Media implements MediaInterface
      *
      * @param \DateTime $updatedAt
      *
-     * @return File
+     * @return Media
      */
     public function setUpdatedAt($updatedAt)
     {
@@ -376,7 +381,7 @@ abstract class Media implements MediaInterface
      * Set filesize
      *
      * @param  integer $filesize
-     * @return File
+     * @return Media
      */
     public function setFilesize($filesize)
     {
@@ -422,7 +427,7 @@ abstract class Media implements MediaInterface
      * Set deletedAt
      *
      * @param  \DateTime $deletedAt
-     * @return File
+     * @return Media
      */
     public function setDeletedAt($deletedAt)
     {
@@ -449,5 +454,29 @@ abstract class Media implements MediaInterface
     public function getFile()
     {
         return $this->file;
+    }
+
+    /**
+     * Set original
+     *
+     * @param string $original
+     *
+     * @return Media
+     */
+    public function setOriginal($original)
+    {
+        $this->original = $original;
+
+        return $this;
+    }
+
+    /**
+     * Get original
+     *
+     * @return string
+     */
+    public function getOriginal()
+    {
+        return $this->original;
     }
 }

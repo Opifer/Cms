@@ -86,6 +86,11 @@ interface ProviderInterface
     public function editView();
 
     /**
+     * @param MediaInterface $media
+     */
+    public function postLoad(MediaInterface $media);
+
+    /**
      * perform any prePersist actions
      *
      * @param MediaInterface $media

@@ -60,6 +60,14 @@ abstract class AbstractProvider implements ProviderInterface
     /**
      * {@inheritdoc}
      */
+    public function postLoad(MediaInterface $media)
+    {
+        // Do nothing, or override in child class
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function prePersist(MediaInterface $media)
     {
         // Do nothing, or override in child class

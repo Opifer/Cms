@@ -46,12 +46,13 @@ class MediaListener implements EventSubscriber
     public function getSubscribedEvents()
     {
         return [
+            Events::postLoad,
             Events::prePersist,
             Events::postPersist,
             Events::preUpdate,
             Events::postUpdate,
             Events::preRemove,
-            Events::postRemove,
+            Events::postRemove
         ];
     }
 
@@ -69,6 +70,18 @@ class MediaListener implements EventSubscriber
         }
 
         return $this->container->get('opifer.media.provider.pool')->getProvider($provider);
+    }
+
+    /**
+     * Post Load handler
+     *
+     * @param LifecycleEventArgs $args
+     */
+    public function postLoad(LifecycleEventArgs $args)
+    {
+        if ($args->getObject() instanceof MediaInterface) {
+            $this->getProvider($args)->postLoad($args->getObject());
+        }
     }
 
     /**
