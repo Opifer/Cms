@@ -88,7 +88,6 @@ Then, add the dependencies to your templates.
     '@AppBundle/Resources/public/components/ng-file-upload/angular-file-upload.min.js'
 
     '@OpiferMediaBundle/Resources/public/js/dropzone.js'
-    '@OpiferMediaBundle/Resources/public/js/main.js'
     '@OpiferMediaBundle/Resources/public/app/modal/modal.js'
     '@OpiferMediaBundle/Resources/public/app/medialibrary/medialibrary.js'
     

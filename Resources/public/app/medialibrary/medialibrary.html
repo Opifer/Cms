@@ -13,12 +13,6 @@
                 </span>
             </div>
         </div>
-
-        <div class="btn-group col-sm-4">
-            <a ng-repeat="provider in mediaCollection.providers" ng-href="{{ provider.newlink }}" class="btn btn-default">
-                Add {{ provider.name }}
-            </a>
-        </div>
     </div>
 
     <section class="page-section media-items">
@@ -33,11 +27,11 @@
         </div>
 
         <div class="clearfix" ng-cloak>
-            <div ng-repeat="item in mediaCollection.items" class="item {{ item.provider }}">
-                <img ng-src="{{ item.images.medialibrary }}" class="visual" alt="{{ item.name }}">
+            <div ng-repeat="item in mediaCollection.items" class="item {{ item.provider }} {{ item.file_type }}">
+                <img ng-src="{{ item.images.medialibrary }}" ng-if="item.provider == 'image'" class="visual" alt="{{ item.name }}">
                 <div class="image-wrapper">
                     <div class="extended-data">
-                        <span class="details">{{ item.metadata.width }}x{{ item.metadata.height }}px</span>
+                        <span class="details" ng-if="item.provider == 'image'">{{ item.metadata.width }}x{{ item.metadata.height }}px</span>
                     </div>
                     <div class="center-stage">
                         <button type="button" ng-if="picker.name" ng-click="selectMedia($index)" class="btn btn-skeleton include">Use media</button>

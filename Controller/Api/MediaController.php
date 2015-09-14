@@ -64,17 +64,19 @@ class MediaController extends Controller
         $em = $this->getDoctrine()->getManager();
 
         foreach ($request->files->all() as $files) {
-            if ((is_array($files)) || ($files instanceof \Traversable)) {
-                foreach ($files as $file) {
-                    $media = clone $media;
-                    $media->setFile($file);
-                    $media->setProvider('image');
+            if ((!is_array($files)) && (!$files instanceof \Traversable)) {
+                $files = [$files];
+            }
 
-                    $em->persist($media);
+            foreach ($files as $file) {
+                $media = clone $media;
+                $media->setFile($file);
+
+                if (strpos($file->getClientMimeType(), 'image') !== false) {
+                    $media->setProvider('image');
+                } else {
+                    $media->setProvider('file');
                 }
-            } else {
-                $media->setFile($files);
-                $media->setProvider('image');
 
                 $em->persist($media);
             }
