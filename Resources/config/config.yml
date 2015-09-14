@@ -226,6 +226,12 @@ opifer_media:
 
 liip_imagine:
     filter_sets:
+        inline:
+            quality: 80
+            filters:
+                thumbnail: {size: [800, 600], mode: inset}
+            post_processors:
+                jpegoptim: {}
         dashboard_content:
             quality: 85
             filters:
