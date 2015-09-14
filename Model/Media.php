@@ -284,6 +284,19 @@ abstract class Media implements MediaInterface
     }
 
     /**
+     * Get a short version of the content type
+     *
+     * @JMS\VirtualProperty()
+     * @JMS\SerializedName("file_type")
+     *
+     * @return string
+     */
+    public function getFileType()
+    {
+        return substr($this->contentType, strpos($this->contentType, '/') + 1);
+    }
+
+    /**
      * Set metadata
      *
      * @param  string $metadata
