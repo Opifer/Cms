@@ -11,6 +11,7 @@ class FileProviderTest extends \PHPUnit_Framework_TestCase
     private $translator;
     private $media;
     private $router;
+    private $urlGenerator;
 
     public function setUp()
     {
@@ -18,8 +19,9 @@ class FileProviderTest extends \PHPUnit_Framework_TestCase
         $this->translator = m::mock('Symfony\Component\Translation\TranslatorInterface');
         $this->media = m::mock('Opifer\MediaBundle\Tests\Media');
         $this->router = m::mock('Symfony\Component\Routing\RouterInterface');
+        $this->urlGenerator = m::mock('Opifer\MediaBundle\Routing\UrlGenerator');
 
-        $this->provider = new FileProvider($this->filesystem, $this->translator, $this->router);
+        $this->provider = new FileProvider($this->filesystem, $this->translator, $this->router, $this->urlGenerator);
     }
 
     public function testFormHasDropzoneField()

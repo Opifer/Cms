@@ -11,4 +11,6 @@ interface MediaInterface
     public function getProvider();
 
     public function getFile();
+
+    public function setOriginal($original);
 }

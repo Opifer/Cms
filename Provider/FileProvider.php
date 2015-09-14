@@ -4,6 +4,7 @@ namespace Opifer\MediaBundle\Provider;
 
 use Gaufrette\Adapter\AwsS3;
 use Gaufrette\FileSystem;
+use Opifer\MediaBundle\Routing\UrlGenerator;
 use Symfony\Component\Translation\TranslatorInterface;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Routing\RouterInterface;
@@ -12,31 +13,30 @@ use Opifer\MediaBundle\Model\MediaInterface;
 
 class FileProvider extends AbstractProvider
 {
-    /**
-     * @var  FileSystem
-     */
+    /** @var FileSystem */
     protected $filesystem;
 
-    /**
-     * @var  TranslatorInterface
-     */
+    /** @var TranslatorInterface */
     protected $translator;
 
-    /**
-     * @var  RouterInterface
-     */
+    /** @var RouterInterface */
     protected $router;
 
+    /** @var UrlGenerator  */
+    protected $urlGenerator;
+
     /**
-     * Constructor
-     *
-     * @param FileSystem $filesystem
+     * @param FileSystem          $filesystem
+     * @param TranslatorInterface $translator
+     * @param RouterInterface     $router
+     * @param UrlGenerator        $urlGenerator
      */
-    public function __construct(FileSystem $filesystem, TranslatorInterface $translator, RouterInterface $router)
+    public function __construct(FileSystem $filesystem, TranslatorInterface $translator, RouterInterface $router, UrlGenerator $urlGenerator)
     {
         $this->filesystem = $filesystem;
         $this->translator = $translator;
         $this->router = $router;
+        $this->urlGenerator = $urlGenerator;
     }
 
     public function getLabel()
@@ -83,6 +83,14 @@ class FileProvider extends AbstractProvider
             ])
             ->add('Update', 'submit')
         ;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function postLoad(MediaInterface $media)
+    {
+        $media->setOriginal($this->getUrl($media));
     }
 
     /**
@@ -176,13 +184,7 @@ class FileProvider extends AbstractProvider
      */
     public function getUrl(MediaInterface $media)
     {
-        $adapter = $this->filesystem->getAdapter();
-
-        if ($adapter instanceof AwsS3) {
-            return $adapter->getUrl($media->getReference());
-        }
-
-        return $media->getReference();
+        return $this->urlGenerator->generate($media->getReference());
     }
 
     /**
