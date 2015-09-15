@@ -176,10 +176,12 @@ class FormController extends Controller
 
             $event = new FormSubmitEvent($post);
             $this->get('event_dispatcher')->dispatch(Events::POST_FORM_SUBMIT, $event);
-
-            return $this->redirect($form->getRedirectUrl());
+            
+            if ($form->getRedirectUrl()) {
+                return $this->redirect($form->getRedirectUrl());
+            }
         }
 
-        return $this->redirect($request->getReferer());
+        return $this->redirect($request->headers->get('referer'));
     }
 }
