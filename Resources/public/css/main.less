@@ -38,11 +38,6 @@
     }
 
     .item {
-        &.file {
-            height: 160px;
-            width: 130px;
-        }
-
         h4,
         img,
         .metadata {
@@ -75,12 +70,16 @@
         text-shadow: 0 0 25px rgba(0,0,0,.1), 0 0 25px rgba(0,0,0,.1);
         text-align: center;
     }
-
 }
 
 .media-items,
 .picker-selected-items {
     .item {
+        &.file {
+            height: 160px;
+            width: 130px;
+        }
+        
         float: left;
         width: auto;
         position: relative;

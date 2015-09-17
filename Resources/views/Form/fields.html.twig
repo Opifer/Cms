@@ -45,9 +45,9 @@
                 <div class="alert alert-info" ng-cloak ng-show="!selecteditems.length">
                     no media selected
                 </div>
-                <div ng-repeat="item in selecteditems" class="item">
+                <div ng-repeat="item in selecteditems" class="item {{ item.provider }} {{ item.file_type }}">
                     <input type="hidden" id="" name="{{ picker.name }}" value="{{ item.id }}">
-                    <img ng-src="{{ item.images.medialibrary }}" alt="">
+                    <img ng-src="{{ item.images.medialibrary }}" ng-if="item.provider == 'image'" alt="">
                     <div class="image-wrapper">
                         <span class="name">{{ item.name }}</span><br>
                         <div class="controls">
