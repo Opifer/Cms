@@ -88,9 +88,8 @@ class RedirectManager implements RedirectManagerInterface
         $requirements = $redirect->getRequirements();
         $routeRequirements = [];
 
-        /** @var Requirement $r */
         foreach ($requirements as $r) {
-            $routeRequirements[$r->getParameter()] = $r->getValue();
+            $routeRequirements[$r['parameter']] = $r['value'];
         }
 
         return $routeRequirements;

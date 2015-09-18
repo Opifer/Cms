@@ -55,13 +55,15 @@ class RedirectController extends Controller
      * Edit
      *
      * @param Request $request
-     * @param Redirect $redirect
+     * @param int $id
      *
      * @return RedirectResponse|Response
      */
-    public function editAction(Request $request, Redirect $redirect)
+    public function editAction(Request $request, $id)
     {
         $manager = $this->get('opifer.redirect.redirect_manager');
+
+        $redirect = $manager->getRepository()->find($id);
 
         $form = $this->createForm('opifer_redirect', $redirect);
         $form->handleRequest($request);
@@ -80,13 +82,16 @@ class RedirectController extends Controller
     /**
      * Delete
      *
-     * @param Redirect $redirect
+     * @param int $id
      *
      * @return RedirectResponse
      */
-    public function deleteAction(Redirect $redirect)
+    public function deleteAction($id)
     {
         $manager = $this->get('opifer.redirect.redirect_manager');
+
+        $redirect = $manager->getRepository()->find($id);
+
         $manager->remove($redirect);
 
         return $this->redirectToRoute('opifer_redirect_redirect_index');

@@ -8,14 +8,6 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class RequirementType extends AbstractType
 {
-    /** @var string */
-    protected $class;
-
-    function __construct($class)
-    {
-        $this->class = $class;
-    }
-
     /**
      * {@inheritDoc}
      */
@@ -35,16 +27,6 @@ class RequirementType extends AbstractType
                 ]
             ])
         ;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function configureOptions(OptionsResolver $resolver)
-    {
-        $resolver->setDefaults([
-            'data_class' => $this->class,
-        ]);
     }
 
     /**

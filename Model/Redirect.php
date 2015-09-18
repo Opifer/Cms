@@ -43,13 +43,13 @@ class Redirect
     /**
      * @var string
      *
-     * @ORM\OneToMany(targetEntity="Opifer\RedirectBundle\Model\Requirement", mappedBy="redirect", cascade={"persist", "remove"}, fetch="EAGER")
+     * @ORM\Column(name="requirements", type="array")
      */
     protected $requirements;
 
     function __construct()
     {
-        $this->requirements = new ArrayCollection();
+        $this->requirements = [];
     }
 
     /**
@@ -135,29 +135,25 @@ class Redirect
     }
 
     /**
-     * @param Requirement $requirement
+     * @param array $requirement
      *
      * @return Redirect
      */
-    public function addRequirement(Requirement $requirement)
+    public function addRequirement(array $requirement)
     {
-        $requirement->setRedirect($this);
-
-        if (false === $this->requirements->contains($requirement)) {
-            $this->requirements->add($requirement);
-        }
+        $this->requirements[] = $requirement;
 
         return $this;
     }
 
     /**
-     * @param Requirement $requirement
+     * @param array $requirement
      *
      * @return Redirect
      */
-    public function removeRequirement(Requirement $requirement)
+    public function removeRequirement(array $requirement)
     {
-        $this->requirements->removeElement($requirement);
+        //@todo implement
 
         return $this;
     }
