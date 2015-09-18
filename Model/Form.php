@@ -10,7 +10,7 @@ use Opifer\EavBundle\Model\TemplateInterface;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * @ORM\MappedSuperclass
+ * @ORM\MappedSuperclass(repositoryClass="Opifer\FormBundle\Model\FormRepository")
  * @JMS\ExclusionPolicy("all")
  * @Gedmo\SoftDeleteable(fieldName="deletedAt", timeAware=false)
  */

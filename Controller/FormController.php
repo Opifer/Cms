@@ -23,10 +23,7 @@ class FormController extends Controller
     public function indexAction()
     {
         $forms = $this->get('opifer.form.form_manager')->getRepository()
-            ->createQueryBuilder('f')
-            ->orderBy('f.name')
-            ->getQuery()
-            ->getResult();
+            ->findAllWithPosts();
 
         return $this->render($this->getParameter('opifer_form.form_index_view'), [
             'forms' => $forms,

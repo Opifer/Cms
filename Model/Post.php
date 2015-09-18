@@ -32,7 +32,7 @@ class Post implements PostInterface, EntityInterface
     /**
      * @var \Opifer\EavBundle\Model\ValueSet
      *
-     * @ORM\ManyToOne(targetEntity="Opifer\EavBundle\Model\ValueSetInterface", cascade={"persist"}, fetch="EAGER")
+     * @ORM\ManyToOne(targetEntity="Opifer\EavBundle\Model\ValueSetInterface", cascade={"persist"})
      * @ORM\JoinColumn(name="valueset_id", referencedColumnName="id")
      */
     protected $valueSet;
