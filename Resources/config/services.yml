@@ -33,7 +33,7 @@ services:
 
     opifer.eav.form.attribute_type:
         class: %opifer.eav.form.attribute_type.class%
-        arguments: [@translator, @opifer.eav.form.option_type, %opifer_eav.attribute_class%, %opifer_eav.template_class%]
+        arguments: [@opifer.eav.form.option_type, %opifer_eav.attribute_class%, %opifer_eav.template_class%]
         tags:
             - { name: form.type, alias: eav_attribute }
 
