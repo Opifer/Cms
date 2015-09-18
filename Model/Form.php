@@ -45,6 +45,7 @@ class Form implements FormInterface
      * @var ArrayCollection
      *
      * @ORM\OneToMany(targetEntity="Opifer\FormBundle\Model\PostInterface", mappedBy="form")
+     * @ORM\OrderBy({"id" = "DESC"})
      */
     protected $posts;
 
