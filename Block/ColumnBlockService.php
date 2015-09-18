@@ -2,24 +2,26 @@
 
 namespace Opifer\ContentBundle\Block;
 
-use Opifer\ContentBundle\Entity\LayoutBlock;
-use Opifer\ContentBundle\Form\Event\ColumnGutterSubscriber;
-use Opifer\ContentBundle\Form\Event\ColumnSpanSubscriber;
-use Opifer\ContentBundle\Form\Type\ColumnSpanType;
+use Opifer\ContentBundle\Block\Tool\ColumnTool;
+use Opifer\ContentBundle\Block\Tool\ToolsetMemberInterface;
 use Opifer\ContentBundle\Model\BlockInterface;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\HttpFoundation\Response;
+use Opifer\ContentBundle\Entity\ColumnBlock;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\Form\FormEvent;
-use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
- * Class LayoutBlockService
+ * Class ColumnBlockService
  *
  * @package Opifer\ContentBundle\Block
  */
-class LayoutBlockService extends AbstractBlockService implements BlockServiceInterface
+class ColumnBlockService extends AbstractBlockService implements BlockServiceInterface, ToolsetMemberInterface
 {
+    /** @var integer */
+    protected $columnCount = 1;
+
     /** @var string */
     protected $view = 'OpiferContentBundle:Block:Layout/layout.html.twig';
 
@@ -55,14 +57,6 @@ class LayoutBlockService extends AbstractBlockService implements BlockServiceInt
     }
 
     /**
-     * {@inheritDoc}
-     */
-    public function getName(BlockInterface $block = null)
-    {
-        return $block->getWrapper() ?: sprintf('%d columns', $block->getColumnCount());
-    }
-
-    /**
      * {@inheritdoc}
      */
     public function buildManageForm(FormBuilderInterface $builder, array $options)
@@ -81,52 +75,27 @@ class LayoutBlockService extends AbstractBlockService implements BlockServiceInt
 
             $form = $event->getForm();
 
-            if ($block->getWrapper() == 'section') {
-                $styles = ['row-space-top-2', 'row-space-top-4', 'row-space-top-8', 'row-space-2', 'row-space-4', 'row-space-8', 'light', 'dark'];
-                $form->get('properties')->add('styles', 'choice', [
-                        'label' => 'label.styling',
-                        'choices'  => array_combine($styles, $styles),
-                        'required' => false,
-                        'expanded' => true,
-                        'multiple' => true,
-                        'attr' => ['help_text' => 'help.html_styles'],
-                    ]);
-            }
-            if (!$block->getColumnCount()) {
-                $form->get('properties')->add(
-                    'container_size',
-                    'choice',
-                    [
-                        'label' => 'label.container_sizing',
-                        'choices' => ['fluid' => 'label.container_fluid', '' => 'label.container_fixed', 'smooth' => 'label.container_smooth'],
-                        'required' => true,
-                        'attr' => ['help_text' => 'help.container_sizing'],
-                    ]
-                );
+            $styles = ['row-space-top-2', 'row-space-top-4', 'row-space-top-8', 'row-space-2', 'row-space-4', 'row-space-8'];
+            $form->get('properties')->add('styles', 'choice', [
+                'label' => 'label.styling',
+                'choices'  => array_combine($styles, $styles),
+                'required' => false,
+                'expanded' => true,
+                'multiple' => true,
+                'attr'     => ['help_text' => 'help.html_styles'],
+            ]);
+
+            // @todo: Replace with a nice getDefaultOptions method
+            $properties = $block->getProperties();
+            if (!isset($properties['styles']) ) {
+                $properties['styles'] = array();
             }
 
-            if ($block->getColumnCount()) {
-                $styles = ['row-space-top-2', 'row-space-top-4', 'row-space-top-8', 'row-space-2', 'row-space-4', 'row-space-8'];
-                $form->get('properties')->add('styles', 'choice', [
-                    'label' => 'label.styling',
-                    'choices'  => array_combine($styles, $styles),
-                    'required' => false,
-                    'expanded' => true,
-                    'multiple' => true,
-                    'attr'     => ['help_text' => 'help.html_styles'],
-                ]);
+            $block->setProperties($properties);
 
-                // @todo: Replace with a nice getDefaultOptions method
-                $properties = $block->getProperties();
-                if (!isset($properties['styles']) ) {
-                    $properties['styles'] = array();
-                }
+            $form->get('properties')->add('spans', 'span_collection', ['column_count' => $block->getColumnCount(), 'label' => 'label.spans', 'attr' => ['help_text' => 'help.column_spans']]);
+            $form->get('properties')->add('gutters', 'gutter_collection', ['column_count' => $block->getColumnCount(), 'label' => 'label.gutters', 'attr' => ['help_text' => 'help.column_gutters']]);
 
-                $block->setProperties($properties);
-
-                $form->get('properties')->add('spans', 'span_collection', ['column_count' => $block->getColumnCount(), 'label' => 'label.spans', 'attr' => ['help_text' => 'help.column_spans']]);
-                $form->get('properties')->add('gutters', 'gutter_collection', ['column_count' => $block->getColumnCount(), 'label' => 'label.gutters', 'attr' => ['help_text' => 'help.column_gutters']]);
-            }
         });
     }
 
@@ -135,6 +104,61 @@ class LayoutBlockService extends AbstractBlockService implements BlockServiceInt
      */
     public function configureManageOptions(OptionsResolver $resolver)
     {
+    }
+
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getManageFormTypeName()
+    {
+        return 'layout';
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function createBlock()
+    {
+        return new ColumnBlock();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getTool()
+    {
+        $tool = new ColumnTool($this->getName(), 'OpiferContentBundle:ColumnBlock');
+
+        $tool->setData(['columnCount' => $this->columnCount])
+            ->setIcon('view_column')
+            ->setDescription('Inserts ' . $this->columnCount . ' columns equal in width');
+
+        return $tool;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getName(BlockInterface $block = null)
+    {
+        return sprintf('%d columns', $this->getColumnCount());
+    }
+
+    /**
+     * @return int
+     */
+    public function getColumnCount()
+    {
+        return $this->columnCount;
+    }
+
+    /**
+     * @param int $columnCount
+     */
+    public function setColumnCount($columnCount)
+    {
+        $this->columnCount = $columnCount;
     }
 
 
@@ -187,19 +211,4 @@ class LayoutBlockService extends AbstractBlockService implements BlockServiceInt
         return $gutterStyles;
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    public function getManageFormTypeName()
-    {
-        return 'layout';
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function createBlock()
-    {
-        return new LayoutBlock;
-    }
 }

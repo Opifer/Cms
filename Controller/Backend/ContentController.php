@@ -107,6 +107,7 @@ class ContentController extends Controller
         }
 
         $parameters = [
+            'manager' => $blockManager,
             'block' => $content->getBlock(),
             'id' => $content->getId(),
             'title' => $content->getTitle(),

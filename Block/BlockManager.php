@@ -7,6 +7,8 @@ use Gedmo\SoftDeleteable\SoftDeleteableListener;
 use Opifer\CmsBundle\EventListener\LoggableListener;
 use Opifer\ContentBundle\Block\BlockServiceInterface;
 use Doctrine\ORM\EntityManagerInterface;
+use Opifer\ContentBundle\Block\Tool\ContentTool;
+use Opifer\ContentBundle\Block\Tool\ToolsetMemberInterface;
 use Opifer\ContentBundle\Model\BlockInterface;
 use Opifer\ContentBundle\Repository\BlockLogEntryRepository;
 
@@ -67,6 +69,22 @@ class BlockManager
     public function getServices()
     {
         return $this->services;
+    }
+
+    /**
+     * @return array
+     */
+    public function getTools()
+    {
+        $tools = array();
+
+        foreach ($this->services as $service) {
+            if ($service instanceof ToolsetMemberInterface) {
+                $tools[] = $service->getTool();
+            }
+        }
+
+        return $tools;
     }
 
     /**

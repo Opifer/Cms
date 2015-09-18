@@ -2,6 +2,8 @@
 
 namespace Opifer\ContentBundle\Block;
 
+use Opifer\ContentBundle\Block\Tool\ContentTool;
+use Opifer\ContentBundle\Block\Tool\ToolsetMemberInterface;
 use Opifer\ContentBundle\Entity\JumbotronBlock;
 use Opifer\ContentBundle\Model\BlockInterface;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -11,7 +13,7 @@ use Symfony\Component\Form\FormBuilderInterface;
  *
  * @package Opifer\ContentBundle\Block
  */
-class JumbotronBlockService extends AbstractBlockService implements BlockServiceInterface
+class JumbotronBlockService extends AbstractBlockService implements BlockServiceInterface, ToolsetMemberInterface
 {
     protected $view = 'OpiferContentBundle:Block:Content/jumbotron.html.twig';
 
@@ -89,6 +91,16 @@ class JumbotronBlockService extends AbstractBlockService implements BlockService
         $this->styles = $styles;
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    public function getTool()
+    {
+        $tool = new ContentTool('Jumbotron', 'OpiferContentBundle:JumbotronBlock');
 
+        $tool->setIcon('settings_overscan')
+            ->setDescription('Large piece of content with bigger font and optional background image.');
 
+        return $tool;
+    }
 }

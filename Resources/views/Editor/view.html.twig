@@ -75,66 +75,20 @@
                             <div class="row">
                                 <div class="col-xs-12">
                                     <div class="list-group">
-                                        <div class="list-group-item pm-block-item" data-pm-block-type="OpiferContentBundle:ButtonBlock">
-                                            <div class="col-visual">
-                                                <i class="material-icons">label_outline</i>
-                                            </div>
-                                            <div class="col-text">
-                                                <h4 class="list-group-item-heading">Button link</h4>
+                                        {% for tool in manager.tools %}
+                                            {% if tool.type == 'content' %}
+                                            <div class="list-group-item pm-block-item" data-pm-block-type="{{ tool.service }}">
+                                                <div class="col-visual">
+                                                    <i class="material-icons">{{ tool.icon }}</i>
+                                                </div>
+                                                <div class="col-text">
+                                                    <h4 class="list-group-item-heading">{{ tool.name }}</h4>
 
-                                                <p class="list-group-item-text">Creates a link to a (external) page or content.</p>
+                                                    <p class="list-group-item-text">{{ tool.description }}</p>
+                                                </div>
                                             </div>
-                                        </div>
-                                        <div class="list-group-item pm-block-item" data-pm-block-type="OpiferContentBundle:HtmlBlock">
-                                            <div class="col-visual">
-                                                <i class="material-icons">subject</i>
-                                            </div>
-                                            <div class="col-text">
-                                                <h4 class="list-group-item-heading">Content</h4>
-
-                                                <p class="list-group-item-text">Rich content editable through WYSIWYG editor.</p>
-                                            </div>
-                                        </div>
-                                        <div class="list-group-item pm-block-item" data-pm-block-type="OpiferContentBundle:ImageBlock">
-                                            <div class="col-visual">
-                                                <i class="material-icons">image</i>
-                                            </div>
-                                            <div class="col-text">
-                                                <h4 class="list-group-item-heading">Image</h4>
-
-                                                <p class="list-group-item-text">Provides an image from the library in the right size.</p>
-                                            </div>
-                                        </div>
-                                        <div class="list-group-item pm-block-item" data-pm-block-type="OpiferContentBundle:JumbotronBlock">
-                                            <div class="col-visual">
-                                                <i class="material-icons">settings_overscan</i>
-                                            </div>
-                                            <div class="col-text">
-                                                <h4 class="list-group-item-heading">Jumbotron</h4>
-
-                                                <p class="list-group-item-text">Large piece of content with bigger font and optional background image.</p>
-                                            </div>
-                                        </div>
-                                        <div class="list-group-item pm-block-item" data-pm-block-type="AppBundle:ImageCardGridBlock">
-                                            <div class="col-visual">
-                                                <i class="material-icons text-success">apps</i>
-                                            </div>
-                                            <div class="col-text">
-                                                <h4 class="list-group-item-heading">Image cards</h4>
-
-                                                <p class="list-group-item-text">Tiled list overview sourced by a repository or single items.</p>
-                                            </div>
-                                        </div>
-                                        <div class="list-group-item pm-block-item" data-pm-block-type="AppBundle:ImageCardItemBlock">
-                                            <div class="col-visual">
-                                                <i class="material-icons text-success">stop</i>
-                                            </div>
-                                            <div class="col-text">
-                                                <h4 class="list-group-item-heading">Image cards item</h4>
-
-                                                <p class="list-group-item-text">Single card item to put in tiled list.</p>
-                                            </div>
-                                        </div>
+                                            {% endif %}
+                                        {% endfor %}
 
                                         {#
                                         <div class="list-group-item pm-block-item" data-pm-block-type="carousel">
@@ -248,36 +202,21 @@
                             <div class="row">
                                 <div class="col-xs-12">
                                     <div class="list-group">
-                                        <div class="list-group-item pm-block-item" data-pm-block-type="OpiferContentBundle:LayoutBlock" data-pm-block-data='{"wrapper": "section"}'>
-                                            <div class="col-visual">
-                                                <i class="material-icons">crop_landscape</i>
-                                            </div>
-                                            <div class="col-text">
-                                                <h4 class="list-group-item-heading">Section</h4>
 
-                                                <p class="list-group-item-text">Wrapping element container to hold columns in.</p>
-                                            </div>
-                                        </div>
-                                        <div class="list-group-item pm-block-item" data-pm-block-type="OpiferContentBundle:LayoutBlock" data-pm-block-data='{"wrapper": "container"}'>
-                                            <div class="col-visual">
-                                                <i class="material-icons">crop_landscape</i>
-                                            </div>
-                                            <div class="col-text">
-                                                <h4 class="list-group-item-heading">Container</h4>
+                                        {% for tool in manager.tools %}
+                                            {% if tool.type == 'container' %}
+                                                <div class="list-group-item pm-block-item" data-pm-block-type="{{ tool.service }}" data-pm-block-data='{{ tool.datajson }}'>
+                                                    <div class="col-visual">
+                                                        <i class="material-icons">{{ tool.icon }}</i>
+                                                    </div>
+                                                    <div class="col-text">
+                                                        <h4 class="list-group-item-heading">{{ tool.name }}</h4>
 
-                                                <p class="list-group-item-text">Wrapping element container to hold columns in.</p>
-                                            </div>
-                                        </div>
-                                        <div class="list-group-item pm-block-item" data-pm-block-type="OpiferContentBundle:LayoutBlock" data-pm-block-data='{"wrapper": "container", "properties": {"fluid": "true"}}'>
-                                            <div class="col-visual">
-                                                <i class="material-icons">crop_landscape</i>
-                                            </div>
-                                            <div class="col-text">
-                                                <h4 class="list-group-item-heading">Container Fluid</h4>
-
-                                                <p class="list-group-item-text">Wrapping element container to hold columns in.</p>
-                                            </div>
-                                        </div>
+                                                        <p class="list-group-item-text">{{ tool.description }}</p>
+                                                    </div>
+                                                </div>
+                                            {% endif %}
+                                        {% endfor %}
                                     </div>
                                 </div>
                             </div>
@@ -289,45 +228,21 @@
                             <div class="row">
                                 <div class="col-xs-12">
                                     <div class="list-group">
-                                        <div class="list-group-item pm-block-item" data-pm-block-type="OpiferContentBundle:LayoutBlock" data-pm-block-data='{"columnCount": 1}'>
-                                            <div class="col-visual">
-                                                <i class="material-icons">view_column</i>
-                                            </div>
-                                            <div class="col-text">
-                                                <h4 class="list-group-item-heading">100%</h4>
 
-                                                <p class="list-group-item-text">Single column spanning 100% width.</p>
-                                            </div>
-                                        </div>
-                                        <div class="list-group-item pm-block-item" data-pm-block-type="OpiferContentBundle:LayoutBlock" data-pm-block-data='{"columnCount": 2}'>
-                                            <div class="col-visual">
-                                                <i class="material-icons">view_column</i>
-                                            </div>
-                                            <div class="col-text">
-                                                <h4 class="list-group-item-heading">50% 50%</h4>
+                                        {% for tool in manager.tools %}
+                                            {% if tool.type == 'column' %}
+                                                <div class="list-group-item pm-block-item" data-pm-block-type="{{ tool.service }}" data-pm-block-data='{{ tool.datajson }}'>
+                                                    <div class="col-visual">
+                                                        <i class="material-icons">{{ tool.icon }}</i>
+                                                    </div>
+                                                    <div class="col-text">
+                                                        <h4 class="list-group-item-heading">{{ tool.name }}</h4>
 
-                                                <p class="list-group-item-text">Two equal columns both 50% width.</p>
-                                            </div>
-                                        </div>
-                                        <div class="list-group-item pm-block-item" data-pm-block-type="OpiferContentBundle:LayoutBlock" data-pm-block-data='{"columnCount": 3}'>
-                                            <div class="col-visual">
-                                                <i class="material-icons">view_column</i>
-                                            </div>
-                                            <div class="col-text">
-                                                <h4 class="list-group-item-heading">33% 34% 33%</h4>
-
-                                                <p class="list-group-item-text">Three columns equal in width.</p>
-                                            </div>
-                                        </div>
-                                        <div class="list-group-item pm-block-item" data-pm-block-type="OpiferContentBundle:LayoutBlock" data-pm-block-data='{"columnCount": 4}'>
-                                            <div class="col-visual">
-                                                <i class="material-icons">view_column</i>
-                                            </div>
-                                            <div class="col-text">
-                                                <h4 class="list-group-item-heading">25% 25% 25% 25%</h4>
-
-                                                <p class="list-group-item-text">Four columns equal in width.</p>
-                                            </div>
+                                                        <p class="list-group-item-text">{{ tool.description }}</p>
+                                                    </div>
+                                                </div>
+                                            {% endif %}
+                                        {% endfor %}
                                         </div>
                                     </div>
                                 </div>

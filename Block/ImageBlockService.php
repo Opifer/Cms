@@ -2,6 +2,8 @@
 
 namespace Opifer\ContentBundle\Block;
 
+use Opifer\ContentBundle\Block\Tool\ContentTool;
+use Opifer\ContentBundle\Block\Tool\ToolsetMemberInterface;
 use Opifer\ContentBundle\Entity\ImageBlock;
 use Opifer\ContentBundle\Model\BlockInterface;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -11,7 +13,7 @@ use Symfony\Component\Form\FormBuilderInterface;
  *
  * @package Opifer\ContentBundle\Block
  */
-class ImageBlockService extends AbstractBlockService implements BlockServiceInterface
+class ImageBlockService extends AbstractBlockService implements BlockServiceInterface, ToolsetMemberInterface
 {
     protected $view = 'OpiferContentBundle:Block:Content/image.html.twig';
 
@@ -52,6 +54,19 @@ class ImageBlockService extends AbstractBlockService implements BlockServiceInte
     public function createBlock()
     {
         return new ImageBlock;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getTool()
+    {
+        $tool = new ContentTool('Image', 'OpiferContentBundle:ImageBlock');
+
+        $tool->setIcon('image')
+            ->setDescription('Provides an image from the library in the right size.');
+
+        return $tool;
     }
 
 }

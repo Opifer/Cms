@@ -2,6 +2,8 @@
 
 namespace Opifer\ContentBundle\Block;
 
+use Opifer\ContentBundle\Block\Tool\ContentTool;
+use Opifer\ContentBundle\Block\Tool\ToolsetMemberInterface;
 use Opifer\ContentBundle\Entity\ButtonBlock;
 use Opifer\ContentBundle\Model\BlockInterface;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -11,7 +13,7 @@ use Symfony\Component\Form\FormBuilderInterface;
  *
  * @package Opifer\ContentBundle\Block
  */
-class ButtonBlockService extends AbstractBlockService implements BlockServiceInterface
+class ButtonBlockService extends AbstractBlockService implements BlockServiceInterface, ToolsetMemberInterface
 {
     protected $view = 'OpiferContentBundle:Block:Content/button.html.twig';
 
@@ -90,6 +92,18 @@ class ButtonBlockService extends AbstractBlockService implements BlockServiceInt
         $this->styles = $styles;
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    public function getTool()
+    {
+        $tool = new ContentTool('Button link', 'OpiferContentBundle:ButtonBlock');
+
+        $tool->setIcon('label_outline')
+            ->setDescription('Creates a link to a (external) page or content');
+
+        return $tool;
+    }
 
 
 }

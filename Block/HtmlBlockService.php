@@ -2,6 +2,8 @@
 
 namespace Opifer\ContentBundle\Block;
 
+use Opifer\ContentBundle\Block\Tool\ContentTool;
+use Opifer\ContentBundle\Block\Tool\ToolsetMemberInterface;
 use Opifer\ContentBundle\Entity\HtmlBlock;
 use Symfony\Component\Form\FormBuilderInterface;
 use Opifer\ContentBundle\Model\BlockInterface;
@@ -11,7 +13,7 @@ use Opifer\ContentBundle\Model\BlockInterface;
  *
  * @package Opifer\ContentBundle\Block
  */
-class HtmlBlockService extends AbstractBlockService implements BlockServiceInterface
+class HtmlBlockService extends AbstractBlockService implements BlockServiceInterface, ToolsetMemberInterface
 {
     protected $view = 'OpiferContentBundle:Block:Content/html.html.twig';
 
@@ -47,5 +49,18 @@ class HtmlBlockService extends AbstractBlockService implements BlockServiceInter
     public function createBlock()
     {
         return new HtmlBlock;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getTool()
+    {
+        $tool = new ContentTool('Content', 'OpiferContentBundle:HtmlBlock');
+
+        $tool->setIcon('subject')
+            ->setDescription('Rich content editable through WYSIWYG editor.');
+
+        return $tool;
     }
 }

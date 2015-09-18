@@ -6,11 +6,11 @@ use Doctrine\ORM\Mapping as ORM;
 use Opifer\ContentBundle\Block\BlockContainerInterface;
 
 /**
- * LayoutBlock
+ * ColumnBlock
  *
  * @ORM\Entity
  */
-class LayoutBlock extends CompositeBlock implements BlockContainerInterface
+class ColumnBlock extends CompositeBlock implements BlockContainerInterface
 {
     /**
      * @var integer
@@ -20,18 +20,11 @@ class LayoutBlock extends CompositeBlock implements BlockContainerInterface
     protected $columnCount;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(type="string", name="value", nullable=true)
-     */
-    protected $wrapper;
-
-    /**
      * @return string
      */
     public function __toString()
     {
-        return sprintf("Block %d: %s with %d columns", $this->id, $this->wrapper, $this->columnCount);
+        return sprintf("Block %d: %d columns", $this->id, $this->columnCount);
     }
 
     /**
@@ -39,7 +32,18 @@ class LayoutBlock extends CompositeBlock implements BlockContainerInterface
      */
     public function getBlockType()
     {
-        return 'layout';
+        switch ($this->columnCount) {
+            case 1:
+                return 'column_one';
+            case 2:
+                return 'column_two';
+            case 3:
+                return 'column_three';
+            case 4:
+                return 'column_four';
+        }
+
+        return 'column_one';
     }
 
     /**
@@ -59,22 +63,5 @@ class LayoutBlock extends CompositeBlock implements BlockContainerInterface
     {
         $this->columnCount = $columnCount;
     }
-
-    /**
-     * @return wrapper
-     */
-    public function getWrapper()
-    {
-        return $this->wrapper;
-    }
-
-    /**
-     * @param wrapper $wrapper
-     */
-    public function setWrapper($wrapper)
-    {
-        $this->wrapper = $wrapper;
-    }
-
 
 }
