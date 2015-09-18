@@ -22,9 +22,9 @@
                 {% for post in form.posts %}
                     <tr>
                         <td width="25">{{ post.id }}</td>
-                        <td><a href="{{ path('opifer_form_post_view', {'id': post.id}) }}">{{ post.submittedAt|date('d-m-Y') }}</a></td>
+                        <td><a href="{{ path('opifer_form_post_view', {'id': post.id}) }}">{{ post.submittedAt|date('d-m-Y H:i') }}</a></td>
                         <td>
-                            <a href="{{ path('opifer_form_post_view', {'id': post.id}) }}"><i class="fa fa-eye"></i> View</a>
+                            <a href="{{ path('opifer_form_post_view', {'id': post.id}) }}"><i class="fa fa-eye"></i> View</a> &nbsp;
                             <a href="{{ path('opifer_form_post_delete', {'id': post.id}) }}"><i class="fa fa-remove"></i> Delete</a>
                         </td>
                     </tr>
