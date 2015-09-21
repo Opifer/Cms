@@ -68,6 +68,7 @@ class OpiferFormExtension extends Extension implements PrependExtensionInterface
     public function getParameters(array $config)
     {
         $params = [
+            'opifer_form.from_email' => $config['from_email'],
             'opifer_form.form_class' => $config['form']['class'],
             'opifer_form.form_index_view' => $config['form']['views']['index'],
             'opifer_form.form_create_view' => $config['form']['views']['create'],

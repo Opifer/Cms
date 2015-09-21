@@ -51,6 +51,6 @@ services:
 
     opifer.form.notification_mail_listener:
         class: %opifer.form.notification_mail_listener.class%
-        arguments: [@templating, @mailer]
+        arguments: [@templating, @mailer, %opifer_form.from_email%]
         tags:
             - { name: kernel.event_subscriber }

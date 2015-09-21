@@ -21,16 +21,21 @@ class NotificationMailListener implements EventSubscriberInterface
     /** @var EngineInterface */
     protected $templating;
 
+    /** @var string */
+    protected $sender;
+
     /**
      * Constructor.
      *
      * @param EngineInterface $templating
      * @param \Swift_mailer   $mailer
+     * @param string          $sender
      */
-    public function __construct(EngineInterface $templating, \Swift_mailer $mailer)
+    public function __construct(EngineInterface $templating, \Swift_mailer $mailer, $sender)
     {
         $this->templating = $templating;
         $this->mailer = $mailer;
+        $this->sender = $sender;
     }
 
     /**
@@ -60,10 +65,10 @@ class NotificationMailListener implements EventSubscriberInterface
         }
 
         $body = $this->templating->render('OpiferFormBundle:Email:notification.html.twig', ['post' => $post]);
-
+        
         $message = \Swift_Message::newInstance()
-            ->setSender('admin@opifer.nl')
-            ->setFrom('admin@opifer.nl')
+            ->setSender($this->sender)
+            ->setFrom($this->sender)
             ->setTo($form->getNotificationEmail())
             ->setBody($body)
         ;

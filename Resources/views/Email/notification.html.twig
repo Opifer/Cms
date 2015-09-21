@@ -1,1 +1,5 @@
-You just received a new message on {{ post.form.name }}.
+New message on form "{{ post.form.name }}".
+
+{% for key, value in post.valueset.namedvalues %}
+    {{ key }}: {{ value }}
+{% endfor %}
