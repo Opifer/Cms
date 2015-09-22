@@ -18,7 +18,7 @@ class DateTimeValue extends Value
     */
     public function __toString()
     {
-        return (string) $this->getTimestamp();
+        return date('d-m-Y H:i:s', $this->getTimestamp());
     }
 
     /**
