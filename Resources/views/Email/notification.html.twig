@@ -1,5 +1,5 @@
 New message on form "{{ post.form.name }}".
 
 {% for key, value in post.valueset.namedvalues %}
-    {{ key }}: {{ value }}
+    {{ value.attribute.displayName }}: {{ value }}
 {% endfor %}
