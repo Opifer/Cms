@@ -62,11 +62,13 @@ class PostController extends Controller
         if (!$post) {
             return $this->createNotFoundException();
         }
+        
+        $form = $post->getForm();
 
         $em = $this->getDoctrine()->getManager();
         $em->remove($post);
         $em->flush();
 
-        return $this->redirectToRoute('opifer_form_post_index');
+        return $this->redirectToRoute('opifer_form_post_index', ['formId' => $form->getId()]);
     }
 }
