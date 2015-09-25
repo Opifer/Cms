@@ -29,6 +29,11 @@ services:
         tags:
             - { name: opifer.eav.value_provider, alias: radio }
 
+    opifer.eav.date_value_provider:
+        class: Opifer\EavBundle\ValueProvider\DateValueProvider
+        tags:
+            - { name: opifer.eav.value_provider, alias: date }
+
     opifer.eav.datetime_value_provider:
         class: Opifer\EavBundle\ValueProvider\DatetimeValueProvider
         tags:

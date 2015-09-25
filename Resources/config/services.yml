@@ -4,6 +4,7 @@ parameters:
     opifer.eav.empty_value_listener.class: Opifer\EavBundle\EventListener\EmptyValueListener
     opifer.eav.discriminator_listener.class: Opifer\EavBundle\EventListener\DiscriminatorListener
     opifer.eav.form.attribute_type.class: Opifer\EavBundle\Form\Type\AttributeType
+    opifer.eav.form.date_picker_type.class: Opifer\EavBundle\Form\Type\DatePickerType
     opifer.eav.form.datetime_picker_type.class: Opifer\EavBundle\Form\Type\DateTimePickerType
     opifer.eav.form.eav_type.class: Opifer\EavBundle\Form\Type\EavType
     opifer.eav.form.eav_post_type.class: Opifer\EavBundle\Form\Type\EavPostType
@@ -36,6 +37,11 @@ services:
         arguments: [@opifer.eav.form.option_type, %opifer_eav.attribute_class%, %opifer_eav.template_class%]
         tags:
             - { name: form.type, alias: eav_attribute }
+
+    opifer.eav.form.date_picker_type:
+        class: %opifer.eav.form.date_picker_type.class%
+        tags:
+            - { name: form.type, alias: opifer_eav_date_picker }
 
     opifer.eav.form.datetime_picker_type:
         class: %opifer.eav.form.datetime_picker_type.class%

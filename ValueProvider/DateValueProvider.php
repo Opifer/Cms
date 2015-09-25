@@ -26,4 +26,12 @@ class DateValueProvider extends AbstractValueProvider implements ValueProviderIn
     {
         return 'Opifer\EavBundle\Entity\DateValue';
     }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getLabel()
+    {
+        return 'Date';
+    }
 }
