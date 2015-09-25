@@ -13,7 +13,7 @@ class ValueCompilerPass implements CompilerPassInterface
      *
      * Adds all tagged provider services to the provider pool
      *
-     * @param Symfony\Component\DependencyInjection\ContainerBuilder $container
+     * @param ContainerBuilder $container
      *
      * @return void
      */
