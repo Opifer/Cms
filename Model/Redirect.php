@@ -153,8 +153,15 @@ class Redirect
      */
     public function removeRequirement(array $requirement)
     {
-        //@todo implement
+        $newArray = [];
+        foreach ($this->requirements as $req) {
+            if ($requirement['parameter'] != $requirement['parameter']) {
+                $newArray[] = $req;
+            }
+        }
 
+        $this->requirements = $newArray;
+        
         return $this;
     }
 
