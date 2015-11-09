@@ -3,7 +3,7 @@
 namespace Opifer\CmsBundle\EventListener;
 
 use Doctrine\ORM\EntityManagerInterface;
-use Opifer\EavBundle\Entity\AttachmentValue;
+use Opifer\CmsBundle\Entity\AttachmentValue;
 use Opifer\FormBundle\Event\Events;
 use Opifer\FormBundle\Event\FormSubmitEvent;
 use Opifer\MediaBundle\Model\MediaManagerInterface;
