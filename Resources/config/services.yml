@@ -1,6 +1,7 @@
 parameters:
     opifer.cms.acl_manager.class: Opifer\CmsBundle\Security\AclManager
     opifer.cms.address_value_provider.class: Opifer\CmsBundle\ValueProvider\AddressValueProvider
+    opifer.cms.attachment_listener.class: Opifer\FormBundle\EventListener\AttachmentListener
     opifer.cms.content_menu.class: Opifer\CmsBundle\Menu\ContentMenu
     opifer.cms.exception_router.class: Opifer\CmsBundle\Router\ExceptionRouter
     opifer.cms.form_value_provider.class: Opifer\CmsBundle\ValueProvider\FormValueProvider
@@ -119,6 +120,12 @@ services:
         arguments: [@security.acl.provider, @security.context]
 
     # Event Listeners
+
+    opifer.cms.attachment_listener:
+        class: %opifer.cms.attachment_listener.class%
+        arguments: [@doctrine.orm.default_entity_manager, @opifer.media.media_manager]
+        tags:
+            - { name: kernel.event_subscriber }
 
     opifer.cms.sitemap_listener:
         class: %opifer.cms.sitemap_listener.class%
