@@ -14,7 +14,8 @@ class AttachmentValueProvider extends AbstractValueProvider implements ValueProv
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder->add('file', 'file', [
-            'label' => false,
+            'required' => (isset($options['attribute']->getParameters()['required'])) ? $options['attribute']->getParameters()['required'] : false,
+            'label' => false
         ]);
     }
 
