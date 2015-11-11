@@ -15,7 +15,7 @@ class BooleanValueProvider extends AbstractValueProvider implements ValueProvide
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder->add('value', 'checkbox', [
-            'required'   => false
+            'required' => (isset($options['attribute']->getParameters()['required'])) ? $options['attribute']->getParameters()['required'] : false,
         ]);
     }
 
