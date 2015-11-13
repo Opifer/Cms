@@ -70,6 +70,7 @@ class NotificationMailListener implements EventSubscriberInterface
             ->setSender($this->sender)
             ->setFrom($this->sender)
             ->setTo($form->getNotificationEmail())
+            ->setSubject($form->getName())
             ->setBody($body)
         ;
 
