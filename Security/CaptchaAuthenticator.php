@@ -27,7 +27,7 @@ class CaptchaAuthenticator implements SimpleFormAuthenticatorInterface
     /** @var UserPasswordEncoderInterface */
     protected $encoder;
 
-    public function __construct($secretKey, $siteKey, RequestStack $requestStack, UserPasswordEncoderInterface $encoder)
+    public function __construct(RequestStack $requestStack, UserPasswordEncoderInterface $encoder, $secretKey = null, $siteKey = null)
     {
         $this->secretKey = $secretKey;
         $this->siteKey = $siteKey;

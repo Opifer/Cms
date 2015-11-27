@@ -33,7 +33,7 @@ services:
 
     opifer.cms.captcha_authenticator:
         class: Opifer\CmsBundle\Security\CaptchaAuthenticator
-        arguments: [%google_captcha_secret%, %google_captcha_site_key%, @request_stack, @security.password_encoder]
+        arguments: [@request_stack, @security.password_encoder, %opifer_cms.google_captcha_secret%, %opifer_cms.google_captcha_site_key%]
 
     # Twig Extensions
 

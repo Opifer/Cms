@@ -33,11 +33,13 @@
                             </div>
                         </div>
 
+                        {% if google_captcha_site_key is defined %}
                         <div class="form-group">
                             <div class="col-sm-offset-3 col-sm-9">
                                 <div class="g-recaptcha" data-sitekey="{{ google_captcha_site_key }}"></div>
                             </div>
                         </div>
+                        {% endif %}
 
                         <div class="form-group">
                             <div class="col-sm-offset-3 col-sm-9">
@@ -68,5 +70,7 @@
 
 {% block javascripts %}
     {{ parent() }}
-    <script type="text/javascript" src="https://www.google.com/recaptcha/api.js" async defer></script>
+    {% if google_captcha_site_key is defined %}
+        <script type="text/javascript" src="https://www.google.com/recaptcha/api.js" async defer></script>
+    {% endif %}
 {% endblock %}
