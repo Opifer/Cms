@@ -35,6 +35,12 @@
 
                         <div class="form-group">
                             <div class="col-sm-offset-3 col-sm-9">
+                                <div class="g-recaptcha" data-sitekey="6LcGbBETAAAAANb3E76n6PspOGR4OpBNpu39y-RW"></div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="col-sm-offset-3 col-sm-9">
                                 <div class="checkbox">
                                     <label for="remember_me">
                                         <input type="checkbox" id="remember_me" name="_remember_me" value="on" />{{ 'security.login.remember_me'|trans }}
@@ -58,4 +64,9 @@
             </footer>
         </div>
     </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script type="text/javascript" src="https://www.google.com/recaptcha/api.js" async defer></script>
 {% endblock %}
