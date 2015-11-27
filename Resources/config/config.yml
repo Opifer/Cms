@@ -191,6 +191,7 @@ twig:
             - 'OpiferCmsBundle:Form:fields.html.twig' # At the bottom to make sure form action are being set to '#' when empty
     globals:
         settings: @opifer.cms.settings
+        google_captcha_site_key: %google_captcha_site_key%
 
 # Crud config
 opifer_crud:
