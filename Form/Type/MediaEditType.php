@@ -6,9 +6,9 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 
 /**
- * To be renamed
+ * Form type for editing media items
  */
-class DropzoneFieldType extends AbstractType
+class MediaEditType extends AbstractType
 {
     /**
      * {@inheritDoc}
@@ -27,6 +27,6 @@ class DropzoneFieldType extends AbstractType
      */
     public function getName()
     {
-        return 'dropzone_field';
+        return 'opifer_media_edit';
     }
 }

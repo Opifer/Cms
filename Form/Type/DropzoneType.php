@@ -16,10 +16,8 @@ use Opifer\MediaBundle\Model\MediaManagerInterface;
  */
 class DropzoneType extends AbstractType
 {
-    /**
-     * @var MediaManagerInterface
-     */
-    private $mediaManager;
+    /** @var MediaManagerInterface */
+    protected $mediaManager;
 
     /**
      * @param MediaManagerInterface $mm
@@ -35,7 +33,7 @@ class DropzoneType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         if (!$options['mapped']) {
-            $prototype = $builder->create('__id__', new DropzoneFieldType(), array_replace([
+            $prototype = $builder->create('__id__', 'opifer_media_edit', array_replace([
                 'label' => '__id__label__'
             ], []));
 

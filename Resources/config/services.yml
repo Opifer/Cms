@@ -5,6 +5,7 @@ parameters:
     opifer.media.aws_s3.client.class: Aws\S3\S3Client
     opifer.media.file_provider.class: Opifer\MediaBundle\Provider\FileProvider
     opifer.media.form.dropzone.class: Opifer\MediaBundle\Form\Type\DropzoneType
+    opifer.media.form.media_edit.class: Opifer\MediaBundle\Form\Type\MediaEditType
     opifer.media.form.mediapicker.class: Opifer\MediaBundle\Form\Type\MediaPickerType
     opifer.media.handler.serialization.class: Opifer\MediaBundle\EventListener\Serializer\MediaEventSubscriber
     opifer.media.image_provider.class: Opifer\MediaBundle\Provider\ImageProvider
@@ -40,6 +41,11 @@ services:
         arguments: [@opifer.media.media_manager]
         tags:
             - { name: form.type, alias: dropzone }
+
+    opifer.media.form.media_edit:
+        class: %opifer.media.form.media_edit.class%
+        tags:
+            - { name: form.type, alias: opifer_media_edit }
 
     opifer.media.form.mediapicker:
         class: %opifer.media.form.mediapicker.class%
