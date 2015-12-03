@@ -148,7 +148,7 @@ class MediaController extends Controller
         foreach ($form['files'] as $id => $values) {
             $media = $this->get('opifer.media.media_manager')->getRepository()->find($id);
 
-            $form = $this->createForm(new DropzoneFieldType(), $media);
+            $form = $this->createForm('opifer_media_edit', $media);
             $form->submit($values);
 
             if ($form->isValid()) {
