@@ -35,6 +35,7 @@
                     </div>
                     <div class="center-stage">
                         <button type="button" ng-if="picker.name" ng-click="selectMedia($index)" class="btn btn-skeleton include">Use media</button>
+                        <button type="button" ng-if="!picker.name" ng-click="editMedia($index)" class="btn btn-skeleton edit">Edit</button>
                         <button type="button" ng-if="!picker.name" ng-click="confirmDelete($index)" class="btn btn-skeleton delete">Delete</button>
                         <!--<button type="button" ng-if="!picker.name" ng-click="zoomMedia($index)" class="btn btn-skeleton zoom">Zoom</button>-->
                     </div>

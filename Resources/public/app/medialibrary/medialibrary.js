@@ -14,7 +14,7 @@ angular.module('mediaLibrary', ['infinite-scroll', 'ngModal', 'angularFileUpload
      * The media library Controller
      */
 
-    .controller('MediaLibraryController', ['$scope', '$rootScope', '$http', '$location', '$upload', 'MediaCollection', 'MediaService', function($scope, $rootScope, $http, $location, $upload, MediaCollection, MediaService) {
+    .controller('MediaLibraryController', ['$scope', '$rootScope', '$http', '$location', '$upload', '$window', 'MediaCollection', 'MediaService', function($scope, $rootScope, $http, $location, $upload, $window, MediaCollection, MediaService) {
         $scope.mediaCollection = new MediaCollection();
         $scope.selecteditems = [];
         $scope.searchmedia = '';
@@ -183,7 +183,13 @@ angular.module('mediaLibrary', ['infinite-scroll', 'ngModal', 'angularFileUpload
             $scope.confirmation.idx = idx;
             $scope.confirmation.name = selected.name;
             $scope.confirmation.shown = !$scope.confirmation.shown;
-        }
+        };
+
+        $scope.editMedia = function(idx) {
+            var selected = $scope.mediaCollection.items[idx];
+
+            $window.location.href = Routing.generate('opifer_media_media_edit', {'id': selected.id});
+        };
 
         /**
          * Delete media
@@ -197,8 +203,6 @@ angular.module('mediaLibrary', ['infinite-scroll', 'ngModal', 'angularFileUpload
                 .success(function(data) {
                     if (data.success == true) {
                         $scope.mediaCollection.items.splice(idx, 1);
-                    } else {
-                        console.log(data.message);
                     }
                 }
             );
