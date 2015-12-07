@@ -100,6 +100,13 @@ class Attribute implements AttributeInterface
     protected $allowedTemplates;
 
     /**
+     * @var array
+     *
+     * @ORM\Column(name="parameters", type="json_array", nullable=true)
+     */
+    protected $parameters;
+
+    /**
      * Constructor
      */
     public function __construct()
@@ -440,5 +447,28 @@ class Attribute implements AttributeInterface
         $this->allowedTemplates = $allowedTemplates;
 
         return $this;
+    }
+
+    /**
+     * Set parameters
+     *
+     * @param  array     $parameters
+     * @return Attribute
+     */
+    public function setParameters($parameters)
+    {
+        $this->parameters = $parameters;
+
+        return $this;
+    }
+
+    /**
+     * Get parameters
+     *
+     * @return array
+     */
+    public function getParameters()
+    {
+        return $this->parameters;
     }
 }
