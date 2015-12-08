@@ -4,6 +4,7 @@ namespace Opifer\MediaBundle\Form\Type;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
 /**
@@ -33,16 +34,26 @@ class MediaType extends AbstractType
     }
 
     /**
+     * @deprecated
+     *
+     * @param OptionsResolverInterface $resolver
+     */
+    public function setDefaultOptions(OptionsResolverInterface $resolver)
+    {
+        $this->configureOptions($resolver);
+    }
+
+    /**
      * Set default options
      *
      * Sets defaults, but also enables custom options that should be able to get
      * passed to the buildForm method from the controller. (e.g. 'provider')
      *
-     * @param OptionsResolverInterface $resolver
+     * @param OptionsResolver $resolver
      *
      * @return void
      */
-    public function setDefaultOptions(OptionsResolverInterface $resolver)
+    public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
             'provider' => null,
@@ -51,9 +62,19 @@ class MediaType extends AbstractType
 
     /**
      * {@inheritDoc}
+     *
+     * @deprecated
      */
     public function getName()
     {
-        return 'mediatype';
+        return $this->getBlockPrefix();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getBlockPrefix()
+    {
+        return 'opifer_media_media';
     }
 }
