@@ -59,8 +59,18 @@ class ContentInitType extends AbstractType
 
     /**
      * {@inheritDoc}
+     *
+     * @deprecated
      */
     public function getName()
+    {
+        return $this->getBlockPrefix();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getBlockPrefix()
     {
         return 'opifer_content_init';
     }
