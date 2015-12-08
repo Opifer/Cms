@@ -27,7 +27,6 @@ class SearchMediaType extends AbstractType
      */
     public function getName()
     {
-        // This should be 'form' to trigger the select2 field.
-        return 'form';
+        return 'search_media';
     }
 }

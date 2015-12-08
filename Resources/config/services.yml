@@ -49,7 +49,7 @@ services:
 
     opifer.media.form.mediapicker:
         class: %opifer.media.form.mediapicker.class%
-        arguments: [@opifer.media.provider.pool, @doctrine, @property_accessor]
+        arguments: [@opifer.media.provider.pool]
         tags:
             - { name: form.type, alias: mediapicker }
 
@@ -130,4 +130,3 @@ services:
                 prefix: "amazon_s3"
         tags:
             - { name: 'liip_imagine.cache.resolver', resolver: 'cached_proxy_aws' }
-
