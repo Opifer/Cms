@@ -75,6 +75,6 @@ class MediaType extends AbstractType
      */
     public function getBlockPrefix()
     {
-        return 'mediatype';
+        return 'opifer_media_media';
     }
 }

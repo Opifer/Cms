@@ -143,7 +143,7 @@ class MediaController extends Controller
         }
 
         $em = $this->getDoctrine()->getManager();
-        $form = $request->get('mediatype');
+        $form = $request->get('opifer_media_media');
 
         foreach ($form['files'] as $id => $values) {
             $media = $this->get('opifer.media.media_manager')->getRepository()->find($id);
