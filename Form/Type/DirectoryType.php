@@ -2,26 +2,21 @@
 
 namespace Opifer\ContentBundle\Form\Type;
 
-use Symfony\Component\Translation\TranslatorInterface;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 
 class DirectoryType extends AbstractType
 {
-    /** @var TranslatorInterface */
-    protected $translator;
-
     /** @var string */
     protected $entity;
 
     /**
      * Constructor
      *
-     * @param TranslatorInterface $translator
+     * @param string $entity
      */
-    public function __construct(TranslatorInterface $translator, $entity)
+    public function __construct($entity)
     {
-        $this->translator = $translator;
         $this->entity = $entity;
     }
 
@@ -32,7 +27,7 @@ class DirectoryType extends AbstractType
     {
         $builder
             ->add('parent', 'entity', [
-                'label'       => $this->translator->trans('directory.parent.label'),
+                'label'         => 'directory.parent.label',
                 'query_builder' => function($er) {
                     return $er->createQueryBuilder('d')
                         ->orderBy('d.root', 'ASC')
@@ -41,19 +36,19 @@ class DirectoryType extends AbstractType
                 'class'       => $this->entity,
                 'property'    => 'indentedName',
                 'required'    => false,
-                'empty_value' => $this->translator->trans('directory.parent.empty'),
+                'empty_value' => 'directory.parent.empty',
                 'empty_data'  => null,
                 'attr'        => [
-                    'help_text' => $this->translator->trans('directory.parent.help_text')
+                    'help_text' => 'directory.parent.help_text'
                 ]
             ])
             ->add('name', 'text', [
-                'label' => $this->translator->trans('form.name'),
-                'attr'  => ['help_text' => $this->translator->trans('directory.name.help_text')]
+                'label' => 'form.name',
+                'attr'  => ['help_text' => 'directory.name.help_text']
             ])
             ->add('slug', 'text')
             ->add('save', 'submit', [
-                'label' => $this->translator->trans('button.submit')
+                'label' => 'button.submit'
             ])
         ;
     }
