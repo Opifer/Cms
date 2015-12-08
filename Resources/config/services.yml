@@ -43,19 +43,19 @@ services:
     # Form types
     opifer.content.directory_type:
         class: %opifer.content.directory_type.class%
-        arguments: [@translator, %opifer_content.directory_class%]
+        arguments: [%opifer_content.directory_class%]
         tags:
             - { name: form.type, alias: opifer_directory }
 
     opifer.content.content_type:
         class: %opifer.content.content_type.class%
-        arguments: [@translator, %opifer_content.directory_class%, @opifer.content.content_manager]
+        arguments: [%opifer_content.directory_class%, @opifer.content.content_manager]
         tags:
             - { name: form.type, alias: opifer_content }
 
     opifer.content.content_init_type:
         class: %opifer.content.content_init_type.class%
-        arguments: [@translator, @router, %opifer_eav.template_class%, %opifer_content.content_class%]
+        arguments: [@router, %opifer_eav.template_class%, %opifer_content.content_class%]
         tags:
             - { name: form.type, alias: opifer_content_init }
 

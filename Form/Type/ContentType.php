@@ -2,21 +2,13 @@
 
 namespace Opifer\ContentBundle\Form\Type;
 
-use Symfony\Component\Translation\TranslatorInterface;
+use Opifer\ContentBundle\Form\DataTransformer\SlugTransformer;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
-use Doctrine\ORM\EntityRepository;
-
-use Opifer\EavBundle\Form\Type\ValueSetType;
-use Opifer\ContentBundle\Form\DataTransformer\SlugTransformer;
-use Opifer\ContentBundle\Form\DataTransformer\IdToContentTransformer;
 
 class ContentType extends AbstractType
 {
-    /** @var Symfony\Bundle\FrameworkBundle\Translation\Translator */
-    protected $translator;
-
     /** @var string */
     protected $directoryClass;
 
@@ -25,14 +17,12 @@ class ContentType extends AbstractType
 
     /**
      * Contstructor
-     * 
-     * @param TranslatorInterface $translator
+     *
      * @param string $directoryClass
      * @param object $contentManager
      */
-    public function __construct(TranslatorInterface $translator, $directoryClass, $contentManager)
+    public function __construct($directoryClass, $contentManager)
     {
-        $this->translator = $translator;
         $this->directoryClass = $directoryClass;
         $this->contentManager = $contentManager;
     }
@@ -49,25 +39,25 @@ class ContentType extends AbstractType
         // Add the default form fields
         $builder
             ->add('title', 'text', [
-                'label' => $this->translator->trans('form.title'),
+                'label' => 'form.title',
                 'attr'  => [
-                    'placeholder' => $this->translator->trans('content.form.title.placeholder'),
-                    'help_text'   => $this->translator->trans('content.form.title.help_text'),
+                    'placeholder' => 'content.form.title.placeholder',
+                    'help_text'   => 'content.form.title.help_text',
                 ]
             ])
             ->add('description', 'text', [
-                'label' => $this->translator->trans('form.description'),
+                'label' => 'form.description',
                 'attr'  => [
-                    'placeholder' => $this->translator->trans('content.form.description.placeholder'),
-                    'help_text'   => $this->translator->trans('content.form.description.help_text'),
+                    'placeholder' => 'content.form.description.placeholder',
+                    'help_text'   => 'content.form.description.help_text',
                 ]
             ])
             ->add(
                 $builder->create(
                     'slug', 'text', [
                     'attr' => [
-                        'placeholder' => $this->translator->trans('content.form.slug.placeholder'),
-                        'help_text'   => $this->translator->trans('form.slug.help_text'),
+                        'placeholder' => 'content.form.slug.placeholder',
+                        'help_text'   => 'form.slug.help_text',
 
                     ]]
                 )->addViewTransformer($transformer)
@@ -84,17 +74,17 @@ class ContentType extends AbstractType
                 'required'    => false,
                 'empty_data'  => null,
                 'attr'        => [
-                    'help_text' => $this->translator->trans('content.form.directory.help_text')
+                    'help_text' => 'content.form.directory.help_text'
                 ]
             ])
             ->add('alias', 'text', [
                 'attr'        => [
-                    'help_text' => $this->translator->trans('content.form.alias.help_text'),
+                    'help_text' => 'content.form.alias.help_text',
                     'widget_col' => 4,
                 ]
             ])
             ->add('symlink', 'contentpicker',[
-                'label' => $this->translator->trans('form.symlink')
+                'label' => 'form.symlink'
             ])
             ->add('active', 'checkbox')
         ;
@@ -108,13 +98,13 @@ class ContentType extends AbstractType
         // Add advanced fields only on the advanced option page.
         if ($options['mode'] == 'advanced') {
             $builder->add('realPresentation', 'presentationeditor', [
-                'label' => $this->translator->trans('form.presentation'),
+                'label' => 'form.presentation',
                 'attr'  => ['align_with_widget' => true]
             ]);
         }
 
         $builder->add('save', 'submit', [
-            'label' => $this->translator->trans('content.form.submit')
+            'label' => 'content.form.submit'
         ]);
     }
 
