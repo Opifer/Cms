@@ -77,6 +77,6 @@ fos_user_change_password:
     defaults: { _controller: FOSUserBundle:ChangePassword:changePassword }
     methods:  [GET,POST]
 
-_opifer_admin:
-    resource: "routing_admin.yml"
+_opifer_backend:
+    resource: "routing_backend.yml"
     prefix:   /admin

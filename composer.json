@@ -30,6 +30,7 @@
         "opifer/rulesengine-bundle": "~0.1",
         "opifer/rulesengine": "~0.1",
 
+        "apy/datagrid-bundle": "~2.2",
         "aws/aws-sdk-php": "2.5.*",
         "braincrafted/bootstrap-bundle": "2.1.0",
         "doctrine/doctrine-migrations-bundle": "~1.0",

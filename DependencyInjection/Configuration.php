@@ -27,7 +27,7 @@ class Configuration implements ConfigurationInterface
                 ->arrayNode('allowed_locales')
                     ->requiresAtLeastOneElement()
                     ->prototype('scalar')->end()
-                    ->defaultValue(array('nl_NL'))
+                    ->defaultValue(['nl_NL'])
                 ->end()
 
                 ->arrayNode('autocomplete')
