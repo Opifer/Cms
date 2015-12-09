@@ -7,9 +7,9 @@ opifer_cms_menu:
     resource: "@OpiferCmsBundle/Controller/MenuController.php"
     type:     annotation
 
-opifer_cms_setting:
-    resource: "@OpiferCmsBundle/Controller/SettingController.php"
-    type:     annotation
+opifer_cms_setting_index:
+    path: /settings
+    defaults: { _controller: OpiferCmsBundle:Backend/Setting:index }
 
 opifer_cms_command:
     resource: "@OpiferCmsBundle/Controller/CommandController.php"

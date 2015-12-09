@@ -1,18 +1,16 @@
 <?php
 
-namespace Opifer\CmsBundle\Controller;
+namespace Opifer\CmsBundle\Controller\Backend;
 
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Opifer\CmsBundle\Form\Type\SettingFormType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
-use Opifer\CmsBundle\Form\Type\SettingFormType;
+use Symfony\Component\HttpFoundation\Response;
 
 class SettingController extends Controller
 {
     /**
      * @param Request $request
-     *
-     * @Route("/settings", name="opifer.cms.settings")
      *
      * @return Response
      */
@@ -25,7 +23,7 @@ class SettingController extends Controller
         $form->handleRequest($request);
 
         if ($form->isValid()) {
-            $config = array();
+            $config = [];
             foreach ($form->getData() as $key => $value) {
                 if (!is_int($key)) {
                     $config[$key] = $value;
@@ -39,12 +37,12 @@ class SettingController extends Controller
             }
             $em->flush();
 
-            $this->get('session')->getFlashBag()->add('success',
-                $this->get('translator')->trans('settings.edit.success', ['%url%' => $this->generateUrl('opifer.cms.cache_clear')])
-            );
+            $this->addFlash('success', $this->get('translator')->trans('settings.edit.success', [
+                '%url%' => $this->generateUrl('opifer.cms.cache_clear')
+            ]));
         }
 
-        return $this->render('OpiferCmsBundle:Setting:index.html.twig', array(
+        return $this->render('OpiferCmsBundle:Backend/Setting:index.html.twig', array(
             'form' => $form->createView(),
         ));
     }
