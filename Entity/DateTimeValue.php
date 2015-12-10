@@ -5,12 +5,23 @@ namespace Opifer\EavBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
-* DateTimeValue
-*
-* @ORM\Entity
-*/
+ * DateTimeValue
+ *
+ * @ORM\Entity
+ */
 class DateTimeValue extends Value
 {
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        parent::__construct();
+
+        $now = new \DateTime();
+        $this->setValue($now);
+    }
+
     /**
     * Turn value into string for form field value purposes
     *
@@ -42,7 +53,11 @@ class DateTimeValue extends Value
      */
     public function setValue($value)
     {
-        $this->value = $value->getTimestamp();
+        if ($value instanceof \DateTime) {
+            $this->value = $value->getTimestamp();
+        } else {
+            $this->value = $value;
+        }
 
         return $this;
     }
