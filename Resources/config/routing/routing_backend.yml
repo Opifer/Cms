@@ -15,6 +15,26 @@ opifer_cms_command:
     resource: "@OpiferCmsBundle/Controller/CommandController.php"
     type:     annotation
 
+opifer_cms_layout_index:
+    path: /layouts
+    defaults: { _controller: OpiferCmsBundle:Backend/Layout:index }
+
+opifer_cms_layout_create:
+    path: /layouts/create
+    defaults: { _controller: OpiferCmsBundle:Backend/Layout:create }
+
+opifer_cms_layout_edit:
+    path: /layouts/edit/{id}
+    defaults: { _controller: OpiferCmsBundle:Backend/Layout:edit }
+    requirements:
+        id: \d+
+
+opifer_cms_layout_delete:
+    path: /layouts/delete/{id}
+    defaults: { _controller: OpiferCmsBundle:Backend/Layout:delete }
+    requirements:
+        id: \d+
+
 opifer_cms_cronjob_index:
     path: /cronjobs
     defaults: { _controller: OpiferCmsBundle:Backend/Cronjob:index }
