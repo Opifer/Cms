@@ -2,16 +2,17 @@
 
 namespace Opifer\CmsBundle\Entity;
 
+use APY\DataGridBundle\Grid\Mapping as GRID;
 use Cron\CronExpression;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
-use Opifer\CrudBundle\Annotation as Opifer;
 
 /**
  * Cron job
  *
  * @ORM\Table(name="cron")
  * @ORM\Entity(repositoryClass="Opifer\CmsBundle\Repository\CronRepository")
+ * @GRID\Source(columns="id, state, command, expression, startedAt, endedAt")
  */
 class Cron
 {
@@ -46,7 +47,6 @@ class Cron
      * @var string
      *
      * @ORM\Column(name="command", type="string", length=255)
-     * @Opifer\Form(editable=true)
      */
     protected $command;
 
@@ -54,7 +54,6 @@ class Cron
      * @var string
      *
      * @ORM\Column(name="expression", type="string", length=255)
-     * @Opifer\Form(editable=true)
      */
     protected $expression;
 
@@ -62,9 +61,8 @@ class Cron
      * @var integer
      *
      * @ORM\Column(name="priority", type="integer")
-     * @Opifer\Form(editable=true)
      */
-    protected $priority;
+    protected $priority = 0;
 
     /**
      * @var string

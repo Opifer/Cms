@@ -15,6 +15,26 @@ opifer_cms_command:
     resource: "@OpiferCmsBundle/Controller/CommandController.php"
     type:     annotation
 
+opifer_cms_cronjob_index:
+    path: /cronjobs
+    defaults: { _controller: OpiferCmsBundle:Backend/Cronjob:index }
+
+opifer_cms_cronjob_create:
+    path: /cronjobs/create
+    defaults: { _controller: OpiferCmsBundle:Backend/Cronjob:create }
+
+opifer_cms_cronjob_edit:
+    path: /cronjobs/edit/{id}
+    defaults: { _controller: OpiferCmsBundle:Backend/Cronjob:edit }
+    requirements:
+        id: \d+
+
+opifer_cms_cronjob_delete:
+    path: /cronjobs/delete/{id}
+    defaults: { _controller: OpiferCmsBundle:Backend/Cronjob:delete }
+    requirements:
+        id: \d+
+
 opifer_cms_user_index:
     path: /users
     defaults: { _controller: OpiferCmsBundle:Backend/User:index }

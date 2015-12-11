@@ -200,9 +200,6 @@ opifer_crud:
     # Note: Changing the key values will break the routes pointing to that key.
     # Make sure to fix wherever you point to that route.
     routes:
-        users: Opifer\CmsBundle\Entity\User
-        settings: Opifer\CmsBundle\Entity\Setting
-        cronjobs: Opifer\CmsBundle\Entity\Cron
         layouts: Opifer\CmsBundle\Entity\Layout
         templates: Opifer\CmsBundle\Entity\Template
         redirects: Opifer\CmsBundle\Entity\Redirect

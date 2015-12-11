@@ -62,8 +62,8 @@
                                         <a class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-hdd-o visible-xs-block"></i> {{ 'base.system'|trans|capitalize }} <i class="fa fa-angle-down"></i></a>
                                         <ul class="dropdown-menu">
                                             <li role="presentation" class="dropdown-header">{{ 'base.system'|trans|capitalize }}</li>
-                                            <li><a href="{{ path('opifer.crud.index', {'slug': 'settings'}) }}">{{ 'base.settings'|trans|capitalize }}</a></li>
-                                            <li><a href="{{ path('opifer.crud.index', {'slug': 'cronjobs'}) }}">{{ 'base.cronjobs'|trans|capitalize }}</a></li>
+                                            <li><a href="{{ path('opifer_cms_setting_index') }}">{{ 'base.settings'|trans|capitalize }}</a></li>
+                                            <li><a href="{{ path('opifer_cms_cronjob_index') }}">{{ 'base.cronjobs'|trans|capitalize }}</a></li>
                                             <li><a href="{{ path('opifer_cms_user_index') }}">{{ 'base.users'|trans|capitalize }}</a></li>
                                             <li><a href="{{ path('opifer.crud.index', {'slug': 'redirects'}) }}">{{ 'base.redirects'|trans|capitalize }}</a></li>
                                             <li class="divider"></li>
