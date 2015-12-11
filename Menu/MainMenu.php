@@ -19,7 +19,7 @@ class MainMenu extends MenuBuilder implements MenuInterface
 
         $menu->addChild('dashboard', [
             'label' => $this->icon('tablet').' '.$translator->trans('menu.dashboard'),
-            'route' => 'opifer.cms.dashboard.view',
+            'route' => 'opifer_cms_dashboard',
             'extras' => ['safe_label' => true]
         ]);
 

@@ -1,7 +1,7 @@
 
 opifer_cms_dashboard:
-    resource: "@OpiferCmsBundle/Controller/DashboardController.php"
-    type:     annotation
+    path: /
+    defaults: { _controller: OpiferCmsBundle:Backend/Dashboard:view }
 
 opifer_cms_menu:
     resource: "@OpiferCmsBundle/Controller/MenuController.php"
