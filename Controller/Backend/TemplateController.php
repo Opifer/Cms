@@ -4,35 +4,35 @@ namespace Opifer\CmsBundle\Controller\Backend;
 
 use APY\DataGridBundle\Grid\Action\RowAction;
 use APY\DataGridBundle\Grid\Source\Entity;
-use Opifer\CmsBundle\Entity\Layout;
-use Opifer\CmsBundle\Form\Type\LayoutType;
+use Opifer\CmsBundle\Entity\Template;
+use Opifer\EavBundle\Form\Type\TemplateType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-class LayoutController extends Controller
+class TemplateController extends Controller
 {
     /**
      * @return Response
      */
     public function indexAction()
     {
-        $source = new Entity('OpiferCmsBundle:Layout');
+        $source = new Entity('OpiferCmsBundle:Template');
 
-        $editAction = new RowAction('edit', 'opifer_cms_layout_edit');
+        $editAction = new RowAction('edit', 'opifer_cms_template_edit');
         $editAction->setRouteParameters(['id']);
 
-        $deleteAction = new RowAction('delete', 'opifer_cms_layout_delete');
+        $deleteAction = new RowAction('delete', 'opifer_cms_template_delete');
         $deleteAction->setRouteParameters(['id']);
 
         $grid = $this->get('grid');
-        $grid->setId('layouts')
+        $grid->setId('templates')
             ->setSource($source)
             ->addRowAction($editAction)
             ->addRowAction($deleteAction);
 
-        return $grid->getGridResponse('OpiferCmsBundle:Backend/Layout:index.html.twig');
+        return $grid->getGridResponse('OpiferCmsBundle:Backend/Template:index.html.twig');
     }
 
     /**
@@ -41,20 +41,20 @@ class LayoutController extends Controller
      */
     public function createAction(Request $request)
     {
-        $layout = new Layout();
+        $template = new Template();
 
-        $form = $this->createForm(new LayoutType(), $layout);
+        $form = $this->createForm(TemplateType::class, $template);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
-            $em->persist($layout);
+            $em->persist($template);
             $em->flush();
 
-            return $this->redirectToRoute('opifer_cms_layout_edit', ['id' => $layout->getId()]);
+            return $this->redirectToRoute('opifer_cms_template_edit', ['id' => $template->getId()]);
         }
 
-        return $this->render('OpiferCmsBundle:Backend/Layout:create.html.twig', [
+        return $this->render('OpiferCmsBundle:Backend/Template:create.html.twig', [
             'form' => $form->createView()
         ]);
     }
@@ -67,20 +67,20 @@ class LayoutController extends Controller
     public function editAction(Request $request, $id)
     {
         $em = $this->getDoctrine()->getManager();
-        $layout = $em->getRepository('OpiferCmsBundle:Layout')->find($id);
+        $template = $em->getRepository('OpiferCmsBundle:Template')->find($id);
 
-        $form = $this->createForm(new LayoutType(), $layout);
+        $form = $this->createForm(TemplateType::class, $template);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $em->flush();
 
-            return $this->redirectToRoute('opifer_cms_layout_edit', ['id' => $layout->getId()]);
+            return $this->redirectToRoute('opifer_cms_template_edit', ['id' => $template->getId()]);
         }
 
-        return $this->render('OpiferCmsBundle:Backend/Layout:edit.html.twig', [
+        return $this->render('OpiferCmsBundle:Backend/Template:edit.html.twig', [
             'form'   => $form->createView(),
-            'layout' => $layout
+            'template' => $template
         ]);
     }
 
@@ -91,11 +91,11 @@ class LayoutController extends Controller
     public function deleteAction($id)
     {
         $em = $this->getDoctrine()->getManager();
-        $layout = $em->getRepository('OpiferCmsBundle:Layout')->find($id);
+        $template = $em->getRepository('OpiferCmsBundle:Template')->find($id);
 
-        $em->remove($layout);
+        $em->remove($template);
         $em->flush();
 
-        return $this->redirectToRoute('opifer_cms_layout_index');
+        return $this->redirectToRoute('opifer_cms_template_index');
     }
 }

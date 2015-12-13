@@ -192,19 +192,6 @@ twig:
     globals:
         settings: @opifer.cms.settings
 
-# Crud config
-opifer_crud:
-    # Define a route prefix if necessary
-    route_prefix: /admin
-
-    # Note: Changing the key values will break the routes pointing to that key.
-    # Make sure to fix wherever you point to that route.
-    routes:
-        layouts: Opifer\CmsBundle\Entity\Layout
-        templates: Opifer\CmsBundle\Entity\Template
-        redirects: Opifer\CmsBundle\Entity\Redirect
-        sites: Opifer\CmsBundle\Entity\Site
-
 # Media
 opifer_media:
     media_class: Opifer\CmsBundle\Entity\Media
@@ -271,7 +258,12 @@ opifer_form:
             view: OpiferCmsBundle:Admin/Post:view.html.twig
 
 opifer_redirect:
-    redirect_class: Opifer\CmsBundle\Entity\Redirect
+    redirect:
+        class: Opifer\CmsBundle\Entity\Redirect
+        views:
+            index: OpiferCmsBundle:Backend/Redirect:index.html.twig
+            create: OpiferCmsBundle:Backend/Redirect:create.html.twig
+            edit: OpiferCmsBundle:Backend/Redirect:edit.html.twig
 
 opifer_cms:
     autocomplete:

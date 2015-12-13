@@ -2,9 +2,9 @@
 
 namespace Opifer\CmsBundle\Entity;
 
+use APY\DataGridBundle\Grid\Mapping as GRID;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
-use Opifer\CrudBundle\Annotation as CRUD;
 use Opifer\EavBundle\Model\Template as BaseTemplate;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -13,7 +13,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  *
  * @ORM\Table(name="template")
  * @ORM\Entity(repositoryClass="Opifer\EavBundle\Repository\TemplateRepository")
- * @CRUD\Form(type="eav_template")
+ * @GRID\Source(columns="id, displayName, attributes")
  */
 class Template extends BaseTemplate
 {
@@ -23,8 +23,6 @@ class Template extends BaseTemplate
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
-     *
-     * @CRUD\Grid(listable=true)
      */
     protected $id;
 
@@ -32,8 +30,6 @@ class Template extends BaseTemplate
      * @var string
      *
      * @ORM\Column(name="displayName", type="string", length=255, nullable=true)
-     *
-     * @CRUD\Grid(listable=true)
      */
     protected $displayName;
 
@@ -41,8 +37,6 @@ class Template extends BaseTemplate
      * @var string
      *
      * @ORM\Column(name="name", type="string", length=128, unique=true, nullable=true)
-     *
-     * @CRUD\Grid(listable=true)
      */
     protected $name;
 
@@ -50,8 +44,6 @@ class Template extends BaseTemplate
      * @var string
      *
      * @ORM\Column(name="object_class", type="string", length=128)
-     *
-     * @CRUD\Grid(listable=true)
      */
     protected $objectClass;
 
@@ -59,8 +51,6 @@ class Template extends BaseTemplate
      * @var ArrayCollection
      *
      * @ORM\OneToMany(targetEntity="Attribute", mappedBy="template", cascade={"all"}, orphanRemoval=true)
-     *
-     * @CRUD\Grid(listable=true)
      */
     protected $attributes;
 
@@ -77,38 +67,4 @@ class Template extends BaseTemplate
      * @ORM\ManyToMany(targetEntity="Attribute", mappedBy="allowedTemplates")
      **/
     protected $allowedInAttributes;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="post_notify", type="string", length=255, nullable=true)
-     *
-     * @Assert\Email(message = "The email '{{ value }}' is not a valid email.")
-     *
-     */
-    protected $postNotify;
-
-    /**
-     * Set postNotify
-     *
-     * @param string $postNotify
-     *
-     * @return Template
-     */
-    public function setPostNotify($postNotify)
-    {
-        $this->postNotify = $postNotify;
-
-        return $this;
-    }
-
-    /**
-     * Get postNotify
-     *
-     * @return string
-     */
-    public function getPostNotify()
-    {
-        return $this->postNotify;
-    }
 }

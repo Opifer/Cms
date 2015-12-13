@@ -15,6 +15,26 @@ opifer_cms_command:
     resource: "@OpiferCmsBundle/Controller/CommandController.php"
     type:     annotation
 
+opifer_cms_template_index:
+    path: /templates
+    defaults: { _controller: OpiferCmsBundle:Backend/Template:index }
+
+opifer_cms_template_create:
+    path: /templates/create
+    defaults: { _controller: OpiferCmsBundle:Backend/Template:create }
+
+opifer_cms_template_edit:
+    path: /templates/edit/{id}
+    defaults: { _controller: OpiferCmsBundle:Backend/Template:edit }
+    requirements:
+        id: \d+
+
+opifer_cms_template_delete:
+    path: /templates/delete/{id}
+    defaults: { _controller: OpiferCmsBundle:Backend/Template:delete }
+    requirements:
+        id: \d+
+
 opifer_cms_layout_index:
     path: /layouts
     defaults: { _controller: OpiferCmsBundle:Backend/Layout:index }
@@ -86,6 +106,10 @@ opifer_ckeditor_media:
     defaults: { _controller: OpiferCmsBundle:CKEditor:media }
     options:
         expose: true
+
+opifer_redirect_admin:
+    resource: "@OpiferRedirectBundle/Resources/config/routing.yml"
+    prefix:   /redirect
 
 opifer_form_admin:
     resource: "@OpiferFormBundle/Resources/config/routing_admin.yml"
