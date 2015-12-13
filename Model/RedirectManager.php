@@ -62,10 +62,7 @@ class RedirectManager implements RedirectManagerInterface
      */
     public function save(Redirect $redirect)
     {
-        if (!$redirect->getId()) {
-            $this->om->persist($redirect);
-        }
-
+        $this->om->persist($redirect);
         $this->om->flush();
 
         return $redirect;

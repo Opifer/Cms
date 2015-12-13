@@ -1,4 +1,8 @@
 opifer_redirect:
+  flash:
+    created: Verwijzing succesvol aangemaakt
+    updated: Verwijzing succesvol aangepast
+    deleted: Verwijzing succesvol verwijderd
   title:
     redirects: Verwijzingen
     redirect: Verwijzing

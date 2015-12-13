@@ -2,7 +2,6 @@
 
 namespace Opifer\RedirectBundle\Controller;
 
-use Opifer\CmsBundle\Entity\Redirect;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -19,19 +18,19 @@ class RedirectController extends Controller
     {
         $redirects = $this->get('opifer.redirect.redirect_manager')->getRepository()->findAll();
 
-        return $this->render('OpiferRedirectBundle:Redirect:index.html.twig', [
+        return $this->render($this->container->getParameter('opifer_redirect.redirect_index_view'), [
             'redirects' => $redirects
         ]);
     }
 
     /**
-     * New
+     * Create redirect
      *
      * @param Request $request
      *
      * @return RedirectResponse|Response
      */
-    public function newAction(Request $request)
+    public function createAction(Request $request)
     {
         $manager = $this->get('opifer.redirect.redirect_manager');
 
@@ -42,20 +41,21 @@ class RedirectController extends Controller
 
         if ($form->isSubmitted() && $form->isValid()) {
             $manager->save($redirect);
+            $this->addFlash('success', $this->get('translator')->trans('opifer_redirect.flash.created'));
 
             return $this->redirectToRoute('opifer_redirect_redirect_edit', ['id' => $redirect->getId()]);
         }
 
-        return $this->render('OpiferRedirectBundle:Redirect:edit.html.twig', [
-            'form' => $form->createView()
+        return $this->render($this->container->getParameter('opifer_redirect.redirect_create_view'), [
+            'form' => $form->createView(),
         ]);
     }
 
     /**
-     * Edit
+     * Edit a redirect
      *
      * @param Request $request
-     * @param int $id
+     * @param int     $id
      *
      * @return RedirectResponse|Response
      */
@@ -70,17 +70,19 @@ class RedirectController extends Controller
 
         if ($form->isSubmitted() && $form->isValid()) {
             $manager->save($redirect);
+            $this->addFlash('success', $this->get('translator')->trans('opifer_redirect.flash.updated'));
 
             return $this->redirectToRoute('opifer_redirect_redirect_edit', ['id' => $redirect->getId()]);
         }
 
-        return $this->render('OpiferRedirectBundle:Redirect:edit.html.twig', [
-            'form' => $form->createView()
+        return $this->render($this->container->getParameter('opifer_redirect.redirect_edit_view'), [
+            'form'     => $form->createView(),
+            'redirect' => $redirect
         ]);
     }
 
     /**
-     * Delete
+     * Delete a redirect
      *
      * @param int $id
      *
@@ -93,6 +95,7 @@ class RedirectController extends Controller
         $redirect = $manager->getRepository()->find($id);
 
         $manager->remove($redirect);
+        $this->addFlash('success', $this->get('translator')->trans('opifer_redirect.flash.deleted'));
 
         return $this->redirectToRoute('opifer_redirect_redirect_index');
     }

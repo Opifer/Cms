@@ -1,4 +1,8 @@
 opifer_redirect:
+  flash:
+    created: Redirect successfully created
+    updated: Redirect successfully updated
+    deleted: Redirect successfully deleted
   title:
     redirects: Redirects
     redirect: Redirect
