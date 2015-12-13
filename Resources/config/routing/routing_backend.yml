@@ -89,12 +89,6 @@ opifer_cms_user_edit:
     requirements:
         id: \d+
 
-opifer_cms_template_delete:
-    path: /templates/delete/{id}
-    defaults: {_controller: OpiferCmsBundle:Template:delete}
-    requirements:
-        id: "\d+"
-
 opifer_ckeditor_content:
     path: /ckeditor/content
     defaults: { _controller: OpiferCmsBundle:CKEditor:content }

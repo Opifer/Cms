@@ -86,12 +86,31 @@ class TemplateController extends Controller
 
     /**
      * @param  int $id
+     *
      * @return RedirectResponse
      */
     public function deleteAction($id)
     {
         $em = $this->getDoctrine()->getManager();
-        $template = $em->getRepository('OpiferCmsBundle:Template')->find($id);
+        $template = $this->get('opifer.eav.template_manager')->getRepository()->find($id);
+
+        if (!$template) {
+            return $this->createNotFoundException();
+        }
+
+        $relatedContent = $em->getRepository('OpiferCmsBundle:Content')
+            ->createValuedQueryBuilder('c')
+            ->select('COUNT(c)')
+            ->where('t.id = :template')
+            ->setParameter('template', $id)
+            ->getQuery()
+            ->getSingleScalarResult();
+
+        if ($relatedContent > 0) {
+            $this->addFlash('error', 'template.delete.warning');
+
+            return $this->redirectToRoute('opifer_cms_template_index');
+        }
 
         $em->remove($template);
         $em->flush();
