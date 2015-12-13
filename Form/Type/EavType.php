@@ -4,14 +4,9 @@ namespace Opifer\EavBundle\Form\Type;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Routing\RouterInterface;
 
-/**
- * Class EavType
- *
- * @package Opifer\EavBundle\Form\Type
- */
 class EavType extends AbstractType
 {
     /** @var RouterInterface */
@@ -40,7 +35,7 @@ class EavType extends AbstractType
     /**
      * {@inheritDoc}
      */
-    public function setDefaultOptions(OptionsResolverInterface $resolver)
+    public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setRequired([
             'valueId',
@@ -48,9 +43,17 @@ class EavType extends AbstractType
     }
 
     /**
-     * {@inheritDoc}
+     * @deprecated
      */
     public function getName()
+    {
+        return $this->getBlockPrefix();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getBlockPrefix()
     {
         return 'eav';
     }

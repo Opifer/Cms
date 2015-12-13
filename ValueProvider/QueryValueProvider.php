@@ -2,8 +2,8 @@
 
 namespace Opifer\EavBundle\ValueProvider;
 
-use Symfony\Component\Form\FormBuilderInterface;
 use Opifer\EavBundle\Form\Transformer\AngularAttributeTransformer;
+use Symfony\Component\Form\FormBuilderInterface;
 
 class QueryValueProvider extends AbstractValueProvider implements ValueProviderInterface
 {

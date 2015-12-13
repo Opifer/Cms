@@ -2,10 +2,11 @@
 
 namespace Opifer\EavBundle\Form\Type;
 
-use Symfony\Component\Translation\TranslatorInterface;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Translation\TranslatorInterface;
 
 // Constraints
 use Symfony\Component\Validator\Constraints\NotBlank;
@@ -14,7 +15,7 @@ use Symfony\Component\Validator\Constraints\Regex;
 class GoogleAddressType extends AbstractType
 {
     /**
-     * @var  Symfony\Bundle\FrameworkBundle\Translation\Translator
+     * @var  \Symfony\Bundle\FrameworkBundle\Translation\Translator
      */
     protected $translator;
 
@@ -79,17 +80,17 @@ class GoogleAddressType extends AbstractType
     /**
      * {@inheritDoc}
      */
-    public function setDefaultOptions(OptionsResolverInterface $resolver)
+    public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults(array(
+        $resolver->setDefaults([
             'data_class' => 'Opifer\CmsBundle\Entity\Address',
-        ));
+        ]);
     }
 
     /**
      * {@inheritDoc}
      */
-    public function getName()
+    public function getBlockPrefix()
     {
         return 'google_address';
     }

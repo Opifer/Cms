@@ -2,38 +2,29 @@
 
 namespace Opifer\EavBundle\Form\Type;
 
-use Opifer\EavBundle\Model\TemplateInterface;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class TemplateType extends AbstractType
 {
-
-    /**
-     * @var AttributeType
-     */
+    /** @var AttributeType */
     protected $attributeType;
 
-    /**
-     * @var
-     */
+    /** @var string */
     protected $templateClass;
-
 
     /**
      * Constructor
      *
-     * @param TranslatorInterface $translator
-     * @param AttributeType       $attributeType
-     * @param string              $templateClass
+     * @param AttributeType $attributeType
+     * @param string        $templateClass
      */
     public function __construct( AttributeType $attributeType, $templateClass)
     {
         $this->attributeType = $attributeType;
         $this->templateClass = $templateClass;
     }
-
 
     /**
      * {@inheritDoc}
@@ -66,8 +57,6 @@ class TemplateType extends AbstractType
             'allow_add'    => true,
             'allow_delete' => true,
             'type'         => $this->attributeType
-        ])->add('save', 'submit', [
-            'label' => ucfirst('form.submit')
         ]);
     }
 
@@ -75,19 +64,26 @@ class TemplateType extends AbstractType
     /**
      * {@inheritDoc}
      */
-    public function setDefaultOptions(OptionsResolverInterface $resolver)
+    public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults(array(
+        $resolver->setDefaults([
             'data_class'        => $this->templateClass,
             'validation_groups' => false,
-        ));
+        ]);
     }
 
+    /**
+     * @deprecated
+     */
+    public function getName()
+    {
+        return $this->getBlockPrefix();
+    }
 
     /**
      * {@inheritDoc}
      */
-    public function getName()
+    public function getBlockPrefix()
     {
         return 'eav_template';
     }

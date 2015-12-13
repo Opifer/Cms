@@ -28,9 +28,17 @@ class DatePickerType extends AbstractType
     }
 
     /**
-     * {@inheritDoc}
+     * @deprecated
      */
     public function getName()
+    {
+        return $this->getBlockPrefix();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getBlockPrefix()
     {
         return 'opifer_eav_date_picker';
     }

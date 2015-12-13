@@ -2,9 +2,9 @@
 
 namespace Opifer\EavBundle\Tests\Model;
 
+use Mockery as m;
 use Opifer\EavBundle\Model\Attribute;
 use Opifer\EavBundle\Model\Option;
-use Mockery as m;
 
 class OptionTest extends \PHPUnit_Framework_TestCase
 {
