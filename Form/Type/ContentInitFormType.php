@@ -9,10 +9,10 @@ use Symfony\Component\Routing\RouterInterface;
 
 class ContentInitFormType extends AbstractType
 {
-    /** @var  Symfony\Bundle\FrameworkBundle\Translation\Translator */
+    /** @var LoggingTranslator */
     protected $translator;
 
-    /** @var \Symfony\Component\Routing\RouterInterface */
+    /** @var RouterInterface */
     protected $router;
 
     /** @var array */
@@ -21,9 +21,9 @@ class ContentInitFormType extends AbstractType
     /**
      * Constructor
      *
-     * @param Translator $translator
-     * @param Router     $router
-     * @param array      $locales
+     * @param LoggingTranslator $translator
+     * @param RouterInterface   $router
+     * @param array             $locales
      */
     public function __construct(LoggingTranslator $translator, RouterInterface $router, $locales)
     {
@@ -46,7 +46,7 @@ class ContentInitFormType extends AbstractType
             ->add('template', 'entity', [
                 'class'    => 'OpiferEavBundle:Template',
                 'property' => 'name',
-                'attr'     => ['help_text' => $this->translator->trans('content.form.template.help_text', ['%url%' => $this->router->generate('opifer.crud.new', ['slug' => 'templates'])])]
+                'attr'     => ['help_text' => $this->translator->trans('content.form.template.help_text', ['%url%' => $this->router->generate('opifer_cms_template_create')])]
             ])
             ->add('locale', 'locale', [
                 'choices' => $this->locales,

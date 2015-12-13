@@ -125,8 +125,3 @@ fos_user_security_login:
 fos_user_group:
     resource: "@FOSUserBundle/Resources/config/routing/group.xml"
     prefix:   /group
-
-# Place all routes above the crud routing, to allow easy overriding
-opifer_crud:
-    resource: "@OpiferCrudBundle/Resources/config/routing.yml"
-    prefix:   /

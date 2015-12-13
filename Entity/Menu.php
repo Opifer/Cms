@@ -2,10 +2,10 @@
 
 namespace Opifer\CmsBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\ORM\Mapping as ORM;
-use Opifer\CrudBundle\Annotation as Opifer;
 
 /**
  * Menu
@@ -35,7 +35,6 @@ class Menu
      * @ORM\Column(name="name", type="string", length=128)
      * @Assert\NotBlank()
      * @Gedmo\Translatable
-     * @Opifer\Form(editable=true)
      */
     protected $name;
 
@@ -67,7 +66,6 @@ class Menu
      * @Gedmo\TreeParent
      * @ORM\ManyToOne(targetEntity="Menu", inversedBy="children")
      * @ORM\JoinColumn(name="parent_id", referencedColumnName="id", onDelete="CASCADE")
-     * @Opifer\Form(editable=true)
      */
     protected $parent;
 
@@ -80,7 +78,6 @@ class Menu
     /**
      * @ORM\ManyToOne(targetEntity="Site")
      * @ORM\JoinColumn(name="site_id", referencedColumnName="id")
-     * @Opifer\Form(editable=true)
      */
     protected $site;
 
@@ -101,7 +98,7 @@ class Menu
      */
     public function __construct()
     {
-        $this->children = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->children = new ArrayCollection();
     }
 
     /**

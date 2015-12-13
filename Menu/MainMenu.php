@@ -63,13 +63,12 @@ class MainMenu extends MenuBuilder implements MenuInterface
             ]);
         }
 
-        if (!count($sites)) {
-            $menu->addChild($translator->trans('site.new'), [
-                'route' => 'opifer.crud.index',
-                'routeParameters' => ['slug' => 'sites'],
-                'extras' => ['safe_label' => true]
-            ]);
-        }
+        //if (!count($sites)) {
+        //    $menu->addChild($translator->trans('site.new'), [
+        //        'route' => 'opifer_cms_site_new',
+        //        'extras' => ['safe_label' => true]
+        //    ]);
+        //}
 
         return $menu;
     }

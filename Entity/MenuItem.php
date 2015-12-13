@@ -4,7 +4,6 @@ namespace Opifer\CmsBundle\Entity;
 
 use Gedmo\Mapping\Annotation as Gedmo;
 use Doctrine\ORM\Mapping as ORM;
-use Opifer\CrudBundle\Annotation as Opifer;
 
 /**
  * MenuItem
@@ -19,7 +18,6 @@ class MenuItem extends Menu
     /**
      * @ORM\ManyToOne(targetEntity="Content", fetch="EAGER")
      * @ORM\JoinColumn(name="content_id", referencedColumnName="id", onDelete="CASCADE")
-     * @Opifer\Form(editable=true)
      */
     private $content;
 
@@ -28,7 +26,6 @@ class MenuItem extends Menu
      *
      * @ORM\Column(name="link", type="string", length=128)
      * @Gedmo\Translatable
-     * @Opifer\Form(editable=true)
      */
     private $link;
 

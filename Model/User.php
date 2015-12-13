@@ -8,7 +8,6 @@ use Doctrine\ORM\Mapping as ORM;
 use FOS\AdvancedEncoderBundle\Security\Encoder\EncoderAwareInterface;
 use FOS\UserBundle\Model\GroupInterface;
 use FOS\UserBundle\Model\User as FOSUser;
-use Opifer\CrudBundle\Annotation as Opifer;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -120,7 +119,7 @@ abstract class User extends FOSUser implements EncoderAwareInterface
     /**
      * Created at
      *
-     * @var datetime
+     * @var \DateTime
      *
      * @Gedmo\Timestampable(on="create")
      * @ORM\Column(name="created_at", type="datetime")
@@ -130,7 +129,7 @@ abstract class User extends FOSUser implements EncoderAwareInterface
     /**
      * Updated at
      *
-     * @var datetime
+     * @var \DateTime
      *
      * @Gedmo\Timestampable(on="update")
      * @ORM\Column(name="updated_at", type="datetime")

@@ -6,7 +6,6 @@ use Gedmo\Mapping\Annotation as Gedmo;
 use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation as JMS;
-use Opifer\CrudBundle\Annotation as Opifer;
 use Opifer\ContentBundle\Model\Directory as BaseDirectory;
 
 /**
@@ -27,7 +26,6 @@ class Directory extends BaseDirectory
      * @ORM\Column(name="name", type="string", length=128)
      * @Assert\NotBlank()
      * @Gedmo\Translatable
-     * @Opifer\Form(editable=true)
      */
     protected $name;
 

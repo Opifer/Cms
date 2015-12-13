@@ -3,7 +3,6 @@
 namespace Opifer\CmsBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use Opifer\CrudBundle\Annotation as Opifer;
 use Opifer\RedirectBundle\Model\Redirect as BaseRedirect;
 
 /**
@@ -25,8 +24,6 @@ class Redirect extends BaseRedirect
      * @var string
      *
      * @ORM\Column(name="origin", type="string", length=255)
-     *
-     * @Opifer\Form(editable=true)
      */
     protected $origin;
 
@@ -34,8 +31,6 @@ class Redirect extends BaseRedirect
      * @var string
      *
      * @ORM\Column(name="target", type="string", length=255)
-     *
-     * @Opifer\Form(editable=true)
      */
     protected $target;
 
@@ -43,8 +38,6 @@ class Redirect extends BaseRedirect
      * @var boolean
      *
      * @ORM\Column(name="permanent", type="boolean")
-     *
-     * @Opifer\Form(editable=true)
      */
     protected $permanent;
 }

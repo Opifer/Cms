@@ -3,7 +3,6 @@
 namespace Opifer\CmsBundle\Entity;
 
 use Symfony\Component\Validator\Constraints as Assert;
-use Opifer\CrudBundle\Annotation as Opifer;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -19,7 +18,6 @@ class Setting
      * @ORM\Id
      * @ORM\Column(type="integer")
      * @ORM\GeneratedValue(strategy="AUTO")
-     * @Opifer\Grid(listable=true)
      */
     protected $id;
 
@@ -27,7 +25,6 @@ class Setting
      * @var string
      *
      * @ORM\Column(name="extension", type="string")
-     * @Opifer\Grid(listable=true)
      * @Assert\NotBlank()
      */
     protected $extension;
@@ -36,7 +33,6 @@ class Setting
      * @var string
      *
      * @ORM\Column(name="name", type="string", nullable=false, unique=true)
-     * @Opifer\Grid(listable=true)
      * @Assert\NotBlank()
      * @Assert\Regex(
      *     pattern="/^[a-z.]+$/",
@@ -49,7 +45,6 @@ class Setting
      * @var string
      *
      * @ORM\Column(name="value", type="string", length=1024, nullable=true)
-     * @Opifer\Grid(listable=true)
      */
     protected $value;
 
@@ -58,7 +53,6 @@ class Setting
      *
      * @ORM\Column(name="description", type="string", length=1024)
      * @Assert\NotBlank()
-     * @Opifer\Grid(listable=true)
      */
     protected $description;
 
@@ -92,11 +86,10 @@ class Setting
     protected $choices;
 
     /**
-     * @var datetime
+     * @var \DateTime
      *
      * @ORM\Column(name="updated_at", type="datetime")
      * @Gedmo\Timestampable(on="update")
-     * @Opifer\Grid(listable=true)
      */
     protected $updatedAt;
 
@@ -291,7 +284,7 @@ class Setting
      * Set choices
      *
      * @param  string   $choices
-     * @return Settings
+     * @return Setting
      */
     public function setChoices($choices)
     {

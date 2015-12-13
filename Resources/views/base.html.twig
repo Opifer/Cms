@@ -36,16 +36,6 @@
                             </ul>
 
                             <ul class="nav navbar-nav navbar-right">
-                                {# quick add menu #}
-                                {#<li class="dropdown">
-                                    <a class="dropdown-toggle" data-toggle="dropdown"><span class="fa fa-plus"></span> <b class="caret"></b></a>
-                                    <ul class="dropdown-menu">
-                                        <li role="presentation" class="dropdown-header">{{ 'new'|trans|capitalize }}</li>
-                                        <li><a href="{{ path('opifer_cms_content_new') }}">{{ 'base.content'|trans|capitalize }}</a></li>
-                                        <li><a href="{{ path('opifer.crud.new', {'slug': 'templates'}) }}">{{ 'base.templates'|trans|capitalize }}</a></li>
-                                    </ul>
-                                </li>#}
-                                
                                 {# User menu #}
                                 <li class="dropdown">
                                     <a class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-smile-o visible-xs-block"></i> {{ app.user.username|capitalize }} <i class="fa fa-angle-down"></i></a>
@@ -70,7 +60,7 @@
                                             <li role="presentation" class="dropdown-header">{{ 'base.content'|trans|capitalize }}</li>
                                             <li><a href="{{ path('opifer_cms_template_index') }}">{{ 'base.templates'|trans|capitalize }}</a></li>
                                             <li><a href="{{ path('opifer_cms_layout_index') }}">{{ 'base.layouts'|trans|capitalize }}</a></li>
-                                            {#<li><a href="{{ path('opifer.crud.index', {'slug': 'sites'}) }}">{{ 'base.sites'|trans|capitalize }}</a></li>#}
+                                            {#<li><a href="{{ path('opifer_cms_site_index') }}">{{ 'base.sites'|trans|capitalize }}</a></li>#}
                                         </ul>
                                     </li>
                                 {% endif %}
@@ -132,7 +122,6 @@
             '@OpiferContentBundle/Resources/public/app/presentationeditor/presentationeditor.js'
 
             '@OpiferMediaBundle/Resources/public/js/dropzone.js'
-            '@OpiferCrudBundle/Resources/public/js/main.js'
             '@OpiferEavBundle/Resources/public/app/googleaddress/googleaddress.js'
             '@OpiferEavBundle/Resources/public/app/nestedcontent/nestedcontent.js'
             '@OpiferMediaBundle/Resources/public/app/modal/modal.js'

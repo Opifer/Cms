@@ -3,7 +3,6 @@
 namespace Opifer\CmsBundle\Entity;
 
 use Symfony\Component\Validator\Constraints as Assert;
-use Opifer\CrudBundle\Annotation as Opifer;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -20,7 +19,6 @@ class Site
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
-     * @Opifer\Grid(listable=true)
      */
     private $id;
 
@@ -29,8 +27,6 @@ class Site
      *
      * @ORM\Column(name="name", type="string", length=128)
      * @Assert\NotBlank()
-     * @Opifer\Form(editable=true)
-     * @Opifer\Grid(listable=true, type="string")
      */
     private $name;
 
@@ -38,7 +34,6 @@ class Site
      * @var string
      *
      * @ORM\Column(name="description", type="text")
-     * @Opifer\Form(editable=true)
      */
     private $description;
 
@@ -46,8 +41,6 @@ class Site
      * @var string
      *
      * @ORM\Column(name="domain", type="string", length=128)
-     * @Opifer\Form(editable=true)
-     * @Opifer\Grid(listable=true, type="string")
      * @Assert\NotBlank()
      * @Assert\Regex(
      *     pattern="/^(?:[-A-Za-z0-9]+\.)+[A-Za-z]{2,6}$/",
@@ -60,7 +53,6 @@ class Site
      * @var string
      *
      * @ORM\Column(name="cookie_domain", type="string", length=128, nullable=true)
-     * @Opifer\Form(editable=true)
      */
     private $cookieDomain;
 
@@ -68,8 +60,6 @@ class Site
      * @var string
      *
      * @ORM\Column(name="default_locale", type="string", length=5)
-     * @Opifer\Form(editable=true)
-     * @Opifer\Grid(listable=true, type="string")
      * @Assert\NotBlank()
      */
     private $defaultLocale;
