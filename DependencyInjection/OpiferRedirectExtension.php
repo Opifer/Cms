@@ -22,8 +22,11 @@ class OpiferRedirectExtension extends Extension
         $configuration = new Configuration();
         $config = $this->processConfiguration($configuration, $configs);
 
-        $container->setAlias('opifer.redirect.redirect_manager', $config['redirect_manager']);
-        $container->setParameter('opifer_redirect.redirect_class', $config['redirect_class']);
+        $container->setAlias('opifer.redirect.redirect_manager', $config['redirect']['manager']);
+        $container->setParameter('opifer_redirect.redirect_class', $config['redirect']['class']);
+        $container->setParameter('opifer_redirect.redirect_index_view', $config['redirect']['views']['index']);
+        $container->setParameter('opifer_redirect.redirect_create_view', $config['redirect']['views']['create']);
+        $container->setParameter('opifer_redirect.redirect_edit_view', $config['redirect']['views']['edit']);
 
         $loader = new Loader\YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         $loader->load('services.yml');

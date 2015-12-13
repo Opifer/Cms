@@ -2,9 +2,9 @@ opifer_redirect_redirect_index:
     path:     /
     defaults: { _controller: OpiferRedirectBundle:Redirect:index }
 
-opifer_redirect_redirect_new:
-    path:     /new
-    defaults: { _controller: OpiferRedirectBundle:Redirect:new }
+opifer_redirect_redirect_create:
+    path:     /create
+    defaults: { _controller: OpiferRedirectBundle:Redirect:create }
 
 opifer_redirect_redirect_edit:
     path:     /edit/{id}
