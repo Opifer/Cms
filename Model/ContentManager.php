@@ -5,10 +5,11 @@ namespace Opifer\ContentBundle\Model;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Opifer\ContentBundle\Exception\NestedContentFormException;
+use Pagerfanta\Adapter\DoctrineORMAdapter;
+use Pagerfanta\Pagerfanta;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\HttpFoundation\Request;
 
-use Opifer\CrudBundle\Pagination\Paginator;
 use Opifer\EavBundle\Form\Type\NestedType;
 use Opifer\EavBundle\Manager\EavManager;
 use Opifer\EavBundle\Entity\NestedValue;
@@ -77,10 +78,11 @@ class ContentManager implements ContentManagerInterface
     {
         $qb = $this->getRepository()->getQueryBuilderFromRequest($request);
 
-        $page = ($request->get('p')) ? $request->get('p') : 1;
-        $limit = ($request->get('limit')) ? $request->get('limit') : 25;
+        $paginator = new Pagerfanta(new DoctrineORMAdapter($qb));
+        $paginator->setMaxPerPage($request->get('limit', 25));
+        $paginator->setCurrentPage($request->get('p', 1));
 
-        return new Paginator($qb, $limit, $page);
+        return $paginator;
     }
 
     /**
