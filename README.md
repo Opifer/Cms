@@ -51,7 +51,8 @@ And define it in your config.yml:
 
 ```yml
 opifer_redirect:
-    redirect_class: AppBundle\Entity\Redirect
+    redirect:
+        class: AppBundle\Entity\Redirect
 ```
 
 Optionally add the routing for the RedirectController:
@@ -71,4 +72,18 @@ cmf_routing:
         routers_by_id:
             opifer.redirect.redirect_router: 200
             router.default: 100
+```
+
+Configuration reference
+-----------------------
+
+```yml
+opifer_redirect:
+    redirect:
+        class: ~
+        manager: opifer.redirect.redirect_manager.default
+        view:
+            index: OpiferRedirectBundle:Redirect:index.html.twig
+            create: OpiferRedirectBundle:Redirect:create.html.twig
+            edit: OpiferRedirectBundle:Redirect:edit.html.twig
 ```
