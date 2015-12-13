@@ -9,7 +9,6 @@ parameters:
     opifer.eav.select_value_provider.class: Opifer\EavBundle\ValueProvider\SelectValueProvider
     opifer.eav.string_value_provider.class: Opifer\EavBundle\ValueProvider\StringValueProvider
     opifer.eav.text_value_provider.class: Opifer\EavBundle\ValueProvider\TextValueProvider
-    opifer.eav.twitter_value_provider.class: Opifer\EavBundle\ValueProvider\TwitterValueProvider
 
 services:
     opifer.eav.boolean_value_provider:
@@ -81,8 +80,3 @@ services:
     #     class: Opifer\EavBundle\ValueProvider\DateValueProvider
     #     tags:
     #         - { name: opifer.eav.value_provider, alias: date }
-
-#    opifer.eav.twitter_value_provider:
-#        class: %opifer.eav.twitter_value_provider.class%
-#        tags:
-#            - { name: opifer.eav.value_provider, alias: twitter }
