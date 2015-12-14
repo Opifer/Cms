@@ -155,7 +155,7 @@ class Redirect
     {
         $newArray = [];
         foreach ($this->requirements as $req) {
-            if ($requirement['parameter'] != $requirement['parameter']) {
+            if ($req['parameter'] != $requirement['parameter']) {
                 $newArray[] = $req;
             }
         }

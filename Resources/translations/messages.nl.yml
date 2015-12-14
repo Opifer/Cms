@@ -6,6 +6,8 @@ opifer_redirect:
   title:
     redirects: Verwijzingen
     redirect: Verwijzing
+    create: Nieuwe verwijzing
+    update: Update verwijzing
   button:
     new_redirect: Verwijzing toevoegen
   form:
@@ -27,3 +29,5 @@ opifer_redirect:
     value:
       label: Waarde
       help_text: Dit kan een reguliere expressie zijn of bijvoorbeeld "nl|en"
+    cancel: 'Annuleren'
+    save: 'Opslaan'

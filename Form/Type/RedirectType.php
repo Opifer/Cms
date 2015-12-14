@@ -8,14 +8,6 @@ use Symfony\Component\Form\FormBuilderInterface;
 
 class RedirectType extends AbstractType
 {
-    /** @var string */
-    protected $class;
-
-    function __construct($class)
-    {
-        $this->class = $class;
-    }
-
     /**
      * {@inheritDoc}
      */
@@ -49,18 +41,7 @@ class RedirectType extends AbstractType
                     'help_text' => 'opifer_redirect.form.requirements.help_text',
                 ]
             ])
-            ->add('save', 'submit')
         ;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function configureOptions(OptionsResolver $resolver)
-    {
-        $resolver->setDefaults([
-            'data_class' => $this->class,
-        ]);
     }
 
     /**
