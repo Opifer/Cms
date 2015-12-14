@@ -2,8 +2,8 @@
 
 namespace Opifer\EavBundle\Model;
 
-use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\ORM\Mapping as ORM;
 use Opifer\EavBundle\Entity\Value;
 
 /**

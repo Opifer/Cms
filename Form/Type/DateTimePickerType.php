@@ -3,6 +3,7 @@
 namespace Opifer\EavBundle\Form\Type;
 
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class DateTimePickerType extends AbstractType
@@ -31,6 +32,14 @@ class DateTimePickerType extends AbstractType
      * {@inheritDoc}
      */
     public function getName()
+    {
+        return 'opifer_eav_datetime_picker';
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getBlockPrefix()
     {
         return 'opifer_eav_datetime_picker';
     }

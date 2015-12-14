@@ -2,9 +2,9 @@
 
 namespace Opifer\EavBundle\Tests\Model;
 
-use Opifer\EavBundle\Model\Template;
 use Doctrine\Common\Collections\ArrayCollection;
 use Mockery as m;
+use Opifer\EavBundle\Model\Template;
 
 class TemplateTest extends \PHPUnit_Framework_TestCase
 {

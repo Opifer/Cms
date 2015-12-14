@@ -1,8 +1,9 @@
 <?php
+
 namespace Opifer\EavBundle\Form\Type;
 
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
  * ObjectClass form field for templates
@@ -26,7 +27,7 @@ class TemplateObjectClassType extends AbstractType
     /**
      * {@inheritDoc}
      */
-    public function setDefaultOptions(OptionsResolverInterface $resolver)
+    public function configureOptions(OptionsResolver $resolver)
     {
         $choices = array();
         foreach ($this->entities as $label => $class) {
@@ -47,9 +48,17 @@ class TemplateObjectClassType extends AbstractType
     }
 
     /**
-     * {@inheritDoc}
+     * @deprecated
      */
     public function getName()
+    {
+        return $this->getBlockPrefix();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getBlockPrefix()
     {
         return 'template_object_class';
     }

@@ -2,11 +2,11 @@
 
 namespace Opifer\EavBundle\Manager;
 
+use Opifer\EavBundle\Form\Type\NestedType;
 use Opifer\EavBundle\Model\EntityInterface;
 use Opifer\EavBundle\Model\TemplateInterface;
 use Opifer\EavBundle\Model\ValueSetInterface;
 use Opifer\EavBundle\ValueProvider\Pool;
-use Opifer\EavBundle\Form\Type\NestedType;
 
 class EavManager
 {

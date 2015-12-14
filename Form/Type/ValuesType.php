@@ -2,10 +2,9 @@
 
 namespace Opifer\EavBundle\Form\Type;
 
+use Opifer\EavBundle\Form\EventListener\ValuesSubscriber;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Opifer\EavBundle\Form\EventListener\ValuesSubscriber;
-use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class ValuesType extends AbstractType
@@ -31,16 +30,6 @@ class ValuesType extends AbstractType
     }
 
     /**
-     * {@inheritDoc}
-     */
-    public function setDefaultOptions(OptionsResolverInterface $resolver)
-    {
-        $this->configureOptions($resolver);
-
-    }
-
-
-    /**
      * {@inheritdoc}
      *
      * @param OptionsResolver $resolver
@@ -48,14 +37,22 @@ class ValuesType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'fields'     => [ ]
+            'fields' => []
         ]);
+    }
+
+    /**
+     * @deprecated
+     */
+    public function getName()
+    {
+        return $this->getBlockPrefix();
     }
 
     /**
      * {@inheritDoc}
      */
-    public function getName()
+    public function getBlockPrefix()
     {
         return 'values_collection';
     }

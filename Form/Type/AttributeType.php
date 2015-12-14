@@ -2,34 +2,32 @@
 
 namespace Opifer\EavBundle\Form\Type;
 
+use Doctrine\ORM\EntityRepository;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\IntegerType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
-use Doctrine\ORM\EntityRepository;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class AttributeType extends AbstractType
 {
-    /**
-     * @var string
-     */
+    /** @var string */
     protected $attributeClass;
 
-    /**
-     * @var string
-     */
+    /** @var string */
     protected $templateClass;
 
+    /** @var OptionType */
     protected $optionType;
-
 
     /**
      * Constructor
      *
-     * @param OptionType          $optionType
-     * @param string              $attributeClass
-     * @param string              $templateClass
+     * @param OptionType $optionType
+     * @param string     $attributeClass
+     * @param string     $templateClass
      */
     public function __construct(OptionType $optionType, $attributeClass, $templateClass)
     {
@@ -50,7 +48,7 @@ class AttributeType extends AbstractType
                 'placeholder' => 'form.value_type.placeholder',
                 'help_text'   => 'form.value_type.help_text'
             ]
-        ])->add('displayName', 'text', [
+        ])->add('displayName', TextType::class, [
             'label' => 'attribute.display_name',
             'attr'  => [
                 'class'                  => 'slugify',
@@ -60,7 +58,7 @@ class AttributeType extends AbstractType
                 'help_text'              => 'form.display_name.help_text',
                 'widget_col' => 6
             ]
-        ])->add('name', 'text', [
+        ])->add('name', TextType::class, [
             'label' => 'attribute.name',
             'attr'  => [
                 'class'       => 'slugify-target-' . $builder->getName(),
@@ -68,11 +66,11 @@ class AttributeType extends AbstractType
                 'help_text'   => 'form.name.help_text',
                 'widget_col' => 6
             ]
-        ])->add('description', 'text', [
+        ])->add('description', TextType::class, [
             'required' => false,
             'label' => 'attribute.description',
             'attr'  => [ 'help_text' => 'form.description.help_text' ]
-        ])->add('sort', 'integer', [
+        ])->add('sort', IntegerType::class, [
             'label' => 'attribute.sort',
             'attr'  => [ 'help_text' => 'form.sort.help_text', 'widget_col' => 2 ],
             'empty_data' => 0
@@ -91,43 +89,45 @@ class AttributeType extends AbstractType
             }
 
             if ($attribute && $attribute->getValueType() == 'nested') {
-                $form->add(
-                    'allowedTemplates',
-                    'entity',
-                    [
-                        'class' => $this->templateClass,
-                        'property' => 'displayName',
-                        'query_builder' => function (EntityRepository $er) {
-                            return $er->createQueryBuilder('t')
-                                ->orderBy('t.displayName', 'ASC');
-                        },
-                        'by_reference' => false,
-                        'expanded' => true,
-                        'multiple' => true,
-                        'label' => 'attribute.allowed_templates',
-                        'attr' => ['help_text' => 'form.allowed_templates.help_text']
-                    ]
-                );
+                $form->add('allowedTemplates', 'entity', [
+                    'class' => $this->templateClass,
+                    'property' => 'displayName',
+                    'query_builder' => function (EntityRepository $er) {
+                        return $er->createQueryBuilder('t')
+                            ->orderBy('t.displayName', 'ASC');
+                    },
+                    'by_reference' => false,
+                    'expanded' => true,
+                    'multiple' => true,
+                    'label' => 'attribute.allowed_templates',
+                    'attr' => ['help_text' => 'form.allowed_templates.help_text']
+                ]);
             }
         });
     }
 
-
     /**
      * {@inheritDoc}
      */
-    public function setDefaultOptions(OptionsResolverInterface $resolver)
+    public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults(array(
+        $resolver->setDefaults([
             'data_class' => $this->attributeClass,
-        ));
+        ]);
     }
 
+    /**
+     * @deprecated
+     */
+    public function getName()
+    {
+        return $this->getBlockPrefix();
+    }
 
     /**
      * {@inheritDoc}
      */
-    public function getName()
+    public function getBlockPrefix()
     {
         return 'eav_attribute';
     }

@@ -10,7 +10,6 @@ parameters:
     opifer.eav.form.eav_post_type.class: Opifer\EavBundle\Form\Type\EavPostType
     opifer.eav.form.eav_value.class: Opifer\EavBundle\Form\Type\ValueType
     opifer.eav.form.fauxtype.class: Opifer\EavBundle\Form\Type\FauxType
-    opifer.eav.form.google_address.class: Opifer\EavBundle\Form\Type\GoogleAddressType
     opifer.eav.form.option_type.class: Opifer\EavBundle\Form\Type\OptionType
     opifer.eav.form.presentationeditor.class: Opifer\EavBundle\Form\Type\PresentationEditorType
     opifer.eav.form.template_type.class: Opifer\EavBundle\Form\Type\TemplateType
@@ -53,12 +52,6 @@ services:
         arguments: [@opifer.eav.value_provider.pool]
         tags:
             - { name: form.type, alias: eav_value }
-
-    opifer.eav.form.google_address:
-        class: %opifer.eav.form.google_address.class%
-        arguments: [@translator]
-        tags:
-            - { name: form.type, alias: google_address }
 
     opifer.eav.form.template_object_class_type:
         class: %opifer.eav.form.template_object_class_type.class%

@@ -35,15 +35,21 @@ class NestedType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder
-            ->add('valueset', 'opifer_valueset')
-        ;
+        $builder->add('valueset', 'opifer_valueset');
+    }
+
+    /**
+     * @deprecated
+     */
+    public function getName()
+    {
+        return $this->getBlockPrefix();
     }
 
     /**
      * {@inheritDoc}
      */
-    public function getName()
+    public function getBlockPrefix()
     {
         return $this->name;
     }
