@@ -33,10 +33,6 @@ opifer_eav_form_submit:
         valueId: "\d+"
     methods: [POST]
 
-opifer_rules_engine:
-    resource: "@OpiferRulesEngineBundle/Resources/config/routing.yml"
-    prefix:   /
-
 opifer_redirect:
     resource: "@OpiferContentBundle/Resources/config/routing.yml"
     prefix: /admin/redirects

@@ -183,7 +183,6 @@ twig:
             - 'InfiniteFormBundle::collection_theme.html.twig'
             - 'OpiferEavBundle:Form:fields.html.twig'
             - 'OpiferMediaBundle:Form:fields.html.twig'
-            - 'OpiferRulesEngineBundle:Form:fields.html.twig'
             - 'OpiferContentBundle:Form:fields.html.twig'
             - 'OpiferCmsBundle:Form:fields.html.twig' # At the bottom to make sure form action are being set to '#' when empty
     globals:
