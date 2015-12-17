@@ -11,7 +11,6 @@ parameters:
     opifer.content.form.content_list_picker_type.class: Opifer\ContentBundle\Form\Type\ContentListPickerType
     opifer.content.layout_manager.class: Opifer\ContentBundle\Model\LayoutManager
     opifer.content.twig.content_extension.class: Opifer\ContentBundle\Twig\ContentExtension
-    opifer.rulesengine.provider.content.class: Opifer\ContentBundle\RulesEngine\ContentRulesProvider
 
 services:
     opifer.content.content_manager.default:
@@ -32,13 +31,6 @@ services:
         arguments: [@liip_imagine.cache.manager, @router]
         tags:
             - { name: jms_serializer.event_subscriber }
-
-    # RulesEngine Provider
-    opifer.rulesengine.provider.content:
-        class: %opifer.rulesengine.provider.content.class%
-        arguments: [@opifer.eav.template_manager, %opifer_content.content_class%]
-        tags:
-            - { name: opifer.rulesengine.provider, alias: content }
 
     # Form types
     opifer.content.directory_type:
