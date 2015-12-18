@@ -2,7 +2,6 @@
 
 namespace Opifer\RedirectBundle\Controller;
 
-use Opifer\RedirectBundle\Form\Type\RedirectType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -37,13 +36,12 @@ class RedirectController extends Controller
 
         $redirect = $manager->createNew();
 
-        $form = $this->createForm(new RedirectType(), $redirect);
+        $form = $this->createForm('opifer_redirect', $redirect);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $manager->save($redirect);
-
-            $this->addFlash('success', 'Redirect successfully created');
+            $this->addFlash('success', $this->get('translator')->trans('opifer_redirect.flash.created'));
 
             return $this->redirectToRoute('opifer_redirect_redirect_edit', ['id' => $redirect->getId()]);
         }
@@ -67,13 +65,12 @@ class RedirectController extends Controller
 
         $redirect = $manager->getRepository()->find($id);
 
-        $form = $this->createForm(new RedirectType(), $redirect);
+        $form = $this->createForm('opifer_redirect', $redirect);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $manager->save($redirect);
-
-            $this->addFlash('success', 'Redirect successfully updated');
+            $this->addFlash('success', $this->get('translator')->trans('opifer_redirect.flash.updated'));
 
             return $this->redirectToRoute('opifer_redirect_redirect_edit', ['id' => $redirect->getId()]);
         }
@@ -87,18 +84,18 @@ class RedirectController extends Controller
     /**
      * Delete a redirect
      *
-     * @param  int $id
+     * @param int $id
      *
      * @return RedirectResponse
      */
     public function deleteAction($id)
     {
         $manager = $this->get('opifer.redirect.redirect_manager');
+
         $redirect = $manager->getRepository()->find($id);
 
         $manager->remove($redirect);
-
-        $this->addFlash('success', 'Redirect successfully deleted');
+        $this->addFlash('success', $this->get('translator')->trans('opifer_redirect.flash.deleted'));
 
         return $this->redirectToRoute('opifer_redirect_redirect_index');
     }

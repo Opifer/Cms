@@ -2,11 +2,10 @@
 
 namespace Opifer\RedirectBundle\Model;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Redirect
- *
  * @ORM\MappedSuperclass
  */
 class Redirect
@@ -41,6 +40,17 @@ class Redirect
      */
     protected $permanent;
 
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="requirements", type="array")
+     */
+    protected $requirements;
+
+    function __construct()
+    {
+        $this->requirements = [];
+    }
 
     /**
      * Get id
@@ -122,6 +132,45 @@ class Redirect
     public function isPermanent()
     {
         return $this->permanent;
+    }
+
+    /**
+     * @param array $requirement
+     *
+     * @return Redirect
+     */
+    public function addRequirement(array $requirement)
+    {
+        $this->requirements[] = $requirement;
+
+        return $this;
+    }
+
+    /**
+     * @param array $requirement
+     *
+     * @return Redirect
+     */
+    public function removeRequirement(array $requirement)
+    {
+        $newArray = [];
+        foreach ($this->requirements as $req) {
+            if ($req['parameter'] != $requirement['parameter']) {
+                $newArray[] = $req;
+            }
+        }
+
+        $this->requirements = $newArray;
+        
+        return $this;
+    }
+
+    /**
+     * @return ArrayCollection
+     */
+    public function getRequirements()
+    {
+        return $this->requirements;
     }
 }
 

@@ -1,0 +1,33 @@
+opifer_redirect:
+  flash:
+    created: Verwijzing succesvol aangemaakt
+    updated: Verwijzing succesvol aangepast
+    deleted: Verwijzing succesvol verwijderd
+  title:
+    redirects: Verwijzingen
+    redirect: Verwijzing
+    create: Nieuwe verwijzing
+    update: Update verwijzing
+  button:
+    new_redirect: Verwijzing toevoegen
+  form:
+    origin:
+      label: Bron
+      help_text: Bijvoorbeeld "/test/{pagina}/{nummer}"
+    target:
+      label: Doel
+      help_text: ""
+    permanent:
+      label: Permanent
+      help_text: ""
+    requirements:
+      label: Eisen
+      help_text: ""
+    parameter:
+      label: Parameter
+      help_text: Bijvoorbeeld "pagina"
+    value:
+      label: Waarde
+      help_text: Dit kan een reguliere expressie zijn of bijvoorbeeld "nl|en"
+    cancel: 'Annuleren'
+    save: 'Opslaan'
