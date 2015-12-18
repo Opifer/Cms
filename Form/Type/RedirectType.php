@@ -31,7 +31,7 @@ class RedirectType extends AbstractType
                     'align_with_widget' => true,
                 ]
             ])
-            ->add('requirements', 'bootstrap_collection', [
+            ->add('requirements', 'collection', [
                 'type' => 'opifer_requirement',
                 'allow_add' => true,
                 'allow_delete' => true,

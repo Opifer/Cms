@@ -13,8 +13,7 @@
     "require": {
         "php": ">=5.4",
         "symfony/symfony": "~2.5",
-        "doctrine/orm": "~2.4",
-        "braincrafted/bootstrap-bundle": "2.1.*"
+        "doctrine/orm": "~2.4"
     },
     "require-dev": {
         "phpunit/phpunit": "~4.2.0",
