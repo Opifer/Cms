@@ -135,3 +135,53 @@
         });
     </script>
 {% endblock %}
+
+{% block collapsible_collection_widget %}
+    {% spaceless %}
+        {% if prototype is defined %}
+            {% set prototype_vars = {} %}
+            {% if style is defined %}
+                {% set prototype_vars = prototype_vars|merge({'style': style}) %}
+            {% endif %}
+            {% set prototype_html = '<div class="col-xs-' ~ form.vars.sub_widget_col ~ '">' ~ form_widget(prototype, prototype_vars) ~ '</div>' %}
+            {% if form.vars.allow_delete %}
+                {% set prototype_html = prototype_html ~ '<div class="col-xs-' ~ form.vars.button_col ~ '"><a href="#" class="btn btn-danger btn-small" data-removefield="collection" data-field="__id__">' ~ form.vars.delete_button_text|trans({}, translation_domain) ~ '</a></div>' %}
+            {% endif %}
+            {% set prototype_html = '<div class="row">' ~ prototype_html ~ '</div>' %}
+
+            {% set attr = attr|merge({'data-prototype': prototype_html }) %}
+            {% set attr = attr|merge({'data-prototype-name': prototype_name }) %}
+        {% endif %}
+        <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseOptions{{ form.vars.id }}" aria-expanded="false" aria-controls="collapseOptions{{ form.vars.id }}">
+            Edit {{ form.vars.name }}
+        </button>
+        <br/>
+        <div class="collapse" id="collapseOptions{{ form.vars.id }}">
+            <div class="well">
+                <div {{ block('widget_container_attributes') }}>
+                    <ul class="bc-collection list-unstyled">
+                        {% for field in form %}
+                            <li>
+                                <div class="row">
+                                    <div class="col-xs-{{ form.vars.sub_widget_col }}">
+                                        {{ form_widget(field) }}
+                                        {{ form_errors(field) }}
+                                    </div>
+                                    {% if form.vars.allow_delete %}
+                                        <div class="col-xs-{{ form.vars.button_col }}">
+                                            <a href="#" class="btn btn-danger btn-small" data-removefield="collection" data-field="{{ field.vars.id }}">{{ form.vars.delete_button_text|trans({}, translation_domain) }}</a>
+                                        </div>
+                                    {% endif %}
+                                </div>
+                            </li>
+                            <br/>
+                        {% endfor %}
+                    </ul>
+                    {% if form.vars.allow_add %}
+                        <a href="#" class="btn btn-primary btn-small" data-addfield="collection" data-collection="{{ form.vars.id }}" data-prototype-name="{{ prototype_name }}">{{ form.vars.add_button_text|trans({}, translation_domain) }}</a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    {% endspaceless %}
+{% endblock collapsible_collection_widget %}

@@ -8,6 +8,7 @@ parameters:
     opifer.cms.form_value_provider.class: Opifer\CmsBundle\ValueProvider\FormValueProvider
     opifer.cms.form.attribute_parameters.class: Opifer\CmsBundle\Form\Type\AttributeParametersType
     opifer.cms.form.ckeditor_type.class: Opifer\CmsBundle\Form\Type\CKEditorType
+    opifer.cms.form.collapsible_collection.class: Opifer\CmsBundle\Form\Type\CollapsibleCollectionType
     opifer.cms.form.content.class: Opifer\CmsBundle\Form\Type\ContentFormType
     opifer.cms.form.content_init_form.class: Opifer\CmsBundle\Form\Type\ContentInitFormType
     opifer.cms.form.directory_form.class: Opifer\CmsBundle\Form\Type\DirectoryFormType
@@ -48,6 +49,11 @@ services:
         arguments: [%security.role_hierarchy.roles%, %opifer_cms.user.class%]
         tags:
             - { name: form.type, alias: admin_user_form }
+
+    opifer.cms.form.collapsible_collection:
+        class: %opifer.cms.form.collapsible_collection.class%
+        tags:
+            - { name: form.type, alias: collapsible_collection }
 
     opifer.cms.form.content:
         class: %opifer.cms.form.content.class%
