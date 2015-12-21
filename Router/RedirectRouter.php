@@ -54,6 +54,19 @@ class RedirectRouter implements RouterInterface
         $urlMatcher = new RedirectableUrlMatcher($this->getRouteCollection(), $this->getContext());
         $result = $urlMatcher->match($pathinfo);
 
+        $path = $result['path'];
+
+        preg_match('/{(.*)}/', $path, $matches);
+        if (!empty($matches)) {
+            foreach ($matches as $match) {
+                if (array_key_exists($match, $result)) {
+                    $path = str_replace('{'.$match .'}', $result[$match], $path);
+                }
+            }
+        }
+
+        $result['path'] = $path;
+
         return $result;
     }
 
