@@ -56,9 +56,9 @@ class RedirectRouter implements RouterInterface
 
         $path = $result['path'];
 
-        preg_match('/{(.*)}/', $path, $matches);
-        if (!empty($matches)) {
-            foreach ($matches as $match) {
+        preg_match_all('/{(.*?)}/', $path, $matches);
+        if (!empty($matches) && isset($matches[1])) {
+            foreach ($matches[1] as $match) {
                 if (array_key_exists($match, $result)) {
                     $path = str_replace('{'.$match .'}', $result[$match], $path);
                 }
