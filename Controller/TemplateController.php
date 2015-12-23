@@ -29,6 +29,7 @@ class TemplateController extends Controller
 
         $relatedContent = $em->getRepository('OpiferCmsBundle:Content')
             ->createValuedQueryBuilder('c')
+            ->innerJoin('vs.template', 't')
             ->select('COUNT(c)')
             ->where('t.id = :template')
             ->setParameter('template', $id)
