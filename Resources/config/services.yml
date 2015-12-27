@@ -52,7 +52,7 @@ services:
 
     opifer.cms.user_form:
         class: %opifer.cms.user_form.class%
-        arguments: [%security.role_hierarchy.roles%, %opifer_cms.user.class%]
+        arguments: [%security.role_hierarchy.roles%, %opifer_cms.user_model%]
         tags:
             - { name: form.type, alias: admin_user_form }
 
@@ -148,7 +148,7 @@ services:
 
     opifer.cms.tableprefix_listener:
         class: %opifer.cms.tableprefix_listener.class%
-        arguments: [%database_table_prefix%]
+        arguments: [%opifer_cms.database_table_prefix%]
         tags:
             - { name: doctrine.event_subscriber }
 

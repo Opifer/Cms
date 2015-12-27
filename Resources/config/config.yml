@@ -2,7 +2,6 @@ imports:
     - { resource: doctrine_extensions.yml }
 
 parameters:
-    opifer_cms.user.class: Opifer\CmsBundle\Entity\User
     opifer.content.directory_type.class: Opifer\CmsBundle\Form\Type\DirectoryType
     opifer.content.content_type.class: Opifer\CmsBundle\Form\Type\ContentType
     opifer.eav.form.attribute_type.class: Opifer\CmsBundle\Form\Type\AttributeType
@@ -15,7 +14,7 @@ parameters:
 framework:
     ide:    "phpstorm://open?file=%%f&line=%%1"
     #esi:             ~
-    translator:      { fallback: [%locale%, en] }
+    translator:      { fallback: [%opifer_cms.locale%, en] }
     secret:          %secret%
     router:
         resource:            "%kernel.root_dir%/config/routing.yml"
@@ -26,7 +25,7 @@ framework:
     templating:
         engines: ['twig']
         #assets_version: SomeVersionScheme
-    default_locale:  "%locale%"
+    default_locale:  %opifer_cms.locale%
     trusted_proxies: ~
     session:
         save_path:   null #%kernel.root_dir%/../var/sessions
@@ -75,12 +74,12 @@ cmf_routing:
 # Doctrine Configuration
 doctrine:
     dbal:
-        driver:   %database_driver%
-        host:     %database_host%
-        port:     %database_port%
-        dbname:   %database_name%
-        user:     %database_user%
-        password: %database_password%
+        driver:   %opifer_cms.database_driver%
+        host:     %opifer_cms.database_host%
+        port:     %opifer_cms.database_port%
+        dbname:   %opifer_cms.database_name%
+        user:     %opifer_cms.database_user%
+        password: %opifer_cms.database_password%
         charset:  UTF8
         # if using pdo_sqlite as your database driver, add the path in parameters.yml
         # e.g. database_path: %kernel.root_dir%/data/data.db3
@@ -93,9 +92,7 @@ doctrine:
                 class:   Gedmo\SoftDeleteable\Filter\SoftDeleteableFilter
                 enabled: true
         resolve_target_entities:
-            # Define the user class
-            FOS\UserBundle\Model\UserInterface: %opifer_cms.user.class%
-            # Define the entity used for nested content
+            FOS\UserBundle\Model\UserInterface: %opifer_cms.user_model%
             Opifer\EavBundle\Nesting\Nestable: Opifer\CmsBundle\Entity\Content
         mappings:
             translatable:
@@ -117,8 +114,8 @@ doctrine:
 # Migrations
 doctrine_migrations:
     dir_name:   %kernel.root_dir%/../src/AppBundle/Migrations
-    namespace:  Opifer\AppBundle\Migrations
-    table_name: %database_table_prefix%migrations
+    namespace:  AppBundle\Migrations
+    table_name: %opifer_cms.database_table_prefix%migrations
     name:       Opifer Cms Migrations
 
 
@@ -126,7 +123,7 @@ doctrine_migrations:
 fos_user:
     db_driver:       orm
     firewall_name:   main
-    user_class:      %opifer_cms.user.class%
+    user_class:      %opifer_cms.user_model%
     group:
         group_class: Opifer\CmsBundle\Entity\Group
     registration:
