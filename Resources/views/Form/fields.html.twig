@@ -2,52 +2,14 @@
     The form_start.
 
     Basically the same as Symfony's default form_start, but adds a form action check.
-    When the action is empty, it sets the action to #, to avoid Angular from
+    When the action is empty, it sets the action to #, to avoid AngularJS from
     disabling the default form submit behaviour
 #}
 {% block form_start %}
-{% spaceless %}
-    {% set method = method|upper %}
-    {% if method in ["GET", "POST"] %}
-        {% set form_method = method %}
-    {% else %}
-        {% set form_method = "POST" %}
-    {% endif %}
-
-    {% if style is defined %}
-        {% set attr = attr|merge({ 'class': (attr.class|default('') ~ ' form-' ~ style)|trim }) %}
-        {{ bootstrap_set_style(style) }}
-    {% endif %}
-
-    {% if col_size is defined %}
-        {{ bootstrap_set_col_size(col_size) }}
-    {% endif %}
-
-    {% if widget_col is defined %}
-        {{ bootstrap_set_widget_col(widget_col) }}
-    {% endif %}
-
-    {% if label_col is defined %}
-        {{ bootstrap_set_label_col(label_col) }}
-    {% endif %}
-
-    {% if simple_col is defined %}
-        {{ bootstrap_set_simple_col(simple_col) }}
-    {% endif %}
-
-    {% if attr.role is not defined or attr.role is empty %}
-        {% set attr = attr|merge({ 'role': 'form' }) %}
-    {% endif %}
-
     {% if action is not defined or action == '' %}
         {% set action = '#' %}
     {% endif %}
-
-    <form  name="{{ form.vars.name }}" method="{{ form_method|lower }}" action="{{ action }}"{% for attrname, attrvalue in attr %} {{ attrname }}="{{ attrvalue }}"{% endfor %}{% if multipart %} enctype="multipart/form-data"{% endif %}>
-    {% if form_method != method %}
-        <input type="hidden" name="_method" value="{{ method }}" />
-    {% endif %}
-{% endspaceless %}
+    {{ parent() }}
 {% endblock form_start %}
 
 {% block form_help %}

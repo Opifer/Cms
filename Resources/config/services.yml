@@ -3,7 +3,6 @@ parameters:
     opifer.cms.address_value_provider.class: Opifer\CmsBundle\ValueProvider\AddressValueProvider
     opifer.cms.attachment_listener.class: Opifer\CmsBundle\EventListener\AttachmentListener
     opifer.cms.attachment_value_provider.class: Opifer\CmsBundle\ValueProvider\AttachmentValueProvider
-    opifer.cms.content_menu.class: Opifer\CmsBundle\Menu\ContentMenu
     opifer.cms.exception_router.class: Opifer\CmsBundle\Router\ExceptionRouter
     opifer.cms.form_value_provider.class: Opifer\CmsBundle\ValueProvider\FormValueProvider
     opifer.cms.form.attribute_parameters.class: Opifer\CmsBundle\Form\Type\AttributeParametersType
@@ -167,10 +166,6 @@ services:
     opifer.cms.menu_manager:
         class: %opifer.cms.menu_manager.class%
         arguments: [@doctrine.orm.default_entity_manager]
-
-    opifer.cms.content_menu:
-        class: %opifer.cms.content_menu.class%
-        arguments: [@translator, @router, %opifer_cms.allowed_locales%, %locale%]
 
     # Value providers
 

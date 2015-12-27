@@ -11,10 +11,6 @@ opifer_cms_setting_index:
     path: /settings
     defaults: { _controller: OpiferCmsBundle:Backend/Setting:index }
 
-opifer_cms_command:
-    resource: "@OpiferCmsBundle/Controller/CommandController.php"
-    type:     annotation
-
 opifer_cms_template_index:
     path: /templates
     defaults: { _controller: OpiferCmsBundle:Backend/Template:index }
