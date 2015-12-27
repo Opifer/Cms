@@ -42,7 +42,9 @@ class OpiferCmsExtension extends Extension
         return [
             'opifer_cms.autocomplete' => $config['autocomplete'],
             'opifer_cms.pagination.limit' => $config['pagination']['limit'],
-            'opifer_cms.allowed_locales' => $config['allowed_locales']
+            'opifer_cms.allowed_locales' => $config['allowed_locales'],
+            'opifer_cms.google_captcha_site_key' => $config['google_captcha_site_key'],
+            'opifer_cms.google_captcha_secret' => $config['google_captcha_secret'],
         ];
     }
 }

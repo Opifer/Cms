@@ -65,7 +65,10 @@ class SiteMenu extends MenuBuilder implements MenuInterface
         $options = array();
         $options['label'] = ucfirst($item->getName());
         $options['extras'] = array('safe_label' => true);
-
+        if ($item->getContent()) {
+            $options['extras']['content'] = $item->getContent();
+        }
+        
         if (!$item instanceof MenuGroup) {
             if ($uri = $item->getLink()) {
                 $options['uri'] = $uri;
