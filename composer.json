@@ -55,7 +55,6 @@
         "phpunit/phpunit": "~4.2",
         "symfony/phpunit-bridge": "~2.7",
         "sensio/generator-bundle": "~2.3",
-        "doctrine/doctrine-fixtures-bundle": "@dev",
         "fzaninotto/faker": "~1.4",
         "mockery/mockery": "~0.9"
     },

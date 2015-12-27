@@ -28,7 +28,6 @@ abstract class Kernel extends BaseKernel
             // Added vendor bundles
             new \Bazinga\Bundle\JsTranslationBundle\BazingaJsTranslationBundle(),
             new \Braincrafted\Bundle\BootstrapBundle\BraincraftedBootstrapBundle(),
-            new \Doctrine\Bundle\FixturesBundle\DoctrineFixturesBundle(),
             new \Doctrine\Bundle\MigrationsBundle\DoctrineMigrationsBundle(),
             new \FOS\JsRoutingBundle\FOSJsRoutingBundle(),
             new \FOS\UserBundle\FOSUserBundle(),
