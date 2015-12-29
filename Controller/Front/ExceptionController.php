@@ -9,9 +9,7 @@ use Symfony\Component\HttpFoundation\Response;
 class ExceptionController extends Controller
 {
     /**
-     * 404
-     *
-     * @Route("/404", name="opifer_cms_exception_404")
+     * 404 error page
      *
      * @return Response
      */

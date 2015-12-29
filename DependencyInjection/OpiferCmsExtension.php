@@ -4,6 +4,7 @@ namespace Opifer\CmsBundle\DependencyInjection;
 
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Symfony\Component\DependencyInjection\Extension\PrependExtensionInterface;
 use Symfony\Component\DependencyInjection\Loader;
 use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 
@@ -12,15 +13,21 @@ use Symfony\Component\HttpKernel\DependencyInjection\Extension;
  *
  * To learn more see {@link http://symfony.com/doc/current/cookbook/bundles/extension.html}
  */
-class OpiferCmsExtension extends Extension
+class OpiferCmsExtension extends Extension implements PrependExtensionInterface
 {
     /**
      * {@inheritDoc}
      */
     public function load(array $configs, ContainerBuilder $container)
     {
-        $configuration = new Configuration();
-        $config = $this->processConfiguration($configuration, $configs);
+        $loader = new Loader\YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
+        $loader->load('services.yml');
+    }
+
+    public function prepend(ContainerBuilder $container)
+    {
+        $configs = $container->getExtensionConfig($this->getAlias());
+        $config = $this->processConfiguration(new Configuration(), $configs);
 
         $parameters = $this->getParameters($config);
         foreach ($parameters as $key => $value) {
@@ -28,9 +35,6 @@ class OpiferCmsExtension extends Extension
         }
 
         $this->mapClassParameters($config['classes'], $container);
-
-        $loader = new Loader\YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
-        $loader->load('services.yml');
     }
 
     /**
@@ -39,10 +43,10 @@ class OpiferCmsExtension extends Extension
      * @param  array $config
      * @return array
      */
-    public function getParameters($config)
+    public function getParameters(array $config)
     {
         return [
-            'opifer_cms.locale' => $config['locale'],
+            'opifer_cms.default_locale' => $config['default_locale'],
             'opifer_cms.google_captcha_site_key' => $config['google_captcha_site_key'],
             'opifer_cms.google_captcha_secret' => $config['google_captcha_secret'],
             'opifer_cms.database_driver' => $config['database']['driver'],
@@ -71,8 +75,8 @@ class OpiferCmsExtension extends Extension
                 $container->setParameter(
                     sprintf(
                         'opifer_cms.%s_%s',
-                        $service,
-                        $model
+                        $model,
+                        $service
                     ),
                     $class
                 );

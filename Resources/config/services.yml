@@ -12,7 +12,6 @@ parameters:
     opifer.cms.form.content_init_form.class: Opifer\CmsBundle\Form\Type\ContentInitFormType
     opifer.cms.form.directory_form.class: Opifer\CmsBundle\Form\Type\DirectoryFormType
     opifer.cms.form.google_address.class: Opifer\CmsBundle\Form\Type\GoogleAddressType
-    opifer.cms.form.menu.class: Opifer\CmsBundle\Form\Type\MenuType
     opifer.cms.form.menu_group.class: Opifer\CmsBundle\Form\Type\MenuGroupType
     opifer.cms.form.menu_parameters.class: Opifer\CmsBundle\Form\Type\MenuParametersType
     opifer.cms.html_value_provider.class: Opifer\CmsBundle\ValueProvider\HtmlValueProvider
@@ -83,12 +82,6 @@ services:
         arguments: [@translator]
         tags:
             - { name: form.type, alias: ckeditor }
-
-    opifer.cms.form.menu:
-        class: %opifer.cms.form.menu.class%
-        arguments: [@translator]
-        tags:
-            - { name: form.type, alias: admin_menu }
 
     opifer.cms.form.menu_group:
         class: %opifer.cms.form.menu_group.class%

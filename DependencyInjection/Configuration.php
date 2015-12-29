@@ -24,6 +24,8 @@ class Configuration implements ConfigurationInterface
         $rootNode
             ->addDefaultsIfNotSet()
             ->children()
+                ->scalarNode('default_locale')->defaultValue('en')->end()
+
                 ->arrayNode('classes')
                     ->addDefaultsIfNotSet()
                     ->children()
@@ -42,10 +44,9 @@ class Configuration implements ConfigurationInterface
                     ->children()
                         ->scalarNode('driver')->defaultValue('pdo_mysql')->end()
                         ->scalarNode('host')->defaultValue('127.0.0.1')->end()
-                        ->scalarNode('port')->end()
-                        ->scalarNode('name')->end()
-                        ->scalarNode('user')->end()
-                        ->scalarNode('password')->end()
+                        ->scalarNode('name')->defaultValue('%database_name%')->end()
+                        ->scalarNode('user')->defaultValue('%database_user%')->end()
+                        ->scalarNode('password')->defaultValue('%database_password%')->end()
                         ->scalarNode('table_prefix')->defaultValue('opifer_')->end()
                     ->end()
                 ->end()

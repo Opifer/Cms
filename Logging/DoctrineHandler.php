@@ -5,7 +5,6 @@ namespace Opifer\CmsBundle\Logging;
 use Monolog\Logger;
 use Monolog\Handler\AbstractProcessingHandler;
 use Symfony\Component\DependencyInjection\ContainerInterface;
-use Opifer\CmsBundle\Entity\Log;
 
 /**
  * This Monolog Handler is currently disabled.
@@ -15,14 +14,10 @@ use Opifer\CmsBundle\Entity\Log;
  */
 class DoctrineHandler extends AbstractProcessingHandler
 {
-    /**
-     * @var  boolean
-     */
+    /** @var boolean */
     private $initialized = false;
 
-    /**
-     * @var  Symfony\Component\DependencyInjection\ContainerInterface
-     */
+    /** @var ContainerInterface */
     private $container;
 
     /**

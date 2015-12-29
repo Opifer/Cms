@@ -14,7 +14,7 @@ parameters:
 framework:
     ide:    "phpstorm://open?file=%%f&line=%%1"
     #esi:             ~
-    translator:      { fallback: [%opifer_cms.locale%, en] }
+    translator:      { fallback: [%opifer_cms.default_locale%, en] }
     secret:          %secret%
     router:
         resource:            "%kernel.root_dir%/config/routing.yml"
@@ -25,7 +25,7 @@ framework:
     templating:
         engines: ['twig']
         #assets_version: SomeVersionScheme
-    default_locale:  %opifer_cms.locale%
+    default_locale:  %opifer_cms.default_locale%
     trusted_proxies: ~
     session:
         save_path:   null #%kernel.root_dir%/../var/sessions
@@ -76,7 +76,7 @@ doctrine:
     dbal:
         driver:   %opifer_cms.database_driver%
         host:     %opifer_cms.database_host%
-        port:     %opifer_cms.database_port%
+        port:     ~
         dbname:   %opifer_cms.database_name%
         user:     %opifer_cms.database_user%
         password: %opifer_cms.database_password%

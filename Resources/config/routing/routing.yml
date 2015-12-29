@@ -16,19 +16,22 @@ fos_user_security_logout:
     pattern: /logout
     defaults: { _controller: FOSUserBundle:Security:logout }
 
-# Bazinga Translator Routing
 _bazinga_jstranslation:
     resource: "@BazingaJsTranslationBundle/Resources/config/routing/routing.yml"
 
 # Opifer bundle routing
+
+opifer_cms_exception_404:
+    pattern: /404
+    defaults: { _controller: OpiferCmsBundle:Frontend\Exception:error404 }
+    methods: [GET]
 
 opifer_form:
     resource: "@OpiferFormBundle/Resources/config/routing.yml"
 
 opifer_eav_form_submit:
     pattern: /eav/form/submit/{valueId}
-    defaults:
-        _controller: OpiferEavBundle:Form:submit
+    defaults: { _controller: OpiferEavBundle:Form:submit }
     requirements:
         valueId: "\d+"
     methods: [POST]

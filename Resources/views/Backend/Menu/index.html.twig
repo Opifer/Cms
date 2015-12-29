@@ -27,9 +27,9 @@
                 <th></th>
         </thead>
         <tbody>
-        {% macro tree_walk(menuTree, level) %}
-            {% for menu in menuTree %}
-                <tr data-level="{{level}}" class="{{menu.type}} {% if level > 0%}collapse{%endif%}">
+        {% macro tree_walk(menu_tree, level) %}
+            {% for menu in menu_tree %}
+                <tr data-level="{{ level }}" class="{{ menu.type }} {% if level > 0 %}collapse{% endif %}">
                     <td width="25">{{ menu.id }}</td>
                     <td style="text-indent:{{level*8}}px">
                         <span class="text-muted" >{{ menu.name }}</a>
@@ -46,7 +46,7 @@
                {{ _self.tree_walk(menu.__children, (level+1)) }}
             {% endfor %}
         {% endmacro %}
-        {{ _self.tree_walk(menuTree, 0) }}
+        {{ _self.tree_walk(menu_tree, 0) }}
         </tbody>
     </table>
 </section>

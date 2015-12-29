@@ -28,6 +28,6 @@ class PageController extends Controller
             ]);
         }
 
-        return $this->render('OpiferSiteBundle:Layout:page.html.twig');
+        return $this->render('OpiferCmsBundle:Layout:page.html.twig');
     }
 }

@@ -1,0 +1,34 @@
+{% extends 'OpiferCmsBundle::base.html.twig' %}
+
+{% block body %}
+    <div class="page-header clearfix">
+        <h1 class="pull-left">{{ 'menu.edit.title'|trans|capitalize }}</h1>
+    </div>
+
+    {% if not form.vars.valid %}
+        <div class="alert alert-error">
+            {{ form_errors(form) }}
+        </div>
+    {% endif %}
+
+    <section class="page-section">
+
+        {{ form_start(form, {'style': 'horizontal', 'attr': {'novalidate':'novalidate'} }) }}
+
+            {{ form_widget(form) }}
+
+            <div class="form-group form-footer">
+                <div class="col-xs-12">
+                    <input type="submit" value="Save" class="btn btn-primary"/>
+                    <a href="{{ path('opifer_cms_menu_index') }}" class="btn btn-link">{{ 'form.cancel'|trans|capitalize }}</a>
+                </div>
+            </div>
+
+        {{ form_end(form) }}
+    </section>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    {{ form_javascript(form) }}
+{% endblock %}
