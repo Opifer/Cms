@@ -13,7 +13,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  *
  * @ORM\Table(name="template")
  * @ORM\Entity(repositoryClass="Opifer\EavBundle\Repository\TemplateRepository")
- * @GRID\Source(columns="id, displayName, attributes")
+ * @GRID\Source(columns="id, displayName")
  */
 class Template extends BaseTemplate
 {

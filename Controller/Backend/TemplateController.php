@@ -3,6 +3,7 @@
 namespace Opifer\CmsBundle\Controller\Backend;
 
 use APY\DataGridBundle\Grid\Action\RowAction;
+use APY\DataGridBundle\Grid\Column\TextColumn;
 use APY\DataGridBundle\Grid\Source\Entity;
 use Opifer\CmsBundle\Entity\Template;
 use Opifer\EavBundle\Form\Type\TemplateType;
@@ -26,9 +27,20 @@ class TemplateController extends Controller
         $deleteAction = new RowAction('delete', 'opifer_cms_template_delete');
         $deleteAction->setRouteParameters(['id']);
 
+        $attributesColumn = new TextColumn(['id' => 'attributes', 'Attributes', 'source' => false, 'filterable' => false, 'sortable' => false, 'safe' => false]);
+        $attributesColumn->manipulateRenderCell(function ($value, $row, $router) {
+            $html = '';
+            foreach ($row->getEntity()->getAttributes() as $attribute) {
+                $html .= '<span class="label label-primary" style="display:inline-block">'.$attribute->getDisplayName().'</span>';
+            }
+
+            return $html;
+        });
+
         $grid = $this->get('grid');
         $grid->setId('templates')
             ->setSource($source)
+            ->addColumn($attributesColumn)
             ->addRowAction($editAction)
             ->addRowAction($deleteAction);
 
