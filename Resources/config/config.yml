@@ -243,14 +243,14 @@ opifer_form:
     form:
         class: Opifer\CmsBundle\Entity\Form
         views:
-            index: OpiferCmsBundle:Admin/Form:index.html.twig
-            create: OpiferCmsBundle:Admin/Form:create.html.twig
-            edit: OpiferCmsBundle:Admin/Form:edit.html.twig
+            index: OpiferCmsBundle:Backend/Form:index.html.twig
+            create: OpiferCmsBundle:Backend/Form:create.html.twig
+            edit: OpiferCmsBundle:Backend/Form:edit.html.twig
     post:
         class: Opifer\CmsBundle\Entity\Post
         views:
-            index: OpiferCmsBundle:Admin/Post:index.html.twig
-            view: OpiferCmsBundle:Admin/Post:view.html.twig
+            index: OpiferCmsBundle:Backend/Post:index.html.twig
+            view: OpiferCmsBundle:Backend/Post:view.html.twig
 
 opifer_redirect:
     redirect:

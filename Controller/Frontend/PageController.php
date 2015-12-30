@@ -1,6 +1,6 @@
 <?php
 
-namespace Opifer\CmsBundle\Controller\Front;
+namespace Opifer\CmsBundle\Controller\Frontend;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 

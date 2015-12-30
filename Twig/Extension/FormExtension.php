@@ -9,7 +9,6 @@ use Symfony\Bridge\Twig\Form\TwigRendererInterface;
 
 class FormExtension extends \Twig_Extension
 {
-
     /** @var TwigRendererInterface */
     public $renderer;
 
