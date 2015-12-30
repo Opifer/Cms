@@ -32,7 +32,13 @@
                 <tr data-level="{{ level }}" class="{{ menu.type }} {% if level > 0 %}collapse{% endif %}">
                     <td width="25">{{ menu.id }}</td>
                     <td style="text-indent:{{level*8}}px">
-                        <span class="text-muted" >{{ menu.name }}</a>
+                        {% if menu.type == 'item' %}
+                        <a href="{{ path('opifer_cms_menu_edit', {'id' : menu.id}) }}">
+                            <span class="text-muted" >{{ menu.name }}</span>
+                        </a>
+                        {% else %}
+                            <span class="text-muted" >{{ menu.name }}</span>
+                        {% endif %}
                     </td>
                     <td>
                         <a href="{{ path('opifer_cms_menu_edit', {'id' : menu.id}) }}">
