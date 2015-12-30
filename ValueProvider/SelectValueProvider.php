@@ -36,7 +36,7 @@ class SelectValueProvider extends AbstractValueProvider implements ValueProvider
 
         $builder->add(
             $builder->create('options', 'entity', [
-                'required' => (isset($options['attribute']->getParameters()['required'])) ? $options['attribute']->getParameters()['required'] : false,
+                'required'      => ($options['attribute']->getRequired()) ? true : false,
                 'label'         => $options['attribute']->getDisplayName(),
                 'placeholder'   => 'Select…',
                 'multiple'      => false,

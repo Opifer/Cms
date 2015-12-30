@@ -16,7 +16,6 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 class Attribute implements AttributeInterface
 {
-
     /**
      * @var integer
      *
@@ -98,6 +97,13 @@ class Attribute implements AttributeInterface
      * @ORM\JoinTable(name="attribute_allowed_template")
      **/
     protected $allowedTemplates;
+
+    /**
+     * @var boolean
+     *
+     * @ORM\Column(name="required", type="boolean")
+     */
+    protected $required = false;
 
     /**
      * @var array
@@ -445,6 +451,24 @@ class Attribute implements AttributeInterface
     public function setAllowedTemplates(ArrayCollection $allowedTemplates)
     {
         $this->allowedTemplates = $allowedTemplates;
+
+        return $this;
+    }
+
+    /**
+     * @return boolean
+     */
+    public function getRequired()
+    {
+        return $this->required;
+    }
+
+    /**
+     * @param boolean $required
+     */
+    public function setRequired($required)
+    {
+        $this->required = $required;
 
         return $this;
     }

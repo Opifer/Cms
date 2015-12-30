@@ -15,8 +15,8 @@ class DatetimeValueProvider extends AbstractValueProvider implements ValueProvid
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder->add('value', 'opifer_eav_datetime_picker', [
-            'required' => (isset($options['attribute']->getParameters()['required'])) ? $options['attribute']->getParameters()['required'] : false,
-            'label' => false
+            'required' => ($options['attribute']->getRequired()) ? true : false,
+            'label'    => false
         ]);
     }
 

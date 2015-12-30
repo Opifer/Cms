@@ -20,7 +20,7 @@ class TemplateType extends AbstractType
      * @param AttributeType $attributeType
      * @param string        $templateClass
      */
-    public function __construct( AttributeType $attributeType, $templateClass)
+    public function __construct(AttributeType $attributeType, $templateClass)
     {
         $this->attributeType = $attributeType;
         $this->templateClass = $templateClass;

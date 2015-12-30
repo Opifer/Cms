@@ -12,8 +12,8 @@ class TextValueProvider extends AbstractValueProvider implements ValueProviderIn
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder->add('value', 'textarea', [
-            'required' => (isset($options['attribute']->getParameters()['required'])) ? $options['attribute']->getParameters()['required'] : false,
-            'label' => false
+            'required' => ($options['attribute']->getRequired()) ? true : false,
+            'label'    => false
         ]);
     }
 
