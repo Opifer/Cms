@@ -44,7 +44,7 @@ opifer_redirect:
 
 opifer_cms_home:
     pattern:  /
-    defaults: { _controller: OpiferCmsBundle:Frontend/Page:home }
+    defaults: { _controller: OpiferCmsBundle:Frontend\Page:home }
     options: {sitemap: true}
 
 opifer_cms_auto_complete:
