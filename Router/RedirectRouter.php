@@ -4,10 +4,10 @@ namespace Opifer\RedirectBundle\Router;
 
 use Opifer\RedirectBundle\Model\Redirect;
 use Opifer\RedirectBundle\Model\RedirectManagerInterface;
-use Symfony\Bundle\FrameworkBundle\Routing\RedirectableUrlMatcher;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Routing\Exception\RouteNotFoundException;
+use Symfony\Component\Routing\Matcher\UrlMatcher;
 use Symfony\Component\Routing\RequestContext;
 use Symfony\Component\Routing\Route;
 use Symfony\Component\Routing\RouteCollection;
@@ -51,7 +51,7 @@ class RedirectRouter implements RouterInterface
      */
     public function match($pathinfo)
     {
-        $urlMatcher = new RedirectableUrlMatcher($this->getRouteCollection(), $this->getContext());
+        $urlMatcher = new UrlMatcher($this->getRouteCollection(), $this->getContext());
         $result = $urlMatcher->match($pathinfo);
 
         $path = $result['path'];
