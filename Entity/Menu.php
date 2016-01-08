@@ -33,7 +33,6 @@ class Menu
      *
      * @ORM\Column(name="name", type="string", length=128)
      * @Assert\NotBlank()
-     * @Gedmo\Translatable
      */
     protected $name;
 
@@ -88,11 +87,6 @@ class Menu
     protected $sort = 0;
 
     /**
-     * @Gedmo\Locale
-     */
-    protected $locale;
-
-    /**
      * Constructor.
      */
     public function __construct()
@@ -109,16 +103,6 @@ class Menu
     public function getIndentedName()
     {
         return str_repeat('. . . . ', $this->lvl).$this->name;
-    }
-
-    /**
-     * Set translatable locale.
-     *
-     * @param string $locale
-     */
-    public function setTranslatableLocale($locale)
-    {
-        $this->locale = $locale;
     }
 
     /**

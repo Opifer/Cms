@@ -15,8 +15,4 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class MenuGroup extends Menu
 {
-    /**
-     * @Gedmo\Locale
-     */
-    protected $locale;
 }

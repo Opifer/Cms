@@ -13,7 +13,6 @@ use Opifer\ContentBundle\Model\Content as BaseContent;
  *
  * @ORM\Table(name="content")
  * @ORM\Entity(repositoryClass="Opifer\CmsBundle\Repository\ContentRepository")
- * @Gedmo\TranslationEntity(class="Opifer\CmsBundle\Entity\Translation\ContentTranslation")
  * @JMS\ExclusionPolicy("all")
  */
 class Content extends BaseContent
@@ -65,7 +64,6 @@ class Content extends BaseContent
      *
      * @JMS\Expose
      * @JMS\Groups({"detail", "list"})
-     * @Gedmo\Translatable
      * @ORM\Column(name="title", type="string", length=255)
      * @Assert\NotBlank()
      */
@@ -76,7 +74,6 @@ class Content extends BaseContent
      *
      * @JMS\Expose
      * @JMS\Groups({"detail", "list"})
-     * @Gedmo\Translatable
      * @ORM\Column(name="description", type="text", nullable=true)
      */
     protected $description;
@@ -155,16 +152,6 @@ class Content extends BaseContent
      * @Gedmo\Locale
      */
     private $locale;
-
-    /**
-     * Set translatable locale.
-     *
-     * @param string $locale
-     */
-    public function setTranslatableLocale($locale)
-    {
-        $this->locale = $locale;
-    }
 
     /**
      * Sets an author on for the content.

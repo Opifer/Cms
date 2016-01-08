@@ -25,7 +25,6 @@ class MenuItem extends Menu
      * @var string
      *
      * @ORM\Column(name="link", type="string", length=128)
-     * @Gedmo\Translatable
      */
     private $link;
 
@@ -56,11 +55,6 @@ class MenuItem extends Menu
      * @ORM\Column(name="hidden_desktop", type="boolean", options={"default"=0})
      */
     protected $hiddenDesktop = 0;
-
-    /**
-     * @Gedmo\Locale
-     */
-    protected $locale;
 
     /**
      * @var array
