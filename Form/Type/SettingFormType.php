@@ -11,7 +11,7 @@ use Symfony\Component\Validator\Constraints\NotBlank;
 class SettingFormType extends AbstractType
 {
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
@@ -20,15 +20,15 @@ class SettingFormType extends AbstractType
             $builder->add($name, $setting->getType(), [
                 'label' => ucfirst(str_replace('.', ' ', $setting->getName())),
                 'data' => $setting->getValue(),
-                'constraints' => $this->getConstraints($setting)
+                'constraints' => $this->getConstraints($setting),
             ]);
         }
     }
 
     /**
-     * Get Constraints
+     * Get Constraints.
      *
-     * @var    Setting  $setting
+     * @var Setting
      *
      * @return array
      */
@@ -53,7 +53,7 @@ class SettingFormType extends AbstractType
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function configureOptions(OptionsResolver $resolver)
     {
@@ -71,7 +71,7 @@ class SettingFormType extends AbstractType
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getBlockPrefix()
     {

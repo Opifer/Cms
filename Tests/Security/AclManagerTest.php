@@ -2,7 +2,7 @@
 
 namespace Opifer\CmsBundle\Tests\Security;
 
-use \Mockery as m;
+use Mockery as m;
 use Opifer\CmsBundle\Security\AclManager;
 
 class AclManagerTest extends \PHPUnit_Framework_TestCase

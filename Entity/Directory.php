@@ -9,7 +9,7 @@ use JMS\Serializer\Annotation as JMS;
 use Opifer\ContentBundle\Model\Directory as BaseDirectory;
 
 /**
- * Directory
+ * Directory.
  *
  * @Gedmo\Tree(type="nested")
  * @JMS\ExclusionPolicy("all")
@@ -29,17 +29,17 @@ class Directory extends BaseDirectory
      */
     protected $name;
 
-    /**
-     * @ORM\Column(length=255, unique=true)
-     *
-     * @Gedmo\Slug(handlers={
-     *      @Gedmo\SlugHandler(class="Gedmo\Sluggable\Handler\TreeSlugHandler", options={
-     *          @Gedmo\SlugHandlerOption(name="parentRelationField", value="parent"),
-     *          @Gedmo\SlugHandlerOption(name="separator", value="/")
-     *      })
-     * }, fields={"name"}, unique_base="site")
-     * @Gedmo\Translatable
-     */
+   /**
+    * @ORM\Column(length=255, unique=true)
+    *
+    * @Gedmo\Slug(handlers={
+    *      @Gedmo\SlugHandler(class="Gedmo\Sluggable\Handler\TreeSlugHandler", options={
+    *          @Gedmo\SlugHandlerOption(name="parentRelationField", value="parent"),
+    *          @Gedmo\SlugHandlerOption(name="separator", value="/")
+    *      })
+    * }, fields={"name"}, unique_base="site")
+    * @Gedmo\Translatable
+    */
    protected $slug;
 
     /**
@@ -54,14 +54,14 @@ class Directory extends BaseDirectory
     protected $site;
 
     /**
-     * @var boolean
+     * @var bool
      *
      * @ORM\Column(name="searchable", type="boolean")
      */
     protected $searchable = true;
 
     /**
-     * Set translatable locale
+     * Set translatable locale.
      *
      * @param string $locale
      */
@@ -73,9 +73,10 @@ class Directory extends BaseDirectory
     }
 
     /**
-     * Set site
+     * Set site.
      *
-     * @param  Site      $site
+     * @param Site $site
+     *
      * @return Directory
      */
     public function setSite(Site $site = null)
@@ -86,7 +87,7 @@ class Directory extends BaseDirectory
     }
 
     /**
-     * Get site
+     * Get site.
      *
      * @return Site
      */
@@ -96,9 +97,10 @@ class Directory extends BaseDirectory
     }
 
     /**
-     * Set searchable
+     * Set searchable.
      *
-     * @param  boolean   $searchable
+     * @param bool $searchable
+     *
      * @return Directory
      */
     public function setSearchable($searchable)
@@ -109,9 +111,9 @@ class Directory extends BaseDirectory
     }
 
     /**
-     * Get searchable
+     * Get searchable.
      *
-     * @return boolean
+     * @return bool
      */
     public function getSearchable()
     {

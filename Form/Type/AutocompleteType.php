@@ -8,7 +8,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class AutoCompleteType extends AbstractType
+class AutocompleteType extends AbstractType
 {
     /** @var EntityManager*/
     protected $em;
@@ -18,16 +18,16 @@ class AutoCompleteType extends AbstractType
 
     /**
      * @param EntityManager $em
-     * @param array $config
+     * @param array         $config
      */
-    function __construct(EntityManager $em, array $config)
+    public function __construct(EntityManager $em, array $config)
     {
         $this->em = $em;
         $this->config = $config;
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
@@ -43,7 +43,7 @@ class AutoCompleteType extends AbstractType
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function configureOptions(OptionsResolver $resolver)
     {
@@ -51,7 +51,7 @@ class AutoCompleteType extends AbstractType
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getParent()
     {
@@ -59,7 +59,7 @@ class AutoCompleteType extends AbstractType
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getName()
     {

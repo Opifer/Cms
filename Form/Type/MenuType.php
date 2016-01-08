@@ -9,26 +9,26 @@ use Opifer\CmsBundle\Entity\MenuItem;
 class MenuType extends AbstractType
 {
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
             ->add('parent', 'entity', [
-                'class'       => 'Opifer\CmsBundle\Entity\Menu',
+                'class' => 'Opifer\CmsBundle\Entity\Menu',
                 'query_builder' => function ($qb) {
                     return $qb->createQueryBuilder('m')
                         ->orderBy('m.root', 'ASC')
                         ->addOrderBy('m.lft', 'ASC');
                 },
-                'property'    => 'indentedName',
-                'required'    => false,
+                'property' => 'indentedName',
+                'required' => false,
                 'empty_value' => '(empty)',
-                'empty_data'  => null,
-                'attr'        => ['help_text' => 'menu.form.parent.help_text']
+                'empty_data' => null,
+                'attr' => ['help_text' => 'menu.form.parent.help_text'],
             ])
             ->add('name', 'text', [
-                'attr' => ['help_text' => 'menu.form.name.help_text']
+                'attr' => ['help_text' => 'menu.form.name.help_text'],
             ])
         ;
 
@@ -36,7 +36,7 @@ class MenuType extends AbstractType
             $builder
                 ->add('content', 'contentpicker')
                 ->add('link', 'text', [
-                    'attr' => ['help_text' => 'menu.form.link.help_text']
+                    'attr' => ['help_text' => 'menu.form.link.help_text'],
                 ])
                 ->add('hiddenMobile', 'checkbox', [
                     'label_attr' => ['class' => 'col-lg-offset-2'],
@@ -64,15 +64,15 @@ class MenuType extends AbstractType
         }
 
         $builder->add('sort', 'integer', [
-            'attr'        => [
+            'attr' => [
                 'help_text' => 'menu.form.sort.help_text',
                 'widget_col' => 4,
-            ]
+            ],
         ]);
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getName()
     {

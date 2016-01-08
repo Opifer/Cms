@@ -4,23 +4,21 @@ namespace Opifer\CmsBundle\Controller\Frontend;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
-
 use Opifer\CmsBundle\Entity\Content;
 use Opifer\CmsBundle\Entity\Layout;
-
 use Pagerfanta\Adapter\ArrayAdapter;
 use Pagerfanta\Pagerfanta;
 use Pagerfanta\View\TwitterBootstrap3View;
 
 /**
- * class SearchController
+ * class SearchController.
  */
 class SearchController extends Controller
 {
     /**
-     * Perform search action with pagination
+     * Perform search action with pagination.
      *
-     * @param Layout $layout
+     * @param Layout  $layout
      * @param Content $content
      *
      * @return Response
@@ -36,8 +34,8 @@ class SearchController extends Controller
 
         $valueSetIds = [];
 
-        foreach($results as $k => $result) {
-            if($result->getNestedIn()) {
+        foreach ($results as $k => $result) {
+            if ($result->getNestedIn()) {
                 $id = $result->getNestedIn()->getValueset()->getId();
                 $valueSetIds[] = $id;
             } else {
@@ -46,8 +44,8 @@ class SearchController extends Controller
         }
 
         $content_data = $contentRepository->findBy(['valueSet' => $valueSetIds]);
-        foreach($content_data as $result) {
-            if($result->getSearchable()) {
+        foreach ($content_data as $result) {
+            if ($result->getSearchable()) {
                 $contentResults[$result->getId()] = $result;
             }
         }
@@ -77,10 +75,10 @@ class SearchController extends Controller
 
         return $this->render($layout->getFilename(), [
             'results' => $results,
-            'term'    => $term,
+            'term' => $term,
             'content' => $content,
-            "pagination" => $pagination,
-            "pagerfanta" => $pagerfanta,
+            'pagination' => $pagination,
+            'pagerfanta' => $pagerfanta,
         ]);
     }
 }

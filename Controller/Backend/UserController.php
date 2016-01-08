@@ -11,7 +11,7 @@ use Symfony\Component\HttpFoundation\Response;
 class UserController extends Controller
 {
     /**
-     * The user index
+     * The user index.
      *
      * @return Response
      */
@@ -35,7 +35,7 @@ class UserController extends Controller
     }
 
     /**
-     * Create a new user
+     * Create a new user.
      *
      * @param Request $request
      *
@@ -54,22 +54,22 @@ class UserController extends Controller
 
             $this->addFlash('success', $this->get('translator')->trans('user.new.success', [
                 '%username%' => ucfirst($user->getUsername()),
-                '%id%'       => $user->getId()
+                '%id%' => $user->getId(),
             ]));
 
             return $this->redirectToRoute('opifer_cms_user_index');
         }
 
         return $this->render('OpiferCmsBundle:Backend/User:new.html.twig', [
-            'form' => $form->createView()
+            'form' => $form->createView(),
         ]);
     }
 
     /**
-     * Edit a user
+     * Edit a user.
      *
      * @param Request $request
-     * @param integer $id
+     * @param int     $id
      *
      * @return Response
      */
@@ -85,7 +85,7 @@ class UserController extends Controller
             $this->get('fos_user.user_manager')->updateUser($user, true);
 
             $this->addFlash('success', $this->get('translator')->trans('user.edit.success', [
-                '%username%' => ucfirst($user->getUsername())
+                '%username%' => ucfirst($user->getUsername()),
             ]));
 
             return $this->redirectToRoute('opifer_cms_user_index');
@@ -93,7 +93,7 @@ class UserController extends Controller
 
         return $this->render('OpiferCmsBundle:Backend/User:edit.html.twig', [
             'form' => $form->createView(),
-            'user' => $user
+            'user' => $user,
         ]);
     }
 }

@@ -7,7 +7,7 @@ use Symfony\Component\Form\AbstractType;
 class CollapsibleCollectionType extends AbstractType
 {
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getParent()
     {
@@ -23,7 +23,7 @@ class CollapsibleCollectionType extends AbstractType
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getBlockPrefix()
     {

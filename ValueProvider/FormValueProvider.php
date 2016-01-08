@@ -20,21 +20,21 @@ class FormValueProvider extends AbstractValueProvider implements ValueProviderIn
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder->add('form', 'entity', [
-            'empty_value'   => '-- None --',
-            'expanded'      => false,
-            'multiple'      => false,
-            'class'         => $this->formClass,
-            'property'      => 'name',
+            'empty_value' => '-- None --',
+            'expanded' => false,
+            'multiple' => false,
+            'class' => $this->formClass,
+            'property' => 'name',
         ]);
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getEntity()
     {
@@ -42,7 +42,7 @@ class FormValueProvider extends AbstractValueProvider implements ValueProviderIn
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getLabel()
     {

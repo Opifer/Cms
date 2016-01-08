@@ -7,7 +7,7 @@ use Opifer\ContentBundle\Model\Content;
 use Opifer\ContentBundle\Model\ContentRepository as BaseContentRepository;
 
 /**
- * ContentRepository
+ * ContentRepository.
  *
  * Because content items are used in different kinds of usecases, please specify
  * the scope of the function inside the function name.
@@ -19,9 +19,8 @@ use Opifer\ContentBundle\Model\ContentRepository as BaseContentRepository;
  */
 class ContentRepository extends BaseContentRepository
 {
-
     /**
-     * Search content by term
+     * Search content by term.
      *
      * @param string $term
      *
@@ -51,9 +50,9 @@ class ContentRepository extends BaseContentRepository
     }
 
     /**
-     * Search content by term including nested
+     * Search content by term including nested.
      *
-     * @param  string $term
+     * @param string $term
      *
      * @return ArrayCollection
      */
@@ -81,10 +80,10 @@ class ContentRepository extends BaseContentRepository
     }
 
     /**
-     * Find related content
+     * Find related content.
      *
      * @param Content $content
-     * @param integer $limit
+     * @param int     $limit
      *
      * @return ArrayCollection
      */
@@ -111,7 +110,7 @@ class ContentRepository extends BaseContentRepository
     }
 
     /**
-     * Find the last updated content items
+     * Find the last updated content items.
      *
      * @param int $limit
      *
@@ -130,7 +129,7 @@ class ContentRepository extends BaseContentRepository
     }
 
     /**
-     * Find all active and addressable content items
+     * Find all active and addressable content items.
      *
      * @return ArrayCollection
      */

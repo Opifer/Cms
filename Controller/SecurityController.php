@@ -12,7 +12,8 @@ class SecurityController extends FOSSecurityController
      * Extends the parent loginAction by checking if the user is already logged in.
      * If so, he will be redirected to the admin dashboard.
      *
-     * @param  Request  $request
+     * @param Request $request
+     *
      * @return Response
      */
     public function loginAction(Request $request)

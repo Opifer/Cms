@@ -2,14 +2,13 @@
 
 namespace Opifer\CmsBundle\Controller\Frontend;
 
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
 
 class ExceptionController extends Controller
 {
     /**
-     * 404 error page
+     * 404 error page.
      *
      * @return Response
      */
@@ -20,7 +19,7 @@ class ExceptionController extends Controller
         if ($content) {
             return $this->forward('OpiferContentBundle:Frontend/Content:view', [
                 'content' => $content,
-                'statusCode' => 404
+                'statusCode' => 404,
             ]);
         }
 

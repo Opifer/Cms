@@ -7,7 +7,7 @@ use Opifer\EavBundle\Entity\Value;
 use Opifer\FormBundle\Model\FormInterface;
 
 /**
- * FormValue
+ * FormValue.
  *
  * @ORM\Entity
  */
@@ -22,9 +22,10 @@ class FormValue extends Value
     protected $form;
 
     /**
-     * Set form
+     * Set form.
      *
-     * @param  FormInterface $form
+     * @param FormInterface $form
+     *
      * @return Value
      */
     public function setForm(FormInterface $form = null)
@@ -35,7 +36,7 @@ class FormValue extends Value
     }
 
     /**
-     * Get form
+     * Get form.
      *
      * @return FormInterface
      */
@@ -45,7 +46,7 @@ class FormValue extends Value
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function isEmpty()
     {

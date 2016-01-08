@@ -5,7 +5,6 @@ namespace Opifer\CmsBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- *
  * @ORM\Entity()
  * @ORM\Table(name="log")
  */
@@ -39,9 +38,9 @@ class Log
     private $createdAt;
 
     /**
-     * Get id
+     * Get id.
      *
-     * @return integer
+     * @return int
      */
     public function getId()
     {
@@ -49,9 +48,10 @@ class Log
     }
 
     /**
-     * Set channel
+     * Set channel.
      *
-     * @param  string        $channel
+     * @param string $channel
+     *
      * @return Systemchannel
      */
     public function setChannel($channel)
@@ -62,7 +62,7 @@ class Log
     }
 
     /**
-     * Get channel
+     * Get channel.
      *
      * @return string
      */
@@ -72,9 +72,10 @@ class Log
     }
 
     /**
-     * Set message
+     * Set message.
      *
-     * @param  string        $message
+     * @param string $message
+     *
      * @return Systemmessage
      */
     public function setMessage($message)
@@ -85,7 +86,7 @@ class Log
     }
 
     /**
-     * Get message
+     * Get message.
      *
      * @return string
      */
@@ -95,9 +96,10 @@ class Log
     }
 
     /**
-     * Set level
+     * Set level.
      *
-     * @param  string    $level
+     * @param string $level
+     *
      * @return SystemLog
      */
     public function setLevel($level)
@@ -108,7 +110,7 @@ class Log
     }
 
     /**
-     * Get level
+     * Get level.
      *
      * @return string
      */
@@ -118,9 +120,10 @@ class Log
     }
 
     /**
-     * Set created
+     * Set created.
      *
-     * @param  \DateTime $created
+     * @param \DateTime $created
+     *
      * @return Log
      */
     public function setCreatedAt($created)
@@ -131,7 +134,7 @@ class Log
     }
 
     /**
-     * Get created
+     * Get created.
      *
      * @return \DateTime
      */

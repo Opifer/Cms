@@ -117,7 +117,7 @@ abstract class User extends FOSUser implements EncoderAwareInterface
     protected $encoder = 'default';
 
     /**
-     * Created at
+     * Created at.
      *
      * @var \DateTime
      *
@@ -127,7 +127,7 @@ abstract class User extends FOSUser implements EncoderAwareInterface
     protected $createdAt;
 
     /**
-     * Updated at
+     * Updated at.
      *
      * @var \DateTime
      *
@@ -144,7 +144,7 @@ abstract class User extends FOSUser implements EncoderAwareInterface
     protected $deletedAt;
 
     /**
-     * Constructor
+     * Constructor.
      */
     public function __construct()
     {
@@ -166,9 +166,9 @@ abstract class User extends FOSUser implements EncoderAwareInterface
     }
 
     /**
-     * Get id
+     * Get id.
      *
-     * @return integer
+     * @return int
      */
     public function getId()
     {
@@ -176,7 +176,7 @@ abstract class User extends FOSUser implements EncoderAwareInterface
     }
 
     /**
-     * Set first name
+     * Set first name.
      *
      * @param string $firstName
      *
@@ -190,7 +190,7 @@ abstract class User extends FOSUser implements EncoderAwareInterface
     }
 
     /**
-     * Get first name
+     * Get first name.
      *
      * @return string
      */
@@ -200,7 +200,7 @@ abstract class User extends FOSUser implements EncoderAwareInterface
     }
 
     /**
-     * Set last name
+     * Set last name.
      *
      * @param string $lastName
      *
@@ -214,7 +214,7 @@ abstract class User extends FOSUser implements EncoderAwareInterface
     }
 
     /**
-     * Get last name
+     * Get last name.
      *
      * @return string
      */
@@ -224,7 +224,7 @@ abstract class User extends FOSUser implements EncoderAwareInterface
     }
 
     /**
-     * Get the full name
+     * Get the full name.
      *
      * @return string
      */
@@ -234,7 +234,7 @@ abstract class User extends FOSUser implements EncoderAwareInterface
     }
 
     /**
-     * Get expires at
+     * Get expires at.
      *
      * @return DateTime
      */
@@ -244,7 +244,7 @@ abstract class User extends FOSUser implements EncoderAwareInterface
     }
 
     /**
-     * Get credentials expire at
+     * Get credentials expire at.
      *
      * @return DateTime
      */
@@ -266,7 +266,7 @@ abstract class User extends FOSUser implements EncoderAwareInterface
     }
 
     /**
-     * Get Facebook ID
+     * Get Facebook ID.
      *
      * @return string
      */
@@ -288,7 +288,7 @@ abstract class User extends FOSUser implements EncoderAwareInterface
     }
 
     /**
-     * Get FacebookAccessToken
+     * Get FacebookAccessToken.
      *
      * @return string
      */
@@ -299,8 +299,6 @@ abstract class User extends FOSUser implements EncoderAwareInterface
 
     /**
      * @param string $googleId
-     *
-     * @return void
      */
     public function setGoogleId($googleId)
     {
@@ -310,7 +308,7 @@ abstract class User extends FOSUser implements EncoderAwareInterface
     }
 
     /**
-     * Get google ID
+     * Get google ID.
      *
      * @return string
      */
@@ -321,8 +319,6 @@ abstract class User extends FOSUser implements EncoderAwareInterface
 
     /**
      * @param string $googleAccessToken
-     *
-     * @return void
      */
     public function setGoogleAccessToken($googleAccessToken)
     {
@@ -330,7 +326,7 @@ abstract class User extends FOSUser implements EncoderAwareInterface
     }
 
     /**
-     * Get googleAccessToken
+     * Get googleAccessToken.
      *
      * @return string
      */
@@ -340,7 +336,7 @@ abstract class User extends FOSUser implements EncoderAwareInterface
     }
 
     /**
-     * Add groups
+     * Add groups.
      *
      * @param \Opifer\CmsBundle\Entity\Group $groups
      *
@@ -354,7 +350,7 @@ abstract class User extends FOSUser implements EncoderAwareInterface
     }
 
     /**
-     * Remove groups
+     * Remove groups.
      *
      * @param \Opifer\CmsBundle\Entity\Group $groups
      */
@@ -366,7 +362,7 @@ abstract class User extends FOSUser implements EncoderAwareInterface
     }
 
     /**
-     * Get groups
+     * Get groups.
      *
      * @return \Doctrine\Common\Collections\Collection
      */
@@ -376,7 +372,7 @@ abstract class User extends FOSUser implements EncoderAwareInterface
     }
 
     /**
-     * Returns all related content items
+     * Returns all related content items.
      *
      * @return \Doctrine\Common\Collections\Collection
      */
@@ -386,7 +382,7 @@ abstract class User extends FOSUser implements EncoderAwareInterface
     }
 
     /**
-     * Set encoder
+     * Set encoder.
      *
      * @param string $encoder
      */
@@ -403,7 +399,7 @@ abstract class User extends FOSUser implements EncoderAwareInterface
     }
 
     /**
-     * Get encoder name
+     * Get encoder name.
      *
      * This is part of the EncoderAwareInterface
      *
@@ -415,7 +411,7 @@ abstract class User extends FOSUser implements EncoderAwareInterface
     }
 
     /**
-     * Get created at
+     * Get created at.
      *
      * @return datetime
      */
@@ -425,7 +421,7 @@ abstract class User extends FOSUser implements EncoderAwareInterface
     }
 
     /**
-     * Get updated at
+     * Get updated at.
      *
      * @return datetime
      */
@@ -435,9 +431,10 @@ abstract class User extends FOSUser implements EncoderAwareInterface
     }
 
     /**
-     * Set deletedAt
+     * Set deletedAt.
      *
-     * @param  \DateTime $deletedAt
+     * @param \DateTime $deletedAt
+     *
      * @return File
      */
     public function setDeletedAt($deletedAt)
@@ -448,7 +445,7 @@ abstract class User extends FOSUser implements EncoderAwareInterface
     }
 
     /**
-     * Get deletedAt
+     * Get deletedAt.
      *
      * @return \DateTime
      */

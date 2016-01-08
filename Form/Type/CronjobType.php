@@ -8,20 +8,20 @@ use Symfony\Component\Form\FormBuilderInterface;
 class CronjobType extends AbstractType
 {
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
             ->add('command', 'text', [
                 'attr' => [
-                    'placeholder' => 'vendor:project:command'
-                ]
+                    'placeholder' => 'vendor:project:command',
+                ],
             ])
             ->add('expression', 'text', [
                 'attr' => [
-                    'placeholder' => '* * * * *'
-                ]
+                    'placeholder' => '* * * * *',
+                ],
             ])
             ->add('priority', 'number')
         ;
@@ -36,7 +36,7 @@ class CronjobType extends AbstractType
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getBlockPrefix()
     {

@@ -8,7 +8,7 @@ use Symfony\Component\Config\Loader\LoaderInterface;
 abstract class Kernel extends BaseKernel
 {
     /**
-     * Register bundles
+     * Register bundles.
      *
      * @return array
      */
@@ -62,11 +62,9 @@ abstract class Kernel extends BaseKernel
     }
 
     /**
-     * Register container config
+     * Register container config.
      *
      * @param \Symfony\Component\Config\Loader\LoaderInterface $loader
-     *
-     * @return void
      */
     public function registerContainerConfiguration(LoaderInterface $loader)
     {

@@ -10,22 +10,22 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  * This Monolog Handler is currently disabled.
  * To enable it;
  *  - Uncomment the service ID inside CmsBundle/Resources/config/services.yml
- *  - Uncomment the doctrine handler in the monolog config
+ *  - Uncomment the doctrine handler in the monolog config.
  */
 class DoctrineHandler extends AbstractProcessingHandler
 {
-    /** @var boolean */
+    /** @var bool */
     private $initialized = false;
 
     /** @var ContainerInterface */
     private $container;
 
     /**
-     * Constructor
+     * Constructor.
      *
      * @param ContainerInterface $container
-     * @param integer            $level
-     * @param boolean            $bubble
+     * @param int                $level
+     * @param bool               $bubble
      */
     public function __construct(ContainerInterface $container, $level = Logger::DEBUG, $bubble = true)
     {
@@ -34,7 +34,7 @@ class DoctrineHandler extends AbstractProcessingHandler
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     protected function write(array $record)
     {
@@ -61,8 +61,8 @@ class DoctrineHandler extends AbstractProcessingHandler
                 $created = date('Y-m-d H:i:s');
 
                 $query = $conn->prepare(
-                    "INSERT INTO log(channel, level, message, created_at) ".
-                    "VALUES(".$conn->quote($record['channel']).", '".$record['level']."', ".$conn->quote($record['message']).", '".$created."');"
+                    'INSERT INTO log(channel, level, message, created_at) '.
+                    'VALUES('.$conn->quote($record['channel']).", '".$record['level']."', ".$conn->quote($record['message']).", '".$created."');"
                 );
                 $query->execute();
             } catch (\Exception $e) {
@@ -74,7 +74,7 @@ class DoctrineHandler extends AbstractProcessingHandler
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     private function initialize()
     {

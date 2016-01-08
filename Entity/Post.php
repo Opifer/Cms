@@ -6,8 +6,6 @@ use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use JMS\Serializer\Annotation as JMS;
 use Opifer\EavBundle\Model\EntityInterface;
-use Opifer\EavBundle\Model\ValueSetInterface;
-use Opifer\EavBundle\Model\TemplateInterface;
 use Opifer\FormBundle\Model\Post as BasePost;
 
 /**
@@ -18,5 +16,4 @@ use Opifer\FormBundle\Model\Post as BasePost;
  */
 class Post extends BasePost implements EntityInterface
 {
-
 }

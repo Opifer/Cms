@@ -3,7 +3,6 @@
 namespace Opifer\CmsBundle\Controller\Backend;
 
 use Opifer\CmsBundle\Form\Type\MenuType;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -13,7 +12,7 @@ use Opifer\CmsBundle\Entity\MenuItem;
 class MenuController extends Controller
 {
     /**
-     * Menu index
+     * Menu index.
      */
     public function indexAction()
     {
@@ -22,7 +21,7 @@ class MenuController extends Controller
             ->childrenHierarchy();
 
         return $this->render('OpiferCmsBundle:Backend/Menu:index.html.twig', [
-            'menu_tree' => $menuTree
+            'menu_tree' => $menuTree,
         ]);
     }
 
@@ -55,9 +54,9 @@ class MenuController extends Controller
         }
 
         return $this->render('OpiferCmsBundle:Backend/Menu:edit.html.twig', [
-            'menu'       => $menu,
+            'menu' => $menu,
             'localeMenu' => '',
-            'form'       => $form->createView(),
+            'form' => $form->createView(),
         ]);
     }
 
@@ -65,7 +64,7 @@ class MenuController extends Controller
      * Edit an existing menu item.
      *
      * @param Request $request
-     * @param integer $id
+     * @param int     $id
      *
      * @return Response
      */
@@ -98,7 +97,7 @@ class MenuController extends Controller
     /**
      * Delete an existing menu item.
      *
-     * @param  integer $id
+     * @param int $id
      *
      * @return Response
      */

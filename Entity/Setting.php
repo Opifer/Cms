@@ -13,7 +13,7 @@ use Doctrine\ORM\Mapping as ORM;
 class Setting
 {
     /**
-     * @var integer
+     * @var int
      *
      * @ORM\Id
      * @ORM\Column(type="integer")
@@ -94,9 +94,9 @@ class Setting
     protected $updatedAt;
 
     /**
-     * Get id
+     * Get id.
      *
-     * @return integer
+     * @return int
      */
     public function getId()
     {
@@ -104,9 +104,9 @@ class Setting
     }
 
     /**
-     * Get id
+     * Get id.
      *
-     * @return integer
+     * @return int
      */
     public function setId($id)
     {
@@ -116,7 +116,7 @@ class Setting
     }
 
     /**
-     * Get the actual extension
+     * Get the actual extension.
      *
      * @return string
      */
@@ -126,7 +126,7 @@ class Setting
     }
 
     /**
-     * setCurrentextension alias
+     * setCurrentextension alias.
      *
      * @param mixed $extension
      */
@@ -136,7 +136,7 @@ class Setting
     }
 
     /**
-     * Get the actual value
+     * Get the actual value.
      *
      * @return string
      */
@@ -146,7 +146,7 @@ class Setting
     }
 
     /**
-     * setCurrentValue alias
+     * setCurrentValue alias.
      *
      * @param mixed $value
      */
@@ -156,9 +156,10 @@ class Setting
     }
 
     /**
-     * Set description
+     * Set description.
      *
-     * @param  string   $description
+     * @param string $description
+     *
      * @return Settings
      */
     public function setDescription($description)
@@ -169,7 +170,7 @@ class Setting
     }
 
     /**
-     * Get description
+     * Get description.
      *
      * @return string
      */
@@ -179,7 +180,7 @@ class Setting
     }
 
     /**
-     * Get updated
+     * Get updated.
      *
      * @return \DateTime
      */
@@ -189,9 +190,10 @@ class Setting
     }
 
     /**
-     * Set name
+     * Set name.
      *
-     * @param  string   $name
+     * @param string $name
+     *
      * @return Settings
      */
     public function setName($name)
@@ -202,7 +204,7 @@ class Setting
     }
 
     /**
-     * Get name
+     * Get name.
      *
      * @return string
      */
@@ -212,9 +214,10 @@ class Setting
     }
 
     /**
-     * Set type
+     * Set type.
      *
-     * @param  string   $type
+     * @param string $type
+     *
      * @return Settings
      */
     public function setType($type)
@@ -225,7 +228,7 @@ class Setting
     }
 
     /**
-     * Get type
+     * Get type.
      *
      * @return string
      */
@@ -235,9 +238,10 @@ class Setting
     }
 
     /**
-     * Set min
+     * Set min.
      *
-     * @param  string   $min
+     * @param string $min
+     *
      * @return Settings
      */
     public function setMin($min)
@@ -248,7 +252,7 @@ class Setting
     }
 
     /**
-     * Get min
+     * Get min.
      *
      * @return string
      */
@@ -258,9 +262,10 @@ class Setting
     }
 
     /**
-     * Set max
+     * Set max.
      *
-     * @param  string   $max
+     * @param string $max
+     *
      * @return Settings
      */
     public function setMax($max)
@@ -271,7 +276,7 @@ class Setting
     }
 
     /**
-     * Get max
+     * Get max.
      *
      * @return string
      */
@@ -281,9 +286,10 @@ class Setting
     }
 
     /**
-     * Set choices
+     * Set choices.
      *
-     * @param  string   $choices
+     * @param string $choices
+     *
      * @return Setting
      */
     public function setChoices($choices)
@@ -294,7 +300,7 @@ class Setting
     }
 
     /**
-     * Get choices
+     * Get choices.
      *
      * @return string
      */

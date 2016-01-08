@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
- * Cron job
+ * Cron job.
  *
  * @ORM\Table(name="cron")
  * @ORM\Entity(repositoryClass="Opifer\CmsBundle\Repository\CronRepository")
@@ -35,7 +35,7 @@ class Cron
     const STATE_TERMINATED = 'terminated';
 
     /**
-     * @var integer
+     * @var int
      *
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
@@ -58,7 +58,7 @@ class Cron
     protected $expression;
 
     /**
-     * @var integer
+     * @var int
      *
      * @ORM\Column(name="priority", type="integer")
      */
@@ -94,9 +94,9 @@ class Cron
     protected $createdAt;
 
     /**
-     * Get id
+     * Get id.
      *
-     * @return integer
+     * @return int
      */
     public function getId()
     {
@@ -104,9 +104,10 @@ class Cron
     }
 
     /**
-     * Set command
+     * Set command.
      *
-     * @param  string $command
+     * @param string $command
+     *
      * @return Cron
      */
     public function setCommand($command)
@@ -117,7 +118,7 @@ class Cron
     }
 
     /**
-     * Get command
+     * Get command.
      *
      * @return string
      */
@@ -127,7 +128,7 @@ class Cron
     }
 
     /**
-     * Set expression
+     * Set expression.
      *
      * @param string $expression
      *
@@ -141,7 +142,7 @@ class Cron
     }
 
     /**
-     * Get expression
+     * Get expression.
      *
      * @return string
      */
@@ -151,9 +152,9 @@ class Cron
     }
 
     /**
-     * Set priority
+     * Set priority.
      *
-     * @param integer $priority
+     * @param int $priority
      *
      * @return Cron
      */
@@ -165,9 +166,9 @@ class Cron
     }
 
     /**
-     * Get priority
+     * Get priority.
      *
-     * @return integer
+     * @return int
      */
     public function getPriority()
     {
@@ -175,9 +176,9 @@ class Cron
     }
 
     /**
-     * Set state
+     * Set state.
      *
-     * @param boolean $state
+     * @param bool $state
      */
     public function setState($newState)
     {
@@ -206,9 +207,9 @@ class Cron
     }
 
     /**
-     * Get state
+     * Get state.
      *
-     * @return boolean
+     * @return bool
      */
     public function getState()
     {
@@ -216,9 +217,9 @@ class Cron
     }
 
     /**
-     * Is cron running
+     * Is cron running.
      *
-     * @return boolean
+     * @return bool
      */
     public function isRunning()
     {
@@ -226,7 +227,7 @@ class Cron
     }
 
     /**
-     * Set startedAt
+     * Set startedAt.
      *
      * @param \DateTime $startedAt
      *
@@ -240,7 +241,7 @@ class Cron
     }
 
     /**
-     * Get startedAt
+     * Get startedAt.
      *
      * @return \DateTime
      */
@@ -250,7 +251,7 @@ class Cron
     }
 
     /**
-     * Set endedAt
+     * Set endedAt.
      *
      * @param \DateTime $endedAt
      *
@@ -264,7 +265,7 @@ class Cron
     }
 
     /**
-     * Get endedAt
+     * Get endedAt.
      *
      * @return \DateTime
      */
@@ -274,7 +275,7 @@ class Cron
     }
 
     /**
-     * Set createdAt
+     * Set createdAt.
      *
      * @param \DateTime $createdAt
      *
@@ -288,7 +289,7 @@ class Cron
     }
 
     /**
-     * Get createdAt
+     * Get createdAt.
      *
      * @return \DateTime
      */
@@ -312,7 +313,7 @@ class Cron
     }
 
     /**
-     * Get a next run date relative to the current date or a specific date
+     * Get a next run date relative to the current date or a specific date.
      *
      * @param string|\DateTime $currentTime      Relative calculation date
      * @param int              $nth              Number of matches to skip before returning a
@@ -334,7 +335,7 @@ class Cron
     }
 
     /**
-     * Get a previous run date relative to the current date or a specific date
+     * Get a previous run date relative to the current date or a specific date.
      *
      * @param string|\DateTime $currentTime      Relative calculation date
      * @param int              $nth              Number of matches to skip before returning
@@ -353,7 +354,7 @@ class Cron
     }
 
     /**
-     * Get multiple run dates starting at the current date or a specific date
+     * Get multiple run dates starting at the current date or a specific date.
      *
      * @param int              $total            Set the total number of dates to calculate
      * @param string|\DateTime $currentTime      Relative calculation date
@@ -369,7 +370,7 @@ class Cron
     }
 
     /**
-     * Get the CronExpression
+     * Get the CronExpression.
      *
      * Handles the heavy lifting by calculating run dates and checking if an
      * expression is due.
@@ -388,7 +389,7 @@ class Cron
     }
 
     /**
-     * Create a string to identify this cron
+     * Create a string to identify this cron.
      *
      * @return string
      */

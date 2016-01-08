@@ -6,7 +6,7 @@ use Symfony\Component\Form\DataTransformerInterface;
 use Opifer\CmsBundle\Manager\MenuManager;
 
 /**
- * Class MenuGroupTransformer
+ * Class MenuGroupTransformer.
  */
 class MenuGroupTransformer implements DataTransformerInterface
 {
@@ -17,7 +17,7 @@ class MenuGroupTransformer implements DataTransformerInterface
     protected $key;
 
     /**
-     * Constructor
+     * Constructor.
      *
      * @param MenuManager $menuManager
      * @param string      $key
@@ -29,7 +29,7 @@ class MenuGroupTransformer implements DataTransformerInterface
     }
 
     /**
-     * Transforms an id to menuGroup
+     * Transforms an id to menuGroup.
      *
      * @param string|null $id
      *
@@ -38,7 +38,7 @@ class MenuGroupTransformer implements DataTransformerInterface
     public function transform($id)
     {
         if (is_null($id)) {
-            return null;
+            return;
         }
 
         $menuGroup = $this->menuManager->getRepository()->findById($id);
@@ -47,11 +47,11 @@ class MenuGroupTransformer implements DataTransformerInterface
             return [$this->key => $menuGroup[0]];
         }
 
-        return null;
+        return;
     }
 
     /**
-     * Transforms an menuGroup to id
+     * Transforms an menuGroup to id.
      *
      * @param array|null $menuGroup
      *
@@ -60,13 +60,13 @@ class MenuGroupTransformer implements DataTransformerInterface
     public function reverseTransform($menuGroup)
     {
         if (null == $menuGroup) {
-            return null;
+            return;
         }
 
         if (isset($menuGroup[$this->key]) && $menuGroup[$this->key]) {
             return $menuGroup[$this->key]->getId();
         }
 
-        return null;
+        return;
     }
 }

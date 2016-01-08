@@ -3,9 +3,7 @@
 namespace Opifer\CmsBundle\Entity;
 
 use Faker\Provider\DateTime;
-use Opifer\CmsBundle\Entity\Post;
-use Opifer\EavBundle\Model\ValueSetInterface;
-use Opifer\EavBundle\Model\TemplateInterface;
+
 
 class PostTest extends \PHPUnit_Framework_TestCase
 {
@@ -56,5 +54,4 @@ class PostTest extends \PHPUnit_Framework_TestCase
 
         $this->assertSame($expected, $actual);
     }
-
 }

@@ -6,10 +6,9 @@ use APY\DataGridBundle\Grid\Mapping as GRID;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
 use Opifer\EavBundle\Model\Template as BaseTemplate;
-use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * Template
+ * Template.
  *
  * @ORM\Table(name="template")
  * @ORM\Entity(repositoryClass="Opifer\EavBundle\Repository\TemplateRepository")
@@ -18,7 +17,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 class Template extends BaseTemplate
 {
     /**
-     * @var integer
+     * @var int
      *
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id

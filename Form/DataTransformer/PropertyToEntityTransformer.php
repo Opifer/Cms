@@ -16,21 +16,21 @@ class PropertyToEntityTransformer implements DataTransformerInterface
 
     /**
      * @param EntityManager $em
-     * @param array $config
+     * @param array         $config
      */
-    function __construct(EntityManager $em, array $config)
+    public function __construct(EntityManager $em, array $config)
     {
         $this->em = $em;
         $this->config = $config;
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function transform($entity)
     {
         if (null === $entity) {
-            return null;
+            return;
         }
 
         $propertyAccessor = PropertyAccess::createPropertyAccessor();
@@ -39,16 +39,16 @@ class PropertyToEntityTransformer implements DataTransformerInterface
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function reverseTransform($value)
     {
         if (null === $value) {
-            return null;
+            return;
         }
 
         $entity = $this->em->getRepository($this->config['class'])->findOneBy([
-            $this->config['property'] => $value
+            $this->config['property'] => $value,
         ]);
 
         return $entity;

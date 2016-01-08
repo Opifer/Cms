@@ -17,7 +17,7 @@ class AttachmentListener implements EventSubscriberInterface
     /** @var MediaManagerInterface */
     protected $mediaManager;
 
-    function __construct(EntityManagerInterface $entityManager, MediaManagerInterface $mediaManager)
+    public function __construct(EntityManagerInterface $entityManager, MediaManagerInterface $mediaManager)
     {
         $this->entityManager = $entityManager;
         $this->mediaManager = $mediaManager;
@@ -37,8 +37,7 @@ class AttachmentListener implements EventSubscriberInterface
 
         $this->entityManager->refresh($post);
 
-        foreach ($values as $value)
-        {
+        foreach ($values as $value) {
             if ($value instanceof AttachmentValue) {
                 $media = $this->mediaManager->createMedia();
                 $media->setFile($value->getFile());

@@ -48,7 +48,8 @@ class TemplateController extends Controller
     }
 
     /**
-     * @param  Request $request
+     * @param Request $request
+     *
      * @return RedirectResponse|Response
      */
     public function createAction(Request $request)
@@ -67,13 +68,14 @@ class TemplateController extends Controller
         }
 
         return $this->render('OpiferCmsBundle:Backend/Template:create.html.twig', [
-            'form' => $form->createView()
+            'form' => $form->createView(),
         ]);
     }
 
     /**
-     * @param  Request $request
-     * @param  int     $id
+     * @param Request $request
+     * @param int     $id
+     *
      * @return RedirectResponse|Response
      */
     public function editAction(Request $request, $id)
@@ -91,13 +93,13 @@ class TemplateController extends Controller
         }
 
         return $this->render('OpiferCmsBundle:Backend/Template:edit.html.twig', [
-            'form'   => $form->createView(),
-            'template' => $template
+            'form' => $form->createView(),
+            'template' => $template,
         ]);
     }
 
     /**
-     * @param  int $id
+     * @param int $id
      *
      * @return RedirectResponse
      */

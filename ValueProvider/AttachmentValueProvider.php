@@ -9,18 +9,18 @@ use Symfony\Component\Form\FormBuilderInterface;
 class AttachmentValueProvider extends AbstractValueProvider implements ValueProviderInterface
 {
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder->add('file', 'file', [
             'required' => (isset($options['attribute']->getParameters()['required'])) ? $options['attribute']->getParameters()['required'] : false,
-            'label' => false
+            'label' => false,
         ]);
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getEntity()
     {
@@ -28,7 +28,7 @@ class AttachmentValueProvider extends AbstractValueProvider implements ValueProv
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getLabel()
     {

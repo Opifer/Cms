@@ -6,7 +6,7 @@ use Gedmo\Mapping\Annotation as Gedmo;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * MenuGroup
+ * MenuGroup.
  *
  * @ORM\Table(name="menu")
  * @ORM\Entity

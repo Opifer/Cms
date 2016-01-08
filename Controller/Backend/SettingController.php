@@ -37,9 +37,7 @@ class SettingController extends Controller
             }
             $em->flush();
 
-            $this->addFlash('success', $this->get('translator')->trans('settings.edit.success', [
-                '%url%' => $this->generateUrl('opifer.cms.cache_clear')
-            ]));
+            $this->addFlash('success', $this->get('translator')->trans('settings.edit.success'));
         }
 
         return $this->render('OpiferCmsBundle:Backend/Setting:index.html.twig', array(

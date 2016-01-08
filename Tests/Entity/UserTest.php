@@ -2,7 +2,6 @@
 
 namespace Opifer\CmsBundle\Tests\Entity;
 
-use Faker\Provider\DateTime;
 use Opifer\CmsBundle\Entity\User;
 
 class UserTest extends \PHPUnit_Framework_TestCase

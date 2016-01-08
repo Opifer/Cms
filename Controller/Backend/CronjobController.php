@@ -52,14 +52,15 @@ class CronjobController extends Controller
 
             return '<span class="label label-'.$label.'">'.$value.'</span>';
         });
-        
+
         $grid->getColumn('state')->setSafe(false);
 
         return $grid->getGridResponse('OpiferCmsBundle:Backend/Cronjob:index.html.twig');
     }
 
     /**
-     * @param  Request $request
+     * @param Request $request
+     *
      * @return RedirectResponse|Response
      */
     public function createAction(Request $request)
@@ -78,13 +79,14 @@ class CronjobController extends Controller
         }
 
         return $this->render('OpiferCmsBundle:Backend/Cronjob:create.html.twig', [
-            'form' => $form->createView()
+            'form' => $form->createView(),
         ]);
     }
 
     /**
-     * @param  Request $request
-     * @param  int     $id
+     * @param Request $request
+     * @param int     $id
+     *
      * @return RedirectResponse|Response
      */
     public function editAction(Request $request, $id)
@@ -103,7 +105,7 @@ class CronjobController extends Controller
 
         return $this->render('OpiferCmsBundle:Backend/Cronjob:edit.html.twig', [
             'form' => $form->createView(),
-            'cron' => $cron
+            'cron' => $cron,
         ]);
     }
 
@@ -118,7 +120,8 @@ class CronjobController extends Controller
     }
 
     /**
-     * @param  int $id
+     * @param int $id
+     *
      * @return RedirectResponse
      */
     public function deleteAction($id)

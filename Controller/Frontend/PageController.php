@@ -7,7 +7,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 class PageController extends Controller
 {
     /**
-     * Render the home page
+     * Render the home page.
      *
      * @return Response
      */
@@ -22,9 +22,9 @@ class PageController extends Controller
             $layout = $this->get('jms_serializer')->deserialize($layout, 'Opifer\CmsBundle\Entity\Layout', 'json');
 
             return $this->render($layout->getFilename(), [
-                'site'    => $content->getSite(),
+                'site' => $content->getSite(),
                 'content' => $content,
-                'layout'  => $layout
+                'layout' => $layout,
             ]);
         }
 

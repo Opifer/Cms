@@ -16,7 +16,7 @@ class MenuGroupType extends AbstractType
     protected $menuManager;
 
     /**
-     * Constructor
+     * Constructor.
      *
      * @param string      $menuGroupClass
      * @param MenuManager $menuManager
@@ -28,27 +28,27 @@ class MenuGroupType extends AbstractType
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $transformer = new MenuGroupTransformer($this->menuManager, 'menugroup');
 
         $builder->add('menugroup', 'entity', [
-            'class'       => $this->menuGroupClass,
+            'class' => $this->menuGroupClass,
             'query_builder' => function ($er) {
                 return $er->createQueryBuilder('d');
             },
-            'property'    => 'indentedName',
+            'property' => 'indentedName',
             'empty_value' => '/',
-            'required'    => false,
-            'empty_data'  => null,
-            'label' => false
+            'required' => false,
+            'empty_data' => null,
+            'label' => false,
         ])->addModelTransformer($transformer);
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getName()
     {

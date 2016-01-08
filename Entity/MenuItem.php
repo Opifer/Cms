@@ -6,7 +6,7 @@ use Gedmo\Mapping\Annotation as Gedmo;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * MenuItem
+ * MenuItem.
  *
  * @ORM\Table(name="menu")
  * @ORM\Entity
@@ -30,28 +30,28 @@ class MenuItem extends Menu
     private $link;
 
     /**
-     * @var boolean
+     * @var bool
      *
      * @ORM\Column(name="hidden_mobile", type="boolean", options={"default"=0})
      */
     protected $hiddenMobile = 0;
 
     /**
-     * @var boolean
+     * @var bool
      *
      * @ORM\Column(name="hidden_tablet_portrait", type="boolean", options={"default"=0})
      */
     protected $hiddenTabletPortrait = 0;
 
     /**
-     * @var boolean
+     * @var bool
      *
      * @ORM\Column(name="hidden_tablet_landscape", type="boolean", options={"default"=0})
      */
     protected $hiddenTabletLandscape = 0;
 
     /**
-     * @var boolean
+     * @var bool
      *
      * @ORM\Column(name="hidden_desktop", type="boolean", options={"default"=0})
      */
@@ -62,7 +62,7 @@ class MenuItem extends Menu
      */
     protected $locale;
 
-     /**
+    /**
      * @var array
      *
      * @ORM\Column(name="parameters", type="json_array", nullable=true)
@@ -70,9 +70,10 @@ class MenuItem extends Menu
     protected $parameters;
 
     /**
-     * Set link
+     * Set link.
      *
-     * @param  string   $link
+     * @param string $link
+     *
      * @return MenuItem
      */
     public function setLink($link)
@@ -83,7 +84,7 @@ class MenuItem extends Menu
     }
 
     /**
-     * Get link
+     * Get link.
      *
      * @return string
      */
@@ -93,9 +94,10 @@ class MenuItem extends Menu
     }
 
     /**
-     * Set content
+     * Set content.
      *
-     * @param  \Opifer\CmsBundle\Entity\Content $content
+     * @param \Opifer\CmsBundle\Entity\Content $content
+     *
      * @return MenuItem
      */
     public function setContent(\Opifer\CmsBundle\Entity\Content $content = null)
@@ -106,7 +108,7 @@ class MenuItem extends Menu
     }
 
     /**
-     * Get content
+     * Get content.
      *
      * @return \Opifer\CmsBundle\Entity\Content
      */
@@ -116,7 +118,7 @@ class MenuItem extends Menu
     }
 
     /**
-     * @return boolean
+     * @return bool
      */
     public function isHiddenMobile()
     {
@@ -124,7 +126,7 @@ class MenuItem extends Menu
     }
 
     /**
-     * @param boolean $hiddenMobile
+     * @param bool $hiddenMobile
      *
      * @return $this
      */
@@ -136,7 +138,7 @@ class MenuItem extends Menu
     }
 
     /**
-     * @return boolean
+     * @return bool
      */
     public function isHiddenTabletPortrait()
     {
@@ -144,7 +146,7 @@ class MenuItem extends Menu
     }
 
     /**
-     * @param boolean $hiddenTabletPortrait
+     * @param bool $hiddenTabletPortrait
      *
      * @return $this
      */
@@ -156,7 +158,7 @@ class MenuItem extends Menu
     }
 
     /**
-     * @return boolean
+     * @return bool
      */
     public function isHiddenTabletLandscape()
     {
@@ -164,7 +166,7 @@ class MenuItem extends Menu
     }
 
     /**
-     * @param boolean $hiddenTabletLandscape
+     * @param bool $hiddenTabletLandscape
      *
      * @return $this
      */
@@ -176,7 +178,7 @@ class MenuItem extends Menu
     }
 
     /**
-     * @return boolean
+     * @return bool
      */
     public function isHiddenDesktop()
     {
@@ -184,7 +186,7 @@ class MenuItem extends Menu
     }
 
     /**
-     * @param boolean $hiddenDesktop
+     * @param bool $hiddenDesktop
      *
      * @return $this
      */
@@ -196,9 +198,10 @@ class MenuItem extends Menu
     }
 
     /**
-     * Set $parameters
+     * Set $parameters.
      *
-     * @param  array    $parameters
+     * @param array $parameters
+     *
      * @return MenuItem
      */
     public function setParameters($parameters)
@@ -209,7 +212,7 @@ class MenuItem extends Menu
     }
 
     /**
-     * Get $parameters
+     * Get $parameters.
      *
      * @return array
      */

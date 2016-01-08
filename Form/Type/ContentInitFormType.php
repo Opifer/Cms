@@ -19,7 +19,7 @@ class ContentInitFormType extends AbstractType
     protected $locales;
 
     /**
-     * Constructor
+     * Constructor.
      *
      * @param LoggingTranslator $translator
      * @param RouterInterface   $router
@@ -33,33 +33,33 @@ class ContentInitFormType extends AbstractType
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
             ->add('site', 'entity', [
-                'class'    => 'OpiferCmsBundle:Site',
+                'class' => 'OpiferCmsBundle:Site',
                 'property' => 'name',
-                'attr'     => ['help_text' => $this->translator->trans('content.form.site.help_text')]
+                'attr' => ['help_text' => $this->translator->trans('content.form.site.help_text')],
             ])
             ->add('template', 'entity', [
-                'class'    => 'OpiferEavBundle:Template',
+                'class' => 'OpiferEavBundle:Template',
                 'property' => 'name',
-                'attr'     => ['help_text' => $this->translator->trans('content.form.template.help_text', ['%url%' => $this->router->generate('opifer_cms_template_create')])]
+                'attr' => ['help_text' => $this->translator->trans('content.form.template.help_text', ['%url%' => $this->router->generate('opifer_cms_template_create')])],
             ])
             ->add('locale', 'locale', [
                 'choices' => $this->locales,
-                'attr'    => ['help_text' => $this->translator->trans('content.form.locale.help_text')]
+                'attr' => ['help_text' => $this->translator->trans('content.form.locale.help_text')],
             ])
             ->add('save', 'submit', [
-                'label' => ucfirst($this->translator->trans('content.form.init.submit'))
+                'label' => ucfirst($this->translator->trans('content.form.init.submit')),
             ])
         ;
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getName()
     {

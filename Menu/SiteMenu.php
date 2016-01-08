@@ -7,7 +7,7 @@ use Opifer\CmsBundle\Entity\MenuGroup;
 use Knp\Menu\MenuItem as KnpMenu;
 
 /**
- * Dynamic menu builder
+ * Dynamic menu builder.
  *
  * Checking access:
  * $this->security->isGranted('ROLE_SUPER_ADMIN')
@@ -18,7 +18,7 @@ use Knp\Menu\MenuItem as KnpMenu;
 class SiteMenu extends MenuBuilder implements MenuInterface
 {
     /**
-     * The dynamic sitemenu
+     * The dynamic sitemenu.
      *
      * @return \Knp\Menu\MenuItem
      */
@@ -53,7 +53,7 @@ class SiteMenu extends MenuBuilder implements MenuInterface
     }
 
     /**
-     * Add a child to the menu
+     * Add a child to the menu.
      *
      * @param KnpMenu $menu
      * @param Menu    $item
@@ -68,7 +68,7 @@ class SiteMenu extends MenuBuilder implements MenuInterface
         if (!$item instanceof MenuGroup && $item->getContent()) {
             $options['extras']['content'] = $item->getContent();
         }
-        
+
         if (!$item instanceof MenuGroup) {
             if ($uri = $item->getLink()) {
                 $options['uri'] = $uri;
@@ -77,7 +77,7 @@ class SiteMenu extends MenuBuilder implements MenuInterface
 
                 $slug = $content->getSlug();
                 if (substr($slug, -6) == '/index') {
-                    $slug = rtrim($slug, "index");
+                    $slug = rtrim($slug, 'index');
                 }
 
                 $options['routeParameters'] = ['slug' => $slug];
@@ -98,7 +98,7 @@ class SiteMenu extends MenuBuilder implements MenuInterface
     }
 
     /**
-     * Get the menu repository
+     * Get the menu repository.
      *
      * @return \Opifer\CmsBundle\Repository\MenuRepository
      */

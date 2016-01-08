@@ -15,7 +15,7 @@ class UserFormType extends AbstractType
     protected $userClass;
 
     /**
-     * Constructor
+     * Constructor.
      *
      * @param array  $roles
      * @param string $userClass
@@ -27,7 +27,7 @@ class UserFormType extends AbstractType
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
@@ -42,17 +42,17 @@ class UserFormType extends AbstractType
             ])
             ->add('enabled', 'choice', [
                 'choices' => [true => 'Enable', false => 'Disable'],
-                'data' => true
+                'data' => true,
             ])
             ->add('roles', 'choice', [
                 'multiple' => true,
-                'choices' => $this->flattenRoles($this->roles)
+                'choices' => $this->flattenRoles($this->roles),
             ])
         ;
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function configureOptions(OptionsResolver $resolver)
     {
@@ -62,7 +62,7 @@ class UserFormType extends AbstractType
     }
 
     /**
-     * Flatten roles
+     * Flatten roles.
      *
      * @param array $data
      *
@@ -89,7 +89,7 @@ class UserFormType extends AbstractType
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      *
      * @deprecated
      */
@@ -99,7 +99,7 @@ class UserFormType extends AbstractType
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getBlockPrefix()
     {

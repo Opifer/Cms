@@ -21,9 +21,9 @@ class FormExtension extends \Twig_Extension
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
-    public function getTests ()
+    public function getTests()
     {
         return [
             new \Twig_SimpleTest('attachment', function (Value $value) { return $value instanceof AttachmentValue; }),
@@ -41,7 +41,7 @@ class FormExtension extends \Twig_Extension
     }
 
     /**
-     * Render Function Form Javascript
+     * Render Function Form Javascript.
      *
      * @param FormView $view
      *

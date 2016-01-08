@@ -11,12 +11,12 @@ use Opifer\EavBundle\Form\Type\ValueSetType;
 class ContentFormType extends AbstractType
 {
     /**
-     * @var  Symfony\Bundle\FrameworkBundle\Translation\Translator
+     * @var Symfony\Bundle\FrameworkBundle\Translation\Translator
      */
     protected $translator;
 
     /**
-     * Constructor
+     * Constructor.
      *
      * @param Translator $translator
      */
@@ -26,7 +26,7 @@ class ContentFormType extends AbstractType
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
@@ -34,25 +34,25 @@ class ContentFormType extends AbstractType
         $builder
             ->add('title', 'text', [
                 'label' => $this->translator->trans('form.title'),
-                'attr'  => ['placeholder' => $this->translator->trans('content.form.title.placeholder')]
+                'attr' => ['placeholder' => $this->translator->trans('content.form.title.placeholder')],
             ])
             ->add('description', 'text', [
                 'label' => $this->translator->trans('form.description'),
-                'attr' => ['placeholder' => $this->translator->trans('content.form.description.placeholder')]
+                'attr' => ['placeholder' => $this->translator->trans('content.form.description.placeholder')],
             ])
             ->add('slug', 'slug', [
                 'attr' => [
                     'placeholder' => $this->translator->trans('content.form.slug.placeholder'),
                     'help_text' => $this->translator->trans('form.slug.help_text'),
-                ]
+                ],
             ])
             ->add('directory', 'entity', [
                 'class' => 'OpiferCmsBundle:Directory',
                 'property' => 'name',
                 'empty_value' => '/',
-                'required'  => false,
-                'empty_data'  => null,
-                'attr' => ['help_text' => $this->translator->trans('content.form.directory.help_text')]
+                'required' => false,
+                'empty_data' => null,
+                'attr' => ['help_text' => $this->translator->trans('content.form.directory.help_text')],
             ])
             ->add('valueset', new ValueSetType())
         ;
@@ -61,17 +61,17 @@ class ContentFormType extends AbstractType
         if ($options['mode'] == 'advanced') {
             $builder->add('realPresentation', 'presentationeditor', [
                 'label' => $this->translator->trans('form.presentation'),
-                'attr' => ['align_with_widget' => true]
+                'attr' => ['align_with_widget' => true],
             ]);
         }
 
         $builder->add('save', 'submit', [
-            'label' => $this->translator->trans('content.form.submit')
+            'label' => $this->translator->trans('content.form.submit'),
         ]);
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
@@ -81,7 +81,7 @@ class ContentFormType extends AbstractType
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getName()
     {

@@ -8,7 +8,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Menu
+ * Menu.
  *
  * @Gedmo\Tree(type="nested")
  * @ORM\Table(name="menu")
@@ -16,12 +16,11 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\InheritanceType("SINGLE_TABLE")
  * @ORM\DiscriminatorColumn(name="type", type="string")
  * @ORM\DiscriminatorMap({"menu"="Menu", "group" = "MenuGroup", "item" = "MenuItem"})
- *
  */
 class Menu
 {
     /**
-     * @var integer
+     * @var int
      *
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
@@ -82,7 +81,7 @@ class Menu
     protected $site;
 
     /**
-     * @var integer
+     * @var int
      *
      * @ORM\Column(name="sort", type="integer")
      */
@@ -94,7 +93,7 @@ class Menu
     protected $locale;
 
     /**
-     * Constructor
+     * Constructor.
      */
     public function __construct()
     {
@@ -103,17 +102,17 @@ class Menu
 
     /**
      * Get indented name which is used by Form Types to build
-     * a nested view in selects
+     * a nested view in selects.
      *
      * @return string
      */
     public function getIndentedName()
     {
-        return str_repeat(". . . . ", $this->lvl).$this->name;
+        return str_repeat('. . . . ', $this->lvl).$this->name;
     }
 
     /**
-     * Set translatable locale
+     * Set translatable locale.
      *
      * @param string $locale
      */
@@ -123,9 +122,9 @@ class Menu
     }
 
     /**
-     * Get id
+     * Get id.
      *
-     * @return integer
+     * @return int
      */
     public function getId()
     {
@@ -133,9 +132,10 @@ class Menu
     }
 
     /**
-     * Set name
+     * Set name.
      *
-     * @param  string $name
+     * @param string $name
+     *
      * @return Menu
      */
     public function setName($name)
@@ -146,7 +146,7 @@ class Menu
     }
 
     /**
-     * Get name
+     * Get name.
      *
      * @return string
      */
@@ -156,9 +156,10 @@ class Menu
     }
 
     /**
-     * Set lft
+     * Set lft.
      *
-     * @param  integer $lft
+     * @param int $lft
+     *
      * @return Menu
      */
     public function setLft($lft)
@@ -169,9 +170,9 @@ class Menu
     }
 
     /**
-     * Get lft
+     * Get lft.
      *
-     * @return integer
+     * @return int
      */
     public function getLft()
     {
@@ -179,9 +180,10 @@ class Menu
     }
 
     /**
-     * Set lvl
+     * Set lvl.
      *
-     * @param  integer $lvl
+     * @param int $lvl
+     *
      * @return Menu
      */
     public function setLvl($lvl)
@@ -192,9 +194,9 @@ class Menu
     }
 
     /**
-     * Get lvl
+     * Get lvl.
      *
-     * @return integer
+     * @return int
      */
     public function getLvl()
     {
@@ -202,9 +204,10 @@ class Menu
     }
 
     /**
-     * Set rgt
+     * Set rgt.
      *
-     * @param  integer $rgt
+     * @param int $rgt
+     *
      * @return Menu
      */
     public function setRgt($rgt)
@@ -215,9 +218,9 @@ class Menu
     }
 
     /**
-     * Get rgt
+     * Get rgt.
      *
-     * @return integer
+     * @return int
      */
     public function getRgt()
     {
@@ -225,9 +228,10 @@ class Menu
     }
 
     /**
-     * Set root
+     * Set root.
      *
-     * @param  integer $root
+     * @param int $root
+     *
      * @return Menu
      */
     public function setRoot($root)
@@ -238,9 +242,9 @@ class Menu
     }
 
     /**
-     * Get root
+     * Get root.
      *
-     * @return integer
+     * @return int
      */
     public function getRoot()
     {
@@ -248,9 +252,10 @@ class Menu
     }
 
     /**
-     * Set parent
+     * Set parent.
      *
-     * @param  \Opifer\CmsBundle\Entity\Menu $parent
+     * @param \Opifer\CmsBundle\Entity\Menu $parent
+     *
      * @return Menu
      */
     public function setParent(\Opifer\CmsBundle\Entity\Menu $parent = null)
@@ -261,7 +266,7 @@ class Menu
     }
 
     /**
-     * Get parent
+     * Get parent.
      *
      * @return \Opifer\CmsBundle\Entity\Menu
      */
@@ -271,9 +276,10 @@ class Menu
     }
 
     /**
-     * Add children
+     * Add children.
      *
-     * @param  \Opifer\CmsBundle\Entity\Menu $children
+     * @param \Opifer\CmsBundle\Entity\Menu $children
+     *
      * @return Menu
      */
     public function addChild(\Opifer\CmsBundle\Entity\Menu $children)
@@ -284,7 +290,7 @@ class Menu
     }
 
     /**
-     * Remove children
+     * Remove children.
      *
      * @param \Opifer\CmsBundle\Entity\Menu $children
      */
@@ -294,7 +300,7 @@ class Menu
     }
 
     /**
-     * Get children
+     * Get children.
      *
      * @return \Doctrine\Common\Collections\Collection
      */
@@ -304,9 +310,9 @@ class Menu
     }
 
     /**
-     * Check whether this menu item has children
+     * Check whether this menu item has children.
      *
-     * @return boolean
+     * @return bool
      */
     public function hasChildren()
     {
@@ -314,9 +320,10 @@ class Menu
     }
 
     /**
-     * Set site
+     * Set site.
      *
-     * @param  \Opifer\CmsBundle\Entity\Site $site
+     * @param \Opifer\CmsBundle\Entity\Site $site
+     *
      * @return Menu
      */
     public function setSite(\Opifer\CmsBundle\Entity\Site $site = null)
@@ -327,7 +334,7 @@ class Menu
     }
 
     /**
-     * Get site
+     * Get site.
      *
      * @return \Opifer\CmsBundle\Entity\Site
      */
@@ -337,9 +344,10 @@ class Menu
     }
 
     /**
-     * Set sort
+     * Set sort.
      *
-     * @param  integer $sort
+     * @param int $sort
+     *
      * @return Menu
      */
     public function setSort($sort)
@@ -350,9 +358,9 @@ class Menu
     }
 
     /**
-     * Get sort
+     * Get sort.
      *
-     * @return integer
+     * @return int
      */
     public function getSort()
     {

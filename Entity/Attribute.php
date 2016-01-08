@@ -9,7 +9,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 use Opifer\EavBundle\Model\Attribute as BaseAttribute;
 
 /**
- * Attribute
+ * Attribute.
  *
  * @ORM\Table(name="attribute")
  * @ORM\Entity
@@ -48,7 +48,7 @@ class Attribute extends BaseAttribute
     protected $description;
 
     /**
-     * @var integer
+     * @var int
      *
      * @ORM\Column(name="sort", type="integer")
      *
@@ -79,9 +79,10 @@ class Attribute extends BaseAttribute
     protected $parameters;
 
     /**
-     * Set $parameters
+     * Set $parameters.
      *
-     * @param  array    $parameters
+     * @param array $parameters
+     *
      * @return MenuItem
      */
     public function setParameters($parameters)
@@ -92,7 +93,7 @@ class Attribute extends BaseAttribute
     }
 
     /**
-     * Get $parameters
+     * Get $parameters.
      *
      * @return array
      */

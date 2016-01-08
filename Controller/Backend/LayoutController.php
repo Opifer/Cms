@@ -36,7 +36,8 @@ class LayoutController extends Controller
     }
 
     /**
-     * @param  Request $request
+     * @param Request $request
+     *
      * @return RedirectResponse|Response
      */
     public function createAction(Request $request)
@@ -55,13 +56,14 @@ class LayoutController extends Controller
         }
 
         return $this->render('OpiferCmsBundle:Backend/Layout:create.html.twig', [
-            'form' => $form->createView()
+            'form' => $form->createView(),
         ]);
     }
 
     /**
-     * @param  Request $request
-     * @param  int     $id
+     * @param Request $request
+     * @param int     $id
+     *
      * @return RedirectResponse|Response
      */
     public function editAction(Request $request, $id)
@@ -79,13 +81,14 @@ class LayoutController extends Controller
         }
 
         return $this->render('OpiferCmsBundle:Backend/Layout:edit.html.twig', [
-            'form'   => $form->createView(),
-            'layout' => $layout
+            'form' => $form->createView(),
+            'layout' => $layout,
         ]);
     }
 
     /**
-     * @param  int $id
+     * @param int $id
+     *
      * @return RedirectResponse
      */
     public function deleteAction($id)

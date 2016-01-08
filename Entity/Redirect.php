@@ -12,7 +12,7 @@ use Opifer\RedirectBundle\Model\Redirect as BaseRedirect;
 class Redirect extends BaseRedirect
 {
     /**
-     * @var integer
+     * @var int
      *
      * @ORM\Id
      * @ORM\Column(name="id", type="integer")
@@ -35,7 +35,7 @@ class Redirect extends BaseRedirect
     protected $target;
 
     /**
-     * @var boolean
+     * @var bool
      *
      * @ORM\Column(name="permanent", type="boolean")
      */

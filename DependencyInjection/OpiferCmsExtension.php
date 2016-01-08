@@ -9,14 +9,14 @@ use Symfony\Component\DependencyInjection\Loader;
 use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 
 /**
- * This is the class that loads and manages your bundle configuration
+ * This is the class that loads and manages your bundle configuration.
  *
  * To learn more see {@link http://symfony.com/doc/current/cookbook/bundles/extension.html}
  */
 class OpiferCmsExtension extends Extension implements PrependExtensionInterface
 {
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function load(array $configs, ContainerBuilder $container)
     {
@@ -38,9 +38,10 @@ class OpiferCmsExtension extends Extension implements PrependExtensionInterface
     }
 
     /**
-     * Simplifying parameter syntax
+     * Simplifying parameter syntax.
      *
-     * @param  array $config
+     * @param array $config
+     *
      * @return array
      */
     public function getParameters(array $config)
@@ -65,7 +66,7 @@ class OpiferCmsExtension extends Extension implements PrependExtensionInterface
     /**
      * Remap class parameters.
      *
-     * @param array $classes
+     * @param array            $classes
      * @param ContainerBuilder $container
      */
     protected function mapClassParameters(array $classes, ContainerBuilder $container)

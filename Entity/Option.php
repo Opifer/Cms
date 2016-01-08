@@ -6,7 +6,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Opifer\EavBundle\Model\Option as BaseOption;
 
 /**
- * Option
+ * Option.
  *
  * @ORM\Table(name="option")
  * @ORM\Entity(repositoryClass="Opifer\EavBundle\Repository\OptionRepository")
@@ -28,7 +28,7 @@ class Option extends BaseOption
     protected $displayName;
 
     /**
-     * @var integer
+     * @var int
      *
      * @ORM\Column(name="sort", type="integer")
      */

@@ -6,7 +6,6 @@ use Mockery as m;
 use Opifer\CmsBundle\Entity\MenuGroup;
 use Opifer\CmsBundle\Form\DataTransformer\MenuGroupTransformer;
 
-
 class MenuGroupTransformerTest extends \PHPUnit_Framework_TestCase
 {
     public function testTransformMenuGroup()
@@ -48,7 +47,5 @@ class MenuGroupTransformerTest extends \PHPUnit_Framework_TestCase
         $actual = $menuGroupTransformer->reverseTransform([$key => $menuGroup]);
 
         $this->assertEquals($actual, $expected);
-
     }
-
 }

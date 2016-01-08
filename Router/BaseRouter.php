@@ -29,7 +29,7 @@ abstract class BaseRouter
     protected $container;
 
     /**
-     * Constructor
+     * Constructor.
      *
      * @param ContainerInterface $container
      */
@@ -40,7 +40,7 @@ abstract class BaseRouter
     }
 
     /**
-     * Generate an url for a supplied route
+     * Generate an url for a supplied route.
      *
      * @param string $name       The path
      * @param array  $parameters The route parameters
@@ -83,7 +83,7 @@ abstract class BaseRouter
     }
 
     /**
-     * Getter for routeCollection
+     * Getter for routeCollection.
      *
      * @return \Symfony\Component\Routing\RouteCollection
      */

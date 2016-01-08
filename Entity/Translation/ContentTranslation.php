@@ -1,4 +1,5 @@
 <?php
+
 namespace Opifer\CmsBundle\Entity\Translation;
 
 use Doctrine\ORM\Mapping as ORM;
@@ -12,7 +13,7 @@ use Gedmo\Translatable\Entity\MappedSuperclass\AbstractTranslation;
  */
 class ContentTranslation extends AbstractTranslation
 {
-    /**
+    /*
      * All required columns are mapped through inherited superclass
      */
 }

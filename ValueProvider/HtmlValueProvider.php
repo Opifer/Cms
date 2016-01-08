@@ -9,17 +9,17 @@ use Opifer\EavBundle\ValueProvider\ValueProviderInterface;
 class HtmlValueProvider extends AbstractValueProvider implements ValueProviderInterface
 {
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder->add('value', 'ckeditor', [
-            'label' => false
+            'label' => false,
         ]);
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getEntity()
     {
@@ -27,7 +27,7 @@ class HtmlValueProvider extends AbstractValueProvider implements ValueProviderIn
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getLabel()
     {

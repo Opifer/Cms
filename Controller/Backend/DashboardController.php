@@ -16,7 +16,7 @@ class DashboardController extends Controller
             ->findLastUpdated(8);
 
         return $this->render('OpiferCmsBundle:Backend/Dashboard:dashboard.html.twig', [
-            'latest_content' => $latestContent
+            'latest_content' => $latestContent,
         ]);
     }
 }

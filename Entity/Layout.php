@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Opifer\ContentBundle\Model\Layout as BaseLayout;
 
 /**
- * Layout
+ * Layout.
  *
  * @ORM\Entity
  * @ORM\Table(name="layout")
