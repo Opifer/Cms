@@ -1,5 +1,4 @@
 parameters:
-    opifer.cms.acl_manager.class: Opifer\CmsBundle\Security\AclManager
     opifer.cms.address_value_provider.class: Opifer\CmsBundle\ValueProvider\AddressValueProvider
     opifer.cms.attachment_listener.class: Opifer\CmsBundle\EventListener\AttachmentListener
     opifer.cms.attachment_value_provider.class: Opifer\CmsBundle\ValueProvider\AttachmentValueProvider
@@ -123,12 +122,6 @@ services:
     opifer.cms.content_manager:
         class: Opifer\CmsBundle\Manager\ContentManager
         arguments: [@doctrine.orm.default_entity_manager, @form.factory, @opifer.eav.eav_manager, %opifer_content.content_class%, %opifer_eav.template_class%, @security.token_storage]
-
-    # ACL
-
-    opifer.cms.acl_manager:
-        class: %opifer.cms.acl_manager.class%
-        arguments: [@security.acl.provider, @security.context]
 
     # Event Listeners
 
