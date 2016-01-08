@@ -25,7 +25,7 @@
         "opifer/eav-bundle": "~0.2",
         "opifer/form-bundle": "~0.1",
         "opifer/media-bundle": "~0.1",
-        "opifer/redirect-bundle": "~0.1",
+        "opifer/redirect-bundle": "~0.1.4",
 
         "apy/datagrid-bundle": "~2.2",
         "aws/aws-sdk-php": "2.5.*",

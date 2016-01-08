@@ -111,6 +111,12 @@ services:
         arguments: [@doctrine.orm.default_entity_manager, %opifer_cms.autocomplete%]
         tags:
             - { name: form.type, alias: opifer_autocomplete }
+
+    opifer.cms.redirect_type:
+        class: Opifer\CmsBundle\Form\Type\RedirectType
+        decorates: opifer.redirect.redirect_type
+        tags:
+            - { name: form.type, alias: opifer_redirect }
             
     # Entity Managers
 

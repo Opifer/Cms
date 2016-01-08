@@ -4,11 +4,8 @@ namespace Opifer\CmsBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
-use Gedmo\Translatable\Translatable;
 use JMS\Serializer\Annotation as JMS;
 use Symfony\Component\Validator\Constraints as Assert;
-use Opifer\EavBundle\Entity\Value;
-use Opifer\EavBundle\Entity\NestedValue;
 use Opifer\ContentBundle\Model\Content as BaseContent;
 
 /**
@@ -17,9 +14,31 @@ use Opifer\ContentBundle\Model\Content as BaseContent;
  * @ORM\Table(name="content")
  * @ORM\Entity(repositoryClass="Opifer\CmsBundle\Repository\ContentRepository")
  * @Gedmo\TranslationEntity(class="Opifer\CmsBundle\Entity\Translation\ContentTranslation")
+ * @JMS\ExclusionPolicy("all")
  */
 class Content extends BaseContent
 {
+    /**
+     * @var integer
+     *
+     * @ORM\Id
+     * @ORM\Column(name="id", type="integer")
+     * @ORM\GeneratedValue(strategy="AUTO")
+     *
+     * @JMS\Expose
+     * @JMS\Groups({"detail", "list"})
+     */
+    protected $id;
+
+    /**
+     * @var boolean
+     *
+     * @JMS\Expose
+     * @JMS\Groups({"detail", "list"})
+     * @ORM\Column(name="active", type="boolean")
+     */
+    protected $active = true;
+
     /**
      * @var  integer
      *
@@ -63,10 +82,75 @@ class Content extends BaseContent
     protected $description;
 
     /**
+     * @var string
+     *
+     * @JMS\Expose
+     * @JMS\Groups({"detail"})
+     * @ORM\Column(name="presentation", type="text", nullable=true)
+     */
+    protected $presentation;
+
+    /**
+     * @var string
+     *
+     * @JMS\Expose
+     * @Gedmo\Slug(handlers={
+     *      @Gedmo\SlugHandler(class="Opifer\ContentBundle\Handler\AliasHandler", options={
+     *          @Gedmo\SlugHandlerOption(name="field", value="slug"),
+     *          @Gedmo\SlugHandlerOption(name="separator", value="-")
+     *      })
+     * }, fields={"alias"}, unique_base="deletedAt")
+     * @ORM\Column(name="alias", type="string", length=255, nullable=true)
+     *
+     */
+    protected $alias;
+
+    /**
+     * @var string
+     *
+     * @JMS\Expose
+     * @JMS\Groups({"detail", "list"})
+     * @Gedmo\Slug(handlers={
+     *      @Gedmo\SlugHandler(class="Opifer\ContentBundle\Handler\SlugHandler", options={
+     *          @Gedmo\SlugHandlerOption(name="relationField", value="directory"),
+     *          @Gedmo\SlugHandlerOption(name="relationSlugField", value="slug"),
+     *          @Gedmo\SlugHandlerOption(name="separator", value="/"),
+     *          @Gedmo\SlugHandlerOption(name="onSlugCompletion", value={"appendIndex"})
+     *      })
+     * }, fields={"title"}, unique_base="deletedAt")
+     * @ORM\Column(name="slug", type="string", length=255)
+     */
+    protected $slug;
+
+    /**
      * @ORM\ManyToOne(targetEntity="Site")
      * @ORM\JoinColumn(name="site_id", referencedColumnName="id")
      */
     private $site;
+
+    /**
+     * Created at
+     *
+     * @var \DateTime
+     *
+     * @JMS\Expose
+     * @JMS\Groups({"detail", "list"})
+     * @Gedmo\Timestampable(on="create")
+     * @ORM\Column(name="created_at", type="datetime")
+     */
+    protected $createdAt;
+
+    /**
+     * Updated at
+     *
+     * @var \DateTime
+     *
+     * @JMS\Expose
+     * @JMS\Groups({"detail", "list"})
+     * @Gedmo\Timestampable(on="update")
+     * @ORM\Column(name="updated_at", type="datetime")
+     */
+    protected $updatedAt;
 
     /**
      * @Gedmo\Locale
