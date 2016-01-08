@@ -32,6 +32,29 @@ class CronjobController extends Controller
             ->addRowAction($editAction)
             ->addRowAction($deleteAction);
 
+        $grid->getColumn('state')->manipulateRenderCell(function ($value, $row, $router) {
+            switch ($value) {
+                case Cron::STATE_RUNNING:
+                    $label = 'info';
+                    break;
+                case Cron::STATE_FINISHED :
+                    $label = 'success';
+                    break;
+                case Cron::STATE_TERMINATED :
+                case Cron::STATE_CANCELED :
+                case Cron::STATE_FAILED :
+                    $label = 'danger';
+                    break;
+                default :
+                    $label = 'default';
+                    break;
+            }
+
+            return '<span class="label label-'.$label.'">'.$value.'</span>';
+        });
+        
+        $grid->getColumn('state')->setSafe(false);
+
         return $grid->getGridResponse('OpiferCmsBundle:Backend/Cronjob:index.html.twig');
     }
 
