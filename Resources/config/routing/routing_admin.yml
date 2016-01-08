@@ -1,4 +1,3 @@
-
 opifer_cms_dashboard:
     resource: "@OpiferCmsBundle/Controller/DashboardController.php"
     type:     annotation
@@ -48,6 +47,10 @@ opifer_content_admin:
 
 opifer_media_admin:
     resource: "@OpiferMediaBundle/Resources/config/routing.yml"
+
+opifer_redirect_admin:
+    resource: "@OpiferRedirectBundle/Resources/config/routing.yml"
+    prefix: /redirects
 
 # Users
 fos_user_security_login:

@@ -205,7 +205,6 @@ opifer_crud:
         cronjobs: Opifer\CmsBundle\Entity\Cron
         layouts: Opifer\CmsBundle\Entity\Layout
         templates: Opifer\CmsBundle\Entity\Template
-        redirects: Opifer\CmsBundle\Entity\Redirect
         sites: Opifer\CmsBundle\Entity\Site
 
 # Media
@@ -274,7 +273,8 @@ opifer_form:
             view: OpiferCmsBundle:Admin/Post:view.html.twig
 
 opifer_redirect:
-    redirect_class: Opifer\CmsBundle\Entity\Redirect
+    redirect:
+        class: Opifer\CmsBundle\Entity\Redirect
 
 opifer_cms:
     autocomplete:
