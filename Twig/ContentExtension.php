@@ -2,6 +2,8 @@
 
 namespace Opifer\ContentBundle\Twig;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Opifer\EavBundle\Entity\NestedValue;
 use Symfony\Component\HttpKernel\Controller\ControllerReference;
 use Symfony\Component\HttpKernel\Fragment\FragmentHandler;
 
@@ -46,6 +48,9 @@ class ContentExtension extends \Twig_Extension
             new \Twig_SimpleFunction('get_content', [$this, 'getContent'], [
                 'is_safe' => array('html')
             ]),
+            new \Twig_SimpleFunction('get_nested', [$this, 'getNested'], [
+                'is_safe' => array('html')
+            ]),
             new \Twig_SimpleFunction('get_content_by_id', [$this, 'getContentById'], [
                 'is_safe' => array('html')
             ]),
@@ -65,6 +70,25 @@ class ContentExtension extends \Twig_Extension
                 'is_safe' => array('html')
             ]),
         ];
+    }
+
+    /**
+     * Get Nested
+     *
+     * Retrieves all nested content items from a NestedValue and joins necessary
+     * relations. Using this method is preferred to avoid additional queries due to
+     * the inability to join relations when calling NestedValue::getNested.
+     *
+     * @param  NestedValue $value
+     * @return ArrayCollection
+     */
+    public function getNested(NestedValue $value)
+    {
+        return $this->contentManager->getRepository()
+            ->createValuedQueryBuilder('c')
+            ->where('c.nestedIn = :value')->setParameter('value', $value)
+            ->getQuery()
+            ->getResult();
     }
 
     /**
@@ -102,7 +126,7 @@ class ContentExtension extends \Twig_Extension
     {
         $string = '';
                 
-        if($contentItem === false) {
+        if ($contentItem === false) {
             return $string;
         }
         
