@@ -2,6 +2,7 @@
 
 namespace Opifer\CmsBundle\Menu;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Opifer\CmsBundle\Entity\Menu;
 use Opifer\CmsBundle\Entity\MenuGroup;
 use Knp\Menu\MenuItem as KnpMenu;
@@ -17,6 +18,8 @@ use Knp\Menu\MenuItem as KnpMenu;
  */
 class SiteMenu extends MenuBuilder implements MenuInterface
 {
+    protected $hierarchy;
+
     /**
      * The dynamic sitemenu.
      *
@@ -34,11 +37,11 @@ class SiteMenu extends MenuBuilder implements MenuInterface
         // but at this point the content relation is not passed in the array, so
         // we cannot route menu items to a content item yet.
         if ($menu_id) {
-            foreach ($this->getRepository()->getSortedChildrenById($menu_id) as $item) {
+            foreach ($this->getChildrenByNodeId($menu_id) as $item) {
                 $this->addChild($menu, $item);
             }
         } elseif ($menu_name) {
-            foreach ($this->getRepository()->getSortedChildrenByName($menu_name) as $item) {
+            foreach ($this->getChildrenByNodeName($menu_name) as $item) {
                 $this->addChild($menu, $item);
             }
         } else {
@@ -88,13 +91,63 @@ class SiteMenu extends MenuBuilder implements MenuInterface
 
         $menu->addChild($name, $options);
 
-        if ($item->hasChildren()) {
+        $children = $this->getChildren($item);
+
+        if (count($children)) {
             $menu[$name]->setChildrenAttribute('class', 'sub-nav');
 
-            foreach ($item->getChildren() as $child) {
+            foreach ($children as $child) {
                 $this->addChild($menu[$name], $child);
             }
         }
+    }
+
+    /**
+     * @param  Menu $item
+     * @return ArrayCollection
+     */
+    protected function getChildren(Menu $item)
+    {
+        $collection = new ArrayCollection();
+        foreach ($this->getHierarchy() as $object) {
+            if ($object->getParent() && $object->getParent()->getId() == $item->getId()) {
+                $collection->add($object);
+            }
+        }
+
+        return $collection;
+    }
+
+    /**
+     * @param  string $node
+     * @return ArrayCollection
+     */
+    protected function getChildrenByNodeName($node)
+    {
+        $collection = new ArrayCollection();
+        foreach ($this->getHierarchy() as $object) {
+            if ($object->getParent() && $object->getParent()->getName() == $node) {
+                $collection->add($object);
+            }
+        }
+
+        return $collection;
+    }
+
+    /**
+     * @param  int $node
+     * @return ArrayCollection
+     */
+    protected function getChildrenByNodeId($node)
+    {
+        $collection = new ArrayCollection();
+        foreach ($this->getHierarchy() as $object) {
+            if ($object->getParent() && $object->getParent()->getId() == $node) {
+                $collection->add($object);
+            }
+        }
+
+        return $collection;
     }
 
     /**
@@ -105,5 +158,17 @@ class SiteMenu extends MenuBuilder implements MenuInterface
     protected function getRepository()
     {
         return $this->container->get('doctrine')->getRepository('OpiferCmsBundle:Menu');
+    }
+
+    /**
+     * @return array
+     */
+    protected function getHierarchy()
+    {
+        if ($this->hierarchy === null) {
+            $this->hierarchy = $this->getRepository()->getNodesHierarchyQuery()->getResult();
+        }
+
+        return $this->hierarchy;
     }
 }
