@@ -24,8 +24,6 @@
         
         "opifer/eav-bundle": "@dev",
         "opifer/media-bundle": "@dev",
-        "opifer/rulesengine-bundle": "@dev",
-        "opifer/rulesengine": "@dev"
     },
     "require-dev": {
         "phpunit/phpunit": "~4.2.0",
