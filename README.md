@@ -8,7 +8,7 @@ Installation
 
 Add OpiferCmsBundle to your composer.json:
 
-    $ composer require opifer/cms-bundle "~0.1"
+    $ composer require opifer/cms-bundle "@dev"
 
 To avoid enabling all required bundles, extend `Opifer\CmsBundle\Kernel\Kernel` in `app/AppKernel.php`:
 
@@ -96,3 +96,8 @@ And create a user account:
     $ php app/console fos:user:create --super-admin
     
 Now log into the admin panel at `http://localhost/app_dev.php/admin`.
+
+Documentation
+-------------
+
+- [Configuration Reference](Resources/doc/configuration-reference.md)
