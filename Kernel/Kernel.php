@@ -35,7 +35,6 @@ abstract class Kernel extends BaseKernel
             new \JMS\SerializerBundle\JMSSerializerBundle($this),
             new \Knp\Bundle\GaufretteBundle\KnpGaufretteBundle(),
             new \Knp\Bundle\MenuBundle\KnpMenuBundle(),
-            new \Knp\Bundle\MarkdownBundle\KnpMarkdownBundle(),
             new \Liip\ImagineBundle\LiipImagineBundle(),
             new \Liuggio\ExcelBundle\LiuggioExcelBundle(),
             new \Presta\SitemapBundle\PrestaSitemapBundle(),
