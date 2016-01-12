@@ -55,8 +55,7 @@ braincrafted_bootstrap:
         bootstrap_output:   %kernel.root_dir%/Resources/less/bootstrap.less
         bootstrap_template: BraincraftedBootstrapBundle:Bootstrap:bootstrap.less.twig
 
-
-# Dynamic Routing
+# Routing
 cmf_routing:
     chain:
         routers_by_id:
@@ -69,8 +68,16 @@ cmf_routing:
             # Catch any routes and redirect them to a 404 page.
             opifer.cms.exception_router: 1
 
+fos_js_routing:
+    cache_control:
+        # All are optional, defaults shown
+        public: true   # can be true (public) or false (private)
+        maxage: 3600    # integer value, e.g. 300
+        smaxage: 3600   # integer value, e.g. 300
+        expires: "1 day"    # anything that can be fed to "new \DateTime($expires)", e.g. "5 minutes"
+        vary: []        # string or array, e.g. "Cookie" or [ Cookie, Accept ]
 
-# Doctrine Configuration
+# Doctrine
 doctrine:
     dbal:
         driver:   %opifer_cms.database_driver%
@@ -117,7 +124,6 @@ doctrine_migrations:
     table_name: %opifer_cms.database_table_prefix%migrations
     name:       Opifer Cms Migrations
 
-
 # Users
 fos_user:
     db_driver:       orm
@@ -131,20 +137,6 @@ fos_user:
             type:              public_registration_form
             name:              public_registration
             validation_groups: []
-
-fos_js_routing:
-    cache_control:
-        # All are optional, defaults shown
-        public: true   # can be true (public) or false (private)
-        maxage: 3600    # integer value, e.g. 300
-        smaxage: 3600   # integer value, e.g. 300
-        expires: "1 day"    # anything that can be fed to "new \DateTime($expires)", e.g. "5 minutes"
-        vary: []        # string or array, e.g. "Cookie" or [ Cookie, Accept ]
-
-# Genemu form fields
-genemu_form:
-    date:    ~
-    select2: ~
 
 # Menus
 knp_menu:
