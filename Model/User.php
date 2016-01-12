@@ -5,7 +5,6 @@ namespace Opifer\CmsBundle\Model;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
-use FOS\AdvancedEncoderBundle\Security\Encoder\EncoderAwareInterface;
 use FOS\UserBundle\Model\GroupInterface;
 use FOS\UserBundle\Model\User as FOSUser;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
@@ -18,11 +17,8 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @UniqueEntity("email")
  *
  * @Gedmo\SoftDeleteable(fieldName="deletedAt", timeAware=false)
- *
- * Implements the EncoderAwareInterface to allow different password encoders for
- * legacy or new users.
  */
-abstract class User extends FOSUser implements EncoderAwareInterface
+abstract class User extends FOSUser
 {
     /**
      * @ORM\Id
@@ -110,11 +106,6 @@ abstract class User extends FOSUser implements EncoderAwareInterface
      * @ORM\OneToMany(targetEntity="Opifer\CmsBundle\Entity\Content", mappedBy="author")
      */
     protected $contents;
-
-    /**
-     * @ORM\Column(name="encoder", type="string", length=255)
-     */
-    protected $encoder = 'default';
 
     /**
      * Created at.
@@ -379,35 +370,6 @@ abstract class User extends FOSUser implements EncoderAwareInterface
     public function getContents()
     {
         return $this->contents;
-    }
-
-    /**
-     * Set encoder.
-     *
-     * @param string $encoder
-     */
-    public function setEncoder($encoder)
-    {
-        $this->encoder = $encoder;
-
-        return $this;
-    }
-
-    public function getEncoder()
-    {
-        return $this->encoder;
-    }
-
-    /**
-     * Get encoder name.
-     *
-     * This is part of the EncoderAwareInterface
-     *
-     * @return string
-     */
-    public function getEncoderName()
-    {
-        return $this->encoder;
     }
 
     /**
