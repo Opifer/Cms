@@ -197,7 +197,7 @@ class Content extends BaseContent
     }
 
     /**
-     * @todo clean this mess up
+     * @todo find image in blocks instead of deprecated values
      *
      * Finds first available image for listing purposes
      *
@@ -205,23 +205,23 @@ class Content extends BaseContent
      */
     public function getCoverImage()
     {
-        foreach ($this->getValueSet()->getValues() as $value) {
-            switch (get_class($value)) {
-                case 'Opifer\EavBundle\Entity\NestedValue':
-                    foreach ($value->getNested() as $nested) {
-                        if (false !== $cv = $nested->getCoverImage()) {
-                            return $cv;
-                        }
-                    }
-                    break;
-                case 'Opifer\EavBundle\Entity\MediaValue':
-                    foreach ($value->getMedias() as $media) {
-                        return $media->getReference();
-                        break;
-                    }
-                    break;
-            }
-        }
+//        foreach ($this->getValueSet()->getValues() as $value) {
+//            switch (get_class($value)) {
+//                case 'Opifer\EavBundle\Entity\NestedValue':
+//                    foreach ($value->getNested() as $nested) {
+//                        if (false !== $cv = $nested->getCoverImage()) {
+//                            return $cv;
+//                        }
+//                    }
+//                    break;
+//                case 'Opifer\EavBundle\Entity\MediaValue':
+//                    foreach ($value->getMedias() as $media) {
+//                        return $media->getReference();
+//                        break;
+//                    }
+//                    break;
+//            }
+//        }
 
         return false;
     }

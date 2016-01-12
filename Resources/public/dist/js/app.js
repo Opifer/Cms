@@ -68944,6 +68944,163 @@ angular.module('afkl.lazyImage')
  }(window.jQuery);
  
 
+/**
+ * This file is part of the InfiniteFormBundle package.
+ *
+ * (c) Infinite Networks Pty Ltd <http://infinite.net.au>
+ */
+
+/**
+ * Provides helper javascript for handling adding and removing items from a form
+ * collection. It requires jQuery to operate.
+ *
+ * To use this collection javascript, initialise it against a collection and pass in any
+ * prototype add links as a second argument.
+ *
+ * The example below assumes that PR https://github.com/symfony/symfony/pull/7713 has been
+ * merged.
+ *
+ *      $('[data-form-widget=collection]').each(function () {
+ *          new window.infinite.Collection(this, $('[data-prototype]', this));
+ *      });
+ *
+ * @author Tim Nagel <t.nagel@infinite.net.au>
+ */
+(function ($) {
+    "use strict";
+
+    window.infinite = window.infinite || {};
+
+    /**
+     * Creates a new collection object.
+     *
+     * @param collection The DOM element passed here is expected to be a reference to the
+     *                   containing element that wraps all items.
+     * @param prototypes We expect a jQuery array passed here that will provide one or
+     *                   more clickable elements that contain a prototype to be inserted
+     *                   into the collection as a data-prototype attribute.
+     * @param options    Allows configuration of different aspects of the Collection
+     *                   objects behavior.
+     */
+    window.infinite.Collection = function (collection, prototypes, options) {
+        this.$collection = $(collection);
+        this.internalCount = this.$collection.children().length;
+        this.$prototypes = prototypes;
+
+        this.options = $.extend({
+            allowAdd: true,
+            allowDelete: true,
+            disabledSelector: '[data-disabled]',
+            itemSelector: '.item',
+            prototypeAttribute: 'data-prototype',
+            prototypeName: '__name__',
+            removeSelector: '.remove_item'
+        }, options || {});
+
+        this.initialise();
+    };
+
+    window.infinite.Collection.prototype = {
+        /**
+         * Sets up the collection and its prototypes for action.
+         */
+        initialise: function () {
+            var that = this;
+            this.$prototypes.on('click', function (e) {
+                e.preventDefault();
+
+                that.addToCollection($(this));
+            });
+
+            this.$collection.on('click', this.options.removeSelector, function (e) {
+                e.preventDefault();
+
+                that.removeFromCollection($(this).closest(that.options.itemSelector));
+            });
+
+            this.$collection.data('collection', this);
+        },
+
+        /**
+         * Adds another row to the collection
+         */
+        addToCollection: function ($prototype) {
+            if (!this.options.allowAdd || this.$collection.is(this.options.disabledSelector)) {
+                return;
+            }
+
+            var html = this._getPrototypeHtml($prototype, this.internalCount++),
+                $row = $($.parseHTML(html));
+
+            var event = this._createEvent('infinite_collection_add');
+            event.$triggeredPrototype = $prototype;
+            event.$row = $row;
+            event.insertBefore = null;
+            this.$collection.trigger(event);
+
+            if (!event.isDefaultPrevented()) {
+                if (event.insertBefore) {
+                    $row.insertBefore(event.insertBefore);
+                } else {
+                    this.$collection.append($row);
+                }
+            }
+        },
+
+        /**
+         * Removes a supplied row from the collection.
+         */
+        removeFromCollection: function ($row) {
+            if (!this.options.allowDelete || this.$collection.is(this.options.disabledSelector)) {
+                return;
+            }
+
+            var event = this._createEvent('infinite_collection_remove');
+            $row.trigger(event);
+
+            if (!event.isDefaultPrevented()) {
+                $row.remove();
+            }
+        },
+
+        /**
+         * Retrieves the HTML from the prototype button, replacing __name__label__
+         * and __name__ with the supplied replacement value.
+         *
+         * @private
+         */
+        _getPrototypeHtml: function ($prototype, replacement) {
+            var event = this._createEvent('infinite_collection_prototype');
+            event.$triggeredPrototype = $prototype;
+            event.html = $prototype.attr(this.options.prototypeAttribute);
+            event.replacement = replacement;
+            this.$collection.trigger(event);
+
+            if (!event.isDefaultPrevented()) {
+                var labelRegex = new RegExp(this.options.prototypeName + 'label__', 'gi'),
+                    prototypeRegex = new RegExp(this.options.prototypeName, 'gi');
+
+                event.html = event.html.replace(labelRegex, replacement)
+                    .replace(prototypeRegex, replacement);
+            }
+
+            return event.html;
+        },
+
+        /**
+         * Creates a jQuery event object with the given name.
+         *
+         * @private
+         */
+        _createEvent: function (eventName) {
+            var event = $.Event(eventName);
+            event.collection = this;
+
+            return event;
+        }
+    };
+}(window.jQuery));
+
 /*!
 
 Split Pane v0.5.0
@@ -69539,10 +69696,24 @@ $(document).ready(function() {
     // PageManager: general encapsulation, you know, to organise and stuff
     //
     pagemanager = (function () {
+        var client = null;
         var ownerType = 'template';
         var ownerId = 0;
-        var dragFloatValue = null;
         var mprogress = null;
+        var hasUnsavedChanges = false;
+        var version = 0;
+        var versionPublished = 0;
+        var btnPublish = $('#pm-btn-publish');
+        var btnDiscard = $('#pm-btn-discard');
+        var btnRun = $('#pm-btn-run');
+        var btnViewContent = $('#pm-btn-viewmode-content');
+        var btnViewPreview = $('#pm-btn-viewmode-preview');
+        var btnViewLayout = $('#pm-btn-viewmode-layout');
+        var VIEWMODE_CONTENT = 'CONTENT';
+        var VIEWMODE_LAYOUT = 'LAYOUT';
+        var VIEWMODE_PREVIEW = 'PREVIEW';
+        var iFrame = $('#pm-iframe');
+        var permalink = null;
 
         var onReady = function () {
             mprogress = new Mprogress({
@@ -69553,18 +69724,7 @@ $(document).ready(function() {
             // Toggle view between Content, Preview and Layout
             $('input[name="viewmode"]:radio').change(function () {
                 pagemanager.unselectBlock();
-                if ($('input[name="viewmode"]:checked').val() == 'CONTENT') {
-                    client().setViewMode('content');
-                    $('.pm-tools-blockset').addClass('hidden');
-                    $('#pm-tools-blocks').removeClass('hidden');
-                } else if ($('input[name="viewmode"]:checked').val() == 'LAYOUT') {
-                    client().setViewMode('layout');
-                    $('.pm-tools-blockset').addClass('hidden');
-                    $('#pm-tools-layouts').removeClass('hidden');
-                } else {
-                    client().setViewMode('preview');
-                    $('.pm-tools-blockset').addClass('hidden');
-                }
+                setViewMode($('input[name="viewmode"]:checked').val());
             });
 
             $('input[name="screenwidth"]:radio').change(function () {
@@ -69586,8 +69746,10 @@ $(document).ready(function() {
                 $('#pm-iframe').css('width', width);
             });
 
-            ownerType = $('#pm-document').attr('data-pm-type');
             ownerId = $('#pm-document').attr('data-pm-id');
+            version = $('#pm-document').attr('data-pm-version');
+            versionPublished = $('#pm-document').attr('data-pm-version-published');
+            permalink = $('#pm-document').attr('data-pm-permalink');
 
             // Split page library
             $('.split-pane').splitPane();
@@ -69597,12 +69759,11 @@ $(document).ready(function() {
             });
 
             // Resize iframe based on their contents (for block editing view)
-            //$('#pm-iframe').iFrameResize();
-            $('#pm-iframe').bind('load', function () {
-                console.log(client());
-                pagemanager.isNotLoading();
-                sortables();
+            iFrame.bind('load', function () {
+                onClientReady();
             });
+
+            loadRunButton();
 
             $(document).ajaxComplete(function (e) {
                 isNotLoading();
@@ -69616,7 +69777,9 @@ $(document).ready(function() {
                     $('#pm-block-edit').html(data);
                     // Bootstrap AngularJS app (media library etc) after altering DOM
                     angular.bootstrap($('#pm-block-edit form'), ["MainApp"]);
-                    refreshBlock(blockId);
+                    if (blockId) {
+                        refreshBlock(blockId);
+                    }
                 });
 
                 return false;
@@ -69630,17 +69793,40 @@ $(document).ready(function() {
             // Edit block (click)
             $(document).on('click', '#pm-block-edit #btn-cancel', function (e) {
                 e.preventDefault();
-                pagemanager.closeEditBlock($(this).closest('.pm-block').attr('data-pm-block-id'));
+                closeEditBlock($(this).closest('.pm-block').attr('data-pm-block-id'));
             });
 
-            //window.onbeforeunload = function() {
-            //    return "Attention: you will possible lose changes made.";
-            //}
+            // Version picker (click)
+            $(document).on('click', '.pm-version-link', function (e) {
+                //e.preventDefault();
+                loadVersion($(this).attr('data-pm-version'));
+            });
+
+            $(document).on('click', '#pm-btn-publish', function(e) {
+                e.preventDefault();
+                publish();
+            });
+
+            $(document).on('click', '#pm-btn-properties', function(e) {
+                e.preventDefault();
+                editProperties($(this).attr('href'));
+            });
+
+            $(document).on('click', '#pm-btn-discard', function(e) {
+                e.preventDefault();
+                discardChanges();
+            });
+
+            window.onbeforeunload = function() {
+                if (hasUnsavedChanges) {
+                    return "Attention: you will possible lose changes made.";
+                }
+            }
         };
 
-        var client = function () {
-            return document.getElementById('pm-iframe').contentWindow['pagemanagerClient'];
-        };
+        //var client = function () {
+        //    return document.getElementById('pm-iframe').contentWindow['pagemanagerClient'];
+        //};
 
         // Start loading indicator
         var isLoading = function () {
@@ -69655,8 +69841,9 @@ $(document).ready(function() {
         };
 
         var refreshBlock = function (id) {
-            $.get(Routing.generate('opifer_content_api_pagemanager_view_block', {id: id})).done(function (data) {
+            $.get(Routing.generate('opifer_content_api_contenteditor_view_block', {id: id, rootVersion: version})).done(function (data) {
                 getBlockElement(id).replaceWith(data.view);
+                showToolbars();
             });
         };
 
@@ -69668,6 +69855,13 @@ $(document).ready(function() {
                     $(this).addClass('pm-empty');
                 }
             });
+        };
+
+        var loadRunButton = function () {
+            if (permalink) {
+                btnRun.attr('href', permalink);
+                btnRun.parent().removeClass('hidden');
+            }
         };
 
         var getBlockElement = function (id) {
@@ -69683,6 +69877,39 @@ $(document).ready(function() {
             $('#pm-iframe').contents().find('.pm-block').removeClass('selected');
         };
 
+        var lockEditing = function() {
+            btnPublish.prop("disabled", true);
+            btnDiscard.prop("disabled", true);
+            btnViewContent.addClass('disabled');
+            btnViewLayout.addClass('disabled');
+            setViewMode(VIEWMODE_PREVIEW);
+        };
+
+        var unlockEditing = function() {
+            btnPublish.prop("disabled", false);
+            btnDiscard.prop("disabled", false);
+            btnViewContent.removeClass('disabled');
+            btnViewLayout.removeClass('disabled');
+        };
+
+        var setViewMode = function(mode) {
+            if (mode == VIEWMODE_CONTENT) {
+                $('.pm-tools-blockset').addClass('hidden');
+                $('#pm-tools-blocks').removeClass('hidden');
+            } else if (mode == VIEWMODE_LAYOUT) {
+                $('.pm-tools-blockset').addClass('hidden');
+                $('#pm-tools-layouts').removeClass('hidden');
+            } else {
+                $('.pm-tools-blockset').addClass('hidden');
+            }
+
+            iFrame.contents().find('body').removeClass (function (index, css) {
+                return (css.match (/(^|\s)pm-viewmode-\S+/g) || []).join(' ');
+            }).addClass('pm-viewmode-'+mode.toLowerCase());
+
+            return this;
+        };
+
         //
         // Call API to request an edit view
         //
@@ -69692,14 +69919,30 @@ $(document).ready(function() {
                 isLoadingEdit();
                 selectBlock(id);
 
-                console.debug(id, Routing.generate('opifer_content_pagemanager_edit_block', {'id': id}));
-                $.get(Routing.generate('opifer_content_pagemanager_edit_block', {id: id})).success(function (data) {
+                console.debug(id, Routing.generate('opifer_content_contenteditor_edit_block', {'id': id, rootVersion: version}));
+                $.get(Routing.generate('opifer_content_contenteditor_edit_block', {id: id, rootVersion: version})).success(function (data) {
                     $('#pm-block-edit').html(data);
+                    updateVersionPicker();
 
                     // Bootstrap AngularJS app (media library etc) after altering DOM
                     angular.bootstrap($('#pm-block-edit form'), ["MainApp"]);
+                }).fail(function(data){
+                    showAPIError(data);
                 });
             }
+
+            $('#pm-block-edit').removeClass('hidden');
+
+            return this;
+        };
+
+        var editProperties = function (url) {
+            $('#pm-block-edit').attr('data-pm-block-id', '');
+            isLoadingEdit();
+
+            $.get(url).success(function (data) {
+                $('#pm-block-edit').html(data);
+            });
 
             $('#pm-block-edit').removeClass('hidden');
 
@@ -69715,17 +69958,17 @@ $(document).ready(function() {
             $('#pm-block-edit').addClass('hidden');
         };
 
-
         // Delete block
         var deleteBlock = function (id) {
             $.ajax({
-                url: Routing.generate('opifer_content_api_pagemanager_remove_block', {id: id}),
+                url: Routing.generate('opifer_content_api_contenteditor_remove_block', {id: id, rootVersion: version}),
                 type: 'DELETE',
                 dataType: 'json', // Choosing a JSON datatype
                 success: function (data) {
                     getBlockElement(id).remove();
                     paintEmptyPlaceholders();
                     pagemanager.closeEditBlock(id);
+                    updateVersionPicker();
                 }
             }).error(function(data){
                 showAPIError(data);
@@ -69738,7 +69981,7 @@ $(document).ready(function() {
         var createBlock = function (block, reference) {
             console.log('Creating new block', pagemanager.ownerId, block);
 
-            $.post(Routing.generate('opifer_content_api_pagemanager_create_block', {ownerType: ownerType, ownerId: ownerId}), block).done(function (data, textStatus, request) {
+            $.post(Routing.generate('opifer_content_api_contenteditor_create_block', {ownerId: ownerId, rootVersion: version}), block).done(function (data, textStatus, request) {
                 var viewUrl = request.getResponseHeader('Location');
                 var id = data.id;
 
@@ -69750,16 +69993,27 @@ $(document).ready(function() {
                     editBlock(id);
                     sortables();
                     paintEmptyPlaceholders();
-                }).error(function(data){
+                    updateVersionPicker();
+                    showToolbars();
+                }).fail(function(data){
+                    reference.remove();
                     showAPIError(data);
                 });
-            });
+            }).fail(function(data){
+                reference.remove();
+                showAPIError(data);
+            });;
         };
 
+        var showToolbars = function() {
+            iFrame.contents().find('.pm-toolbar').removeClass('hidden');
+        }
+
         var showAPIError = function(data) {
+            var message = (typeof data.responseJSON === "undefined") ? data.responseText : data.responseJSON.error;
             bootbox.dialog({
                 title: data.statusText,
-                message: '<code>'+data.responseJSON.error+'</code>',
+                message: '<code>' + message + '</code>',
                 buttons: {
                     ok: {
                         label: 'Ok',
@@ -69769,11 +70023,42 @@ $(document).ready(function() {
             });
         };
 
-
         var onClientReady = function () {
-            $('.pm-placeholder', $('#pm-iframe').contents()).on('mousemove mouseup', function (event) {
+            sortables();
+
+            link = document.createElement('link');
+            link.type = "text/css";
+            link.rel = "stylesheet";
+            link.href = '/bundles/opifercms/css/pagemanager-client.css';
+            link.onload = function() {
+                showToolbars();
+            };
+
+            iFrame.contents().find('body').append(link);
+
+            $('.pm-placeholder', iFrame.contents()).on('mousemove mouseup', function (event) {
                 $(parent.document).trigger(event);
             });
+
+            iFrame.contents().find('body').on('click', '.pm-block .btn-edit', function(e) {
+                e.preventDefault();
+                var id = $(this).closest('.pm-block').attr('data-pm-block-id');
+                editBlock(id);
+            });
+
+            // Delete block (click)
+            iFrame.contents().find('body').on('click', '.pm-block .btn-delete', function(e) {
+                e.preventDefault();
+                var id = $(this).closest('.pm-block').attr('data-pm-block-id');
+                deleteBlock(id);
+            });
+
+
+            iFrame.contents().find('.pm-block').mouseover(function() {
+                iFrame.contents().find('.pm-block').removeClass('hovered');
+                $(this).addClass('hovered');
+            });
+
             $('.pm-block-item').draggable({
                 appendTo: '#pm-list-group-container',
                 helper: 'clone',
@@ -69787,27 +70072,36 @@ $(document).ready(function() {
                     //$('.pm-preview').addClass('pm-dragging');
                 },
                 stop: function () {
+                    $(document).scrollTop(0); // Fix for dissappearing .navbar.
                     //$('.pm-preview').removeClass('pm-dragging');
                     //$('.pm-layout').removeClass('pm-layout-accept'); // cleaning up just to be sure
+                },
+                drag: function (event, ui) {
+                    //ui.position.top += 200;
+                    //console.log(ui.offset.top, ui.offset.left, ui);
                 }
             });
 
-            isNotLoading();
-        };
+            //$('.pm-block-item').on('dragstop',autoResizeFrame);
+            console.log('Server: client reports ready.');
+            setViewMode(VIEWMODE_CONTENT);
 
-        var setDragFloat = function(floatValue) {
-            dragFloatValue = floatValue;
+            if (version <= versionPublished) {
+                lockEditing();
+            }
+
+            isNotLoading();
         };
 
         //
         // Create a block by dropping in a placeholder
         //
         var sortables = function () {
-            return $('#pm-iframe').contents().find('.pm-placeholder').sortable({
+            return iFrame.contents().find('.pm-placeholder').sortable({
                 handle: '.pm-toolbar',
                 revert: false,
                 distance: 10,
-                connectWith: $('#pm-iframe').contents().find('.pm-placeholder'),
+                connectWith: iFrame.contents().find('.pm-placeholder'),
                 //greedy: true,
                 iframeFix: true,
                 placeholder: 'pm-placeholder-droparea',
@@ -69833,7 +70127,7 @@ $(document).ready(function() {
                 over: function (event, ui) {
                     //if ($.ui.ddmanager.current)
                     //    $.ui.ddmanager.prepareOffsets($.ui.ddmanager.current, null);
-                    $('#pm-iframe').contents().find('.pm-block, .pm-placeholder').removeClass('pm-accept');
+                    iFrame.contents().find('.pm-block, .pm-placeholder').removeClass('pm-accept');
                     $(this).addClass('pm-accept').closest('.pm-layout').addClass('pm-accept');
 
                     var layoutId = $(this).addClass('pm-accept').closest('.pm-layout').attr('data-pm-block-id');
@@ -69842,21 +70136,17 @@ $(document).ready(function() {
                 out: function (event, ui) {
                     //if ($.ui.ddmanager.current)
                     //    $.ui.ddmanager.prepareOffsets($.ui.ddmanager.current, null);
-                    $('#pm-iframe').contents().find('.pm-block, .pm-placeholder').removeClass('pm-accept');
+                    iFrame.contents().find('.pm-block, .pm-placeholder').removeClass('pm-accept');
                 },
                 start: function (event, ui) {
-                    if (dragFloatValue) {
-                        //$(ui.placeholder).css('position', 'relative').css('float', dragFloatValue).css('width', $(ui.item).width()).css('height', $(ui.item).height());
-                    }
-
                     $(this).addClass('pm-accept').closest('.pm-layout').addClass('pm-accept');
-                    $('#pm-iframe').contents().find('.pm-preview').addClass('pm-dragging');
+                    iFrame.contents().find('.pm-preview').addClass('pm-dragging');
                 },
                 stop: function (event, ui) {
                     $(document).scrollTop(0); // Fix for dissappearing .navbar.
                     console.log('Stopped sorting:', ui.placeholder);
-                    $('#pm-iframe').contents().find('.pm-preview').removeClass('pm-dragging');
-                    $('#pm-iframe').contents().find('.pm-block, .pm-placeholder').removeClass('pm-accept');
+                    iFrame.contents().find('.pm-preview').removeClass('pm-dragging');
+                    iFrame.contents().find('.pm-block, .pm-placeholder').removeClass('pm-accept');
                     paintEmptyPlaceholders();
 
                     if (!$(ui.item).hasClass('pm-block-item')) {
@@ -69867,8 +70157,9 @@ $(document).ready(function() {
                         var placeholderKey = $(ui.item).closest('.pm-placeholder').attr('data-pm-placeholder-key');
                         console.log('Posting re-sort of items to backend service', sortOrder, blockId, parentId, placeholderKey);
 
-                        $.post(Routing.generate('opifer_content_api_pagemanager_move_block'), {sort: sortOrder, id: blockId, parent: parentId, placeholder: placeholderKey}).done(function (data, textStatus, request) {
-                            console.log("Block moved", data);
+                        $.post(Routing.generate('opifer_content_api_contenteditor_move_block'), {sort: sortOrder, id: blockId, rootVersion: version, parent: parentId, placeholder: placeholderKey}).done(function (data, textStatus, request) {
+                            //console.log("Block moved", data);
+                            updateVersionPicker();
                         }).error(function(data){
                             showAPIError(data);
                         });
@@ -69882,7 +70173,7 @@ $(document).ready(function() {
 
         // Find placeholders for this layout specifically.
         var highlightPlaceholders = function(layoutId) {
-            $('#pm-iframe').contents().find('.pm-placeholder').removeClass('highlight');
+            iFrame.contents().find('.pm-placeholder').removeClass('highlight');
             $(this).find('.pm-placeholder').each(function(index) {
                 if ($(this).closest('.pm-layout').attr('data-pm-block-id') == layoutId) {
                     $(this).addClass('highlight');
@@ -69912,6 +70203,72 @@ $(document).ready(function() {
             });
         };
 
+
+        var discardChanges = function() {
+            bootbox.dialog({
+                title: 'Discard changes',
+                message: '<p>Are you sure you want to discard all changes of version ' + version + '?</p>',
+                buttons: {
+                    cancel: {
+                        label: "Cancel",
+                        className: "btn-default"
+                    },
+                    ok: {
+                        label: 'Discard',
+                        className: 'btn-danger',
+                        callback: function() {
+                            $.post(Routing.generate('opifer_content_api_contenteditor_discard'), {id: ownerId, version: version}).done(function (data, textStatus, request) {
+                                updateVersionPicker();
+                                bootbox.alert("Discarded.", function() {});
+                            }).error(function(data){
+                                showAPIError(data);
+                            });
+                        }
+                    }
+                }
+            });
+        };
+
+        var publish = function() {
+            bootbox.dialog({
+                title: 'Confirm publication of content',
+                message: '<p>Are you sure you want to put this version live?</p> <div class="well">'+ $('#pm-version-picker a[data-pm-version='+version+']').html()+'</div>',
+                buttons: {
+                    cancel: {
+                        label: "Cancel",
+                        className: "btn-default"
+                    },
+                    ok: {
+                        label: 'Publish',
+                        className: 'btn-primary',
+                        callback: function() {
+                            versionPublished = version;
+                            $.post(Routing.generate('opifer_content_api_contenteditor_publish'), {id: ownerId, version: version}).done(function (data, textStatus, request) {
+                                updateVersionPicker();
+                                bootbox.alert("Published.", function() {});
+                            }).error(function(data){
+                                showAPIError(data);
+                            });
+                        }
+                    }
+                }
+            });
+        };
+
+        var updateVersionPicker = function() {
+            $.get(Routing.generate('opifer_content_contenteditor_version_picker', {id: ownerId, current: version, published: versionPublished})).done(function(data){
+                $('#pm-version-picker').replaceWith(data);
+            });
+        }
+
+        var loadVersion = function(versionToLoad) {
+            isLoading();
+            version = versionToLoad;
+            iFrame.attr('src', Routing.generate('opifer_content_contenteditor_view', {id: ownerId, version: versionToLoad}));
+            updateVersionPicker();
+            version <= versionPublished ? lockEditing() : unlockEditing();
+        };
+
         return {
             onReady: onReady,
             isLoading: isLoading,
@@ -69927,7 +70284,6 @@ $(document).ready(function() {
             closeEditBlock: closeEditBlock,
             destroySortables: destroySortables,
             postBlockForm: postBlockForm,
-            setDragFloat: setDragFloat,
             onClientReady: onClientReady
         };
     })();
@@ -70314,11 +70670,11 @@ angular.module('OpiferContent', ['angular-inview'])
                 };
 
                 $scope.editContent = function (id) {
-                    window.location = Routing.generate('opifer_content_content_edit', {'id': id, 'directoryId': $scope.directoryId});
+                    window.location = Routing.generate('opifer_content_content_edit', {'id': id});
                 };
 
                 $scope.editUrl = function (id) {
-                    return Routing.generate('opifer_content_content_edit', {'id': id, 'directoryId': $scope.directoryId});
+                    return Routing.generate('opifer_content_content_edit', {'id': id});
                 };
 
                 $scope.copyContent = function (id) {

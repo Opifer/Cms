@@ -4,6 +4,11 @@ namespace Opifer\CmsBundle\Controller\Front;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
+/**
+ * Class PageController
+ *
+ * @package Opifer\CmsBundle\Controller\Front
+ */
 class PageController extends Controller
 {
     /**
@@ -29,9 +34,6 @@ class PageController extends Controller
             return $service->execute($block);
         }
 
-        /**
-         * @todo fix this path
-         */
         return $this->render('OpiferSiteBundle:Layout:page.html.twig');
     }
 }

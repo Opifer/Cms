@@ -201,7 +201,6 @@ button:
     delete: verwijderen
     edit: bewerken
     publish: Publiceren
-    discard_changes: Wis wijzigingen
 
 # Links
 link:
