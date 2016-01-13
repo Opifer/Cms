@@ -9,28 +9,17 @@ use Opifer\EavBundle\Model\EntityInterface;
 use Opifer\EavBundle\Model\ValueSetInterface;
 use Opifer\EavBundle\Model\SchemaInterface;
 use Opifer\CrudBundle\Annotation\Form;
+use Opifer\EavBundle\Model\TemplateInterface;
+use Opifer\FormBundle\Model\Post as BasePost;
 
 /**
- * Post entity
- *
  * @ORM\Entity()
  * @ORM\Table(name="post")
  * @JMS\ExclusionPolicy("all")
  * @Gedmo\SoftDeleteable(fieldName="deletedAt", timeAware=false)
  */
-class Post implements EntityInterface
+class Post extends BasePost implements EntityInterface
 {
-    /**
-     * @var integer
-     *
-     * @JMS\Expose
-     * @ORM\Id
-     * @ORM\Column(name="id", type="integer")
-     * @ORM\GeneratedValue(strategy="AUTO")
-     * @Form(editable=true)
-     */
-    protected $id;
-
     /**
      * @var ValueSetInterface
      *

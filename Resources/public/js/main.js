@@ -145,6 +145,8 @@ $(document).ready(function() {
         $(window).resize(adjustModalMaxHeightAndPosition).trigger("resize");
     }
 
+    adjustCkeditorConfig();
+
     $('body').on('click', 'div[data-ckeditor]', function(e){
         history.pushState("", document.title, window.location.pathname);
         e.preventDefault();
@@ -158,6 +160,8 @@ $(document).ready(function() {
             filebrowserBrowseUrl: browsePath,
             filebrowserImageBrowseUrl: browsePathImages
         });
+        CKEDITOR.dtd.$removeEmpty['i'] = false;
+        CKEDITOR.dtd.$removeEmpty['span'] = false;
         $(this).hide();
 
         return false;
@@ -204,3 +208,9 @@ $(document).ready(function() {
     }
 
 }( jQuery ));
+
+function adjustCkeditorConfig() {
+    CKEDITOR.dtd.$removeEmpty['i'] = 0;
+    CKEDITOR.dtd.$removeEmpty['span'] = 0;
+    CKEDITOR.config.allowedContent = true;
+}

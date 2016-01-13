@@ -37,6 +37,26 @@ class AppKernel extends Kernel
 
 ```
 
+Add the assets installer to your composers's post-install & post-update commands, before the `installAssets` command
+of the `DistributionBundle`:
+
+```json
+...
+"scripts": {
+    "post-install-cmd": [
+        ...
+        "Opifer\\CmsBundle\\Composer\\ScriptHandler::installAssets",
+        "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::installAssets",
+    ],
+    "post-update-cmd": [
+        ...
+        "Opifer\\CmsBundle\\Composer\\ScriptHandler::installAssets",
+        "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::installAssets",
+    ]
+},
+...
+```
+
 To avoid defining all configuration yourself, import the config files from the CmsBundle:
 
 ```yaml

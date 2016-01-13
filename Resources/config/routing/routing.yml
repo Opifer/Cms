@@ -22,9 +22,8 @@ _bazinga_jstranslation:
 
 # Opifer bundle routing
 
-opifer_eav:
-    resource: "@OpiferEavBundle/Resources/config/routing.yml"
-    prefix:   /admin
+opifer_form:
+    resource: "@OpiferFormBundle/Resources/config/routing.yml"
 
 opifer_eav_form_submit:
     pattern: /eav/form/submit/{valueId}
@@ -38,18 +37,7 @@ opifer_rules_engine:
     resource: "@OpiferRulesEngineBundle/Resources/config/routing.yml"
     prefix:   /
 
-opifer_redirect:
-    resource: "@OpiferContentBundle/Resources/config/routing.yml"
-    prefix: /admin/redirects
-
 # API routes
-opifer_content:
-    resource: "@OpiferContentBundle/Resources/config/routing.yml"
-    prefix:   /admin
-
-opifer_media:
-    resource: "@OpiferMediaBundle/Resources/config/routing.yml"
-    prefix:   /admin
 
 opifer_cms_home:
     pattern:  /

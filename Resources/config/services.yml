@@ -1,11 +1,14 @@
 parameters:
     opifer.cms.acl_manager.class: Opifer\CmsBundle\Security\AclManager
     opifer.cms.address_value_provider.class: Opifer\CmsBundle\ValueProvider\AddressValueProvider
+    opifer.cms.attachment_listener.class: Opifer\CmsBundle\EventListener\AttachmentListener
+    opifer.cms.attachment_value_provider.class: Opifer\CmsBundle\ValueProvider\AttachmentValueProvider
     opifer.cms.content_menu.class: Opifer\CmsBundle\Menu\ContentMenu
     opifer.cms.exception_router.class: Opifer\CmsBundle\Router\ExceptionRouter
+    opifer.cms.form_value_provider.class: Opifer\CmsBundle\ValueProvider\FormValueProvider
     opifer.cms.form.attribute_parameters.class: Opifer\CmsBundle\Form\Type\AttributeParametersType
     opifer.cms.form.ckeditor_type.class: Opifer\CmsBundle\Form\Type\CKEditorType
-    opifer.cms.form.content.class: Opifer\CmsBundle\Form\ContentFormType
+    opifer.cms.form.content.class: Opifer\CmsBundle\Form\Type\ContentFormType
     opifer.cms.form.content_init_form.class: Opifer\CmsBundle\Form\Type\ContentInitFormType
     opifer.cms.form.directory_form.class: Opifer\CmsBundle\Form\Type\DirectoryFormType
     opifer.cms.form.google_address.class: Opifer\CmsBundle\Form\Type\GoogleAddressType
@@ -13,7 +16,6 @@ parameters:
     opifer.cms.form.menu_group.class: Opifer\CmsBundle\Form\Type\MenuGroupType
     opifer.cms.form.menu_parameters.class: Opifer\CmsBundle\Form\Type\MenuParametersType
     opifer.cms.html_value_provider.class: Opifer\CmsBundle\ValueProvider\HtmlValueProvider
-    opifer.cms.listener.post_notify_listener.class: Opifer\CmsBundle\EventListener\PostNotifyListener
     opifer.cms.menu_group.class: Opifer\CmsBundle\Entity\MenuGroup
     opifer.cms.menu_group_value_provider.class: Opifer\CmsBundle\ValueProvider\MenuGroupValueProvider
     opifer.cms.menu_manager.class: Opifer\CmsBundle\Manager\MenuManager
@@ -33,6 +35,12 @@ services:
 #        arguments: [%opifer_cms.classes%]
 #        tags:
 #            - { name: doctrine.event_subscriber }
+
+    # Authenticators
+
+    opifer.cms.captcha_authenticator:
+        class: Opifer\CmsBundle\Security\CaptchaAuthenticator
+        arguments: [@request_stack, @security.password_encoder, %opifer_cms.google_captcha_secret%, %opifer_cms.google_captcha_site_key%]
 
     # Twig Extensions
 
@@ -113,6 +121,12 @@ services:
         tags:
             - { name: form.type, alias: opifer_autocomplete }
 
+    opifer.cms.redirect_type:
+        class: Opifer\CmsBundle\Form\Type\RedirectType
+        decorates: opifer.redirect.redirect_type
+        tags:
+            - { name: form.type, alias: opifer_redirect }
+
     # Entity Managers
 
     opifer.cms.content_manager:
@@ -127,12 +141,11 @@ services:
 
     # Event Listeners
 
-    opifer.cms.listener.post_notify_listener:
-        class: %opifer.cms.listener.post_notify_listener.class%
-        arguments: ["@service_container"]
+    opifer.cms.attachment_listener:
+        class: %opifer.cms.attachment_listener.class%
+        arguments: [@doctrine.orm.default_entity_manager, @opifer.media.media_manager]
         tags:
-            - { name: doctrine.event_listener, event: onFlush }
-            - { name: doctrine.event_listener, event: postFlush }
+            - { name: kernel.event_subscriber }
 
     opifer.cms.sitemap_listener:
         class: %opifer.cms.sitemap_listener.class%
@@ -168,6 +181,11 @@ services:
 
     # Value providers
 
+    opifer.eav.attachment_value_provider:
+        class: %opifer.cms.attachment_value_provider.class%
+        tags:
+            - { name: opifer.eav.value_provider, alias: attachment }
+
     opifer.cms.address_value_provider:
         class: %opifer.cms.address_value_provider.class%
         tags:
@@ -178,6 +196,12 @@ services:
         arguments: [%opifer.cms.menu_group.class%]
         tags:
             - { name: opifer.eav.value_provider, alias: menu_group }
+
+    opifer.cms.form_value_provider:
+         class: %opifer.cms.form_value_provider.class%
+         arguments: [%opifer_form.form_class%]
+         tags:
+             - { name: opifer.eav.value_provider, alias: form }
 
     opifer.cms.html_value_provider:
         class: %opifer.cms.html_value_provider.class%

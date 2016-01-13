@@ -2,6 +2,8 @@
 
 namespace Opifer\CmsBundle\Twig\Extension;
 
+use Opifer\CmsBundle\Entity\AttachmentValue;
+use Opifer\EavBundle\Entity\Value;
 use Symfony\Component\Form\FormView;
 use Symfony\Bridge\Twig\Form\TwigRendererInterface;
 
@@ -17,6 +19,16 @@ class FormExtension extends \Twig_Extension
     public function __construct(TwigRendererInterface $renderer)
     {
         $this->renderer = $renderer;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getTests ()
+    {
+        return [
+            new \Twig_SimpleTest('attachment', function (Value $value) { return $value instanceof AttachmentValue; }),
+        ];
     }
 
     /**

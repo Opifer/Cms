@@ -4,11 +4,8 @@ namespace Opifer\CmsBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
-use Gedmo\Translatable\Translatable;
 use JMS\Serializer\Annotation as JMS;
 use Symfony\Component\Validator\Constraints as Assert;
-use Opifer\EavBundle\Entity\Value;
-use Opifer\EavBundle\Entity\NestedValue;
 use Opifer\ContentBundle\Model\Content as BaseContent;
 
 /**
@@ -17,9 +14,31 @@ use Opifer\ContentBundle\Model\Content as BaseContent;
  * @ORM\MappedSuperclass(repositoryClass="Opifer\CmsBundle\Repository\ContentRepository")
  * @ORM\Table(name="content")
  * @Gedmo\TranslationEntity(class="Opifer\CmsBundle\Entity\Translation\ContentTranslation")
+ * @JMS\ExclusionPolicy("all")
  */
 class Content extends BaseContent
 {
+    /**
+     * @var integer
+     *
+     * @ORM\Id
+     * @ORM\Column(name="id", type="integer")
+     * @ORM\GeneratedValue(strategy="AUTO")
+     *
+     * @JMS\Expose
+     * @JMS\Groups({"detail", "list"})
+     */
+    protected $id;
+
+    /**
+     * @var boolean
+     *
+     * @JMS\Expose
+     * @JMS\Groups({"detail", "list"})
+     * @ORM\Column(name="active", type="boolean")
+     */
+    protected $active = true;
+
     /**
      * @var  integer
      *
@@ -67,6 +86,30 @@ class Content extends BaseContent
      * @ORM\JoinColumn(name="site_id", referencedColumnName="id")
      */
     protected $site;
+
+    /**
+     * Created at
+     *
+     * @var \DateTime
+     *
+     * @JMS\Expose
+     * @JMS\Groups({"detail", "list"})
+     * @Gedmo\Timestampable(on="create")
+     * @ORM\Column(name="created_at", type="datetime")
+     */
+    protected $createdAt;
+
+    /**
+     * Updated at
+     *
+     * @var \DateTime
+     *
+     * @JMS\Expose
+     * @JMS\Groups({"detail", "list"})
+     * @Gedmo\Timestampable(on="update")
+     * @ORM\Column(name="updated_at", type="datetime")
+     */
+    protected $updatedAt;
 
     /**
      * @Gedmo\Locale

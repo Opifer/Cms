@@ -29,7 +29,7 @@ class OpiferCmsExtension extends Extension implements PrependExtensionInterface
     }
 
     /**
-     * @inheritdoc
+     * {@inheritDoc}
      */
     public function prepend(ContainerBuilder $container)
     {
@@ -47,7 +47,8 @@ class OpiferCmsExtension extends Extension implements PrependExtensionInterface
     /**
      * Simplifying parameter syntax
      *
-     * @param  array $config
+     * @param array $config
+     *
      * @return array
      */
     private function getParameters($config)
@@ -56,14 +57,15 @@ class OpiferCmsExtension extends Extension implements PrependExtensionInterface
             'opifer_cms.autocomplete' => $config['autocomplete'],
             'opifer_cms.pagination.limit' => $config['pagination']['limit'],
             'opifer_cms.allowed_locales' => $config['allowed_locales'],
-            'opifer_cms.classes' => $config['classes']
+            'opifer_cms.google_captcha_site_key' => $config['google_captcha_site_key'],
+            'opifer_cms.google_captcha_secret' => $config['google_captcha_secret'],
         ];
     }
 
     /**
      * Remap class parameters.
      *
-     * @param array $classes
+     * @param array            $classes
      * @param ContainerBuilder $container
      */
     private function mapClassParameters(array $classes, ContainerBuilder $container)
