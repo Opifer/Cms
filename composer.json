@@ -36,7 +36,6 @@
         "friendsofsymfony/user-bundle": "~2.0@dev",
         "gedmo/doctrine-extensions": "~2.3",
         "google/recaptcha": "~1.1",
-        "hwi/oauth-bundle": "~0.3",
         "infinite-networks/form-bundle": "~1.0",
         "knplabs/knp-menu-bundle":"~2.0",
         "mtdowling/cron-expression": "1.0.*",
