@@ -63,18 +63,18 @@ To avoid defining all configuration yourself, import the config files from the C
 # app/config/config.yml
 imports:
     - { resource: parameters.yml }
-    - { resource: @OpiferCmsBundle/Resources/config/security.yml }
-    - { resource: @OpiferCmsBundle/Resources/config/config.yml }
+    - { resource: '@OpiferCmsBundle/Resources/config/security.yml' }
+    - { resource: '@OpiferCmsBundle/Resources/config/config.yml' }
 
 # app/config/config_dev/yml
 imports:
     - { resource: config.yml }
-    - { resource: @OpiferCmsBundle/Resources/config/config_dev.yml }
+    - { resource: '@OpiferCmsBundle/Resources/config/config_dev.yml' }
 
 # app/config/config_prod.yml
 imports:
     - { resource: config.yml }
-    - { resource: @OpiferCmsBundle/Resources/config/config_prod.yml }
+    - { resource: '@OpiferCmsBundle/Resources/config/config_prod.yml' }
 
 ```
 
@@ -83,7 +83,7 @@ Same goes for the routing:
 ```yaml
 # app/config/routing.yml
 opifer_cms:
-    resource: "@OpiferCmsBundle/Resources/config/routing/routing.yml"
+    resource: '@OpiferCmsBundle/Resources/config/routing/routing.yml'
 
 ```
 
