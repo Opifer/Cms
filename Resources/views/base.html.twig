@@ -20,7 +20,7 @@
                     <div class="container-fluid">
                         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                             <ul class="nav navbar-nav">
-                                <li><a href="{{ path('opifer.cms.dashboard.view') }}"><i class="fa fa-rocket"></i></a></li>
+                                <li><a href="{{ path('opifer_cms_dashboard') }}"><i class="fa fa-rocket"></i></a></li>
                                 <li><a href="{{ path('opifer_content_content_index') }}">{{ "nav.content"|trans|capitalize }}</a></li>
                                 <li><a href="{{ path('opifer_media_media_index') }}"><i class="fa fa-photo visible-xs-block"></i> {{ "nav.media"|trans|capitalize }}</a></li>
                                 <li><a href="{{ path('opifer_content_directory_index') }}"><i class="fa fa-folder-o visible-xs-block"></i> {{ "nav.directory"|trans|capitalize }}</a></li>
@@ -29,16 +29,6 @@
                             </ul>
 
                             <ul class="nav navbar-nav navbar-right">
-                                {# quick add menu #}
-                                {#<li class="dropdown">
-                                    <a class="dropdown-toggle" data-toggle="dropdown"><span class="fa fa-plus"></span> <b class="caret"></b></a>
-                                    <ul class="dropdown-menu">
-                                        <li role="presentation" class="dropdown-header">{{ 'new'|trans|capitalize }}</li>
-                                        <li><a href="{{ path('opifer_cms_content_new') }}">{{ 'base.content'|trans|capitalize }}</a></li>
-                                        <li><a href="{{ path('opifer.crud.new', {'slug': 'schemas'}) }}">{{ 'base.schemas'|trans|capitalize }}</a></li>
-                                    </ul>
-                                </li>#}
-
                                 {# User menu #}
                                 <li class="dropdown">
                                     <a class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-smile-o visible-xs-block"></i> {{ app.user.username|capitalize }} <i class="fa fa-angle-down"></i></a>
@@ -55,15 +45,15 @@
                                         <a class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-hdd-o visible-xs-block"></i> {{ 'base.system'|trans|capitalize }} <i class="fa fa-angle-down"></i></a>
                                         <ul class="dropdown-menu">
                                             <li role="presentation" class="dropdown-header">{{ 'base.system'|trans|capitalize }}</li>
-                                            <li><a href="{{ path('opifer.crud.index', {'slug': 'settings'}) }}">{{ 'base.settings'|trans|capitalize }}</a></li>
-                                            <li><a href="{{ path('opifer.crud.index', {'slug': 'cronjobs'}) }}">{{ 'base.cronjobs'|trans|capitalize }}</a></li>
-                                            <li><a href="{{ path('opifer.crud.index', {'slug': 'users'}) }}">{{ 'base.users'|trans|capitalize }}</a></li>
+                                            <li><a href="{{ path('opifer_cms_setting_index') }}">{{ 'base.settings'|trans|capitalize }}</a></li>
+                                            <li><a href="{{ path('opifer_cms_cronjob_index') }}">{{ 'base.cronjobs'|trans|capitalize }}</a></li>
+                                            <li><a href="{{ path('opifer_cms_user_index') }}">{{ 'base.users'|trans|capitalize }}</a></li>
                                             <li><a href="{{ path('opifer_redirect_redirect_index') }}">{{ 'base.redirects'|trans|capitalize }}</a></li>
                                             <li class="divider"></li>
                                             <li role="presentation" class="dropdown-header">{{ 'base.content'|trans|capitalize }}</li>
-                                            <li><a href="{{ path('opifer.crud.index', {'slug': 'schemas'}) }}">{{ 'base.schemas'|trans|capitalize }}</a></li>
-                                            <li><a href="{{ path('opifer_content_template_index') }}">{{ 'base.templates'|trans|capitalize }}</a></li>
-                                            <li><a href="{{ path('opifer.crud.index', {'slug': 'sites'}) }}">{{ 'base.sites'|trans|capitalize }}</a></li>
+                                            <li><a href="{{ path('opifer_cms_template_index') }}">{{ 'base.templates'|trans|capitalize }}</a></li>
+                                            <li><a href="{{ path('opifer_cms_layout_index') }}">{{ 'base.layouts'|trans|capitalize }}</a></li>
+                                            {#<li><a href="{{ path('opifer_cms_site_index') }}">{{ 'base.sites'|trans|capitalize }}</a></li>#}
                                         </ul>
                                     </li>
                                 {% endif %}

@@ -1,0 +1,14 @@
+{% extends 'OpiferCmsBundle:Backend:base.html.twig' %}
+
+{% block body %}
+    <div class="page-header clearfix">
+        <h1 class="pull-left">Users</h1>
+        <a href="{{ path('opifer_cms_user_new') }}" class="btn btn-default pull-right">
+            new user
+        </a>
+    </div>
+
+    <section class="panel-section">
+        {{ grid(grid, 'OpiferCmsBundle:Backend/Grid:grid.html.twig') }}
+    </section>
+{% endblock body %}

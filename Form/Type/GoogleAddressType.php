@@ -10,7 +10,7 @@ use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\Validator\Constraints\Regex;
 
 /**
- * Google address form type
+ * Google address form type.
  *
  * @author  Rick van Laarhoven <r.vanlaarhoven@opifer.nl>
  */
@@ -22,7 +22,7 @@ class GoogleAddressType extends AbstractType
     protected $translator;
 
     /**
-     * Constructor
+     * Constructor.
      *
      * @param TranslatorInterface $translator
      */
@@ -32,7 +32,7 @@ class GoogleAddressType extends AbstractType
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      *
      * The error_bubbling is set to false so we can render the hidden field errors ourselves
      */
@@ -41,46 +41,46 @@ class GoogleAddressType extends AbstractType
         $builder
             ->add('street', 'hidden', [
                 'error_bubbling' => false,
-                'constraints'    => [
+                'constraints' => [
                     new NotBlank(['message' => $this->translator->trans('form.google_address.street.not_blank')]),
                     new Regex(['pattern' => '/(\d+)/', 'message' => $this->translator->trans('form.google_address.street.no_digit')]),
-                ]
+                ],
             ])
             ->add('zipcode', 'hidden', [
                 'error_bubbling' => false,
-                'constraints'    => [
+                'constraints' => [
                     new NotBlank(['message' => $this->translator->trans('form.google_address.zipcode.not_blank')]),
-                ]
+                ],
             ])
             ->add('city', 'hidden', [
                 'error_bubbling' => false,
-                'constraints'    => [
+                'constraints' => [
                     new NotBlank(['message' => $this->translator->trans('form.google_address.city.not_blank')]),
-                ]
+                ],
             ])
             ->add('country', 'hidden', [
                 'error_bubbling' => false,
-                'constraints'    => [
+                'constraints' => [
                     new NotBlank(['message' => $this->translator->trans('form.google_address.country.not_blank')]),
-                ]
+                ],
             ])
             ->add('lat', 'hidden', [
                 'error_bubbling' => false,
-                'constraints'    => [
+                'constraints' => [
                     new NotBlank(['message' => $this->translator->trans('form.google_address.lat.not_blank')]),
-                ]
+                ],
             ])
             ->add('lng', 'hidden', [
                 'error_bubbling' => false,
-                'constraints'    => [
+                'constraints' => [
                     new NotBlank(['message' => $this->translator->trans('form.google_address.lng.not_blank')]),
-                ]
+                ],
             ])
         ;
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
@@ -90,7 +90,7 @@ class GoogleAddressType extends AbstractType
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getName()
     {

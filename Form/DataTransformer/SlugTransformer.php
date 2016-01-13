@@ -9,13 +9,14 @@ class SlugTransformer implements DataTransformerInterface
     /**
      * Removes the directory path from the slug.
      *
-     * @param  string $slug
+     * @param string $slug
+     *
      * @return string
      */
     public function transform($slug)
     {
         if (null === $slug) {
-            return null;
+            return;
         }
 
         // If the slug ends with a slash, return just a slash
@@ -41,7 +42,7 @@ class SlugTransformer implements DataTransformerInterface
     public function reverseTransform($slug)
     {
         if (!$slug) {
-            return null;
+            return;
         }
 
         return $slug;

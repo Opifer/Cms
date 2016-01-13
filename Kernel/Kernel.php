@@ -8,13 +8,13 @@ use Symfony\Component\Config\Loader\LoaderInterface;
 abstract class Kernel extends BaseKernel
 {
     /**
-     * Register bundles
+     * Register bundles.
      *
      * @return array
      */
     public function registerBundles()
     {
-        $bundles = array(
+        $bundles = [
             // Symfony standard bundles
             new \Symfony\Bundle\FrameworkBundle\FrameworkBundle(),
             new \Symfony\Bundle\SecurityBundle\SecurityBundle(),
@@ -28,15 +28,13 @@ abstract class Kernel extends BaseKernel
             // Added vendor bundles
             new \Bazinga\Bundle\JsTranslationBundle\BazingaJsTranslationBundle(),
             new \Braincrafted\Bundle\BootstrapBundle\BraincraftedBootstrapBundle(),
-            new \Doctrine\Bundle\FixturesBundle\DoctrineFixturesBundle(),
             new \Doctrine\Bundle\MigrationsBundle\DoctrineMigrationsBundle(),
             new \FOS\JsRoutingBundle\FOSJsRoutingBundle(),
             new \FOS\UserBundle\FOSUserBundle(),
-            new \Genemu\Bundle\FormBundle\GenemuFormBundle(),
+            new \Infinite\FormBundle\InfiniteFormBundle(),
             new \JMS\SerializerBundle\JMSSerializerBundle($this),
             new \Knp\Bundle\GaufretteBundle\KnpGaufretteBundle(),
             new \Knp\Bundle\MenuBundle\KnpMenuBundle(),
-            new \Knp\Bundle\MarkdownBundle\KnpMarkdownBundle(),
             new \Liip\ImagineBundle\LiipImagineBundle(),
             new \Liuggio\ExcelBundle\LiuggioExcelBundle(),
             new \Presta\SitemapBundle\PrestaSitemapBundle(),
@@ -45,15 +43,13 @@ abstract class Kernel extends BaseKernel
             // Opifer bundles
             new \Opifer\CmsBundle\OpiferCmsBundle(),
             new \Opifer\ContentBundle\OpiferContentBundle(),
-            new \Opifer\CrudBundle\OpiferCrudBundle(),
             new \Opifer\EavBundle\OpiferEavBundle(),
             new \Opifer\FormBundle\OpiferFormBundle(),
             new \Opifer\MediaBundle\OpiferMediaBundle(),
             new \Opifer\RedirectBundle\OpiferRedirectBundle(),
-            new \Opifer\RulesEngineBundle\OpiferRulesEngineBundle(),
-        );
+        ];
 
-        if (in_array($this->getEnvironment(), array('dev', 'test'))) {
+        if (in_array($this->getEnvironment(), ['dev', 'test'])) {
             $bundles[] = new \Symfony\Bundle\DebugBundle\DebugBundle();
             $bundles[] = new \Symfony\Bundle\WebProfilerBundle\WebProfilerBundle();
             $bundles[] = new \Sensio\Bundle\DistributionBundle\SensioDistributionBundle();
@@ -64,11 +60,9 @@ abstract class Kernel extends BaseKernel
     }
 
     /**
-     * Register container config
+     * Register container config.
      *
      * @param \Symfony\Component\Config\Loader\LoaderInterface $loader
-     *
-     * @return void
      */
     public function registerContainerConfiguration(LoaderInterface $loader)
     {

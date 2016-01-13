@@ -5,7 +5,7 @@ namespace Opifer\CmsBundle\Menu;
 interface MenuInterface
 {
     /**
-     * Renders the current menu
+     * Renders the current menu.
      *
      * @return \Knp\Menu\MenuItem
      */

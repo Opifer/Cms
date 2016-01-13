@@ -6,11 +6,10 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation as JMS;
 use Symfony\Component\Validator\Constraints as Assert;
-use Opifer\CrudBundle\Annotation as CRUD;
 use Opifer\EavBundle\Model\Attribute as BaseAttribute;
 
 /**
- * Attribute
+ * Attribute.
  *
  * @ORM\Entity()
  * @ORM\Table(name="attribute")
@@ -22,8 +21,6 @@ class Attribute extends BaseAttribute
      * @var string
      *
      * @ORM\Column(name="value_type", type="string", length=128)
-     *
-     * @CRUD\Form(editable=true, type="value_provider")
      */
     protected $valueType;
 
@@ -31,8 +28,6 @@ class Attribute extends BaseAttribute
      * @var string
      *
      * @ORM\Column(name="display_name", type="string", length=255)
-     *
-     * @CRUD\Form(editable=true)
      * @Assert\NotBlank()
      */
     protected $displayName;
@@ -41,8 +36,6 @@ class Attribute extends BaseAttribute
      * @var string
      *
      * @ORM\Column(name="name", type="string", length=128)
-     *
-     * @CRUD\Form(editable=true, type="text")
      * @Assert\NotBlank()
      */
     protected $name;
@@ -51,18 +44,15 @@ class Attribute extends BaseAttribute
      * @var string
      *
      * @ORM\Column(name="description", type="string", length=1000, nullable=true)
-     *
-     * @CRUD\Form(editable=true)
      */
     protected $description;
 
     /**
-     * @var integer
+     * @var int
      *
      * @ORM\Column(name="sort", type="integer")
      *
      * @Assert\NotBlank()
-     * @CRUD\Form(editable=true)
      */
     protected $sort = 0;
 
@@ -70,8 +60,6 @@ class Attribute extends BaseAttribute
      * @var ArrayCollection
      *
      * @ORM\OneToMany(targetEntity="Option", mappedBy="attribute", cascade={"all"}, orphanRemoval=true)
-     *
-     * @CRUD\Form(editable=true)
      */
     protected $options;
 
@@ -91,9 +79,10 @@ class Attribute extends BaseAttribute
     protected $parameters;
 
     /**
-     * Set $parameters
+     * Set $parameters.
      *
-     * @param  array    $parameters
+     * @param array $parameters
+     *
      * @return MenuItem
      */
     public function setParameters($parameters)
@@ -104,7 +93,7 @@ class Attribute extends BaseAttribute
     }
 
     /**
-     * Get $parameters
+     * Get $parameters.
      *
      * @return array
      */

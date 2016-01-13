@@ -4,7 +4,7 @@ namespace Opifer\CmsBundle\Form\Type;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class UserFormType extends AbstractType
 {
@@ -15,7 +15,7 @@ class UserFormType extends AbstractType
     protected $userClass;
 
     /**
-     * Constructor
+     * Constructor.
      *
      * @param array  $roles
      * @param string $userClass
@@ -27,42 +27,42 @@ class UserFormType extends AbstractType
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
             ->add('username')
             ->add('email')
-            ->add('plainPassword', 'repeated', array(
+            ->add('plainPassword', 'repeated', [
                 'type' => 'password',
                 'first_options' => ['label' => 'form.password'],
                 'second_options' => ['label' => 'form.password_confirmation'],
                 'invalid_message' => 'fos_user.password.mismatch',
-            ))
+            ])
             ->add('enabled', 'choice', [
                 'choices' => [true => 'Enable', false => 'Disable'],
-                'data' => true
+                'data' => true,
             ])
             ->add('roles', 'choice', [
                 'multiple' => true,
-                'choices' => $this->flattenRoles($this->roles)
+                'choices' => $this->flattenRoles($this->roles),
             ])
-            ->add('save', 'submit');
+        ;
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
-    public function setDefaultOptions(OptionsResolverInterface $resolver)
+    public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults(array(
+        $resolver->setDefaults([
             'data_class' => $this->userClass,
-        ));
+        ]);
     }
 
     /**
-     * Flatten roles
+     * Flatten roles.
      *
      * @param array $data
      *
@@ -89,9 +89,19 @@ class UserFormType extends AbstractType
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
+     *
+     * @deprecated
      */
     public function getName()
+    {
+        return $this->getBlockPrefix();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getBlockPrefix()
     {
         return 'user_form';
     }

@@ -5,9 +5,7 @@ namespace Opifer\CmsBundle\Form\Type;
 use Symfony\Component\Form\AbstractType;
 
 /**
- * Class CKEditorType
- *
- * @package Opifer\EavBundle\Form\Type
+ * Class CKEditorType.
  */
 class CKEditorType extends AbstractType
 {

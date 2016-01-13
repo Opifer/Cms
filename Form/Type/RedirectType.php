@@ -18,10 +18,10 @@ class RedirectType extends BaseRedirectType
                 'allow_add' => true,
                 'allow_delete' => true,
                 'by_reference' => false,
-                'label' =>'opifer_redirect.form.requirements.label',
+                'label' => 'opifer_redirect.form.requirements.label',
                 'attr' => [
                     'help_text' => 'opifer_redirect.form.requirements.help_text',
-                ]
+                ],
             ])
         ;
     }

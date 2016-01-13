@@ -1,4 +1,5 @@
 <?php
+
 namespace Opifer\CmsBundle\EventListener;
 
 use Doctrine\Common\EventSubscriber;
@@ -6,7 +7,7 @@ use Doctrine\ORM\Event\LoadClassMetadataEventArgs;
 use Doctrine\ORM\Mapping\ClassMetadataInfo;
 
 /**
- * Table prefix subscriber
+ * Table prefix subscriber.
  *
  * Adds a prefix to the entity's table name
  */
@@ -15,7 +16,7 @@ class TablePrefixSubscriber implements EventSubscriber
     protected $prefix = '';
 
     /**
-     * Constructor
+     * Constructor.
      *
      * @param string $prefix
      */
@@ -25,7 +26,7 @@ class TablePrefixSubscriber implements EventSubscriber
     }
 
     /**
-     * Get subscribed events
+     * Get subscribed events.
      *
      * @return array
      */
@@ -35,18 +36,16 @@ class TablePrefixSubscriber implements EventSubscriber
     }
 
     /**
-     * Load class meta data event
+     * Load class meta data event.
      *
      * @param LoadClassMetadataEventArgs $args
-     *
-     * @return void
      */
     public function loadClassMetadata(LoadClassMetadataEventArgs $args)
     {
         $classMetadata = $args->getClassMetadata();
 
         // Only add the prefixes to Opifer entities.
-        if (FALSE !== strpos($classMetadata->namespace, 'Opifer')) {
+        if (false !== strpos($classMetadata->namespace, 'Opifer')) {
             // Do not re-apply the prefix when it's already prefixed
             if (false === strpos($classMetadata->getTableName(), $this->prefix)) {
                 $tableName = $this->prefix.$classMetadata->getTableName();

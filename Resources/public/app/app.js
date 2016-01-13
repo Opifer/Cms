@@ -9,8 +9,6 @@ angular.module('MainApp', [
     'mediaLibrary',
     'OpiferContent',
     'OpiferPresentationEditor',
-    'OpiferRulesEngine',
-    'OpiferRulesEngine',
     'OpiferNestedContent',
     'googleAddress',
     'ui.sortable',

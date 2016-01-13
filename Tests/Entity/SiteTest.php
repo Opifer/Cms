@@ -2,7 +2,6 @@
 
 namespace Opifer\CmsBundle\Tests\Entity;
 
-use bar\baz\source_with_namespace;
 use Opifer\CmsBundle\Entity\Site;
 
 class SiteTest extends \PHPUnit_Framework_TestCase
@@ -28,7 +27,7 @@ class SiteTest extends \PHPUnit_Framework_TestCase
         $site->setDescription($description);
         $actual = $site->getDescription();
 
-        $this->assertSame($expected,$actual);
+        $this->assertSame($expected, $actual);
     }
 
     public function testDomain()
@@ -66,5 +65,4 @@ class SiteTest extends \PHPUnit_Framework_TestCase
 
         $this->assertSame($expected, $actual);
     }
-
 }

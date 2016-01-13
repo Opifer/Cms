@@ -158,7 +158,7 @@ setting:
     index:
         title: settings
     edit:
-        success: 'Your settings have been saved! To make them public, you have to <a href="%url%">clear the cache</a>.'
+        success: 'Your settings have been saved!'
 
 # Sites
 site:

@@ -13,26 +13,26 @@ use Opifer\ContentBundle\Form\Type\ContentType as BaseContentType;
 class ContentType extends BaseContentType
 {
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
             ->add('indexable', 'checkbox', [
                 'label' => 'content.form.indexable.label',
-                'attr'  => [
+                'attr' => [
                     'align_with_widget' => true,
                     'class' => 'before-form-section',
-                    'help_text' => 'content.form.indexable.help_text'
-                ]
+                    'help_text' => 'content.form.indexable.help_text',
+                ],
             ])
             ->add('searchable', 'checkbox', [
                 'label' => 'content.form.searchable.label',
-                'attr'  => [
+                'attr' => [
                     'align_with_widget' => true,
                     'class' => 'before-form-section',
-                    'help_text' => 'content.form.searchable.help_text'
-                ]
+                    'help_text' => 'content.form.searchable.help_text',
+                ],
             ])
         ;
 

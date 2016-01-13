@@ -28,7 +28,7 @@ class SettingManager
 
     /**
      * This repository is defined as a service, so it can be used like:
-     * $container->get('opifer.cms.settings')->get('settingname')
+     * $container->get('opifer.cms.settings')->get('settingname').
      *
      * @param string $name The unique setting name
      *
@@ -68,7 +68,8 @@ class SettingManager
     }
 
     /**
-     * @param  array             $newSettings List of settings (as name => value) to update.
+     * @param array $newSettings List of settings (as name => value) to update.
+     *
      * @throws \RuntimeException If a setting is not defined.
      */
     public function setMultiple(array $newSettings)

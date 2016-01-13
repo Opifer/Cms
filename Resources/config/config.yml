@@ -1,6 +1,9 @@
 imports:
-    - { resource: parameters.yml }
     - { resource: doctrine_extensions.yml }
+
+parameters:
+    opifer.content.directory_type.class: Opifer\CmsBundle\Form\Type\DirectoryType
+    opifer.content.content_type.class: Opifer\CmsBundle\Form\Type\ContentType
 
 # CmsBundle config
 #
@@ -10,7 +13,7 @@ imports:
 framework:
     ide:    "phpstorm://open?file=%%f&line=%%1"
     #esi:             ~
-    translator:      { fallback: [%locale%, en] }
+    translator:      { fallback: [%opifer_cms.default_locale%, en] }
     secret:          %secret%
     router:
         resource:            "%kernel.root_dir%/config/routing.yml"
@@ -21,7 +24,7 @@ framework:
     templating:
         engines: ['twig']
         #assets_version: SomeVersionScheme
-    default_locale:  "%locale%"
+    default_locale:  %opifer_cms.default_locale%
     trusted_proxies: ~
     session:
         save_path:   null #%kernel.root_dir%/../var/sessions
@@ -52,8 +55,7 @@ braincrafted_bootstrap:
         bootstrap_output:   %kernel.root_dir%/Resources/less/bootstrap.less
         bootstrap_template: BraincraftedBootstrapBundle:Bootstrap:bootstrap.less.twig
 
-
-# Dynamic Routing
+# Routing
 cmf_routing:
     chain:
         routers_by_id:
@@ -63,21 +65,27 @@ cmf_routing:
             router.default: 200
             # Checks the database for content items and routes to them if they exist.
             opifer.content.content_router: 100
-            # Changes a registered crud route into an entity.
-            opifer.crud.crud_router: 80
             # Catch any routes and redirect them to a 404 page.
             opifer.cms.exception_router: 1
 
+fos_js_routing:
+    cache_control:
+        # All are optional, defaults shown
+        public: true   # can be true (public) or false (private)
+        maxage: 3600    # integer value, e.g. 300
+        smaxage: 3600   # integer value, e.g. 300
+        expires: "1 day"    # anything that can be fed to "new \DateTime($expires)", e.g. "5 minutes"
+        vary: []        # string or array, e.g. "Cookie" or [ Cookie, Accept ]
 
-# Doctrine Configuration
+# Doctrine
 doctrine:
     dbal:
-        driver:   %database_driver%
-        host:     %database_host%
-        port:     %database_port%
-        dbname:   %database_name%
-        user:     %database_user%
-        password: %database_password%
+        driver:   %opifer_cms.database_driver%
+        host:     %opifer_cms.database_host%
+        port:     ~
+        dbname:   %opifer_cms.database_name%
+        user:     %opifer_cms.database_user%
+        password: %opifer_cms.database_password%
         charset:  UTF8
         # if using pdo_sqlite as your database driver, add the path in parameters.yml
         # e.g. database_path: %kernel.root_dir%/data/data.db3
@@ -93,10 +101,7 @@ doctrine:
                 class:   Opifer\ContentBundle\Filter\DraftVersionFilter
                 enabled: true
         resolve_target_entities:
-            # Define the user class
-            FOS\UserBundle\Model\UserInterface: %opifer_cms.model.user.class%
-            Opifer\ContentBundle\Model\ContentInterface: Opifer\CmsBundle\Entity\Content
-            Opifer\ContentBundle\Model\BlockInterface: Opifer\ContentBundle\Entity\Block
+            FOS\UserBundle\Model\UserInterface: %opifer_cms.user_model%
         mappings:
             translatable:
                 type:   annotation
@@ -118,15 +123,14 @@ doctrine:
 doctrine_migrations:
     dir_name:   %kernel.root_dir%/../src/AppBundle/Migrations
     namespace:  AppBundle\Migrations
-    table_name: %database_table_prefix%migrations
+    table_name: %opifer_cms.database_table_prefix%migrations
     name:       Opifer Cms Migrations
-
 
 # Users
 fos_user:
     db_driver:       orm
     firewall_name:   main
-    user_class:      %opifer_cms.model.user.class%
+    user_class:      %opifer_cms.user_model%
     group:
         group_class: Opifer\CmsBundle\Entity\Group
     registration:
@@ -135,21 +139,6 @@ fos_user:
             type:              public_registration_form
             name:              public_registration
             validation_groups: []
-
-fos_js_routing:
-    cache_control:
-        # All are optional, defaults shown
-        public: true   # can be true (public) or false (private)
-        maxage: 3600    # integer value, e.g. 300
-        smaxage: 3600   # integer value, e.g. 300
-        expires: "1 day"    # anything that can be fed to "new \DateTime($expires)", e.g. "5 minutes"
-        vary: []        # string or array, e.g. "Cookie" or [ Cookie, Accept ]
-
-# Genemu form fields
-genemu_form:
-    date:    ~
-    select2: ~
-
 
 # Menus
 knp_menu:
@@ -174,7 +163,6 @@ swiftmailer:
     password:  %mailer_password%
     spool:     { type: memory }
 
-
 presta_sitemap:
     dumper_base_url: "http://%domain%/"
 
@@ -187,28 +175,10 @@ twig:
         resources:
             - 'OpiferEavBundle:Form:fields.html.twig'
             - 'OpiferMediaBundle:Form:fields.html.twig'
-            - 'OpiferRulesEngineBundle:Form:fields.html.twig'
             - 'OpiferContentBundle:Form:fields.html.twig'
-            - 'OpiferCrudBundle:Form:fields.html.twig'
             - 'OpiferCmsBundle:Form:fields.html.twig' # At the bottom to make sure form action are being set to '#' when empty
     globals:
         settings: @opifer.cms.settings
-
-# Crud config
-opifer_crud:
-    # Define a route prefix if necessary
-    route_prefix: /admin
-
-    # Note: Changing the key values will break the routes pointing to that key.
-    # Make sure to fix wherever you point to that route.
-    routes:
-        users: Opifer\CmsBundle\Entity\User
-        settings: Opifer\CmsBundle\Entity\Setting
-        cronjobs: Opifer\CmsBundle\Entity\Cron
-        schemas: Opifer\CmsBundle\Entity\Schema
-        layouts: Opifer\CmsBundle\Entity\Layout
-        templates: Opifer\CmsBundle\Entity\Template
-        sites: Opifer\CmsBundle\Entity\Site
 
 # Media
 opifer_media:
@@ -224,7 +194,6 @@ opifer_media:
             secret: %amazon_s3_secret%
             region: %amazon_s3_region%
             bucket: %amazon_s3_bucket%
-
 
 liip_imagine:
     filter_sets:
@@ -261,22 +230,26 @@ opifer_eav:
         post: Opifer\CmsBundle\Entity\Post
 
 opifer_form:
-    from_email: info@opifer.nl
+    from_email: "info@opifer.nl"
     form:
         class: Opifer\CmsBundle\Entity\Form
         views:
-            index: OpiferCmsBundle:Admin/Form:index.html.twig
-            create: OpiferCmsBundle:Admin/Form:create.html.twig
-            edit: OpiferCmsBundle:Admin/Form:edit.html.twig
+            index: OpiferCmsBundle:Backend/Form:index.html.twig
+            create: OpiferCmsBundle:Backend/Form:create.html.twig
+            edit: OpiferCmsBundle:Backend/Form:edit.html.twig
     post:
         class: Opifer\CmsBundle\Entity\Post
         views:
-            index: OpiferCmsBundle:Admin/Post:index.html.twig
-            view: OpiferCmsBundle:Admin/Post:view.html.twig
+            index: OpiferCmsBundle:Backend/Post:index.html.twig
+            view: OpiferCmsBundle:Backend/Post:view.html.twig
 
 opifer_redirect:
     redirect:
         class: Opifer\CmsBundle\Entity\Redirect
+        views:
+            index: OpiferCmsBundle:Backend/Redirect:index.html.twig
+            create: OpiferCmsBundle:Backend/Redirect:create.html.twig
+            edit: OpiferCmsBundle:Backend/Redirect:edit.html.twig
 
 opifer_cms:
     autocomplete:

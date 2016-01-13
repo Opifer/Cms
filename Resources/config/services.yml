@@ -1,18 +1,16 @@
 parameters:
-    opifer.cms.acl_manager.class: Opifer\CmsBundle\Security\AclManager
     opifer.cms.address_value_provider.class: Opifer\CmsBundle\ValueProvider\AddressValueProvider
     opifer.cms.attachment_listener.class: Opifer\CmsBundle\EventListener\AttachmentListener
     opifer.cms.attachment_value_provider.class: Opifer\CmsBundle\ValueProvider\AttachmentValueProvider
-    opifer.cms.content_menu.class: Opifer\CmsBundle\Menu\ContentMenu
     opifer.cms.exception_router.class: Opifer\CmsBundle\Router\ExceptionRouter
     opifer.cms.form_value_provider.class: Opifer\CmsBundle\ValueProvider\FormValueProvider
     opifer.cms.form.attribute_parameters.class: Opifer\CmsBundle\Form\Type\AttributeParametersType
     opifer.cms.form.ckeditor_type.class: Opifer\CmsBundle\Form\Type\CKEditorType
+    opifer.cms.form.collapsible_collection.class: Opifer\CmsBundle\Form\Type\CollapsibleCollectionType
     opifer.cms.form.content.class: Opifer\CmsBundle\Form\Type\ContentFormType
     opifer.cms.form.content_init_form.class: Opifer\CmsBundle\Form\Type\ContentInitFormType
     opifer.cms.form.directory_form.class: Opifer\CmsBundle\Form\Type\DirectoryFormType
     opifer.cms.form.google_address.class: Opifer\CmsBundle\Form\Type\GoogleAddressType
-    opifer.cms.form.menu.class: Opifer\CmsBundle\Form\Type\MenuType
     opifer.cms.form.menu_group.class: Opifer\CmsBundle\Form\Type\MenuGroupType
     opifer.cms.form.menu_parameters.class: Opifer\CmsBundle\Form\Type\MenuParametersType
     opifer.cms.html_value_provider.class: Opifer\CmsBundle\ValueProvider\HtmlValueProvider
@@ -58,9 +56,14 @@ services:
 
     opifer.cms.user_form:
         class: %opifer.cms.user_form.class%
-        arguments: [%security.role_hierarchy.roles%, %opifer_cms.model.user.class%]
+        arguments: [%security.role_hierarchy.roles%, %opifer_cms.user_model%]
         tags:
             - { name: form.type, alias: admin_user_form }
+
+    opifer.cms.form.collapsible_collection:
+        class: %opifer.cms.form.collapsible_collection.class%
+        tags:
+            - { name: form.type, alias: collapsible_collection }
 
     opifer.cms.form.content:
         class: %opifer.cms.form.content.class%
@@ -85,12 +88,6 @@ services:
         arguments: [@translator]
         tags:
             - { name: form.type, alias: ckeditor }
-
-    opifer.cms.form.menu:
-        class: %opifer.cms.form.menu.class%
-        arguments: [@translator]
-        tags:
-            - { name: form.type, alias: admin_menu }
 
     opifer.cms.form.menu_group:
         class: %opifer.cms.form.menu_group.class%
@@ -133,12 +130,6 @@ services:
         class: Opifer\CmsBundle\Manager\ContentManager
         arguments: [@doctrine.orm.default_entity_manager, @form.factory, @opifer.eav.eav_manager, %opifer_content.content_class%, %opifer_eav.schema_class%, @security.token_storage]
 
-    # ACL
-
-    opifer.cms.acl_manager:
-        class: %opifer.cms.acl_manager.class%
-        arguments: [@security.acl.provider, @security.context]
-
     # Event Listeners
 
     opifer.cms.attachment_listener:
@@ -155,7 +146,7 @@ services:
 
     opifer.cms.tableprefix_listener:
         class: %opifer.cms.tableprefix_listener.class%
-        arguments: [%database_table_prefix%]
+        arguments: [%opifer_cms.database_table_prefix%]
         tags:
             - { name: doctrine.event_subscriber }
 
@@ -174,10 +165,6 @@ services:
     opifer.cms.menu_manager:
         class: %opifer.cms.menu_manager.class%
         arguments: [@doctrine.orm.default_entity_manager]
-
-    opifer.cms.content_menu:
-        class: %opifer.cms.content_menu.class%
-        arguments: [@translator, @router, %opifer_cms.allowed_locales%, %locale%]
 
     # Value providers
 
@@ -220,24 +207,3 @@ services:
         arguments: [@twig.form.renderer]
         tags:
             - { name: twig.extension }
-
-    # Logging
-    #opifer.cms.logstash_formatter:
-    #    class: Monolog\Formatter\LogstashFormatter
-    #    arguments: ['opifer.nl', null, null, 1]
-
-    #opifer.cms.redis_handler:
-    #    class: Monolog\Handler\RedisHandler
-    #    arguments: [@opifer.cms.redis_client, 'cms']
-
-    #opifer.cms.redis_client:
-    #    class: Opifer\CmsBundle\Logging\RedisClient
-    #    arguments: [%redis_host%, %redis_password%, %redis_port%]
-
-    # Currently disabled
-    # opifer.cms.logging.doctrine_handler:
-    #     class: Opifer\CmsBundle\Logging\DoctrineHandler
-    #     arguments:
-    #         - @service_container
-    #     tags:
-    #         - { name: log_handler }

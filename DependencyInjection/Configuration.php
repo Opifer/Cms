@@ -6,14 +6,15 @@ use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
 
 /**
- * This is the class that validates and merges configuration from your app/config files
+ * This is the class that validates and merges configuration from your app/config files.
  *
  * To learn more see {@link http://symfony.com/doc/current/cookbook/bundles/extension.html#cookbook-bundles-extension-config-class}
  */
 class Configuration implements ConfigurationInterface
 {
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
+     *
      * @see http://symfony.com/doc/current/components/config/definition.html
      */
     public function getConfigTreeBuilder()
@@ -24,10 +25,31 @@ class Configuration implements ConfigurationInterface
         $rootNode
             ->addDefaultsIfNotSet()
             ->children()
-                ->arrayNode('allowed_locales')
-                    ->requiresAtLeastOneElement()
-                    ->prototype('scalar')->end()
-                    ->defaultValue(array('nl_NL'))
+                ->scalarNode('default_locale')->defaultValue('en')->end()
+
+                ->arrayNode('classes')
+                    ->addDefaultsIfNotSet()
+                    ->children()
+                        ->arrayNode('user')
+                            ->addDefaultsIfNotSet()
+                            ->children()
+                                ->scalarNode('model')->defaultValue('Opifer\CmsBundle\Entity\User')->end()
+                                ->scalarNode('repository')->end()
+                            ->end()
+                        ->end()
+                    ->end()
+                ->end()
+
+                ->arrayNode('database')
+                    ->addDefaultsIfNotSet()
+                    ->children()
+                        ->scalarNode('driver')->defaultValue('pdo_mysql')->end()
+                        ->scalarNode('host')->defaultValue('127.0.0.1')->end()
+                        ->scalarNode('name')->defaultValue('%database_name%')->end()
+                        ->scalarNode('user')->defaultValue('%database_user%')->end()
+                        ->scalarNode('password')->defaultValue('%database_password%')->end()
+                        ->scalarNode('table_prefix')->defaultValue('opifer_')->end()
+                    ->end()
                 ->end()
 
                 ->arrayNode('autocomplete')
@@ -41,13 +63,6 @@ class Configuration implements ConfigurationInterface
                                 ->cannotBeEmpty()
                             ->end()
                         ->end()
-                    ->end()
-                ->end()
-
-                ->arrayNode('pagination')
-                    ->addDefaultsIfNotSet()
-                    ->children()
-                        ->integerNode('limit')->min(0)->defaultValue(2)->end()
                     ->end()
                 ->end()
 

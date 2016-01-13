@@ -2,13 +2,11 @@
 
 namespace Opifer\CmsBundle\Entity;
 
-use Gedmo\Mapping\Annotation as Gedmo;
-use Doctrine\Common\Collections\ArrayCollection;
+use APY\DataGridBundle\Grid\Mapping as GRID;
 use Doctrine\ORM\Mapping as ORM;
 use FOS\AdvancedEncoderBundle\Security\Encoder\EncoderAwareInterface;
 use FOS\UserBundle\Model\GroupInterface;
 use FOS\UserBundle\Model\User as FOSUser;
-use Opifer\CrudBundle\Annotation as Opifer;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -17,13 +15,9 @@ use Symfony\Component\Validator\Constraints as Assert;
  *
  * @ORM\Table("users")
  *
- * @UniqueEntity("username")
- * @UniqueEntity("email")
- *
- * @Gedmo\SoftDeleteable(fieldName="deletedAt", timeAware=false)
- *
- * Implements the EncoderAwareInterface to allow different password encoders for
- * legacy or new users.
+ * @ORM\Entity
+ * @ORM\Table(name="users")
+ * @GRID\Source(columns="id, username, email")
  */
 class User extends FOSUser implements EncoderAwareInterface
 {

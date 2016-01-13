@@ -13,5 +13,4 @@ use Opifer\FormBundle\Model\Form as BaseForm;
  */
 class Form extends BaseForm
 {
-
 }

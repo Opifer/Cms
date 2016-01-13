@@ -17,7 +17,7 @@ class SitemapListener implements SitemapListenerInterface
     protected $em;
 
     /**
-     * Constructor
+     * Constructor.
      *
      * @param RouterInterface $router
      * @param EntityManager   $em
@@ -29,11 +29,9 @@ class SitemapListener implements SitemapListenerInterface
     }
 
     /**
-     * Populate the sitemap
+     * Populate the sitemap.
      *
      * @param SitemapPopulateEvent $event
-     *
-     * @return void
      */
     public function populateSitemap(SitemapPopulateEvent $event)
     {

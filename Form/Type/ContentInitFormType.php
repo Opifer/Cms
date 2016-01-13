@@ -13,17 +13,20 @@ use Symfony\Component\Routing\RouterInterface;
  */
 class ContentInitFormType extends AbstractType
 {
-    /** @var \Symfony\Component\Routing\RouterInterface */
+    /** @var LoggingTranslator */
+    protected $translator;
+
+    /** @var RouterInterface */
     protected $router;
 
     /** @var array */
     protected $locales;
 
     /**
-     * Constructor
+     * Constructor.
      *
-     * @param RouterInterface $router
-     * @param array           $locales
+     * @param RouterInterface   $router
+     * @param array             $locales
      */
     public function __construct(RouterInterface $router, $locales)
     {
@@ -32,13 +35,13 @@ class ContentInitFormType extends AbstractType
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
             ->add('site', 'entity', [
-                'class'    => 'OpiferCmsBundle:Site',
+                'class' => 'OpiferCmsBundle:Site',
                 'property' => 'name',
                 'attr'     => ['help_text' => 'content.form.site.help_text']
             ])
@@ -57,7 +60,7 @@ class ContentInitFormType extends AbstractType
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getName()
     {

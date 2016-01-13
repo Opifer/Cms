@@ -14,10 +14,6 @@ monolog:
             type:  stream
             path:  %kernel.logs_dir%/%kernel.environment%.log
             level: debug
-        # doctrine: # currently disabled.
-        #     type: service
-        #     id: opifer.cms.logging.doctrine_handler
-        #     level: info
         firephp:
             type:  firephp
             level: info

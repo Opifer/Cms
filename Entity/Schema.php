@@ -2,6 +2,7 @@
 
 namespace Opifer\CmsBundle\Entity;
 
+use APY\DataGridBundle\Grid\Mapping as GRID;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
 use Opifer\CrudBundle\Annotation as CRUD;
@@ -18,13 +19,11 @@ use Symfony\Component\Validator\Constraints as Assert;
 class Schema extends BaseSchema
 {
     /**
-     * @var integer
+     * @var int
      *
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
-     *
-     * @CRUD\Grid(listable=true)
      */
     protected $id;
 
@@ -32,8 +31,6 @@ class Schema extends BaseSchema
      * @var string
      *
      * @ORM\Column(name="displayName", type="string", length=255, nullable=true)
-     *
-     * @CRUD\Grid(listable=true)
      */
     protected $displayName;
 
@@ -41,8 +38,6 @@ class Schema extends BaseSchema
      * @var string
      *
      * @ORM\Column(name="name", type="string", length=128, unique=true, nullable=true)
-     *
-     * @CRUD\Grid(listable=true)
      */
     protected $name;
 
@@ -50,8 +45,6 @@ class Schema extends BaseSchema
      * @var string
      *
      * @ORM\Column(name="object_class", type="string", length=128)
-     *
-     * @CRUD\Grid(listable=true)
      */
     protected $objectClass;
 
@@ -77,38 +70,4 @@ class Schema extends BaseSchema
      * @ORM\ManyToMany(targetEntity="Attribute", mappedBy="allowedSchemas")
      **/
     protected $allowedInAttributes;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="post_notify", type="string", length=255, nullable=true)
-     *
-     * @Assert\Email(message = "The email '{{ value }}' is not a valid email.")
-     *
-     */
-    protected $postNotify;
-
-    /**
-     * Set postNotify
-     *
-     * @param string $postNotify
-     *
-     * @return Schema
-     */
-    public function setPostNotify($postNotify)
-    {
-        $this->postNotify = $postNotify;
-
-        return $this;
-    }
-
-    /**
-     * Get postNotify
-     *
-     * @return string
-     */
-    public function getPostNotify()
-    {
-        return $this->postNotify;
-    }
 }

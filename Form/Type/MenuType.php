@@ -2,7 +2,6 @@
 
 namespace Opifer\CmsBundle\Form\Type;
 
-use Symfony\Component\Translation\TranslatorInterface;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Opifer\CmsBundle\Entity\MenuItem;
@@ -10,41 +9,26 @@ use Opifer\CmsBundle\Entity\MenuItem;
 class MenuType extends AbstractType
 {
     /**
-     * @var TranslatorInterface
-     */
-    protected $translator;
-
-    /**
-     * Constructor
-     *
-     * @param TranslatorInterface $translator
-     */
-    public function __construct(TranslatorInterface $translator)
-    {
-        $this->translator = $translator;
-    }
-
-    /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
             ->add('parent', 'entity', [
-                'class'       => 'Opifer\CmsBundle\Entity\Menu',
-                'query_builder' => function ($er) {
-                    return $er->createQueryBuilder('m')
+                'class' => 'Opifer\CmsBundle\Entity\Menu',
+                'query_builder' => function ($qb) {
+                    return $qb->createQueryBuilder('m')
                         ->orderBy('m.root', 'ASC')
                         ->addOrderBy('m.lft', 'ASC');
                 },
-                'property'    => 'indentedName',
-                'required'    => false,
-                'empty_value' => $this->translator->trans('(empty)'),
-                'empty_data'  => null,
-                'attr'        => ['help_text' => $this->translator->trans('menu.form.parent.help_text')]
+                'property' => 'indentedName',
+                'required' => false,
+                'empty_value' => '(empty)',
+                'empty_data' => null,
+                'attr' => ['help_text' => 'menu.form.parent.help_text'],
             ])
             ->add('name', 'text', [
-                'attr' => ['help_text' => $this->translator->trans('menu.form.name.help_text')]
+                'attr' => ['help_text' => 'menu.form.name.help_text'],
             ])
         ;
 
@@ -52,7 +36,7 @@ class MenuType extends AbstractType
             $builder
                 ->add('content', 'contentpicker')
                 ->add('link', 'text', [
-                    'attr' => ['help_text' => $this->translator->trans('menu.form.link.help_text')]
+                    'attr' => ['help_text' => 'menu.form.link.help_text'],
                 ])
                 ->add('hiddenMobile', 'checkbox', [
                     'label_attr' => ['class' => 'col-lg-offset-2'],
@@ -80,22 +64,18 @@ class MenuType extends AbstractType
         }
 
         $builder->add('sort', 'integer', [
-            'attr'        => [
-                'help_text' => $this->translator->trans('menu.form.sort.help_text'),
+            'attr' => [
+                'help_text' => 'menu.form.sort.help_text',
                 'widget_col' => 4,
-            ]
-        ]);
-
-        $builder->add('save', 'submit', [
-            'label' => $this->translator->trans('button.submit')
+            ],
         ]);
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getName()
     {
-        return 'admin_menu';
+        return 'menu_form';
     }
 }

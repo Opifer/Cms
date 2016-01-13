@@ -9,12 +9,12 @@ use Symfony\Component\Form\FormBuilderInterface;
 class DirectoryFormType extends AbstractType
 {
     /**
-     * @var  Symfony\Bundle\FrameworkBundle\Translation\Translator
+     * @var Symfony\Bundle\FrameworkBundle\Translation\Translator
      */
     protected $translator;
 
     /**
-     * Constructor
+     * Constructor.
      *
      * @param Translator $translator
      */
@@ -24,35 +24,35 @@ class DirectoryFormType extends AbstractType
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
             ->add('parent', 'entity', [
-                'label'       => $this->translator->trans('directory.parent.label'),
-                'class'       => 'Opifer\CmsBundle\Entity\Directory',
-                'property'    => 'name',
-                'required'    => false,
+                'label' => $this->translator->trans('directory.parent.label'),
+                'class' => 'Opifer\CmsBundle\Entity\Directory',
+                'property' => 'name',
+                'required' => false,
                 'empty_value' => $this->translator->trans('directory.parent.empty'),
-                'empty_data'  => null,
-                'attr'        => [
+                'empty_data' => null,
+                'attr' => [
                     'help_text' => $this->translator->trans('directory.parent.help_text'),
-                ]
+                ],
             ])
             ->add('name', 'text', [
                 'label' => $this->translator->trans('form.name'),
-                'attr'  => ['help_text' => $this->translator->trans('directory.name.help_text')]
+                'attr' => ['help_text' => $this->translator->trans('directory.name.help_text')],
             ])
             ->add('slug', 'slug')
             ->add('save', 'submit', [
-                'label' => $this->translator->trans('directory.submit')
+                'label' => $this->translator->trans('directory.submit'),
             ])
         ;
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getName()
     {

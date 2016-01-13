@@ -1,4 +1,5 @@
 <?php
+
 namespace Opifer\CmsBundle\Form\Type;
 
 use Symfony\Component\Translation\TranslatorInterface;
@@ -8,17 +9,17 @@ use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 use Opifer\CmsBundle\Form\DataTransformer\SlugTransformer;
 
 /**
- * Slug form type
+ * Slug form type.
  */
 class SlugType extends AbstractType
 {
     /**
-     * @var  Symfony\Bundle\FrameworkBundle\Translation\Translator
+     * @var Symfony\Bundle\FrameworkBundle\Translation\Translator
      */
     protected $translator;
 
     /**
-     * Constructor
+     * Constructor.
      *
      * @param Translator $translator
      */
@@ -28,7 +29,7 @@ class SlugType extends AbstractType
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
@@ -37,20 +38,20 @@ class SlugType extends AbstractType
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults([
             'label' => $this->translator->trans('form.slug.label'),
-            'attr'  => [
+            'attr' => [
                 'help_text' => $this->translator->trans('form.slug.help_text'),
             ],
         ]);
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getParent()
     {
@@ -58,7 +59,7 @@ class SlugType extends AbstractType
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getName()
     {

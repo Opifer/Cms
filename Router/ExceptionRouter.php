@@ -9,7 +9,7 @@ use Symfony\Component\Routing\RouteCollection;
 use Symfony\Component\Routing\Matcher\UrlMatcher;
 
 /**
- * Exception Router
+ * Exception Router.
  *
  * This router should be used at the very bottom of the chain, so it can render
  * a 404 page as soon as non of the earlier routes could've been found.
@@ -17,7 +17,7 @@ use Symfony\Component\Routing\Matcher\UrlMatcher;
 class ExceptionRouter extends BaseRouter implements RouterInterface
 {
     /**
-     * The constructor for this service
+     * The constructor for this service.
      *
      * @param ContainerInterface $container
      */
@@ -26,11 +26,11 @@ class ExceptionRouter extends BaseRouter implements RouterInterface
         parent::__construct($container);
 
         $this->routeCollection->add('_404', new Route('/{anything}', [
-            '_controller' => 'OpiferCmsBundle:Front/Exception:error404',
-            '_locale'     => $this->container->getParameter('locale'),
-            'anything'    => '',
+            '_controller' => 'OpiferCmsBundle:Frontend/Exception:error404',
+            '_locale' => $this->container->getParameter('locale'),
+            'anything' => '',
         ], [
-            'anything'        => "[a-zA-Z0-9\-_\/]*",
+            'anything' => "[a-zA-Z0-9\-_\/]*",
         ]));
     }
 
