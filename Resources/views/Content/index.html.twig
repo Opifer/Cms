@@ -11,6 +11,19 @@
 
         <content-browser site-id="" locale="nl_NL" directory-id="{{ directoryId }}" active="true"></content-browser>
 
-        {{ include('OpiferCrudBundle:Datagrid:confirmation.html.twig') }}
+        <div class="modal modal-delete fallin" id="{{ 'modalDelete' ~ slug|default|capitalize }}" tabindex="-1" role="dialog" aria-labelledby="DeleteModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-sm">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title" id="DeleteModalLabel">{{ 'modal.delete.title'|trans|capitalize }}</h4>
+                    </div>
+                    <div class="modal-body"></div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default btn-link" data-dismiss="modal">{{ 'action.cancel'|trans|capitalize }}</button>
+                        <a href="#" class="btn btn-danger modal-confirm-button" title="Confirms removal">{{ 'action.delete'|trans|capitalize }}</a>
+                    </div>
+                </div>
+            </div>
+        </div>
     {% endspaceless %}
 {% endblock opifer_content_body %}

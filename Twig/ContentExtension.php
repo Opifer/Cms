@@ -2,9 +2,14 @@
 
 namespace Opifer\ContentBundle\Twig;
 
+<<<<<<< HEAD
 use Opifer\ContentBundle\Block\BlockContainerInterface;
 use Opifer\ContentBundle\Block\BlockOwnerInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
+=======
+use Doctrine\Common\Collections\ArrayCollection;
+use Opifer\EavBundle\Entity\NestedValue;
+>>>>>>> c22a75a8c935ed6319afbe7ba37e82dc9aa06c32
 use Symfony\Component\HttpKernel\Controller\ControllerReference;
 use Symfony\Component\HttpKernel\Fragment\FragmentHandler;
 use Symfony\Component\HttpFoundation\RequestStack;
@@ -70,6 +75,9 @@ class ContentExtension extends \Twig_Extension
             new \Twig_SimpleFunction('get_content', [$this, 'getContent'], [
                 'is_safe' => array('html')
             ]),
+            new \Twig_SimpleFunction('get_nested', [$this, 'getNested'], [
+                'is_safe' => array('html')
+            ]),
             new \Twig_SimpleFunction('get_content_by_id', [$this, 'getContentById'], [
                 'is_safe' => array('html')
             ]),
@@ -80,6 +88,25 @@ class ContentExtension extends \Twig_Extension
                 'is_safe' => array('html')
             ]),
         ];
+    }
+
+    /**
+     * Get Nested
+     *
+     * Retrieves all nested content items from a NestedValue and joins necessary
+     * relations. Using this method is preferred to avoid additional queries due to
+     * the inability to join relations when calling NestedValue::getNested.
+     *
+     * @param  NestedValue $value
+     * @return ArrayCollection
+     */
+    public function getNested(NestedValue $value)
+    {
+        return $this->contentManager->getRepository()
+            ->createValuedQueryBuilder('c')
+            ->where('c.nestedIn = :value')->setParameter('value', $value)
+            ->getQuery()
+            ->getResult();
     }
 
     /**
@@ -103,10 +130,17 @@ class ContentExtension extends \Twig_Extension
      */
     public function renderBlock(BlockInterface $block, $arguments = array())
     {
+<<<<<<< HEAD
         $manager = $this->container->get('opifer.content.block_manager');
 
         if (isset($arguments['block_mode'])) {
             $this->blockMode = $arguments['block_mode'];
+=======
+        $string = '';
+                
+        if ($contentItem === false) {
+            return $string;
+>>>>>>> c22a75a8c935ed6319afbe7ba37e82dc9aa06c32
         }
 
         $service = $manager->getService($block);
