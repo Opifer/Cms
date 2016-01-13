@@ -4,6 +4,7 @@ namespace Opifer\EavBundle\Form\Type;
 
 use Doctrine\ORM\EntityRepository;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -35,7 +36,6 @@ class AttributeType extends AbstractType
         $this->attributeClass = $attributeClass;
         $this->templateClass  = $templateClass;
     }
-
 
     /**
      * {@inheritDoc}
@@ -74,6 +74,13 @@ class AttributeType extends AbstractType
             'label' => 'attribute.sort',
             'attr'  => [ 'help_text' => 'form.sort.help_text', 'widget_col' => 2 ],
             'empty_data' => 0
+        ])->add('required', ChoiceType::class, [
+            'choices' => [
+                false => 'Not required',
+                true => 'Required'
+            ],
+            'label' => 'Required',
+            'required' => true
         ]);
 
         $builder->addEventListener(FormEvents::PRE_SET_DATA, function (FormEvent $event) {

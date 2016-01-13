@@ -27,7 +27,7 @@ class ChecklistValueProvider extends AbstractValueProvider implements ValueProvi
     {
         $attributeId = $options['attribute']->getId();
         $builder->add('options', 'entity', [
-            'required'      => (isset($options['attribute']->getParameters()['required'])) ? $options['attribute']->getParameters()['required'] : false,
+            'required'      => ($options['attribute']->getRequired()) ? true : false,
             'label'         => $options['attribute']->getDisplayName(),
             'multiple'      => true,   // Multiple selection allowed
             'expanded'      => true,   // Render as checkboxes
