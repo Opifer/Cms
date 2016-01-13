@@ -3,8 +3,8 @@
 namespace Opifer\EavBundle\Tests\Model;
 
 use Doctrine\Common\Collections\ArrayCollection;
-use Opifer\EavBundle\Model\Attribute;
 use Mockery as m;
+use Opifer\EavBundle\Model\Attribute;
 use Opifer\EavBundle\Model\Schema;
 
 class AttributeTest extends \PHPUnit_Framework_TestCase

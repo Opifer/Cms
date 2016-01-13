@@ -33,6 +33,19 @@ class MediaValue extends Value implements \IteratorAggregate, \Countable
     }
 
     /**
+     * @return string
+     */
+    public function __toString()
+    {
+        $filenames = [];
+        foreach ($this->medias as $media) {
+            $filenames[] = $media->getReference();
+        }
+
+        return implode(', ', $filenames);
+    }
+
+    /**
      * Get the value
      *
      * Overrides the parent getValue method

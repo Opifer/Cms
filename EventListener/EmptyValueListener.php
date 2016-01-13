@@ -3,9 +3,9 @@
 namespace Opifer\EavBundle\EventListener;
 
 use Doctrine\ORM\Event\LifecycleEventArgs;
+use Opifer\EavBundle\Manager\EavManager;
 use Opifer\EavBundle\Model\ValueInterface;
 use Opifer\EavBundle\Model\ValueSetInterface;
-use Opifer\EavBundle\Manager\EavManager;
 
 /**
  * Empty Value Listener

@@ -8,6 +8,14 @@ namespace Opifer\EavBundle\Entity;
 abstract class OptionValue extends Value
 {
     /**
+     * @return string
+     */
+    public function __toString()
+    {
+        return implode(', ', $this->getDisplayNames());
+    }
+
+    /**
      * Turn value into a simple array
      *
      * @return array

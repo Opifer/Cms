@@ -12,8 +12,8 @@ class StringValueProvider extends AbstractValueProvider implements ValueProvider
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder->add('value', 'text', [
-            'label' => false,
-            //'attr'  => $attr
+            'required' => ($options['attribute']->getRequired()) ? true : false,
+            'label' => false
         ]);
     }
 

@@ -2,8 +2,8 @@
 
 namespace Opifer\EavBundle\Model;
 
-use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation as JMS;
 
 /**
@@ -160,14 +160,23 @@ class ValueSet implements ValueSetInterface
      * We use this to render a whole set of form types, which should be displayed
      * in some order. When you want to be able to get a form field by it's name
      * and place it on a custom place, use the getNamedValues() method.
+     * 
+     * @param  string $order
      *
      * @return array
      */
-    public function getSortedValues()
+    public function getSortedValues($order = 'asc')
     {
         $values = $this->values->toArray();
-        usort($values, function ($value1, $value2) {
-            return ($value1->getAttribute()->getSort() < $value2->getAttribute()->getSort()) ? 1 : -1;
+        usort($values, function ($a, $b) use ($order) {
+            $left = $a->getAttribute()->getSort();
+            $right = $b->getAttribute()->getSort();
+
+            if ($order == 'desc') {
+                return ($left < $right) ? 1 : -1;
+            }
+
+            return ($left > $right) ? 1 : -1;
         });
 
         return $values;
@@ -186,9 +195,9 @@ class ValueSet implements ValueSetInterface
      *
      * @return array
      */
-    public function getNamedValues()
+    public function getNamedValues($order = 'asc')
     {
-        $values = $this->getSortedValues();
+        $values = $this->getSortedValues($order);
 
         $valueArray = [];
         foreach ($values as $value) {

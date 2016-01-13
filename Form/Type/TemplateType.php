@@ -5,14 +5,11 @@ namespace Opifer\EavBundle\Form\Type;
 use Opifer\EavBundle\Model\SchemaInterface;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class SchemaType extends AbstractType
 {
-
-    /**
-     * @var AttributeType
-     */
+    /** @var AttributeType */
     protected $attributeType;
 
     /**
@@ -20,11 +17,9 @@ class SchemaType extends AbstractType
      */
     protected $schemaClass;
 
-
     /**
      * Constructor
      *
-     * @param TranslatorInterface $translator
      * @param AttributeType       $attributeType
      * @param string              $schemaClass
      */
@@ -33,7 +28,6 @@ class SchemaType extends AbstractType
         $this->attributeType = $attributeType;
         $this->schemaClass = $schemaClass;
     }
-
 
     /**
      * {@inheritDoc}
@@ -66,8 +60,6 @@ class SchemaType extends AbstractType
             'allow_add'    => true,
             'allow_delete' => true,
             'type'         => $this->attributeType
-        ])->add('save', 'submit', [
-            'label' => ucfirst('form.submit')
         ]);
     }
 
@@ -75,19 +67,26 @@ class SchemaType extends AbstractType
     /**
      * {@inheritDoc}
      */
-    public function setDefaultOptions(OptionsResolverInterface $resolver)
+    public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
             'data_class'        => $this->schemaClass,
             'validation_groups' => false,
-        ));
+        ]);
     }
 
+    /**
+     * @deprecated
+     */
+    public function getName()
+    {
+        return $this->getBlockPrefix();
+    }
 
     /**
      * {@inheritDoc}
      */
-    public function getName()
+    public function getBlockPrefix()
     {
         return 'eav_schema';
     }

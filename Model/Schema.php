@@ -2,10 +2,10 @@
 
 namespace Opifer\EavBundle\Model;
 
-use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
-use Symfony\Component\Validator\Constraints as Assert;
+use Doctrine\ORM\Mapping as ORM;
 use Opifer\EavBundle\Validator\Constraints as OpiferAssert;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Schema

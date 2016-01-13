@@ -4,7 +4,7 @@ namespace Opifer\EavBundle\Form\Type;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class OptionType extends AbstractType
 {
@@ -32,14 +32,14 @@ class OptionType extends AbstractType
         $builder
             ->add('name', 'text')
             ->add('displayName', 'text')
-            ->add('sort', 'integer');
+            ->add('sort', 'number');
     }
 
 
     /**
      * {@inheritDoc}
      */
-    public function setDefaultOptions(OptionsResolverInterface $resolver)
+    public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
             'data_class' => $this->optionClass,
@@ -47,11 +47,18 @@ class OptionType extends AbstractType
         ]);
     }
 
+    /**
+     * @deprecated
+     */
+    public function getName()
+    {
+        return $this->getBlockPrefix();
+    }
 
     /**
      * {@inheritDoc}
      */
-    public function getName()
+    public function getBlockPrefix()
     {
         return 'eav_option';
     }

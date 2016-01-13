@@ -3,8 +3,8 @@
 namespace Opifer\EavBundle\ValueProvider;
 
 use Doctrine\ORM\EntityRepository;
-use Symfony\Component\Form\FormBuilderInterface;
 use Opifer\EavBundle\Form\Transformer\CollectionToObjectTransformer;
+use Symfony\Component\Form\FormBuilderInterface;
 
 class RadioValueProvider extends AbstractValueProvider implements ValueProviderInterface
 {
@@ -31,12 +31,12 @@ class RadioValueProvider extends AbstractValueProvider implements ValueProviderI
         
         $builder->add(
             $builder->create('options', 'entity', [
+                'required'      => ($options['attribute']->getRequired()) ? true : false,
                 'label'         => $options['attribute']->getDisplayName(),
                 'multiple'      => false,   // Only allow single selection
                 'expanded'      => true,   // Render as radio buttons
                 'property'      => 'displayName', // Assuming that the entity has a "name" property
                 'class'         => $this->optionClass,
-                'data_class'    => $this->optionClass,
                 'query_builder' => function (EntityRepository $optionRepository) use ($attributeId) {
                     return $optionRepository->createQueryBuilder('o')
                         ->add('orderBy', 'o.sort ASC')

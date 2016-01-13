@@ -4,11 +4,12 @@ parameters:
     opifer.eav.empty_value_listener.class: Opifer\EavBundle\EventListener\EmptyValueListener
     opifer.eav.discriminator_listener.class: Opifer\EavBundle\EventListener\DiscriminatorListener
     opifer.eav.form.attribute_type.class: Opifer\EavBundle\Form\Type\AttributeType
+    opifer.eav.form.date_picker_type.class: Opifer\EavBundle\Form\Type\DatePickerType
+    opifer.eav.form.datetime_picker_type.class: Opifer\EavBundle\Form\Type\DateTimePickerType
     opifer.eav.form.eav_type.class: Opifer\EavBundle\Form\Type\EavType
     opifer.eav.form.eav_post_type.class: Opifer\EavBundle\Form\Type\EavPostType
     opifer.eav.form.eav_value.class: Opifer\EavBundle\Form\Type\ValueType
     opifer.eav.form.fauxtype.class: Opifer\EavBundle\Form\Type\FauxType
-    opifer.eav.form.google_address.class: Opifer\EavBundle\Form\Type\GoogleAddressType
     opifer.eav.form.option_type.class: Opifer\EavBundle\Form\Type\OptionType
     opifer.eav.form.presentationeditor.class: Opifer\EavBundle\Form\Type\PresentationEditorType
     opifer.eav.form.schema_type.class: Opifer\EavBundle\Form\Type\SchemaType
@@ -30,23 +31,28 @@ services:
         class: %opifer.eav.form.values_subscriber.class%
 
     # Form Types
-    opifer.eav.form.eav_value:
-        class: %opifer.eav.form.eav_value.class%
-        arguments: [@opifer.eav.value_provider.pool]
-        tags:
-            - { name: form.type, alias: eav_value }
-
-    opifer.eav.form.google_address:
-        class: %opifer.eav.form.google_address.class%
-        arguments: [@translator]
-        tags:
-            - { name: form.type, alias: google_address }
 
     opifer.eav.form.attribute_type:
         class: %opifer.eav.form.attribute_type.class%
         arguments: [@translator, @opifer.eav.form.option_type, %opifer_eav.attribute_class%, %opifer_eav.schema_class%]
         tags:
             - { name: form.type, alias: eav_attribute }
+
+    opifer.eav.form.date_picker_type:
+        class: %opifer.eav.form.date_picker_type.class%
+        tags:
+            - { name: form.type, alias: opifer_eav_date_picker }
+
+    opifer.eav.form.datetime_picker_type:
+        class: %opifer.eav.form.datetime_picker_type.class%
+        tags:
+            - { name: form.type, alias: opifer_eav_datetime_picker }
+
+    opifer.eav.form.eav_value:
+        class: %opifer.eav.form.eav_value.class%
+        arguments: [@opifer.eav.value_provider.pool]
+        tags:
+            - { name: form.type, alias: eav_value }
 
     opifer.eav.form.schema_object_class_type:
         class: %opifer.eav.form.schema_object_class_type.class%
@@ -132,10 +138,3 @@ services:
         tags:
             - { name: doctrine.event_listener, event: postLoad }
             - { name: doctrine.event_listener, event: postPersist }
-
-    # Twig Extension
-    opifer.eav.twig_extension:
-        class: %opifer.eav.twig_extension.class%
-        arguments: [@form.factory, @opifer.eav.eav_manager]
-        tags:
-            - { name: twig.extension }

@@ -3,8 +3,8 @@
 namespace Opifer\EavBundle\ValueProvider;
 
 use Doctrine\ORM\EntityRepository;
-use Symfony\Component\Form\FormBuilderInterface;
 use Opifer\EavBundle\Form\Transformer\CollectionToObjectTransformer;
+use Symfony\Component\Form\FormBuilderInterface;
 
 class SelectValueProvider extends AbstractValueProvider implements ValueProviderInterface
 {
@@ -36,6 +36,7 @@ class SelectValueProvider extends AbstractValueProvider implements ValueProvider
 
         $builder->add(
             $builder->create('options', 'entity', [
+                'required'      => ($options['attribute']->getRequired()) ? true : false,
                 'label'         => $options['attribute']->getDisplayName(),
                 'placeholder'   => 'Select…',
                 'multiple'      => false,

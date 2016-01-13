@@ -2,25 +2,19 @@
 
 namespace Opifer\EavBundle\Form\Type;
 
+use Doctrine\ORM\EntityRepository;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\IntegerType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\Translation\TranslatorInterface;
-use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
-use Doctrine\ORM\EntityRepository;
-use Opifer\EavBundle\Entity\OptionValue;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class AttributeType extends AbstractType
 {
-    /**
-     * @var  Symfony\Bundle\FrameworkBundle\Translation\Translator
-     */
-    protected $translator;
-
-    /**
-     * @var string
-     */
+    /** @var string */
     protected $attributeClass;
 
     /**
@@ -28,25 +22,22 @@ class AttributeType extends AbstractType
      */
     protected $schemaClass;
 
+    /** @var OptionType */
     protected $optionType;
-
 
     /**
      * Constructor
      *
-     * @param TranslatorInterface $translator
-     * @param OptionType          $optionType
-     * @param string              $attributeClass
-     * @param string              $schemaClass
+     * @param OptionType $optionType
+     * @param string     $attributeClass
+     * @param string     $schemaClass
      */
-    public function __construct(TranslatorInterface $translator, OptionType $optionType, $attributeClass, $schemaClass)
+    public function __construct(OptionType $optionType, $attributeClass, $schemaClass)
     {
-        $this->translator     = $translator;
         $this->optionType     = $optionType;
         $this->attributeClass = $attributeClass;
         $this->schemaClass  = $schemaClass;
     }
-
 
     /**
      * {@inheritDoc}
@@ -54,35 +45,44 @@ class AttributeType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder->add('valueType', 'value_provider', [
-            'label' => $this->translator->trans('attribute.value_type'),
+            'label' => 'attribute.value_type',
             'attr'  => [
-                'placeholder' => $this->translator->trans('form.value_type.placeholder'),
-                'help_text'   => $this->translator->trans('form.value_type.help_text')
+                'placeholder' => 'form.value_type.placeholder',
+                'help_text'   => 'form.value_type.help_text'
             ]
-        ])->add('displayName', 'text', [
-            'label' => $this->translator->trans('attribute.display_name'),
+        ])->add('displayName', TextType::class, [
+            'label' => 'attribute.display_name',
             'attr'  => [
                 'class'                  => 'slugify',
                 'data-slugify-target'    => '.slugify-target-' . $builder->getName(),
                 'data-slugify-separator' => '_',
-                'placeholder'            => $this->translator->trans('form.display_name.placeholder'),
-                'help_text'              => $this->translator->trans('form.display_name.help_text'),
+                'placeholder'            => 'form.display_name.placeholder',
+                'help_text'              => 'form.display_name.help_text',
                 'widget_col' => 6
             ]
-        ])->add('name', 'text', [
-            'label' => $this->translator->trans('attribute.name'),
+        ])->add('name', TextType::class, [
+            'label' => 'attribute.name',
             'attr'  => [
                 'class'       => 'slugify-target-' . $builder->getName(),
-                'placeholder' => $this->translator->trans('form.name.placeholder'),
-                'help_text'   => $this->translator->trans('form.name.help_text'),
+                'placeholder' => 'form.name.placeholder',
+                'help_text'   => 'form.name.help_text',
                 'widget_col' => 6
             ]
-        ])->add('description', 'text', [
-            'label' => $this->translator->trans('attribute.description'),
-            'attr'  => [ 'help_text' => $this->translator->trans('form.description.help_text') ]
-        ])->add('sort', 'integer', [
-            'label' => $this->translator->trans('attribute.sort'),
-            'attr'  => [ 'help_text' => $this->translator->trans('form.sort.help_text'), 'widget_col' => 2 ]
+        ])->add('description', TextType::class, [
+            'required' => false,
+            'label' => 'attribute.description',
+            'attr'  => [ 'help_text' => 'form.description.help_text' ]
+        ])->add('sort', IntegerType::class, [
+            'label' => 'attribute.sort',
+            'attr'  => [ 'help_text' => 'form.sort.help_text', 'widget_col' => 2 ],
+            'empty_data' => 0
+        ])->add('required', ChoiceType::class, [
+            'choices' => [
+                false => 'Not required',
+                true => 'Required'
+            ],
+            'label' => 'Required',
+            'required' => true
         ]);
 
         $builder->addEventListener(FormEvents::PRE_SET_DATA, function (FormEvent $event) {
@@ -119,22 +119,28 @@ class AttributeType extends AbstractType
         });
     }
 
-
     /**
      * {@inheritDoc}
      */
-    public function setDefaultOptions(OptionsResolverInterface $resolver)
+    public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults(array(
+        $resolver->setDefaults([
             'data_class' => $this->attributeClass,
-        ));
+        ]);
     }
 
+    /**
+     * @deprecated
+     */
+    public function getName()
+    {
+        return $this->getBlockPrefix();
+    }
 
     /**
      * {@inheritDoc}
      */
-    public function getName()
+    public function getBlockPrefix()
     {
         return 'eav_attribute';
     }

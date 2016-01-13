@@ -2,8 +2,8 @@
 
 namespace Opifer\EavBundle\ValueProvider;
 
-use Symfony\Component\Form\FormBuilderInterface;
 use Opifer\EavBundle\Form\Transformer\AngularAttributeTransformer;
+use Symfony\Component\Form\FormBuilderInterface;
 
 class IntegerValueProvider extends AbstractValueProvider implements ValueProviderInterface
 {
@@ -16,8 +16,9 @@ class IntegerValueProvider extends AbstractValueProvider implements ValueProvide
         $attr = $transformer->transform($options);
 
         $builder->add('value', 'integer', [
-            'label' => false,
-            'attr'  => $attr
+            'required' => ($options['attribute']->getRequired()) ? true : false,
+            'label'    => false,
+            'attr'     => $attr
         ]);
     }
 

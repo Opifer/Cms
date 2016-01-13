@@ -2,19 +2,26 @@
 
 namespace Opifer\EavBundle\Form\Type;
 
-use Symfony\Component\Form\AbstractType;
-use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 use Opifer\EavBundle\ValueProvider\Pool;
+use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
- * ValueClass form field
+ * Value provider type
  *
  * Gives the option to choose one of the available values
  */
 class ValueProviderType extends AbstractType
 {
+    /** @var Pool */
     protected $providerPool;
 
+    /**
+     * Constructor
+     *
+     * @param Pool $providerPool
+     */
     public function __construct(Pool $providerPool)
     {
         $this->providerPool = $providerPool;
@@ -23,9 +30,9 @@ class ValueProviderType extends AbstractType
     /**
      * {@inheritDoc}
      */
-    public function setDefaultOptions(OptionsResolverInterface $resolver)
+    public function configureOptions(OptionsResolver $resolver)
     {
-        $choices = array();
+        $choices = [];
         foreach ($this->providerPool->getValues() as $alias => $value) {
             $choices[$alias] = $value->getLabel();
         }
@@ -45,9 +52,17 @@ class ValueProviderType extends AbstractType
     }
 
     /**
-     * {@inheritDoc}
+     * @deprecated
      */
     public function getName()
+    {
+        return $this->getBlockPrefix();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getBlockPrefix()
     {
         return 'value_provider';
     }

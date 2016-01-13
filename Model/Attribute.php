@@ -16,7 +16,6 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 class Attribute implements AttributeInterface
 {
-
     /**
      * @var integer
      *
@@ -98,6 +97,20 @@ class Attribute implements AttributeInterface
      * @ORM\JoinTable(name="attribute_allowed_schema")
      **/
     protected $allowedSchemas;
+
+    /**
+     * @var boolean
+     *
+     * @ORM\Column(name="required", type="boolean")
+     */
+    protected $required = false;
+
+    /**
+     * @var array
+     *
+     * @ORM\Column(name="parameters", type="json_array", nullable=true)
+     */
+    protected $parameters;
 
     /**
      * Constructor
@@ -440,5 +453,46 @@ class Attribute implements AttributeInterface
         $this->allowedSchemas = $allowedSchemas;
 
         return $this;
+    }
+
+    /**
+     * @return boolean
+     */
+    public function getRequired()
+    {
+        return $this->required;
+    }
+
+    /**
+     * @param boolean $required
+     */
+    public function setRequired($required)
+    {
+        $this->required = $required;
+
+        return $this;
+    }
+
+    /**
+     * Set parameters
+     *
+     * @param  array     $parameters
+     * @return Attribute
+     */
+    public function setParameters($parameters)
+    {
+        $this->parameters = $parameters;
+
+        return $this;
+    }
+
+    /**
+     * Get parameters
+     *
+     * @return array
+     */
+    public function getParameters()
+    {
+        return $this->parameters;
     }
 }

@@ -2,9 +2,9 @@
 
 namespace Opifer\EavBundle;
 
-use Symfony\Component\HttpKernel\Bundle\Bundle;
-use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Opifer\EavBundle\DependencyInjection\Compiler\ValueCompilerPass;
+use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Symfony\Component\HttpKernel\Bundle\Bundle;
 
 class OpiferEavBundle extends Bundle
 {
