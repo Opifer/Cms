@@ -26,6 +26,7 @@ class DynamicConfiguration
 
     /**
      * @param $key
+     *
      * @return mixed
      */
     public function __get($key)
@@ -41,6 +42,7 @@ class DynamicConfiguration
 
     /**
      * @param $key
+     *
      * @return bool
      */
     public function __isset($key)

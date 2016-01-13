@@ -6,14 +6,14 @@ use Doctrine\ORM\Mapping as ORM;
 use Opifer\EavBundle\Entity\Value;
 
 /**
- * HtmlValue
+ * HtmlValue.
  *
  * @ORM\Entity
  */
 class HtmlValue extends Value
 {
     /**
-     * Turn value into string for form field value purposes
+     * Turn value into string for form field value purposes.
      *
      * @return string
      */

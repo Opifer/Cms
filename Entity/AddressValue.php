@@ -7,7 +7,7 @@ use Opifer\EavBundle\Entity\Value;
 use Opifer\EavBundle\Model\ValueInterface;
 
 /**
- * Address Value
+ * Address Value.
  *
  * @ORM\Entity
  */
@@ -20,7 +20,7 @@ class AddressValue extends Value implements ValueInterface
     protected $address;
 
     /**
-     * Get the value
+     * Get the value.
      *
      * overrides the parent getValue method
      *
@@ -32,9 +32,10 @@ class AddressValue extends Value implements ValueInterface
     }
 
     /**
-     * Set address
+     * Set address.
      *
-     * @param  Address $address
+     * @param Address $address
+     *
      * @return Value
      */
     public function setAddress(Address $address = null)
@@ -45,7 +46,7 @@ class AddressValue extends Value implements ValueInterface
     }
 
     /**
-     * Get address
+     * Get address.
      *
      * @return Address
      */
@@ -55,7 +56,7 @@ class AddressValue extends Value implements ValueInterface
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function isEmpty()
     {

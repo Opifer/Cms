@@ -9,21 +9,21 @@ use Symfony\Component\Routing\RouterInterface;
 
 class ContentInitFormType extends AbstractType
 {
-    /** @var  Symfony\Bundle\FrameworkBundle\Translation\Translator */
+    /** @var LoggingTranslator */
     protected $translator;
 
-    /** @var \Symfony\Component\Routing\RouterInterface */
+    /** @var RouterInterface */
     protected $router;
 
     /** @var array */
     protected $locales;
 
     /**
-     * Constructor
+     * Constructor.
      *
-     * @param Translator $translator
-     * @param Router     $router
-     * @param array      $locales
+     * @param LoggingTranslator $translator
+     * @param RouterInterface   $router
+     * @param array             $locales
      */
     public function __construct(LoggingTranslator $translator, RouterInterface $router, $locales)
     {
@@ -33,33 +33,33 @@ class ContentInitFormType extends AbstractType
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
             ->add('site', 'entity', [
-                'class'    => 'OpiferCmsBundle:Site',
+                'class' => 'OpiferCmsBundle:Site',
                 'property' => 'name',
-                'attr'     => ['help_text' => $this->translator->trans('content.form.site.help_text')]
+                'attr' => ['help_text' => $this->translator->trans('content.form.site.help_text')],
             ])
             ->add('template', 'entity', [
-                'class'    => 'OpiferEavBundle:Template',
+                'class' => 'OpiferEavBundle:Template',
                 'property' => 'name',
-                'attr'     => ['help_text' => $this->translator->trans('content.form.template.help_text', ['%url%' => $this->router->generate('opifer.crud.new', ['slug' => 'templates'])])]
+                'attr' => ['help_text' => $this->translator->trans('content.form.template.help_text', ['%url%' => $this->router->generate('opifer_cms_template_create')])],
             ])
             ->add('locale', 'locale', [
                 'choices' => $this->locales,
-                'attr'    => ['help_text' => $this->translator->trans('content.form.locale.help_text')]
+                'attr' => ['help_text' => $this->translator->trans('content.form.locale.help_text')],
             ])
             ->add('save', 'submit', [
-                'label' => ucfirst($this->translator->trans('content.form.init.submit'))
+                'label' => ucfirst($this->translator->trans('content.form.init.submit')),
             ])
         ;
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getName()
     {

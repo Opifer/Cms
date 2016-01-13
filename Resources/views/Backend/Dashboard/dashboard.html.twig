@@ -1,0 +1,57 @@
+{% extends 'OpiferCmsBundle:Backend:base.html.twig' %}
+
+{% block body %}
+    <div class="page-header clearfix">
+        <h1 class="text-center"><i class="fa fa-rocket text-small text-muted"></i> {{ 'dashboard.title'|trans|capitalize }}</h1>
+    </div>
+
+    {#
+        Newest content widget
+    #}
+    <section class="dashboard-section container-fluid">
+        <h2 class="text-center">Recently edited content</h2>
+        <div class="row">
+
+            {% for item in latest_content %}
+            <article class="tile-img col-xs-6 col-md-3 {% if not item.coverImage %}tile-noimg{% endif %}">
+                <a href="{{ path('opifer_content_content_edit', {'id' : item.id }) }}">
+                    <div class="tile-body"  {% if item.coverImage %}style="background-image: url({{ item.coverImage|imagine_filter('dashboard_content') }})" {% endif %}>
+                        <div class="text">
+                            <span class="date">{{ item.updatedAt|localizeddate('medium') }}</span>
+                            <span class="title">{{ item.title }}</span>
+                        </div>
+                    </div>
+                </a>
+            </article>
+            {% endfor %}
+
+            <div class="col-xs-12 text-center">
+               <a href="{{ path('opifer_content_content_index') }}" class="btn btn-primary">
+                    {{ 'all content'|trans|capitalize }}
+                </a>
+            </div>
+
+        </div>
+    </section>
+
+    {#
+        Newest content widget
+    #}
+    <section class="dashboard-section container-fluid">
+        <h2 class="text-center">New in Medialibrary</h2>
+        <div class="row">
+
+
+            <div class="col-xs-12 text-center">
+                <div class="well">Coming soon</div>
+            </div>
+
+            <div class="col-xs-12 text-center">
+                <a href="{{ path('opifer_media_media_index') }}" class="btn btn-primary">
+                    {{ 'browse media'|trans|capitalize }}
+                </a>
+            </div>
+
+        </div>
+    </section>
+{% endblock %}

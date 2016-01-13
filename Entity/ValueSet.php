@@ -7,7 +7,7 @@ use JMS\Serializer\Annotation as JMS;
 use Opifer\EavBundle\Model\ValueSet as BaseValueSet;
 
 /**
- * ValueSet
+ * ValueSet.
  *
  * @ORM\Table(name="valueset")
  * @ORM\Entity

@@ -5,10 +5,8 @@ namespace Opifer\CmsBundle\Model;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
-use FOS\AdvancedEncoderBundle\Security\Encoder\EncoderAwareInterface;
 use FOS\UserBundle\Model\GroupInterface;
 use FOS\UserBundle\Model\User as FOSUser;
-use Opifer\CrudBundle\Annotation as Opifer;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -19,11 +17,8 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @UniqueEntity("email")
  *
  * @Gedmo\SoftDeleteable(fieldName="deletedAt", timeAware=false)
- *
- * Implements the EncoderAwareInterface to allow different password encoders for
- * legacy or new users.
  */
-abstract class User extends FOSUser implements EncoderAwareInterface
+abstract class User extends FOSUser
 {
     /**
      * @ORM\Id
@@ -71,30 +66,6 @@ abstract class User extends FOSUser implements EncoderAwareInterface
     protected $plainPassword;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="facebook_id", type="string", length=255, nullable=true)
-     */
-    protected $facebookId;
-
-    /**
-     * @ORM\Column(name="facebook_access_token", type="string", length=255, nullable=true)
-     */
-    protected $facebookAccessToken;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="google_id", type="string", length=255, nullable=true)
-     */
-    protected $googleId;
-
-    /**
-     * @ORM\Column(name="google_access_token", type="string", length=255, nullable=true)
-     */
-    protected $googleAccessToken;
-
-    /**
      * @var ArrayCollection
      *
      * @ORM\ManyToMany(targetEntity="Opifer\CmsBundle\Entity\Group")
@@ -113,14 +84,9 @@ abstract class User extends FOSUser implements EncoderAwareInterface
     protected $contents;
 
     /**
-     * @ORM\Column(name="encoder", type="string", length=255)
-     */
-    protected $encoder = 'default';
-
-    /**
-     * Created at
+     * Created at.
      *
-     * @var datetime
+     * @var \DateTime
      *
      * @Gedmo\Timestampable(on="create")
      * @ORM\Column(name="created_at", type="datetime")
@@ -128,9 +94,9 @@ abstract class User extends FOSUser implements EncoderAwareInterface
     protected $createdAt;
 
     /**
-     * Updated at
+     * Updated at.
      *
-     * @var datetime
+     * @var \DateTime
      *
      * @Gedmo\Timestampable(on="update")
      * @ORM\Column(name="updated_at", type="datetime")
@@ -145,7 +111,7 @@ abstract class User extends FOSUser implements EncoderAwareInterface
     protected $deletedAt;
 
     /**
-     * Constructor
+     * Constructor.
      */
     public function __construct()
     {
@@ -155,21 +121,10 @@ abstract class User extends FOSUser implements EncoderAwareInterface
         $this->contents = new ArrayCollection();
     }
 
-    public function serialize()
-    {
-        return serialize(array($this->facebookId, parent::serialize()));
-    }
-
-    public function unserialize($data)
-    {
-        list($this->facebookId, $parentData) = unserialize($data);
-        parent::unserialize($parentData);
-    }
-
     /**
-     * Get id
+     * Get id.
      *
-     * @return integer
+     * @return int
      */
     public function getId()
     {
@@ -177,7 +132,7 @@ abstract class User extends FOSUser implements EncoderAwareInterface
     }
 
     /**
-     * Set first name
+     * Set first name.
      *
      * @param string $firstName
      *
@@ -191,7 +146,7 @@ abstract class User extends FOSUser implements EncoderAwareInterface
     }
 
     /**
-     * Get first name
+     * Get first name.
      *
      * @return string
      */
@@ -201,7 +156,7 @@ abstract class User extends FOSUser implements EncoderAwareInterface
     }
 
     /**
-     * Set last name
+     * Set last name.
      *
      * @param string $lastName
      *
@@ -215,7 +170,7 @@ abstract class User extends FOSUser implements EncoderAwareInterface
     }
 
     /**
-     * Get last name
+     * Get last name.
      *
      * @return string
      */
@@ -225,7 +180,7 @@ abstract class User extends FOSUser implements EncoderAwareInterface
     }
 
     /**
-     * Get the full name
+     * Get the full name.
      *
      * @return string
      */
@@ -235,7 +190,7 @@ abstract class User extends FOSUser implements EncoderAwareInterface
     }
 
     /**
-     * Get expires at
+     * Get expires at.
      *
      * @return DateTime
      */
@@ -245,7 +200,7 @@ abstract class User extends FOSUser implements EncoderAwareInterface
     }
 
     /**
-     * Get credentials expire at
+     * Get credentials expire at.
      *
      * @return DateTime
      */
@@ -255,93 +210,7 @@ abstract class User extends FOSUser implements EncoderAwareInterface
     }
 
     /**
-     * @param string $facebookId
-     *
-     * @return User
-     */
-    public function setFacebookId($facebookId)
-    {
-        $this->facebookId = $facebookId;
-
-        return $this;
-    }
-
-    /**
-     * Get Facebook ID
-     *
-     * @return string
-     */
-    public function getFacebookId()
-    {
-        return $this->facebookId;
-    }
-
-    /**
-     * @param string $facebookAccessToken
-     *
-     * @return User
-     */
-    public function setFacebookAccessToken($facebookAccessToken)
-    {
-        $this->facebookAccessToken = $facebookAccessToken;
-
-        return $this;
-    }
-
-    /**
-     * Get FacebookAccessToken
-     *
-     * @return string
-     */
-    public function getFacebookAccessToken()
-    {
-        return $this->facebookAccessToken;
-    }
-
-    /**
-     * @param string $googleId
-     *
-     * @return void
-     */
-    public function setGoogleId($googleId)
-    {
-        $this->googleId = $googleId;
-
-        return $this;
-    }
-
-    /**
-     * Get google ID
-     *
-     * @return string
-     */
-    public function getGoogleId()
-    {
-        return $this->googleId;
-    }
-
-    /**
-     * @param string $googleAccessToken
-     *
-     * @return void
-     */
-    public function setGoogleAccessToken($googleAccessToken)
-    {
-        $this->googleAccessToken = $googleAccessToken;
-    }
-
-    /**
-     * Get googleAccessToken
-     *
-     * @return string
-     */
-    public function getGoogleAccessToken()
-    {
-        return $this->googleAccessToken;
-    }
-
-    /**
-     * Add groups
+     * Add groups.
      *
      * @param \Opifer\CmsBundle\Entity\Group $groups
      *
@@ -355,7 +224,7 @@ abstract class User extends FOSUser implements EncoderAwareInterface
     }
 
     /**
-     * Remove groups
+     * Remove groups.
      *
      * @param \Opifer\CmsBundle\Entity\Group $groups
      */
@@ -367,7 +236,7 @@ abstract class User extends FOSUser implements EncoderAwareInterface
     }
 
     /**
-     * Get groups
+     * Get groups.
      *
      * @return \Doctrine\Common\Collections\Collection
      */
@@ -377,7 +246,7 @@ abstract class User extends FOSUser implements EncoderAwareInterface
     }
 
     /**
-     * Returns all related content items
+     * Returns all related content items.
      *
      * @return \Doctrine\Common\Collections\Collection
      */
@@ -387,36 +256,7 @@ abstract class User extends FOSUser implements EncoderAwareInterface
     }
 
     /**
-     * Set encoder
-     *
-     * @param string $encoder
-     */
-    public function setEncoder($encoder)
-    {
-        $this->encoder = $encoder;
-
-        return $this;
-    }
-
-    public function getEncoder()
-    {
-        return $this->encoder;
-    }
-
-    /**
-     * Get encoder name
-     *
-     * This is part of the EncoderAwareInterface
-     *
-     * @return string
-     */
-    public function getEncoderName()
-    {
-        return $this->encoder;
-    }
-
-    /**
-     * Get created at
+     * Get created at.
      *
      * @return datetime
      */
@@ -426,7 +266,7 @@ abstract class User extends FOSUser implements EncoderAwareInterface
     }
 
     /**
-     * Get updated at
+     * Get updated at.
      *
      * @return datetime
      */
@@ -436,9 +276,10 @@ abstract class User extends FOSUser implements EncoderAwareInterface
     }
 
     /**
-     * Set deletedAt
+     * Set deletedAt.
      *
-     * @param  \DateTime $deletedAt
+     * @param \DateTime $deletedAt
+     *
      * @return File
      */
     public function setDeletedAt($deletedAt)
@@ -449,7 +290,7 @@ abstract class User extends FOSUser implements EncoderAwareInterface
     }
 
     /**
-     * Get deletedAt
+     * Get deletedAt.
      *
      * @return \DateTime
      */

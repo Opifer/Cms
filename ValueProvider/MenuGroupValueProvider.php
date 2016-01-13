@@ -12,7 +12,7 @@ class MenuGroupValueProvider extends AbstractValueProvider implements ValueProvi
     protected $menuGroupClass;
 
     /**
-     * Constructor
+     * Constructor.
      *
      * @param string $menuGroupClass
      */
@@ -22,7 +22,7 @@ class MenuGroupValueProvider extends AbstractValueProvider implements ValueProvi
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
@@ -30,7 +30,7 @@ class MenuGroupValueProvider extends AbstractValueProvider implements ValueProvi
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getEntity()
     {
@@ -38,7 +38,7 @@ class MenuGroupValueProvider extends AbstractValueProvider implements ValueProvi
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getLabel()
     {

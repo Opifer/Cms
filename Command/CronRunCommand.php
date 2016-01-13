@@ -10,7 +10,7 @@ use Symfony\Component\Process\ProcessBuilder;
 use Opifer\CmsBundle\Entity\Cron;
 
 /**
- * This command is the main entry point for pending cronjobs
+ * This command is the main entry point for pending cronjobs.
  *
  * To add cronjobs, simply create your own symfony command and add that command
  * to the cronjobs page in the cms.
@@ -29,7 +29,7 @@ class CronRunCommand extends ContainerAwareCommand
     private $output;
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     protected function configure()
     {
@@ -39,12 +39,10 @@ class CronRunCommand extends ContainerAwareCommand
     }
 
     /**
-     * Execute
+     * Execute.
      *
      * @param InputInterface  $input
      * @param OutputInterface $output
-     *
-     * @return void
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
@@ -56,9 +54,7 @@ class CronRunCommand extends ContainerAwareCommand
     }
 
     /**
-     * Run jobs
-     *
-     * @return void
+     * Run jobs.
      */
     private function runCrons()
     {
@@ -72,11 +68,9 @@ class CronRunCommand extends ContainerAwareCommand
     }
 
     /**
-     * Start a cron
+     * Start a cron.
      *
      * @param Cron $cron
-     *
-     * @return void
      */
     private function startCron(Cron $cron)
     {
@@ -103,12 +97,10 @@ class CronRunCommand extends ContainerAwareCommand
     }
 
     /**
-     * Change the state of the cron
+     * Change the state of the cron.
      *
      * @param Cron   $cron
      * @param string $state
-     *
-     * @return void
      */
     private function changeState(Cron $cron, $state)
     {
@@ -120,7 +112,7 @@ class CronRunCommand extends ContainerAwareCommand
     }
 
     /**
-     * Get the process builder
+     * Get the process builder.
      *
      * @return \Symfony\Component\Process\ProcessBuilder
      */
@@ -130,7 +122,7 @@ class CronRunCommand extends ContainerAwareCommand
 
         // PHP wraps the process in "sh -c" by default, but we need to control
         // the process directly.
-        if (! defined('PHP_WINDOWS_VERSION_MAJOR')) {
+        if (!defined('PHP_WINDOWS_VERSION_MAJOR')) {
             $pb->add('exec');
         }
 
@@ -144,7 +136,7 @@ class CronRunCommand extends ContainerAwareCommand
     }
 
     /**
-     * Get the entity manager
+     * Get the entity manager.
      *
      * @return \Doctrine\ORM\EntityManager
      */
@@ -154,7 +146,7 @@ class CronRunCommand extends ContainerAwareCommand
     }
 
     /**
-     * Get repository
+     * Get repository.
      *
      * @return \Doctrine\ORM\EntityRepository
      */

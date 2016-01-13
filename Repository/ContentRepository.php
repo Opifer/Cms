@@ -3,13 +3,11 @@
 namespace Opifer\CmsBundle\Repository;
 
 use Doctrine\Common\Collections\ArrayCollection;
-use Symfony\Component\HttpFoundation\Request;
 use Opifer\ContentBundle\Model\Content;
 use Opifer\ContentBundle\Model\ContentRepository as BaseContentRepository;
-use Opifer\CrudBundle\Pagination\Paginator;
 
 /**
- * ContentRepository
+ * ContentRepository.
  *
  * Because content items are used in different kinds of usecases, please specify
  * the scope of the function inside the function name.
@@ -21,9 +19,8 @@ use Opifer\CrudBundle\Pagination\Paginator;
  */
 class ContentRepository extends BaseContentRepository
 {
-
     /**
-     * Search content by term
+     * Search content by term.
      *
      * @param string $term
      *
@@ -53,9 +50,9 @@ class ContentRepository extends BaseContentRepository
     }
 
     /**
-     * Search content by term including nested
+     * Search content by term including nested.
      *
-     * @param  string $term
+     * @param string $term
      *
      * @return ArrayCollection
      */
@@ -83,44 +80,10 @@ class ContentRepository extends BaseContentRepository
     }
 
     /**
-     * Get a querybuilder by request
-     *
-     * @param Request $request
-     *
-     * @return \Doctrine\ORM\QueryBuilder
-     */
-    public function findPaginatedByRequest(Request $request)
-    {
-        $qb = $this->createValuedQueryBuilder('c');
-        $qb->andWhere('c.nestedIn IS NULL');
-
-        if ($request->get('site_id')) {
-            $qb->andWhere("c.site = :site")->setParameter('site', $request->get('site_id'));
-        }
-
-        if ($request->get('q')) {
-            $qb->andWhere("c.title LIKE :query")->setParameter('query', '%'.$request->get('q').'%');
-        } else {
-            if ($request->get('directory_id')) {
-                $qb->andWhere("c.directory = :directory")->setParameter('directory', $request->get('directory_id'));
-            } else {
-                $qb->andWhere("c.directory is NULL");
-            }
-        }
-
-        $qb->orderBy('c.slug');
-
-        $page = ($request->get('p')) ? $request->get('p') : 1;
-        $limit = ($request->get('limit')) ? $request->get('limit') : 25;
-
-        return new Paginator($qb, $limit, $page);
-    }
-
-    /**
-     * Find related content
+     * Find related content.
      *
      * @param Content $content
-     * @param integer $limit
+     * @param int     $limit
      *
      * @return ArrayCollection
      */
@@ -147,7 +110,7 @@ class ContentRepository extends BaseContentRepository
     }
 
     /**
-     * Find the last updated content items
+     * Find the last updated content items.
      *
      * @param int $limit
      *
@@ -166,7 +129,7 @@ class ContentRepository extends BaseContentRepository
     }
 
     /**
-     * Find all active and addressable content items
+     * Find all active and addressable content items.
      *
      * @return ArrayCollection
      */

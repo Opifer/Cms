@@ -2,12 +2,13 @@
 
 namespace Opifer\CmsBundle\Menu;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Opifer\CmsBundle\Entity\Menu;
 use Opifer\CmsBundle\Entity\MenuGroup;
 use Knp\Menu\MenuItem as KnpMenu;
 
 /**
- * Dynamic menu builder
+ * Dynamic menu builder.
  *
  * Checking access:
  * $this->security->isGranted('ROLE_SUPER_ADMIN')
@@ -17,8 +18,10 @@ use Knp\Menu\MenuItem as KnpMenu;
  */
 class SiteMenu extends MenuBuilder implements MenuInterface
 {
+    protected $hierarchy;
+
     /**
-     * The dynamic sitemenu
+     * The dynamic sitemenu.
      *
      * @return \Knp\Menu\MenuItem
      */
@@ -34,11 +37,11 @@ class SiteMenu extends MenuBuilder implements MenuInterface
         // but at this point the content relation is not passed in the array, so
         // we cannot route menu items to a content item yet.
         if ($menu_id) {
-            foreach ($this->getRepository()->getSortedChildrenById($menu_id) as $item) {
+            foreach ($this->getChildrenByNodeId($menu_id) as $item) {
                 $this->addChild($menu, $item);
             }
         } elseif ($menu_name) {
-            foreach ($this->getRepository()->getSortedChildrenByName($menu_name) as $item) {
+            foreach ($this->getChildrenByNodeName($menu_name) as $item) {
                 $this->addChild($menu, $item);
             }
         } else {
@@ -53,7 +56,7 @@ class SiteMenu extends MenuBuilder implements MenuInterface
     }
 
     /**
-     * Add a child to the menu
+     * Add a child to the menu.
      *
      * @param KnpMenu $menu
      * @param Menu    $item
@@ -65,10 +68,10 @@ class SiteMenu extends MenuBuilder implements MenuInterface
         $options = array();
         $options['label'] = ucfirst($item->getName());
         $options['extras'] = array('safe_label' => true);
-        if ($item->getContent()) {
+        if (!$item instanceof MenuGroup && $item->getContent()) {
             $options['extras']['content'] = $item->getContent();
         }
-        
+
         if (!$item instanceof MenuGroup) {
             if ($uri = $item->getLink()) {
                 $options['uri'] = $uri;
@@ -77,7 +80,7 @@ class SiteMenu extends MenuBuilder implements MenuInterface
 
                 $slug = $content->getSlug();
                 if (substr($slug, -6) == '/index') {
-                    $slug = rtrim($slug, "index");
+                    $slug = rtrim($slug, 'index');
                 }
 
                 $options['routeParameters'] = ['slug' => $slug];
@@ -88,22 +91,84 @@ class SiteMenu extends MenuBuilder implements MenuInterface
 
         $menu->addChild($name, $options);
 
-        if ($item->hasChildren()) {
+        $children = $this->getChildren($item);
+
+        if (count($children)) {
             $menu[$name]->setChildrenAttribute('class', 'sub-nav');
 
-            foreach ($item->getChildren() as $child) {
+            foreach ($children as $child) {
                 $this->addChild($menu[$name], $child);
             }
         }
     }
 
     /**
-     * Get the menu repository
+     * @param  Menu $item
+     * @return ArrayCollection
+     */
+    protected function getChildren(Menu $item)
+    {
+        $collection = new ArrayCollection();
+        foreach ($this->getHierarchy() as $object) {
+            if ($object->getParent() && $object->getParent()->getId() == $item->getId()) {
+                $collection->add($object);
+            }
+        }
+
+        return $collection;
+    }
+
+    /**
+     * @param  string $node
+     * @return ArrayCollection
+     */
+    protected function getChildrenByNodeName($node)
+    {
+        $collection = new ArrayCollection();
+        foreach ($this->getHierarchy() as $object) {
+            if ($object->getParent() && $object->getParent()->getName() == $node) {
+                $collection->add($object);
+            }
+        }
+
+        return $collection;
+    }
+
+    /**
+     * @param  int $node
+     * @return ArrayCollection
+     */
+    protected function getChildrenByNodeId($node)
+    {
+        $collection = new ArrayCollection();
+        foreach ($this->getHierarchy() as $object) {
+            if ($object->getParent() && $object->getParent()->getId() == $node) {
+                $collection->add($object);
+            }
+        }
+
+        return $collection;
+    }
+
+    /**
+     * Get the menu repository.
      *
      * @return \Opifer\CmsBundle\Repository\MenuRepository
      */
     protected function getRepository()
     {
         return $this->container->get('doctrine')->getRepository('OpiferCmsBundle:Menu');
+    }
+
+    /**
+     * @return array
+     */
+    protected function getHierarchy()
+    {
+        if ($this->hierarchy === null) {
+            $this->hierarchy = $this->getRepository()->getNodesHierarchyQuery()->getResult();
+        }
+
+        return $this->hierarchy;
     }
 }

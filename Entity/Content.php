@@ -9,17 +9,16 @@ use Symfony\Component\Validator\Constraints as Assert;
 use Opifer\ContentBundle\Model\Content as BaseContent;
 
 /**
- * Content
+ * Content.
  *
  * @ORM\Table(name="content")
  * @ORM\Entity(repositoryClass="Opifer\CmsBundle\Repository\ContentRepository")
- * @Gedmo\TranslationEntity(class="Opifer\CmsBundle\Entity\Translation\ContentTranslation")
  * @JMS\ExclusionPolicy("all")
  */
 class Content extends BaseContent
 {
     /**
-     * @var integer
+     * @var int
      *
      * @ORM\Id
      * @ORM\Column(name="id", type="integer")
@@ -31,7 +30,7 @@ class Content extends BaseContent
     protected $id;
 
     /**
-     * @var boolean
+     * @var bool
      *
      * @JMS\Expose
      * @JMS\Groups({"detail", "list"})
@@ -40,21 +39,21 @@ class Content extends BaseContent
     protected $active = true;
 
     /**
-     * @var  integer
+     * @var int
      *
      * @ORM\ManyToOne(targetEntity="FOS\UserBundle\Model\UserInterface", inversedBy="contents")
      */
     protected $author;
 
     /**
-     * @var boolean
+     * @var bool
      *
      * @ORM\Column(name="indexable", type="boolean")
      */
     protected $indexable = true;
 
     /**
-     * @var boolean
+     * @var bool
      *
      * @ORM\Column(name="searchable", type="boolean")
      */
@@ -65,7 +64,6 @@ class Content extends BaseContent
      *
      * @JMS\Expose
      * @JMS\Groups({"detail", "list"})
-     * @Gedmo\Translatable
      * @ORM\Column(name="title", type="string", length=255)
      * @Assert\NotBlank()
      */
@@ -76,7 +74,6 @@ class Content extends BaseContent
      *
      * @JMS\Expose
      * @JMS\Groups({"detail", "list"})
-     * @Gedmo\Translatable
      * @ORM\Column(name="description", type="text", nullable=true)
      */
     protected $description;
@@ -101,7 +98,6 @@ class Content extends BaseContent
      *      })
      * }, fields={"alias"}, unique_base="deletedAt")
      * @ORM\Column(name="alias", type="string", length=255, nullable=true)
-     *
      */
     protected $alias;
 
@@ -129,7 +125,7 @@ class Content extends BaseContent
     private $site;
 
     /**
-     * Created at
+     * Created at.
      *
      * @var \DateTime
      *
@@ -141,7 +137,7 @@ class Content extends BaseContent
     protected $createdAt;
 
     /**
-     * Updated at
+     * Updated at.
      *
      * @var \DateTime
      *
@@ -158,19 +154,9 @@ class Content extends BaseContent
     private $locale;
 
     /**
-     * Set translatable locale
+     * Sets an author on for the content.
      *
-     * @param string $locale
-     */
-    public function setTranslatableLocale($locale)
-    {
-        $this->locale = $locale;
-    }
-
-    /**
-     * Sets an author on for the content
-     *
-     * @var     User $author
+     * @var User
      *
      * @return Content
      */
@@ -190,7 +176,7 @@ class Content extends BaseContent
     }
 
     /**
-     * Set site
+     * Set site.
      *
      * @param Site $site
      *
@@ -204,7 +190,7 @@ class Content extends BaseContent
     }
 
     /**
-     * Get site
+     * Get site.
      *
      * @return \Opifer\CmsBundle\Entity\Site
      */
@@ -216,7 +202,7 @@ class Content extends BaseContent
     /**
      * Is content item public?
      *
-     * @return boolean
+     * @return bool
      */
     public function isPublic()
     {
@@ -226,7 +212,7 @@ class Content extends BaseContent
     /**
      * Is content item private?
      *
-     * @return boolean
+     * @return bool
      */
     public function isPrivate()
     {
@@ -234,9 +220,9 @@ class Content extends BaseContent
     }
 
     /**
-     * Set indexable
+     * Set indexable.
      *
-     * @param boolean $indexable
+     * @param bool $indexable
      *
      * @return Content
      */
@@ -248,9 +234,9 @@ class Content extends BaseContent
     }
 
     /**
-     * Get indexable
+     * Get indexable.
      *
-     * @return boolean
+     * @return bool
      */
     public function getIndexable()
     {
@@ -258,9 +244,9 @@ class Content extends BaseContent
     }
 
     /**
-     * Is indexable
+     * Is indexable.
      *
-     * @return boolean
+     * @return bool
      */
     public function isIndexable()
     {
@@ -268,9 +254,10 @@ class Content extends BaseContent
     }
 
     /**
-     * Set searchable
+     * Set searchable.
      *
-     * @param  boolean $searchable
+     * @param bool $searchable
+     *
      * @return Content
      */
     public function setSearchable($searchable)
@@ -281,9 +268,9 @@ class Content extends BaseContent
     }
 
     /**
-     * Get searchable
+     * Get searchable.
      *
-     * @return boolean
+     * @return bool
      */
     public function getSearchable()
     {
@@ -291,9 +278,9 @@ class Content extends BaseContent
     }
 
     /**
-     * Is searchable
+     * Is searchable.
      *
-     * @return boolean
+     * @return bool
      */
     public function isSearchable()
     {
@@ -374,7 +361,7 @@ class Content extends BaseContent
     }
 
     /**
-     * Set defaults for nested content
+     * Set defaults for nested content.
      *
      * @return Content
      */

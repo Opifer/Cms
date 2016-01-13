@@ -6,7 +6,7 @@ use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
- * Dynamic menu builder
+ * Dynamic menu builder.
  *
  * Checking access:
  * $this->security->isGranted('ROLE_SUPER_ADMIN')
@@ -19,7 +19,7 @@ abstract class MenuBuilder implements ContainerAwareInterface
     protected $container;
 
     /**
-     * Set container
+     * Set container.
      *
      * @param ContainerInterface $container
      */
@@ -29,12 +29,10 @@ abstract class MenuBuilder implements ContainerAwareInterface
     }
 
     /**
-     * Add a divider
+     * Add a divider.
      *
      * @param MenuItem $menu  The menu
      * @param string   $child Optionally place the divider on a child
-     *
-     * @return void
      */
     public function addDivider($menu, $child = null)
     {
@@ -43,12 +41,12 @@ abstract class MenuBuilder implements ContainerAwareInterface
         $menu->addChild('divider', [
             'uri' => null,
             'label' => null,
-            'attributes' => ['class' => 'divider']
+            'attributes' => ['class' => 'divider'],
         ]);
     }
 
     /**
-     * Get icon
+     * Get icon.
      *
      * @param string $name
      *

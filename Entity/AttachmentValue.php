@@ -60,7 +60,7 @@ class AttachmentValue extends Value
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function getValue()
     {
@@ -68,7 +68,7 @@ class AttachmentValue extends Value
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function setValue($value)
     {
@@ -76,20 +76,18 @@ class AttachmentValue extends Value
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function isEmpty()
     {
-        return (is_null($this->getValue()) && is_null($this->getFile()));
+        return is_null($this->getValue()) && is_null($this->getFile());
     }
 
     public function __toString()
     {
-        if ($this->getAttachment())
-        {
+        if ($this->getAttachment()) {
             $reference = $this->attachment->getReference();
-            if (empty($reference))
-            {
+            if (empty($reference)) {
                 return '';
             }
 

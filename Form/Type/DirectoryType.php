@@ -8,7 +8,7 @@ use Opifer\ContentBundle\Form\Type\DirectoryType as ContentDirectoryType;
 class DirectoryType extends ContentDirectoryType
 {
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {

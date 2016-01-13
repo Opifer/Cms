@@ -16,32 +16,31 @@ fos_user_security_logout:
     pattern: /logout
     defaults: { _controller: FOSUserBundle:Security:logout }
 
-# Bazinga Translator Routing
 _bazinga_jstranslation:
     resource: "@BazingaJsTranslationBundle/Resources/config/routing/routing.yml"
 
 # Opifer bundle routing
+
+opifer_cms_exception_404:
+    pattern: /404
+    defaults: { _controller: OpiferCmsBundle:Frontend\Exception:error404 }
+    methods: [GET]
 
 opifer_form:
     resource: "@OpiferFormBundle/Resources/config/routing.yml"
 
 opifer_eav_form_submit:
     pattern: /eav/form/submit/{valueId}
-    defaults:
-        _controller: OpiferEavBundle:Form:submit
+    defaults: { _controller: OpiferEavBundle:Form:submit }
     requirements:
         valueId: "\d+"
     methods: [POST]
-
-opifer_rules_engine:
-    resource: "@OpiferRulesEngineBundle/Resources/config/routing.yml"
-    prefix:   /
 
 # API routes
 
 opifer_cms_home:
     pattern:  /
-    defaults: { _controller: OpiferCmsBundle:Front/Page:home }
+    defaults: { _controller: OpiferCmsBundle:Frontend\Page:home }
     options: {sitemap: true}
 
 opifer_cms_auto_complete:
@@ -53,10 +52,6 @@ opifer_cms_auto_complete:
 opifer_cms_login:
     pattern:  /login
     defaults: { _controller: FOSUserBundle:Security:login }
-
-opifer_cms_exception:
-    resource: "@OpiferCmsBundle/Controller/Front/ExceptionController.php"
-    type:     annotation
 
 PrestaSitemapBundle:
     resource: "@PrestaSitemapBundle/Resources/config/routing.yml"
@@ -73,6 +68,6 @@ fos_user_change_password:
     defaults: { _controller: FOSUserBundle:ChangePassword:changePassword }
     methods:  [GET,POST]
 
-_opifer_admin:
-    resource: "routing_admin.yml"
+_opifer_backend:
+    resource: "routing_backend.yml"
     prefix:   /admin

@@ -7,14 +7,14 @@ use Opifer\EavBundle\ValueProvider\AbstractValueProvider;
 use Opifer\EavBundle\ValueProvider\ValueProviderInterface;
 
 /**
- * Address Value Provider
+ * Address Value Provider.
  *
  * @author Rick van Laarhoven <r.vanlaarhoven@opifer.nl>
  */
 class AddressValueProvider extends AbstractValueProvider implements ValueProviderInterface
 {
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
@@ -24,7 +24,7 @@ class AddressValueProvider extends AbstractValueProvider implements ValueProvide
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getEntity()
     {

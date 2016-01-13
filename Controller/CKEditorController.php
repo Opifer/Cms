@@ -9,7 +9,7 @@ use Symfony\Component\HttpFoundation\Request;
 class CKEditorController extends Controller
 {
     /**
-     * Content browser for CKEditor
+     * Content browser for CKEditor.
      *
      * @param Request $request
      *
@@ -20,12 +20,12 @@ class CKEditorController extends Controller
         return $this->render('OpiferCmsBundle:CKEditor:content.html.twig', [
             'funcNum' => $request->get('CKEditorFuncNum'),
             'CKEditor' => $request->get('CKEditor'),
-            'type' => $request->get('type')
+            'type' => $request->get('type'),
         ]);
     }
 
     /**
-     * Image browser for CKEditor
+     * Image browser for CKEditor.
      *
      * @param Request $request
      *
@@ -39,7 +39,7 @@ class CKEditorController extends Controller
             'providers' => $providers,
             'funcNum' => $request->get('CKEditorFuncNum'),
             'CKEditor' => $request->get('CKEditor'),
-            'type' => $request->get('type')
+            'type' => $request->get('type'),
         ]);
     }
 }

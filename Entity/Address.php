@@ -6,7 +6,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Address
+ * Address.
  *
  * @ORM\Table(name="address")
  * @ORM\Entity
@@ -14,7 +14,7 @@ use Doctrine\ORM\Mapping as ORM;
 class Address
 {
     /**
-     * @var integer
+     * @var int
      *
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
@@ -77,9 +77,7 @@ class Address
     protected $contents;
 
     /**
-     * Constructor
-     *
-     * @return void
+     * Constructor.
      */
     public function __construct()
     {
@@ -87,9 +85,9 @@ class Address
     }
 
     /**
-     * Get id
+     * Get id.
      *
-     * @return integer
+     * @return int
      */
     public function getId()
     {
@@ -97,7 +95,7 @@ class Address
     }
 
     /**
-     * Get related content items
+     * Get related content items.
      *
      * @return ArrayCollection
      */
@@ -107,9 +105,10 @@ class Address
     }
 
     /**
-     * Set street
+     * Set street.
      *
-     * @param  string  $street
+     * @param string $street
+     *
      * @return Address
      */
     public function setStreet($street)
@@ -120,7 +119,7 @@ class Address
     }
 
     /**
-     * Get street
+     * Get street.
      *
      * @return string
      */
@@ -130,9 +129,10 @@ class Address
     }
 
     /**
-     * Set zipcode
+     * Set zipcode.
      *
-     * @param  string  $zipcode
+     * @param string $zipcode
+     *
      * @return Address
      */
     public function setZipcode($zipcode)
@@ -143,7 +143,7 @@ class Address
     }
 
     /**
-     * Get zipcode
+     * Get zipcode.
      *
      * @return string
      */
@@ -153,9 +153,10 @@ class Address
     }
 
     /**
-     * Set city
+     * Set city.
      *
-     * @param  string  $city
+     * @param string $city
+     *
      * @return Address
      */
     public function setCity($city)
@@ -166,7 +167,7 @@ class Address
     }
 
     /**
-     * Get city
+     * Get city.
      *
      * @return string
      */
@@ -176,9 +177,10 @@ class Address
     }
 
     /**
-     * Set state
+     * Set state.
      *
-     * @param  string  $state
+     * @param string $state
+     *
      * @return $this
      */
     public function setState($state)
@@ -189,7 +191,7 @@ class Address
     }
 
     /**
-     * Get city
+     * Get city.
      *
      * @return string
      */
@@ -199,9 +201,10 @@ class Address
     }
 
     /**
-     * Set country
+     * Set country.
      *
-     * @param  string  $country
+     * @param string $country
+     *
      * @return Address
      */
     public function setCountry($country)
@@ -212,7 +215,7 @@ class Address
     }
 
     /**
-     * Get country
+     * Get country.
      *
      * @return string
      */
@@ -222,9 +225,10 @@ class Address
     }
 
     /**
-     * Set lat
+     * Set lat.
      *
-     * @param  string  $lat
+     * @param string $lat
+     *
      * @return Address
      */
     public function setLat($lat)
@@ -235,7 +239,7 @@ class Address
     }
 
     /**
-     * Get lat
+     * Get lat.
      *
      * @return string
      */
@@ -245,9 +249,10 @@ class Address
     }
 
     /**
-     * Set lng
+     * Set lng.
      *
-     * @param  string  $lng
+     * @param string $lng
+     *
      * @return Address
      */
     public function setLng($lng)
@@ -258,7 +263,7 @@ class Address
     }
 
     /**
-     * Get lng
+     * Get lng.
      *
      * @return string
      */

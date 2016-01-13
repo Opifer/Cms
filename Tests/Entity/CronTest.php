@@ -2,10 +2,8 @@
 
 namespace Opifer\CmsBundle\Tests\Entity;
 
-use Aws\Common\Enum\Time;
 use Faker\Provider\DateTime;
 use Opifer\CmsBundle\Entity\Cron;
-use Doctrine\ORM\Mapping as ORM;
 
 class CronTest extends \PHPUnit_Framework_TestCase
 {
@@ -60,7 +58,7 @@ class CronTest extends \PHPUnit_Framework_TestCase
     public function testRunning()
     {
         $cron = new Cron();
-        $expected = false OR true;
+        $expected = false or true;
 
         $actual = $cron->isRunning();
 
@@ -102,5 +100,4 @@ class CronTest extends \PHPUnit_Framework_TestCase
 
         $this->assertSame($expected, $actual);
     }
-
 }

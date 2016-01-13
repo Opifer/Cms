@@ -2,6 +2,7 @@
 
 namespace Opifer\CmsBundle\Entity;
 
+use APY\DataGridBundle\Grid\Mapping as GRID;
 use Doctrine\ORM\Mapping as ORM;
 use Opifer\CmsBundle\Model\User as BaseUser;
 
@@ -13,6 +14,7 @@ use Opifer\CmsBundle\Model\User as BaseUser;
  *
  * @ORM\Entity
  * @ORM\Table(name="users")
+ * @GRID\Source(columns="id, username, email")
  */
 class User extends BaseUser
 {

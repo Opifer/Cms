@@ -3,11 +3,10 @@
 namespace Opifer\CmsBundle\Entity;
 
 use Symfony\Component\Validator\Constraints as Assert;
-use Opifer\CrudBundle\Annotation as Opifer;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Site
+ * Site.
  *
  * @ORM\Table(name="site")
  * @ORM\Entity()
@@ -15,12 +14,11 @@ use Doctrine\ORM\Mapping as ORM;
 class Site
 {
     /**
-     * @var integer
+     * @var int
      *
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
-     * @Opifer\Grid(listable=true)
      */
     private $id;
 
@@ -29,8 +27,6 @@ class Site
      *
      * @ORM\Column(name="name", type="string", length=128)
      * @Assert\NotBlank()
-     * @Opifer\Form(editable=true)
-     * @Opifer\Grid(listable=true, type="string")
      */
     private $name;
 
@@ -38,7 +34,6 @@ class Site
      * @var string
      *
      * @ORM\Column(name="description", type="text")
-     * @Opifer\Form(editable=true)
      */
     private $description;
 
@@ -46,8 +41,6 @@ class Site
      * @var string
      *
      * @ORM\Column(name="domain", type="string", length=128)
-     * @Opifer\Form(editable=true)
-     * @Opifer\Grid(listable=true, type="string")
      * @Assert\NotBlank()
      * @Assert\Regex(
      *     pattern="/^(?:[-A-Za-z0-9]+\.)+[A-Za-z]{2,6}$/",
@@ -60,7 +53,6 @@ class Site
      * @var string
      *
      * @ORM\Column(name="cookie_domain", type="string", length=128, nullable=true)
-     * @Opifer\Form(editable=true)
      */
     private $cookieDomain;
 
@@ -68,16 +60,14 @@ class Site
      * @var string
      *
      * @ORM\Column(name="default_locale", type="string", length=5)
-     * @Opifer\Form(editable=true)
-     * @Opifer\Grid(listable=true, type="string")
      * @Assert\NotBlank()
      */
     private $defaultLocale;
 
     /**
-     * Get id
+     * Get id.
      *
-     * @return integer
+     * @return int
      */
     public function getId()
     {
@@ -85,9 +75,10 @@ class Site
     }
 
     /**
-     * Set name
+     * Set name.
      *
-     * @param  string $name
+     * @param string $name
+     *
      * @return Site
      */
     public function setName($name)
@@ -98,7 +89,7 @@ class Site
     }
 
     /**
-     * Get name
+     * Get name.
      *
      * @return string
      */
@@ -108,9 +99,10 @@ class Site
     }
 
     /**
-     * Set description
+     * Set description.
      *
-     * @param  string $description
+     * @param string $description
+     *
      * @return Site
      */
     public function setDescription($description)
@@ -121,7 +113,7 @@ class Site
     }
 
     /**
-     * Get description
+     * Get description.
      *
      * @return string
      */
@@ -131,9 +123,10 @@ class Site
     }
 
     /**
-     * Set domain
+     * Set domain.
      *
-     * @param  string $domain
+     * @param string $domain
+     *
      * @return Site
      */
     public function setDomain($domain)
@@ -144,7 +137,7 @@ class Site
     }
 
     /**
-     * Get domain
+     * Get domain.
      *
      * @return string
      */
@@ -154,9 +147,10 @@ class Site
     }
 
     /**
-     * Set cookieDomain
+     * Set cookieDomain.
      *
-     * @param  string $cookieDomain
+     * @param string $cookieDomain
+     *
      * @return Site
      */
     public function setCookieDomain($cookieDomain)
@@ -167,7 +161,7 @@ class Site
     }
 
     /**
-     * Get cookieDomain
+     * Get cookieDomain.
      *
      * @return string
      */
@@ -177,9 +171,10 @@ class Site
     }
 
     /**
-     * Set defaultLocale
+     * Set defaultLocale.
      *
-     * @param  string $defaultLocale
+     * @param string $defaultLocale
+     *
      * @return Site
      */
     public function setDefaultLocale($defaultLocale)
@@ -190,7 +185,7 @@ class Site
     }
 
     /**
-     * Get defaultLocale
+     * Get defaultLocale.
      *
      * @return string
      */
