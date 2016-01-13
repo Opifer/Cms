@@ -36,7 +36,6 @@ abstract class Kernel extends BaseKernel
             new \Knp\Bundle\GaufretteBundle\KnpGaufretteBundle(),
             new \Knp\Bundle\MenuBundle\KnpMenuBundle(),
             new \Liip\ImagineBundle\LiipImagineBundle(),
-            new \Liuggio\ExcelBundle\LiuggioExcelBundle(),
             new \Presta\SitemapBundle\PrestaSitemapBundle(),
             new \Symfony\Cmf\Bundle\RoutingBundle\CmfRoutingBundle(),
 
