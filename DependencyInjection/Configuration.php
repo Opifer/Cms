@@ -44,7 +44,7 @@ class Configuration implements ConfigurationInterface
                     ->addDefaultsIfNotSet()
                     ->children()
                         ->scalarNode('driver')->defaultValue('pdo_mysql')->end()
-                        ->scalarNode('host')->defaultValue('127.0.0.1')->end()
+                        ->scalarNode('host')->defaultValue('%database_host%')->end()
                         ->scalarNode('name')->defaultValue('%database_name%')->end()
                         ->scalarNode('user')->defaultValue('%database_user%')->end()
                         ->scalarNode('password')->defaultValue('%database_password%')->end()

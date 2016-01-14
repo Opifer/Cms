@@ -122,11 +122,11 @@ class SiteMenu extends MenuBuilder implements MenuInterface
      * @param  string $node
      * @return ArrayCollection
      */
-    protected function getChildrenByNodeName($node)
+    protected function getChildrenByNodeName($node, $lvl = 1)
     {
         $collection = new ArrayCollection();
         foreach ($this->getHierarchy() as $object) {
-            if ($object->getParent() && $object->getParent()->getName() == $node) {
+            if ($object->getParent() && $object->getParent()->getName() == $node && $object->getLvl() == $lvl) {
                 $collection->add($object);
             }
         }
