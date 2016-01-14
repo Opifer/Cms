@@ -2,7 +2,6 @@
 
 namespace Opifer\EavBundle\Form\Type;
 
-use Opifer\EavBundle\Model\SchemaInterface;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -69,7 +68,7 @@ class SchemaType extends AbstractType
      */
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults(array(
+        $resolver->setDefaults([
             'data_class'        => $this->schemaClass,
             'validation_groups' => false,
         ]);
