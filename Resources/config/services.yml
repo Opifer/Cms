@@ -44,7 +44,7 @@ services:
     # Form types
     opifer.content.directory_type:
         class: %opifer.content.directory_type.class%
-        arguments: [@translator, %opifer_content.directory_class%]
+        arguments: [%opifer_content.directory_class%]
         tags:
             - { name: form.type, alias: opifer_directory }
 

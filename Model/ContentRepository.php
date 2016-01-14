@@ -31,10 +31,11 @@ class ContentRepository extends EntityRepository
     public function createValuedQueryBuilder($entityAlias)
     {
         return $this->createQueryBuilder($entityAlias)
-            ->select($entityAlias, 'vs', 'v', 'a', 'p')
+            ->select($entityAlias, 'vs', 'v', 'a', 'p', 's')
             ->leftJoin($entityAlias . '.valueSet', 'vs')
+            ->leftJoin('vs.schema', 's')
             ->leftJoin('vs.values', 'v')
-            ->leftJoin('v.attribute', 'a')
+            ->leftJoin('s.attributes', 'a')
             ->leftJoin('v.options', 'p');
     }
 

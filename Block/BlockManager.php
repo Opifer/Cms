@@ -390,7 +390,7 @@ class BlockManager
             // with the newly created id to perform sorting
             $id = $block->getId();
             $sort = array_map(
-                function ($v) use ($value, $id) {
+                function ($v) use ($id) {
                     return $v == "" || $v == "0" ? $id : $v;
                 },
                 $sort

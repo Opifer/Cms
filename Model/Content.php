@@ -13,7 +13,6 @@ use Opifer\EavBundle\Model\SchemaInterface;
 use Opifer\EavBundle\Model\ValueSetInterface;
 use Opifer\EavBundle\Model\EntityInterface;
 use Opifer\ContentBundle\Entity\Template;
-use Opifer\ContentBundle\Model\BlockInterface;
 
 /**
  * Content
@@ -167,7 +166,7 @@ class Content implements ContentInterface, EntityInterface
     /**
      * @var BlockInterface
      *
-     * @ORM\OneToOne(targetEntity="Opifer\ContentBundle\Model\BlockInterface", cascade={"persist", "remove"})
+     * @ORM\OneToOne(targetEntity="Opifer\ContentBundle\Entity\Block", cascade={"persist", "remove"})
      * @ORM\JoinColumn(name="block_id", referencedColumnName="id")
      **/
     protected $block;

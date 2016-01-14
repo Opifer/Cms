@@ -41,7 +41,7 @@ class ContentController extends Controller
 
         $data = [
             'results'       => json_decode($contents, true),
-            'total_results' => $paginator->getTotalResults()
+            'total_results' => $paginator->getNbResults()
         ];
 
         return new JsonResponse($data);

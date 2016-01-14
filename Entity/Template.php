@@ -66,7 +66,7 @@ class Template
     /**
      * @var BlockInterface
      *
-     * @ORM\ManyToOne(targetEntity="Opifer\ContentBundle\Model\BlockInterface")
+     * @ORM\ManyToOne(targetEntity="Opifer\ContentBundle\Entity\Block")
      * @ORM\JoinColumn(name="block_id", referencedColumnName="id")
      **/
     protected $block;

@@ -3,16 +3,12 @@
 namespace Opifer\ContentBundle\Form\Type;
 
 use Doctrine\ORM\EntityRepository;
-use Symfony\Component\Translation\TranslatorInterface;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Routing\RouterInterface;
 
 class ContentInitType extends AbstractType
 {
-    /** @var  TranslatorInterface */
-    protected $translator;
-
     /** @var RouterInterface */
     protected $router;
 
@@ -25,14 +21,12 @@ class ContentInitType extends AbstractType
     /**
      * Constructor
      *
-     * @param TranslatorInterface $translator
      * @param RouterInterface     $router
      * @param string              $templateClass
      * @param string              $contentClass
      */
-    public function __construct(TranslatorInterface $translator, RouterInterface $router, $templateClass, $contentClass)
+    public function __construct(RouterInterface $router, $templateClass, $contentClass)
     {
-        $this->translator = $translator;
         $this->router = $router;
         $this->templateClass = $templateClass;
         $this->contentClass = $contentClass;
@@ -48,7 +42,7 @@ class ContentInitType extends AbstractType
                 'class'    => $this->templateClass,
                 'property' => 'displayName',
                 'attr'     => [
-                    'help_text' => $this->translator->trans('content.form.template.help_text')
+                    'help_text' => 'content.form.template.help_text'
                 ],
                 'query_builder' => function(EntityRepository $repository) {
                     return $repository->createQueryBuilder('c')
@@ -58,15 +52,25 @@ class ContentInitType extends AbstractType
                 }
             ])
             ->add('save', 'submit', [
-                'label' => ucfirst($this->translator->trans('content.form.init.submit'))
+                'label' => 'content.form.init.submit'
             ])
         ;
     }
 
     /**
      * {@inheritDoc}
+     *
+     * @deprecated
      */
     public function getName()
+    {
+        return $this->getBlockPrefix();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getBlockPrefix()
     {
         return 'opifer_content_init';
     }
