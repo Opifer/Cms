@@ -1,6 +1,8 @@
 
 <?php
+
 namespace Opifer\CmsBundle\Repository;
+
 use Doctrine\Common\Collections\ArrayCollection;
 use Opifer\ContentBundle\Model\Content;
 use Opifer\ContentBundle\Model\ContentRepository as BaseContentRepository;
@@ -8,7 +10,7 @@ use Opifer\ContentBundle\Model\ContentRepository as BaseContentRepository;
 /**
  * ContentRepository.
  *
- * Because content items are used in different kinds of usecases, please specify
+ * Because content items are used in different kinds of use-cases, please specify
  * the scope of the function inside the function name.
  * For example:
  *
@@ -28,6 +30,7 @@ class ContentRepository extends BaseContentRepository
     public function search($term)
     {
         $qb = $this->_em->createQueryBuilder();
+
         return $this->createValuedQueryBuilder('c')
             ->leftJoin('c.directory', 'd')
             ->where($qb->expr()->orX(
@@ -56,6 +59,7 @@ class ContentRepository extends BaseContentRepository
     public function searchNested($term)
     {
         $qb = $this->_em->createQueryBuilder();
+
         return $this->createValuedQueryBuilder('c')
             ->leftJoin('c.directory', 'd')
             ->where($qb->expr()->orX(
@@ -97,8 +101,8 @@ class ContentRepository extends BaseContentRepository
             ->setParameter('id', $content->getId())
             ->setParameter('city', $city)
             ->setMaxResults($limit)
-            ->getQuery()
-        ;
+            ->getQuery();
+
         return $query->getResult();
     }
 
@@ -115,8 +119,8 @@ class ContentRepository extends BaseContentRepository
             ->where('c.nestedIn IS NULL')
             ->orderBy('c.updatedAt', 'DESC')
             ->setMaxResults($limit)
-            ->getQuery()
-        ;
+            ->getQuery();
+
         return $query->getResult();
     }
 
