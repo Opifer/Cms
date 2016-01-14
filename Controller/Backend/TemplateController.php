@@ -5,6 +5,7 @@ namespace Opifer\CmsBundle\Controller\Backend;
 use APY\DataGridBundle\Grid\Action\RowAction;
 use APY\DataGridBundle\Grid\Column\TextColumn;
 use APY\DataGridBundle\Grid\Source\Entity;
+use Doctrine\Common\Collections\ArrayCollection;
 use Opifer\CmsBundle\Entity\Template;
 use Opifer\EavBundle\Form\Type\TemplateType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -61,6 +62,15 @@ class TemplateController extends Controller
 
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
+
+            foreach ($form->getData()->getAttributes() as $attribute) {
+                $attribute->setTemplate($template);
+
+                foreach ($attribute->getOptions() as $option) {
+                    $option->setAttribute($attribute);
+                }
+            }
+
             $em->persist($template);
             $em->flush();
 
@@ -86,7 +96,28 @@ class TemplateController extends Controller
         $form = $this->createForm(TemplateType::class, $template);
         $form->handleRequest($request);
 
+        $originalAttributes = new ArrayCollection();
+        foreach ($template->getAttributes() as $attributes) {
+            $originalAttributes->add($attributes);
+        }
+
         if ($form->isSubmitted() && $form->isValid()) {
+            // Delete removed attributes
+            foreach ($originalAttributes as $attribute) {
+                if (false === $form->getData()->getAttributes()->contains($attribute)) {
+                    $em->remove($attribute);
+                }
+            }
+
+            // Add new attributes
+            foreach ($form->getData()->getAttributes() as $attribute) {
+                $attribute->setTemplate($template);
+
+                foreach ($attribute->getOptions() as $option) {
+                    $option->setAttribute($attribute);
+                }
+            }
+
             $em->flush();
 
             return $this->redirectToRoute('opifer_cms_template_edit', ['id' => $template->getId()]);
