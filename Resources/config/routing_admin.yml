@@ -1,0 +1,29 @@
+opifer_form_form_index:
+    path: /forms
+    defaults: { _controller: OpiferFormBundle:Form:index }
+
+opifer_form_form_create:
+    path: /forms/create
+    defaults: { _controller: OpiferFormBundle:Form:create }
+
+opifer_form_form_edit:
+    path: /forms/edit/{id}
+    defaults: { _controller: OpiferFormBundle:Form:edit }
+
+opifer_form_form_delete:
+    path: /forms/delete/{id}
+    defaults: { _controller: OpiferFormBundle:Form:delete }
+
+opifer_form_post_index:
+    path: /forms/{formId}/posts
+    defaults: { _controller: OpiferFormBundle:Post:index }
+    requirements:
+        formId: \d+
+
+opifer_form_post_view:
+    path: /forms/posts/{id}
+    defaults: { _controller: OpiferFormBundle:Post:view }
+
+opifer_form_post_delete:
+    path: /forms/posts/delete/{id}
+    defaults: { _controller: OpiferFormBundle:Post:delete }

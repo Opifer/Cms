@@ -1,0 +1,6 @@
+opifer_form_form_submit:
+    path: /form/submit/{id}
+    defaults: { _controller: OpiferFormBundle:Form:submit }
+    methods: [POST]
+    requirements:
+        id: \d+

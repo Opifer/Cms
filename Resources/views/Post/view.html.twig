@@ -1,0 +1,16 @@
+{% extends 'OpiferFormBundle::base.html.twig' %}
+
+{% block opifer_form_body %}
+    <table>
+        <tr>
+            <th>Property</th>
+            <th>Value</th>
+        </tr>
+        {% for key, value in post.valueset.namedvalues %}
+            <tr>
+                <td>{{ value.attribute.displayName }}</td>
+                <td>{{ value }}</td>
+            </tr>
+        {% endfor %}
+    </table>
+{% endblock opifer_form_body %}
