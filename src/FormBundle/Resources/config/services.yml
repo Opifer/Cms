@@ -4,7 +4,7 @@ parameters:
     opifer.form.form_form.class: Opifer\FormBundle\Form\Type\FormType
     opifer.form.notification_mail_listener.class: Opifer\FormBundle\EventListener\NotificationMailListener
     opifer.form.post_form.class: Opifer\FormBundle\Form\Type\PostType
-    opifer.form.template_form.class: Opifer\FormBundle\Form\Type\TemplateType
+    opifer.form.schema_form.class: Opifer\FormBundle\Form\Type\SchemaType
     opifer.form.post_manager.class: Opifer\FormBundle\Model\PostManager
 
 services:
@@ -12,7 +12,7 @@ services:
 
     opifer.form.form_manager:
         class: %opifer.form.form_manager.class%
-        arguments: [@doctrine.orm.default_entity_manager, @opifer.eav.template_manager, @opifer.form.post_manager, %opifer_form.form_class%]
+        arguments: [@doctrine.orm.default_entity_manager, @opifer.eav.schema_manager, @opifer.form.post_manager, %opifer_form.form_class%]
 
     opifer.form.post_manager:
         class: %opifer.form.post_manager.class%
@@ -32,11 +32,11 @@ services:
         tags:
             - { name: form.type, alias: opifer_form_post }
 
-    opifer.form.template_form:
-        class: %opifer.form.template_form.class%
-        arguments: [@opifer.eav.form.attribute_type, %opifer_eav.template_class%]
+    opifer.form.schema_form:
+        class: %opifer.form.schema_form.class%
+        arguments: [@opifer.eav.form.attribute_type, %opifer_eav.schema_class%]
         tags:
-            - { name: form.type, alias: opifer_form_template }
+            - { name: form.type, alias: opifer_form_schema }
 
     # Twig
 

@@ -2,10 +2,10 @@
 
 namespace Opifer\FormBundle\Form\Type;
 
-use Opifer\EavBundle\Form\Type\TemplateType as BaseTemplateType;
+use Opifer\EavBundle\Form\Type\SchemaType as BaseSchemaType;
 use Symfony\Component\Form\FormBuilderInterface;
 
-class TemplateType extends BaseTemplateType
+class SchemaType extends BaseSchemaType
 {
     /**
      * {@inheritDoc}
@@ -24,6 +24,6 @@ class TemplateType extends BaseTemplateType
      */
     public function getName()
     {
-        return 'opifer_form_template';
+        return 'opifer_form_schema';
     }
 }

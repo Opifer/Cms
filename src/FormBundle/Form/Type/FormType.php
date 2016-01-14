@@ -41,7 +41,7 @@ class FormType extends AbstractType
             ->add('redirectUrl', 'text', [
                 'required' => false
             ])
-            ->add('template', 'opifer_form_template')
+            ->add('template', 'opifer_form_schema')
         ;
     }
 

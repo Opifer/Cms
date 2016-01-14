@@ -5,7 +5,7 @@ namespace Opifer\FormBundle\Model;
 interface FormInterface
 {
     /**
-     * @return \Opifer\EavBundle\Model\TemplateInterface
+     * @return \Opifer\EavBundle\Model\SchemaInterface
      */
-    public function getTemplate();
+    public function getSchema();
 }
