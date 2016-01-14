@@ -34,12 +34,12 @@ class Form implements FormInterface
     protected $name;
 
     /**
-     * @var TemplateInterface
+     * @var SchemaInterface
      *
-     * @ORM\ManyToOne(targetEntity="Opifer\EavBundle\Model\TemplateInterface", cascade={"persist"})
-     * @ORM\JoinColumn(name="template_id", referencedColumnName="id")
+     * @ORM\ManyToOne(targetEntity="Opifer\EavBundle\Model\SchemaInterface", cascade={"persist"})
+     * @ORM\JoinColumn(name="schema_id", referencedColumnName="id")
      */
-    protected $template;
+    protected $schema;
 
     /**
      * @var ArrayCollection
@@ -119,19 +119,19 @@ class Form implements FormInterface
     }
 
     /**
-     * @return TemplateInterface
+     * @return SchemaInterface
      */
-    public function getTemplate()
+    public function getSchema()
     {
-        return $this->template;
+        return $this->schema;
     }
 
     /**
-     * @param TemplateInterface $template
+     * @param SchemaInterface $schema
      */
-    public function setTemplate(TemplateInterface $template)
+    public function setSchema(SchemaInterface $schema)
     {
-        $this->template = $template;
+        $this->schema = $schema;
 
         return $this;
     }
