@@ -1,0 +1,41 @@
+{% extends 'OpiferContentBundle::base.html.twig' %}
+
+{% block opifer_content_body %}
+    {% spaceless %}
+    <div class="page-header clearfix">
+        <h1 class="pull-left">{{ 'directory.index.title'|trans|capitalize }}</h1>
+        <a href="{{ path('opifer_content_directory_new') }}" class="btn btn-default pull-right">
+            {{ 'button.add'|trans|capitalize }}
+        </a>
+    </div>
+
+    <section class="panel-section">
+        <table class="table">
+            <thead>
+                <tr>
+                    {#<th><input type="checkbox" /></th>#}
+                    <th>Id</th>
+                    <th>{{ 'form.name'|trans|capitalize }}</th>
+                    <th></th>
+            </thead>
+            <tbody>
+            {% macro tree_walk(directoryTree, level) %}
+                {% for directory in directoryTree %}
+                    <tr>
+                        {#<td width="25"><input type="checkbox" name="item[]" value="{{ directory.id }}" /></td>#}
+                        <td width="25">{{ directory.id }}</td>
+                        <td>{% if level %}{% for i in 0..level %}&nbsp;&nbsp;&nbsp;&nbsp;{% endfor %}{% endif %}{{ directory.name }}</td>
+                        <td>
+                            <a href="{{ path('opifer_content_directory_edit', {'id' : directory.id}) }}">{{ 'button.edit'|trans|capitalize }}</a>&nbsp;
+                            <a data-name="{{ directory.name }}" data-type="{{ 'directory.type'|trans }}" data-href="{{ path('opifer_content_directory_delete', {'id' : directory.id}) }}" href="{{ path('opifer_content_directory_delete', {'id' : directory.id}) }}" class="danger delete">{{ 'button.delete'|trans|capitalize }}</a>
+                        </td>
+                    </tr>
+                   {{ _self.tree_walk(directory.__children, (level+1)) }}
+                {% endfor %}
+            {% endmacro %}
+            {{ _self.tree_walk(directoryTree, 0) }}
+            </tbody>
+        </table>
+    </section>
+    {% endspaceless %}
+{% endblock opifer_content_body %}

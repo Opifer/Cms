@@ -1,0 +1,49 @@
+opifer_content_formtype_angular:
+    path: /formtype/angular
+    defaults: { _controller: OpiferContentBundle:Backend/FormType:angular }
+    options:
+        expose: true
+
+# Backend Directory
+opifer_content_directory_index:
+    path: /directory
+    defaults: { _controller: OpiferContentBundle:Backend/Directory:index }
+
+opifer_content_directory_new:
+    path: /directory/new
+    defaults: { _controller: OpiferContentBundle:Backend/Directory:new }
+
+opifer_content_directory_edit:
+    path: /directory/edit/{id}
+    defaults: { _controller: OpiferContentBundle:Backend/Directory:edit }
+
+opifer_content_directory_delete:
+    path: /directory/delete/{id}
+    defaults: { _controller: OpiferContentBundle:Backend/Directory:delete }
+
+# Backend content
+opifer_content_content_init:
+    path: /content/init
+    defaults: { _controller: OpiferContentBundle:Backend/Content:init }
+
+opifer_content_content_new:
+    path: /content/new/{template}/{mode}
+    defaults: { _controller: OpiferContentBundle:Backend/Content:new, template: 0, mode: simple }
+
+opifer_content_content_edit:
+    path: /content/edit/{id}/{directoryId}/{mode}
+    defaults: { _controller: OpiferContentBundle:Backend/Content:edit, mode: simple, directoryId: 0 }
+    options:
+        expose: true
+
+opifer_content_content_duplicate:
+    path: /content/duplicate/{id}
+    defaults: { _controller: OpiferContentBundle:Backend/Content:duplicate }
+    options:
+        expose: true
+
+opifer_content_content_index:
+    path: /content/{directoryId}
+    defaults: { _controller: OpiferContentBundle:Backend/Content:index, directoryId: 0 }
+    requirements:
+        directoryId:  \d+

@@ -1,0 +1,99 @@
+<div class="content-browser">
+    <nav class="navbar navbar-default" role="navigation">
+        <div class="container-fluid">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+                <div class="btn-group navbar-btn navbar-left">
+                    <button type="button" class="btn btn-default" ng-click="previous()" ng-disabled="histPointer < 1"><i class="fa fa-chevron-left"></i></button>
+                    <button type="button" class="btn btn-default" ng-click="next()" ng-disabled="histPointer + 1 >= history.length"><i class="fa fa-chevron-right"></i></button>
+                </div>
+                <form class="navbar-form navbar-right" role="search">
+                    <div class="form-group">
+                        <div class="input-group search-group">
+                            <input type="text" class="form-control" placeholder="Search" ng-model="query">
+                            <span class="input-group-addon">
+                                <i class="fa fa-search"></i>
+                            </span>
+                        </div>
+                    </div>
+                    <i class="fa fa-times" ng-click="clearSearch()" ng-show="query"></i>
+                </form>
+            </div>
+        </div><!-- /.container-fluid -->
+    </nav>
+    <section class="panel-section">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th width="32">
+
+                    </th>
+                    <th>
+                        Title
+                    </th>
+                    <th class="detail hidden-xs">
+                        Permalink
+                    </th>
+                    <th class="detail hidden-xs">
+                        Template
+                    </th>
+                    <th width="170">
+
+                    </th>
+                </tr>
+            </thead>
+            <tr ng-repeat="directory in directorys">
+                <td ng-click="navigateToDirectory(directory)" class="cell-folder cell-cover"></td>
+                <td><a ng-click="navigateToDirectory(directory)" class="text-muted">{{ directory.name}}</a></td>
+                <td class="detail hidden-xs"><span class="light">/{{ directory.slug}}</span></td>
+                <td class="detail hidden-xs"></td>
+                <td class="actions"><a ng-click="navigateToDirectory(directory)" class="next">Open</a></td>
+            </tr>
+            <tr ng-repeat="content in contents track by $index">
+                <td class="cell-coverimg" ng-if="content.coverImage" ng-class="content.active ? '' : 'cell-inactive'">
+                    <div  ng-click="editContent(content.id)" afkl-lazy-image="{{ content.coverImage }}" afkl-lazy-image-options='{"background": true}' class="afkl-lazy-wrapper afkl-img-ratio-1-1 content-cover"></div>
+                </td>
+                <td class="cell-file" ng-click="editContent(content.id)" ng-if="!content.coverImage"></td>
+                <td ng-click="editContent(content.id)" class="" ng-class="content.active ? '' : 'text-muted'">{{ content.title}}</td>
+                <td class="hidden-xs" ng-class="content.active ? '' : 'text-muted'"><s ng-if="!content.active"><small>{{ content.path}}</small></s><a href="{{ content.path}}" target="_blank" ng-if="content.active"><small>{{ content.path}}</small></a></td>
+                <td class="detail hidden-xs"><span class="label label-info">{{ content.templateDisplayName}}</span></td>
+                <td class="actions" ng-if="mode == 'ADMIN'">
+                    <a class="text-muted js-delete-confirm" ng-click="confirmCopyContent($index, $event)" data-action_title="Duplicate" data-btn_type="btn-primary" data-confirmation_message="Do you really want to duplicate " data-name="{{ content.title }}">Duplicate</a>&nbsp;
+                    <a href="{{ editUrl(content.id) }}">Edit</a>&nbsp;
+                    <a class="danger js-delete-confirm" ng-click="confirmDeleteContent($index, $event)" data-action_title="Delete" data-btn_type="btn-danger" data-confirmation_message="Do you really want to delete " data-name="{{ content.title }}">Delete</a>
+                    <!-- <a  class="danger js-delete-confirm" ng-click="confirmDeleteContent(content.id)" data-name="{{ content.title }}" data-toggle="modal" data-target="#modalDelete">Delete</a> -->
+                    <!--ng-click="deleteContent(content.id)"-->
+                </td>
+                <td class="actions" ng-if="mode == 'PICKER'">
+                    <a href="#" ng-click="pickContent(content)" ng-show="!hasContent(content)">Add</a>
+                    <a href="#" class="text-danger" ng-click="unpickContent(content)" ng-show="hasContent(content)">Remove</a>&nbsp;
+                </td>
+                <td class="actions" ng-if="mode == 'PICKER_SINGLE'">
+                    <a href="#" ng-click="pickContent(content)">Choose</a>
+                </td>
+            </tr>
+        </table>
+        <nav class="center-block panel-body text-center">
+            <button ng-model="btnPaginate" ng-click="loadMore()" in-view="loadMore()" type="button" data-loading-text="Loading..."  class="btn btn-primary" ng-hide="(maxPerPage * currentPage) > numberOfResults">
+                {{ lblPaginate }}
+            </button>
+        </nav>
+    </section>
+</div>
+
+<ng-modal show='confirmation.shown'>
+    <div class="modal-header">
+        <h4 class="modal-title">Confirm {{ confirmation.dataset.action_title }}</h4>
+    </div>
+    <div class="modal-body">
+        {{ confirmation.dataset.confirmation_message }} "{{ confirmation.name }}" content?
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-link" ng-click="confirmation.shown = false">
+            Cancel
+        </button>
+        <button class="btn {{ confirmation.dataset.btn_type }} modal-confirm-button" ng-click="confirmation.action(confirmation.idx)" title="{{ confirmation.action_description }}">
+            {{ confirmation.dataset.action_title }}
+        </button>
+    </div>
+</ng-modal>

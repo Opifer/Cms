@@ -1,0 +1,76 @@
+# Content
+content:
+    edit:
+        create:
+            title: creëer nieuwe content
+        mode:
+            simple: simpel
+            advanced: geavanceerd
+        return: bovenliggende map
+        success: "%title% is succesvol opgeslagen!"
+    form:
+        description:
+            placeholder: Omschrijving van de pagina
+        active:
+            description:  Publicatie
+            label:  Actief
+            help_text: Publicatie status van het content item waarbij inactief de content niet bezocht kan worden
+        directory:
+            help_text: De URL van de pagina wordt gemaakt op basis van de map waarin deze geplaatst wordt
+        init:
+            submit: naar stap 2
+        locale:
+            help_text: ""
+        slug:
+            placeholder: Unieke permalink voor de pagina
+        submit: Opslaan
+        template:
+            help_text: 'Het soort content'
+        title:
+            placeholder: De titel van de pagina
+            help_text: De titel van de pagina wordt in de browser weergegeven in het tabblad en in zoekmachines getoond
+    new:
+        title: Bepaal het soort content
+
+# Directory
+directory:
+    index:
+        title: mappen
+    edit:
+        title: bewerk map
+    parent:
+        label: Bovenliggende map
+        empty: "(Geen bovenliggende map)"
+        help_text: kies een bovenliggende map indien van toepassing
+    name:
+        help_text: de naam voor deze map
+    menu:
+        default:
+            label: standaard
+    submit: map opslaan
+    type: Map
+
+# Form field labels
+form:
+    name: Naam
+    description: Beschrijving
+    email: Email
+    parent: Bovenliggende
+    permalink: Pagina URL
+    presentation: presentatie
+    slug:
+        label: "URL-vriendelijke naam"
+        help_text: "gebruik alleen letters en getallen, geen spaties toegestaan. a-z0-9_-"
+    title: Titel
+    username: gebruikersnaam
+    active: Active
+    symlink: Symlink voor
+
+# Buttons
+button:
+    submit: Opslaan
+    add: nieuwe toevoegen
+    all: toon alles
+    cancel: annuleren
+    delete: verwijderen
+    edit: bewerken

@@ -1,0 +1,43 @@
+{% extends 'OpiferContentBundle::base.html.twig' %}
+
+{% block opifer_content_body %}
+    <div class="page-header">
+        <h1>{{ 'directory.edit.title'|trans|capitalize }}</h1>
+    </div>
+
+    {#{% if menu %}
+        <div class="page-tabs">
+            {{ knp_menu_render(menu, {'style': 'tabs' }) }}
+        </div>
+    {%endif %}#}
+
+    {% if not form.vars.valid %}
+        <div class="alert alert-error">
+            {{ form_errors(form) }}
+        </div>
+    {% endif %}
+
+    <section class="page-section">
+
+        {{ form_start(form, {'style': 'horizontal', 'attr': {'novalidate':'novalidate'} }) }}
+
+        {{ form_row(form.parent) }}
+        {{ form_row(form.name) }}
+        {{ form_row(form.slug) }}
+        {{ form_row(form.searchable) }}
+
+        <div class="form-group">
+            <div class="col-xs-12 col-sm-10 col-sm-offset-2">
+                <div class="pull-left">
+                    {{ form_widget(form.save) }}
+                </div>
+                <div class="pull-right">
+                    <a href="{{ path('opifer_content_directory_index') }}"
+                       class="btn btn-link">{{ 'button.cancel'|trans|capitalize }}</a>
+                </div>
+            </div>
+        </div>
+
+        {{ form_end(form) }}
+    </section>
+{% endblock opifer_content_body %}

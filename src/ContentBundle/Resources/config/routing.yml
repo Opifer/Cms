@@ -1,0 +1,6 @@
+opifer_content_api:
+    resource: "routing_api.yml"
+    prefix:   /api
+
+opifer_content_backend:
+    resource: "routing_backend.yml"

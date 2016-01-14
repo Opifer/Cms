@@ -1,0 +1,109 @@
+{% extends 'OpiferContentBundle::base.html.twig' %}
+
+{% block opifer_content_body %}
+    <article>
+        <header class="page-header">
+            <h1>{% if content.title|default %}{{ content.title }}{% else %}{{ 'content.edit.create.title'|trans|capitalize }}{% endif %}
+                <small>{{ content.valueSet.template.displayName }}{% if content.slug|default %} • <a
+                        href="{{ url('_content', {'slug': content.slug}) }}"
+                        target="_blank">{{ 'content.edit.visit'|trans }}</a>• <a
+                            href="{{ path('opifer_content_content_index', {'directoryId': directoryId|default(0) }) }}">{{ 'content.edit.return'|trans|capitalize }}</a>{% endif %}</small>
+            </h1>
+
+            {# hide until properly implemented and documented #}
+            {% if content.id != null and false %}
+                <div class="nav-wrapper pull-right">
+                    <ul class="nav nav-pills">
+                        <li {% if mode == 'simple' %}class="active"{% endif %}>
+                            <a href="{{ path('opifer_content_content_edit', {'mode':'simple', 'id': content.id}) }}">
+                                {{ 'content.edit.mode.simple'|trans|capitalize }}
+                            </a>
+                        </li>
+                        <li {% if mode == 'advanced' %}class="active"{% endif %}>
+                            <a href="{{ path('opifer_content_content_edit', {'mode':'advanced', 'id': content.id}) }}">
+                                {{ 'content.edit.mode.advanced'|trans|capitalize }}
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            {% endif %}
+        </header>
+
+        {#{% if menu %}
+            <div class="page-tabs">
+            {{ knp_menu_render(menu, {'style': 'tabs'}) }}
+        </div>
+        {%endif %}#}
+
+        {% if not form.vars.valid %}
+            <div class="alert alert-error">
+                {{ form_errors(form) }}
+            </div>
+        {% endif %}
+
+        {{ form_start(form, {'action': '#', 'attr' : {'novalidate': 'novalidate', 'class': 'prevent-enter-submit'}, 'style': 'horizontal'}) }}
+        <section class="page-section">
+            {{ form_row(form.title, {'attr' : {'class': 'slugify', 'data-slugify-target': '#opifer_content_slug'}}) }}
+            {{ form_row(form.description) }}
+
+            <div class="form-group">
+                <label class="control-label col-lg-2" for="admin_content_form_directory">{{ 'form.permalink'|trans }}</label>
+
+                <div class="col-xs-10">
+                    <div class="row">
+                        <div class="col-xs-4 col-lg-3">
+                            {{ form_widget(form.directory) }}
+                        </div>
+                        <div class="col-xs-8 col-lg-9">
+                            {{ form_widget(form.slug) }}
+                        </div>
+                    </div>
+                    <span class="help-block">{{ 'content.form.directory.help_text'|trans }}</span>
+                </div>
+            </div>
+
+            {{ form_row(form.alias) }}
+
+            {% if mode == 'advanced' %}
+                {{ form_row(form.symlink) }}
+            {% else %}
+                {% do form.symlink.setRendered %}
+            {% endif %}
+
+            <div class="form-group">
+                <label class="control-label col-lg-2" for="opifer_content_active">{{ 'content.form.active.description'|trans|capitalize }}</label>
+
+                <div class="col-xs-8 col-lg-8">
+                    <div class="btn-group" data-toggle="buttons">
+                        <label class="btn btn-publication {% if form.active.vars.checked %}active{% endif %}">
+                            {{ form_widget(form.active) }} <i class="icon-state"></i> {{ 'content.form.active.label'|trans|capitalize }}
+                        </label>
+                    </div>
+                    <span class="help-block">{{ 'content.form.active.help_text'|trans }}</span>
+                </div>
+            </div>
+
+            {% if form.valueset is defined %}
+                {{ form_row(form.valueset) }}
+            {% endif %}
+
+            {% if mode == 'advanced' %}
+                {{ form_row(form.realPresentation) }}
+            {% endif %}
+
+            <div class="form-group">
+                <div class="col-xs-12 col-sm-10 col-sm-offset-2">
+                    <div class="pull-left">
+                        {{ form_widget(form.save) }}
+                    </div>
+                    <div class="pull-right">
+                        <a href="{{ path('opifer_content_content_index') }}" class="btn btn-link">{{ 'button.cancel'|trans|capitalize }}</a>
+                    </div>
+                </div>
+            </div>
+
+        </section>
+        {{ form_rest(form) }}
+        {{ form_end(form) }}
+    </article>
+{% endblock opifer_content_body %}
