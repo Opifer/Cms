@@ -56,7 +56,7 @@ services:
 
     opifer.content.content_init_type:
         class: %opifer.content.content_init_type.class%
-        arguments: [@translator, @router, %opifer_eav.template_class%, %opifer_content.content_class%]
+        arguments: [@translator, @router, %opifer_eav.schema_class%, %opifer_content.content_class%]
         tags:
             - { name: form.type, alias: opifer_content_init }
 
