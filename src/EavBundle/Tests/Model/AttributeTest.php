@@ -5,7 +5,7 @@ namespace Opifer\EavBundle\Tests\Model;
 use Doctrine\Common\Collections\ArrayCollection;
 use Mockery as m;
 use Opifer\EavBundle\Model\Attribute;
-use Opifer\EavBundle\Model\Template;
+use Opifer\EavBundle\Model\Schema;
 
 class AttributeTest extends \PHPUnit_Framework_TestCase
 {
@@ -45,14 +45,14 @@ class AttributeTest extends \PHPUnit_Framework_TestCase
         $this->assertSame($expected, $actual);
     }
 
-    public function testTemplate()
+    public function testSchema()
     {
         $attribute = new Attribute();
-        $template = new Template();
+        $schema = new Schema();
 
-        $expected = $template;
-        $attribute->setTemplate($template);
-        $actual = $attribute->getTemplate();
+        $expected = $schema;
+        $attribute->setSchema($schema);
+        $actual = $attribute->getSchema();
 
         $this->assertSame($expected, $actual);
     }
@@ -81,15 +81,15 @@ class AttributeTest extends \PHPUnit_Framework_TestCase
         $this->assertSame($expected, $actual);
     }
 
-    public function testAllowedTemplates()
+    public function testAllowedSchemas()
     {
         $attribute = new Attribute();
         $arrayCollection = new ArrayCollection();
-        $allowedTemplates = $arrayCollection;
+        $allowedSchemas = $arrayCollection;
 
         $expected = $arrayCollection;
-        $attribute->setAllowedTemplates($allowedTemplates);
-        $actual = $attribute->getAllowedTemplates();
+        $attribute->setAllowedSchemas($allowedSchemas);
+        $actual = $attribute->getAllowedSchemas();
 
         $this->assertSame($expected, $actual);
     }

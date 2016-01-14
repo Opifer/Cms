@@ -4,7 +4,7 @@ namespace Opifer\EavBundle\Model;
 
 use Doctrine\ORM\EntityManagerInterface;
 
-class TemplateManager
+class SchemaManager
 {
 
     /** @var EntityManager */
@@ -22,8 +22,8 @@ class TemplateManager
      */
     public function __construct(EntityManagerInterface $em, $class)
     {
-        if ( ! is_subclass_of($class, 'Opifer\EavBundle\Model\TemplateInterface')) {
-            throw new \Exception($class . ' must implement Opifer\EavBundle\Model\TemplateInterface');
+        if ( ! is_subclass_of($class, 'Opifer\EavBundle\Model\SchemaInterface')) {
+            throw new \Exception($class . ' must implement Opifer\EavBundle\Model\SchemaInterface');
         }
 
         $this->em    = $em;
@@ -43,36 +43,36 @@ class TemplateManager
 
 
     /**
-     * Create a new template instance
+     * Create a new schema instance
      *
-     * @return TemplateInterface
+     * @return SchemaInterface
      */
     public function create()
     {
         $class    = $this->getClass();
-        $template = new $class();
+        $schema = new $class();
 
-        return $template;
+        return $schema;
     }
 
 
     /**
-     * Save template
+     * Save schema
      *
-     * @param TemplateInterface $template
+     * @param SchemaInterface $schema
      *
-     * @return TemplateInterface
+     * @return SchemaInterface
      */
-    public function save(TemplateInterface $template)
+    public function save(SchemaInterface $schema)
     {
-        foreach ($template->getAttributes() as $attribute) {
-            $attribute->setTemplate($template);
+        foreach ($schema->getAttributes() as $attribute) {
+            $attribute->setSchema($schema);
             $this->em->persist($attribute);
         }
-        $this->em->persist($template);
+        $this->em->persist($schema);
         $this->em->flush();
 
-        return $template;
+        return $schema;
     }
 
 

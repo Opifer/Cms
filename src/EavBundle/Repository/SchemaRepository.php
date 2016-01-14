@@ -6,12 +6,12 @@ use Doctrine\ORM\EntityRepository;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
- * Template Repository
+ * Schema Repository
  */
-class TemplateRepository extends EntityRepository
+class SchemaRepository extends EntityRepository
 {
     /**
-     * Find templates by request
+     * Find schemas by request
      *
      * @param Request $request
      *

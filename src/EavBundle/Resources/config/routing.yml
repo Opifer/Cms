@@ -2,8 +2,8 @@ opifer.eav.form:
     resource: "@OpiferEavBundle/Controller/FormController.php"
     type:     annotation
 
-_opifer_api_template:
-    resource: "@OpiferEavBundle/Controller/TemplateController.php"
+_opifer_api_schema:
+    resource: "@OpiferEavBundle/Controller/SchemaController.php"
     type:     annotation
     prefix:   /api
 

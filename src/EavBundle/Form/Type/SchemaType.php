@@ -6,24 +6,26 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class TemplateType extends AbstractType
+class SchemaType extends AbstractType
 {
     /** @var AttributeType */
     protected $attributeType;
 
-    /** @var string */
-    protected $templateClass;
+    /**
+     * @var
+     */
+    protected $schemaClass;
 
     /**
      * Constructor
      *
-     * @param AttributeType $attributeType
-     * @param string        $templateClass
+     * @param AttributeType       $attributeType
+     * @param string              $schemaClass
      */
-    public function __construct(AttributeType $attributeType, $templateClass)
+    public function __construct( AttributeType $attributeType, $schemaClass)
     {
         $this->attributeType = $attributeType;
-        $this->templateClass = $templateClass;
+        $this->schemaClass = $schemaClass;
     }
 
     /**
@@ -32,7 +34,7 @@ class TemplateType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder->add('displayName', 'text', [
-            'label' => 'template.display_name',
+            'label' => 'schema.display_name',
             'attr'  => [
                 'class'                  => 'slugify',
                 'data-slugify-target'    => '.slugify-target',
@@ -41,17 +43,17 @@ class TemplateType extends AbstractType
                 'help_text'              => 'form.display_name.help_text'
             ]
         ])->add('name', 'text', [
-            'label' => 'template.name',
+            'label' => 'schema.name',
             'attr'  => [
                 'class'       => 'slugify-target',
                 'placeholder' => 'form.name.placeholder',
                 'help_text'   => 'form.name.help_text'
             ]
-        ])->add('object_class', 'template_object_class', [
-            'label' => 'template.object_class',
+        ])->add('object_class', 'schema_object_class', [
+            'label' => 'schema.object_class',
             'attr'  => [ 'help_text' => 'form.object_class.help_text']
         ])->add('presentation', 'presentationeditor', [
-            'label' => 'template.presentation',
+            'label' => 'schema.presentation',
             'attr'  => [ 'help_text' => 'form.presentation.help_text']
         ])->add('attributes', 'bootstrap_collection', [
             'allow_add'    => true,
@@ -67,7 +69,7 @@ class TemplateType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'data_class'        => $this->templateClass,
+            'data_class'        => $this->schemaClass,
             'validation_groups' => false,
         ]);
     }
@@ -85,6 +87,6 @@ class TemplateType extends AbstractType
      */
     public function getBlockPrefix()
     {
-        return 'eav_template';
+        return 'eav_schema';
     }
 }

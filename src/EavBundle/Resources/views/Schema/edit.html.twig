@@ -3,7 +3,7 @@
 {% block opifer_eav_body %}
     <article>
         <header class="page-header">
-            <h1>{% if template.displayName|default %}{{ template.displayName }}{% else %}{{ 'template.edit.create.title'|trans|capitalize }}{% endif %}</h1>
+            <h1>{% if schema.displayName|default %}{{ schema.displayName }}{% else %}{{ 'schema.edit.create.title'|trans|capitalize }}{% endif %}</h1>
         </header>
 
         {% if not form.vars.valid %}

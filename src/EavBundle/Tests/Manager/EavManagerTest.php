@@ -3,7 +3,7 @@
 namespace Opifer\EavBundle\Tests\Manager;
 
 use Opifer\EavBundle\Manager\EavManager;
-use Opifer\EavBundle\Tests\TestData\Template;
+use Opifer\EavBundle\Tests\TestData\Schema;
 use Opifer\EavBundle\Tests\TestData\TestValueProvider;
 use Opifer\EavBundle\ValueProvider\Pool;
 
@@ -21,10 +21,10 @@ class EavManagerTest extends \PHPUnit_Framework_TestCase
     {
         $eavManager = new EavManager($this->pool, 'Opifer\EavBundle\Tests\TestData\ValueSet');
 
-        $template = new Template();
-        $template->setObjectClass('Opifer\EavBundle\Tests\TestData\Entity');
+        $schema = new Schema();
+        $schema->setObjectClass('Opifer\EavBundle\Tests\TestData\Entity');
 
-        $entity = $eavManager->initializeEntity($template);
+        $entity = $eavManager->initializeEntity($schema);
 
         $this->assertInstanceOf('Opifer\EavBundle\Model\EntityInterface', $entity);
     }

@@ -25,18 +25,18 @@ class ValueSet implements ValueSetInterface
     protected $id;
 
     /**
-     * @var TemplateInterface
+     * @var SchemaInterface
      *
      * @ORM\ManyToOne(
-     *     targetEntity="Opifer\EavBundle\Model\TemplateInterface"
+     *     targetEntity="Opifer\EavBundle\Model\SchemaInterface"
      * )
      * @ORM\JoinColumn(
-     *     name="template_id",
+     *     name="schema_id",
      *     referencedColumnName="id",
      *     onDelete="CASCADE"
      * )
      **/
-    protected $template;
+    protected $schema;
 
     /**
      * @var ArrayCollection
@@ -71,26 +71,26 @@ class ValueSet implements ValueSetInterface
     }
 
     /**
-     * Set template
+     * Set schema
      *
-     * @param  TemplateInterface $template
+     * @param  SchemaInterface $schema
      * @return ValueSet
      */
-    public function setTemplate(TemplateInterface $template = null)
+    public function setSchema(SchemaInterface $schema = null)
     {
-        $this->template = $template;
+        $this->schema = $schema;
 
         return $this;
     }
 
     /**
-     * Get template
+     * Get schema
      *
-     * @return TemplateInterface
+     * @return SchemaInterface
      */
-    public function getTemplate()
+    public function getSchema()
     {
-        return $this->template;
+        return $this->schema;
     }
 
     /**
@@ -274,7 +274,7 @@ class ValueSet implements ValueSetInterface
      */
     public function getAttributes()
     {
-        return $this->getTemplate()->getAttributes();
+        return $this->getSchema()->getAttributes();
     }
 
     /**
@@ -292,7 +292,7 @@ class ValueSet implements ValueSetInterface
             }
         }
 
-        throw new \BadMethodCallException('The valueset for template "'.$this->template->getName().'" does not have a value called "'.$name.'".');
+        throw new \BadMethodCallException('The valueset for schema "'.$this->schema->getName().'" does not have a value called "'.$name.'".');
     }
 
     /**
