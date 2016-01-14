@@ -13,7 +13,7 @@ base:
     sitemenu: menu
     sites: websites
     system: system
-    templates: templates
+    schemas: schemas
     users: users
 
 # Content
@@ -47,8 +47,8 @@ content:
         slug:
             placeholder: Unique permalink slug for this page
         submit: Save
-        template:
-            help_text: 'Define the type of content. If you want to add a new template, <a href="%url%">create it here</a>'
+        schema:
+            help_text: 'Define the type of content. If you want to add a new schema, <a href="%url%">create it here</a>'
         title:
             placeholder: Enter a title for your page
     new:
@@ -200,6 +200,35 @@ button:
     cancel: cancel
     delete: delete
     edit: edit
+    publish: publish
+    reset: reset
+
+# Labels
+label:
+    general: General
+    properties: Properties
+    slug: Slug
+    yes: Yes
+    no: No
+    column.xs: xs
+    column.sm: sm
+    column.md: md
+    column.lg: lg
+    gutter.xs: Gutter xs
+    gutter.sm: Gutter sm
+    gutter.md: Gutter md
+    gutter.lg: Gutter lg
+    style: Style
+    styling: Styles
+    spans: Column width
+    gutters: Gutter width
+    label: Label
+    rich_text: RTF-editor
+    container_sizing: Container width
+    container_fluid: Complete width (stretched)
+    container_smooth: Fluid width (stretched)
+    container_fixed: Fixed width (fixed)
+    version_new: New version
 
 # Delete confirmation
 confirmation:
@@ -207,7 +236,7 @@ confirmation:
         title: "Delete confirmation"
         description: "Are you sure you want to delete"
 
-template:
+schema:
     post_notify: E-mail notification
     delete:
         warning: "We're unable to remove this template. It might still be in use by content items."

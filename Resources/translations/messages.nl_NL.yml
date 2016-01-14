@@ -13,7 +13,7 @@ base:
     sitemenu: menu
     sites: websites
     system: systeem
-    templates: templates
+    schemas: schemas
     users: gebruikers
 
 # Content
@@ -47,8 +47,8 @@ content:
         slug:
             placeholder: Unieke permalink voor de pagina
         submit: Opslaan
-        template:
-            help_text: 'Het type content. Als het template nog niet bestaat, <a href="%url%">maak hem hier aan.</a>'
+        schema:
+            help_text: 'Het type content. Als het schema nog niet bestaat, <a href="%url%">maak hem hier aan.</a>'
         title:
             placeholder: De titel van de pagina
             help_text: De titel van de pagina wordt in de browser weergegeven in het tabblad en in zoekmachines getoond
@@ -200,6 +200,49 @@ button:
     cancel: annuleren
     delete: verwijderen
     edit: bewerken
+    publish: Publiceren
+
+# Links
+link:
+    editor: Editor
+
+heading:
+    properties: Eigenschappen
+
+# Labels
+label:
+    general: Algemeen
+    properties: Eigenschappen
+    slug: Slug
+    yes: Ja
+    no: Nee
+    column.xs: xs
+    column.sm: sm
+    column.md: md
+    column.lg: lg
+    gutter.xs: Gutter xs
+    gutter.sm: Gutter sm
+    gutter.md: Gutter md
+    gutter.lg: Gutter lg
+    style: Style
+    styling: Stijlen
+    spans: Kolombreedte
+    gutters: Gootbreedte
+    label: Label
+    rich_text: RTF-editor
+    container_sizing: Container breedte
+    container_fluid: Volledige breedte (gerekt)
+    container_smooth: Scherm-afhankelijke breedte (gerekt)
+    container_fixed: Scherm-afhankelijke breedte (vast)
+    version_new: Nieuwe versie
+
+help:
+    html_id: Een id attribuut voor dit html-element
+    extra_classes: Extra CSS klassen toepassen (bijvoorbeeld icm een CSS block)
+    column_spans: Verdeel 12 eenheden over de schermgroottes om andere breedte kolommen te maken.
+    column_gutters: Pas de breedte van de goot tussen de kolommen aan
+    html_styles: Pas extra CSS stijl-klassen toe op dit element.
+    container_sizing: Pas de weergave aan van de container
 
 #Delete confirmation
 confirmation:

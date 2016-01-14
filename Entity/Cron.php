@@ -10,9 +10,12 @@ use Gedmo\Mapping\Annotation as Gedmo;
 /**
  * Cron job.
  *
- * @ORM\Table(name="cron")
  * @ORM\Entity(repositoryClass="Opifer\CmsBundle\Repository\CronRepository")
+<<<<<<< HEAD
+ * @ORM\Table(name="cron")
+=======
  * @GRID\Source(columns="id, state, command, expression, startedAt, endedAt")
+>>>>>>> d1cd7f63fa6cc1a6197d5e4d6c814a15b821a37c
  */
 class Cron
 {

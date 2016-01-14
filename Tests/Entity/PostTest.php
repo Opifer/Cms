@@ -3,7 +3,13 @@
 namespace Opifer\CmsBundle\Entity;
 
 use Faker\Provider\DateTime;
+<<<<<<< HEAD
+use Opifer\CmsBundle\Entity\Post;
+use Opifer\EavBundle\Model\ValueSetInterface;
+use Opifer\EavBundle\Model\SchemaInterface;
+=======
 
+>>>>>>> d1cd7f63fa6cc1a6197d5e4d6c814a15b821a37c
 
 class PostTest extends \PHPUnit_Framework_TestCase
 {
@@ -43,14 +49,14 @@ class PostTest extends \PHPUnit_Framework_TestCase
         $this->assertSame($expected, $actual);
     }
 
-    public function testTemplate()
+    public function testSchema()
     {
         $post = new Post();
-        $template = new Template();
+        $schema = new Schema();
 
-        $expected = $template;
-        $post->setTemplate($template);
-        $actual = $post->getTemplate();
+        $expected = $schema;
+        $post->setSchema($schema);
+        $actual = $post->getSchema();
 
         $this->assertSame($expected, $actual);
     }

@@ -11,8 +11,8 @@ use Opifer\ContentBundle\Model\Content as BaseContent;
 /**
  * Content.
  *
- * @ORM\Table(name="content")
  * @ORM\Entity(repositoryClass="Opifer\CmsBundle\Repository\ContentRepository")
+ * @ORM\Table(name="content")
  * @JMS\ExclusionPolicy("all")
  */
 class Content extends BaseContent
@@ -79,50 +79,10 @@ class Content extends BaseContent
     protected $description;
 
     /**
-     * @var string
-     *
-     * @JMS\Expose
-     * @JMS\Groups({"detail"})
-     * @ORM\Column(name="presentation", type="text", nullable=true)
-     */
-    protected $presentation;
-
-    /**
-     * @var string
-     *
-     * @JMS\Expose
-     * @Gedmo\Slug(handlers={
-     *      @Gedmo\SlugHandler(class="Opifer\ContentBundle\Handler\AliasHandler", options={
-     *          @Gedmo\SlugHandlerOption(name="field", value="slug"),
-     *          @Gedmo\SlugHandlerOption(name="separator", value="-")
-     *      })
-     * }, fields={"alias"}, unique_base="deletedAt")
-     * @ORM\Column(name="alias", type="string", length=255, nullable=true)
-     */
-    protected $alias;
-
-    /**
-     * @var string
-     *
-     * @JMS\Expose
-     * @JMS\Groups({"detail", "list"})
-     * @Gedmo\Slug(handlers={
-     *      @Gedmo\SlugHandler(class="Opifer\ContentBundle\Handler\SlugHandler", options={
-     *          @Gedmo\SlugHandlerOption(name="relationField", value="directory"),
-     *          @Gedmo\SlugHandlerOption(name="relationSlugField", value="slug"),
-     *          @Gedmo\SlugHandlerOption(name="separator", value="/"),
-     *          @Gedmo\SlugHandlerOption(name="onSlugCompletion", value={"appendIndex"})
-     *      })
-     * }, fields={"title"}, unique_base="deletedAt")
-     * @ORM\Column(name="slug", type="string", length=255)
-     */
-    protected $slug;
-
-    /**
-     * @ORM\ManyToOne(targetEntity="Site")
+     * @ORM\ManyToOne(targetEntity="Opifer\CmsBundle\Entity\Site")
      * @ORM\JoinColumn(name="site_id", referencedColumnName="id")
      */
-    private $site;
+    protected $site;
 
     /**
      * Created at.
@@ -151,7 +111,7 @@ class Content extends BaseContent
     /**
      * @Gedmo\Locale
      */
-    private $locale;
+    protected $locale;
 
     /**
      * Sets an author on for the content.
@@ -200,27 +160,7 @@ class Content extends BaseContent
     }
 
     /**
-     * Is content item public?
-     *
-     * @return bool
-     */
-    public function isPublic()
-    {
-        return (is_null($this->nestedIn)) ? true : false;
-    }
-
-    /**
-     * Is content item private?
-     *
-     * @return bool
-     */
-    public function isPrivate()
-    {
-        return (!is_null($this->nestedIn)) ? true : false;
-    }
-
-    /**
-     * Set indexable.
+     * Set indexable
      *
      * @param bool $indexable
      *
@@ -288,7 +228,7 @@ class Content extends BaseContent
     }
 
     /**
-     * @todo clean this mess up
+     * @todo find image in blocks instead of deprecated values
      *
      * Finds first available image for listing purposes
      *
@@ -296,23 +236,23 @@ class Content extends BaseContent
      */
     public function getCoverImage()
     {
-        foreach ($this->getValueSet()->getValues() as $value) {
-            switch (get_class($value)) {
-                case 'Opifer\EavBundle\Entity\NestedValue':
-                    foreach ($value->getNested() as $nested) {
-                        if (false !== $cv = $nested->getCoverImage()) {
-                            return $cv;
-                        }
-                    }
-                    break;
-                case 'Opifer\EavBundle\Entity\MediaValue':
-                    foreach ($value->getMedias() as $media) {
-                        return $media->getReference();
-                        break;
-                    }
-                    break;
-            }
-        }
+//        foreach ($this->getValueSet()->getValues() as $value) {
+//            switch (get_class($value)) {
+//                case 'Opifer\EavBundle\Entity\NestedValue':
+//                    foreach ($value->getNested() as $nested) {
+//                        if (false !== $cv = $nested->getCoverImage()) {
+//                            return $cv;
+//                        }
+//                    }
+//                    break;
+//                case 'Opifer\EavBundle\Entity\MediaValue':
+//                    foreach ($value->getMedias() as $media) {
+//                        return $media->getReference();
+//                        break;
+//                    }
+//                    break;
+//            }
+//        }
 
         return false;
     }
@@ -358,18 +298,5 @@ class Content extends BaseContent
         }
 
         return $array;
-    }
-
-    /**
-     * Set defaults for nested content.
-     *
-     * @return Content
-     */
-    public function setNestedDefaults()
-    {
-        $this->searchable = false;
-        $this->indexable = false;
-
-        return $this;
     }
 }

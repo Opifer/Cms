@@ -45,7 +45,7 @@ assetic:
 # Templating
 braincrafted_bootstrap:
     output_dir:
-    less_filter: 'less' # "less", "lessphp" or "none"
+#    less_filter: less # "less", "lessphp" or "none"
     auto_configure:
         assetic:       false
         twig:          true
@@ -97,9 +97,16 @@ doctrine:
             softdeleteable:
                 class:   'Gedmo\SoftDeleteable\Filter\SoftDeleteableFilter'
                 enabled: true
+            draftversion:
+                class:   Opifer\ContentBundle\Filter\DraftVersionFilter
+                enabled: true
         resolve_target_entities:
+<<<<<<< HEAD
+            FOS\UserBundle\Model\UserInterface: %opifer_cms.user_model%
+=======
             FOS\UserBundle\Model\UserInterface: '%opifer_cms.user_model%'
             Opifer\EavBundle\Nesting\Nestable: 'Opifer\CmsBundle\Entity\Content'
+>>>>>>> 674973594249ca8ba38752da7d7567fdbc305c35
         mappings:
             translatable:
                 type:   annotation
@@ -171,7 +178,6 @@ twig:
     strict_variables:     '%kernel.debug%'
     form:
         resources:
-            - 'InfiniteFormBundle::collection_theme.html.twig'
             - 'OpiferEavBundle:Form:fields.html.twig'
             - 'OpiferMediaBundle:Form:fields.html.twig'
             - 'OpiferContentBundle:Form:fields.html.twig'
@@ -219,12 +225,11 @@ opifer_content:
     content_manager: 'opifer.cms.content_manager'
 
 opifer_eav:
-    attribute_class: 'Opifer\CmsBundle\Entity\Attribute'
-    media_class:     'Opifer\CmsBundle\Entity\Media'
-    nestable_class:  'Opifer\CmsBundle\Entity\Content'
-    option_class:    'Opifer\CmsBundle\Entity\Option'
-    template_class:  'Opifer\CmsBundle\Entity\Template'
-    valueset_class:  'Opifer\CmsBundle\Entity\ValueSet'
+    attribute_class: Opifer\CmsBundle\Entity\Attribute
+    media_class:     Opifer\CmsBundle\Entity\Media
+    option_class:    Opifer\CmsBundle\Entity\Option
+    schema_class:  Opifer\CmsBundle\Entity\Schema
+    valueset_class:  Opifer\CmsBundle\Entity\ValueSet
     entities:
         content: 'Opifer\CmsBundle\Entity\Content'
         post: 'Opifer\CmsBundle\Entity\Post'

@@ -16,7 +16,7 @@ use Doctrine\ORM\Mapping as ORM;
 class MenuItem extends Menu
 {
     /**
-     * @ORM\ManyToOne(targetEntity="Content", fetch="EAGER")
+     * @ORM\ManyToOne(targetEntity="Opifer\ContentBundle\Model\ContentInterface", fetch="EAGER")
      * @ORM\JoinColumn(name="content_id", referencedColumnName="id", onDelete="CASCADE")
      */
     private $content;
@@ -68,6 +68,11 @@ class MenuItem extends Menu
      *
      * @param string $link
      *
+<<<<<<< HEAD
+     * @param  string   $link
+     *
+=======
+>>>>>>> d1cd7f63fa6cc1a6197d5e4d6c814a15b821a37c
      * @return MenuItem
      */
     public function setLink($link)
@@ -94,7 +99,7 @@ class MenuItem extends Menu
      *
      * @return MenuItem
      */
-    public function setContent(\Opifer\CmsBundle\Entity\Content $content = null)
+    public function setContent(ContentInterface $content = null)
     {
         $this->content = $content;
 
@@ -104,7 +109,7 @@ class MenuItem extends Menu
     /**
      * Get content.
      *
-     * @return \Opifer\CmsBundle\Entity\Content
+     * @return ContentInterface
      */
     public function getContent()
     {

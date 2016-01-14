@@ -5,6 +5,11 @@ namespace Opifer\CmsBundle\Form\Type;
 use Symfony\Component\Form\FormBuilderInterface;
 use Opifer\ContentBundle\Form\Type\ContentType as BaseContentType;
 
+/**
+ * Class ContentType
+ *
+ * @package Opifer\CmsBundle\Form\Type
+ */
 class ContentType extends BaseContentType
 {
     /**

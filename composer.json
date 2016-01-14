@@ -29,7 +29,7 @@
 
         "apy/datagrid-bundle": "~2.2",
         "aws/aws-sdk-php": "2.5.*",
-        "braincrafted/bootstrap-bundle": "2.1.0",
+        "braincrafted/bootstrap-bundle": "dev-develop",
         "doctrine/doctrine-migrations-bundle": "~1.0",
         "doctrine/migrations": "~1.0@dev",
         "friendsofsymfony/jsrouting-bundle": "~1.5",

@@ -51,7 +51,7 @@ services:
             - [ setAnnotationReader, [ @annotation_reader ] ]
 
     gedmo.listener.loggable:
-        class: Gedmo\Loggable\LoggableListener
+        class: Opifer\CmsBundle\EventListener\LoggableListener
         tags:
             - { name: doctrine.event_subscriber, connection: default }
         calls:

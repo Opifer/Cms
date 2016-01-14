@@ -9,6 +9,8 @@ use Opifer\EavBundle\Model\EntityInterface;
 use Opifer\FormBundle\Model\Post as BasePost;
 
 /**
+ * Post
+ *
  * @ORM\Entity()
  * @ORM\Table(name="post")
  * @JMS\ExclusionPolicy("all")

@@ -9,7 +9,7 @@ use Opifer\ContentBundle\Model\ContentRepository as BaseContentRepository;
 /**
  * ContentRepository.
  *
- * Because content items are used in different kinds of usecases, please specify
+ * Because content items are used in different kinds of use-cases, please specify
  * the scope of the function inside the function name.
  * For example:
  *
@@ -48,7 +48,6 @@ class ContentRepository extends BaseContentRepository
             ->getQuery()
             ->getResult();
     }
-
     /**
      * Search content by term including nested.
      *
@@ -78,7 +77,6 @@ class ContentRepository extends BaseContentRepository
             ->getQuery()
             ->getResult();
     }
-
     /**
      * Find related content.
      *
@@ -90,7 +88,6 @@ class ContentRepository extends BaseContentRepository
     public function findRelated(Content $content, $limit = 10)
     {
         $city = $content->getValueSet()->getValueFor('address')->getAddress()->getCity();
-
         $query = $this->createQueryBuilder('c')
             ->innerJoin('c.valueSet', 'vs')
             ->innerJoin('vs.values', 'v')
@@ -103,8 +100,7 @@ class ContentRepository extends BaseContentRepository
             ->setParameter('id', $content->getId())
             ->setParameter('city', $city)
             ->setMaxResults($limit)
-            ->getQuery()
-        ;
+            ->getQuery();
 
         return $query->getResult();
     }
@@ -119,11 +115,9 @@ class ContentRepository extends BaseContentRepository
     public function findLastUpdated($limit = 5)
     {
         $query = $this->createQueryBuilder('c')
-            ->where('c.nestedIn IS NULL')
             ->orderBy('c.updatedAt', 'DESC')
             ->setMaxResults($limit)
-            ->getQuery()
-        ;
+            ->getQuery();
 
         return $query->getResult();
     }
@@ -137,7 +131,6 @@ class ContentRepository extends BaseContentRepository
     {
         return $this->createQueryBuilder('c')
             ->leftJoin('c.directory', 'directory')
-            ->where('c.nestedIn IS NULL')
             ->Andwhere('c.active = :active')
             ->setParameter('active', '1')
             ->orderBy('directory.name', 'ASC')

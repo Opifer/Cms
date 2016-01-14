@@ -1,0 +1,9 @@
+# Parameters
+#
+# This parameters section is meant to override classes of third-party bundles
+parameters:
+    opifer.content.directory_type.class: Opifer\CmsBundle\Form\Type\DirectoryType
+    opifer.content.content_type.class: Opifer\CmsBundle\Form\Type\ContentType
+    opifer.content.content_details_type.class: Opifer\CmsBundle\Form\Type\ContentDetailsType
+    opifer.eav.form.template_type.class: Opifer\CmsBundle\Form\Type\TemplateType
+    opifer.eav.form.attribute_type.class: Opifer\CmsBundle\Form\Type\AttributeType

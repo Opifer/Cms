@@ -12,7 +12,7 @@ class DashboardController extends Controller
      */
     public function viewAction()
     {
-        $latestContent = $this->getDoctrine()->getRepository('OpiferCmsBundle:Content')
+        $latestContent = $this->get('opifer.cms.content_manager')->getRepository()
             ->findLastUpdated(8);
 
         return $this->render('OpiferCmsBundle:Backend/Dashboard:dashboard.html.twig', [

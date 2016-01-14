@@ -21,7 +21,7 @@ class SecurityController extends FOSSecurityController
         if ($this->container->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_REMEMBERED')) {
             $url = $this->container->get('router')->generate('opifer_cms_dashboard');
 
-            return new RedirectResponse($url, 302);
+//            return new RedirectResponse($url, 302);
         }
 
         return parent::loginAction($request);

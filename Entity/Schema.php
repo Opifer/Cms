@@ -5,16 +5,16 @@ namespace Opifer\CmsBundle\Entity;
 use APY\DataGridBundle\Grid\Mapping as GRID;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
-use Opifer\EavBundle\Model\Template as BaseTemplate;
+use Opifer\EavBundle\Model\Schema as BaseSchema;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * Template.
+ * Schema
  *
- * @ORM\Table(name="template")
- * @ORM\Entity(repositoryClass="Opifer\EavBundle\Repository\TemplateRepository")
- * @GRID\Source(columns="id, displayName")
+ * @ORM\Table(name="schema")
+ * @ORM\Entity(repositoryClass="Opifer\EavBundle\Repository\SchemaRepository")
  */
-class Template extends BaseTemplate
+class Schema extends BaseSchema
 {
     /**
      * @var int
@@ -49,7 +49,7 @@ class Template extends BaseTemplate
     /**
      * @var ArrayCollection
      *
-     * @ORM\OneToMany(targetEntity="Attribute", mappedBy="template", cascade={"all"}, orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity="Attribute", mappedBy="schema", cascade={"all"}, orphanRemoval=true)
      */
     protected $attributes;
 
@@ -63,7 +63,7 @@ class Template extends BaseTemplate
     /**
      * @var ArrayCollection
      *
-     * @ORM\ManyToMany(targetEntity="Attribute", mappedBy="allowedTemplates")
+     * @ORM\ManyToMany(targetEntity="Attribute", mappedBy="allowedSchemas")
      **/
     protected $allowedInAttributes;
 }
