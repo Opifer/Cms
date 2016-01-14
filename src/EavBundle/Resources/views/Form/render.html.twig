@@ -1,0 +1,4 @@
+{# Only render the form fields and avoid rendering the form_start and form_end #}
+<div data-form-name="{{ form.vars.name }}" class="nested-form-wrapper">
+    {{ form_rest(form) }}
+</div>

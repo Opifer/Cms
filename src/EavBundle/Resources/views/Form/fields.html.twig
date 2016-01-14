@@ -1,0 +1,113 @@
+{% extends 'BraincraftedBootstrapBundle:Form:bootstrap.html.twig' %}
+
+{% block eav_value_row %}
+    {% spaceless %}
+        {% set col_size = col_size|default(bootstrap_get_col_size()) %}
+        {% set label_col = label_col|default(bootstrap_get_label_col()) %}
+        {% set widget_col = widget_col|default(bootstrap_get_widget_col()) %}
+        <div class="form-group {% if form.vars.attribute.valueType == 'nested' %}form-group-nested-content{% endif %}">
+            <label class="{{ attr.label_class|default('control-label col-' ~ col_size ~ '-' ~ label_col ~ ' required') }}">{{ form.vars.label }}</label>
+            <div class="{{ attr.column_class|default('col-' ~ col_size ~ '-' ~ widget_col) }}">
+                {% for child in form.children %}
+                    {{ form_widget(child, {'attr': attr}) }}
+                {% endfor %}
+                {% if form.vars.attribute.valueType == 'nested' %}
+                    <section class="nested-content-wrapper">
+                        <input name="{{ form.vars.id }}" type="hidden" value="{{ form.vars.value }}">
+                        <nested-content attribute="{{ name }}" attribute-id="{{ form.vars.attribute.id }}" ids="{{ form.vars.value }}"></nested-content>
+                    </section>
+                {% endif %}
+                {{ block('form_help') }}
+            </div>
+        </div>
+    {% endspaceless %}
+{% endblock %}
+
+{#
+    Valueset Row
+#}
+{% block opifer_valueset_row %}
+    {% spaceless %}
+        <section class="form-section">
+            {{ block('form_widget') }}
+        </section>
+    {% endspaceless %}
+{% endblock %}
+
+{#
+    Values Collection Row
+#}
+{% block values_collection_row %}
+    {% spaceless %}
+        {{ block('form_widget') }}
+    {% endspaceless %}
+{% endblock %}
+
+{#
+    Presentation Editor Widget
+#}
+{% block presentationeditor_widget %}
+    {% spaceless %}
+        <presentation-editor formid="{{ id }}" name="{{ full_name }}" value="{{ form.vars.value|replace({"\n": '', ' ': ''})|json_encode() }}"></presentation-editor>
+    {% endspaceless %}
+{% endblock %}
+
+{#
+    EAV Faux Widget
+#}
+{% block eav_faux_widget %}
+    {% spaceless %}
+        <input type="text" value="{{ form.vars.value }}" disabled="disabled" class="form-control"/>
+    {% endspaceless %}
+{% endblock %}
+
+{#
+    Infinite Form Polycollection Widget
+#}
+{% block infinite_form_polycollection_widget %}
+    <div {{ block('widget_container_attributes') }}>
+        <ul class="bc-collection list-unstyled" data-form-widget="collection">
+            {% for field in form %}
+                <li>
+                    <div class="row">
+                        <div class="col-xs-10">
+                            {{ form_widget(field) }}
+                            {{ form_errors(field) }}
+                        </div>
+                        {% if form.vars.allow_delete %}
+                            <div class="col-xs-2">
+                                <a href="#" class="btn btn-danger btn-small" data-removefield="collection" data-field="{{ field.vars.id }}">Delete</a>
+                            </div>
+                        {% endif %}
+                    </div>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+
+    <div class="btn-group">
+        <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+            Add <span class="caret"></span>
+        </button>
+        <ul class="dropdown-menu" role="menu">
+            {% for prototypeType, prototypeValue in form.vars.prototypes %}
+                {% set prototypeHtml %}
+                <li>
+                    <div class="row">
+                        <div class="col-xs-10">
+                            {{ form_widget(prototypeValue) }}
+                            {{ form_errors(prototypeValue) }}
+                        </div>
+                        {% if form.vars.allow_delete %}
+                            <div class="col-xs-2">
+                                <a href="#" class="btn btn-danger btn-small" data-removefield="collection" data-field="{{ prototypeValue.vars.id }}">Delete</a>
+                            </div>
+                        {% endif %}
+                    </div>
+                </li>
+                {% endset %}
+                <li><a href="#" class="add_item" data-prototype="{{ prototypeHtml|escape }}">{{ prototypeType }}</a></li>
+            {% endfor %}
+        </ul>
+    </div>
+{% endblock %}

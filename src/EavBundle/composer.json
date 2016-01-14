@@ -1,0 +1,30 @@
+{
+    "name": "opifer/eav-bundle",
+    "description": "Provides EAV functionality for your entities",
+    "type": "symfony-bundle",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Opifer",
+            "email": "info@opifer.nl"
+        }
+    ],
+    "require": {
+        "php": ">=5.4",
+        "symfony/symfony": "~2.5",
+        "doctrine/orm": "~2.4",
+        "doctrine/doctrine-bundle": "~1.2",
+        "twig/extensions": "~1.0",
+        "sensio/framework-extra-bundle": "~3.0",
+
+        "gedmo/doctrine-extensions": "~2.3",
+        "jms/serializer-bundle": "~1.0"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "~4.2.0",
+        "symfony/phpunit-bridge": "~2.7"
+    },
+    "autoload": {
+        "psr-4": {"Opifer\\EavBundle\\": "."}
+    }
+}
