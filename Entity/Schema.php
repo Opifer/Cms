@@ -5,7 +5,6 @@ namespace Opifer\CmsBundle\Entity;
 use APY\DataGridBundle\Grid\Mapping as GRID;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
-use Opifer\CrudBundle\Annotation as CRUD;
 use Opifer\EavBundle\Model\Schema as BaseSchema;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -14,7 +13,6 @@ use Symfony\Component\Validator\Constraints as Assert;
  *
  * @ORM\Table(name="schema")
  * @ORM\Entity(repositoryClass="Opifer\EavBundle\Repository\SchemaRepository")
- * @CRUD\Form(type="eav_schema")
  */
 class Schema extends BaseSchema
 {
@@ -52,8 +50,6 @@ class Schema extends BaseSchema
      * @var ArrayCollection
      *
      * @ORM\OneToMany(targetEntity="Attribute", mappedBy="schema", cascade={"all"}, orphanRemoval=true)
-     *
-     * @CRUD\Grid(listable=true)
      */
     protected $attributes;
 

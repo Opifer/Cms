@@ -13,7 +13,6 @@ use Opifer\ContentBundle\Model\Content as BaseContent;
  *
  * @ORM\Entity(repositoryClass="Opifer\CmsBundle\Repository\ContentRepository")
  * @ORM\Table(name="content")
- * @Gedmo\TranslationEntity(class="Opifer\CmsBundle\Entity\Translation\ContentTranslation")
  * @JMS\ExclusionPolicy("all")
  */
 class Content extends BaseContent

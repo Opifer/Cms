@@ -76,7 +76,7 @@ gulp.task('css', function () {
         .pipe(concat('app.css'))
         .pipe(uglifycss())
         .pipe(sourcemaps.write('./'))
-        .pipe(gulp.dest('Resources/public/css'));
+        .pipe(gulp.dest('bundles/opifercms/css'));
 });
 
 

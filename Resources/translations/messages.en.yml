@@ -200,6 +200,35 @@ button:
     cancel: cancel
     delete: delete
     edit: edit
+    publish: publish
+    reset: reset
+
+# Labels
+label:
+    general: General
+    properties: Properties
+    slug: Slug
+    yes: Yes
+    no: No
+    column.xs: xs
+    column.sm: sm
+    column.md: md
+    column.lg: lg
+    gutter.xs: Gutter xs
+    gutter.sm: Gutter sm
+    gutter.md: Gutter md
+    gutter.lg: Gutter lg
+    style: Style
+    styling: Styles
+    spans: Column width
+    gutters: Gutter width
+    label: Label
+    rich_text: RTF-editor
+    container_sizing: Container width
+    container_fluid: Complete width (stretched)
+    container_smooth: Fluid width (stretched)
+    container_fixed: Fixed width (fixed)
+    version_new: New version
 
 # Delete confirmation
 confirmation:

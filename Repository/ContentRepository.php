@@ -1,4 +1,3 @@
-
 <?php
 
 namespace Opifer\CmsBundle\Repository;
@@ -116,7 +115,6 @@ class ContentRepository extends BaseContentRepository
     public function findLastUpdated($limit = 5)
     {
         $query = $this->createQueryBuilder('c')
-            ->where('c.nestedIn IS NULL')
             ->orderBy('c.updatedAt', 'DESC')
             ->setMaxResults($limit)
             ->getQuery();
@@ -133,7 +131,6 @@ class ContentRepository extends BaseContentRepository
     {
         return $this->createQueryBuilder('c')
             ->leftJoin('c.directory', 'directory')
-            ->where('c.nestedIn IS NULL')
             ->Andwhere('c.active = :active')
             ->setParameter('active', '1')
             ->orderBy('directory.name', 'ASC')

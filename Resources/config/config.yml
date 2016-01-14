@@ -45,7 +45,7 @@ assetic:
 # Templating
 braincrafted_bootstrap:
     output_dir:
-    less_filter: less # "less", "lessphp" or "none"
+#    less_filter: less # "less", "lessphp" or "none"
     auto_configure:
         assetic:       false
         twig:          true

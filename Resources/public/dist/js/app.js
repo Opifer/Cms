@@ -68855,7 +68855,7 @@ angular.module('afkl.lazyImage')
 
         var collection = $('#'+selector),
             list = collection.find('> ul'),
-            count = list.find('> li').size()
+            count = list.find('> li').length
         ;
 
         var newWidget = collection.attr('data-prototype');
@@ -68864,23 +68864,28 @@ angular.module('afkl.lazyImage')
         // If it does, increase the count by one and try again
         var newName = newWidget.match(/id="(.*?)"/);
         var re = new RegExp(prototypeName, "g");
-        while ($('#' + newName[1].replace(re, count)).size() > 0) {
+        while ($('#' + newName[1].replace(re, count)).length > 0) {
             count++;
         }
         newWidget = newWidget.replace(re, count);
         newWidget = newWidget.replace(/__id__/g, newName[1].replace(re, count));
         var newLi = $('<li></li>').html(newWidget);
         newLi.appendTo(list);
+        $this.trigger('bc-collection-field-added');
     };
 
     CollectionRemove.prototype.removeField = function (e) {
         var $this = $(this),
-            selector = $this.attr('data-field')
+            selector = $this.attr('data-field'),
+            parent = $this.closest('li').parent()
         ;
 
         e && e.preventDefault();
 
+        $this.trigger('bc-collection-field-removed');
+        $this.trigger('bc-collection-field-removed-before');
         var listElement = $this.closest('li').remove();
+        parent.trigger('bc-collection-field-removed-after');
     }
 
 
@@ -69044,6 +69049,8 @@ angular.module('afkl.lazyImage')
                 } else {
                     this.$collection.append($row);
                 }
+
+                return $row;
             }
         },
 
@@ -70311,8 +70318,6 @@ angular.module('MainApp', [
     'mediaLibrary',
     'OpiferContent',
     'OpiferPresentationEditor',
-    'OpiferRulesEngine',
-    'OpiferRulesEngine',
     'OpiferNestedContent',
     'googleAddress',
     'ui.sortable',
@@ -70997,92 +71002,6 @@ if ($('.dropzone').length) {
     //}
 };
 
-$(document).ready(function() {
-
-    /**
-     * Submit the form when a form field has changed.
-     */
-    $('.js-submit-on-change').change(function() {
-        $(this).closest('form').submit();
-    });
-
-    /**
-     * Set some display data on the delete confirmation modal
-     */
-    $('.js-delete-confirm').click(function () {
-        $(".modal-body .modal-name").html($(this).attr('data-name'));
-        $(".modal .modal-confirm-button").attr('href', $(this).attr('data-href'));
-    });
-
-    /**
-     * Select all rows for batch processing
-     */
-    $('.js-batch-select-all').click(function() {
-        if(this.checked) {
-            $('.batch-select').each(function() {
-                this.checked = true;
-            });
-        }else{
-            $('.batch-select').each(function() {
-                this.checked = false;
-            });         
-        }
-    });
-
-    /**
-     * Confirm batch process
-     *
-     * This opens a modal before actually batch processing.
-     */
-    $('.js-batch-confirm').click(function() {
-
-        var form = $(this).closest('form');
-        var action = form.find('.js-batch-action').val();
-
-        // If no action is passed, there's no 
-        if (action) {
-            var selected = form.find('.js-batch-action option:selected');
-            var modal = form.find('.batch-modal');
-
-            // Get all selected rows
-            var checkedValues = form.find('.batch-select:checked').map(function() {
-                return this.value;
-            }).get();
-
-            // If no items were selected, return
-            if (checkedValues.length < 1) {
-                return;
-            }
-
-            // Set some display data on the model
-            modal.find('.batch-action').each(function() {
-                $(this).html(selected.attr('data-action'));
-            });
-            modal.find('.batch-count').html(checkedValues.length);
-
-            // Set the action on the form, so it knows where to submit to.
-            form.get(0).setAttribute('action', action);
-
-            // Open the modal
-            $('#batch-modal').modal({show:true});
-        }
-    });
-    
-    /**
-     * Submit the batch form
-     *
-     * This is called from a button inside the batch confirmation modal
-     *
-     * @param  {Event} e
-     */
-    $('.js-batch-start').click(function(e) {
-        e.preventDefault();
-
-        var form = $(this).closest('form');
-        form.submit();
-    });
-});
-
 'use strict';
 
 angular.module('googleAddress', ['google-maps'])
@@ -71253,8 +71172,8 @@ angular.module('OpiferNestedContent', ['ui.sortable'])
                 '           <div class="title" ng-click="toggle()">'+
                 '               <div class="cell-icon cell-columns" ng-if="!subject.data.coverImage"></div>'+
                 '               <div style="background-image: url({{ subject.data.coverImage }});" ng-if="subject.data.coverImage" class="content-cover"></div>'+
+                '               <span class="template form-control-static"><span class="label label-info">{{ subject.data.templateDisplayName }}</span></span>'+
                 '           </div>'+
-                '           <span class="schema form-control-static"><span class="label label-info">{{ subject.data.schemaDisplayName }}</span></span>'+
                 '       </div>'+
                 '       <div class="col-xs-12 col-sm-3 col-lg-2">'+
                 '           <div class="pull-right">'+
@@ -71405,7 +71324,7 @@ angular.module('mediaLibrary', ['infinite-scroll', 'ngModal', 'angularFileUpload
      * The media library Controller
      */
 
-    .controller('MediaLibraryController', ['$scope', '$rootScope', '$http', '$location', '$upload', 'MediaCollection', 'MediaService', function($scope, $rootScope, $http, $location, $upload, MediaCollection, MediaService) {
+    .controller('MediaLibraryController', ['$scope', '$rootScope', '$http', '$location', '$upload', '$window', 'MediaCollection', 'MediaService', function($scope, $rootScope, $http, $location, $upload, $window, MediaCollection, MediaService) {
         $scope.mediaCollection = new MediaCollection();
         $scope.selecteditems = [];
         $scope.searchmedia = '';
@@ -71574,7 +71493,13 @@ angular.module('mediaLibrary', ['infinite-scroll', 'ngModal', 'angularFileUpload
             $scope.confirmation.idx = idx;
             $scope.confirmation.name = selected.name;
             $scope.confirmation.shown = !$scope.confirmation.shown;
-        }
+        };
+
+        $scope.editMedia = function(idx) {
+            var selected = $scope.mediaCollection.items[idx];
+
+            $window.location.href = Routing.generate('opifer_media_media_edit', {'id': selected.id});
+        };
 
         /**
          * Delete media
@@ -71588,8 +71513,6 @@ angular.module('mediaLibrary', ['infinite-scroll', 'ngModal', 'angularFileUpload
                 .success(function(data) {
                     if (data.success == true) {
                         $scope.mediaCollection.items.splice(idx, 1);
-                    } else {
-                        console.log(data.message);
                     }
                 }
             );
@@ -71690,245 +71613,6 @@ angular.module('mediaLibrary', ['infinite-scroll', 'ngModal', 'angularFileUpload
         };
     })
 ;
-
-var rulesengine = angular.module('OpiferRulesEngine', []);
-
-/**
- * Rule Service
- */
-rulesengine.factory('RuleService', ['$resource', function($resource) {
-    return $resource(Routing.generate('opifer.api.rule')+'/:provider', {
-        provider: "@provider"
-    });
-}]);
-
-/**
- * Rule Editor directive
- */
-rulesengine.directive('ruleEditor', function() {
-    tpl =
-        '<input type="hidden" id="{{ formid }}" name="{{ name }}" value="{{ rule }}">' +
-        '<div class="ruleeditor">' +
-        '    <div class="rule form-group row" ng-if="!rule">' +
-        '       <div class="layoutselect col-xs-6">' +
-        '           <select name="catalog" class="form-control" ng-options="item.name group by item.relation for item in catalog" ng-model="selected" ng-change="selectRule()">'+
-        '               <option value="">Add rule…</option>'+
-        '           </select> ' +
-        '       </div>' +
-        '    </div>' +
-        '    <div ng-if="rule"><rule subject="rule" catalog="catalog"></rule></div>' +
-        '</div>' +
-        //'<div class="row"><div class="col-xs-12"><pre>{{rule | json: object }}</pre></div></div>' +
-        '';
-
-    return {
-        restrict: 'E',
-        transclude: true,
-        scope: {
-            name: '@',
-            value: '@',
-            formid: '@',
-            provider: '@',
-            context: '@',
-            modelattribute: '@'
-        },
-        template: tpl,
-        controller: function($scope, $http, $attrs, $injector, RuleService) {
-            if ($scope.value.length <= 2 || typeof $scope.value === "undefined" || $scope.value === null) {
-                $scope.rule = {
-                    "name": "Rule Set",
-                    "children": [],
-                    "_class": "RuleSet"
-                };
-            } else {
-                var json = JSON.parse($scope.value);
-                $scope.rule = angular.fromJson(json);
-            }
-            $scope.selected = null;
-
-            $scope.catalog = RuleService.query({
-                provider: $scope.provider,
-                context: $scope.context
-            });
-
-            // Removes a rule
-            $scope.removeRule = function(rule) {
-                $scope.rule = null;
-            };
-
-            $scope.selectRule = function() {
-                $scope.rule = angular.copy(this.selected);
-            };
-        },
-        link: function(scope, element, attrs) {
-
-            if (angular.isDefined(scope.modelattribute) && scope.modelattribute != '') {
-                var attr = scope.modelattribute.replace('subject.parameters[\'', '').replace('\']', '');
-
-                // @todo Find a way to avoid those $parent's
-                if (scope.$parent.$parent.$parent.$parent.subject.parameters[attr]) {
-                    scope.rule = scope.$parent.$parent.$parent.$parent.subject.parameters[attr];
-                }
-
-                // Watch for the rule to change, so we can add it to the transcluded rule variable
-                scope.$watch('rule', function(newValue, oldValue) {
-                    if (newValue) {
-                        // @todo Find a way to avoid those $parent's
-                        scope.$parent.$parent.$parent.$parent.subject.parameters[attr] = newValue;
-                    }
-                }, true);
-            }
-        }
-    };
-});
-
-/**
- * Rule directive
- */
-rulesengine.directive('rule', ['$compile', '$injector', function($compile, $injector) {
-    var tpl =
-        '<div class="rule form-group row" ng-if="subject._class != \'RuleSet\'">' +
-        '    <div class="cell col-xs-2">' +
-        '        <label class="control-label">{{ subject.name }}</label>' +
-        '    </div>' +
-        '    <div class="values pull-left">' +
-        '        <div ng-include="getSchema()"></div>' +
-        '    </div>' +
-        '    <div class="controls col-xs-2">' +
-        '         <a class="fa fa-times danger" ng-click="remove()"></a> ' +
-        '    </div>' +
-        '</div>' +
-        '<div class="children form-group row" ng-if="subject.hasOwnProperty(\'children\')">' +
-        '   <div ng-repeat="child in subject.children track by $index"><rule subject="child" catalog="catalog"></rule></div>' +
-        '   <div class="rule form-group row">' +
-        '       <div class="layoutselect col-xs-6">' +
-        '           <select name="rule_catalog" class="form-control" ng-options="item.name group by item.group for item in catalog" ng-model="newrule" ng-change="addRule()">'+
-        '               <option value="">Add rule…</option>'+
-        '           </select> ' +
-        '       </div>' +
-        '   </div>' +
-        '</div>'
-    ;
-
-    return {
-        restrict: 'E',
-        terminal: true,
-        scope: {
-            subject: '=',
-            catalog: '='
-        },
-        template: tpl,
-        link: function(scope, element, attrs, controller) {
-            $compile(element.contents())(scope.$new());
-
-            // Set the first operator option as the default one
-            if (scope.subject._class != 'RuleSet' &&
-                typeof scope.subject.operatorOpts != 'undefined' &&
-                scope.subject.operatorOpts.length > 0) {
-
-                // If the scope has a configuration service name set, use that
-                // service.
-                if (!angular.isUndefined(scope.subject.configuration)) {
-                    var configclass = $injector.get(scope.subject.configuration);
-                    scope.configuration = new configclass();
-
-                    if (!angular.isUndefined(scope.subject.right) && !angular.isUndefined(scope.subject.right.value)) {
-                        // Initialize the already added items
-                        scope.configuration.initialize(scope.subject.right.value);
-                    }
-                }
-
-                scope.subject.operator = scope.subject.operatorOpts[0];
-            }
-
-            scope.newrule = null;
-            scope.remove = function() {
-                scope.$parent.removeRule(scope.subject);
-            };
-            scope.removeRule = function(rule) {
-                scope.subject.children.splice( scope.subject.children.indexOf(rule), 1 );
-            };
-            scope.selectRule = function() {
-                scope.subject = angular.copy(this.newrule);
-            };
-            scope.addRule = function() {
-                scope.subject.children.push(angular.copy(this.newrule));
-                this.newrule = null;
-            };
-            scope.getSchema = function() {
-                if (!angular.isUndefined(scope.configuration) &&
-                    !angular.isUndefined(scope.configuration.template)) {
-                    return scope.configuration.template;
-                }
-
-                return '/bundles/opiferrulesengine/app/ruleeditor/partials/'+ scope.subject._class +'.html';
-            };
-            scope.pickContent = function (content) {
-                scope.pickObject(content.id);
-            };
-            scope.unpickContent = function (content) {
-                scope.unpickObject(content.id);
-            };
-            scope.pickObject = function (objectId) {
-                if (angular.isUndefined(scope.subject.right.value)) {
-                    scope.subject.right.value = [];
-                }
-                scope.subject.right.value.push(objectId);
-            };
-            scope.unpickObject = function (objectId) {
-                // If the scope has a configuration service name set, use that service
-                if (!angular.isUndefined(scope.subject.configuration)) {
-                    scope.configuration.remove(objectId);
-                }
-
-                scope.subject.right.value.splice(scope.subject.right.value.indexOf(objectId), 1);
-            };
-            scope.selectObject = function($event, id) {
-                var checkbox = $event.target;
-                (checkbox.checked) ? scope.pickObject(id) : scope.unpickObject(id);
-            };
-            scope.isObjectSelected = function(id) {
-                if (angular.isUndefined(scope.subject.right.value)) {
-                    return false;
-                }
-                return scope.subject.right.value.indexOf(id) >= 0;
-            };
-
-            scope.isObjectSelected = function(id) {
-                if (angular.isUndefined($scope.$parent.subject.right.value)) {
-                    return false;
-                }
-
-                var idx = $scope.$parent.subject.right.value.indexOf(id);
-
-                return (idx >= 0) ? true : false;
-            };
-
-            $scope.hasContent = function (content) {
-                if (angular.isUndefined($scope.subject.right.value)) {
-                    return false;
-                }
-
-                var idx = $scope.subject.right.value.indexOf(content.id);
-
-                return (idx >= 0) ? true : false;
-            };
-
-            // Get options from catalog rather than subject to ensure an
-            // up-to-date option list.
-            scope.getOptions = function() {
-                for (index = 0; index < scope.catalog.length; ++index) {
-                    if (scope.catalog[index].name == scope.subject.name &&
-                        scope.catalog[index]._class == scope.subject._class) {
-
-                        return scope.catalog[index].options;
-                    }
-                }
-                return [];
-            };
-        }
-    };
-}]);
 
 /*
 Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
