@@ -2,7 +2,7 @@
 
 namespace Opifer\EavBundle\Model;
 
-interface TemplateInterface
+interface SchemaInterface
 {
     function getId();
     function getAttributes();

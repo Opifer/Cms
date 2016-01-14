@@ -2,20 +2,20 @@
 
 namespace Opifer\EavBundle\Tests\Model;
 
+use Opifer\EavBundle\Model\Schema;
 use Mockery as m;
-use Opifer\EavBundle\Model\Template;
 use Opifer\EavBundle\Model\ValueSet;
 
 class ValueSetTest extends \PHPUnit_Framework_TestCase
 {
-    public function testTemplate()
+    public function testSchema()
     {
         $valueSet = new ValueSet();
-        $template = new Template();
+        $schema = new Schema();
 
-        $expected = $template;
-        $valueSet->setTemplate($template);
-        $actual = $valueSet->getTemplate();
+        $expected = $schema;
+        $valueSet->setSchema($schema);
+        $actual = $valueSet->getSchema();
 
         $this->assertSame($expected, $actual);
     }

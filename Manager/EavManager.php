@@ -4,7 +4,7 @@ namespace Opifer\EavBundle\Manager;
 
 use Opifer\EavBundle\Form\Type\NestedType;
 use Opifer\EavBundle\Model\EntityInterface;
-use Opifer\EavBundle\Model\TemplateInterface;
+use Opifer\EavBundle\Model\SchemaInterface;
 use Opifer\EavBundle\Model\ValueSetInterface;
 use Opifer\EavBundle\ValueProvider\Pool;
 
@@ -28,31 +28,31 @@ class EavManager
     }
 
     /**
-     * Initializes an entity from a template to work properly with this bundle.
+     * Initializes an entity from a schema to work properly with this bundle.
      *
-     * @param Template $template
+     * @param Schema $schema
      *
      * @return EntityInterface
      */
-    public function initializeEntity(TemplateInterface $template)
+    public function initializeEntity(SchemaInterface $schema)
     {
         $valueSetClass = $this->valueSetClass;
         $valueSet = new $valueSetClass();
-        $valueSet->setTemplate($template);
+        $valueSet->setSchema($schema);
 
         // To avoid persisting Value entities with no actual value to the database
         // we create empty ones, that will be removed on postPersist events.
         $this->replaceEmptyValues($valueSet);
 
-        $entity = $template->getObjectClass();
+        $entity = $schema->getObjectClass();
         $entity = new $entity();
 
         if (!$entity instanceof EntityInterface) {
-            throw new \Exception('The entity specified in the "'.$template->getName().'" template must implement Opifer\EavBundle\Model\EntityInterface.');
+            throw new \Exception('The entity specified in the "'.$schema->getName().'" schema must implement Opifer\EavBundle\Model\EntityInterface.');
         }
 
         $entity->setValueSet($valueSet);
-        $entity->setTemplate($template);
+        $entity->setSchema($schema);
 
         return $entity;
     }
@@ -126,7 +126,7 @@ class EavManager
      * Generate a unique name for the nested item
      *
      * In case of newly added nested content, we need to add an index
-     * to the form type name, to avoid same template name conflicts.
+     * to the form type name, to avoid same schema name conflicts.
      *
      * @param string $attribute
      * @param int|string $id

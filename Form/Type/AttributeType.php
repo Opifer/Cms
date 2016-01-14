@@ -17,8 +17,10 @@ class AttributeType extends AbstractType
     /** @var string */
     protected $attributeClass;
 
-    /** @var string */
-    protected $templateClass;
+    /**
+     * @var string
+     */
+    protected $schemaClass;
 
     /** @var OptionType */
     protected $optionType;
@@ -28,13 +30,13 @@ class AttributeType extends AbstractType
      *
      * @param OptionType $optionType
      * @param string     $attributeClass
-     * @param string     $templateClass
+     * @param string     $schemaClass
      */
-    public function __construct(OptionType $optionType, $attributeClass, $templateClass)
+    public function __construct(OptionType $optionType, $attributeClass, $schemaClass)
     {
         $this->optionType     = $optionType;
         $this->attributeClass = $attributeClass;
-        $this->templateClass  = $templateClass;
+        $this->schemaClass  = $schemaClass;
     }
 
     /**
@@ -96,19 +98,23 @@ class AttributeType extends AbstractType
             }
 
             if ($attribute && $attribute->getValueType() == 'nested') {
-                $form->add('allowedTemplates', 'entity', [
-                    'class' => $this->templateClass,
-                    'property' => 'displayName',
-                    'query_builder' => function (EntityRepository $er) {
-                        return $er->createQueryBuilder('t')
-                            ->orderBy('t.displayName', 'ASC');
-                    },
-                    'by_reference' => false,
-                    'expanded' => true,
-                    'multiple' => true,
-                    'label' => 'attribute.allowed_templates',
-                    'attr' => ['help_text' => 'form.allowed_templates.help_text']
-                ]);
+                $form->add(
+                    'allowedSchemas',
+                    'entity',
+                    [
+                        'class' => $this->schemaClass,
+                        'property' => 'displayName',
+                        'query_builder' => function (EntityRepository $er) {
+                            return $er->createQueryBuilder('t')
+                                ->orderBy('t.displayName', 'ASC');
+                        },
+                        'by_reference' => false,
+                        'expanded' => true,
+                        'multiple' => true,
+                        'label' => $this->translator->trans('attribute.allowed_schemas'),
+                        'attr' => ['help_text' => $this->translator->trans('form.allowed_schemas.help_text')]
+                    ]
+                );
             }
         });
     }

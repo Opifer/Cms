@@ -36,8 +36,8 @@ class FormController extends Controller
             throw new ResourceNotFoundException(sprintf('No value with ID "%s" could be found.', $valueId));
         }
 
-        $template = $value->getTemplate();
-        $entity = $this->get('opifer.eav.eav_manager')->initializeEntity($template);
+        $schema = $value->getSchema();
+        $entity = $this->get('opifer.eav.eav_manager')->initializeEntity($schema);
 
         $form = $this->createForm('eav_post', $entity, [
             'valueId' => $valueId
@@ -48,7 +48,7 @@ class FormController extends Controller
             $em = $this->getDoctrine()->getManager();
             $em->persist($entity);
             $em->flush();
-            
+
             if($request->isXmlHttpRequest()) {
                 $response = [
                     "success" => true,
@@ -56,11 +56,11 @@ class FormController extends Controller
                         'message' => 'Form was submitted successfully!'
                     ]
                 ];
-                
+
                 if($value->getValue()) {
                     $response['payload']['redirect'] = $value->getValue();
                 }
-                
+
                 return new JsonResponse($response);
             } elseif (is_null($value->getValue()) || $value->getValue() == '') {
                 return new Response('Form was submitted successfully!');
@@ -98,14 +98,14 @@ class FormController extends Controller
             $object = $this->container->getParameter('opifer_eav.nestable_class');
             $entity = $em->getRepository($object)->find($id);
         } else {
-            $template = $this->get('opifer.eav.template_manager')->getRepository()->find($request->get('template'));
+            $schema = $this->get('opifer.eav.schema_manager')->getRepository()->find($request->get('schema'));
 
-            if (!$template) {
-                throw new \Exception(sprintf('No template found with ID %d', $request->get('template')));
+            if (!$schema) {
+                throw new \Exception(sprintf('No schema found with ID %d', $request->get('schema')));
             }
 
-            $entity = $this->get('opifer.eav.eav_manager')->initializeEntity($template);
-            $id = $template->getName();
+            $entity = $this->get('opifer.eav.eav_manager')->initializeEntity($schema);
+            $id = $schema->getName();
         }
 
         $key = $this->get('opifer.eav.eav_manager')

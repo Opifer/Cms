@@ -4,13 +4,13 @@ attribute:
     name: Name
     description: Description
     sort: Sort
-    allowed_templates: Allowed
-template:
+    allowed_schemas: Allowed
+schema:
     display_name: Display Name
     name: Name
     object_class: Object Class
     presentation: Presentation
-    success:  Template was saved successfully!
+    success:  Schema was saved successfully!
 form:
     description:
         help_text: ""
@@ -30,5 +30,5 @@ form:
     value_type:
         placeholder: ""
         help_text: ""
-    allowed_templates:
+    allowed_schemas:
         help_text: ""

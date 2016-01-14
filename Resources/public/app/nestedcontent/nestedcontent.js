@@ -2,10 +2,10 @@
 
 angular.module('OpiferNestedContent', ['ui.sortable'])
     /**
-     * Template Service
+     * Schema Service
      */
-    .factory('TemplateService', ['$resource', function($resource) {
-        return $resource(Routing.generate('opifer_eav_api_template'), {}, {
+    .factory('SchemaService', ['$resource', function($resource) {
+        return $resource(Routing.generate('opifer_eav_api_schema'), {}, {
             index: {method: 'GET', isArray: true, params: {}}
         });
     }])
@@ -18,14 +18,14 @@ angular.module('OpiferNestedContent', ['ui.sortable'])
             '<div ui-sortable ng-model="subjects">' +
             '   <div nested-content-form ng-repeat="subject in subjects track by $index"></div>' +
             '</div>' +
-            '<select class="form-control select-template" ng-options="template.displayName for (key, template) in templates | orderBy:\'displayName\'" ng-model="selected" ng-change="addSubject()">' +
-            '    <option value="">Add template...</option>' +
+            '<select class="form-control select-schema" ng-options="schema.displayName for (key, schema) in schemas | orderBy:\'displayName\'" ng-model="selected" ng-change="addSubject()">' +
+            '    <option value="">Add schema...</option>' +
             '</select>'
         ;
 
         return {
             restrict: 'E',
-            template: tpl,
+            schema: tpl,
             scope: {
                 ids: '@',
                 attribute: '@',
@@ -33,7 +33,7 @@ angular.module('OpiferNestedContent', ['ui.sortable'])
             },
             link: function(scope, element, attrs) {
                 scope.addSubject = function() {
-                    // Add the template to the subjects array
+                    // Add the schema to the subjects array
                     scope.subjects.push(angular.copy(this.selected));
 
                     // Clear the select field so we can re-use it for adding more
@@ -46,10 +46,10 @@ angular.module('OpiferNestedContent', ['ui.sortable'])
                     scope.subjects.splice(index, 1);
                 };
             },
-            controller: function($scope, $http, $attrs, TemplateService) {
-                // Query all available templates to make them available in the
+            controller: function($scope, $http, $attrs, SchemaService) {
+                // Query all available schemas to make them available in the
                 // select field.
-                $scope.templates = TemplateService.index({attribute: $scope.attributeId });
+                $scope.schemas = SchemaService.index({attribute: $scope.attributeId });
                 $scope.subjects = [];
 
                 // Retrieve all predefined nested content and add them to the
@@ -72,7 +72,7 @@ angular.module('OpiferNestedContent', ['ui.sortable'])
      */
     .directive('nestedContentForm', ['$compile', '$http', '$sce', function($compile, $http, $sce) {
         return {
-            template:
+            schema:
                 '<article class="nested-content-item">'+
                 '   <header class="form-group">' +
                 '       <div class="col-xs-12 col-sm-9 col-lg-10">'+
@@ -104,13 +104,13 @@ angular.module('OpiferNestedContent', ['ui.sortable'])
                     var parent = element.parent().parent().parent().find('input')[0].name;
                 }
 
-                // Request the form template and compile it
+                // Request the form schema and compile it
                 $http.post(Routing.generate('opifer_eav_form_render', {
                     attribute: scope.attribute,
                     id: scope.subject.name,
                     index: scope.$index,
                     parent: parent,
-                    template: scope.subject.id
+                    schema: scope.subject.id
                 }), {}).success(function(data) {
                     scope.subject.form = data.form;
                     scope.subject.data = data.content;

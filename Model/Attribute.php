@@ -26,12 +26,12 @@ class Attribute implements AttributeInterface
     protected $id;
 
     /**
-     * @var Template
+     * @var Schema
      *
-     * @ORM\ManyToOne(targetEntity="Opifer\EavBundle\Model\TemplateInterface", inversedBy="attributes")
-     * @ORM\JoinColumn(name="template_id", referencedColumnName="id")
+     * @ORM\ManyToOne(targetEntity="Opifer\EavBundle\Model\SchemaInterface", inversedBy="attributes")
+     * @ORM\JoinColumn(name="schema_id", referencedColumnName="id")
      **/
-    protected $template;
+    protected $schema;
 
     /**
      * @var string
@@ -93,10 +93,10 @@ class Attribute implements AttributeInterface
     /**
      * @var ArrayCollection
      *
-     * @ORM\ManyToMany(targetEntity="Opifer\EavBundle\Model\TemplateInterface", inversedBy="allowedInAttributes", cascade={"persist"})
-     * @ORM\JoinTable(name="attribute_allowed_template")
+     * @ORM\ManyToMany(targetEntity="Opifer\EavBundle\Model\SchemaInterface", inversedBy="allowedInAttributes", cascade={"persist"})
+     * @ORM\JoinTable(name="attribute_allowed_schema")
      **/
-    protected $allowedTemplates;
+    protected $allowedSchemas;
 
     /**
      * @var boolean
@@ -119,7 +119,7 @@ class Attribute implements AttributeInterface
     {
         $this->values = new ArrayCollection;
         $this->options = new ArrayCollection;
-        $this->allowedTemplates = new ArrayCollection;
+        $this->allowedSchemas = new ArrayCollection;
     }
 
     /**
@@ -222,28 +222,28 @@ class Attribute implements AttributeInterface
 
 
     /**
-     * Set template
+     * Set schema
      *
-     * @param  TemplateInterface $template
+     * @param  SchemaInterface $schema
      *
      * @return Attribute
      */
-    public function setTemplate(TemplateInterface $template = null)
+    public function setSchema(SchemaInterface $schema = null)
     {
-        $this->template = $template;
+        $this->schema = $schema;
 
         return $this;
     }
 
 
     /**
-     * Get template
+     * Get schema
      *
-     * @return TemplateInterface
+     * @return SchemaInterface
      */
-    public function getTemplate()
+    public function getSchema()
     {
-        return $this->template;
+        return $this->schema;
     }
 
 
@@ -403,54 +403,54 @@ class Attribute implements AttributeInterface
     }
 
     /**
-     * Add allowed template
+     * Add allowed schema
      *
-     * @param  TemplateInterface $template
+     * @param  SchemaInterface $schema
      *
      * @return  AttributeInterface
      */
-    public function addAllowedTemplate(TemplateInterface $template)
+    public function addAllowedSchema(SchemaInterface $schema)
     {
         $exists = false;
-        foreach ($this->allowedTemplates as $allowedTemplate) {
-            if ($allowedTemplate->getId() == $template->getId()) {
+        foreach ($this->allowedSchemas as $allowedSchema) {
+            if ($allowedSchema->getId() == $schema->getId()) {
                 $exists = true;
             }
         }
 
         if (!$exists) {
-            $this->allowedTemplates[] = $template;
+            $this->allowedSchemas[] = $schema;
         }
 
         return $this;
     }
 
     /**
-     * Remove allowed template
+     * Remove allowed schema
      *
-     * @param TemplateInterface $template
+     * @param SchemaInterface $schema
      */
-    public function removeAllowedTemplate(TemplateInterface $template)
+    public function removeAllowedSchema(SchemaInterface $schema)
     {
-        $this->allowedTemplates->removeElement($template);
+        $this->allowedSchemas->removeElement($schema);
     }
 
     /**
      * @return ArrayCollection
      */
-    public function getAllowedTemplates()
+    public function getAllowedSchemas()
     {
-        return $this->allowedTemplates;
+        return $this->allowedSchemas;
     }
 
     /**
-     * @param ArrayCollection $allowedTemplates
+     * @param ArrayCollection $allowedSchemas
      *
      * @return Attribute
      */
-    public function setAllowedTemplates(ArrayCollection $allowedTemplates)
+    public function setAllowedSchemas(ArrayCollection $allowedSchemas)
     {
-        $this->allowedTemplates = $allowedTemplates;
+        $this->allowedSchemas = $allowedSchemas;
 
         return $this;
     }
