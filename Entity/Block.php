@@ -45,7 +45,7 @@ abstract class Block implements BlockInterface, DraftVersionInterface
     /**
      * @var BlockInterface
      *
-     * @ORM\ManyToOne(targetEntity="Opifer\ContentBundle\Model\BlockInterface", cascade={}, inversedBy="owning")
+     * @ORM\ManyToOne(targetEntity="Opifer\ContentBundle\Entity\Block", cascade={}, inversedBy="owning")
      * @ORM\JoinColumn(name="owner_id", referencedColumnName="id", onDelete="SET NULL")
      */
     protected $owner;
@@ -53,7 +53,7 @@ abstract class Block implements BlockInterface, DraftVersionInterface
     /**
      * @var ArrayCollection
      *
-     * @ORM\OneToMany(targetEntity="Opifer\ContentBundle\Model\BlockInterface", mappedBy="owner")
+     * @ORM\OneToMany(targetEntity="Opifer\ContentBundle\Entity\Block", mappedBy="owner")
      * @ORM\OrderBy({"sort" = "ASC"})
      **/
     protected $owning;
@@ -62,15 +62,15 @@ abstract class Block implements BlockInterface, DraftVersionInterface
      * @var BlockInterface
      *
      * @Gedmo\Versioned
-     * @ORM\ManyToOne(targetEntity="Opifer\ContentBundle\Model\BlockInterface", cascade={}, inversedBy="children")
+     * @ORM\ManyToOne(targetEntity="Opifer\ContentBundle\Entity\Block", cascade={}, inversedBy="children")
      * @ORM\JoinColumn(name="parent_id", referencedColumnName="id", onDelete="SET NULL")
      */
-    protected $parent; //
+    protected $parent;
 
     /**
      * @var ArrayCollection
      *
-     * @ORM\OneToMany(targetEntity="Opifer\ContentBundle\Model\BlockInterface", mappedBy="parent", cascade={"persist", "remove"})
+     * @ORM\OneToMany(targetEntity="Opifer\ContentBundle\Entity\Block", mappedBy="parent", cascade={"persist", "remove"})
      * @ORM\OrderBy({"sort" = "ASC"})
      **/
     protected $children;

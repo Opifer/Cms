@@ -167,7 +167,7 @@ class Content implements ContentInterface, EntityInterface
     /**
      * @var BlockInterface
      *
-     * @ORM\OneToOne(targetEntity="Opifer\ContentBundle\Model\BlockInterface", cascade={"persist", "remove"})
+     * @ORM\OneToOne(targetEntity="Opifer\ContentBundle\Entity\Block", cascade={"persist", "remove"})
      * @ORM\JoinColumn(name="block_id", referencedColumnName="id")
      **/
     protected $block;
