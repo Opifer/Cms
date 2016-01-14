@@ -84,9 +84,14 @@ class ContentExtension extends \Twig_Extension
      */
     public function getNested(NestedValue $value)
     {
+        if (!$value->getId()) {
+            return new ArrayCollection();
+        }
+        
         return $this->contentManager->getRepository()
             ->createValuedQueryBuilder('c')
             ->where('c.nestedIn = :value')->setParameter('value', $value)
+            ->orderBy('c.nestedSort')
             ->getQuery()
             ->getResult();
     }
