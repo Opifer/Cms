@@ -1,0 +1,19 @@
+{% if media.thumb %}
+    <a class="visual" href="{{ path('opifer.media.media.edit', {'id':media.id}) }}">
+        <img src="{{ media.thumb.reference|imagine_filter('medialibrary') }}" alt="{{ media.name }}">
+    </a>
+{% else %}
+    <div>{{ 'media.thumb.not_found'|trans|capitalize }}</div>
+{% endif %}
+
+<h4 align="center">
+    <a href="{{ path('opifer.media.media.edit', {'id':media.id}) }}">
+        {{ media.name }}
+    </a>
+</h4>
+<div align="center" class="metadata">
+    {% if media.metadata['contentDetails'] is defined %}
+        {{ media.metadata['contentDetails']['duration'] }}
+    {% endif %}
+    {% if media.metadata['contentDetails']['definition'] == 'hd' %}- HD{% endif %}
+</div>

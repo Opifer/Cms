@@ -1,0 +1,34 @@
+{
+    "name": "opifer/media-bundle",
+    "description": "Opifer Media Bundle",
+    "homepage": "https://github.com/Opifer/MediaBundle",
+    "type": "symfony-bundle",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Opifer",
+            "homepage": "http://www.opifer.nl/"
+        }
+    ],
+    "require": {
+        "php": ">=5.4",
+        "symfony/symfony": "~2.5",
+        "doctrine/orm": "~2.4",
+        "doctrine/doctrine-bundle": "~1.2",
+        "twig/extensions": "~1.0",
+        "aws/aws-sdk-php": "2.5.*",
+        "gedmo/doctrine-extensions": "~2.3",
+        "jms/serializer-bundle": "~1.0",
+        "knplabs/knp-gaufrette-bundle": "*@dev",
+        "liip/imagine-bundle": "~1.2.6",
+        "pagerfanta/pagerfanta": "~1.0"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "~4.2.0",
+        "mockery/mockery": "~0.9",
+        "symfony/phpunit-bridge": "~2.7"
+    },
+    "autoload": {
+        "psr-4": {"Opifer\\MediaBundle\\": "."}
+    }
+}

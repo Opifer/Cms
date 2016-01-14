@@ -1,0 +1,132 @@
+parameters:
+    opifer.imagine.cache.resolver.amazon_s3.class: Liip\ImagineBundle\Imagine\Cache\Resolver\AwsS3Resolver
+    opifer.imagine.cache.resolver.amazon_s3.cache.class: Liip\ImagineBundle\Imagine\Cache\Resolver\CacheResolver
+    opifer.imagine.cache.resolver.amazon_s3.proxy.class: Liip\ImagineBundle\Imagine\Cache\Resolver\ProxyResolver
+    opifer.media.aws_s3.client.class: Aws\S3\S3Client
+    opifer.media.file_provider.class: Opifer\MediaBundle\Provider\FileProvider
+    opifer.media.form.dropzone.class: Opifer\MediaBundle\Form\Type\DropzoneType
+    opifer.media.form.media_edit.class: Opifer\MediaBundle\Form\Type\MediaEditType
+    opifer.media.form.mediapicker.class: Opifer\MediaBundle\Form\Type\MediaPickerType
+    opifer.media.handler.serialization.class: Opifer\MediaBundle\EventListener\Serializer\MediaEventSubscriber
+    opifer.media.image_provider.class: Opifer\MediaBundle\Provider\ImageProvider
+    opifer.media.imagine.filter.loader.original_filter.class: Opifer\MediaBundle\Imagine\Filter\Loader\OriginalFilterLoader
+    opifer.media.listener.media_listener.class: Opifer\MediaBundle\EventListener\MediaListener
+    opifer.media.media_manager.class: Opifer\MediaBundle\Model\MediaManager
+    opifer.media.provider.pool.class: Opifer\MediaBundle\Provider\Pool
+    opifer.media.url_generator.class: Opifer\MediaBundle\Routing\UrlGenerator
+    opifer.media.youtube_provider.class: Opifer\MediaBundle\Provider\YoutubeProvider
+
+
+services:
+    opifer.media.media_manager.default:
+        class: %opifer.media.media_manager.class%
+        arguments: [@doctrine.orm.entity_manager, %opifer_media.model.class%]
+
+    opifer.media.listener.media_listener:
+        class: %opifer.media.listener.media_listener.class%
+        arguments: [@service_container]
+        tags:
+            - { name: doctrine.event_subscriber }
+
+    # Serializer
+    opifer.media.handler.serialization:
+        class: %opifer.media.handler.serialization.class%
+        arguments: [@liip_imagine.cache.manager, @liip_imagine.filter.configuration, @opifer.media.provider.pool]
+        tags:
+            - { name: jms_serializer.event_subscriber }
+
+    # Form Types
+    opifer.media.form.dropzone:
+        class: %opifer.media.form.dropzone.class%
+        arguments: [@opifer.media.media_manager]
+        tags:
+            - { name: form.type, alias: dropzone }
+
+    opifer.media.form.media_edit:
+        class: %opifer.media.form.media_edit.class%
+        tags:
+            - { name: form.type, alias: opifer_media_edit }
+
+    opifer.media.form.mediapicker:
+        class: %opifer.media.form.mediapicker.class%
+        arguments: [@opifer.media.provider.pool]
+        tags:
+            - { name: form.type, alias: mediapicker }
+
+    # Providers
+    opifer.media.provider.pool:
+        class: %opifer.media.provider.pool.class%
+
+    opifer.media.file_provider:
+        class: %opifer.media.file_provider.class%
+        arguments: [@gaufrette.file_storage_filesystem, @translator, @router, @opifer.media.url_generator]
+        tags:
+            - { name: opifer.media.provider, alias: file }
+
+    opifer.media.image_provider:
+        class: %opifer.media.image_provider.class%
+        arguments: [@gaufrette.file_storage_filesystem, @translator, @router, @opifer.media.url_generator]
+        tags:
+            - { name: opifer.media.provider, alias: image }
+
+    opifer.media.youtube_provider:
+        class: %opifer.media.youtube_provider.class%
+        arguments: [@opifer.media.media_manager, @translator, %opifer_media.providers.youtube.api_key%]
+        tags:
+            - { name: opifer.media.provider, alias: youtube }
+
+    opifer.media.url_generator:
+        class: %opifer.media.url_generator.class%
+        arguments: [@gaufrette.file_storage_filesystem, @request_stack, %opifer_media.storages.local.directory%]
+
+    # Image processors
+    opifer.media.aws_s3.client:
+        class: %opifer.media.aws_s3.client.class%
+        factory_class: Aws\S3\S3Client
+        factory_method: 'factory'
+        arguments:
+            -
+                key: %opifer_media.storages.aws_s3.key%
+                secret: %opifer_media.storages.aws_s3.secret%
+                region: %opifer_media.storages.aws_s3.region%
+
+    liip_imagine.data.loader.stream.photo_storage:
+        class: "%liip_imagine.binary.loader.stream.class%"
+        arguments:
+            - 'gaufrette://file_storage/'
+        tags:
+            - { name: 'liip_imagine.binary.loader', loader: 'stream.file_storage' }
+
+    opifer.imagine.cache.resolver.amazon_s3:
+        class: %opifer.imagine.cache.resolver.amazon_s3.class%
+        arguments:
+            - "@opifer.media.aws_s3.client"
+            - "%opifer_media.storages.aws_s3.bucket%"
+            - "public-read"
+            - { https: true }
+        tags:
+            - { name: 'liip_imagine.cache.resolver', resolver: 'aws_storage' }
+        calls:
+            - [setCachePrefix, ["cache"]]
+            - [setPutOption, ['CacheControl', 'max-age=86400' ]]
+
+    opifer.imagine.cache.resolver.amazon_s3.proxy:
+        class: %opifer.imagine.cache.resolver.amazon_s3.proxy.class%
+        arguments:
+            - "@opifer.imagine.cache.resolver.amazon_s3"
+            - %opifer_media.storages.aws_s3.proxies%
+        tags:
+            - { name: 'liip_imagine.cache.resolver', resolver: 'proxy_aws_storage' }
+    
+    opifer.cache.apc:
+        class: %doctrine.orm.cache.apc.class%
+    
+    opifer.imagine.cache.resolver.amazon_s3.cache:
+        class: %opifer.imagine.cache.resolver.amazon_s3.cache.class%
+        arguments:
+            - "@opifer.cache.apc"
+            - "@opifer.imagine.cache.resolver.amazon_s3.proxy"
+            -
+                prefix: "amazon_s3"
+        tags:
+            - { name: 'liip_imagine.cache.resolver', resolver: 'cached_proxy_aws' }

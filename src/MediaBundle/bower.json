@@ -1,0 +1,15 @@
+{
+  "name": "opifer-mediabundle",
+  "dependencies": {
+    "jquery": "~1.11",
+    "select2": "latest",
+    "angular": "~1.2",
+    "angular-route": "~1.2",
+    "angular-resource": "~1.2",
+    "angular-ui-sortable": "latest",
+    "dropzone": "latest",
+    "ngInfiniteScroll": "latest",
+    "font-awesome": "~4.1.0",
+    "ng-file-upload": "3.3.*"
+  }
+}

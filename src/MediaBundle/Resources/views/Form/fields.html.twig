@@ -1,0 +1,70 @@
+{#
+    The Dropzone widget.
+
+    Renders a drag-and-drop field which automatically uploads the files
+#}
+{% block dropzone_row %}
+    {{ form_widget(form) }}
+{% endblock %}
+
+{% block dropzone_widget %}
+    {% spaceless %}
+
+    {% if mapped == false %}
+        {% set success_message = 'media.upload.success'|trans %}
+        {% set button_value = 'media.upload.button'|trans %}
+        {% set prototype_html = '<div class="row"><div class="col-lg-2"><img src="__thumb__" class="pull-right"></div><div class="col-lg-10">' ~ form_widget(prototype, []) ~ '</div></div>' %}
+        {% set form_html = '<div class="alert alert-success">' ~ success_message ~ '</div><form action="' ~ form_action ~ '" id="update-form" method="POST"><button type="submit" class="btn btn-primary">' ~ button_value ~ '</button></form>' %}
+    {% else %}
+        {% set prototype_html = '' %}
+        {% set form_html = '' %}
+    {% endif %}
+
+    <div class="dropzone"
+         {% if mapped %}data-mapped="dropzone-parent"{% endif %}
+         data-path="{{ path }}"
+         data-prototype-form="{{ form_html }}"
+         data-prototype="{{ prototype_html }}">
+    </div>
+
+    {% if mapped %}
+        <input name="{{ full_name }}" type="hidden" id="dropzone-parent" value="{{ form.vars.value }}">
+    {% endif %}
+
+    {% endspaceless %}
+{% endblock %}
+
+{#
+    The Mediapicker widget.
+#}
+{% block mediapicker_widget %}
+    <div class="media-picker" ng-controller="MediaLibraryController" ng-init="init('picker', '{{ providers|json_encode() }}', '{{ full_name }}', '{{ form.vars.value|json_encode() }}', '{{ multiple }}', false)" ng-cloak>
+        {% verbatim %}
+        <div class="picker-selected-items">
+            <div class="inner clearfix">
+                <div class="alert alert-info" ng-cloak ng-show="!selecteditems.length">
+                    no media selected
+                </div>
+                <div ng-repeat="item in selecteditems" class="item {{ item.provider }} {{ item.file_type }}">
+                    <input type="hidden" id="" name="{{ picker.name }}" value="{{ item.id }}">
+                    <img ng-src="{{ item.images.medialibrary }}" ng-if="item.provider == 'image'" alt="">
+                    <div class="image-wrapper">
+                        <span class="name">{{ item.name }}</span><br>
+                        <div class="controls">
+                            <a ng-click="removeMedia($index)" class="fa fa-times danger"></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div ng-click='togglePicker()' class="btn btn-default" ng-hide="(!picker.multiple && selecteditems.length >= 1)">
+            select media
+        </div>
+
+        <ng-modal show='picker.pickerShown' class="fullsize">
+            <ng-media-library></ng-media-library>
+        </ng-modal>
+        {% endverbatim %}
+    </div>
+{% endblock %}

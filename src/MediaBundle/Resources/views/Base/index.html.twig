@@ -1,0 +1,9 @@
+{% extends 'OpiferMediaBundle::base.html.twig' %}
+
+{% block opifer_media_header %}{% endblock %}
+
+{% block opifer_media_body %}
+    <div ng-controller="MediaLibraryController" ng-init="init('default', '{{ providers|json_encode() }}')">
+        <ng-media-library></ng-media-library>
+    </div>
+{% endblock opifer_media_body %}

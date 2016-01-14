@@ -1,0 +1,64 @@
+# Backend
+opifer_media_media_index:
+    path: /media
+    defaults: { _controller: OpiferMediaBundle:Backend/Media:index }
+    options:
+        expose: true
+
+opifer_media_media_new:
+    path: /media/new/{provider}
+    defaults: { _controller: OpiferMediaBundle:Backend/Media:new }
+    options:
+        expose: true
+
+opifer_media_media_edit:
+    path: /media/{id}
+    defaults: { _controller: OpiferMediaBundle:Backend/Media:edit }
+    requirements:
+        id: \d+
+    options:
+        expose: true
+
+opifer_media_media_updateall:
+    path: /media/update/all
+    defaults: { _controller: OpiferMediaBundle:Backend/Media:updateAll }
+
+opifer_media_media_delete:
+    path: /media/delete/{id}
+    defaults: { _controller: OpiferMediaBundle:Backend/Media:delete }
+    requirements:
+        id: \d+
+    options:
+        expose: true
+
+# API
+
+opifer_api_media:
+    path: /api/media
+    defaults: { _controller: OpiferMediaBundle:Api/Media:index }
+    methods: [GET]
+    options:
+        expose: true
+
+opifer_api_media_detail:
+    path: /api/media/{id}
+    defaults: { _controller: OpiferMediaBundle:Api/Media:detail }
+    methods: [GET]
+    options:
+        expose: true
+
+opifer_api_media_upload:
+    path: /api/media/upload
+    defaults: { _controller: OpiferMediaBundle:Api/Media:upload }
+    methods: [POST]
+    options:
+        expose: true
+
+opifer_api_media_delete:
+    path: /api/media/{id}
+    defaults: { _controller: OpiferMediaBundle:Api/Media:delete }
+    methods: [DELETE]
+    requirements:
+        id: \d+
+    options:
+        expose: true
