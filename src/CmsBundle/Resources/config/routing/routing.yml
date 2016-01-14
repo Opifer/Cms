@@ -1,0 +1,73 @@
+# Routing used by multiple bundles
+_liip_imagine:
+    resource: "@LiipImagineBundle/Resources/config/routing.xml"
+    options:
+        expose: true
+
+fos_js_routing:
+    resource: "@FOSJsRoutingBundle/Resources/config/routing/routing.xml"
+
+fos_user_security_check:
+    pattern: /login_check
+    defaults: { _controller: FOSUserBundle:Security:check }
+    methods: [POST]
+
+fos_user_security_logout:
+    pattern: /logout
+    defaults: { _controller: FOSUserBundle:Security:logout }
+
+_bazinga_jstranslation:
+    resource: "@BazingaJsTranslationBundle/Resources/config/routing/routing.yml"
+
+# Opifer bundle routing
+
+opifer_cms_exception_404:
+    pattern: /404
+    defaults: { _controller: OpiferCmsBundle:Frontend\Exception:error404 }
+    methods: [GET]
+
+opifer_form:
+    resource: "@OpiferFormBundle/Resources/config/routing.yml"
+
+opifer_eav_form_submit:
+    pattern: /eav/form/submit/{valueId}
+    defaults: { _controller: OpiferEavBundle:Form:submit }
+    requirements:
+        valueId: "\d+"
+    methods: [POST]
+
+# API routes
+
+opifer_cms_home:
+    pattern:  /
+    defaults: { _controller: OpiferCmsBundle:Frontend\Page:home }
+    options: {sitemap: true}
+
+opifer_cms_auto_complete:
+    path: /autocomplete/{alias}
+    defaults: { _controller: OpiferCmsBundle:AutoComplete:query }
+    options:
+        expose: true
+
+opifer_cms_login:
+    pattern:  /login
+    defaults: { _controller: FOSUserBundle:Security:login }
+
+PrestaSitemapBundle:
+    resource: "@PrestaSitemapBundle/Resources/config/routing.yml"
+    prefix:   /
+
+# Third party bundle routing fallbacks
+
+fos_user_register:
+    resource: "@FOSUserBundle/Resources/config/routing/registration.xml"
+    prefix:   /register
+
+fos_user_change_password:
+    pattern:  /change-password
+    defaults: { _controller: FOSUserBundle:ChangePassword:changePassword }
+    methods:  [GET,POST]
+
+_opifer_backend:
+    resource: "routing_backend.yml"
+    prefix:   /admin

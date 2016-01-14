@@ -1,0 +1,18 @@
+{% extends 'OpiferCmsBundle::base.html.twig' %}
+
+{% block body %}
+    {% spaceless %}
+        <div class="page-header clearfix">
+            <h1 class="pull-left">Edit form "{{ form.name }}"</h1>
+            <a href="{{ path('opifer_form_post_index', {'formId': form.id}) }}" class="btn btn-default pull-right">
+                {{ 'See posts'|trans|capitalize }}
+            </a>
+        </div>
+
+        <div class="container">
+            <div class="row">
+                {% include 'OpiferCmsBundle:Backend/Form:_form.html.twig' %}
+            </div>
+        </div>
+    {% endspaceless %}
+{% endblock body %}

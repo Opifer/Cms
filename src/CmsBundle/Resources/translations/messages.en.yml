@@ -1,0 +1,213 @@
+# Base
+base:
+    cronjobs: cron jobs
+    content: content
+    forms: forms
+    help: help
+    imagefilters: image settings
+    layouts: layouts
+    logout: logout
+    profile: my account
+    redirects: redirects
+    settings: configuration
+    sitemenu: menu
+    sites: websites
+    system: system
+    templates: templates
+    users: users
+
+# Content
+content:
+    edit:
+        visit: Visit page
+        mode:
+            simple: simple
+            advanced: advanced
+        success: "%title% was saved successfully!"
+    form:
+        alias:
+            help_text: Enter a shortened url as alias for this page (optional)
+        description:
+            placeholder: Description for your page
+            help_text: Describe your page in a few important keywords
+        directory:
+            help_text: Directory this page will be stored in
+        indexable:
+            help_text: Allow search engines to index this page
+            label: Indexable
+        init:
+            submit: continue
+        locale:
+            help_text: ""
+        searchable:
+            help_text: Allow this page to end up in search results
+            label: Searchable
+        site:
+            help_text: Choose the site you want to create the content in
+        slug:
+            placeholder: Unique permalink slug for this page
+        submit: Save
+        template:
+            help_text: 'Define the type of content. If you want to add a new template, <a href="%url%">create it here</a>'
+        title:
+            placeholder: Enter a title for your page
+    new:
+        title: define the type of content
+
+# Dashboard
+dashboard:
+    content:
+        latest: Latest content
+    title: your dashboard
+    user:
+        latest: Newest users
+
+# Directory
+directory:
+    index:
+        title: directories
+    edit:
+        title: edit directory
+    parent:
+        label: Parent directory
+        empty: "(no parent directory)"
+        help_text: choose a parent for this directory if applicable
+    name:
+        help_text: enter a name for this directory
+    menu:
+        default:
+            label: default
+    submit: Save directory
+
+# Menu
+menu:
+    edit:
+        title: edit menu
+    panel:
+        id: Id
+        name: Name
+    confirmation:
+        delete:
+            title: "Delete confirmation"
+            description: "Are you sure you want to delete"
+    form:
+        content:
+            empty: no related content
+            help_text: connect the menu to an existing content item
+        name:
+            help_text: the name of the menu item
+        link:
+            help_text: Add a hard link where the menu should redirect to. Leave empty when you selected a related content item.
+        parent:
+            help_text: define a parent menu item
+    group:
+        add: new menugroup
+        type: Menu group
+    index:
+        title: menus
+    item:
+        add: new menuitem
+        type: Menu item
+
+# Navigation
+nav:
+    dashboard: Dashboard
+    content: Content
+    directory: Directories
+    media: Medialibrary
+    menu: Menus
+    sitemenu: Menus
+    edit:
+        title: edit menu
+    index:
+        title: "menu's"
+    group:
+        add: add menugroup
+    item:
+        add: add menuitem
+    form:
+        parent:
+            help_text: Choose a parent for this menu if applicable
+        name:
+            help_text: Enter a name for this menu
+        content:
+            empty: (empty)
+            help_text: Set the link to this content item
+        link:
+            help_text: Set a hard link for this item
+
+# Profile
+profile:
+    edit:
+        title: edit your profile information
+    show:
+        title: your profile information
+
+# Security
+security:
+    login:
+        title: login
+        email: "Email:"
+        username: "Username:"
+        password: "Password:"
+        remember_me: Stay signed in
+        submit: Login
+
+# Settings
+setting:
+    index:
+        title: settings
+    edit:
+        success: 'Your settings have been saved!'
+
+# Sites
+site:
+    new: add site
+
+# Users
+user:
+    edit:
+        success: %username% was updated successfully!
+    new:
+        success: '%username% was successfully created with ID "%id%"'
+
+# Form field labels
+form:
+    current_password: Current password
+    name: Name
+    description: Description
+    email: Email
+    new_password: New password
+    new_password_confirmation: Verify new password
+    parent: parent
+    password: Password
+    password_confirmation: Verify password
+    permalink: permalink
+    presentation: presentation
+    slug:
+        label: "URL-friendly name"
+        help_text: "Use only letters and numbers, no spaces allowed a-z0-9_-"
+    title: Title
+    username: username
+    post_notify:
+        placeholder: "Enter recipients email address"
+        help_text: ""
+
+# Buttons
+button:
+    add: add new
+    all: show all
+    cancel: cancel
+    delete: delete
+    edit: edit
+
+# Delete confirmation
+confirmation:
+    delete:
+        title: "Delete confirmation"
+        description: "Are you sure you want to delete"
+
+template:
+    post_notify: E-mail notification
+    delete:
+        warning: "We're unable to remove this template. It might still be in use by content items."

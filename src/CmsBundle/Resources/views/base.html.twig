@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="{{ app.request.locale }}" ng-app="MainApp">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="description" content="Content Management System">
+        <meta name="author" content="Opifer">
+
+        <title>{% block title %}CM – Opifer{% endblock %}</title>
+
+        {% stylesheets
+            'bundles/opifermedia/css/main.less'
+            'bundles/opifercms/less/main.less'
+            'bundles/opifermedia/css/dropzone.less'
+            'bundles/opifercms/components/angular-loading-bar/build/loading-bar.css'
+            filter='less,cssrewrite' %}
+            <link rel="stylesheet" href="{{ asset_url }}" />
+        {% endstylesheets %}
+    </head>
+    <body>
+        {% spaceless %}
+        {% if is_granted("IS_AUTHENTICATED_REMEMBERED") and hide_nav|default != true %}
+            <header class="mainnav">
+
+                <nav class="navbar navbar-inverse navbar-static-top" role="navigation">
+                    <div class="container-fluid">
+                        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                            <ul class="nav navbar-nav">
+                                <li><a href="{{ path('opifer_cms_dashboard') }}"><i class="fa fa-rocket"></i></a></li>
+                                <li><a href="{{ path('opifer_content_content_index') }}">{{ "nav.content"|trans|capitalize }}</a></li>
+                                <li><a href="{{ path('opifer_media_media_index') }}"><i class="fa fa-photo visible-xs-block"></i> {{ "nav.media"|trans|capitalize }}</a></li>
+                                <li><a href="{{ path('opifer_content_directory_index') }}"><i class="fa fa-folder-o visible-xs-block"></i> {{ "nav.directory"|trans|capitalize }}</a></li>
+                                <li><a href="{{ path('opifer_cms_menu_index') }}"><i class="fa fa-navicon visible-xs-block"></i> {{ "nav.sitemenu"|trans|capitalize }}</a></li>
+                                <li><a href="{{ path('opifer_form_form_index') }}">{{ 'base.forms'|trans|capitalize }}</a></li>
+                            </ul>
+
+                            <ul class="nav navbar-nav navbar-right">
+                                {# User menu #}
+                                <li class="dropdown">
+                                    <a class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-smile-o visible-xs-block"></i> {{ app.user.username|capitalize }} <i class="fa fa-angle-down"></i></a>
+                                    <ul class="dropdown-menu">
+                                        {#<li><a href="{{ path('fos_user_profile_edit') }}">{{ 'base.profile'|trans|capitalize }}</a></li>
+                                        <li class="divider"></li>#}
+                                        <li><a href="{{ path('fos_user_security_logout') }}">{{ 'base.logout'|trans|capitalize }}</a></li>
+                                    </ul>
+                                </li>
+
+                                {# System menu #}
+                                {% if is_granted("ROLE_SUPER_ADMIN") %}
+                                    <li class="dropdown">
+                                        <a class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-hdd-o visible-xs-block"></i> {{ 'base.system'|trans|capitalize }} <i class="fa fa-angle-down"></i></a>
+                                        <ul class="dropdown-menu">
+                                            <li role="presentation" class="dropdown-header">{{ 'base.system'|trans|capitalize }}</li>
+                                            <li><a href="{{ path('opifer_cms_setting_index') }}">{{ 'base.settings'|trans|capitalize }}</a></li>
+                                            <li><a href="{{ path('opifer_cms_cronjob_index') }}">{{ 'base.cronjobs'|trans|capitalize }}</a></li>
+                                            <li><a href="{{ path('opifer_cms_user_index') }}">{{ 'base.users'|trans|capitalize }}</a></li>
+                                            <li><a href="{{ path('opifer_redirect_redirect_index') }}">{{ 'base.redirects'|trans|capitalize }}</a></li>
+                                            <li class="divider"></li>
+                                            <li role="presentation" class="dropdown-header">{{ 'base.content'|trans|capitalize }}</li>
+                                            <li><a href="{{ path('opifer_cms_template_index') }}">{{ 'base.templates'|trans|capitalize }}</a></li>
+                                            <li><a href="{{ path('opifer_cms_layout_index') }}">{{ 'base.layouts'|trans|capitalize }}</a></li>
+                                            {#<li><a href="{{ path('opifer_cms_site_index') }}">{{ 'base.sites'|trans|capitalize }}</a></li>#}
+                                        </ul>
+                                    </li>
+                                {% endif %}
+
+                                {# Help pages #}
+                                {#<li class="navicon icon-help"><a href="{{ path('opifer.manual.help.index') }}">{{ 'base.help'|trans|capitalize }}</a></li>#}
+
+                            </ul>
+                        </div>
+                    </div>
+                </nav>
+            </header>
+            <div id="main" class="container-fluid">
+                <div class="viewmain">
+                {% endif %}
+                {% include 'OpiferCmsBundle:Components:flash.html.twig' with {'close': true } %}
+                {% block body %}{% endblock %}
+            {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
+            </div>
+            {% include 'OpiferCmsBundle:Components:confirmationDelete.html.twig' %}
+        </div>
+        {#<footer>
+            <p>&copy; Opifer {{ "now"|date('Y') }}</p>
+        </footer>#}
+    {% endif %}
+
+    {% endspaceless %}
+
+    {% block javascripts %}
+        <script>var CKEDITOR_BASEPATH = '/bundles/opifercms/components/ckeditor/';</script>
+        <script src="//maps.google.com/maps/api/js?sensor=true&libraries=places&language=en-US"></script>
+
+        {% javascripts
+            '@OpiferCmsBundle/Resources/public/components/ng-file-upload/angular-file-upload-shim.min.js'
+            '@OpiferCmsBundle/Resources/public/components/jquery/dist/jquery.js'
+            '@OpiferCmsBundle/Resources/public/components/jquery-ui/ui/jquery-ui.js'
+            '@OpiferCmsBundle/Resources/public/components/speakingurl/lib/speakingurl.js'
+            '@OpiferCmsBundle/Resources/public/components/jquery-slugify/dist/slugify.js'
+            '@OpiferCmsBundle/Resources/public/components/underscore/underscore.js'
+            '@OpiferCmsBundle/Resources/public/components/angular/angular.js'
+            '@OpiferCmsBundle/Resources/public/components/angular-route/angular-route.js'
+            '@OpiferCmsBundle/Resources/public/components/angular-resource/angular-resource.js'
+            '@OpiferCmsBundle/Resources/public/components/angular-google-maps/dist/angular-google-maps.js'
+            '@OpiferCmsBundle/Resources/public/components/angular-inview/angular-inview.js'
+            '@OpiferCmsBundle/Resources/public/components/angular-ui-sortable/sortable.js'
+            '@OpiferCmsBundle/Resources/public/components/angular-loading-bar/build/loading-bar.js'
+            '@OpiferCmsBundle/Resources/public/components/bootstrap/dist/js/bootstrap.js'
+            '@OpiferCmsBundle/Resources/public/components/dropzone/dist/dropzone.js'
+            '@OpiferCmsBundle/Resources/public/components/ngInfiniteScroll/build/ng-infinite-scroll.js'
+            '@OpiferCmsBundle/Resources/public/components/afkl-lazy-image/release/lazy-image.js'
+            '@OpiferCmsBundle/Resources/public/components/ng-file-upload/angular-file-upload.min.js'
+            '@OpiferCmsBundle/Resources/public/components/typeahead.js/dist/typeahead.bundle.js'
+            '@BraincraftedBootstrapBundle/Resources/js/bc-bootstrap-collection.js'
+            '@InfiniteFormBundle/Resources/public/js/collections.js'
+            '@OpiferCmsBundle/Resources/public/js/main.js'
+            '@OpiferCmsBundle/Resources/public/app/app.js'
+
+            '@OpiferContentBundle/Resources/public/app/content/content.js'
+            '@OpiferContentBundle/Resources/public/app/presentationeditor/presentationeditor.js'
+
+            '@OpiferMediaBundle/Resources/public/js/dropzone.js'
+            '@OpiferCmsBundle/Resources/public/app/googleaddress/googleaddress.js'
+            '@OpiferEavBundle/Resources/public/app/nestedcontent/nestedcontent.js'
+            '@OpiferMediaBundle/Resources/public/app/modal/modal.js'
+            '@OpiferMediaBundle/Resources/public/app/medialibrary/medialibrary.js'
+
+            'bundles/fosjsrouting/js/router.js'
+
+            '@BazingaJsTranslationBundle/Resources/js/translator.js'
+
+            '@OpiferCmsBundle/Resources/public/components/ckeditor/ckeditor.js'
+
+            filter='' %}
+            <script type="text/javascript" src="{{ asset_url }}"></script>
+        {% endjavascripts %}
+
+        <script src="{{ url('bazinga_jstranslation_js') }}"></script>
+        <script src="{{ path('fos_js_routing_js', {"callback": "fos.Router.setData"}) }}"></script>
+    {% endblock %}
+</body>
+</html>

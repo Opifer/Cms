@@ -1,0 +1,91 @@
+.btn {
+  &.include:before {
+    .fa('\f064');
+    margin-right: 5px;
+  }
+}
+
+.btn-link {
+  border-bottom: 0 !important;
+}
+
+.btn-default {
+  background: #f4f4f4;
+}
+
+.btn-group {
+  .btn + .btn {
+    border-left: 1px solid #e3e3e3;
+  }
+}
+
+
+.btn-paginate {
+    width: 100%;
+    .btn-default;
+}
+
+.btn-skeleton {
+    background: transparent;
+    color: white;
+    border: 1px solid white;
+
+    &:hover {
+        color: white;
+    }
+}
+
+.btn-drag {
+    .btn-default;
+    color: @gray-light;
+    height: 32px;
+    background-color: transparent !important;
+    border-color: transparent !important;
+    cursor: -webkit-grab;
+    cursor: grab;
+
+    &:before {
+        font-size: @font-size-base;
+        line-height: @font-size-large;
+
+        .fa('\f142');
+    }
+}
+
+.ui-sortable-helper {
+    .btn-drag {
+        cursor: -webkit-grabbing;
+        cursor: grabbing;
+    }
+}
+
+.btn-publication {
+    border: 2px solid lighten(@text-muted, 40%);
+    box-shadow: inset 1px 1px @btn-default-border, inset -1px -1px @btn-default-border;
+    background-color: white;
+    color: @text-muted;
+
+    i {
+        .fa;
+        font-size: @font-size-large;
+        margin-right: .5rem;
+
+        &:before {
+            color: @text-muted;
+            .fa('\f070');
+        }
+    }
+
+    &.active {
+        border: 2px solid #2C992E;
+        color: #2C992E;
+        box-shadow: inset 1px 1px @btn-default-border, inset -1px -1px @btn-default-border !important;
+
+        i {
+            &:before {
+                color: #2C992E;
+                .fa('\f06e');
+            }
+        }
+    }
+}

@@ -1,0 +1,28 @@
+{
+  "name": "opifer-cmsbundle",
+  "dependencies": {
+    "jquery": "~1.11",
+    "jquery-ui": "~1.10.2",
+    "bootstrap": "latest",
+    "angular": "1.3.13",
+    "angular-resource": "1.3.13",
+    "angular-route": "1.3.13",
+    "underscore": "latest",
+    "angular-google-maps": "~1.0",
+    "angular-inview": "latest",
+    "afkl-lazy-image": "latest",
+    "angular-ui-sortable": "latest",
+    "angular-loading-bar": "latest",
+    "dropzone": "latest",
+    "ngInfiniteScroll": "latest",
+    "font-awesome": "~4.3.0",
+    "ng-file-upload": "3.3.*",
+    "jquery-slugify": "latest",
+    "ckeditor": "4.5.1",
+    "typeahead.js": "~0.11",
+    "ckeditor": "4.5.1"
+  },
+  "resolutions": {
+    "angular": "1.3.13"
+  }
+}

@@ -1,0 +1,65 @@
+.ruleeditor {
+
+    .layoutselect {
+        .make-xs-column(6);
+        width: 250px;
+    }
+
+    .rule {
+        .form-group;
+        .row;
+
+        .values {
+            .pull-left;
+        }
+
+        .cell {
+            .make-xs-column(2);
+            width: 150px !important;
+        }
+        
+        .cell-large {
+            width: 250px !important;
+        }
+        
+        .list-group {
+            margin-bottom: 5px;
+            
+            label {
+                font-weight: normal;
+            }
+        }
+        
+        .list-group-item {
+            padding: 6px 10px;
+        }
+        
+        .list-group-item .glyphicon {
+            display: none;
+            float: right;
+            margin-top: -2px;
+            margin-right: -9px;
+        }
+        
+        .list-group-item:hover .glyphicon {
+            display: inline-block;
+        }
+    }
+    .children {
+        .form-group;
+        .row;
+        margin-left: 60px;
+
+    }
+    .controls {
+        .make-xs-column(2);
+        width: 50px;
+        height: @input-height-base;
+        padding-top: 5px;
+        font-size: @font-size-small;
+        a.glyphicon-th-list {
+            cursor: -webkit-grab; cursor: -moz-grab;
+            color: @gray-lighter;
+        }
+    }
+}

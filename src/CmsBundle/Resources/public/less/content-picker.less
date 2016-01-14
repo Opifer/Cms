@@ -1,0 +1,80 @@
+.content-picked-item {
+    display: inline-block;
+    position: relative;
+    font-size: @font-size-base;
+    line-height: (@line-height-base / 1.2);
+    padding-left: 5rem;
+    margin-left: 1rem;
+    height: 34px;
+    vertical-align: top;
+
+
+    .content-cover {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 34px;
+        height: 34px;
+        background-color: @gray;
+    }
+
+    .content-path {
+        display: block;
+        font-size: @font-size-small;
+        color: @gray;
+    }
+
+    .danger {
+        display: inline-block;
+        background: lighten(@gray-base, 70%);
+        color: #fff;
+        border-radius: 2px;
+        padding: 2px;
+        line-height: 1;
+        font-size: 13px;
+        width: 18px;
+        height: 18px;
+        text-align: center;
+        vertical-align: top;
+
+        &:hover {
+            color: #fff;
+            background: lighten(@gray-base, 50%);
+        }
+    }
+
+    .wrapper {
+        display: table;
+    }
+}
+
+
+.content-picked-details {
+    display: inline-block;
+    margin-right: 1rem;
+    vertical-align: middle;
+}
+
+.content-picker-list {
+    .content-picked-item {
+        margin-left: 0;
+        margin-bottom: @grid-gutter-width/2;
+    }
+
+    .content-cover {
+        cursor: -webkit-grab;
+        cursor: grab;
+    }
+
+    .ui-sortable-placeholder {
+        visibility: visible !important;
+        border: 3px dashed @gray-lighter;
+    }
+
+    .ui-sortable-helper {
+        .content-cover {
+            cursor: -webkit-grabbing;
+            cursor: grabbing;
+        }
+    }
+}

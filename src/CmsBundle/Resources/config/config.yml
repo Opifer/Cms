@@ -1,0 +1,258 @@
+imports:
+    - { resource: doctrine_extensions.yml }
+
+parameters:
+    opifer.content.directory_type.class: Opifer\CmsBundle\Form\Type\DirectoryType
+    opifer.content.content_type.class: Opifer\CmsBundle\Form\Type\ContentType
+
+# CmsBundle config
+#
+# Default configuration for the CmsBundle and all it's dependencies.
+# Application specific configuration should be located inside the main config
+# file at app/config/config.yml
+framework:
+    ide:    "phpstorm://open?file=%%f&line=%%1"
+    #esi:             ~
+    translator:      { fallback: ['%opifer_cms.default_locale%', en] }
+    secret:          '%secret%'
+    router:
+        resource:            "%kernel.root_dir%/config/routing.yml"
+        strict_requirements: ~
+    form:            ~
+    csrf_protection: ~
+    validation:      { enable_annotations: true }
+    templating:
+        engines: ['twig']
+        #assets_version: SomeVersionScheme
+    default_locale:  '%opifer_cms.default_locale%'
+    trusted_proxies: ~
+    session:
+        save_path:   null #%kernel.root_dir%/../var/sessions
+    fragments:       ~
+    http_method_override: true
+
+assetic:
+    use_controller: false
+    bundles:
+        - 'OpiferCmsBundle'
+        - 'OpiferMediaBundle'
+    filters:
+        less:
+            node:       "/usr/local/bin/node"
+            node_paths: ["/usr/local/lib", "/usr/local/lib/node_modules"]
+        cssrewrite: ~
+
+# Templating
+braincrafted_bootstrap:
+    output_dir:
+    less_filter: 'less' # "less", "lessphp" or "none"
+    auto_configure:
+        assetic:       false
+        twig:          true
+        knp_menu:      true
+    customize:
+        variables_file:     ~
+        bootstrap_output:   '%kernel.root_dir%/Resources/less/bootstrap.less'
+        bootstrap_template: 'BraincraftedBootstrapBundle:Bootstrap:bootstrap.less.twig'
+
+# Routing
+cmf_routing:
+    chain:
+        routers_by_id:
+            # Redirect urls to other pages
+            opifer.redirect.redirect_router: 300
+            # The default symfony router
+            router.default: 200
+            # Checks the database for content items and routes to them if they exist.
+            opifer.content.content_router: 100
+            # Catch any routes and redirect them to a 404 page.
+            opifer.cms.exception_router: 1
+
+fos_js_routing:
+    cache_control:
+        # All are optional, defaults shown
+        public: true   # can be true (public) or false (private)
+        maxage: 3600    # integer value, e.g. 300
+        smaxage: 3600   # integer value, e.g. 300
+        expires: "1 day"    # anything that can be fed to "new \DateTime($expires)", e.g. "5 minutes"
+        vary: []        # string or array, e.g. "Cookie" or [ Cookie, Accept ]
+
+# Doctrine
+doctrine:
+    dbal:
+        driver:   '%opifer_cms.database_driver%'
+        host:     '%opifer_cms.database_host%'
+        port:     ~
+        dbname:   '%opifer_cms.database_name%'
+        user:     '%opifer_cms.database_user%'
+        password: '%opifer_cms.database_password%'
+        charset:  UTF8
+        # if using pdo_sqlite as your database driver, add the path in parameters.yml
+        # e.g. database_path: %kernel.root_dir%/data/data.db3
+        # path:     %database_path%
+    orm:
+        auto_generate_proxy_classes: '%kernel.debug%'
+        auto_mapping:                true
+        filters:
+            softdeleteable:
+                class:   'Gedmo\SoftDeleteable\Filter\SoftDeleteableFilter'
+                enabled: true
+        resolve_target_entities:
+            FOS\UserBundle\Model\UserInterface: '%opifer_cms.user_model%'
+            Opifer\EavBundle\Nesting\Nestable: 'Opifer\CmsBundle\Entity\Content'
+        mappings:
+            translatable:
+                type:   annotation
+                alias:  Gedmo
+                prefix: Gedmo\Translatable\Entity
+                dir:    '%kernel.root_dir%/../vendor/gedmo/doctrine-extensions/lib/Gedmo/Translatable/Entity'
+            loggable:
+                type:   annotation
+                alias:  Gedmo
+                prefix: Gedmo\Loggable\Entity
+                dir:    '%kernel.root_dir%/../vendor/gedmo/doctrine-extensions/lib/Gedmo/Loggable/Entity'
+            tree:
+                type:   annotation
+                alias:  Gedmo
+                prefix: Gedmo\Tree\Entity
+                dir:    '%kernel.root_dir%/../vendor/gedmo/doctrine-extensions/lib/Gedmo/Tree/Entity'
+
+# Migrations
+doctrine_migrations:
+    dir_name:   '%kernel.root_dir%/../src/AppBundle/Migrations'
+    namespace:  'AppBundle\Migrations'
+    table_name: '%opifer_cms.database_table_prefix%migrations'
+    name:       'Opifer Cms Migrations'
+
+# Users
+fos_user:
+    db_driver:       'orm'
+    firewall_name:   'main'
+    user_class:      '%opifer_cms.user_model%'
+    group:
+        group_class: 'Opifer\CmsBundle\Entity\Group'
+    registration:
+        form:
+            # Use our own registration form so we can remove the username field
+            type:              public_registration_form
+            name:              public_registration
+            validation_groups: []
+
+# Menus
+knp_menu:
+    twig:  # use "twig: false" to disable the Twig extension and the TwigRenderer
+        template: 'BraincraftedBootstrapBundle:Menu:bootstrap.html.twig'
+    templating:       false # if true, enables the helper for PHP templates
+    default_renderer: 'twig' # The renderer to use, list is also available by default
+
+
+# Framework extra
+sensio_framework_extra:
+    view:    { annotations: false }
+    router:  { annotations: true }
+    request: { converters: true }
+
+
+# Swiftmailer Configuration
+swiftmailer:
+    transport: '%mailer_transport%'
+    host:      '%mailer_host%'
+    username:  '%mailer_user%'
+    password:  '%mailer_password%'
+    spool:     { type: memory }
+
+presta_sitemap:
+    dumper_base_url: "http://%domain%/"
+
+
+# Twig Configuration
+twig:
+    debug:                '%kernel.debug%'
+    strict_variables:     '%kernel.debug%'
+    form:
+        resources:
+            - 'InfiniteFormBundle::collection_theme.html.twig'
+            - 'OpiferEavBundle:Form:fields.html.twig'
+            - 'OpiferMediaBundle:Form:fields.html.twig'
+            - 'OpiferContentBundle:Form:fields.html.twig'
+            - 'OpiferCmsBundle:Form:fields.html.twig' # At the bottom to make sure form action are being set to '#' when empty
+    globals:
+        settings: '@opifer.cms.settings'
+
+# Media
+opifer_media:
+    media_class: 'Opifer\CmsBundle\Entity\Media'
+    default_storage: '%storage_adapter%'
+    # media_manager: media_manager
+    providers:
+        youtube:
+            api_key: '%google_api_key%'
+    storages:
+        aws_s3:
+            key:    '%amazon_s3_key%'
+            secret: '%amazon_s3_secret%'
+            region: '%amazon_s3_region%'
+            bucket: '%amazon_s3_bucket%'
+
+liip_imagine:
+    filter_sets:
+        inline:
+            quality: 80
+            filters:
+                thumbnail: {size: [800, 600], mode: inset}
+            post_processors:
+                jpegoptim: {}
+        dashboard_content:
+            quality: 85
+            filters:
+                thumbnail: { size: [400, 300], mode: outbound}
+        media_sm:
+            quality: 70
+            filters:
+                relative_resize: {heighten: 160}
+
+# Content
+opifer_content:
+    content_class:   'Opifer\CmsBundle\Entity\Content'
+    directory_class: 'Opifer\CmsBundle\Entity\Directory'
+    layout_class:    'Opifer\CmsBundle\Entity\Layout'
+    content_manager: 'opifer.cms.content_manager'
+
+opifer_eav:
+    attribute_class: 'Opifer\CmsBundle\Entity\Attribute'
+    media_class:     'Opifer\CmsBundle\Entity\Media'
+    nestable_class:  'Opifer\CmsBundle\Entity\Content'
+    option_class:    'Opifer\CmsBundle\Entity\Option'
+    template_class:  'Opifer\CmsBundle\Entity\Template'
+    valueset_class:  'Opifer\CmsBundle\Entity\ValueSet'
+    entities:
+        content: 'Opifer\CmsBundle\Entity\Content'
+        post: 'Opifer\CmsBundle\Entity\Post'
+
+opifer_form:
+    from_email: 'info@opifer.nl'
+    form:
+        class: 'Opifer\CmsBundle\Entity\Form'
+        views:
+            index: 'OpiferCmsBundle:Backend/Form:index.html.twig'
+            create: 'OpiferCmsBundle:Backend/Form:create.html.twig'
+            edit: 'OpiferCmsBundle:Backend/Form:edit.html.twig'
+    post:
+        class: 'Opifer\CmsBundle\Entity\Post'
+        views:
+            index: 'OpiferCmsBundle:Backend/Post:index.html.twig'
+            view: 'OpiferCmsBundle:Backend/Post:view.html.twig'
+
+opifer_redirect:
+    redirect:
+        class: 'Opifer\CmsBundle\Entity\Redirect'
+        views:
+            index: 'OpiferCmsBundle:Backend/Redirect:index.html.twig'
+            create: 'OpiferCmsBundle:Backend/Redirect:create.html.twig'
+            edit: 'OpiferCmsBundle:Backend/Redirect:edit.html.twig'
+
+opifer_cms:
+    autocomplete:
+        user:
+            class: 'Opifer\CmsBundle\Entity\User'
+            property: 'email'

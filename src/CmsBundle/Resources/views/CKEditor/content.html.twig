@@ -1,0 +1,8 @@
+{% extends 'OpiferCmsBundle:CKEditor:base.html.twig' %}
+
+{% block selector %}
+    <div ng-controller="ContentPickerController">
+        <div ng-controller="CKEditorController" ng-init="funcNum = '{{ funcNum }}'; type = '{{ type }}';"></div>
+        <content-browser site-id="0" locale="nl_NL" directory-id="0" mode="PICKER_SINGLE" active="true"></content-browser>
+    </div>
+{% endblock selector %}

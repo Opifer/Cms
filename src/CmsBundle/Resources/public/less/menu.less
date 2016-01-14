@@ -1,0 +1,32 @@
+
+.admin-menu.panel-section tr {
+
+    span{
+        cursor: pointer;
+
+        &:before {
+            margin-right: 10px;
+            color: @gray;
+            font-size: 18px;
+            .fa('\f07b');
+        }
+
+        &.active:before{
+            content: "\f07c";
+        }
+    }
+
+    &.item{
+        span:before {
+            content: "\f15b";
+            color: @gray-light;
+            font-size: 14px;
+        }
+
+        span.active:before {
+            content: "\f15c";
+        }
+
+    }
+
+}

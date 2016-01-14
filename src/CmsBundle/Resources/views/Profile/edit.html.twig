@@ -1,0 +1,16 @@
+{% extends "OpiferCmsBundle::base.html.twig" %}
+
+{% block body %}
+    <div class="page-header clearfix">
+        <h1 class="pull-left">{{ 'profile.edit.title'|trans|capitalize }}</h1>
+    </div>
+
+    <section class="page-section">
+        <form action="{{ path('fos_user_profile_edit') }}" {{ form_enctype(form) }} method="POST" class="fos_user_profile_edit">
+            {{ form_widget(form, { 'style': 'horizontal' }) }}
+            <div>
+                <input type="submit" value="{{ 'profile.edit.submit'|trans }}" class="btn btn-default"/>
+            </div>
+        </form>
+    </section>
+{% endblock %}

@@ -1,0 +1,100 @@
+{% extends 'APYDataGridBundle::blocks.html.twig' %}
+
+{% block grid %}
+    <div class="grid">
+        {% if grid.totalCount > 0 or grid.isFiltered or grid.noDataMessage is sameas(false) %}
+            <form id="{{ grid.hash }}" action="{{ grid.routeUrl }}" method="post">
+                <div class="grid_header">
+                    {% if grid.massActions|length > 0 %}
+                        {{ grid_actions(grid) }}
+                    {% endif %}
+                </div>
+                <div class="grid_body">
+                    <table class="table table-bordered">
+                        {% if grid.isTitleSectionVisible %}
+                            {{ grid_titles(grid) }}
+                        {% endif %}
+                        {% if grid.isFilterSectionVisible %}
+                            {{ grid_filters(grid) }}
+                        {% endif %}
+                        {{ grid_rows(grid) }}
+                    </table>
+                </div>
+                <div class="grid_footer">
+                    {% if grid.isPagerSectionVisible %}
+                        {{ grid_pager(grid) }}
+                    {% endif %}
+                    {% if grid.exports|length > 0 %}
+                        {{ grid_exports(grid) }}
+                    {% endif %}
+                    {% if grid.tweaks|length > 0 %}
+                        {{ grid_tweaks(grid) }}
+                    {% endif %}
+                </div>
+                {% if withjs %}
+                    {{ grid_scripts(grid) }}
+                {% endif %}
+            </form>
+        {% else %}
+            {{ grid_no_data(grid) }}
+        {% endif %}
+    </div>
+{% endblock grid %}
+
+{% block grid_actions %}
+    <div class="mass-actions">
+    <span class="grid_massactions_helper">
+        <a href="#" onclick="return {{ grid.hash }}_markVisible(true);">{{ 'Select visible'|trans }}</a> |
+        <a href="#" onclick="return {{ grid.hash }}_markVisible(false);">{{ 'Deselect visible'|trans }}</a> |
+        <a href="#" onclick="return {{ grid.hash }}_markAll(true);">{{ 'Select all'|trans }}</a> |
+        <a href="#" onclick="return {{ grid.hash }}_markAll(false);">{{ 'Deselect all'|trans }}</a>
+        <span class="mass-actions-selected" id="{{ grid.hash }}_mass_action_selected"></span>
+    </span>
+        {% spaceless %}
+            <div class="pull-right grid_massactions">
+                {{ 'label.action'|trans }}
+                <input type="hidden" id="{{ grid.hash }}_mass_action_all" name="{{ grid.hash }}[{{ constant('APY\\DataGridBundle\\Grid\\Grid::REQUEST_QUERY_MASS_ACTION_ALL_KEYS_SELECTED') }}]" value="0"/>
+                <select name="{{ grid.hash }}[{{ constant('APY\\DataGridBundle\\Grid\\Grid::REQUEST_QUERY_MASS_ACTION') }}]">
+                    <option value="-1"></option>
+                    {% for key, massAction in grid.massActions %}
+                        <option value="{{ key }}">{{ massAction.title|trans }}</option>
+                    {% endfor %}
+                </select>
+                <input type="submit" value="{{ 'button.execute'|trans }}"/>
+
+                <div class="btn-group btn-group-columns btn-separator">
+                    <button type="button" class="btn btn-default btn-columns dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <i class="glyphicon glyphicon-list-alt"></i>
+                    </button>
+                    <div class="dropdown-menu dropdown-menu-right">
+                        <div class="dropdown-header">Columns</div>
+                        {% for col in grid.columns %}
+                            <div class="checkbox">
+                                <label>
+                                    <input type="checkbox" name="{{ grid.hash }}[{{ constant('APY\\DataGridBundle\\Grid\\Grid::REQUEST_QUERY_COLUMNS') }}][]" value="{{ col.id }}" {{ col.isVisible ? 'checked="checked"' : '' }}> {{ col.title|trans }}
+                                </label>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        {% endspaceless %}
+    </div>
+{% endblock grid_actions %}
+
+{% block grid_pager %}
+    {% if pagerfanta %}
+        {{ grid_pagerfanta(grid) }}
+    {% endif %}
+    <div class="count">
+        {{ '%count% Results' | transchoice(grid.totalCount, {'%count%': grid.totalCount}) }} -
+        {{ 'label.show_rows'|trans }}:
+        {% block grid_pager_results_perpage %}
+            <select onchange="return {{ grid.hash }}_resultsPerPage(this.value);">
+                {% for key, value in grid.limits %}
+                    <option value="{{ key }}"{% if (key == grid.limit) %} selected="selected"{% endif %}>{{ value }}</option>
+                {% endfor %}
+            </select>
+        {% endblock grid_pager_results_perpage %}
+    </div>
+{% endblock grid_pager %}

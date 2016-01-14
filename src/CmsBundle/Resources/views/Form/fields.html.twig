@@ -1,0 +1,151 @@
+{% extends 'BraincraftedBootstrapBundle:Form:bootstrap.html.twig' %}
+
+{#
+    The form_start.
+
+    Basically the same as Symfony's default form_start, but adds a form action check.
+    When the action is empty, it sets the action to #, to avoid AngularJS from
+    disabling the default form submit behaviour
+#}
+{% block form_start %}
+    {% if action is not defined or action == '' %}
+        {% set action = '#' %}
+    {% endif %}
+    {{ parent() }}
+{% endblock form_start %}
+
+{% block form_help %}
+    {% spaceless %}
+        {% if attr.help_text is defined and attr.help_text is not empty %}
+            {% set help_text = attr.help_text %}
+        {% endif %}
+        {% set help_text = help_text|default('') %}
+        {% if help_text is not empty %}
+            <span class="help-block">{{ help_text|trans({}, translation_domain)|raw }}</span>
+        {% endif %}
+    {% endspaceless %}
+{% endblock form_help %}
+
+{% block ckeditor_widget %}
+    {% set attr = attr|merge({ 'class': (attr.class|default('') ~ ' hidden form-control')|trim }) %}
+    <div class="wysiwyg-editor">
+        <div id="{{ id }}_preview" data-ckeditor="{{ id }}" class="preview">
+            {{ value|raw }}
+        </div>
+        <textarea {{ block('widget_attributes') }}>{{ value }}</textarea>
+    </div>
+{% endblock %}
+
+{#
+    Google Address Row
+#}
+{% block google_address_widget %}
+{% spaceless %}
+    {% if not attr.disable_parent_column|default %}
+        <div class="form-group row">
+            <div class="{{ attr.column_class|default('col-sm-12') }}">
+    {% endif %}
+    {% for field in form %}
+        {{ form_row(field) }}
+    {% endfor %}
+
+    {% if (form.vars.value.street is defined) or (form.vars.value.city is defined) or (form.vars.value.country is defined) %}
+        {% set curlocation = form.vars.value.street ~ ', ' ~ form.vars.value.city ~ ', ' ~ form.vars.value.country %}
+    {% else %}
+        {% set curlocation = '' %}
+    {% endif %}
+
+    {% set lat = (form.vars.value.lat is defined) ? form.vars.value.lat : 0 %}
+    {% set lng = (form.vars.value.lng is defined) ? form.vars.value.lng : 0 %}
+    <div ng-controller="searchAddress">
+        <google-places location=location formid="{{ form.vars.id }}" value="{{ curlocation }}" lat="{{ lat }}" lng="{{ lng }}"></google-places>
+    </div>
+
+    {% for field in form %}
+        {{ form_errors(field) }}
+    {% endfor %}
+    {% if not attr.disable_parent_column|default %}
+            </div>
+        </div>
+    {% endif %}
+{% endspaceless %}
+{% endblock %}
+
+{% block opifer_form_template_row %}
+    {{ form_widget(form) }}
+{% endblock opifer_form_template_row %}
+
+{% block opifer_autocomplete_javascript %}
+    <script type="text/javascript">
+        $(document).ready(function() {
+            var {{ id }} = new Bloodhound({
+                datumTokenizer: Bloodhound.tokenizers.whitespace,
+                queryTokenizer: Bloodhound.tokenizers.whitespace,
+                name: '{{ name }}',
+                remote:
+                {
+                    url: '{{ url('opifer_cms_auto_complete', {'alias': alias, 'q': 'WILDCARD'}) }}',
+                    wildcard: 'WILDCARD'
+                }
+            });
+
+            $('#{{ id }}').typeahead({
+                minLength: 3,
+                highlight: true
+            },
+            {
+                source: {{ id }}.ttAdapter()
+            });
+        });
+    </script>
+{% endblock %}
+
+{% block collapsible_collection_widget %}
+    {% spaceless %}
+        {% if prototype is defined %}
+            {% set prototype_vars = {} %}
+            {% if style is defined %}
+                {% set prototype_vars = prototype_vars|merge({'style': style}) %}
+            {% endif %}
+            {% set prototype_html = '<div class="col-xs-' ~ form.vars.sub_widget_col ~ '">' ~ form_widget(prototype, prototype_vars) ~ '</div>' %}
+            {% if form.vars.allow_delete %}
+                {% set prototype_html = prototype_html ~ '<div class="col-xs-' ~ form.vars.button_col ~ '"><a href="#" class="btn btn-danger btn-small" data-removefield="collection" data-field="__id__">' ~ form.vars.delete_button_text|trans({}, translation_domain) ~ '</a></div>' %}
+            {% endif %}
+            {% set prototype_html = '<div class="row">' ~ prototype_html ~ '</div>' %}
+
+            {% set attr = attr|merge({'data-prototype': prototype_html }) %}
+            {% set attr = attr|merge({'data-prototype-name': prototype_name }) %}
+        {% endif %}
+        <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseOptions{{ form.vars.id }}" aria-expanded="false" aria-controls="collapseOptions{{ form.vars.id }}">
+            Edit {{ form.vars.name }}
+        </button>
+        <br/>
+        <div class="collapse" id="collapseOptions{{ form.vars.id }}">
+            <div class="well">
+                <div {{ block('widget_container_attributes') }}>
+                    <ul class="bc-collection list-unstyled">
+                        {% for field in form %}
+                            <li>
+                                <div class="row">
+                                    <div class="col-xs-{{ form.vars.sub_widget_col }}">
+                                        {{ form_widget(field) }}
+                                        {{ form_errors(field) }}
+                                    </div>
+                                    {% if form.vars.allow_delete %}
+                                        <div class="col-xs-{{ form.vars.button_col }}">
+                                            <a href="#" class="btn btn-danger btn-small" data-removefield="collection" data-field="{{ field.vars.id }}">{{ form.vars.delete_button_text|trans({}, translation_domain) }}</a>
+                                        </div>
+                                    {% endif %}
+                                </div>
+                            </li>
+                            <br/>
+                        {% endfor %}
+                    </ul>
+                    {% if form.vars.allow_add %}
+                        <a href="#" class="btn btn-primary btn-small" data-addfield="collection" data-collection="{{ form.vars.id }}" data-prototype-name="{{ prototype_name }}">{{ form.vars.add_button_text|trans({}, translation_domain) }}</a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    {% endspaceless %}
+{% endblock collapsible_collection_widget %}
