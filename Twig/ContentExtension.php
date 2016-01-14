@@ -2,14 +2,9 @@
 
 namespace Opifer\ContentBundle\Twig;
 
-<<<<<<< HEAD
 use Opifer\ContentBundle\Block\BlockContainerInterface;
 use Opifer\ContentBundle\Block\BlockOwnerInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
-=======
-use Doctrine\Common\Collections\ArrayCollection;
-use Opifer\EavBundle\Entity\NestedValue;
->>>>>>> c22a75a8c935ed6319afbe7ba37e82dc9aa06c32
 use Symfony\Component\HttpKernel\Controller\ControllerReference;
 use Symfony\Component\HttpKernel\Fragment\FragmentHandler;
 use Symfony\Component\HttpFoundation\RequestStack;
@@ -41,10 +36,10 @@ class ContentExtension extends \Twig_Extension
     /**
      * Constructor
      *
-     * @param Twig_Environment   $twig
-     * @param FragmentHandler    $fragmentHandler
-     * @param ContentManager     $contentManager
-     * @param ContainerInterface $container
+     * @param \Twig_Environment   $twig
+     * @param FragmentHandler     $fragmentHandler
+     * @param ContentManager      $contentManager
+     * @param ContainerInterface  $container
      */
     public function __construct(\Twig_Environment $twig, FragmentHandler $fragmentHandler, ContentManager $contentManager, ContainerInterface $container, RequestStack $requestStack)
     {
@@ -54,7 +49,7 @@ class ContentExtension extends \Twig_Extension
         $this->container = $container;
         $this->requestStack = $requestStack;
 
-        if ($requestStack->getMasterRequest()->get('blockMode') === 'manage') {
+        if ($requestStack->getMasterRequest() !== null && $requestStack->getMasterRequest()->get('blockMode') === 'manage') {
             $this->blockMode = 'manage';
         }
     }
@@ -130,17 +125,10 @@ class ContentExtension extends \Twig_Extension
      */
     public function renderBlock(BlockInterface $block, $arguments = array())
     {
-<<<<<<< HEAD
         $manager = $this->container->get('opifer.content.block_manager');
 
         if (isset($arguments['block_mode'])) {
             $this->blockMode = $arguments['block_mode'];
-=======
-        $string = '';
-                
-        if ($contentItem === false) {
-            return $string;
->>>>>>> c22a75a8c935ed6319afbe7ba37e82dc9aa06c32
         }
 
         $service = $manager->getService($block);
