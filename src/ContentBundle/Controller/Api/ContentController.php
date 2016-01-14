@@ -51,7 +51,6 @@ class ContentController extends Controller
      * Get a content items by a list of ids
      *
      * @param string $ids
-     * @param Request $request
      *
      * @return JsonResponse
      */

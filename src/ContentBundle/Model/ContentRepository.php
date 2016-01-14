@@ -31,11 +31,11 @@ class ContentRepository extends EntityRepository
     public function createValuedQueryBuilder($entityAlias)
     {
         return $this->createQueryBuilder($entityAlias)
-            ->select($entityAlias, 'vs', 'v', 'a', 'p', 't')
+            ->select($entityAlias, 'vs', 'v', 'a', 'p', 's')
             ->leftJoin($entityAlias . '.valueSet', 'vs')
-            ->leftJoin('vs.template', 't')
+            ->leftJoin('vs.schema', 's')
             ->leftJoin('vs.values', 'v')
-            ->leftJoin('t.attributes', 'a')
+            ->leftJoin('s.attributes', 'a')
             ->leftJoin('v.options', 'p');
     }
 
@@ -49,10 +49,10 @@ class ContentRepository extends EntityRepository
     public function getQueryBuilderFromRequest(Request $request)
     {
         $qb = $this->createValuedQueryBuilder('c');
-        $qb->andWhere('c.nestedIn IS NULL');
 
         if ($request->get('q')) {
-            $qb->andWhere('c.title LIKE :query')->setParameter('query', '%' . $request->get('q') . '%');
+            $qb->leftJoin('c.template', 't');
+            $qb->andWhere('c.title LIKE :query OR c.alias LIKE :query OR c.slug LIKE :query OR t.displayName LIKE :query')->setParameter('query', '%' . $request->get('q') . '%');
         } else {
             if ($request->get('directory_id')) {
                 $qb->andWhere('c.directory = :directory')->setParameter('directory', $request->get('directory_id'));
@@ -86,7 +86,7 @@ class ContentRepository extends EntityRepository
     {
         $query = $this->createQueryBuilder('c')
             ->innerJoin('c.valueSet', 'vs')
-            ->innerJoin('vs.template', 't')
+            ->innerJoin('c.template', 't')
             ->where('c.author = :user')
             ->andWhere('t.name = :template')
             ->setParameters([
@@ -265,10 +265,9 @@ class ContentRepository extends EntityRepository
 
         $query = $this->createQueryBuilder('c')
             ->leftJoin('c.valueSet', 'vs')
-            ->leftJoin('vs.template', 't')
+            ->leftJoin('c.template', 't')
             ->where('t.name = :template')
             ->andWhere('c.active = :active')
-            ->andWhere('c.nestedIn IS NULL')
             ->setParameter('template', $template)
             ->setParameter('active', true)
             ->setMaxResults($limit)
@@ -294,10 +293,9 @@ class ContentRepository extends EntityRepository
 
         $query = $this->createQueryBuilder('c')
             ->leftJoin('c.valueSet', 'vs')
-            ->leftJoin('vs.template', 't')
+            ->leftJoin('c.template', 't')
             ->where('t.name = :template')
             ->andWhere('c.active = :active')
-            ->andWhere('c.nestedIn IS NULL')
             ->setParameter('template', $template)
             ->setParameter('active', true)
             ->orderBy('c.id', 'DESC')
@@ -322,10 +320,9 @@ class ContentRepository extends EntityRepository
 
         $query = $this->createQueryBuilder('c')
             ->leftJoin('c.valueSet', 'vs')
-            ->leftJoin('vs.template', 't')
+            ->leftJoin('c.template', 't')
             ->where('t.name = :template')
             ->andWhere('c.active = :active')
-            ->andWhere('c.nestedIn IS NULL')
             ->setParameter('template', $template)
             ->setParameter('active', true)
             ->orderBy('c.title', $order)
@@ -344,7 +341,6 @@ class ContentRepository extends EntityRepository
     public function findLatest($limit = 5)
     {
         $query = $this->createQueryBuilder('c')
-            ->where('c.nestedIn IS NULL')
             ->orderBy('c.createdAt', 'DESC')
             ->setMaxResults($limit)
             ->getQuery();
@@ -387,7 +383,6 @@ class ContentRepository extends EntityRepository
         }
 
         $items = $this->createValuedQueryBuilder('c')
-            ->andWhere('c.nestedIn IS NULL')
             ->andWhere('c.id IN (:ids)')->setParameter('ids', $ids)
             ->andWhere('c.deletedAt IS NULL')
             ->getQuery()

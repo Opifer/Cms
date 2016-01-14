@@ -8,10 +8,15 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
+use Opifer\ContentBundle\Block\BlockManager;
 
 use Opifer\ContentBundle\Model\ContentInterface;
-use Opifer\ContentBundle\Model\LayoutInterface;
 
+/**
+ * Class ContentController
+ *
+ * @package Opifer\ContentBundle\Controller\Frontend
+ */
 class ContentController extends Controller
 {
     /**
@@ -31,31 +36,25 @@ class ContentController extends Controller
      */
     public function viewAction(Request $request, ContentInterface $content, $statusCode = 200)
     {
-        $presentation = json_decode($content->getRealPresentation(), true);
-        if (!$presentation) {
-            throw new \Exception('The template '.$content->getTemplate()->getName().' does not have a layout attached.');
-        }
-
-        $layout = json_encode($presentation);
-        $layout = $this->get('jms_serializer')->deserialize($layout, $this->container->getParameter('opifer_content.layout_class'), 'json');
-
-        // If the layout has an action, forward to that action and pass the layout
-        // and the content.
-        if ($layout->getAction()) {
-            return $this->forward($layout->getAction(), [
-                'content' => $content,
-                'layout'  => $layout,
-                'statusCode' => $statusCode
-            ]);
-        }
-
+        $version = $request->query->get('_version');
         $response = new Response();
+        /** @var BlockManager $manager */
+        $manager  = $this->get('opifer.content.block_manager');
+        $block    = $content->getBlock();
+
         $response->setStatusCode($statusCode);
 
-        return $this->render($layout->getFilename(), [
-            'content' => $content,
-            'layout'  => $layout
-        ], $response);
+        if (null !== $version && $this->isGranted('ROLE_ADMIN')) {
+            $block = $content->getBlock();
+            $this->getDoctrine()->getManager()->getFilters()->disable('draftversion');
+            $manager->revert($block, $version);
+        }
+
+        /** @var BlockServiceInterface $service */
+        $service        = $manager->getService($block);
+        $service->setView($content->getTemplate()->getView());
+
+        return $service->execute($block);
     }
 
     /**

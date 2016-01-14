@@ -1,0 +1,262 @@
+{% extends "OpiferContentBundle::base.html.twig" %}
+{% set no_angular = true %}
+{% set body_class = 'pm-body' %}
+{% block header %} {% endblock %}
+{% block main %}
+
+    <div class="pm">
+        <nav class="navbar navbar-default navbar-static-top" id="pm-navbar">
+            <div class="container-fluid">
+                <div class="navbar-left">
+                    <button type="button" name="publish" id="pm-btn-publish" class="btn btn-default navbar-btn">{{ "button.publish"|trans }}</button>
+                    <button type="submit" name="discard" id="pm-btn-discard" class="btn btn-default navbar-btn">{{ "button.reset"|trans }}</button>
+                    <a href="{{ url_cancel }}" class="btn btn-link navbar-btn">Quit</a>
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                </div>
+                <div class="pm-navbar-title">
+                    {{ title }}
+                </div>
+                <div class="collapse navbar-collapse" id="navbar">
+                    <div class="btn-toolbar navbar-right">
+                        <div class="btn-group navbar-btn hidden">
+                            <a href="#" target="_blank" id="pm-btn-run" class="btn btn btn-default btn-icon"><i class="material-icons">launch</i></a>
+                        </div>
+                        {{ render(controller('OpiferContentBundle:Backend/ContentEditor:versionPicker', {'id': block.id, 'current': version_current, 'published': version_published})) }}
+                        <div class="btn-group navbar-btn">
+                            <span>&nbsp;</span>
+                        </div>
+                        <div class="btn-group navbar-btn" data-toggle="buttons" role="group" aria-label="">
+                            <label for="viewmode-xs" class="btn btn-icon btn-default"><input type="radio" name="screenwidth" id="viewmode-xs" value="xs" autocomplete="off"><i class="material-icons">phone_iphone</i></label>
+                            <label for="viewmode-sm" class="btn btn-icon btn-default"><input type="radio" name="screenwidth" id="viewmode-sm" value="sm" autocomplete="off"><i class="material-icons">tablet_mac</i></label>
+                            <label for="viewmode-md" class="btn btn-icon btn-default"><input type="radio" name="screenwidth" id="viewmode-md" value="md" autocomplete="off"><i class="material-icons">tablet</i></label>
+                            <label for="viewmode-lg" class="btn btn-icon btn-default active"><input type="radio" name="screenwidth" id="viewmode-lg" value="lg" autocomplete="off" checked><i class="material-icons">laptop_mac</i></label>
+                        </div>
+                        <div class="btn-group navbar-btn">
+                            {#<a class="btn btn btn-default btn-icon btn-reload disabled"><i class="material-icons">autorenew</i></a>#}
+                        </div>
+                        <div class="btn-group navbar-btn">
+                            <a href="{{ url_properties }}" class="btn btn btn-default" id="pm-btn-properties">Properties</a>
+                        </div>
+                        <div class="btn-group navbar-btn" data-toggle="buttons" role="group" aria-label="">
+                            <label for="viewmode-content" id="pm-btn-viewmode-content" class="btn btn-default active"><input type="radio" name="viewmode" id="viewmode-content" value="CONTENT" autocomplete="off" checked>Content</label>
+                            <label for="viewmode-preview" id="pm-btn-viewmode-preview" class="btn btn-default"><input type="radio" name="viewmode" id="viewmode-preview" value="PREVIEW" autocomplete="off">Preview</label>
+                            <label for="viewmode-layout" id="pm-btn-viewmode-layout" class="btn btn-default"><input type="radio" name="viewmode" id="viewmode-layout" value="LAYOUT" autocomplete="off">Layout</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </div>
+
+    <div class="pm-editor split-pane fixed-right">
+        <div class="split-pane-component pm-preview pm-viewmode-content" id="pm-document" data-pm-id="{{ block.id }}" data-pm-version="{{ version_current }}" data-pm-version-published="{{ version_published }}" data-pm-permalink="{{ permalink|default }}">
+            <iframe src="{{ url }}" frameborder="no" id="pm-iframe"></iframe>
+        </div>
+        <div class="split-pane-divider" id="my-divider"></div>
+        <div class="split-pane-component pm-toolset" id="right-component">
+            <div class="pm-toolset-body pm">
+                <div class="pm pm-toolset-card hidden" id="pm-block-edit">
+                </div>
+                <div class="pm-toolset-card">
+                    <div class="panel-body">
+
+                        {# begin tools_blocks #}
+                        <div id="pm-tools-blocks" class="pm-tools-blockset">
+                            <div class="row">
+                                <div class="col-xs-12 text-center">
+                                    <h4 class="title">Blocks</h4>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-xs-12">
+                                    <div class="list-group">
+                                        {% for tool in manager.tools %}
+                                            {% if tool.type == 'content' %}
+                                            <div class="list-group-item pm-block-item" data-pm-block-type="{{ tool.service }}">
+                                                <div class="col-visual">
+                                                    <i class="material-icons">{{ tool.icon }}</i>
+                                                </div>
+                                                <div class="col-text">
+                                                    <h4 class="list-group-item-heading">{{ tool.name }}</h4>
+
+                                                    <p class="list-group-item-text">{{ tool.description }}</p>
+                                                </div>
+                                            </div>
+                                            {% endif %}
+                                        {% endfor %}
+
+                                        {#
+                                        <div class="list-group-item pm-block-item" data-pm-block-type="carousel">
+                                            <div class="col-visual">
+                                                <i class="material-icons">view_carousel</i>
+                                            </div>
+                                            <div class="col-text">
+                                                <h4 class="list-group-item-heading">Carousel</h4>
+                                                <p class="list-group-item-text">Wrapping element container to hold columns in.</p>
+                                            </div>
+                                        </div>
+                                        <div class="list-group-item pm-block-item" data-pm-block-type="image_library">
+                                            <div class="col-visual">
+                                                <i class="material-icons">photo_library</i>
+                                            </div>
+                                            <div class="col-text">
+                                                <h4 class="list-group-item-heading">Image gallery</h4>
+                                                <p class="list-group-item-text">Creates a collection of images selectable from the media library.</p>
+                                            </div>
+                                        </div>
+                                        <div class="list-group-item pm-block-item" data-pm-block-type="carousel">
+                                            <div class="col-visual">
+                                                <i class="material-icons">view_carousel</i>
+                                            </div>
+                                            <div class="col-text">
+                                                <h4 class="list-group-item-heading">Carousel</h4>
+
+                                                <p class="list-group-item-text">A slideshow component for cycling through elements, like a carousel.</p>
+                                            </div>
+                                        </div>
+                                        <div class="list-group-item pm-block-item" data-pm-block-type="video">
+                                            <div class="col-visual">
+                                                <i class="material-icons">theaters</i>
+                                            </div>
+                                            <div class="col-text">
+                                                <h4 class="list-group-item-heading">Video</h4>
+                                                <p class="list-group-item-text">Embed a video sourced from the media library or external services like YouTube.</p>
+                                            </div>
+                                        </div>
+                                        <div class="list-group-item disabled pm-block-item" data-pm-block-type="comments">
+                                            <div class="col-visual">
+                                                <i class="material-icons">comment</i>
+                                            </div>
+                                            <div class="col-text">
+                                                <h4 class="list-group-item-heading">Comments</h4>
+                                                <p class="list-group-item-text">Maecenas sed diam eget risus varius blandit.</p>
+                                            </div>
+                                        </div>
+                                        <div class="list-group-item pm-block-item" data-pm-block-type="list">
+                                            <div class="col-visual">
+                                                <i class="material-icons">subject</i>
+                                            </div>
+                                            <div class="col-text">
+                                                <h4 class="list-group-item-heading">List view</h4>
+                                                <p class="list-group-item-text">Maecenas sed diam eget risus varius blandit.</p>
+                                            </div>
+                                        </div>#}
+                                    </div>
+                                </div>
+                            </div>
+                            {#<div class="row">
+                                <div class="col-xs-12 text-center">
+                                    <h4>Scripts</h4>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-xs-12">
+                                    <div class="list-group">
+                                        <div class="list-group-item pm-block-item" data-pm-block-type="google_analytics">
+                                            <div class="col-visual">
+                                                <i class="material-icons">code</i>
+                                            </div>
+                                            <div class="col-text">
+                                                <h4 class="list-group-item-heading">Google Analytics</h4>
+                                                <p class="list-group-item-text">Maecenas sed diam eget risus varius blandit.</p>
+                                            </div>
+                                        </div>
+                                        <div class="list-group-item pm-block-item" data-pm-block-type="css">
+                                            <div class="col-visual">
+                                                <i class="material-icons">code</i>
+                                            </div>
+                                            <div class="col-text">
+                                                <h4 class="list-group-item-heading">CSS</h4>
+                                                <p class="list-group-item-text">Maecenas sed diam eget risus varius blandit.</p>
+                                            </div>
+                                        </div>
+                                        <div class="list-group-item pm-block-item" data-pm-block-type="javascript">
+                                            <div class="col-visual">
+                                                <i class="material-icons">code</i>
+                                            </div>
+                                            <div class="col-text">
+                                                <h4 class="list-group-item-heading">JavaScript</h4>
+                                                <p class="list-group-item-text">Maecenas sed diam eget risus varius blandit.</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>#}
+                        </div>
+                        {# end tools_blocks #}
+
+
+
+                        {# begin tools_layouts #}
+                        <div id="pm-tools-layouts" class="pm-tools-blockset hidden">
+                            <div class="row">
+                                <div class="col-xs-12 text-center">
+                                    <h4 class="title">Containers</h4>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-xs-12">
+                                    <div class="list-group">
+
+                                        {% for tool in manager.tools %}
+                                            {% if tool.type == 'container' %}
+                                                <div class="list-group-item pm-block-item" data-pm-block-type="{{ tool.service }}" data-pm-block-data='{{ tool.datajson }}'>
+                                                    <div class="col-visual">
+                                                        <i class="material-icons">{{ tool.icon }}</i>
+                                                    </div>
+                                                    <div class="col-text">
+                                                        <h4 class="list-group-item-heading">{{ tool.name }}</h4>
+
+                                                        <p class="list-group-item-text">{{ tool.description }}</p>
+                                                    </div>
+                                                </div>
+                                            {% endif %}
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-xs-12 text-center">
+                                    <h4 class="title">Columns</h4>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-xs-12">
+                                    <div class="list-group">
+
+                                        {% for tool in manager.tools %}
+                                            {% if tool.type == 'column' %}
+                                                <div class="list-group-item pm-block-item" data-pm-block-type="{{ tool.service }}" data-pm-block-data='{{ tool.datajson }}'>
+                                                    <div class="col-visual">
+                                                        <i class="material-icons">{{ tool.icon }}</i>
+                                                    </div>
+                                                    <div class="col-text">
+                                                        <h4 class="list-group-item-heading">{{ tool.name }}</h4>
+
+                                                        <p class="list-group-item-text">{{ tool.description }}</p>
+                                                    </div>
+                                                </div>
+                                            {% endif %}
+                                        {% endfor %}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        {# begin tools_layouts #}
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="pm">
+        <div class="list-group" id="pm-list-group-container"></div>
+    </div>
+    <link rel="stylesheet" href="{{ asset('bundles/opifercms/components/mprogress/mprogress.min.css') }}"/>
+{% endblock main %}

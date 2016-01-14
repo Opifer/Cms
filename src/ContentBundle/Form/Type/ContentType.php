@@ -2,14 +2,21 @@
 
 namespace Opifer\ContentBundle\Form\Type;
 
-use Opifer\ContentBundle\Form\DataTransformer\SlugTransformer;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
+use Opifer\ContentBundle\Form\DataTransformer\SlugTransformer;
+use Opifer\ContentBundle\Form\DataTransformer\IdToContentTransformer;
+
+/**
+ * Class ContentType
+ *
+ * @package Opifer\ContentBundle\Form\Type
+ */
 class ContentType extends AbstractType
 {
+
     /** @var string */
     protected $directoryClass;
 
@@ -17,7 +24,7 @@ class ContentType extends AbstractType
     protected $contentManager;
 
     /**
-     * Contstructor
+     * Constructor
      *
      * @param string $directoryClass
      * @param object $contentManager
@@ -75,7 +82,7 @@ class ContentType extends AbstractType
                 'required'    => false,
                 'empty_data'  => null,
                 'attr'        => [
-                    'help_text' => 'content.form.directory.help_text'
+                    'help_text' => 'content.form.directory.help_text',
                 ]
             ])
             ->add('alias', 'text', [
@@ -83,9 +90,6 @@ class ContentType extends AbstractType
                     'help_text' => 'content.form.alias.help_text',
                     'widget_col' => 4,
                 ]
-            ])
-            ->add('symlink', 'contentpicker',[
-                'label' => 'form.symlink'
             ])
             ->add('active', 'checkbox')
         ;
@@ -96,53 +100,22 @@ class ContentType extends AbstractType
             ]
         ]);
 
-        // Add advanced fields only on the advanced option page.
-        if ($options['mode'] == 'advanced') {
-            $builder->add('realPresentation', 'presentationeditor', [
-                'label' => 'form.presentation',
-                'attr'  => ['align_with_widget' => true]
-            ]);
-        }
-
         $builder->add('save', 'submit', [
-            'label' => 'content.form.submit'
+            'label' => 'content.form.submit',
         ]);
     }
 
     /**
      * {@inheritDoc}
-     *
-     * @deprecated
      */
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
-        $this->configureOptions($resolver);
     }
 
     /**
      * {@inheritDoc}
-     */
-    public function configureOptions(OptionsResolver $resolver)
-    {
-        $resolver->setDefaults([
-            'mode' => 'simple',
-        ]);
-    }
-
-    /**
-     * {@inheritDoc}
-     *
-     * @deprecated
      */
     public function getName()
-    {
-        return $this->getBlockPrefix();
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function getBlockPrefix()
     {
         return 'opifer_content';
     }

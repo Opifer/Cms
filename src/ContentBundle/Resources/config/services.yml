@@ -4,26 +4,28 @@ parameters:
     opifer.content.content_manager.default.class: Opifer\ContentBundle\Model\ContentManager
     opifer.content.content_router.class: Opifer\ContentBundle\Router\ContentRouter
     opifer.content.content_type.class: Opifer\ContentBundle\Form\Type\ContentType
+    opifer.content.content_details_type.class: Opifer\ContentBundle\Form\Type\ContentDetailsType
     opifer.content.content_value_provider.class: Opifer\ContentBundle\ValueProvider\ContentValueProvider
     opifer.content.directory_manager.default.class: Opifer\ContentBundle\Model\DirectoryManager
     opifer.content.directory_type.class: Opifer\ContentBundle\Form\Type\DirectoryType
     opifer.content.form.contentpicker_type.class: Opifer\ContentBundle\Form\Type\ContentPickerType
+    opifer.content.form.gutter_collection_type.class: Opifer\ContentBundle\Form\Type\GutterCollectionType
+    opifer.content.form.span_collection_type.class: Opifer\ContentBundle\Form\Type\SpanCollectionType
     opifer.content.form.content_list_picker_type.class: Opifer\ContentBundle\Form\Type\ContentListPickerType
-    opifer.content.layout_manager.class: Opifer\ContentBundle\Model\LayoutManager
+#    opifer.content.block_adapter_type.class: Opifer\ContentBundle\Form\Type\BlockAdapterFormType
     opifer.content.twig.content_extension.class: Opifer\ContentBundle\Twig\ContentExtension
+    opifer.rulesengine.provider.content.class: Opifer\ContentBundle\RulesEngine\ContentRulesProvider
+    opifer.content.block_manager.class: Opifer\ContentBundle\Block\BlockManager
+    opifer.content.content_editor.class: Opifer\ContentBundle\Designer\ContentEditor
 
 services:
     opifer.content.content_manager.default:
         class: %opifer.content.content_manager.default.class%
-        arguments: [@doctrine.orm.default_entity_manager, @form.factory, @opifer.eav.eav_manager, %opifer_content.content_class%, %opifer_eav.template_class%]
+        arguments: [@doctrine.orm.default_entity_manager, @form.factory, @opifer.eav.eav_manager, %opifer_content.content_class%, %opifer_eav.schema_class%]
 
     opifer.content.directory_manager.default:
         class: %opifer.content.directory_manager.default.class%
         arguments: [@doctrine.orm.default_entity_manager, %opifer_content.directory_class%]
-
-    opifer.content.layout_manager:
-        class: %opifer.content.layout_manager.class%
-        arguments: [@doctrine.orm.default_entity_manager, %opifer_content.layout_class%]
 
     # Serializer
     opifer.content.handler.serialization:
@@ -31,6 +33,13 @@ services:
         arguments: [@liip_imagine.cache.manager, @router]
         tags:
             - { name: jms_serializer.event_subscriber }
+
+    # RulesEngine Provider
+    opifer.rulesengine.provider.content:
+        class: %opifer.rulesengine.provider.content.class%
+        arguments: [@opifer.eav.schema_manager, %opifer_content.content_class%]
+        tags:
+            - { name: opifer.rulesengine.provider, alias: content }
 
     # Form types
     opifer.content.directory_type:
@@ -47,9 +56,15 @@ services:
 
     opifer.content.content_init_type:
         class: %opifer.content.content_init_type.class%
-        arguments: [@router, %opifer_eav.template_class%, %opifer_content.content_class%]
+        arguments: [@translator, @router, %opifer_eav.schema_class%, %opifer_content.content_class%]
         tags:
             - { name: form.type, alias: opifer_content_init }
+
+    opifer.content.content_details_type:
+        class: %opifer.content.content_details_type.class%
+        arguments: [%opifer_content.directory_class%, @opifer.content.content_manager]
+        tags:
+            - { name: form.type, alias: opifer_content_details }
 
     # Router
     opifer.content.content_router:
@@ -59,7 +74,7 @@ services:
     # Twig Extension
     opifer.content.twig.content_extension:
         class: %opifer.content.twig.content_extension.class%
-        arguments: [@twig, @fragment.handler, @opifer.content.content_manager]
+        arguments: [@twig, @fragment.handler, @opifer.content.content_manager, @service_container, @request_stack]
         tags:
             - { name: twig.extension }
 
@@ -85,3 +100,28 @@ services:
         arguments: [@doctrine, @property_accessor]
         tags:
             - { name: form.type, alias: content_list_picker }
+
+    opifer.content.form.gutter_collection:
+        class: %opifer.content.form.gutter_collection_type.class%
+        tags:
+            - { name: form.type, alias: gutter_collection }
+
+    opifer.content.form.span_collection:
+        class: %opifer.content.form.span_collection_type.class%
+        tags:
+            - { name: form.type, alias: span_collection }
+
+    opifer.content.block_manager:
+        class: %opifer.content.block_manager.class%
+        arguments: [@doctrine.orm.default_entity_manager]
+
+    opifer.content.content_editor:
+        class: %opifer.content.content_editor.class%
+        arguments: [@opifer.content.block_manager, @doctrine.orm.default_entity_manager, @session]
+
+
+#    opifer.content.block_content_type:
+#        class: %opifer.content.block_adapter_type.class%
+#        arguments: [@opifer.content.image_block]
+#        tags:
+#            - { name: form.type, alias: image_block }

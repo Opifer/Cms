@@ -35,7 +35,7 @@
                         Permalink
                     </th>
                     <th class="detail hidden-xs">
-                        Template
+                        Schema
                     </th>
                     <th width="170">
 
@@ -56,7 +56,7 @@
                 <td class="cell-file" ng-click="editContent(content.id)" ng-if="!content.coverImage"></td>
                 <td ng-click="editContent(content.id)" class="" ng-class="content.active ? '' : 'text-muted'">{{ content.title}}</td>
                 <td class="hidden-xs" ng-class="content.active ? '' : 'text-muted'"><s ng-if="!content.active"><small>{{ content.path}}</small></s><a href="{{ content.path}}" target="_blank" ng-if="content.active"><small>{{ content.path}}</small></a></td>
-                <td class="detail hidden-xs"><span class="label label-info">{{ content.templateDisplayName}}</span></td>
+                <td class="detail hidden-xs"><span class="label label-info">{{ content.schemaDisplayName}}</span></td>
                 <td class="actions" ng-if="mode == 'ADMIN'">
                     <a class="text-muted js-delete-confirm" ng-click="confirmCopyContent($index, $event)" data-action_title="Duplicate" data-btn_type="btn-primary" data-confirmation_message="Do you really want to duplicate " data-name="{{ content.title }}">Duplicate</a>&nbsp;
                     <a href="{{ editUrl(content.id) }}">Edit</a>&nbsp;

@@ -21,18 +21,42 @@ opifer_content_directory_delete:
     path: /directory/delete/{id}
     defaults: { _controller: OpiferContentBundle:Backend/Directory:delete }
 
+opifer_content_template_index:
+    path: /template
+    defaults: { _controller: OpiferContentBundle:Backend/Template:index }
+
+opifer_content_template_editor:
+    path: /template/editor/{id}
+    defaults: { _controller: OpiferContentBundle:Backend/Template:editor }
+
+opifer_content_template_editor_view:
+    path: /template/editor/view/{id}
+    defaults: { _controller: OpiferContentBundle:Backend/Template:editorView }
+
 # Backend content
 opifer_content_content_init:
     path: /content/init
     defaults: { _controller: OpiferContentBundle:Backend/Content:init }
 
 opifer_content_content_new:
-    path: /content/new/{template}/{mode}
-    defaults: { _controller: OpiferContentBundle:Backend/Content:new, template: 0, mode: simple }
+    path: /content/new/{schema}/{mode}
+    defaults: { _controller: OpiferContentBundle:Backend/Content:new, schema: 0, mode: simple }
 
 opifer_content_content_edit:
-    path: /content/edit/{id}/{directoryId}/{mode}
-    defaults: { _controller: OpiferContentBundle:Backend/Content:edit, mode: simple, directoryId: 0 }
+    path: /content/edit/{id}/{version}
+    defaults: { _controller: OpiferContentBundle:Backend/Content:edit, version: 0 }
+    options:
+        expose: true
+
+opifer_content_content_view:
+    path: /content/view/{id}/{version}
+    defaults: { _controller: OpiferContentBundle:Backend/Content:view }
+    options:
+        expose: true
+
+opifer_content_content_details:
+    path: /content/details/{id}
+    defaults: { _controller: OpiferContentBundle:Backend/Content:details, id: 0 }
     options:
         expose: true
 
@@ -47,3 +71,22 @@ opifer_content_content_index:
     defaults: { _controller: OpiferContentBundle:Backend/Content:index, directoryId: 0 }
     requirements:
         directoryId:  \d+
+
+# Contenteditor
+opifer_content_contenteditor_edit_block:
+    path: /contenteditor/editblock/{id}/{rootVersion}
+    defaults: { _controller: OpiferContentBundle:Backend/ContentEditor:editBlock, rootVersion: 0 }
+    options:
+        expose: true
+
+opifer_content_contenteditor_version_picker:
+    path: /contenteditor/versionpicker/{id}/{current}/{published}
+    defaults: { _controller: OpiferContentBundle:Backend/ContentEditor:versionPicker, current: 0, published: 0 }
+    options:
+        expose: true
+
+opifer_content_contenteditor_view:
+    path: /contenteditor/view/{id}/{version}
+    defaults: { _controller: OpiferContentBundle:Backend/ContentEditor:view, version: 0 }
+    options:
+        expose: true

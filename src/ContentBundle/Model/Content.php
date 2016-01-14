@@ -8,12 +8,11 @@ use Gedmo\Mapping\Annotation as Gedmo;
 use JMS\Serializer\Annotation as JMS;
 use Symfony\Component\Validator\Constraints as Assert;
 
-use Opifer\EavBundle\Entity\NestedValue;
 use Opifer\EavBundle\Entity\Value;
-use Opifer\EavBundle\Model\EntityInterface;
-use Opifer\EavBundle\Model\Nestable;
-use Opifer\EavBundle\Model\TemplateInterface;
+use Opifer\EavBundle\Model\SchemaInterface;
 use Opifer\EavBundle\Model\ValueSetInterface;
+use Opifer\EavBundle\Model\EntityInterface;
+use Opifer\ContentBundle\Entity\Template;
 
 /**
  * Content
@@ -23,7 +22,7 @@ use Opifer\EavBundle\Model\ValueSetInterface;
  * @JMS\ExclusionPolicy("all")
  * @Gedmo\SoftDeleteable(fieldName="deletedAt", timeAware=false)
  */
-class Content implements ContentInterface, EntityInterface, Nestable
+class Content implements ContentInterface, EntityInterface
 {
     /**
      * @var integer
@@ -77,20 +76,6 @@ class Content implements ContentInterface, EntityInterface, Nestable
      * @var string
      *
      * @JMS\Expose
-     * @JMS\Groups({"detail"})
-     * @ORM\Column(name="presentation", type="text", nullable=true)
-     */
-    protected $presentation;
-
-    /**
-     * @var string
-     */
-    protected $realPresentation;
-
-    /**
-     * @var string
-     *
-     * @JMS\Expose
      * @Gedmo\Slug(handlers={
      *      @Gedmo\SlugHandler(class="Opifer\ContentBundle\Handler\AliasHandler", options={
      *          @Gedmo\SlugHandlerOption(name="field", value="slug"),
@@ -133,21 +118,7 @@ class Content implements ContentInterface, EntityInterface, Nestable
      * @ORM\JoinColumn(name="directory_id", referencedColumnName="id", nullable=true, onDelete="SET NULL")
      */
     protected $directory;
-
     /**
-     * @ORM\ManyToOne(targetEntity="Opifer\EavBundle\Entity\NestedValue", inversedBy="nested")
-     * @ORM\JoinColumn(name="nested_in", referencedColumnName="id", nullable=true, onDelete="SET NULL")
-     */
-    protected $nestedIn;
-
-    /**
-     * @ORM\Column(name="nested_sort", type="integer", nullable=true)
-     */
-    protected $nestedSort;
-
-    /**
-     * Created at
-     *
      * @var \DateTime
      *
      * @JMS\Expose
@@ -158,8 +129,6 @@ class Content implements ContentInterface, EntityInterface, Nestable
     protected $createdAt;
 
     /**
-     * Updated at
-     *
      * @var \DateTime
      *
      * @JMS\Expose
@@ -177,14 +146,31 @@ class Content implements ContentInterface, EntityInterface, Nestable
     protected $deletedAt;
 
     /**
-     * @var TemplateInterface
+     * @var SchemaInterface
      */
-    public $template;
+    public $schema;
 
     /**
      * @var ArrayCollection
      */
     protected $attributeValues;
+
+    /**
+     * @var \Opifer\ContentBundle\Entity\Template
+     *
+     * @ORM\ManyToOne(targetEntity="Opifer\ContentBundle\Entity\Template", fetch="EAGER")
+     * @ORM\JoinColumn(name="template_id", referencedColumnName="id")
+     **/
+    protected $template;
+
+    /**
+     * @var BlockInterface
+     *
+     * @ORM\OneToOne(targetEntity="Opifer\ContentBundle\Entity\Block", cascade={"persist", "remove"})
+     * @ORM\JoinColumn(name="block_id", referencedColumnName="id")
+     **/
+    protected $block;
+
 
     /**
      * Constructor
@@ -207,7 +193,7 @@ class Content implements ContentInterface, EntityInterface, Nestable
     /**
      * Set title
      *
-     * @param  string  $title
+     * @param string $title
      * @return Content
      */
     public function setTitle($title)
@@ -230,7 +216,7 @@ class Content implements ContentInterface, EntityInterface, Nestable
     /**
      * Set description
      *
-     * @param  string  $description
+     * @param string $description
      * @return Content
      */
     public function setDescription($description)
@@ -253,7 +239,7 @@ class Content implements ContentInterface, EntityInterface, Nestable
     /**
      * Set slug
      *
-     * @param  string  $slug
+     * @param  string $slug
      * @return Content
      */
     public function setSlug($slug)
@@ -311,26 +297,6 @@ class Content implements ContentInterface, EntityInterface, Nestable
     public function getActive()
     {
         return $this->active;
-    }
-
-    /**
-     * Is content item public?
-     *
-     * @return boolean
-     */
-    public function isPublic()
-    {
-        return (is_null($this->nestedIn)) ? true : false;
-    }
-
-    /**
-     * Is content item private?
-     *
-     * @return boolean
-     */
-    public function isPrivate()
-    {
-        return (!is_null($this->nestedIn)) ? true : false;
     }
 
     /**
@@ -406,54 +372,6 @@ class Content implements ContentInterface, EntityInterface, Nestable
     }
 
     /**
-     * Set nested in
-     *
-     * @param NestedValue $value
-     *
-     * @return $this
-     */
-    public function setNestedIn(NestedValue $value)
-    {
-        $this->nestedIn = $value;
-
-        return $this;
-    }
-
-    /**
-     * Get nested in
-     *
-     * @return NestedValue
-     */
-    public function getNestedIn()
-    {
-        return $this->nestedIn;
-    }
-
-    /**
-     * Get nested sort
-     *
-     * @return integer
-     */
-    public function getNestedSort()
-    {
-        return $this->nestedSort;
-    }
-
-    /**
-     * Set nested in
-     *
-     * @param integer $value
-     *
-     * @return $this
-     */
-    public function setNestedSort($sort)
-    {
-        $this->nestedSort = (int) $sort;
-
-        return $this;
-    }
-
-    /**
      * Set created at
      *
      * @param  \DateTime $date
@@ -526,90 +444,27 @@ class Content implements ContentInterface, EntityInterface, Nestable
     }
 
     /**
-     * Set template
+     * Set schema
      *
-     * @param TemplateInterface $template
-     *
-     * @return $this
-     */
-    public function setTemplate(TemplateInterface $template = null)
-    {
-        $this->getValueSet()->setTemplate($template);
-
-        return $this;
-    }
-
-    /**
-     * Get template
-     *
-     * @return TemplateInterface
-     */
-    public function getTemplate()
-    {
-        return $this->getValueSet()->getTemplate();
-    }
-
-    /**
-     * Set presentation
-     *
-     * @param string $presentation
+     * @param SchemaInterface $schema
      *
      * @return $this
      */
-    public function setPresentation($presentation)
+    public function setSchema(SchemaInterface $schema = null)
     {
-        $this->presentation = $presentation;
+        $this->getValueSet()->setSchema($schema);
 
         return $this;
     }
 
     /**
-     * Get presentation
+     * Get schema
      *
-     * For usage in frontend, use getRealPresentation() to avoid returning a 'null' value
-     *
-     * @return string
+     * @return SchemaInterface
      */
-    public function getPresentation()
+    public function getSchema()
     {
-        return $this->presentation;
-    }
-
-    /**
-     * Sets the real presentation
-     *
-     * If the presentation is different from the template presentation, it means
-     * the presentation is edited for the current content, so we have to save
-     * it on the content. Otherwise, leave it null
-     *
-     * @param string $presentation
-     *
-     * @return Content
-     */
-    public function setRealPresentation($presentation)
-    {
-        if ($presentation != $this->getTemplate()->getPresentation()) {
-            $this->presentation = $presentation;
-        }
-
-        return $this;
-    }
-
-    /**
-     * Get the real presentation.
-     *
-     * Returns the current presentation if its set. Otherwise it falls back
-     * to the default presentation on the template
-     *
-     * @return string
-     */
-    public function getRealPresentation()
-    {
-        if (null != $this->presentation) {
-            return $this->presentation;
-        }
-
-        return $this->getTemplate()->getPresentation();
+        return $this->getValueSet()->getSchema();
     }
 
     /**
@@ -669,10 +524,6 @@ class Content implements ContentInterface, EntityInterface, Nestable
      */
     public function getValueSet()
     {
-        if (null === $this->valueSet) {
-            throw new \Exception('Make sure to give Content a ValueSet on creation');
-        }
-
         return $this->valueSet;
     }
 
@@ -722,61 +573,17 @@ class Content implements ContentInterface, EntityInterface, Nestable
     }
 
     /**
-     * Returns name of the Template for the ValueSet
+     * Returns name of the Schema for the ValueSet
      *
      * @JMS\VirtualProperty
-     * @JMS\SerializedName("templateName")
+     * @JMS\SerializedName("schemaName")
      * @JMS\Groups({"detail"})
      *
      * @return array
      */
-    public function getTemplateName()
+    public function getSchemaName()
     {
-        return $this->getValueSet()->getTemplate()->getName();
-    }
-
-    /**
-     * Returns display name of the Template for the ValueSet
-     *
-     * @JMS\VirtualProperty
-     * @JMS\SerializedName("templateDisplayName")
-     * @JMS\Groups({"detail", "list"})
-     *
-     * @return array
-     */
-    public function getTemplateDisplayName()
-    {
-        return $this->getValueSet()->getTemplate()->getDisplayName();
-    }
-
-    /**
-     * Set defaults for nested content
-     *
-     * @return Content
-     */
-    public function setNestedDefaults()
-    {
-        // Override to set some defaults for nested content.
-
-        return $this;
-    }
-
-    /**
-     * Check if the content item has a nested content attribute
-     *
-     * @return boolean
-     */
-    public function getNestedContentAttributes()
-    {
-        $attributes = array();
-
-        foreach ($this->getAttributes() as $key => $value) {
-            if (get_class($value) == 'Opifer\EavBundle\Entity\NestedValue') {
-                $attributes[$key] = $value;
-            }
-        }
-
-        return $attributes;
+        return $this->getValueSet()->getSchema()->getName();
     }
 
     /**
@@ -799,4 +606,37 @@ class Content implements ContentInterface, EntityInterface, Nestable
 
         return $crumbs;
     }
+
+    /**
+     * @return Template
+     */
+    public function getTemplate()
+    {
+        return $this->template;
+    }
+
+    /**
+     * @param Template $template
+     */
+    public function setTemplate(Template $template)
+    {
+        $this->template = $template;
+    }
+
+    /**
+     * @return BlockInterface
+     */
+    public function getBlock()
+    {
+        return $this->block;
+    }
+
+    /**
+     * @param BlockInterface $block
+     */
+    public function setBlock($block)
+    {
+        $this->block = $block;
+    }
+
 }

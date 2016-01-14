@@ -4,7 +4,7 @@ namespace Opifer\ContentBundle\Tests\Model;
 
 use Opifer\ContentBundle\Model\Content;
 use Opifer\ContentBundle\Model\Directory;
-use Opifer\ContentBundle\Tests\TestData\Template;
+use Opifer\ContentBundle\Tests\TestData\Schema;
 use Opifer\EavBundle\Entity\NestedValue;
 use Opifer\EavBundle\Entity\Value;
 use Opifer\EavBundle\Tests\TestData\ValueSet;
@@ -65,24 +65,6 @@ class ContentTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('presentation', $content->getPresentation());
     }
 
-    public function testRealPresentation()
-    {
-        $content = $this->getContent();
-        $content->setPresentation('presentation');
-        $this->assertEquals('presentation', $content->getRealPresentation());
-
-        $content = $this->getContentWithTemplate();
-        $this->assertNull($content->getRealPresentation());
-
-        $content = $this->getContentWithTemplate();
-        $content->setRealPresentation('realPresentation');
-        $this->assertEquals('realPresentation', $content->getRealPresentation());
-
-        $content = $this->getContentWithTemplate('templatePresentation');
-        $content->setRealPresentation('templatePresentation');
-        $this->assertNull($content->getPresentation());
-    }
-
     public function testAlias()
     {
         $content = $this->getContent();
@@ -125,26 +107,6 @@ class ContentTest extends \PHPUnit_Framework_TestCase
 
         $content->setDirectory($directory);
         $this->assertEquals($directory, $content->getDirectory());
-    }
-
-    public function testNestedIn()
-    {
-        $content = $this->getContent();
-        $this->assertNull($content->getNestedIn());
-
-        $nestedValue = new NestedValue();
-
-        $content->setNestedIn($nestedValue);
-        $this->assertEquals($nestedValue, $content->getNestedIn());
-    }
-
-    public function testNestedSort()
-    {
-        $content = $this->getContent();
-        $this->assertNull($content->getNestedSort());
-
-        $content->setNestedSort(1234);
-        $this->assertEquals(1234, $content->getNestedSort());
     }
 
     public function testCreatedAt()
@@ -197,30 +159,19 @@ class ContentTest extends \PHPUnit_Framework_TestCase
         $this->assertFalse($content->getAttributeValues()->contains($value));
     }
 
-    public function testPublicPrivate()
-    {
-        $content = $this->getContent();
-        $this->assertTrue($content->isPublic());
-        $this->assertFalse($content->isPrivate());
-
-        $content->setNestedIn(new NestedValue());
-        $this->assertFalse($content->isPublic());
-        $this->assertTrue($content->isPrivate());
-    }
-
-    public function testTemplate()
+    public function testSchema()
     {
         $content = $this->getContent();
 
-        $template = new Template();
+        $schema = new Schema();
 
         $content->setValueSet(new ValueSet());
-        $content->setTemplate($template);
-        $this->assertEquals($template, $content->getTemplate());
+        $content->setSchema($schema);
+        $this->assertEquals($schema, $content->getSchema());
 
         $content = $this->getContent();
         $this->setExpectedException('Exception', 'Make sure to give Content a ValueSet on creation');
-        $content->getTemplate();
+        $content->getSchema();
 
     }
 
@@ -229,13 +180,12 @@ class ContentTest extends \PHPUnit_Framework_TestCase
         return new Content();
     }
 
-    private function getContentWithTemplate($presentation = null)
+    private function getContentWithSchema()
     {
-        $template = new Template();
-        $template->setPresentation($presentation);
+        $schema = new Schema();
 
         $valueSet = new ValueSet();
-        $valueSet->setTemplate($template);
+        $valueSet->setSchema($schema);
 
         $content = new Content();
         $content->setValueSet($valueSet);

@@ -39,3 +39,45 @@ opifer_content_api_layout:
     methods: [GET]
     options:
         expose: true
+
+opifer_content_api_contenteditor_create_block:
+    path: /contenteditor/createblock/{ownerId}/{rootVersion}
+    defaults: { _controller: OpiferContentBundle:Api/ContentEditor:createBlock }
+    methods: [POST]
+    options:
+        expose: true
+
+opifer_content_api_contenteditor_move_block:
+    path: /contenteditor/moveblock
+    defaults: { _controller: OpiferContentBundle:Api/ContentEditor:moveBlock }
+    methods: [POST]
+    options:
+        expose: true
+
+opifer_content_api_contenteditor_view_block:
+    path: /contenteditor/viewblock/{id}/{rootVersion}
+    defaults: { _controller: OpiferContentBundle:Api/ContentEditor:viewBlock }
+    methods: [GET]
+    options:
+        expose: true
+
+opifer_content_api_contenteditor_remove_block:
+    path: /contenteditor/removeblock/{id}/{rootVersion}
+    defaults: { _controller: OpiferContentBundle:Api/ContentEditor:removeBlock }
+    methods: [DELETE]
+    options:
+        expose: true
+
+opifer_content_api_contenteditor_publish:
+    path: /contenteditor/publish
+    defaults: { _controller: OpiferContentBundle:Api/ContentEditor:publishBlock }
+    methods: [POST]
+    options:
+        expose: true
+
+opifer_content_api_contenteditor_discard:
+    path: /contenteditor/discard
+    defaults: { _controller: OpiferContentBundle:Api/ContentEditor:discardBlock }
+    methods: [POST]
+    options:
+        expose: true

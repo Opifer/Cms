@@ -1,0 +1,77 @@
+{% block block_manage_placeholder %}
+    <div class="pm-placeholder {% if content|length <= 0 %}pm-empty{% endif %}" data-pm-placeholder-key="{{ key }}">
+        {{ content|raw }}
+        {#<div class="pm pm-placeholder-droparea">#}
+            {#<div class="pm-caption text-muted text-center">Drag blocks here <span class="key hidden">{{ key }}</span></div>#}
+        {#</div>#}
+    </div>
+{% endblock block_manage_placeholder %}
+
+{% block block_manage_template %}
+    <div class="pm-block pm-layout pm-template" data-pm-block-id="{{ block.id }}">
+        {% include block_view %}
+    </div>
+{% endblock block_manage_template %}
+
+{% block block_manage_layout %}
+    <div class="pm-block pm-layout" data-pm-block-id="{{ block.id }}">
+        <div class="pm pm-toolbar clearfix hidden">
+            <div class="row">
+                <div class="col-xs-6">
+                    <span class="pm-toolbar-text"><code>{{ block.id }}</code> {{ block_service.name(block) }}</span>
+                </div>
+                <div class="col-xs-6">
+                    <a href="#" class="btn btn-icon pull-right btn-delete"><i class="material-icons">close</i></a>
+                    <a href="#" class="btn btn-icon pull-right btn-edit"><i class="material-icons">create</i></a>
+                </div>
+            </div>
+        </div>
+        {% include block_view %}
+    </div>
+{% endblock block_manage_layout %}
+
+
+
+
+
+
+
+{% block block_manage_stealth_toolbar %}
+    <div class="pm pm-toolbar clearfix hidden">
+        <div class="row">
+            <div class="col-xs-6">
+                <span class="pm-toolbar-text"><code>{{ block.id }}</code>  {{ block_service.name }} </span>
+            </div>
+            <div class="col-xs-6">
+                <a href="#" class="btn btn-icon btn-sm pull-right btn-delete"><i class="material-icons">close</i></a>
+                <a href="#" class="btn btn-icon btn-sm pull-right btn-edit"><i class="material-icons">create</i></a>
+            </div>
+        </div>
+    </div>
+{% endblock block_manage_stealth_toolbar %}
+
+{% block block_manage_stealth %}
+    {% set block_stealth_class = "pm-block pm-content" %}
+    {% set block_stealth_attr = "data-pm-block-id=" ~ block.id ~ "" %}
+    {% set block_stealth_id = block.id %}
+    {% set block_stealth_service_name = block_service.name %}
+    {% set block_stealth_toolbar = block('block_manage_stealth_toolbar')%}
+    {% include block_view %}
+{% endblock block_manage_stealth %}
+
+{% block block_manage_default %}
+    <div class="pm-block pm-content" data-pm-block-id="{{ block.id }}">
+        <div class="pm pm-toolbar clearfix hidden">
+            <div class="row">
+                <div class="col-xs-6">
+                    <span class="pm-toolbar-text"><code>{{ block.id }}</code> {{ block_service.name }}</span>
+                </div>
+                <div class="col-xs-6">
+                    <a href="#" class="btn btn-icon pull-right btn-delete"><i class="material-icons">close</i></a>
+                    <a href="#" class="btn btn-icon pull-right btn-edit"><i class="material-icons">create</i></a>
+                </div>
+            </div>
+        </div>
+        {% include block_view %}
+    </div>
+{% endblock block_manage_default %}

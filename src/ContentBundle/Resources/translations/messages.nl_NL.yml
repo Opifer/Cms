@@ -24,7 +24,7 @@ content:
         slug:
             placeholder: Unieke permalink voor de pagina
         submit: Opslaan
-        template:
+        schema:
             help_text: 'Het soort content'
         title:
             placeholder: De titel van de pagina
@@ -74,3 +74,4 @@ button:
     cancel: annuleren
     delete: verwijderen
     edit: bewerken
+    reset: Herstellen
