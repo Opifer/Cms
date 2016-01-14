@@ -9,12 +9,12 @@ use Opifer\EavBundle\Model\ValueInterface;
 /**
  * Address Value.
  *
- * @ORM\Entity
+ * @ORM\Entity()
  */
 class AddressValue extends Value implements ValueInterface
 {
     /**
-     * @ORM\ManyToOne(targetEntity="Opifer\CmsBundle\Entity\Address", inversedBy="contents", cascade={"persist"})
+     * @ORM\ManyToOne(targetEntity="Opifer\CmsBundle\Entity\Address", cascade={"persist"})
      * @ORM\JoinColumn(name="address_id", referencedColumnName="id")
      */
     protected $address;

@@ -25,7 +25,14 @@ parameters:
     opifer.cms.user_form.class: Opifer\CmsBundle\Form\Type\UserFormType
     twig.extension.intl.class: Twig_Extensions_Extension_Intl
 
+    opifer.cms.event_subscriber.load_orm_metadata.class: Opifer\CmsBundle\EventListener\LoadORMMetadataSubscriber
+
 services:
+#    opifer.cms.event_subscriber.load_orm_metadata:
+#        class: %opifer.cms.event_subscriber.load_orm_metadata.class%
+#        arguments: [%opifer_cms.classes%]
+#        tags:
+#            - { name: doctrine.event_subscriber }
 
     # Authenticators
 
@@ -116,12 +123,12 @@ services:
         decorates: 'opifer.redirect.redirect_type'
         tags:
             - { name: 'form.type', alias: 'opifer_redirect' }
-            
+
     # Entity Managers
 
     opifer.cms.content_manager:
         class: 'Opifer\CmsBundle\Manager\ContentManager'
-        arguments: ['@doctrine.orm.default_entity_manager', '@form.factory', '@opifer.eav.eav_manager', '%opifer_content.content_class%', '%opifer_eav.template_class%', '@security.token_storage']
+        arguments: ['@doctrine.orm.default_entity_manager', '@form.factory', '@opifer.eav.eav_manager', '%opifer_content.content_class%', '%opifer_eav.schema_class%', '@security.token_storage']
 
     # Event Listeners
 

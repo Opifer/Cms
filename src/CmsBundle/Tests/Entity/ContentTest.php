@@ -111,33 +111,4 @@ class ContentTest extends \PHPUnit_Framework_TestCase
         $this->assertSame($expected, $actual);
         $this->assertTrue($content->isSearchable());
     }
-
-    public function testIsPublic()
-    {
-        $content = new Content();
-        $this->assertTrue($content->isPublic());
-
-        $nestedValue = new NestedValue();
-        $content->setNestedIn($nestedValue);
-        $this->assertFalse($content->isPublic());
-    }
-
-    public function testIsPrivate()
-    {
-        $content = new Content();
-        $this->assertFalse($content->isPrivate());
-
-        $nestedValue = new NestedValue();
-        $content->setNestedIn($nestedValue);
-        $this->assertTrue($content->isPrivate());
-    }
-
-    public function testSetNestedDefaults()
-    {
-        $content = new Content();
-        $content->setNestedDefaults();
-
-        $this->assertFalse($content->getIndexable());
-        $this->assertFalse($content->getSearchable());
-    }
 }

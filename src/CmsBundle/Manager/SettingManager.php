@@ -3,6 +3,7 @@
 namespace Opifer\CmsBundle\Manager;
 
 use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityRepository;
 use Opifer\CmsBundle\Entity\Setting;
 
 class SettingManager
@@ -63,7 +64,7 @@ class SettingManager
         }
 
         $setting->setValue($value);
-        $this->_em->flush($setting);
+        $this->em->flush($setting);
     }
 
     /**
@@ -93,7 +94,7 @@ class SettingManager
             $settings[$name]->setValue($value);
         }
 
-        $this->_em->flush();
+        $this->em->flush();
     }
 
     /**
