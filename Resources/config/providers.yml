@@ -48,11 +48,11 @@ services:
         tags:
             - { name: opifer.eav.value_provider, alias: media }
 
-    opifer.eav.nested_value_provider:
-        class: %opifer.eav.nested_value_provider.class%
-        arguments: [%opifer_eav.nestable_class%]
-        tags:
-            - { name: opifer.eav.value_provider, alias: nested }
+#    opifer.eav.nested_value_provider:
+#        class: %opifer.eav.nested_value_provider.class%
+#        arguments: [%opifer_eav.nestable_class%]
+#        tags:
+#            - { name: opifer.eav.value_provider, alias: nested }
 
     opifer.eav.string_value_provider:
         class: %opifer.eav.string_value_provider.class%
