@@ -1,0 +1,38 @@
+{% extends 'OpiferFormBundle::base.html.twig' %}
+
+{% block opifer_form_body %}
+    {% spaceless %}
+        <div class="page-header clearfix">
+            <h1 class="pull-left">Forms</h1>
+            <a href="{{ path('opifer_form_form_create') }}" class="btn btn-primary pull-right">
+                New form
+            </a>
+        </div>
+
+        <div class="container">
+            <div class="row">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Name</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for form in forms %}
+                            <tr>
+                                <td>{{ form.id }}</td>
+                                <td>{{ form.displayname }}</td>
+                                <td>
+                                    <a href="{{ path('opifer_form_form_edit', {'id': form.id}) }}"><i class="fa fa-edit"></i> Edit</a>
+                                    <a href="{{ path('opifer_form_form_delete', {'id': form.id}) }}"><i class="fa fa-remove"></i> Delete</a>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    {% endspaceless %}
+{% endblock opifer_form_body %}

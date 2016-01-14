@@ -1,0 +1,56 @@
+parameters:
+    opifer.form.form_extension.class: Opifer\FormBundle\Twig\FormExtension
+    opifer.form.form_manager.class: Opifer\FormBundle\Model\FormManager
+    opifer.form.form_form.class: Opifer\FormBundle\Form\Type\FormType
+    opifer.form.notification_mail_listener.class: Opifer\FormBundle\EventListener\NotificationMailListener
+    opifer.form.post_form.class: Opifer\FormBundle\Form\Type\PostType
+    opifer.form.template_form.class: Opifer\FormBundle\Form\Type\TemplateType
+    opifer.form.post_manager.class: Opifer\FormBundle\Model\PostManager
+
+services:
+    # Model Managers
+
+    opifer.form.form_manager:
+        class: %opifer.form.form_manager.class%
+        arguments: [@doctrine.orm.default_entity_manager, @opifer.eav.template_manager, @opifer.form.post_manager, %opifer_form.form_class%]
+
+    opifer.form.post_manager:
+        class: %opifer.form.post_manager.class%
+        arguments: [@doctrine.orm.default_entity_manager, %opifer_form.post_class%]
+
+    # Form types
+
+    opifer.form.form_form:
+        class: %opifer.form.form_form.class%
+        arguments: [@doctrine.orm.entity_manager]
+        tags:
+            - { name: form.type, alias: opifer_form_form }
+
+    opifer.form.post_form:
+        class: %opifer.form.post_form.class%
+        arguments: [@router]
+        tags:
+            - { name: form.type, alias: opifer_form_post }
+
+    opifer.form.template_form:
+        class: %opifer.form.template_form.class%
+        arguments: [@opifer.eav.form.attribute_type, %opifer_eav.template_class%]
+        tags:
+            - { name: form.type, alias: opifer_form_template }
+
+    # Twig
+
+    opifer.form.form_extension:
+        class: %opifer.form.form_extension.class%
+        arguments: [@opifer.eav.eav_manager, @form.factory]
+        public: false
+        tags:
+            - { name: twig.extension }
+
+    # Event Listeners
+
+    opifer.form.notification_mail_listener:
+        class: %opifer.form.notification_mail_listener.class%
+        arguments: [@templating, @mailer, %opifer_form.from_email%]
+        tags:
+            - { name: kernel.event_subscriber }

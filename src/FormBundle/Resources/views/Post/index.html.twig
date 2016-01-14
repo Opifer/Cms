@@ -1,0 +1,35 @@
+{% extends 'OpiferFormBundle::base.html.twig' %}
+
+{% block opifer_form_body %}
+    {% spaceless %}
+        <div class="page-header clearfix">
+            <h1 class="pull-left">Posts for {{ form.name }}</h1>
+        </div>
+
+        <div class="container">
+            <div class="row">
+                <table class="table table-striped">
+                    <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Submitted At</th>
+                        <th></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                        {% for post in form.posts %}
+                            <tr>
+                                <td>{{ post.id }}</td>
+                                <td>{{ post.submittedAt|date('d-m-Y') }}</td>
+                                <td>
+                                    <a href="{{ path('opifer_form_post_view', {'id': post.id}) }}"><i class="fa fa-eye"></i> View</a>
+                                    <a href="{{ path('opifer_form_post_delete', {'id': post.id}) }}"><i class="fa fa-remove"></i> Delete</a>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    {% endspaceless %}
+{% endblock opifer_form_body %}

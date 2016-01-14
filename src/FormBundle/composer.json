@@ -1,0 +1,29 @@
+{
+    "name": "opifer/form-bundle",
+    "type": "symfony-bundle",
+    "description": "Opifer Form Bundle",
+    "authors": [
+        {
+            "name": "Opifer",
+            "homepage": "http://www.opifer.nl/"
+        }
+    ],
+    "require": {
+        "php": ">=5.4",
+        "doctrine/orm": "~2.2,>=2.2.3",
+        "doctrine/doctrine-bundle": "~1.2",
+        "gedmo/doctrine-extensions": "~2.3",
+        "opifer/eav-bundle": "~0.1",
+        "symfony/swiftmailer-bundle": "~2.3",
+        "symfony/symfony": "~2.3",
+        "twig/extensions": "~1.2"
+    },
+    "require-dev": {
+        "mockery/mockery": "~0.9",
+        "phpunit/phpunit": "~4.2",
+        "symfony/phpunit-bridge": "~2.7"
+    },
+    "autoload": {
+        "psr-4": {"Opifer\\FormBundle\\": "."}
+    }
+}
