@@ -1,6 +1,6 @@
 <?php
 
-namespace Opifer\CmsBundle\Tests\Form\DataTransformer;
+namespace Opifer\ContentBundle\Tests\Form\DataTransformer;
 
 use Opifer\ContentBundle\Form\DataTransformer\SlugTransformer;
 
