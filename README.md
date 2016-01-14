@@ -2,3 +2,5 @@
 
 Opifer Cms
 ==========
+
+travis test
