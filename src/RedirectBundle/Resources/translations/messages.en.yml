@@ -1,0 +1,33 @@
+opifer_redirect:
+  flash:
+    created: Redirect successfully created
+    updated: Redirect successfully updated
+    deleted: Redirect successfully deleted
+  title:
+    redirects: Redirects
+    redirect: Redirect
+    create: Create redirect
+    update: Update redirect
+  button:
+    new_redirect: Add redirect
+  form:
+    origin:
+      label: Origin
+      help_text: For example "/test/{page}/{number}"
+    target:
+      label: Target
+      help_text: ""
+    permanent:
+      label: Permanent
+      help_text: ""
+    requirements:
+      label: Requirements
+      help_text: ""
+    parameter:
+      label: Parameter
+      help_text: For example "page"
+    value:
+      label: Value
+      help_text: This can be a regular expression or for example "nl|en"
+    cancel: 'Cancel'
+    save: 'Save'

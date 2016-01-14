@@ -1,0 +1,23 @@
+parameters:
+    opifer.redirect.redirect_manager.default.class: Opifer\RedirectBundle\Model\RedirectManager
+    opifer.redirect.redirect_router.class: Opifer\RedirectBundle\Router\RedirectRouter
+
+services:
+    opifer.redirect.redirect_manager.default:
+        class: %opifer.redirect.redirect_manager.default.class%
+        arguments: [@doctrine.orm.default_entity_manager, %opifer_redirect.redirect_class%]
+
+    opifer.redirect.redirect_router:
+        class: %opifer.redirect.redirect_router.class%
+        arguments: [@request_stack, @opifer.redirect.redirect_manager]
+
+    opifer.redirect.redirect_type:
+        class: Opifer\RedirectBundle\Form\Type\RedirectType
+        arguments: [%opifer_redirect.redirect_class%]
+        tags:
+            - { name: form.type, alias: opifer_redirect }
+
+    opifer.redirect.requirement_type:
+        class: Opifer\RedirectBundle\Form\Type\RequirementType
+        tags:
+            - { name: form.type, alias: opifer_requirement }

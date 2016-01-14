@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- http://www.phpunit.de/manual/current/en/appendixes.configuration.html -->
+<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="http://schema.phpunit.de/4.2/phpunit.xsd"
+         backupGlobals="false"
+         colors="true"
+         bootstrap="./vendor/autoload.php"
+        >
+
+    <testsuites>
+        <testsuite name="OpiferRedirectBundle Test Suite">
+            <directory>./Tests</directory>
+        </testsuite>
+    </testsuites>
+
+    <filter>
+        <whitelist>
+            <directory>./</directory>
+            <exclude>
+                <directory>./Resources</directory>
+                <directory>./Tests</directory>
+                <directory>./vendor</directory>
+            </exclude>
+        </whitelist>
+    </filter>
+
+    <logging>
+        <log type="coverage-clover" target="/tmp/coverage.xml"/>
+    </logging>
+
+    <listeners>
+        <listener class="League\PHPUnitCoverageListener\Listener">
+            <arguments>
+                <array>
+                    <element key="printer">
+                        <object class="League\PHPUnitCoverageListener\Printer\StdOut"/>
+                    </element>
+                    <element key="hook">
+                        <object class="League\PHPUnitCoverageListener\Hook\Travis"/>
+                    </element>
+                    <element key="namespace">
+                        <string>Opifer\RedirectBundle</string>
+                    </element>
+                    <element key="repo_token">
+                        <string>bFwRF9UPta4jmaX3jPkfUZ7QF0vaKRhvk</string>
+                    </element>
+                    <element key="target_url">
+                        <string>https://coveralls.io/api/v1/jobs</string>
+                    </element>
+                    <element key="coverage_dir">
+                        <string>/tmp</string>
+                    </element>
+                </array>
+            </arguments>
+        </listener>
+    </listeners>
+</phpunit>

@@ -1,0 +1,10 @@
+{{ form_start(form, {'style': 'horizontal'}) }}
+    {{ form_widget(form) }}
+
+    <div class="form-group form-footer">
+        <div class="col-xs-12">
+            <button type="submit" class="btn btn-primary">{{ 'opifer_redirect.form.save'|trans }}</button>
+            <a href="{{ path('opifer_redirect_redirect_index') }}" class="btn btn-link">{{ 'opifer_redirect.form.cancel'|trans }}</a>
+        </div>
+    </div>
+{{ form_end(form) }}
