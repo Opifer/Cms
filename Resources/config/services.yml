@@ -66,12 +66,6 @@ services:
         tags:
             - { name: form.type, alias: eav_option }
 
-    opifer.eav.form.value_provider_type:
-        class: %opifer.eav.form.value_provider_type.class%
-        arguments: [@opifer.eav.value_provider.pool]
-        tags:
-            - { name: form.type, alias: value_provider }
-
     opifer.eav.form.presentationeditor:
         class: %opifer.eav.form.presentationeditor.class%
         tags:
