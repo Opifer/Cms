@@ -13,7 +13,6 @@ use Opifer\EavBundle\Model\SchemaInterface;
 use Opifer\EavBundle\Model\ValueSetInterface;
 use Opifer\EavBundle\Model\EntityInterface;
 use Opifer\ContentBundle\Entity\Template;
-use Opifer\ContentBundle\Model\BlockInterface;
 
 /**
  * Content
