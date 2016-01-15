@@ -73,14 +73,7 @@ class OpiferCmsExtension extends Extension implements PrependExtensionInterface
     {
         foreach ($classes as $model => $serviceClasses) {
             foreach ($serviceClasses as $service => $class) {
-                $container->setParameter(
-                    sprintf(
-                        'opifer_cms.%s_%s',
-                        $model,
-                        $service
-                    ),
-                    $class
-                );
+                $container->setParameter(sprintf('opifer_cms.%s.%s', $model, $service), $class);
             }
         }
     }

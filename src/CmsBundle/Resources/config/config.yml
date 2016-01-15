@@ -98,7 +98,7 @@ doctrine:
                 class:   'Gedmo\SoftDeleteable\Filter\SoftDeleteableFilter'
                 enabled: true
         resolve_target_entities:
-            FOS\UserBundle\Model\UserInterface: '%opifer_cms.user_model%'
+            FOS\UserBundle\Model\UserInterface: '%opifer_cms.user.model%'
             Opifer\EavBundle\Nesting\Nestable: 'Opifer\CmsBundle\Entity\Content'
         mappings:
             translatable:
@@ -128,7 +128,7 @@ doctrine_migrations:
 fos_user:
     db_driver:       'orm'
     firewall_name:   'main'
-    user_class:      '%opifer_cms.user_model%'
+    user_class:      '%opifer_cms.user.model%'
     group:
         group_class: 'Opifer\CmsBundle\Entity\Group'
     registration:

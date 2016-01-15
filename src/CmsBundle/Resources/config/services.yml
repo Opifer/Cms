@@ -49,7 +49,7 @@ services:
 
     opifer.cms.user_form:
         class: '%opifer.cms.user_form.class%'
-        arguments: ['%security.role_hierarchy.roles%', '%opifer_cms.user_model%']
+        arguments: ['%security.role_hierarchy.roles%', '%opifer_cms.user.model%']
         tags:
             - { name: 'form.type', alias: 'admin_user_form' }
 
