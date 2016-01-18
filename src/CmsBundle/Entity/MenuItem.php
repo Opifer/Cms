@@ -68,11 +68,6 @@ class MenuItem extends Menu
      *
      * @param string $link
      *
-<<<<<<< HEAD
-     * @param  string   $link
-     *
-=======
->>>>>>> d1cd7f63fa6cc1a6197d5e4d6c814a15b821a37c
      * @return MenuItem
      */
     public function setLink($link)

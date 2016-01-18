@@ -3,13 +3,6 @@
 namespace Opifer\CmsBundle\Entity;
 
 use Faker\Provider\DateTime;
-<<<<<<< HEAD
-use Opifer\CmsBundle\Entity\Post;
-use Opifer\EavBundle\Model\ValueSetInterface;
-use Opifer\EavBundle\Model\SchemaInterface;
-=======
-
->>>>>>> d1cd7f63fa6cc1a6197d5e4d6c814a15b821a37c
 
 class PostTest extends \PHPUnit_Framework_TestCase
 {
