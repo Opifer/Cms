@@ -14,6 +14,7 @@
 <body>
     {% spaceless %}
     {% if is_granted("IS_AUTHENTICATED_REMEMBERED") and hide_nav|default != true %}
+        {% block header %}
             <header class="mainnav">
 
                 <nav class="navbar navbar-inverse navbar-static-top" role="navigation">
@@ -66,8 +67,8 @@
                     </div>
                 </nav>
             </header>
-        {% endif %}
-    {% endblock header %}
+        {% endblock header %}
+    {% endif %}
     {% block main %}
         <div id="main" class="container-fluid">
             <div class="viewmain">
@@ -77,8 +78,7 @@
             {% include 'OpiferCmsBundle:Components:confirmationDelete.html.twig' %}
         </div>
     {% endblock main %}
-{% endif %}
-
+    {% endspaceless %}
 
 {% block javascripts %}
     <script>var CKEDITOR_BASEPATH = '/bundles/opifercms/components/ckeditor/';</script>

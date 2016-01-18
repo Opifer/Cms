@@ -29,6 +29,7 @@
         "doctrine/migrations": "~1.0@dev",
         "friendsofsymfony/jsrouting-bundle": "~1.5",
         "friendsofsymfony/user-bundle": "~2.0@dev",
+        "friendsofsymfony/advanced-encoder-bundle": "^1.1",
         "gedmo/doctrine-extensions": "~2.3",
         "google/recaptcha": "~1.1",
         "infinite-networks/form-bundle": "~1.0",
