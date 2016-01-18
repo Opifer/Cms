@@ -2,6 +2,7 @@ imports:
     - { resource: doctrine_extensions.yml }
 
 parameters:
+    locale: '%opifer_cms.default_locale%'
     opifer.content.directory_type.class: Opifer\CmsBundle\Form\Type\DirectoryType
     opifer.content.content_type.class: Opifer\CmsBundle\Form\Type\ContentType
 

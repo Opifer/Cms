@@ -12,12 +12,11 @@ class ScriptHandler
 
         $currentDirectory = getcwd();
 
-        $cmdDirectory = $currentDirectory.'/vendor/opifer/cms-bundle';
+        $cmdDirectory = __DIR__.'/..';
 
         chdir($cmdDirectory);
 
-        $command = 'bower install';
-        $command .= (getenv('SYMFONY_ENV') == 'prod') ? ' --allow-root' : '';
+        $command = 'bower install --allow-root';
         exec($command, $output, $status);
 
         if ($status) {
