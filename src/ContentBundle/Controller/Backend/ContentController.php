@@ -84,7 +84,7 @@ class ContentController extends Controller
         /** @var BlockManager $blockManager */
         $blockManager = $this->get('opifer.content.block_manager');
 
-        $content        = $contentManager->getRepository()->find($id);
+        $content = $contentManager->getRepository()->find($id);
 
 
         if ( ! $content) {
@@ -122,33 +122,6 @@ class ContentController extends Controller
         return $this->render($this->getParameter('opifer_content.content_edit_view'), $parameters);
     }
 
-//    /**
-//     * @param Request $request
-//     * @param integer $id
-//     * @param integer $version
-//     *
-//     * @return Response
-//     */
-//    public function viewAction(Request $request, $id, $version = 0)
-//    {
-//        $this->getDoctrine()->getManager()->getFilters()->disable('draftversion');
-//
-//        $blockManager   = $this->get('opifer.content.block_manager');
-//        $contentManager = $this->get('opifer.content.content_manager');
-//        $content        = $contentManager->getRepository()->find($id);
-//        $block          = $content->getBlock();
-//
-//        if ($version) {
-//            $blockManager->revert($block, $version);
-//        }
-//
-//        /** @var BlockServiceInterface $service */
-//        $service        = $this->get('opifer.content.block_manager')->getService($block);
-//        $service->setView($content->getTemplate()->getView());
-//
-//        return $service->manage($block);
-//    }
-
     /**
      * Details action.
      *
@@ -169,7 +142,7 @@ class ContentController extends Controller
             $manager->save($content);
         }
 
-        return $this->render('OpiferContentBundle:Content:details.html.twig', [ 'content' => $content, 'form' => $form->createView() ]);
+        return $this->render($this->getParameter('opifer_content.content_details_view'), [ 'content' => $content, 'form' => $form->createView() ]);
     }
 
     /**
@@ -188,7 +161,7 @@ class ContentController extends Controller
             return $event->getResponse();
         }
 
-        return $this->render('OpiferContentBundle:Content:index.html.twig', [ 'directoryId' => $directoryId ]);
+        return $this->render($this->getParameter('opifer_content.content_index_view'), [ 'directoryId' => $directoryId ]);
     }
 
 
@@ -214,59 +187,4 @@ class ContentController extends Controller
             'id' => $duplicateContentId,
         ]));
     }
-
-
-
-//
-//
-//
-//    /**
-//     * New
-//     *
-//     * @param Request $request
-//     * @param int     $template
-//     * @param string  $mode
-//     *
-//     * @return null|\Symfony\Component\HttpFoundation\RedirectResponse|Response
-//     * @throws \Exception
-//     */
-//    public function newAction(Request $request, $template = 0, $mode = 'simple')
-//    {
-//        if ($template == 0) {
-//            return $this->forward('OpiferContentBundle:Backend/Content:init');
-//        }
-//
-//        $event = new ResponseEvent($request);
-//        $this->get('event_dispatcher')->dispatch(Events::CONTENT_CONTROLLER_NEW, $event);
-//        if (null !== $event->getResponse()) {
-//            return $event->getResponse();
-//        }
-//
-//        $contentManager = $this->get('opifer.content.content_manager');
-//        $template       = $this->get('opifer.eav.schema_manager')->getRepository()->find($template);
-//        $content        = $this->get('opifer.eav.eav_manager')->initializeEntity($template);
-//
-//        $form = $this->createForm('opifer_content', $content, [ 'mode' => $mode ]);
-//        $form->handleRequest($request);
-//
-//        if ($form->isValid()) {
-//            $contentManager->handleNestedContentForm($request, $content);
-//            $contentManager->save($content);
-//
-//            // Tell the user everything went well.
-//            $this->get('session')->getFlashBag()->add('success',
-//                $this->get('translator')->trans('content.edit.success', [ '%title%' => $content->getTitle() ]));
-//
-//            return $this->redirect($this->generateUrl('opifer_content_content_edit', [
-//                'id'          => $content->getId(),
-//                'mode'        => $mode,
-//            ]));
-//        }
-//
-//        return $this->render('OpiferContentBundle:Content:edit.html.twig', [
-//            'content'     => $content,
-//            'form'        => $form->createView(),
-//            'mode'        => $mode
-//        ]);
-//    }
 }

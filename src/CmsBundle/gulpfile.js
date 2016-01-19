@@ -60,7 +60,7 @@ gulp.task('js', function () {
         'Resources/public/components/ckeditor/ckeditor.js'])
         .pipe(concat('app.js'))
         .pipe(sourcemaps.write('./'))
-        .pipe(gulp.dest('Resources/public/dist/js'));
+        .pipe(gulp.dest('Resources/public/js'));
 });
 
 
@@ -76,7 +76,7 @@ gulp.task('css', function () {
         .pipe(concat('app.css'))
         .pipe(uglifycss())
         .pipe(sourcemaps.write('./'))
-        .pipe(gulp.dest('bundles/opifercms/css'));
+        .pipe(gulp.dest('Resources/public/css'));
 });
 
 
@@ -89,7 +89,7 @@ gulp.task('pagemanager-client-js', function () {
     ])
         .pipe(concat('client.js'))
         .pipe(sourcemaps.write('./'))
-        .pipe(gulp.dest('Resources/public/dist/js'));
+        .pipe(gulp.dest('Resources/public/js'));
 });
 gulp.task('pagemanager-client-css', function () {
     return gulp.src([
