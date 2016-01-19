@@ -214,10 +214,16 @@ liip_imagine:
 
 # Content
 opifer_content:
-    content_class:   'Opifer\CmsBundle\Entity\Content'
     directory_class: 'Opifer\CmsBundle\Entity\Directory'
     layout_class:    'Opifer\CmsBundle\Entity\Layout'
     content_manager: 'opifer.cms.content_manager'
+    content:
+        class: 'Opifer\CmsBundle\Entity\Content'
+        views:
+            index: 'OpiferCmsBundle:Backend/Content:index.html.twig'
+            new: 'OpiferCmsBundle:Backend/Content:new.html.twig'
+            edit: 'OpiferCmsBundle:Backend/Content:edit.html.twig'
+            details: 'OpiferCmsBundle:Backend/Content:details.html.twig'
 
 opifer_eav:
     attribute_class: Opifer\CmsBundle\Entity\Attribute
