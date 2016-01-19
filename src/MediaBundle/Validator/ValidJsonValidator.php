@@ -10,12 +10,10 @@ class ValidJsonValidator extends ConstraintValidator
     /**
      * Checks if the passed value is a valid JSON string.
      * If it's already converted by, for example, Doctrine's json_array type,
-     * encode the value first and then check if the encode value is valid
+     * encode the value first and then check if the encode value is valid.
      *
      * @param string|array $value
      * @param Constraint   $constraint
-     *
-     * @return void
      */
     public function validate($value, Constraint $constraint)
     {

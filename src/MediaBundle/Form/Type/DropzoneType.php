@@ -8,12 +8,11 @@ use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormView;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
-
 use Opifer\MediaBundle\Form\Transformer\CollectionToStringTransformer;
 use Opifer\MediaBundle\Model\MediaManagerInterface;
 
 /**
- * The dropzone form type
+ * The dropzone form type.
  */
 class DropzoneType extends AbstractType
 {
@@ -29,13 +28,13 @@ class DropzoneType extends AbstractType
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         if (!$options['mapped']) {
             $prototype = $builder->create('__id__', 'opifer_media_edit', array_replace([
-                'label' => '__id__label__'
+                'label' => '__id__label__',
             ], []));
 
             $builder->setAttribute('prototype', $prototype->getForm());
@@ -45,15 +44,15 @@ class DropzoneType extends AbstractType
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function buildView(FormView $view, FormInterface $form, array $options)
     {
         $view->vars = array_replace($view->vars, [
-            'path'        => $options['path'],
-            'prototype'   => (!$options['mapped']) ? $form->getConfig()->getAttribute('prototype')->createView($view) : null,
+            'path' => $options['path'],
+            'prototype' => (!$options['mapped']) ? $form->getConfig()->getAttribute('prototype')->createView($view) : null,
             'form_action' => $options['form_action'],
-            'mapped'      => $options['mapped']
+            'mapped' => $options['mapped'],
         ]);
     }
 
@@ -68,22 +67,22 @@ class DropzoneType extends AbstractType
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'mapped' => false
+            'mapped' => false,
         ]);
 
         $resolver->setRequired([
             'path',
-            'form_action'
+            'form_action',
         ]);
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getParent()
     {
@@ -91,7 +90,7 @@ class DropzoneType extends AbstractType
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      *
      * @deprecated
      */
@@ -101,7 +100,7 @@ class DropzoneType extends AbstractType
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getBlockPrefix()
     {

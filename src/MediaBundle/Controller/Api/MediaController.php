@@ -7,7 +7,6 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-
 use Opifer\MediaBundle\Event\MediaResponseEvent;
 use Opifer\MediaBundle\Event\ResponseEvent;
 use Opifer\MediaBundle\OpiferMediaEvents;
@@ -15,7 +14,7 @@ use Opifer\MediaBundle\OpiferMediaEvents;
 class MediaController extends Controller
 {
     /**
-     * Index
+     * Index.
      *
      * @return JsonResponse
      */
@@ -34,13 +33,13 @@ class MediaController extends Controller
         $items = $this->get('jms_serializer')->serialize(iterator_to_array($media->getCurrentPageResults()), 'json', SerializationContext::create()->setGroups(['Default', 'list']));
 
         return new JsonResponse([
-            'results'          => json_decode($items, true),
-            'total_results'    => $media->getNbResults(),
-            'results_per_page' => $media->getMaxPerPage()
+            'results' => json_decode($items, true),
+            'total_results' => $media->getNbResults(),
+            'results_per_page' => $media->getMaxPerPage(),
         ]);
     }
     /**
-     * Detail
+     * Detail.
      *
      * @return JsonResponse
      */
@@ -54,7 +53,7 @@ class MediaController extends Controller
     }
 
     /**
-     * Upload
+     * Upload.
      *
      * @return Response
      */
@@ -89,10 +88,10 @@ class MediaController extends Controller
     }
 
     /**
-     * Delete
+     * Delete.
      *
-     * @param  Request $request
-     * @param  integer $id
+     * @param Request $request
+     * @param int     $id
      *
      * @return JsonResponse
      */

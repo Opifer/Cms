@@ -4,18 +4,14 @@ namespace Opifer\MediaBundle\EventListener\Serializer;
 
 use JMS\Serializer\EventDispatcher\EventSubscriberInterface;
 use JMS\Serializer\EventDispatcher\ObjectEvent;
-
 use Liip\ImagineBundle\Imagine\Cache\CacheManager;
-
 use Opifer\MediaBundle\Model\MediaInterface;
 use Opifer\MediaBundle\Provider\Pool;
 use Liip\ImagineBundle\Imagine\Filter\FilterConfiguration;
 use PhpOption\None;
 
 /**
- * Class MediaEventSubscriber
- *
- * @package  Opifer\MediaBundle\EventListener\Serializer
+ * Class MediaEventSubscriber.
  */
 class MediaEventSubscriber implements EventSubscriberInterface
 {
@@ -39,7 +35,6 @@ class MediaEventSubscriber implements EventSubscriberInterface
      *
      * @param CacheManager $cacheManager
      */
-
     public function __construct(CacheManager $cacheManager, FilterConfiguration $filterConfig, Pool $pool)
     {
         $this->cacheManager = $cacheManager;
@@ -48,7 +43,7 @@ class MediaEventSubscriber implements EventSubscriberInterface
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public static function getSubscribedEvents()
     {
@@ -73,7 +68,7 @@ class MediaEventSubscriber implements EventSubscriberInterface
             $reference = $provider->getThumb($event->getObject());
 
             $groups = $event->getContext()->attributes->get('groups');
-            
+
             if (!$groups instanceof None && in_array('detail', $groups->get())) {
                 $filters = array_keys($this->filterConfig->all());
             } else {

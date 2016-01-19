@@ -12,7 +12,7 @@ class YoutubeUrl extends Constraint
     public $message = '"%string%" is not a valid Youtube URL';
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function validatedBy()
     {

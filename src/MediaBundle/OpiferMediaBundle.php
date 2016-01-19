@@ -4,7 +4,6 @@ namespace Opifer\MediaBundle;
 
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
-
 use Opifer\MediaBundle\DependencyInjection\Compiler\ProviderCompilerPass;
 
 class OpiferMediaBundle extends Bundle

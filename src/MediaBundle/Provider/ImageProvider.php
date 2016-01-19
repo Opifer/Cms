@@ -5,12 +5,12 @@ namespace Opifer\MediaBundle\Provider;
 use Opifer\MediaBundle\Model\MediaInterface;
 
 /**
- * Extends FileProvider to add image-specific functionality
+ * Extends FileProvider to add image-specific functionality.
  */
 class ImageProvider extends FileProvider
 {
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getThumb(MediaInterface $media)
     {
@@ -18,7 +18,7 @@ class ImageProvider extends FileProvider
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getLabel()
     {
@@ -26,7 +26,7 @@ class ImageProvider extends FileProvider
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function prePersist(MediaInterface $media)
     {

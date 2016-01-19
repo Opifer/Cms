@@ -5,7 +5,6 @@ namespace Opifer\MediaBundle\Controller\Backend;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-
 use Opifer\MediaBundle\Event\MediaResponseEvent;
 use Opifer\MediaBundle\Event\ResponseEvent;
 use Opifer\MediaBundle\Form\Type\MediaType;
@@ -14,7 +13,7 @@ use Opifer\MediaBundle\OpiferMediaEvents;
 class MediaController extends Controller
 {
     /**
-     * Index
+     * Index.
      *
      * @param Request $request
      *
@@ -33,12 +32,12 @@ class MediaController extends Controller
         $providers = $this->get('opifer.media.provider.pool')->getProviders();
 
         return $this->render($this->container->getParameter('opifer_media.media_index_view'), [
-            'providers'  => $providers
+            'providers' => $providers,
         ]);
     }
 
     /**
-     * Create new media
+     * Create new media.
      *
      * @param Request $request
      * @param string  $provider
@@ -72,16 +71,16 @@ class MediaController extends Controller
         }
 
         return $this->render($this->container->getParameter('opifer_media.media_create_view'), [
-            'form'     => $form->createView(),
-            'provider' => $mediaProvider
+            'form' => $form->createView(),
+            'provider' => $mediaProvider,
         ]);
     }
 
     /**
-     * Edit
+     * Edit.
      *
      * @param Request $request
-     * @param integer $id
+     * @param int     $id
      *
      * @return Response
      */
@@ -115,15 +114,15 @@ class MediaController extends Controller
         }
 
         return $this->render($this->container->getParameter('opifer_media.media_edit_view'), [
-            'form'  => $form->createView(),
-            'media' => $media
+            'form' => $form->createView(),
+            'media' => $media,
         ]);
     }
 
     /**
-     * Update multiple media items
+     * Update multiple media items.
      *
-     * @param  Request $request
+     * @param Request $request
      *
      * @return Response
      */
@@ -159,10 +158,10 @@ class MediaController extends Controller
     }
 
     /**
-     * Deletes a media item
+     * Deletes a media item.
      *
      * @param Request $request
-     * @param integer $id
+     * @param int     $id
      *
      * @return \Symfony\Component\HttpFoundation\RedirectResponse
      */

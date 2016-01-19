@@ -9,13 +9,12 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\Validator\Constraints\Url;
-
 use Opifer\MediaBundle\Model\MediaInterface;
 use Opifer\MediaBundle\Model\MediaManagerInterface;
 use Opifer\MediaBundle\Validator\Constraint\YoutubeUrl;
 
 /**
- * Youtube Provider
+ * Youtube Provider.
  */
 class YoutubeProvider extends AbstractProvider
 {
@@ -29,10 +28,10 @@ class YoutubeProvider extends AbstractProvider
     private $apikey;
 
     /**
-     * Constructor
+     * Constructor.
      *
      * @param MediaManagerInterface $mm
-     * @param TranslatorInterface     $translator
+     * @param TranslatorInterface   $translator
      * @param string                $apikey
      */
     public function __construct(MediaManagerInterface $mm, TranslatorInterface $tr, $apikey)
@@ -43,7 +42,7 @@ class YoutubeProvider extends AbstractProvider
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getLabel()
     {
@@ -51,31 +50,31 @@ class YoutubeProvider extends AbstractProvider
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function buildCreateForm(FormBuilderInterface $builder, array $options)
     {
         $builder
             ->add('reference', 'text', [
-                'data' => ($options['data']->getId()) ? 'https://www.youtube.com/watch?v=' . $options['data']->getReference() : '',
+                'data' => ($options['data']->getId()) ? 'https://www.youtube.com/watch?v='.$options['data']->getReference() : '',
                 'label' => $this->translator->trans('youtube.reference.label'),
                 'constraints' => [
                     new NotBlank(),
                     new Url(),
-                    new YoutubeUrl()
-                ]
+                    new YoutubeUrl(),
+                ],
             ])
             ->add('thumb', 'mediapicker', [
                 'multiple' => false,
                 'property' => 'name',
-                'class' => $this->mediaManager->getClass()
+                'class' => $this->mediaManager->getClass(),
             ])
-            ->add('add ' . $options['provider']->getLabel(), 'submit')
+            ->add('add '.$options['provider']->getLabel(), 'submit')
         ;
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getThumb(MediaInterface $media)
     {
@@ -83,7 +82,7 @@ class YoutubeProvider extends AbstractProvider
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function prePersist(MediaInterface $media)
     {
@@ -91,7 +90,7 @@ class YoutubeProvider extends AbstractProvider
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function preUpdate(MediaInterface $media)
     {
@@ -99,11 +98,9 @@ class YoutubeProvider extends AbstractProvider
     }
 
     /**
-     * pre saving handler
+     * pre saving handler.
      *
      * @param MediaInterface $media
-     *
-     * @return void
      */
     public function preSave(MediaInterface $media)
     {
@@ -117,12 +114,10 @@ class YoutubeProvider extends AbstractProvider
     }
 
     /**
-     * Update metadata
+     * Update metadata.
      *
-     * @param MediaInterface   $media
-     * @param boolean $force
-     *
-     * @return void
+     * @param MediaInterface $media
+     * @param bool           $force
      */
     public function updateMedadata(MediaInterface $media)
     {
@@ -152,7 +147,7 @@ class YoutubeProvider extends AbstractProvider
     }
 
     /**
-     * Transforms Youtube's time format to a more readable one
+     * Transforms Youtube's time format to a more readable one.
      *
      * @param string $duration
      *
@@ -178,22 +173,23 @@ class YoutubeProvider extends AbstractProvider
         try {
             $metadata = file_get_contents($url);
         } catch (\RuntimeException $e) {
-            throw new \RuntimeException('Unable to retrieve the video information for :' . $url, null, $e);
+            throw new \RuntimeException('Unable to retrieve the video information for :'.$url, null, $e);
         }
 
         $metadata = json_decode($metadata, true);
 
-        if (!$metadata)
-            throw new \RuntimeException('Unable to decode the video information for :' . $url);
+        if (!$metadata) {
+            throw new \RuntimeException('Unable to decode the video information for :'.$url);
+        }
 
         return $metadata;
     }
 
     /**
-     * Save the thumbnail
+     * Save the thumbnail.
      *
-     * @param  MediaInterface $media The Youtube Object
-     * @param  string         $url
+     * @param MediaInterface $media The Youtube Object
+     * @param string         $url
      *
      * @return MediaInterface The newly created image
      */
@@ -203,11 +199,11 @@ class YoutubeProvider extends AbstractProvider
 
         $thumb
             ->setStatus(Media::STATUS_HASPARENT)
-            ->setName($media->getName() . '_thumb')
+            ->setName($media->getName().'_thumb')
             ->setProvider('image')
         ;
 
-        $filename = '/tmp/' . basename($url);
+        $filename = '/tmp/'.basename($url);
         $filesystem = new Filesystem();
         $filesystem->dumpFile($filename, file_get_contents($url));
         $thumb->temp = $filename;

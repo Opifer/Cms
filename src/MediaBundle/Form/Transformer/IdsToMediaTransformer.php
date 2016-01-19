@@ -4,7 +4,6 @@ namespace Opifer\MediaBundle\Form\Transformer;
 
 use Symfony\Component\Form\DataTransformerInterface;
 use Symfony\Component\Form\Exception\TransformationFailedException;
-
 use Opifer\MediaBundle\Model\MediaManagerInterface;
 
 /**
@@ -31,7 +30,7 @@ class IdsToMediaTransformer implements DataTransformerInterface
     public function transform($media)
     {
         if (null === $media) {
-            return "";
+            return '';
         }
 
         $ids = [];
@@ -48,7 +47,7 @@ class IdsToMediaTransformer implements DataTransformerInterface
     public function reverseTransform($ids)
     {
         if (!$ids) {
-            return null;
+            return;
         }
 
         $repo = $this->mediaManager->getRepository();

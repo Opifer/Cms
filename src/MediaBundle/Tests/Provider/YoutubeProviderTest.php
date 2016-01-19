@@ -2,7 +2,7 @@
 
 namespace Opifer\MediaBundle\Tests\Provider;
 
-use \Mockery as m;
+use Mockery as m;
 use Opifer\MediaBundle\Provider\YoutubeProvider;
 
 class YoutubeProviderTest extends \PHPUnit_Framework_TestCase

@@ -9,16 +9,16 @@ use Symfony\Component\HttpFoundation\Request;
 class MediaRepository extends EntityRepository
 {
     /**
-     * Create the query builder from request
+     * Create the query builder from request.
      *
-     * @param  Request $request
+     * @param Request $request
      *
      * @return QueryBuilder
      */
     public function createQueryBuilderFromRequest(Request $request)
     {
         $qb = $this->createQueryBuilder('m');
-        
+
         if ($request->get('ids')) {
             $ids = explode(',', $request->get('ids'));
 
@@ -26,7 +26,7 @@ class MediaRepository extends EntityRepository
         }
 
         if ($request->get('search')) {
-            $qb->andWhere('m.name LIKE :term')->setParameter('term', '%' . $request->get('search') . '%');
+            $qb->andWhere('m.name LIKE :term')->setParameter('term', '%'.$request->get('search').'%');
         }
 
         if ($request->get('order')) {
@@ -38,12 +38,12 @@ class MediaRepository extends EntityRepository
     }
 
     /**
-     * Search media items by a searchterm
+     * Search media items by a searchterm.
      *
-     * @param string  $term
-     * @param integer $limit
-     * @param integer $offset
-     * @param array   $orderBy
+     * @param string $term
+     * @param int    $limit
+     * @param int    $offset
+     * @param array  $orderBy
      *
      * @return array
      */
@@ -54,8 +54,8 @@ class MediaRepository extends EntityRepository
         $qb->where('m.name LIKE :term')
             ->andWhere('m.status IN (:statuses)')
             ->setParameters(array(
-                'term'     => '%' . $term . '%',
-                'statuses' => array(0, 1)
+                'term' => '%'.$term.'%',
+                'statuses' => array(0, 1),
             )
         );
 
@@ -71,7 +71,7 @@ class MediaRepository extends EntityRepository
     }
 
     /**
-     * Find all media items by an array of ids
+     * Find all media items by an array of ids.
      *
      * @param array $ids
      *
@@ -83,8 +83,8 @@ class MediaRepository extends EntityRepository
             ->where('m.id IN (:ids)')
             ->andWhere('m.status = :status')
             ->setParameters(array(
-                'ids'    => $ids,
-                'status' => 1
+                'ids' => $ids,
+                'status' => 1,
             ))
             ->getQuery()
         ;
