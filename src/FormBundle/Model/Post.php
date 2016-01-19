@@ -8,7 +8,7 @@ use JMS\Serializer\Annotation as JMS;
 use Opifer\EavBundle\Model\EntityInterface;
 use Opifer\EavBundle\Model\ValueSet;
 use Opifer\EavBundle\Model\ValueSetInterface;
-use Opifer\EavBundle\Model\TemplateInterface;
+use Opifer\EavBundle\Model\SchemaInterface;
 
 /**
  * Post entity.
@@ -165,26 +165,26 @@ class Post implements PostInterface, EntityInterface
     }
 
     /**
-     * Set template.
+     * Set schema.
      *
-     * @param TemplateInterface $template
+     * @param SchemaInterface $schema
      *
      * @return $this
      */
-    public function setTemplate(TemplateInterface $template = null)
+    public function setSchema(SchemaInterface $schema = null)
     {
-        $this->getValueSet()->setTemplate($template);
+        $this->getValueSet()->setSchema($schema);
 
         return $this;
     }
 
     /**
-     * Get template.
+     * Get schema.
      *
-     * @return TemplateInterface
+     * @return SchemaInterface
      */
-    public function getTemplate()
+    public function getSchema()
     {
-        return $this->getValueSet()->getTemplate();
+        return $this->getValueSet()->getSchema();
     }
 }
