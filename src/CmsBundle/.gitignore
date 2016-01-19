@@ -2,4 +2,6 @@ composer.lock
 node_modules/
 phpunit.xml
 Resources/public/components/*
+Resources/public/js/*
+Resources/public/css/*
 vendor/

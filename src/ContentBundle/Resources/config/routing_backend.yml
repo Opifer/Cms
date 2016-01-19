@@ -34,10 +34,6 @@ opifer_content_template_editor_view:
     defaults: { _controller: OpiferContentBundle:Backend/Template:editorView }
 
 # Backend content
-opifer_content_content_init:
-    path: /content/init
-    defaults: { _controller: OpiferContentBundle:Backend/Content:init }
-
 opifer_content_content_new:
     path: /content/new/{schema}/{mode}
     defaults: { _controller: OpiferContentBundle:Backend/Content:new, schema: 0, mode: simple }
@@ -45,12 +41,6 @@ opifer_content_content_new:
 opifer_content_content_edit:
     path: /content/edit/{id}/{version}
     defaults: { _controller: OpiferContentBundle:Backend/Content:edit, version: 0 }
-    options:
-        expose: true
-
-opifer_content_content_view:
-    path: /content/view/{id}/{version}
-    defaults: { _controller: OpiferContentBundle:Backend/Content:view }
     options:
         expose: true
 
