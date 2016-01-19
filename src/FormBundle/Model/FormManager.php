@@ -3,7 +3,7 @@
 namespace Opifer\FormBundle\Model;
 
 use Doctrine\ORM\EntityManagerInterface;
-use Opifer\EavBundle\Model\TemplateManager;
+use Opifer\EavBundle\Model\SchemaManager;
 
 class FormManager
 {
@@ -11,7 +11,7 @@ class FormManager
     protected $em;
 
     /** @var TemplateManager */
-    protected $templateManager;
+    protected $schemaManager;
 
     /** @var string */
     protected $class;
@@ -21,19 +21,19 @@ class FormManager
 
     /**
      * @param EntityManagerInterface $em
-     * @param TemplateManager        $templateManager
+     * @param SchemaManager          $schemaManager
      * @param PostManager            $postManager
      * @param string                 $class
      * @throws \Exception
      */
-    public function __construct(EntityManagerInterface $em, TemplateManager $templateManager, PostManager $postManager, $class)
+    public function __construct(EntityManagerInterface $em, SchemaManager $schemaManager, PostManager $postManager, $class)
     {
         if (!is_subclass_of($class, 'Opifer\FormBundle\Model\FormInterface')) {
             throw new \Exception(sprintf('%s must implement Opifer\FormBundle\Model\FormInterface', $class));
         }
 
         $this->em = $em;
-        $this->templateManager = $templateManager;
+        $this->schemaManager = $schemaManager;
         $this->postManager = $postManager;
         $this->class = $class;
     }
@@ -58,7 +58,7 @@ class FormManager
         $class = $this->getClass();
         $form = new $class();
 
-        $template = $this->templateManager->create();
+        $template = $this->schemaManager->create();
         $template->setObjectClass($this->postManager->getClass());
 
         $form->setTemplate($template);

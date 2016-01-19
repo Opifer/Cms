@@ -60,7 +60,7 @@ class ContentController extends Controller
             ]));
         }
 
-        return $this->render('OpiferContentBundle:Content:new.html.twig', [
+        return $this->render($this->getParameter('opifer_content.content_new_view'), [
             'form' => $form->createView(),
         ]);
     }
@@ -119,7 +119,7 @@ class ContentController extends Controller
             'url' => $this->generateUrl('opifer_content_contenteditor_view', ['id' => $content->getBlock()->getId(), 'version' => $version]),
         ];
 
-        return $this->render('OpiferContentBundle:Editor:view.html.twig', $parameters);
+        return $this->render($this->getParameter('opifer_content.content_edit_view'), $parameters);
     }
 
 //    /**
