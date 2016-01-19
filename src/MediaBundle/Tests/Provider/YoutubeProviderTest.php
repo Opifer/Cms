@@ -26,12 +26,6 @@ class YoutubeProviderTest extends \PHPUnit_Framework_TestCase
         $this->assertInternalType('string', $youtubeProvider->getLabel());
     }
 
-    public function testIndexViewIsString()
-    {
-        $youtubeProvider = new YoutubeProvider($this->mediaManager, $this->translator, 'apikeystring');
-        $this->assertInternalType('string', $youtubeProvider->indexView());
-    }
-
     public function testChangeDurationToDigits()
     {
         $youtubeProvider = new YoutubeProvider($this->mediaManager, $this->translator, 'apikeystring');

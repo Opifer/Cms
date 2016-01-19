@@ -1,0 +1,24 @@
+{% if media.thumb || media.provider == 'image' %}
+    <a class="visual" href="{{ path('opifer.media.media.edit', {'id': media.id}) }}">
+        {% if media.thumb %}
+            <img src="{{ media.thumb.reference|imagine_filter('medialibrary') }}" alt="{{ media.name }}">
+        {% elseif media.reference %}
+            <img src="{{ media.reference|imagine_filter('medialibrary') }}" alt="{{ media.name }}">
+        {% endif %}
+    </a>
+{% endif %}
+<h4 align="center">
+    <a href="{{ path('opifer.media.media.edit', {'id': media.id}) }}">{{ media.name }}</a>
+</h4>
+<div align="center" class="metadata">
+    {% if media.provider == 'youtube' %}
+        {% if media.metadata['contentDetails'] is defined %}
+            {{ media.metadata['contentDetails']['duration'] }}
+        {% endif %}
+        {% if media.metadata['contentDetails']['definition'] == 'hd' %}- HD{% endif %}
+    {% else %}
+        {% if media.filesize %}{{ media.readableFilesize }}{% endif %} -
+        {% if media.metadata.width is defined %}{{ media.metadata.width }}px X {{ media.metadata.height }}px{% endif %}
+        {{ media.contentType }}<br />
+    {% endif %}
+</div>

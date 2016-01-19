@@ -33,9 +33,9 @@ class ImageProviderTest extends \PHPUnit_Framework_TestCase
         $this->assertInternalType('string', $this->provider->getLabel());
     }
 
-    public function testIndexViewIsString()
+    public function testSingleViewIsString()
     {
-        $this->assertInternalType('string', $this->provider->indexView());
+        $this->assertInternalType('string', $this->provider->singleView());
     }
 
     public function testReturnOnPrePersistWhenFileIsEmpty()

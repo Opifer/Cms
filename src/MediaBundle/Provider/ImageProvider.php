@@ -28,14 +28,6 @@ class ImageProvider extends FileProvider
     /**
      * {@inheritDoc}
      */
-    public function indexView()
-    {
-        return 'OpiferMediaBundle:Image:single.html.twig';
-    }
-
-    /**
-     * {@inheritDoc}
-     */
     public function prePersist(MediaInterface $media)
     {
         if (is_null($file = $media->getFile())) {

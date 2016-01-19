@@ -183,9 +183,13 @@ twig:
 
 # Media
 opifer_media:
-    media_class: 'Opifer\CmsBundle\Entity\Media'
+    media:
+        class: 'Opifer\CmsBundle\Entity\Media'
+        views:
+            index: 'OpiferCmsBundle:Backend\Media:index.html.twig'
+            create: 'OpiferCmsBundle:Backend\Media:create.html.twig'
+            edit: 'OpiferCmsBundle:Backend\Media:edit.html.twig'
     default_storage: '%storage_adapter%'
-    # media_manager: media_manager
     providers:
         youtube:
             api_key: '%google_api_key%'

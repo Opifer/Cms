@@ -53,14 +53,6 @@ class YoutubeProvider extends AbstractProvider
     /**
      * {@inheritDoc}
      */
-    public function indexView()
-    {
-        return 'OpiferMediaBundle:Youtube:single.html.twig';
-    }
-
-    /**
-     * {@inheritDoc}
-     */
     public function buildCreateForm(FormBuilderInterface $builder, array $options)
     {
         $builder
@@ -88,14 +80,6 @@ class YoutubeProvider extends AbstractProvider
     public function getThumb(MediaInterface $media)
     {
         return $media->getThumb()->getReference();
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function editView()
-    {
-        return 'OpiferMediaBundle:Youtube:edit.html.twig';
     }
 
     /**

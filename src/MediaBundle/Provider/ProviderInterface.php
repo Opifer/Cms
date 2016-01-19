@@ -65,25 +65,11 @@ interface ProviderInterface
     public function buildEditForm(FormBuilderInterface $builder, array $options);
 
     /**
-     * the view to be used for the partial on the index ciew
+     * the view to be used for the single media partial on the index view
      *
      * @return string
      */
-    public function indexView();
-
-    /**
-     * the view to be used for the create form
-     *
-     * @return string
-     */
-    public function newView();
-
-    /**
-     * the view to be used for the edit form
-     *
-     * @return string
-     */
-    public function editView();
+    public function singleView();
 
     /**
      * @param MediaInterface $media

@@ -116,24 +116,8 @@ abstract class AbstractProvider implements ProviderInterface
     /**
      * {@inheritdoc}
      */
-    public function indexView()
+    public function singleView()
     {
-        return 'OpiferMediaBundle:Base:single.html.twig';
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function newView()
-    {
-        return 'OpiferMediaBundle:Base:new.html.twig';
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function editView()
-    {
-        return 'OpiferMediaBundle:Base:edit.html.twig';
+        return 'OpiferMediaBundle:Media:single.html.twig';
     }
 }

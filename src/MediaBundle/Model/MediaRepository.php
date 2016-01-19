@@ -3,10 +3,7 @@
 namespace Opifer\MediaBundle\Model;
 
 use Doctrine\ORM\EntityRepository;
-
-use Pagerfanta\Adapter\DoctrineORMAdapter;
-use Pagerfanta\Pagerfanta;
-
+use Doctrine\ORM\QueryBuilder;
 use Symfony\Component\HttpFoundation\Request;
 
 class MediaRepository extends EntityRepository
@@ -38,20 +35,6 @@ class MediaRepository extends EntityRepository
         }
 
         return $qb;
-    }
-
-    /**
-     * Find all by request
-     *
-     * @param  Request $request
-     *
-     * @return ArrayCollection
-     */
-    public function findByRequest(Request $request)
-    {
-        $query = $this->requestQueryBuilder($request)->getQuery();
-
-        return $query->getResult();
     }
 
     /**
@@ -107,26 +90,5 @@ class MediaRepository extends EntityRepository
         ;
 
         return $query->getResult();
-    }
-
-    /**
-     * Reduce queries when retrieving resources with tags.
-     *
-     * @return array
-     */
-    public function findActiveWithTags($q)
-    {
-        $query = $this->createQueryBuilder('m')
-            ->select('m')
-            ->where('m.status = :status')
-            ->andWhere('m.name LIKE :q')
-            ->setParameters(array(
-                'q' => '%' . $q .'%',
-                'status' => 1,
-            ))
-            ->getQuery()
-        ;
-
-        return $query;
     }
 }

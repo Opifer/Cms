@@ -37,7 +37,7 @@ class OpiferMediaExtension extends Extension implements PrependExtensionInterfac
         $configs = $container->getExtensionConfig($this->getAlias());
         $config = $this->processConfiguration(new Configuration(), $configs);
 
-        $container->setAlias('opifer.media.media_manager', $config['media_manager']);
+        $container->setAlias('opifer.media.media_manager', $config['media']['manager']);
 
         $parameters = $this->getParameters($config);
         foreach ($parameters as $key => $value) {
@@ -50,7 +50,7 @@ class OpiferMediaExtension extends Extension implements PrependExtensionInterfac
                     $container->prependExtensionConfig($name,  [
                         'orm' => [
                             'resolve_target_entities' => [
-                                'Opifer\MediaBundle\Model\MediaInterface' => $config['media_class'],
+                                'Opifer\MediaBundle\Model\MediaInterface' => $config['media']['class'],
                             ],
                         ],
                     ]);
@@ -150,9 +150,12 @@ class OpiferMediaExtension extends Extension implements PrependExtensionInterfac
      */
     public function getParameters(array $config)
     {
-        $params = [];
-
-        $params['opifer_media.model.class'] = $config['media_class'];
+        $params = [
+            'opifer_media.media_class' => $config['media']['class'],
+            'opifer_media.media_index_view' => $config['media']['views']['index'],
+            'opifer_media.media_create_view' => $config['media']['views']['create'],
+            'opifer_media.media_edit_view' => $config['media']['views']['edit'],
+        ];
 
         foreach ($config['providers'] as $provider => $options) {
             foreach ($options as $param => $value) {

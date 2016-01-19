@@ -45,14 +45,6 @@ class FileProvider extends AbstractProvider
     }
 
     /**
-     * {@inheritdoc}
-     */
-    public function newView()
-    {
-        return 'OpiferMediaBundle:File:new.html.twig';
-    }
-
-    /**
      * Build the add file form
      *
      * @param FormBuilderInterface $builder
@@ -78,8 +70,8 @@ class FileProvider extends AbstractProvider
     public function buildEditForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('name', null, [
-                'label' => ucfirst($this->translator->trans('file.name.label'))
+            ->add('name', 'text', [
+                'label' => 'file.name.label'
             ])
             ->add('Update', 'submit')
         ;
