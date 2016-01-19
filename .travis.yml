@@ -22,6 +22,6 @@ matrix:
 
 before_script:
   - composer self-update
-  - composer install --prefer-dist --no-interaction --no-scripts
+  - travis_wait composer update --prefer-dist --no-interaction --no-scripts
 
 script: phpunit --coverage-text

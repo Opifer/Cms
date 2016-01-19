@@ -4,6 +4,7 @@ namespace Opifer\CmsBundle\Entity;
 
 use Gedmo\Mapping\Annotation as Gedmo;
 use Doctrine\ORM\Mapping as ORM;
+use Opifer\ContentBundle\Model\ContentInterface;
 
 /**
  * MenuItem.
@@ -90,7 +91,7 @@ class MenuItem extends Menu
     /**
      * Set content.
      *
-     * @param \Opifer\CmsBundle\Entity\Content $content
+     * @param ContentInterface $content
      *
      * @return MenuItem
      */
