@@ -11,7 +11,7 @@
 
     <link rel="stylesheet" href="{{ asset('bundles/opifercms/css/app.css') }}"/>
 </head>
-<body>
+<body class="{{ body_class|default }}">
     {% spaceless %}
     {% if is_granted("IS_AUTHENTICATED_REMEMBERED") and hide_nav|default != true %}
         {% block header %}
@@ -86,7 +86,7 @@
 
     <script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
     <script src="{{ asset('bundles/bazingajstranslation/js/translator.min.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('bundles/opifercms/dist/js/app.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/opifercms/js/app.js') }}"></script>
     <script src="{{ url('bazinga_jstranslation_js') }}"></script>
     <script src="{{ path('fos_js_routing_js', {"callback": "fos.Router.setData"}) }}"></script>
 {% endblock %}
