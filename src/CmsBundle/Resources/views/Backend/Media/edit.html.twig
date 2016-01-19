@@ -1,4 +1,4 @@
-{% extends 'OpiferMediaBundle::base.html.twig' %}
+{% extends 'OpiferCmsBundle::base.html.twig' %}
 
 {% block opifer_media_title %}
     <span class="iconl icon-file"></span>{{ 'media.edit'|trans({'%name%': media.name}) }}
@@ -6,7 +6,7 @@
 
 {% block opifer_media_body %}
     <section class="page-section">
-        <img src="{{ media.thumb.reference|imagine_filter('medialibrary') }}" alt="{{ media.name }}">
+        <img src="{{ media.reference|imagine_filter('medialibrary') }}" alt="{{ media.name }}">
         {{ form(form, {'style': 'horizontal'}) }}
     </section>
 {% endblock opifer_media_body %}

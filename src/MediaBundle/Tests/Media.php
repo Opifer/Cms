@@ -11,5 +11,4 @@ use Opifer\MediaBundle\Model\Media as BaseMedia;
  */
 class Media extends BaseMedia
 {
-
 }

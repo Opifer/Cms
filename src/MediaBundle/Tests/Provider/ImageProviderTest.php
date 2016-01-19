@@ -2,7 +2,7 @@
 
 namespace Opifer\MediaBundle\Tests\Provider;
 
-use \Mockery as m;
+use Mockery as m;
 use Opifer\MediaBundle\Provider\ImageProvider;
 
 class ImageProviderTest extends \PHPUnit_Framework_TestCase
@@ -33,9 +33,9 @@ class ImageProviderTest extends \PHPUnit_Framework_TestCase
         $this->assertInternalType('string', $this->provider->getLabel());
     }
 
-    public function testIndexViewIsString()
+    public function testSingleViewIsString()
     {
-        $this->assertInternalType('string', $this->provider->indexView());
+        $this->assertInternalType('string', $this->provider->singleView());
     }
 
     public function testReturnOnPrePersistWhenFileIsEmpty()
@@ -55,11 +55,11 @@ class ImageProviderTest extends \PHPUnit_Framework_TestCase
             'getClientOriginalName' => 'testimage.png',
             'getClientOriginalExtension' => 'png',
             'getSize' => 2954043,
-            '__toString' => __DIR__ . '/../testimage.png'
+            '__toString' => __DIR__.'/../testimage.png',
         ));
 
         $this->filesystem->shouldReceive([
-            'listKeys' => ['keys' => ['testimage-1.png']]
+            'listKeys' => ['keys' => ['testimage-1.png']],
         ]);
 
         $this->media->shouldReceive(array(
@@ -69,7 +69,7 @@ class ImageProviderTest extends \PHPUnit_Framework_TestCase
             'setReference' => $this->media,
             'setContentType' => $this->media,
             'setFilesize' => $this->media,
-            'setMetadata' => $this->media
+            'setMetadata' => $this->media,
         ));
         $this->media->shouldReceive('setName')->never();
 
@@ -85,11 +85,11 @@ class ImageProviderTest extends \PHPUnit_Framework_TestCase
             'getClientOriginalName' => 'testimage.png',
             'getClientOriginalExtension' => 'png',
             'getSize' => 2954043,
-            '__toString' => __DIR__ . '/../testimage.png'
+            '__toString' => __DIR__.'/../testimage.png',
         ]);
 
         $this->filesystem->shouldReceive([
-            'listKeys' => ['keys' => ['testimage-1.png']]
+            'listKeys' => ['keys' => ['testimage-1.png']],
         ]);
 
         $this->media->shouldReceive([
@@ -100,7 +100,7 @@ class ImageProviderTest extends \PHPUnit_Framework_TestCase
             'setReference' => $this->media,
             'setContentType' => $this->media,
             'setFilesize' => $this->media,
-            'setMetadata' => $this->media
+            'setMetadata' => $this->media,
         ]);
 
         $this->provider->prePersist($this->media);

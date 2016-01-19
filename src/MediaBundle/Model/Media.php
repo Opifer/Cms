@@ -10,7 +10,7 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * Media
+ * Media.
  *
  * @ORM\MappedSuperclass
  *
@@ -25,7 +25,7 @@ abstract class Media implements MediaInterface
     const STATUS_HASPARENT = 2;
 
     /**
-     * @var integer
+     * @var int
      *
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
@@ -35,7 +35,7 @@ abstract class Media implements MediaInterface
     protected $id;
 
     /**
-     * @var  integer
+     * @var int
      *
      * @ORM\Column(name="status", type="smallint")
      */
@@ -87,7 +87,7 @@ abstract class Media implements MediaInterface
      * Thumb is used for media types that might need a thumbnail.
      * Like Videos, PDFs, etc.
      *
-     * @var integer
+     * @var int
      *
      * @ORM\OneToOne(targetEntity="\Opifer\MediaBundle\Model\MediaInterface")
      * @ORM\JoinColumn(name="thumb_id", referencedColumnName="id")
@@ -96,7 +96,7 @@ abstract class Media implements MediaInterface
     protected $thumb;
 
     /**
-     * @var integer
+     * @var int
      *
      * @ORM\Column(name="filesize", type="integer", nullable=true)
      */
@@ -129,7 +129,7 @@ abstract class Media implements MediaInterface
     /**
      * This is just a temporary file holder, for file uploads through a form.
      *
-     * @var  \Symfony\Component\HttpFoundation\File\UploadedFile
+     * @var \Symfony\Component\HttpFoundation\File\UploadedFile
      *
      * @Assert\File(maxSize="6000000")
      */
@@ -155,9 +155,9 @@ abstract class Media implements MediaInterface
     }
 
     /**
-     * Get id
+     * Get id.
      *
-     * @return integer
+     * @return int
      */
     public function getId()
     {
@@ -165,7 +165,7 @@ abstract class Media implements MediaInterface
     }
 
     /**
-     * Set status
+     * Set status.
      *
      * @param string $status
      *
@@ -179,7 +179,7 @@ abstract class Media implements MediaInterface
     }
 
     /**
-     * Get status
+     * Get status.
      *
      * @return string
      */
@@ -189,7 +189,7 @@ abstract class Media implements MediaInterface
     }
 
     /**
-     * Set name
+     * Set name.
      *
      * @param string $name
      *
@@ -203,7 +203,7 @@ abstract class Media implements MediaInterface
     }
 
     /**
-     * Get name
+     * Get name.
      *
      * @return string
      */
@@ -213,7 +213,7 @@ abstract class Media implements MediaInterface
     }
 
     /**
-     * Set provider
+     * Set provider.
      *
      * @param string $provider
      *
@@ -227,7 +227,7 @@ abstract class Media implements MediaInterface
     }
 
     /**
-     * Get provider
+     * Get provider.
      *
      * @return string
      */
@@ -237,7 +237,7 @@ abstract class Media implements MediaInterface
     }
 
     /**
-     * Set reference
+     * Set reference.
      *
      * @param string $reference
      *
@@ -251,7 +251,7 @@ abstract class Media implements MediaInterface
     }
 
     /**
-     * Get reference
+     * Get reference.
      *
      * @return string
      */
@@ -261,9 +261,10 @@ abstract class Media implements MediaInterface
     }
 
     /**
-     * Set contentType
+     * Set contentType.
      *
-     * @param  string $contentType
+     * @param string $contentType
+     *
      * @return Media
      */
     public function setContentType($contentType)
@@ -274,7 +275,7 @@ abstract class Media implements MediaInterface
     }
 
     /**
-     * Get contentType
+     * Get contentType.
      *
      * @return string
      */
@@ -284,7 +285,7 @@ abstract class Media implements MediaInterface
     }
 
     /**
-     * Get a short version of the content type
+     * Get a short version of the content type.
      *
      * @JMS\VirtualProperty()
      * @JMS\SerializedName("file_type")
@@ -297,9 +298,10 @@ abstract class Media implements MediaInterface
     }
 
     /**
-     * Set metadata
+     * Set metadata.
      *
-     * @param  string $metadata
+     * @param string $metadata
+     *
      * @return Media
      */
     public function setMetadata($metadata)
@@ -310,7 +312,7 @@ abstract class Media implements MediaInterface
     }
 
     /**
-     * Get metadata
+     * Get metadata.
      *
      * @return string
      */
@@ -320,9 +322,10 @@ abstract class Media implements MediaInterface
     }
 
     /**
-     * Set thumb
+     * Set thumb.
      *
-     * @param  string $thumb
+     * @param string $thumb
+     *
      * @return Media
      */
     public function setThumb(Media $thumb = null)
@@ -333,7 +336,7 @@ abstract class Media implements MediaInterface
     }
 
     /**
-     * Get thumb
+     * Get thumb.
      *
      * @return string
      */
@@ -343,7 +346,7 @@ abstract class Media implements MediaInterface
     }
 
     /**
-     * Set createdAt
+     * Set createdAt.
      *
      * @param \DateTime $createdAt
      *
@@ -357,7 +360,7 @@ abstract class Media implements MediaInterface
     }
 
     /**
-     * Get createdAt
+     * Get createdAt.
      *
      * @return \DateTime
      */
@@ -367,7 +370,7 @@ abstract class Media implements MediaInterface
     }
 
     /**
-     * Set updatedAt
+     * Set updatedAt.
      *
      * @param \DateTime $updatedAt
      *
@@ -381,7 +384,7 @@ abstract class Media implements MediaInterface
     }
 
     /**
-     * Get updatedAt
+     * Get updatedAt.
      *
      * @return \DateTime
      */
@@ -391,9 +394,10 @@ abstract class Media implements MediaInterface
     }
 
     /**
-     * Set filesize
+     * Set filesize.
      *
-     * @param  integer $filesize
+     * @param int $filesize
+     *
      * @return Media
      */
     public function setFilesize($filesize)
@@ -404,9 +408,9 @@ abstract class Media implements MediaInterface
     }
 
     /**
-     * Get filesize
+     * Get filesize.
      *
-     * @return integer
+     * @return int
      */
     public function getFilesize()
     {
@@ -414,32 +418,34 @@ abstract class Media implements MediaInterface
     }
 
     /**
-     * Get filesize with filesize extension
+     * Get filesize with filesize extension.
      *
-     * @return integer|string
+     * @return int|string
      */
     public function getReadableFilesize()
     {
         $size = $this->filesize;
-        if ($size < 1)
+        if ($size < 1) {
             return $size;
+        }
 
         if ($size < 1024) {
-            return $size . "b";
+            return $size.'b';
         } else {
             $help = $size / 1024;
             if ($help < 1024) {
-                return round($help, 1) . "kb";
+                return round($help, 1).'kb';
             } else {
-                return round(($help / 1024), 1) . "mb";
+                return round(($help / 1024), 1).'mb';
             }
         }
     }
 
     /**
-     * Set deletedAt
+     * Set deletedAt.
      *
-     * @param  \DateTime $deletedAt
+     * @param \DateTime $deletedAt
+     *
      * @return Media
      */
     public function setDeletedAt($deletedAt)
@@ -450,7 +456,7 @@ abstract class Media implements MediaInterface
     }
 
     /**
-     * Get deletedAt
+     * Get deletedAt.
      *
      * @return \DateTime
      */
@@ -470,7 +476,7 @@ abstract class Media implements MediaInterface
     }
 
     /**
-     * Set original
+     * Set original.
      *
      * @param string $original
      *
@@ -484,7 +490,7 @@ abstract class Media implements MediaInterface
     }
 
     /**
-     * Get original
+     * Get original.
      *
      * @return string
      */

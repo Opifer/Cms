@@ -2,7 +2,7 @@
 
 namespace Opifer\MediaBundle\Tests\Provider;
 
-use \Mockery as m;
+use Mockery as m;
 use Opifer\MediaBundle\Provider\YoutubeProvider;
 
 class YoutubeProviderTest extends \PHPUnit_Framework_TestCase
@@ -24,12 +24,6 @@ class YoutubeProviderTest extends \PHPUnit_Framework_TestCase
 
         $youtubeProvider = new YoutubeProvider($this->mediaManager, $this->translator, 'apikeystring');
         $this->assertInternalType('string', $youtubeProvider->getLabel());
-    }
-
-    public function testIndexViewIsString()
-    {
-        $youtubeProvider = new YoutubeProvider($this->mediaManager, $this->translator, 'apikeystring');
-        $this->assertInternalType('string', $youtubeProvider->indexView());
     }
 
     public function testChangeDurationToDigits()

@@ -14,7 +14,7 @@ class MediaManager implements MediaManagerInterface
     protected $repository;
 
     /**
-     * Constructor
+     * Constructor.
      *
      * @param ObjectManager $om
      * @param string        $class
@@ -27,18 +27,18 @@ class MediaManager implements MediaManagerInterface
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function createMedia()
     {
         $class = $this->getClass();
-        $media = new $class;
+        $media = new $class();
 
         return $media;
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function save(MediaInterface $media)
     {
@@ -47,7 +47,7 @@ class MediaManager implements MediaManagerInterface
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function remove(MediaInterface $media)
     {
@@ -56,9 +56,9 @@ class MediaManager implements MediaManagerInterface
     }
 
     /**
-     * Get paginated media items by request
+     * Get paginated media items by request.
      *
-     * @param  Request $request
+     * @param Request $request
      *
      * @return Pagerfanta
      */
@@ -74,7 +74,7 @@ class MediaManager implements MediaManagerInterface
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getClass()
     {
@@ -82,7 +82,7 @@ class MediaManager implements MediaManagerInterface
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getRepository()
     {

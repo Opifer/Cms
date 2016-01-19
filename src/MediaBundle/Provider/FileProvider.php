@@ -8,7 +8,6 @@ use Opifer\MediaBundle\Routing\UrlGenerator;
 use Symfony\Component\Translation\TranslatorInterface;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Routing\RouterInterface;
-
 use Opifer\MediaBundle\Model\MediaInterface;
 
 class FileProvider extends AbstractProvider
@@ -45,20 +44,10 @@ class FileProvider extends AbstractProvider
     }
 
     /**
-     * {@inheritdoc}
-     */
-    public function newView()
-    {
-        return 'OpiferMediaBundle:File:new.html.twig';
-    }
-
-    /**
-     * Build the add file form
+     * Build the add file form.
      *
      * @param FormBuilderInterface $builder
-     * @param array $options
-     *
-     * @return void
+     * @param array                $options
      */
     public function buildCreateForm(FormBuilderInterface $builder, array $options)
     {
@@ -67,19 +56,19 @@ class FileProvider extends AbstractProvider
                 'mapped' => false,
                 'path' => $this->router->generate('opifer_api_media_upload'),
                 'form_action' => $this->router->generate('opifer_media_media_updateall'),
-                'label' => ''
+                'label' => '',
             ])
         ;
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function buildEditForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('name', null, [
-                'label' => ucfirst($this->translator->trans('file.name.label'))
+            ->add('name', 'text', [
+                'label' => 'file.name.label',
             ])
             ->add('Update', 'submit')
         ;
@@ -94,7 +83,7 @@ class FileProvider extends AbstractProvider
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function prePersist(MediaInterface $media)
     {
@@ -118,7 +107,7 @@ class FileProvider extends AbstractProvider
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function postPersist(MediaInterface $media)
     {
@@ -126,7 +115,7 @@ class FileProvider extends AbstractProvider
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function postUpdate(MediaInterface $media)
     {
@@ -134,7 +123,7 @@ class FileProvider extends AbstractProvider
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function postRemove(MediaInterface $media)
     {
@@ -144,11 +133,9 @@ class FileProvider extends AbstractProvider
     }
 
     /**
-     * Upload a file
+     * Upload a file.
      *
      * @param MediaInterface $media
-     *
-     * @return void
      */
     public function upload(MediaInterface $media)
     {
@@ -156,13 +143,13 @@ class FileProvider extends AbstractProvider
         if (null === $media->getFile()) {
             return;
         }
-        
+
         $adapter = $this->filesystem->getAdapter();
-        
+
         if ($adapter instanceof AwsS3) {
-            $adapter->setMetadata($media->getReference(), ['ContentType' => $media->getContentType()] );
+            $adapter->setMetadata($media->getReference(), ['ContentType' => $media->getContentType()]);
         }
-        
+
         $this->filesystem->write($media->getReference(), file_get_contents($media->getFile()));
 
         if (isset($media->temp)) {
@@ -177,9 +164,10 @@ class FileProvider extends AbstractProvider
     }
 
     /**
-     * Get the full url to the original file
+     * Get the full url to the original file.
      *
      * @param MediaInterface $media
+     *
      * @return string
      */
     public function getUrl(MediaInterface $media)
@@ -200,11 +188,11 @@ class FileProvider extends AbstractProvider
      */
     public function createUniqueFileName($file)
     {
-        $ext = '.' . $file->guessExtension();
+        $ext = '.'.$file->guessExtension();
         $basename = trim(str_replace('.'.$file->getClientOriginalExtension(), '', $file->getClientOriginalName()));
         $basename = str_replace(' ', '-', $basename);
         $basename = strtolower($basename);
-        
+
         $existing = $this->filesystem->listKeys($basename);
         if (isset($existing['keys'])) {
             $existing = $existing['keys'];
@@ -221,16 +209,16 @@ class FileProvider extends AbstractProvider
 
             rsort($ids);
             $id = reset($ids);
-            $id++;
+            ++$id;
 
-            $basename = $basename . '-' . $id;
+            $basename = $basename.'-'.$id;
         }
 
-        return $basename . $ext;
+        return $basename.$ext;
     }
 
     /**
-     * Get Filesystem
+     * Get Filesystem.
      *
      * @return FileSystem
      */

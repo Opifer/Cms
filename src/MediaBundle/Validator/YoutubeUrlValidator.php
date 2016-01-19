@@ -11,8 +11,8 @@ class YoutubeUrlValidator extends ConstraintValidator
     {
         $regex = '/(?<=v(\=|\/))([-a-zA-Z0-9_]+)|(?<=youtu\.be\/)([-a-zA-Z0-9_]+)/';
 
-        if ( ! preg_match($regex, $value, $matches)) {
-            $this->context->addViolation($constraint->message, ['%string%' => $value] );
+        if (!preg_match($regex, $value, $matches)) {
+            $this->context->addViolation($constraint->message, ['%string%' => $value]);
         }
     }
 }

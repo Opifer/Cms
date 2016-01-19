@@ -3,7 +3,6 @@
 namespace Opifer\MediaBundle\Provider;
 
 use Symfony\Component\Form\FormBuilderInterface;
-
 use Opifer\MediaBundle\Model\MediaInterface;
 
 abstract class AbstractProvider implements ProviderInterface
@@ -20,19 +19,19 @@ abstract class AbstractProvider implements ProviderInterface
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function buildCreateForm(FormBuilderInterface $builder, array $options)
     {
         $builder
             ->add('name', 'text')
             ->add('reference', 'text')
-            ->add('add ' . $this->getLabel(), 'submit')
+            ->add('add '.$this->getLabel(), 'submit')
         ;
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function buildEditForm(FormBuilderInterface $builder, array $options)
     {
@@ -116,24 +115,8 @@ abstract class AbstractProvider implements ProviderInterface
     /**
      * {@inheritdoc}
      */
-    public function indexView()
+    public function singleView()
     {
-        return 'OpiferMediaBundle:Base:single.html.twig';
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function newView()
-    {
-        return 'OpiferMediaBundle:Base:new.html.twig';
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function editView()
-    {
-        return 'OpiferMediaBundle:Base:edit.html.twig';
+        return 'OpiferMediaBundle:Media:single.html.twig';
     }
 }

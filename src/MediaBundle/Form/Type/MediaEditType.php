@@ -6,24 +6,24 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 
 /**
- * Form type for editing media items
+ * Form type for editing media items.
  */
 class MediaEditType extends AbstractType
 {
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
             ->add('name', 'text', [
-                'attr' => ['value' => '__value__']
+                'attr' => ['value' => '__value__'],
             ])
         ;
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      *
      * @deprecated
      */
@@ -33,7 +33,7 @@ class MediaEditType extends AbstractType
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getBlockPrefix()
     {

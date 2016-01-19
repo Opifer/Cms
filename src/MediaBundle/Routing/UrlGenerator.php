@@ -31,9 +31,10 @@ class UrlGenerator
     }
 
     /**
-     * Generate the full url to the original uploaded file
+     * Generate the full url to the original uploaded file.
      *
-     * @param  string $reference
+     * @param string $reference
+     *
      * @return string
      */
     public function generate($reference)

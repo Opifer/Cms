@@ -1,7 +1,7 @@
-{% extends 'OpiferMediaBundle::base.html.twig' %}
+{% extends 'OpiferCmsBundle::base.html.twig' %}
 
 {% block opifer_media_title %}
-    <span class="iconl icon-file"></span>{{ 'imagefilter.new'|trans|capitalize }}
+    <span class="iconl icon-file"></span>{{ 'media.new'|trans({'%provider%': provider.label})|capitalize }}
 {% endblock opifer_media_title %}
 
 {% block opifer_media_body %}

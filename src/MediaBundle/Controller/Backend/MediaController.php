@@ -5,17 +5,15 @@ namespace Opifer\MediaBundle\Controller\Backend;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-
 use Opifer\MediaBundle\Event\MediaResponseEvent;
 use Opifer\MediaBundle\Event\ResponseEvent;
 use Opifer\MediaBundle\Form\Type\MediaType;
-use Opifer\MediaBundle\Form\Type\DropzoneFieldType;
 use Opifer\MediaBundle\OpiferMediaEvents;
 
 class MediaController extends Controller
 {
     /**
-     * Index
+     * Index.
      *
      * @param Request $request
      *
@@ -33,20 +31,20 @@ class MediaController extends Controller
 
         $providers = $this->get('opifer.media.provider.pool')->getProviders();
 
-        return $this->render('OpiferMediaBundle:Base:index.html.twig', [
-            'providers'  => $providers
+        return $this->render($this->container->getParameter('opifer_media.media_index_view'), [
+            'providers' => $providers,
         ]);
     }
 
     /**
-     * New
+     * Create new media.
      *
      * @param Request $request
      * @param string  $provider
      *
      * @return Response
      */
-    public function newAction(Request $request, $provider = 'image')
+    public function createAction(Request $request, $provider = 'image')
     {
         $dispatcher = $this->get('event_dispatcher');
         $event = new ResponseEvent($request);
@@ -67,24 +65,22 @@ class MediaController extends Controller
         if ($form->isValid()) {
             $mediaManager->save($media);
 
-            $this->get('session')->getFlashBag()->add('success',
-                $media->getName() . ' was succesfully created'
-            );
+            $this->addFlash('success', sprintf('%s was succesfully created', $media->getName()));
 
-            return $this->redirect($this->generateUrl('opifer_media_media_index'));
+            return $this->redirectToRoute('opifer_media_media_index');
         }
 
-        return $this->render($mediaProvider->newView(), [
-            'form'     => $form->createView(),
-            'provider' => $mediaProvider
+        return $this->render($this->container->getParameter('opifer_media.media_create_view'), [
+            'form' => $form->createView(),
+            'provider' => $mediaProvider,
         ]);
     }
 
     /**
-     * Edit
+     * Edit.
      *
      * @param Request $request
-     * @param integer $id
+     * @param int     $id
      *
      * @return Response
      */
@@ -112,23 +108,21 @@ class MediaController extends Controller
         if ($form->isValid()) {
             $mediaManager->save($media);
 
-            $this->get('session')->getFlashBag()->add('success',
-                $media->getName() . ' was succesfully updated'
-            );
+            $this->addFlash('success', sprintf('%s was succesfully updated', $media->getName()));
 
-            return $this->redirect($this->generateUrl('opifer_media_media_index'));
+            return $this->redirectToRoute('opifer_media_media_index');
         }
 
-        return $this->render($provider->editView(), [
-            'form'  => $form->createView(),
-            'media' => $media
+        return $this->render($this->container->getParameter('opifer_media.media_edit_view'), [
+            'form' => $form->createView(),
+            'media' => $media,
         ]);
     }
 
     /**
-     * Update all
+     * Update multiple media items.
      *
-     * @param  Request $request
+     * @param Request $request
      *
      * @return Response
      */
@@ -158,16 +152,16 @@ class MediaController extends Controller
 
         $em->flush();
 
-        $this->get('session')->getFlashBag()->add('success', 'The file(s) were added to the media library');
+        $this->addFlash('success', 'The file(s) were added to the media library');
 
-        return $this->redirect($this->generateUrl('opifer_media_media_index'));
+        return $this->redirectToRoute('opifer_media_media_index');
     }
 
     /**
-     * Deletes an image
+     * Deletes a media item.
      *
      * @param Request $request
-     * @param integer $id
+     * @param int     $id
      *
      * @return \Symfony\Component\HttpFoundation\RedirectResponse
      */
@@ -186,6 +180,6 @@ class MediaController extends Controller
 
         $mediaManager->remove($media);
 
-        return $this->redirect($this->generateUrl('opifer_media_media_index'));
+        return $this->redirectToRoute('opifer_media_media_index');
     }
 }

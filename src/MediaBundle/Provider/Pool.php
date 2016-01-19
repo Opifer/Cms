@@ -3,17 +3,17 @@
 namespace Opifer\MediaBundle\Provider;
 
 /**
- * This pool holds all the service providers tagged with 'opifer.media.provider'
+ * This pool holds all the service providers tagged with 'opifer.media.provider'.
  */
 class Pool
 {
     /**
-     * @var  array
+     * @var array
      */
     protected $providers;
 
     /**
-     * Constructor
+     * Constructor.
      */
     public function __construct()
     {
@@ -22,7 +22,7 @@ class Pool
 
     /**
      * Adds all the providers, tagged with 'opifer.media.provider' to the
-     * provider pool
+     * provider pool.
      *
      * @param ProviderInterface $provider
      */
@@ -32,7 +32,7 @@ class Pool
     }
 
     /**
-     * Get provider by its alias
+     * Get provider by its alias.
      *
      * @param string $alias
      *
@@ -44,7 +44,7 @@ class Pool
     }
 
     /**
-     * Get all registered providers
+     * Get all registered providers.
      *
      * @return array
      */

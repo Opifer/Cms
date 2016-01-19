@@ -8,19 +8,17 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
 /**
- * Media Type
+ * Media Type.
  *
  * This form type builds the create form for various kinds of media
  */
 class MediaType extends AbstractType
 {
     /**
-     * Build the form
+     * Build the form.
      *
      * @param FormBuilderInterface $builder
-     * @param array                                       $options
-     *
-     * @return void
+     * @param array                $options
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
@@ -44,14 +42,12 @@ class MediaType extends AbstractType
     }
 
     /**
-     * Set default options
+     * Set default options.
      *
      * Sets defaults, but also enables custom options that should be able to get
      * passed to the buildForm method from the controller. (e.g. 'provider')
      *
      * @param OptionsResolver $resolver
-     *
-     * @return void
      */
     public function configureOptions(OptionsResolver $resolver)
     {
@@ -61,7 +57,7 @@ class MediaType extends AbstractType
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      *
      * @deprecated
      */
@@ -71,7 +67,7 @@ class MediaType extends AbstractType
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getBlockPrefix()
     {

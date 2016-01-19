@@ -9,14 +9,14 @@ use Symfony\Component\DependencyInjection\Extension\PrependExtensionInterface;
 use Symfony\Component\DependencyInjection\Loader;
 
 /**
- * This is the class that loads and manages your bundle configuration
+ * This is the class that loads and manages your bundle configuration.
  *
  * To learn more see {@link http://symfony.com/doc/current/cookbook/bundles/extension.html}
  */
 class OpiferMediaExtension extends Extension implements PrependExtensionInterface
 {
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function load(array $configs, ContainerBuilder $container)
     {
@@ -26,18 +26,16 @@ class OpiferMediaExtension extends Extension implements PrependExtensionInterfac
 
     /**
      * Prepend our mediabundle config before all other bundles, so we can preset
-     * their config with our parameters
+     * their config with our parameters.
      *
-     * @param  ContainerBuilder $container
-     *
-     * @return void
+     * @param ContainerBuilder $container
      */
     public function prepend(ContainerBuilder $container)
     {
         $configs = $container->getExtensionConfig($this->getAlias());
         $config = $this->processConfiguration(new Configuration(), $configs);
 
-        $container->setAlias('opifer.media.media_manager', $config['media_manager']);
+        $container->setAlias('opifer.media.media_manager', $config['media']['manager']);
 
         $parameters = $this->getParameters($config);
         foreach ($parameters as $key => $value) {
@@ -50,7 +48,7 @@ class OpiferMediaExtension extends Extension implements PrependExtensionInterfac
                     $container->prependExtensionConfig($name,  [
                         'orm' => [
                             'resolve_target_entities' => [
-                                'Opifer\MediaBundle\Model\MediaInterface' => $config['media_class'],
+                                'Opifer\MediaBundle\Model\MediaInterface' => $config['media']['class'],
                             ],
                         ],
                     ]);
@@ -59,46 +57,46 @@ class OpiferMediaExtension extends Extension implements PrependExtensionInterfac
                     $container->prependExtensionConfig($name, [
                         'form' => [
                             'resources' => [
-                                'OpiferMediaBundle:Form:fields.html.twig'
-                            ]
-                        ]
+                                'OpiferMediaBundle:Form:fields.html.twig',
+                            ],
+                        ],
                     ]);
                     break;
                 case 'liip_imagine':
                     $container->prependExtensionConfig($name, [
                         'resolvers' => [
                             'local_storage' => [
-                                'web_path' => null
+                                'web_path' => null,
                             ],
                             'aws_storage' => [
                                 'aws_s3' => [
                                     'client_config' => [
-                                        'key'    => $config['storages']['aws_s3']['key'],
+                                        'key' => $config['storages']['aws_s3']['key'],
                                         'secret' => $config['storages']['aws_s3']['secret'],
-                                        'region' => $config['storages']['aws_s3']['region']
+                                        'region' => $config['storages']['aws_s3']['region'],
                                     ],
-                                    'bucket' => $config['storages']['aws_s3']['bucket']
-                                ]
-                            ]
+                                    'bucket' => $config['storages']['aws_s3']['bucket'],
+                                ],
+                            ],
                         ],
                         'cache' => $config['default_storage'],
                         'data_loader' => 'stream.file_storage',
                         'loaders' => [
                             'stream.file_storage' => [
                                 'stream' => [
-                                    'wrapper' => 'gaufrette://file_storage/'
-                                ]
-                            ]
+                                    'wrapper' => 'gaufrette://file_storage/',
+                                ],
+                            ],
                         ],
                         'driver' => 'imagick',
                         'filter_sets' => [
                             'medialibrary' => [
                                 'quality' => 100,
                                 'filters' => [
-                                    'relative_resize' => ['heighten' => 160]
-                                ]
-                            ]
-                        ]
+                                    'relative_resize' => ['heighten' => 160],
+                                ],
+                            ],
+                        ],
                     ]);
                     break;
                 case 'knp_gaufrette':
@@ -106,13 +104,13 @@ class OpiferMediaExtension extends Extension implements PrependExtensionInterfac
                         'adapters' => [
                             'tmp_storage' => [
                                 'local' => [
-                                    'directory' => $config['storages']['temp']['directory']
-                                ]
+                                    'directory' => $config['storages']['temp']['directory'],
+                                ],
                             ],
                             'local_storage' => [
                                 'local' => [
-                                    'directory' => $config['storages']['local']['directory']
-                                ]
+                                    'directory' => $config['storages']['local']['directory'],
+                                ],
                             ],
                             'aws_storage' => [
                                 'aws_s3' => [
@@ -120,39 +118,43 @@ class OpiferMediaExtension extends Extension implements PrependExtensionInterfac
                                     'bucket_name' => $config['storages']['aws_s3']['bucket'],
                                     'options' => [
                                         'directory' => 'originals',
-                                        'acl' => 'public-read'
-                                    ]
-                                ]
-                            ]
+                                        'acl' => 'public-read',
+                                    ],
+                                ],
+                            ],
                         ],
                         'filesystems' => [
                             'tmp_storage' => [
                                 'adapter' => 'tmp_storage',
-                                'alias'   => 'tmp_storage_filesystem'
+                                'alias' => 'tmp_storage_filesystem',
                             ],
                             'file_storage' => [
                                 'adapter' => $config['default_storage'],
-                                'alias'   => 'file_storage_filesystem'
-                            ]
+                                'alias' => 'file_storage_filesystem',
+                            ],
                         ],
-                        'stream_wrapper' => null
+                        'stream_wrapper' => null,
                     ]);
                     break;
             }
         }
     }
 
-     /**
-     * Simplifying parameter syntax
+    /**
+     * Simplifying parameter syntax.
      *
-     * @param  array $config
+     * @param array $config
+     *
      * @return array
      */
     public function getParameters(array $config)
     {
-        $params = [];
-
-        $params['opifer_media.model.class'] = $config['media_class'];
+        $params = [
+            'opifer_media.media_class' => $config['media']['class'],
+            'opifer_media.media_index_view' => $config['media']['views']['index'],
+            'opifer_media.media_create_view' => $config['media']['views']['create'],
+            'opifer_media.media_edit_view' => $config['media']['views']['edit'],
+        ];
 
         foreach ($config['providers'] as $provider => $options) {
             foreach ($options as $param => $value) {
@@ -167,7 +169,7 @@ class OpiferMediaExtension extends Extension implements PrependExtensionInterfac
                 $params['opifer_media.storages.'.$storage.'.'.$param] = $value;
             }
         }
-        
+
         return $params;
     }
 }

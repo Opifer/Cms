@@ -5,13 +5,11 @@ namespace Opifer\MediaBundle\EventListener;
 use Doctrine\ORM\Events;
 use Doctrine\Common\EventSubscriber;
 use Doctrine\Common\Persistence\Event\LifecycleEventArgs;
-
 use Opifer\MediaBundle\Model\MediaInterface;
-
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
- * Media Entity Listener
+ * Media Entity Listener.
  *
  * This class listens to Doctrine events and calls the matching method on
  * the Media provider.
@@ -29,7 +27,7 @@ class MediaListener implements EventSubscriber
     private $container;
 
     /**
-     * Constructor
+     * Constructor.
      *
      * Requires the complete container, to avoid circular references.
      *
@@ -52,12 +50,12 @@ class MediaListener implements EventSubscriber
             Events::preUpdate,
             Events::postUpdate,
             Events::preRemove,
-            Events::postRemove
+            Events::postRemove,
         ];
     }
 
     /**
-     * Get the provider pool
+     * Get the provider pool.
      *
      * @return \Opifer\MediaBundle\Provider\ProviderInterface
      */
@@ -73,7 +71,7 @@ class MediaListener implements EventSubscriber
     }
 
     /**
-     * Post Load handler
+     * Post Load handler.
      *
      * @param LifecycleEventArgs $args
      */
@@ -85,7 +83,7 @@ class MediaListener implements EventSubscriber
     }
 
     /**
-     * Pre persist handler
+     * Pre persist handler.
      *
      * @param LifecycleEventArgs $args
      */
@@ -97,7 +95,7 @@ class MediaListener implements EventSubscriber
     }
 
     /**
-     * Post persist handler
+     * Post persist handler.
      *
      * @param LifecycleEventArgs $args
      */
@@ -109,7 +107,7 @@ class MediaListener implements EventSubscriber
     }
 
     /**
-     * Pre update handler
+     * Pre update handler.
      *
      * @param LifecycleEventArgs $args
      */
@@ -121,7 +119,7 @@ class MediaListener implements EventSubscriber
     }
 
     /**
-     * Post update handler
+     * Post update handler.
      *
      * @param LifecycleEventArgs $args
      */
@@ -133,7 +131,7 @@ class MediaListener implements EventSubscriber
     }
 
     /**
-     * Pre remove handler
+     * Pre remove handler.
      *
      * @param LifecycleEventArgs $args
      */
@@ -145,7 +143,7 @@ class MediaListener implements EventSubscriber
     }
 
     /**
-     * Post remove handler
+     * Post remove handler.
      *
      * @param LifecycleEventArgs $args
      */

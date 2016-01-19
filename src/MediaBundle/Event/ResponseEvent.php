@@ -12,7 +12,7 @@ class ResponseEvent extends Event
     private $request;
 
     /**
-     * Constructor
+     * Constructor.
      *
      * @param Request $request
      */
@@ -22,7 +22,7 @@ class ResponseEvent extends Event
     }
 
     /**
-     * Get the request
+     * Get the request.
      *
      * @return Request
      */
@@ -32,7 +32,7 @@ class ResponseEvent extends Event
     }
 
     /**
-     * Set the response
+     * Set the response.
      *
      * @param Response $response
      */
