@@ -5,7 +5,7 @@ namespace Opifer\CmsBundle\Form\Type;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 
-class LayoutType extends AbstractType
+class SiteType extends AbstractType
 {
     /**
      * {@inheritdoc}
@@ -15,9 +15,9 @@ class LayoutType extends AbstractType
         $builder
             ->add('name')
             ->add('description')
-            ->add('filename')
-            //->add('placeholderKeys')
-            ->add('action')
+            ->add('domain')
+            ->add('cookieDomain')
+            ->add('defaultLocale')
         ;
     }
 
@@ -34,6 +34,6 @@ class LayoutType extends AbstractType
      */
     public function getBlockPrefix()
     {
-        return 'opifer_cms_layout';
+        return 'opifer_cms_site';
     }
 }
