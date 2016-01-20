@@ -70,6 +70,7 @@ $(document).ready(function() {
             });
 
             // Resize iframe based on their contents (for block editing view)
+            iFrame.attr('src', iFrame.attr('data-url'));
             iFrame.bind('load', function () {
                 onClientReady();
             });
@@ -383,7 +384,7 @@ $(document).ready(function() {
                     //$('.pm-preview').addClass('pm-dragging');
                 },
                 stop: function () {
-                    $(document).scrollTop(0); // Fix for dissappearing .navbar.
+                    $(document).scrollTop(0); // Fix for disappearing .navbar.
                     //$('.pm-preview').removeClass('pm-dragging');
                     //$('.pm-layout').removeClass('pm-layout-accept'); // cleaning up just to be sure
                 },
