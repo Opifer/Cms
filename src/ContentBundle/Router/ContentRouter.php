@@ -119,10 +119,6 @@ class ContentRouter implements RouterInterface
             }
         }
 
-        if ($result['content']->getSymlink()) {
-            $result['content'] = $this->contentManager->getRepository()->findOneById($result['content']->getSymlink());
-        }
-
         return $result;
     }
 
