@@ -3,27 +3,39 @@
         .fa('\f064');
         margin-right: 5px;
     }
+
+    .material-icons {
+        display: inline-flex;
+        vertical-align: middle;
+        line-height: 0.9;
+    }
 }
 
 .btn-default,
 .btn-primary,
 .btn-danger {
     border-radius: 0;
-    box-shadow: 0 1px 0 fade(darken(@brand-primary, 25%), 10%);
+//    box-shadow: 0 1px 0 fade(darken(@brand-primary, 25%), 10%);
 }
 
 .btn-danger {
     border-radius: 0;
-    box-shadow: 0 1px 0 fade(darken(@brand-danger, 25%), 10%);
+//    box-shadow: 0 1px 0 fade(darken(@brand-danger, 25%), 10%);
 }
 
 .btn-success {
     border-radius: 0;
-    box-shadow: 0 1px 0 fade(darken(@brand-success, 25%), 10%);
+//    box-shadow: 0 1px 0 fade(darken(@brand-success, 25%), 10%);
 }
 
 .btn-link {
+    color: @text-color;
     border-bottom: 0 !important;
+
+    &:hover {
+        text-decoration: none !important;
+        background: fade(@brand-primary, 10%);
+    }
 }
 
 .btn-default {
@@ -35,7 +47,8 @@
     .btn-default;
 }
 
-.btn-skeleton {
+
+.btn-default-outline {
     background: transparent;
     color: white;
     border: 1px solid white;
@@ -43,6 +56,11 @@
     &:hover {
         color: white;
     }
+}
+
+
+.btn-skeleton {
+    &.btn-default-outline {}
 }
 
 .btn-drag {
