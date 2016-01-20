@@ -160,7 +160,7 @@ class Setting
      *
      * @param string $description
      *
-     * @return Settings
+     * @return Setting
      */
     public function setDescription($description)
     {
@@ -194,7 +194,7 @@ class Setting
      *
      * @param string $name
      *
-     * @return Settings
+     * @return Setting
      */
     public function setName($name)
     {
@@ -218,7 +218,7 @@ class Setting
      *
      * @param string $type
      *
-     * @return Settings
+     * @return Setting
      */
     public function setType($type)
     {
@@ -242,7 +242,7 @@ class Setting
      *
      * @param string $min
      *
-     * @return Settings
+     * @return Setting
      */
     public function setMin($min)
     {
@@ -266,7 +266,7 @@ class Setting
      *
      * @param string $max
      *
-     * @return Settings
+     * @return Setting
      */
     public function setMax($max)
     {
