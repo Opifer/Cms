@@ -7,10 +7,10 @@ use Opifer\EavBundle\Model\SchemaManager;
 
 class FormManager
 {
-    /** @var EntityManager */
+    /** @var EntityManagerInterface */
     protected $em;
 
-    /** @var TemplateManager */
+    /** @var SchemaManager */
     protected $schemaManager;
 
     /** @var string */
@@ -58,10 +58,10 @@ class FormManager
         $class = $this->getClass();
         $form = new $class();
 
-        $template = $this->schemaManager->create();
-        $template->setObjectClass($this->postManager->getClass());
+        $schema = $this->schemaManager->create();
+        $schema->setObjectClass($this->postManager->getClass());
 
-        $form->setTemplate($template);
+        $form->setSchema($schema);
 
         return $form;
     }

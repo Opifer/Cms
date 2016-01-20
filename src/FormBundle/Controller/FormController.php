@@ -47,8 +47,8 @@ class FormController extends Controller
         $formType->handleRequest($request);
 
         if ($formType->isSubmitted() && $formType->isValid()) {
-            foreach ($formType->getData()->getTemplate()->getAttributes() as $attribute) {
-                $attribute->setTemplate($form->getTemplate());
+            foreach ($formType->getData()->getSchema()->getAttributes() as $attribute) {
+                $attribute->setSchema($form->getSchema());
 
                 foreach ($attribute->getOptions() as $option) {
                     $option->setAttribute($attribute);
@@ -88,7 +88,7 @@ class FormController extends Controller
         }
 
         $originalAttributes = new ArrayCollection();
-        foreach ($form->getTemplate()->getAttributes() as $attributes) {
+        foreach ($form->getSchema()->getAttributes() as $attributes) {
             $originalAttributes->add($attributes);
         }
 
@@ -98,14 +98,14 @@ class FormController extends Controller
         if ($formType->isSubmitted() && $formType->isValid()) {
             // Remove deleted attributes
             foreach ($originalAttributes as $attribute) {
-                if (false === $form->getTemplate()->getAttributes()->contains($attribute)) {
+                if (false === $form->getSchema()->getAttributes()->contains($attribute)) {
                     $em->remove($attribute);
                 }
             }
 
             // Add new attributes
-            foreach ($formType->getData()->getTemplate()->getAttributes() as $attribute) {
-                $attribute->setTemplate($form->getTemplate());
+            foreach ($formType->getData()->getSchema()->getAttributes() as $attribute) {
+                $attribute->setSchema($form->getSchema());
 
                 foreach ($attribute->getOptions() as $option) {
                     $option->setAttribute($attribute);
@@ -166,7 +166,7 @@ class FormController extends Controller
             throw $this->createNotFoundException('The form could not be found');
         }
 
-        $post = $this->get('opifer.eav.eav_manager')->initializeEntity($form->getTemplate());
+        $post = $this->get('opifer.eav.eav_manager')->initializeEntity($form->getSchema());
         $post->setForm($form);
 
         $postForm = $this->createForm('opifer_form_post', $post, ['form_id' => $id]);
