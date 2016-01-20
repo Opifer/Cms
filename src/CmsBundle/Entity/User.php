@@ -21,7 +21,7 @@ use Doctrine\Common\Collections\ArrayCollection;
  * @ORM\Table(name="users")
  * @GRID\Source(columns="id, username, email")
  */
-class User extends FOSUser implements EncoderAwareInterface
+class User extends FOSUser
 {
     /**
      * @ORM\Id
@@ -109,11 +109,6 @@ class User extends FOSUser implements EncoderAwareInterface
      * @ORM\OneToMany(targetEntity="Opifer\ContentBundle\Model\ContentInterface", mappedBy="author")
      */
     protected $contents;
-
-    /**
-     * @ORM\Column(name="encoder", type="string", length=255)
-     */
-    protected $encoder = 'default';
 
     /**
      * Created at
@@ -383,36 +378,6 @@ class User extends FOSUser implements EncoderAwareInterface
     public function getContents()
     {
         return $this->contents;
-    }
-
-    /**
-     * Set encoder
-     *
-     * @param string $encoder
-     * @return $this
-     */
-    public function setEncoder($encoder)
-    {
-        $this->encoder = $encoder;
-
-        return $this;
-    }
-
-    public function getEncoder()
-    {
-        return $this->encoder;
-    }
-
-    /**
-     * Get encoder name
-     *
-     * This is part of the EncoderAwareInterface
-     *
-     * @return string
-     */
-    public function getEncoderName()
-    {
-        return $this->encoder;
     }
 
     /**
