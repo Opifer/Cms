@@ -65,17 +65,6 @@ class ContentTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('alias', $content->getAlias());
     }
 
-    public function testSymlink()
-    {
-        $content = $this->getContent();
-        $this->assertNull($content->getSymlink());
-
-        $content = new Content();
-
-        $content->setSymlink($content);
-        $this->assertEquals($content, $content->getSymlink());
-    }
-
     public function testSlug()
     {
         $content = $this->getContent();
