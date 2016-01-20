@@ -5,9 +5,7 @@
         {% if grid.totalCount > 0 or grid.isFiltered or grid.noDataMessage is sameas(false) %}
             <form id="{{ grid.hash }}" action="{{ grid.routeUrl }}" method="post">
                 <div class="grid_header">
-                    {% if grid.massActions|length > 0 %}
-                        {{ grid_actions(grid) }}
-                    {% endif %}
+                    {{ grid_actions(grid) }}
                 </div>
                 <div class="grid_body">
                     <table class="table table-bordered">
@@ -43,15 +41,16 @@
 
 {% block grid_actions %}
     <div class="mass-actions">
-    <span class="grid_massactions_helper">
-        <a href="#" onclick="return {{ grid.hash }}_markVisible(true);">{{ 'Select visible'|trans }}</a> |
-        <a href="#" onclick="return {{ grid.hash }}_markVisible(false);">{{ 'Deselect visible'|trans }}</a> |
-        <a href="#" onclick="return {{ grid.hash }}_markAll(true);">{{ 'Select all'|trans }}</a> |
-        <a href="#" onclick="return {{ grid.hash }}_markAll(false);">{{ 'Deselect all'|trans }}</a>
-        <span class="mass-actions-selected" id="{{ grid.hash }}_mass_action_selected"></span>
-    </span>
+        <span class="grid_massactions_helper">
+            <a href="#" onclick="return {{ grid.hash }}_markVisible(true);">{{ 'Select visible'|trans }}</a> |
+            <a href="#" onclick="return {{ grid.hash }}_markVisible(false);">{{ 'Deselect visible'|trans }}</a> |
+            <a href="#" onclick="return {{ grid.hash }}_markAll(true);">{{ 'Select all'|trans }}</a> |
+            <a href="#" onclick="return {{ grid.hash }}_markAll(false);">{{ 'Deselect all'|trans }}</a>
+            <span class="mass-actions-selected" id="{{ grid.hash }}_mass_action_selected"></span>
+        </span>
         {% spaceless %}
             <div class="pull-right grid_massactions">
+                {% if grid.massActions|length > 0 %}
                 {{ 'label.action'|trans }}
                 <input type="hidden" id="{{ grid.hash }}_mass_action_all" name="{{ grid.hash }}[{{ constant('APY\\DataGridBundle\\Grid\\Grid::REQUEST_QUERY_MASS_ACTION_ALL_KEYS_SELECTED') }}]" value="0"/>
                 <select name="{{ grid.hash }}[{{ constant('APY\\DataGridBundle\\Grid\\Grid::REQUEST_QUERY_MASS_ACTION') }}]">
@@ -61,6 +60,7 @@
                     {% endfor %}
                 </select>
                 <input type="submit" value="{{ 'button.execute'|trans }}"/>
+                {% endif %}
 
                 <div class="btn-group btn-group-columns btn-separator">
                     <button type="button" class="btn btn-default btn-columns dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -71,7 +71,7 @@
                         {% for col in grid.columns %}
                             <div class="checkbox">
                                 <label>
-                                    <input type="checkbox" name="{{ grid.hash }}[{{ constant('APY\\DataGridBundle\\Grid\\Grid::REQUEST_QUERY_COLUMNS') }}][]" value="{{ col.id }}" {{ col.isVisible ? 'checked="checked"' : '' }}> {{ col.title|trans }}
+                                    <input type="checkbox" name="{{ grid.hash }}[{{ constant('Opifer\\CmsBundle\\Grid\\Grid::REQUEST_QUERY_COLUMNS') }}][]" value="{{ col.id }}" {{ col.isVisible ? 'checked="checked"' : '' }}> {{ col.title|trans }}
                                 </label>
                             </div>
                         {% endfor %}
