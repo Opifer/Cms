@@ -48,7 +48,7 @@ class ContentDetailsType extends AbstractType
                 'class'    => 'OpiferContentBundle:Template',
                 'property' => 'displayName',
                 'attr'     => [
-                    'help_text' => 'label.help.template'
+                    'help_text' => 'content.form.template.help_text'
                 ],
 //                'query_builder' => function(EntityRepository $repository) {
 //                    return $repository->createQueryBuilder('c')

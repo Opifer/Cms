@@ -6,8 +6,8 @@ use APY\DataGridBundle\Grid\Action\RowAction;
 use APY\DataGridBundle\Grid\Column\TextColumn;
 use APY\DataGridBundle\Grid\Source\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
-use Opifer\CmsBundle\Entity\Template;
-use Opifer\EavBundle\Form\Type\TemplateType;
+use Opifer\ContentBundle\Entity\Template;
+use Opifer\ContentBundle\Form\Type\TemplateType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -20,7 +20,7 @@ class TemplateController extends Controller
      */
     public function indexAction()
     {
-        $source = new Entity('OpiferCmsBundle:Template');
+        $source = new Entity('OpiferContentBundle:Template');
 
         $editAction = new RowAction('edit', 'opifer_cms_template_edit');
         $editAction->setRouteParameters(['id']);
@@ -28,22 +28,25 @@ class TemplateController extends Controller
         $deleteAction = new RowAction('delete', 'opifer_cms_template_delete');
         $deleteAction->setRouteParameters(['id']);
 
-        $attributesColumn = new TextColumn(['id' => 'attributes', 'Attributes', 'source' => false, 'filterable' => false, 'sortable' => false, 'safe' => false]);
-        $attributesColumn->manipulateRenderCell(function ($value, $row, $router) {
-            $html = '';
-            foreach ($row->getEntity()->getAttributes() as $attribute) {
-                $html .= '<span class="label label-primary" style="display:inline-block">'.$attribute->getDisplayName().'</span>';
-            }
-
-            return $html;
-        });
+//        $attributesColumn = new TextColumn(['id' => 'attributes', 'Attributes', 'source' => false, 'filterable' => false, 'sortable' => false, 'safe' => false]);
+//        $attributesColumn->manipulateRenderCell(function ($value, $row, $router) {
+//            $html = '';
+//            foreach ($row->getEntity()->getAttributes() as $attribute) {
+//                $html .= '<span class="label label-primary" style="display:inline-block">'.$attribute->getDisplayName().'</span>';
+//            }
+//
+//            return $html;
+//        });
 
         $grid = $this->get('grid');
+
+        /* @var $grid \APY\DataGridBundle\Grid\Grid */
         $grid->setId('templates')
             ->setSource($source)
-            ->addColumn($attributesColumn)
+//            ->addColumn($attributesColumn)
             ->addRowAction($editAction)
-            ->addRowAction($deleteAction);
+            ->addRowAction($deleteAction)
+            ->setActionsColumnSeparator(' ');
 
         return $grid->getGridResponse('OpiferCmsBundle:Backend/Template:index.html.twig');
     }
@@ -62,14 +65,6 @@ class TemplateController extends Controller
 
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
-
-            foreach ($form->getData()->getAttributes() as $attribute) {
-                $attribute->setTemplate($template);
-
-                foreach ($attribute->getOptions() as $option) {
-                    $option->setAttribute($attribute);
-                }
-            }
 
             $em->persist($template);
             $em->flush();
@@ -91,33 +86,12 @@ class TemplateController extends Controller
     public function editAction(Request $request, $id)
     {
         $em = $this->getDoctrine()->getManager();
-        $template = $em->getRepository('OpiferCmsBundle:Template')->find($id);
+        $template = $em->getRepository('OpiferContentBundle:Template')->find($id);
 
         $form = $this->createForm(TemplateType::class, $template);
         $form->handleRequest($request);
 
-        $originalAttributes = new ArrayCollection();
-        foreach ($template->getAttributes() as $attributes) {
-            $originalAttributes->add($attributes);
-        }
-
         if ($form->isSubmitted() && $form->isValid()) {
-            // Delete removed attributes
-            foreach ($originalAttributes as $attribute) {
-                if (false === $form->getData()->getAttributes()->contains($attribute)) {
-                    $em->remove($attribute);
-                }
-            }
-
-            // Add new attributes
-            foreach ($form->getData()->getAttributes() as $attribute) {
-                $attribute->setTemplate($template);
-
-                foreach ($attribute->getOptions() as $option) {
-                    $option->setAttribute($attribute);
-                }
-            }
-
             $em->flush();
 
             return $this->redirectToRoute('opifer_cms_template_edit', ['id' => $template->getId()]);

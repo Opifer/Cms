@@ -43,7 +43,7 @@
                 </tr>
             </thead>
             <tr ng-repeat="directory in directorys">
-                <td ng-click="navigateToDirectory(directory)" class="cell-folder cell-cover"></td>
+                <td ng-click="navigateToDirectory(directory)" class="cell-cover"><i class="material-icons">folder</i></td>
                 <td><a ng-click="navigateToDirectory(directory)" class="text-muted">{{ directory.name}}</a></td>
                 <td class="detail hidden-xs"><span class="light">/{{ directory.slug}}</span></td>
                 <td class="detail hidden-xs"></td>
@@ -51,9 +51,11 @@
             </tr>
             <tr ng-repeat="content in contents track by $index">
                 <td class="cell-coverimg" ng-if="content.coverImage" ng-class="content.active ? '' : 'cell-inactive'">
-                    <div  ng-click="editContent(content.id)" afkl-lazy-image="{{ content.coverImage }}" afkl-lazy-image-options='{"background": true}' class="afkl-lazy-wrapper afkl-img-ratio-1-1 content-cover"></div>
+                    <div ng-click="editContent(content.id)" afkl-lazy-image="{{ content.coverImage }}" afkl-lazy-image-options='{"background": true}' class="afkl-lazy-wrapper afkl-img-ratio-1-1"></div>
                 </td>
-                <td class="cell-file" ng-click="editContent(content.id)" ng-if="!content.coverImage"></td>
+                <td class="" ng-click="editContent(content.id)" ng-if="!content.coverImage">
+                    <i class="material-icons">description</i>
+                </td>
                 <td ng-click="editContent(content.id)" class="" ng-class="content.active ? '' : 'text-muted'">{{ content.title}}</td>
                 <td class="hidden-xs" ng-class="content.active ? '' : 'text-muted'"><s ng-if="!content.active"><small>{{ content.path}}</small></s><a href="{{ content.path}}" target="_blank" ng-if="content.active"><small>{{ content.path}}</small></a></td>
                 <td class="detail hidden-xs"><span class="label label-info">{{ content.schemaDisplayName}}</span></td>

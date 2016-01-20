@@ -15,6 +15,7 @@ base:
     system: system
     schemas: schemas
     users: users
+    templates: templates
 
 # Content
 content:
@@ -49,16 +50,18 @@ content:
         submit: Save
         schema:
             help_text: 'Define the type of content. If you want to add a new schema, <a href="%url%">create it here</a>'
+        template:
+            help_text: 'Choose a template as your starting point to create content with'
         title:
             placeholder: Enter a title for your page
     new:
-        title: define the type of content
+        title: Create new content
 
 # Dashboard
 dashboard:
     content:
         latest: Latest content
-    title: your dashboard
+    title: dashboard
     user:
         latest: Newest users
 
@@ -202,6 +205,7 @@ button:
     edit: edit
     publish: publish
     reset: reset
+    quit: quit
 
 # Labels
 label:
@@ -229,6 +233,8 @@ label:
     container_smooth: Fluid width (stretched)
     container_fixed: Fixed width (fixed)
     version_new: New version
+    name: Name
+    display_name: Display name
 
 # Delete confirmation
 confirmation:

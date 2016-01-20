@@ -1,12 +1,15 @@
 {% extends 'OpiferCmsBundle:Backend:base.html.twig' %}
 
 {% block body %}
-    <div class="page-header clearfix">
-        <h1 class="pull-left">Edit template "{{ template.name }}"</h1>
-    </div>
-
     <div class="container">
         <div class="row">
+            <div class="page-header">
+                <h1>
+                    <small>Template</small><br />
+                    {{ template.displayname }}
+                </h1>
+            </div>
+
             {% include 'OpiferCmsBundle:Backend/Template:_form.html.twig' %}
         </div>
     </div>
