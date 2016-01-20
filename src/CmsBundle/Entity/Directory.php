@@ -2,6 +2,7 @@
 
 namespace Opifer\CmsBundle\Entity;
 
+use APY\DataGridBundle\Grid\Mapping as GRID;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\ORM\Mapping as ORM;
@@ -12,6 +13,7 @@ use Opifer\ContentBundle\Model\Directory as BaseDirectory;
  * Directory.
  *
  * @Gedmo\Tree(type="nested")
+ * @GRID\Source(columns="id, name, slug")
  * @JMS\ExclusionPolicy("all")
  *
  * @ORM\Entity(repositoryClass="Opifer\CmsBundle\Repository\DirectoryRepository")

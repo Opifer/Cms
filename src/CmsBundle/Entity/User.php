@@ -27,6 +27,8 @@ class User extends FOSUser implements EncoderAwareInterface
      * @ORM\Id
      * @ORM\Column(type="integer")
      * @ORM\GeneratedValue(strategy="AUTO")
+     *
+     * @GRID\Column(title="Id", size="10", type="number")
      */
     protected $id;
 
