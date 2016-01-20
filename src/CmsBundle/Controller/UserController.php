@@ -22,10 +22,10 @@ class UserController extends Controller
      */
     public function newAction(Request $request)
     {
-        $user = $this->container->getParameter('opifer_cms.model.user.class');
+        $user = $this->container->getParameter('opifer_cms.user_class');
         $user = new $user();
 
-        $form = $this->createForm($this->get('opifer.cms.user_form'), $user);
+        $form = $this->createForm($this->get('opifer_cms.user_form'), $user);
         $form->handleRequest($request);
 
         if ($form->isValid()) {

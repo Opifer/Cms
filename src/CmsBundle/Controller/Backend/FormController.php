@@ -19,23 +19,25 @@ class FormController extends BaseFormController
     {
         $source = new Entity('OpiferCmsBundle:Form');
 
-        $postsColumn = new TextColumn(['id' => 'posts', 'Posts', 'source' => false, 'filterable' => false, 'sortable' => false, 'safe' => false]);
+        $postsColumn = new TextColumn(['id' => 'posts', 'title' => 'Posts', 'source' => false, 'filterable' => false, 'sortable' => false, 'safe' => false]);
         $postsColumn->manipulateRenderCell(function ($value, $row, $router) {
             return '<a href="'.$this->generateUrl('opifer_form_post_index', ['formId'=> $row->getEntity()->getId()]).'">'.count($row->getEntity()->getPosts()).' posts</a>';
         });
 
-        $editAction = new RowAction('edit', 'opifer_form_form_edit');
+        $editAction = new RowAction('button.edit', 'opifer_form_form_edit');
         $editAction->setRouteParameters(['id']);
 
-        $deleteAction = new RowAction('delete', 'opifer_form_form_delete');
+        $deleteAction = new RowAction('button.delete', 'opifer_form_form_delete');
         $deleteAction->setRouteParameters(['id']);
 
+        /* @var $grid \APY\DataGridBundle\Grid\Grid */
         $grid = $this->get('grid');
         $grid->setId('forms')
             ->setSource($source)
             ->addColumn($postsColumn)
             ->addRowAction($editAction)
-            ->addRowAction($deleteAction);
+            ->addRowAction($deleteAction)
+            ->setActionsColumnSeparator(' ');
 
         return $grid->getGridResponse('OpiferCmsBundle:Backend/Form:index.html.twig');
     }

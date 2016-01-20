@@ -88,15 +88,6 @@ class Content implements ContentInterface, EntityInterface
     protected $alias;
 
     /**
-     * @var integer
-     *
-     * @ORM\ManyToOne(targetEntity="Content")
-     * @ORM\JoinColumn(name="symlink", referencedColumnName="id", onDelete="CASCADE")
-     *
-     */
-    protected $symlink;
-
-    /**
      * @var string
      *
      * @JMS\Expose
@@ -321,30 +312,6 @@ class Content implements ContentInterface, EntityInterface
     public function getDirectory()
     {
         return $this->directory;
-    }
-
-    /**
-     * Set symlink
-     *
-     * @param ContentInterface $symlink
-     *
-     * @return Content
-     */
-    public function setSymlink(ContentInterface $symlink = null)
-    {
-        $this->symlink = $symlink;
-
-        return $this;
-    }
-
-    /**
-     * Get symlink
-     *
-     * @return ContentInterface
-     */
-    public function getSymlink()
-    {
-        return $this->symlink;
     }
 
     /**

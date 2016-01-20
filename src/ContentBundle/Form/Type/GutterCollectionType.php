@@ -2,7 +2,7 @@
 
 namespace Opifer\ContentBundle\Form\Type;
 
-use Symfony\Component\Form\Extension\Core\Type\CollectionType;
+use Symfony\Component\Form\AbstractType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvent;
@@ -13,7 +13,7 @@ use Symfony\Component\Form\FormEvents;
  *
  * @package Opifer\ContentBundle\Form\Type
  */
-class GutterCollectionType extends CollectionType
+class GutterCollectionType extends AbstractType
 {
     /**
      * {@inheritdoc}
@@ -55,5 +55,13 @@ class GutterCollectionType extends CollectionType
     public function getName()
     {
         return 'gutter_collection';
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getParent()
+    {
+        return 'collection';
     }
 }

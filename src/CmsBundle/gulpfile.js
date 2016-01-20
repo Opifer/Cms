@@ -66,8 +66,8 @@ gulp.task('js', function () {
 // CSS TASK: write one minified css file out of bootstrap.less and all of my custom less files
 gulp.task('css', function () {
     return gulp.src([
-        'vendor/opifer/media-bundle/Resources/public/css/main.less',
-        'vendor/opifer/media-bundle/Resources/public/css/dropzone.less',
+        '../MediaBundle/Resources/public/css/main.less',
+        '../MediaBundle/Resources/public/css/dropzone.less',
         'Resources/public/components/angular-loading-bar/build/loading-bar.css',
         'Resources/public/less/main.less'
         ])
