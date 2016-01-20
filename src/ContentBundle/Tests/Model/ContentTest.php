@@ -20,8 +20,8 @@ class ContentTest extends \PHPUnit_Framework_TestCase
     public function testValueSet()
     {
         $content = $this->getContent();
-        $this->setExpectedException('Exception', 'Make sure to give Content a ValueSet on creation');
-        $content->getValueSet();
+        //$this->setExpectedException('Exception', 'Make sure to give Content a ValueSet on creation');
+        //$content->getValueSet();
 
         $valueSet = new ValueSet();
 
@@ -54,15 +54,6 @@ class ContentTest extends \PHPUnit_Framework_TestCase
 
         $content->setDescription('description');
         $this->assertEquals('description', $content->getDescription());
-    }
-
-    public function testPresentation()
-    {
-        $content = $this->getContent();
-        $this->assertNull($content->getPresentation());
-
-        $content->setPresentation('presentation');
-        $this->assertEquals('presentation', $content->getPresentation());
     }
 
     public function testAlias()
@@ -133,7 +124,7 @@ class ContentTest extends \PHPUnit_Framework_TestCase
 
     public function testDeletedAt()
     {
-        $content = $this->getContent();
+        $content = $this->getContentWithSchema();
         $this->assertNull($content->getDeletedAt());
 
         $dateTime = new \DateTime();
@@ -144,12 +135,12 @@ class ContentTest extends \PHPUnit_Framework_TestCase
 
     public function testAttributeValue()
     {
-        $content = $this->getContent();
+        $content = $this->getContentWithSchema();
         $this->assertTrue($content->getAttributeValues()->isEmpty());
 
         $value = new Value();
 
-        $content = $this->getContent();
+        $content = $this->getContentWithSchema();
         $content->addAttributeValue($value);
         $this->assertFalse($content->getAttributeValues()->isEmpty());
         $this->assertTrue($content->getAttributeValues()->contains($value));
@@ -169,10 +160,9 @@ class ContentTest extends \PHPUnit_Framework_TestCase
         $content->setSchema($schema);
         $this->assertEquals($schema, $content->getSchema());
 
-        $content = $this->getContent();
-        $this->setExpectedException('Exception', 'Make sure to give Content a ValueSet on creation');
-        $content->getSchema();
-
+        //$content = $this->getContent();
+        //$this->setExpectedException('Exception', 'Make sure to give Content a ValueSet on creation');
+        //$content->getSchema();
     }
 
     private function getContent()

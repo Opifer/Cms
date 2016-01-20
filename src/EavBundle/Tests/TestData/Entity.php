@@ -8,13 +8,11 @@ use Opifer\EavBundle\Model\Nestable;
 use Opifer\EavBundle\Model\SchemaInterface;
 use Opifer\EavBundle\Model\ValueSetInterface;
 
-class Entity implements EntityInterface, Nestable
+class Entity implements EntityInterface
 {
     protected $valueSet;
 
     protected $schema;
-
-    protected $nestedIn;
 
     protected $nestedSort;
 
