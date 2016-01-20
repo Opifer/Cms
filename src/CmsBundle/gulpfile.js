@@ -47,15 +47,14 @@ gulp.task('js', function () {
         'Resources/public/js/pagemanager.js',
         'Resources/public/app/app.js',
 
-        'vendor/opifer/content-bundle/Resources/public/app/content/content.js',
-        'vendor/opifer/content-bundle/Resources/public/app/presentationeditor/presentationeditor.js',
-        'vendor/opifer/media-bundle/Resources/public/js/dropzone.js',
-        'vendor/opifer/crud-bundle/Resources/public/js/main.js',
-        'vendor/opifer/eav-bundle/Resources/public/app/googleaddress/googleaddress.js',
-        'vendor/opifer/eav-bundle/Resources/public/app/nestedcontent/nestedcontent.js',
-        'vendor/opifer/media-bundle/Resources/public/app/modal/modal.js',
-        'vendor/opifer/media-bundle/Resources/public/app/medialibrary/medialibrary.js',
-        'vendor/opifer/rulesengine-bundle/Resources/public/app/ruleeditor/ruleeditor.js',
+        '../ContentBundle/Resources/public/app/content/content.js',
+        '../ContentBundle/Resources/public/app/presentationeditor/presentationeditor.js',
+        '../MediaBundle/Resources/public/js/dropzone.js',
+        '../EavBundle/Resources/public/app/googleaddress/googleaddress.js',
+        '../EavBundle/Resources/public/app/nestedcontent/nestedcontent.js',
+        '../MediaBundle/Resources/public/app/modal/modal.js',
+        '../MediaBundle/Resources/public/app/medialibrary/medialibrary.js',
+        '../RedirectBundle/Resources/public/app/ruleeditor/ruleeditor.js',
 
         'Resources/public/components/ckeditor/ckeditor.js'])
         .pipe(concat('app.js'))

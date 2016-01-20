@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="{{ app.request.locale }}" ng-app="MainApp">
+<html lang="{{ app.request.locale }}"{% if not no_angular|default %} ng-app="MainApp"{% endif %}>
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -82,7 +82,7 @@
 
 {% block javascripts %}
     <script>var CKEDITOR_BASEPATH = '/bundles/opifercms/components/ckeditor/';</script>
-    <script src="http://maps.google.com/maps/api/js?sensor=true&libraries=places&language=en-US"></script>
+    <script src="http://maps.google.com/maps/api/js?libraries=places&language=en-US"></script>
 
     <script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
     <script src="{{ asset('bundles/bazingajstranslation/js/translator.min.js') }}"></script>
