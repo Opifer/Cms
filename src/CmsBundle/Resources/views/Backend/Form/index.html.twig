@@ -3,14 +3,14 @@
 {% block body %}
     {% spaceless %}
         <div class="page-header clearfix">
-            <h1 class="pull-left">Forms</h1>
-            <a href="{{ path('opifer_form_form_create') }}" class="btn btn-default pull-right">
-                {{ 'button.add'|trans|capitalize }}
+            <a href="{{ path('opifer_form_form_create') }}" class="btn btn-link pull-right">
+                <i class="material-icons">add</i> {{ 'button.add'|trans|capitalize }}
             </a>
+            <h1>Forms</h1>
         </div>
 
-        <section class="panel-section">
+        <div class="container-fluid">
             {{ grid(grid, 'OpiferCmsBundle:Backend/Grid:grid.html.twig') }}
-        </section>
+        </div>
     {% endspaceless %}
 {% endblock body %}

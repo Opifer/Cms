@@ -21,18 +21,24 @@
                     <div class="container-fluid">
                         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                             <ul class="nav navbar-nav">
-                                <li><a href="{{ path('opifer_cms_dashboard') }}"><i class="material-icons">dashboard</i></a></li>
+                                <li><a href="{{ path('opifer_cms_dashboard') }}"><i class="material-icons md-24">dashboard</i></a></li>
                                 <li><a href="{{ path('opifer_content_content_index') }}">{{ "nav.content"|trans|capitalize }}</a></li>
                                 <li><a href="{{ path('opifer_media_media_index') }}"><i class="fa fa-photo visible-xs-block"></i> {{ "nav.media"|trans|capitalize }}</a></li>
                                 <li><a href="{{ path('opifer_content_directory_index') }}"><i class="fa fa-folder-o visible-xs-block"></i> {{ "nav.directory"|trans|capitalize }}</a></li>
                                 <li><a href="{{ path('opifer_cms_menu_index') }}"><i class="fa fa-navicon visible-xs-block"></i> {{ "nav.sitemenu"|trans|capitalize }}</a></li>
-                                <li><a href="{{ path('opifer_form_form_index') }}">{{ 'base.forms'|trans|capitalize }}</a></li>
+                                <li class="dropdown">
+                                    <a class="dropdown-toggle" data-toggle="dropdown">{{ 'base.forms'|trans|capitalize }} <i class="material-icons md-18">keyboard_arrow_down</i></a>
+                                    <ul class="dropdown-menu">
+                                        <li><a href="{{ path('opifer_form_form_index') }}">{{ 'base.forms'|trans|capitalize }}</a></li>
+                                        <li><a href="{{ path('opifer_form_form_index') }}">Posts</a></li>
+                                    </ul>
+                                </li>
                             </ul>
 
                             <ul class="nav navbar-nav navbar-right">
                                 {# User menu #}
                                 <li class="dropdown">
-                                    <a class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-smile-o visible-xs-block"></i> {{ app.user.username|capitalize }} <i class="fa fa-angle-down"></i></a>
+                                    <a class="dropdown-toggle" data-toggle="dropdown">{{ app.user.username|capitalize }} <i class="material-icons md-18">keyboard_arrow_down</i></a>
                                     <ul class="dropdown-menu">
                                         {#<li><a href="{{ path('fos_user_profile_edit') }}">{{ 'base.profile'|trans|capitalize }}</a></li>
                                         <li class="divider"></li>#}
@@ -43,7 +49,7 @@
                                 {# System menu #}
                                 {% if is_granted("ROLE_SUPER_ADMIN") %}
                                     <li class="dropdown">
-                                        <a class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-hdd-o visible-xs-block"></i> {{ 'base.system'|trans|capitalize }} <i class="fa fa-angle-down"></i></a>
+                                        <a class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-hdd-o visible-xs-block"></i> {{ 'base.system'|trans|capitalize }} <i class="material-icons md-18">keyboard_arrow_down</i></a>
                                         <ul class="dropdown-menu">
                                             <li role="presentation" class="dropdown-header">{{ 'base.system'|trans|capitalize }}</li>
                                             <li><a href="{{ path('opifer_cms_setting_index') }}">{{ 'base.settings'|trans|capitalize }}</a></li>
