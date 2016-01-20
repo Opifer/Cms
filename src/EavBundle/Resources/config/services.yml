@@ -1,134 +1,140 @@
 parameters:
-    opifer.eav.attribute_manager.class: Opifer\EavBundle\Model\AttributeManager
-    opifer.eav.eav_manager.class: Opifer\EavBundle\Manager\EavManager
-    opifer.eav.empty_value_listener.class: Opifer\EavBundle\EventListener\EmptyValueListener
-    opifer.eav.discriminator_listener.class: Opifer\EavBundle\EventListener\DiscriminatorListener
-    opifer.eav.form.attribute_type.class: Opifer\EavBundle\Form\Type\AttributeType
-    opifer.eav.form.date_picker_type.class: Opifer\EavBundle\Form\Type\DatePickerType
-    opifer.eav.form.datetime_picker_type.class: Opifer\EavBundle\Form\Type\DateTimePickerType
-    opifer.eav.form.eav_type.class: Opifer\EavBundle\Form\Type\EavType
-    opifer.eav.form.eav_post_type.class: Opifer\EavBundle\Form\Type\EavPostType
-    opifer.eav.form.eav_value.class: Opifer\EavBundle\Form\Type\ValueType
-    opifer.eav.form.fauxtype.class: Opifer\EavBundle\Form\Type\FauxType
-    opifer.eav.form.option_type.class: Opifer\EavBundle\Form\Type\OptionType
-    opifer.eav.form.presentationeditor.class: Opifer\EavBundle\Form\Type\PresentationEditorType
-    opifer.eav.form.schema_type.class: Opifer\EavBundle\Form\Type\SchemaType
-    opifer.eav.form.schema_object_class_type.class: Opifer\EavBundle\Form\Type\SchemaObjectClassType
-    opifer.eav.form.value_provider_type.class: Opifer\EavBundle\Form\Type\ValueProviderType
-    opifer.eav.form.values_subscriber.class: Opifer\EavBundle\Form\EventListener\ValuesSubscriber
-    opifer.eav.form.values_type.class: Opifer\EavBundle\Form\Type\ValuesType
-    opifer.eav.form.valueset_type.class: Opifer\EavBundle\Form\Type\ValueSetType
-    opifer.eav.schema_manager.class: Opifer\EavBundle\Model\SchemaManager
-    opifer.eav.twig_extension.class: Opifer\EavBundle\Templating\TwigExtension
-    opifer.eav.value_provider.pool.class: Opifer\EavBundle\ValueProvider\Pool
+    opifer.eav.attribute_manager.class: 'Opifer\EavBundle\Model\AttributeManager'
+    opifer.eav.eav_manager.class: 'Opifer\EavBundle\Manager\EavManager'
+    opifer.eav.empty_value_listener.class: 'Opifer\EavBundle\EventListener\EmptyValueListener'
+    opifer.eav.discriminator_listener.class: 'Opifer\EavBundle\EventListener\DiscriminatorListener'
+    opifer.eav.form.attribute_type.class: 'Opifer\EavBundle\Form\Type\AttributeType'
+    opifer.eav.form.date_picker_type.class: 'Opifer\EavBundle\Form\Type\DatePickerType'
+    opifer.eav.form.datetime_picker_type.class: 'Opifer\EavBundle\Form\Type\DateTimePickerType'
+    opifer.eav.form.eav_type.class: 'Opifer\EavBundle\Form\Type\EavType'
+    opifer.eav.form.eav_post_type.class: 'Opifer\EavBundle\Form\Type\EavPostType'
+    opifer.eav.form.eav_value.class: 'Opifer\EavBundle\Form\Type\ValueType'
+    opifer.eav.form.fauxtype.class: 'Opifer\EavBundle\Form\Type\FauxType'
+    opifer.eav.form.option_type.class: 'Opifer\EavBundle\Form\Type\OptionType'
+    opifer.eav.form.presentationeditor.class: 'Opifer\EavBundle\Form\Type\PresentationEditorType'
+    opifer.eav.form.schema_type.class: 'Opifer\EavBundle\Form\Type\SchemaType'
+    opifer.eav.form.schema_object_class_type.class: 'Opifer\EavBundle\Form\Type\SchemaObjectClassType'
+    opifer.eav.form.value_provider_type.class: 'Opifer\EavBundle\Form\Type\ValueProviderType'
+    opifer.eav.form.values_subscriber.class: 'Opifer\EavBundle\Form\EventListener\ValuesSubscriber'
+    opifer.eav.form.values_type.class: 'Opifer\EavBundle\Form\Type\ValuesType'
+    opifer.eav.form.valueset_type.class: 'Opifer\EavBundle\Form\Type\ValueSetType'
+    opifer.eav.schema_manager.class: 'Opifer\EavBundle\Model\SchemaManager'
+    opifer.eav.twig_extension.class: 'Opifer\EavBundle\Templating\TwigExtension'
+    opifer.eav.value_provider.pool.class: 'Opifer\EavBundle\ValueProvider\Pool'
 
 services:
     # Values provider pool
     opifer.eav.value_provider.pool:
-        class: %opifer.eav.value_provider.pool.class%
+        class: '%opifer.eav.value_provider.pool.class%'
 
     opifer.eav.form.values_subscriber:
-        class: %opifer.eav.form.values_subscriber.class%
+        class: '%opifer.eav.form.values_subscriber.class%'
 
     # Form Types
 
     opifer.eav.form.attribute_type:
-        class: %opifer.eav.form.attribute_type.class%
-        arguments: [@translator, @opifer.eav.form.option_type, %opifer_eav.attribute_class%, %opifer_eav.schema_class%]
+        class: '%opifer.eav.form.attribute_type.class%'
+        arguments: ['@opifer.eav.form.option_type', '%opifer_eav.attribute_class%', '%opifer_eav.schema_class%']
         tags:
             - { name: form.type, alias: eav_attribute }
 
     opifer.eav.form.date_picker_type:
-        class: %opifer.eav.form.date_picker_type.class%
+        class: '%opifer.eav.form.date_picker_type.class%'
         tags:
             - { name: form.type, alias: opifer_eav_date_picker }
 
     opifer.eav.form.datetime_picker_type:
-        class: %opifer.eav.form.datetime_picker_type.class%
+        class: '%opifer.eav.form.datetime_picker_type.class%'
         tags:
             - { name: form.type, alias: opifer_eav_datetime_picker }
 
     opifer.eav.form.eav_value:
-        class: %opifer.eav.form.eav_value.class%
-        arguments: [@opifer.eav.value_provider.pool]
+        class: '%opifer.eav.form.eav_value.class%'
+        arguments: ['@opifer.eav.value_provider.pool']
         tags:
             - { name: form.type, alias: eav_value }
 
     opifer.eav.form.schema_object_class_type:
-        class: %opifer.eav.form.schema_object_class_type.class%
-        arguments: [%opifer_eav.entities%]
+        class: '%opifer.eav.form.schema_object_class_type.class%'
+        arguments: ['%opifer_eav.entities%']
         tags:
             - { name: form.type, alias: schema_object_class }
 
     opifer.eav.form.option_type:
-        class: %opifer.eav.form.option_type.class%
-        arguments: [%opifer_eav.option_class%]
+        class: '%opifer.eav.form.option_type.class%'
+        arguments: ['%opifer_eav.option_class%']
         tags:
             - { name: form.type, alias: eav_option }
 
     opifer.eav.form.presentationeditor:
-        class: %opifer.eav.form.presentationeditor.class%
+        class: '%opifer.eav.form.presentationeditor.class%'
         tags:
             - { name: form.type, alias: presentationeditor }
 
     opifer.eav.form.fauxtype:
-        class: %opifer.eav.form.fauxtype.class%
+        class: '%opifer.eav.form.fauxtype.class%'
         tags:
             - { name: form.type, alias: eav_faux }
 
     opifer.eav.form.eav_type:
-        class: %opifer.eav.form.eav_type.class%
-        arguments: [@router]
+        class: '%opifer.eav.form.eav_type.class%'
+        arguments: ['@router']
         tags:
             - { name: form.type, alias: eav }
 
     opifer.eav.form.eav_post_type:
-        class: %opifer.eav.form.eav_post_type.class%
-        arguments: [@router]
+        class: '%opifer.eav.form.eav_post_type.class%'
+        arguments: ['@router']
         tags:
             - { name: form.type, alias: eav_post }
 
     opifer.eav.form.schema_type:
-        class: %opifer.eav.form.schema_type.class%
-        arguments: [@opifer.eav.form.attribute_type, %opifer_eav.schema_class%]
+        class: '%opifer.eav.form.schema_type.class%'
+        arguments: ['@opifer.eav.form.attribute_type', '%opifer_eav.schema_class%']
         tags:
             - { name: form.type, alias: eav_schema }
 
     opifer.eav.form.valueset_type:
-        class: %opifer.eav.form.valueset_type.class%
-        arguments: [%opifer_eav.valueset_class%]
+        class: '%opifer.eav.form.valueset_type.class%'
+        arguments: ['%opifer_eav.valueset_class%']
         tags:
             - { name: form.type, alias: opifer_valueset }
 
+    opifer.eav.form.value_provider_type:
+        class: '%opifer.eav.form.value_provider_type.class%'
+        arguments: ['@opifer.eav.value_provider.pool']
+        tags:
+            - { name: form.type, alias: value_provider }
+
     opifer.eav.form.values_type:
-        class: %opifer.eav.form.values_type.class%
-        arguments: [@opifer.eav.form.values_subscriber]
+        class: '%opifer.eav.form.values_type.class%'
+        arguments: ['@opifer.eav.form.values_subscriber']
         tags:
             - { name: form.type, alias: values_collection }
 
     # Entity Managers
     opifer.eav.attribute_manager:
-        class: %opifer.eav.attribute_manager.class%
-        arguments: [@doctrine.orm.default_entity_manager, %opifer_eav.attribute_class%]
+        class: '%opifer.eav.attribute_manager.class%'
+        arguments: ['@doctrine.orm.default_entity_manager', '%opifer_eav.attribute_class%']
 
     opifer.eav.eav_manager:
-        class: %opifer.eav.eav_manager.class%
-        arguments: [@opifer.eav.value_provider.pool, %opifer_eav.valueset_class%]
+        class: '%opifer.eav.eav_manager.class%'
+        arguments: ['@opifer.eav.value_provider.pool', '%opifer_eav.valueset_class%']
 
     opifer.eav.schema_manager:
-        class: %opifer.eav.schema_manager.class%
-        arguments: [@doctrine.orm.default_entity_manager, %opifer_eav.schema_class%]
+        class: '%opifer.eav.schema_manager.class%'
+        arguments: ['@doctrine.orm.default_entity_manager', '%opifer_eav.schema_class%']
 
     # Listeners
     opifer.eav.discriminator_listener:
-        class: %opifer.eav.discriminator_listener.class%
-        arguments: [@opifer.eav.value_provider.pool]
+        class: '%opifer.eav.discriminator_listener.class%'
+        arguments: ['@opifer.eav.value_provider.pool']
         tags:
             - { name: doctrine.event_listener, event: loadClassMetadata }
 
     opifer.eav.empty_value_listener:
-        class: %opifer.eav.empty_value_listener.class%
-        arguments: [@opifer.eav.eav_manager]
+        class: '%opifer.eav.empty_value_listener.class%'
+        arguments: ['@opifer.eav.eav_manager']
         tags:
             - { name: doctrine.event_listener, event: postLoad }
             - { name: doctrine.event_listener, event: postPersist }
