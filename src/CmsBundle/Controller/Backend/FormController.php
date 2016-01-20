@@ -19,7 +19,7 @@ class FormController extends BaseFormController
     {
         $source = new Entity('OpiferCmsBundle:Form');
 
-        $postsColumn = new TextColumn(['id' => 'attributes', 'Attributes', 'source' => false, 'filterable' => false, 'sortable' => false, 'safe' => false]);
+        $postsColumn = new TextColumn(['id' => 'posts', 'Posts', 'source' => false, 'filterable' => false, 'sortable' => false, 'safe' => false]);
         $postsColumn->manipulateRenderCell(function ($value, $row, $router) {
             return '<a href="'.$this->generateUrl('opifer_form_post_index', ['formId'=> $row->getEntity()->getId()]).'">'.count($row->getEntity()->getPosts()).' posts</a>';
         });

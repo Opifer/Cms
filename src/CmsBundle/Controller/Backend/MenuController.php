@@ -2,6 +2,9 @@
 
 namespace Opifer\CmsBundle\Controller\Backend;
 
+use APY\DataGridBundle\Grid\Action\RowAction;
+use APY\DataGridBundle\Grid\Column\TextColumn;
+use APY\DataGridBundle\Grid\Source\Entity;
 use Opifer\CmsBundle\Form\Type\MenuType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
@@ -12,17 +15,50 @@ use Opifer\CmsBundle\Entity\MenuItem;
 class MenuController extends Controller
 {
     /**
-     * Menu index.
+     * Menu index
+     *
+     * @return Response
      */
     public function indexAction()
     {
-        $menuTree = $this->getDoctrine()
-            ->getRepository('OpiferCmsBundle:Menu')
-            ->childrenHierarchy();
+        $qb = $this->container->get('opifer.cms.menu_manager')->getRepository()
+            ->getNodesHierarchyQueryBuilder();
+        $source = new Entity('OpiferCmsBundle:Menu');
+        $source->initQueryBuilder($qb);
 
-        return $this->render('OpiferCmsBundle:Backend/Menu:index.html.twig', [
-            'menu_tree' => $menuTree,
-        ]);
+        $editAction = new RowAction('edit', 'opifer_cms_menu_edit');
+        $editAction->setRouteParameters(['id']);
+
+        $deleteAction = new RowAction('delete', 'opifer_cms_menu_delete');
+        $deleteAction->setRouteParameters(['id']);
+
+        $grid = $this->get('grid');
+        $grid->setId('menus')
+            ->setSource($source)
+            ->addRowAction($editAction)
+            ->addRowAction($deleteAction);
+
+        $grid->getColumn('name')
+            ->setSafe(false)
+            ->setFilterable(false)
+            ->setSortable(false)
+            ->manipulateRenderCell(
+            function($value, $row, $router) {
+                $item = $row->getEntity();
+
+                $indentation = ($item->getLvl()) ? str_repeat('&nbsp;', $item->getLvl() * 4) : '';
+                if ($item instanceof MenuItem) {
+                    $route = $router->generate('opifer_cms_menu_edit', ['id' => $item->getId()]);
+                    $html = $indentation . '<a href="'.$route.'"><span class="text-muted">'. $item->getName() .'</span></a>';
+                } else {
+                    $html = $indentation . '<span class="text-muted">'. $item->getName() .'</span>';
+                }
+
+                return $html;
+            }
+        );
+
+        return $grid->getGridResponse('OpiferCmsBundle:Backend/Menu:index.html.twig');
     }
 
     /**
