@@ -30,7 +30,7 @@ content:
             placeholder: Enter a title for your page
             help_text: The title of the page is displayed in the browser tab and in searchengines
     new:
-        title: define the type of content
+        title: Create new content
 
 # Directory
 directory:
