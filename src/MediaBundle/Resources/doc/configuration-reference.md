@@ -5,7 +5,13 @@ The complete configuration reference with its default values
 
 ```yaml
 opifer_media:
-    media_class: ~
+    media:
+        class: ~
+        manager:
+        views:
+            index: 'OpiferMediaBundle:Media:index.html.twig'
+            create: 'OpiferMediaBundle:Media:create.html.twig'
+            edit: 'OpiferMediaBundle:Media:edit.html.twig'
     providers:
         youtube:
             api_key: ~
