@@ -35,24 +35,21 @@ nav {
                 font-family: @headings-font-family;
                 color: white;
                 font-size: 14px;
+                max-height: 48px;
 
                 &:hover {
                     color: #fff;
                 }
             }
 
-            .fa {
-                display: block;
-                text-align: center;
-                font-size: @font-size-large;
-                padding-bottom: 4px;
-                font-weight: 100;
-            }
+            .material-icons {
+                display: inline-flex;
+                vertical-align: middle;
+                line-height: 0.9;
 
-            .fa-angle-down {
-                font-size: @font-size-small;
-                display: inline-block;
-                padding: 0;
+                &.md-24 {
+                    line-height: 0.6;
+                }
             }
         }
     }

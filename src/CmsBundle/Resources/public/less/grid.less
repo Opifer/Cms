@@ -39,20 +39,41 @@
 
 .grid {
     table {
+        border-width: 0;
+
         > thead,
         > tbody,
         > tfoot {
             > tr {
                 > th {
-                    background: @gray-lighter;
+                    padding: 7px 8px;
+                    background-color: transparent;
+                    color: @gray;
 
                     > a {
-                        color: @text-color;
+                        color: @gray;
+                    }
+
+                    .material-icons {
+                        display: inline-flex;
+                        vertical-align: middle;
+                        line-height: 0.9;
+                        color: @gray;
+                    }
+
+                    &:first-child {
+                        border-left-width: 0;
+                    }
+                    &:last-child {
+                        border-right-width: 0;
                     }
                 }
 
                 > td {
+                    padding: 8px;
                     white-space: nowrap;
+                    border-width: 1px 0;
+                    color: @gray-darker;
                 }
             }
         }
@@ -92,9 +113,9 @@
             content: " ";
             float: left;
             display: inline-block;
-            margin: 0 1em;
+            margin: 4px 1em;
             border-left: 1px solid @input-border;
-            height: @input-height-base;
+            height: @input-height-base - 4;
 
         }
     }
@@ -112,11 +133,16 @@
         .dropdown-menu {
             padding: @panel-body-padding;
             min-width: 200px;
+
+            label {
+                text-transform: capitalize;
+            }
         }
 
         .dropdown-header {
             padding: 0;
             margin-bottom: 10px;
+            font-size: @font-size-base;
         }
 
         .checkbox {
@@ -183,19 +209,28 @@
 }
 
 
+.grid-filter-input {
+    margin: -6px;
+    display: block;
+    position: relative;
+}
+
 .grid-filter-operator {
     display: block;
-    margin-bottom: @padding-small-vertical;
-
+    position: absolute;
+    width: 50px;
     select {
-        &:extend(.input-sm);
+        border-color: transparent;
     }
 }
 
 .grid-filter-input-query {
+    display: block;
+    margin-left: 50px;
+
     input {
         &:extend(.form-control);
-        &:extend(.input-sm);
+        border-width: 0;
     }
 }
 
@@ -208,7 +243,7 @@
         margin-bottom: 0;
 
         th {
-            font-size: @font-size-small;
+            text-transform: capitalize;
         }
     }
 }
@@ -220,18 +255,11 @@
     margin-bottom: @line-height-computed;
 }
 
-.grid-row-actions {
-    list-style: none;
-    margin: 0;
-    padding: 0;
-
-    li {
-        margin: 0 1em 0 0;
-        padding: 0;
-        display: inline;
-
-        &:last-child {
-            margin-right: 0;
-        }
+.grid-column-__actions {
+    a {
+        margin-right: .5em;
+        color: @gray;
+        text-decoration: underline;
+        text-transform: capitalize;
     }
 }
