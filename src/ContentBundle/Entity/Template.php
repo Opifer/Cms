@@ -31,7 +31,7 @@ class Template
     /**
      * @var string
      *
-     * @ORM\Column(type="text")
+     * @ORM\Column(type="string")
      *
      * @GRID\Column(title="label.name")
      */
@@ -40,7 +40,7 @@ class Template
     /**
      * @var string
      *
-     * @ORM\Column(type="text", nullable=true)
+     * @ORM\Column(type="string", nullable=true)
      *
      * @GRID\Column(title="label.display_name")
      */

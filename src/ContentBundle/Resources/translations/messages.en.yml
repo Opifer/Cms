@@ -53,6 +53,7 @@ directory:
 # Form field labels
 form:
     name: Name
+    display_name: Display name
     description: Description
     email: Email
     parent: parent
@@ -64,7 +65,20 @@ form:
     title: Title
     username: username
     active: Active
-    symlink: Symlink for
+    view: View
+
+# Template field labels
+template:
+    form:
+        name:
+            placeholder: 'Only use [a-zA-Z] characters'
+            help_text: 'Give the template a machine name for development use'
+        display_name:
+            placeholder: ''
+            help_text: 'Friendly human readable name for this template'
+        view:
+            placeholder: 'Services/default.html.twig'
+            help_text: 'Location of Twig template view file relative to app/Resources/views/ path'
 
 # Buttons
 button:

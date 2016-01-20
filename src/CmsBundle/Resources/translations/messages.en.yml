@@ -15,6 +15,7 @@ base:
     system: system
     schemas: schemas
     users: users
+    templates: templates
 
 # Content
 content:
@@ -232,6 +233,8 @@ label:
     container_smooth: Fluid width (stretched)
     container_fixed: Fixed width (fixed)
     version_new: New version
+    name: Name
+    display_name: Display name
 
 # Delete confirmation
 confirmation:
