@@ -46,7 +46,7 @@ class FormExtension extends \Twig_Extension
      */
     public function createFormView(FormInterface $form)
     {
-        $post = $this->eavManager->initializeEntity($form->getTemplate());
+        $post = $this->eavManager->initializeEntity($form->getSchema());
 
         $form = $this->formFactory->create('opifer_form_post', $post, ['form_id' => $form->getId()]);
 
