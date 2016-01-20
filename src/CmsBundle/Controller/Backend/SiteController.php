@@ -4,35 +4,35 @@ namespace Opifer\CmsBundle\Controller\Backend;
 
 use APY\DataGridBundle\Grid\Action\RowAction;
 use APY\DataGridBundle\Grid\Source\Entity;
-use Opifer\CmsBundle\Entity\Layout;
-use Opifer\CmsBundle\Form\Type\LayoutType;
+use Opifer\CmsBundle\Entity\Site;
+use Opifer\CmsBundle\Form\Type\SiteType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-class LayoutController extends Controller
+class SiteController extends Controller
 {
     /**
      * @return Response
      */
     public function indexAction()
     {
-        $source = new Entity('OpiferCmsBundle:Layout');
+        $source = new Entity('OpiferCmsBundle:Site');
 
-        $editAction = new RowAction('edit', 'opifer_cms_layout_edit');
+        $editAction = new RowAction('edit', 'opifer_cms_site_edit');
         $editAction->setRouteParameters(['id']);
 
-        $deleteAction = new RowAction('delete', 'opifer_cms_layout_delete');
+        $deleteAction = new RowAction('delete', 'opifer_cms_site_delete');
         $deleteAction->setRouteParameters(['id']);
 
         $grid = $this->get('grid');
-        $grid->setId('layouts')
+        $grid->setId('sites')
             ->setSource($source)
             ->addRowAction($editAction)
             ->addRowAction($deleteAction);
 
-        return $grid->getGridResponse('OpiferCmsBundle:Backend/Layout:index.html.twig');
+        return $grid->getGridResponse('OpiferCmsBundle:Backend/Site:index.html.twig');
     }
 
     /**
@@ -42,20 +42,20 @@ class LayoutController extends Controller
      */
     public function createAction(Request $request)
     {
-        $layout = new Layout();
+        $site = new Site();
 
-        $form = $this->createForm(new LayoutType(), $layout);
+        $form = $this->createForm(new SiteType(), $site);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
-            $em->persist($layout);
+            $em->persist($site);
             $em->flush();
 
-            return $this->redirectToRoute('opifer_cms_layout_edit', ['id' => $layout->getId()]);
+            return $this->redirectToRoute('opifer_cms_site_edit', ['id' => $site->getId()]);
         }
 
-        return $this->render('OpiferCmsBundle:Backend/Layout:create.html.twig', [
+        return $this->render('OpiferCmsBundle:Backend/Site:create.html.twig', [
             'form' => $form->createView(),
         ]);
     }
@@ -69,20 +69,20 @@ class LayoutController extends Controller
     public function editAction(Request $request, $id)
     {
         $em = $this->getDoctrine()->getManager();
-        $layout = $em->getRepository('OpiferCmsBundle:Layout')->find($id);
+        $site = $em->getRepository('OpiferCmsBundle:Site')->find($id);
 
-        $form = $this->createForm(new LayoutType(), $layout);
+        $form = $this->createForm(new SiteType(), $site);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $em->flush();
 
-            return $this->redirectToRoute('opifer_cms_layout_edit', ['id' => $layout->getId()]);
+            return $this->redirectToRoute('opifer_cms_site_edit', ['id' => $site->getId()]);
         }
 
-        return $this->render('OpiferCmsBundle:Backend/Layout:edit.html.twig', [
+        return $this->render('OpiferCmsBundle:Backend/Site:edit.html.twig', [
             'form' => $form->createView(),
-            'layout' => $layout,
+            'site' => $site,
         ]);
     }
 
@@ -94,11 +94,11 @@ class LayoutController extends Controller
     public function deleteAction($id)
     {
         $em = $this->getDoctrine()->getManager();
-        $layout = $em->getRepository('OpiferCmsBundle:Layout')->find($id);
+        $site = $em->getRepository('OpiferCmsBundle:Site')->find($id);
 
-        $em->remove($layout);
+        $em->remove($site);
         $em->flush();
 
-        return $this->redirectToRoute('opifer_cms_layout_index');
+        return $this->redirectToRoute('opifer_cms_site_index');
     }
 }

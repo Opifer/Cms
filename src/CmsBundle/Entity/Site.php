@@ -2,14 +2,16 @@
 
 namespace Opifer\CmsBundle\Entity;
 
-use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\ORM\Mapping as ORM;
+use APY\DataGridBundle\Grid\Mapping as GRID;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Site.
  *
  * @ORM\Table(name="site")
  * @ORM\Entity()
+ * @GRID\Source(columns="id, name, domain, defaultLocale")
  */
 class Site
 {
