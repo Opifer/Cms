@@ -35,8 +35,6 @@ class MenuController extends Controller
      */
     public function createAction(Request $request, $type = 'item')
     {
-        $em = $this->getDoctrine()->getManager();
-
         if ($type == 'group') {
             $menu = new MenuGroup();
         } else {
@@ -47,8 +45,7 @@ class MenuController extends Controller
         $form->handleRequest($request);
 
         if ($form->isValid()) {
-            $em->persist($menu);
-            $em->flush();
+            $this->container->get('opifer.cms.menu_manager')->save($menu);
 
             return $this->redirectToRoute('opifer_cms_menu_index');
         }
@@ -70,9 +67,9 @@ class MenuController extends Controller
      */
     public function editAction(Request $request, $id = 0)
     {
-        $em = $this->getDoctrine()->getManager();
+        $menuManager = $this->container->get('opifer.cms.menu_manager');
 
-        $menu = $em->getRepository('OpiferCmsBundle:Menu')->findOneById($id);
+        $menu = $menuManager->getRepository()->findOneById($id);
 
         if (!$menu) {
             throw $this->createNotFoundException(sprintf('No menu found for id %d', $id));
@@ -82,8 +79,7 @@ class MenuController extends Controller
         $form->handleRequest($request);
 
         if ($form->isValid()) {
-            $em->persist($menu);
-            $em->flush();
+            $menuManager->save($menu);
 
             return $this->redirectToRoute('opifer_cms_menu_index');
         }
@@ -103,15 +99,14 @@ class MenuController extends Controller
      */
     public function deleteAction($id)
     {
-        $em = $this->getDoctrine()->getManager();
-        $menu = $em->getRepository('OpiferCmsBundle:Menu')->findOneById($id);
+        $menuManager = $this->container->get('opifer.cms.menu_manager');
+        $menu = $menuManager->getRepository()->findOneById($id);
 
         if (!$menu) {
             throw $this->createNotFoundException(sprintf('No menu found for id %d', $id));
         }
 
-        $em->remove($menu);
-        $em->flush();
+        $menuManager->delete($menu);
 
         return $this->redirectToRoute('opifer_cms_menu_index');
     }
