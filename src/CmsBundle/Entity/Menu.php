@@ -2,6 +2,7 @@
 
 namespace Opifer\CmsBundle\Entity;
 
+use APY\DataGridBundle\Grid\Mapping as GRID;
 use Doctrine\Common\Collections\ArrayCollection;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -11,6 +12,7 @@ use Doctrine\ORM\Mapping as ORM;
  * Menu.
  *
  * @Gedmo\Tree(type="nested")
+ * @GRID\Source(columns="id, name")
  * @ORM\Table(name="menu")
  * @ORM\Entity(repositoryClass="Opifer\CmsBundle\Repository\MenuRepository")
  * @ORM\InheritanceType("SINGLE_TABLE")
@@ -25,6 +27,8 @@ class Menu
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
+     *
+     * @GRID\Column(title="Id", size="10", type="number")
      */
     protected $id;
 
