@@ -50,6 +50,13 @@ class MenuController extends Controller
             $em->persist($menu);
             $em->flush();
 
+            $repository = $em->getRepository('OpiferCmsBundle:Menu');
+            if (false !== $root = $repository->findOneBy(['id' => $menu->getRoot()])) {
+                $repository->reorder($root, 'sort', 'DESC');
+            }
+            $repository->recover();
+            $em->flush();
+
             return $this->redirectToRoute('opifer_cms_menu_index');
         }
 
@@ -85,6 +92,13 @@ class MenuController extends Controller
             $em->persist($menu);
             $em->flush();
 
+            $repository = $em->getRepository('OpiferCmsBundle:Menu');
+            if (false !== $root = $repository->findOneBy(['id' => $menu->getRoot()])) {
+                $repository->reorder($root, 'sort', 'DESC');
+            }
+            $repository->recover();
+            $em->flush();
+
             return $this->redirectToRoute('opifer_cms_menu_index');
         }
 
@@ -109,8 +123,16 @@ class MenuController extends Controller
         if (!$menu) {
             throw $this->createNotFoundException(sprintf('No menu found for id %d', $id));
         }
+        $root = $menu->getRoot();
 
         $em->remove($menu);
+        $em->flush();
+
+        $repository = $em->getRepository('OpiferCmsBundle:Menu');
+        if (false !== $root = $repository->findOneBy(['id' => $root])) {
+            $repository->reorder($root, 'sort', 'DESC');
+        }
+        $repository->recover();
         $em->flush();
 
         return $this->redirectToRoute('opifer_cms_menu_index');
