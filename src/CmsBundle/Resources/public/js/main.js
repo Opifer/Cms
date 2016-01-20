@@ -22,11 +22,11 @@ $(document).ready(function() {
 
     // Disable submitting forms on enter key
     $('.prevent-enter-submit').bind("keyup keypress", function(e) {
-      var code = e.keyCode || e.which;
-      if (code  == 13) {
-        e.preventDefault();
-        return false;
-      }
+        var code = e.keyCode || e.which;
+        if (code  == 13) {
+            e.preventDefault();
+            return false;
+        }
     });
 
     /**
@@ -76,7 +76,7 @@ $(document).ready(function() {
     }
 
 
-    //manage collapse state of menu items by clickinig on menugroup
+    //manage collapse state of menu items by clicking on menugroup
     $(".panel-section tr td:nth-child(2) > span").click(function () {
         var initial_level = $(this).closest("tr").data("level");
         menuSiblingCollapse($(this).closest("tr"), initial_level)
@@ -167,6 +167,13 @@ $(document).ready(function() {
         return false;
     });
 
+    $('.btn-group-columns .dropdown-menu').click(function(event) {
+        event.stopPropagation();
+    });
+
+    $('.btn-group-columns input').on('change', function(e) {
+        $(this).closest('form').submit();
+    })
 });
 
 (function( jQuery ) {
