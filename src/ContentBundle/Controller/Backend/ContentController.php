@@ -54,9 +54,10 @@ class ContentController extends Controller
             $content->setBlock($document);
             $manager->save($content);
 
-            return $this->redirect($this->generateUrl('opifer_content_content_edit', [
-                'id'     => $content->getId(),
-                'version' => 0,
+            return $this->redirect($this->generateUrl('opifer_content_contenteditor_design', [
+                'type'    => 'content',
+                'id'      => $content->getId(),
+                'rootVersion' => 0,
             ]));
         }
 

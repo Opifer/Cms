@@ -118,17 +118,7 @@ nav:
     dashboard: Dashboard
     content: Content
     directory: Directories
-    media: Medialibrary
-    menu: Menus
-    sitemenu: Menus
-    edit:
-        title: edit menu
-    index:
-        title: "menu's"
-    group:
-        add: add menugroup
-    item:
-        add: add menuitem
+    media: Media
     form:
         parent:
             help_text: Choose a parent for this menu if applicable

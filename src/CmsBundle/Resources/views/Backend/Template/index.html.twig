@@ -1,12 +1,14 @@
 {% extends 'OpiferCmsBundle:Backend:base.html.twig' %}
 
 {% block body %}
+    <div class="col-xs-12">
     <div class="page-header clearfix">
         <a href="{{ path('opifer_cms_template_create') }}" class="btn btn-link pull-right">
             <i class="material-icons">add</i>
             New template
         </a>
         <h1>{{ "base.templates"|trans|capitalize }}</h1>
+    </div>
     </div>
 
     <section class="container-fluid">

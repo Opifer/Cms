@@ -34,7 +34,6 @@ class TemplateController extends Controller
         /* @var $grid \APY\DataGridBundle\Grid\Grid */
         $grid->setId('templates')
             ->setSource($source)
-//            ->addColumn($attributesColumn)
             ->addRowAction($editAction)
             ->addRowAction($deleteAction)
             ->addRowAction($designAction)

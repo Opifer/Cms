@@ -1,14 +1,16 @@
 {% extends 'OpiferCmsBundle:Backend:base.html.twig' %}
 
 {% block body %}
-    <div class="page-header clearfix">
-        <h1 class="pull-left">Directories</h1>
-        <a href="{{ path('opifer_content_directory_new') }}" class="btn btn-default pull-right">
-            new directory
-        </a>
+    <div class="col-xs-12">
+        <div class="page-header">
+            <a href="{{ path('opifer_content_directory_new') }}" class="btn btn-link pull-right">
+                <i class="material-icons">add</i> {{ 'button.add'|trans|capitalize }}
+            </a>
+            <h1>Directories</h1>
+        </div>
     </div>
 
-    <section class="panel-section">
+    <section class="col-xs-12">
         {{ grid(grid, 'OpiferCmsBundle:Backend/Grid:grid.html.twig') }}
     </section>
 {% endblock body %}
