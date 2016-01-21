@@ -38,12 +38,6 @@ opifer_content_content_new:
     path: /content/new/{schema}/{mode}
     defaults: { _controller: OpiferContentBundle:Backend/Content:new, schema: 0, mode: simple }
 
-opifer_content_content_edit:
-    path: /content/edit/{id}/{version}
-    defaults: { _controller: OpiferContentBundle:Backend/Content:edit, version: 0 }
-    options:
-        expose: true
-
 opifer_content_content_details:
     path: /content/details/{id}
     defaults: { _controller: OpiferContentBundle:Backend/Content:details, id: 0 }
@@ -63,6 +57,12 @@ opifer_content_content_index:
         directoryId:  \d+
 
 # Contenteditor
+opifer_content_contenteditor_design:
+    path: /designer/{type}/{id}/{rootVersion}
+    defaults: { _controller: OpiferContentBundle:Backend/ContentEditor:design, rootVersion: 0 }
+    options:
+        expose: true
+
 opifer_content_contenteditor_edit_block:
     path: /contenteditor/editblock/{id}/{rootVersion}
     defaults: { _controller: OpiferContentBundle:Backend/ContentEditor:editBlock, rootVersion: 0 }

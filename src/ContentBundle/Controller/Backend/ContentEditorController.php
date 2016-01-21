@@ -2,6 +2,7 @@
 
 namespace Opifer\ContentBundle\Controller\Backend;
 
+use Opifer\ContentBundle\Entity\DocumentBlock;
 use Opifer\ContentBundle\Form\Type\BlockAdapterFormType;
 use Opifer\ContentBundle\Form\Type\ContentEditorType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -17,6 +18,62 @@ use Opifer\ContentBundle\Block\BlockServiceInterface;
  */
 class ContentEditorController extends Controller
 {
+
+    /**
+     * Graphical Content editor
+     *
+     * @param Request $request
+     * @param Object  $instance
+     * @param integer $version
+     *
+     * @return Response
+     */
+    public function designAction(Request $request, $type, $id, $version = 0)
+    {
+        $this->getDoctrine()->getManager()->getFilters()->disable('draftversion');
+
+        /** @var BlockManager $blockManager */
+        $blockManager = $this->get('opifer.content.block_manager');
+
+        /** @var AbstractDesignContext $context */
+        $context = $this->get(sprintf('opifer.content.%s_design_context', $type));
+        $context->load($id, $version);
+
+//        /** @var ContentInterface $subject */
+//        $subject = $loader->getTypeInstance($id);
+
+        if (!$context->getBlock()) {
+            // Create a new document
+            $version = 1;
+            $document = new DocumentBlock();
+            $document->setRootVersion(1);
+
+            $context->setBlock($document);
+            $context->saveSubject();
+        }
+
+        if (!$version) {
+            $version = $blockManager->getNewVersion($context->getBlock());
+            $context->getSubject()->getBlock()->setRootVersion($version);
+        }
+
+        $parameters = [
+            'manager' => $blockManager,
+            'block' => $context->getBlock(),
+            'id' => $context->getSubject()->getId(),
+            'title' => $context->getTitle(),
+            'caption' => $context->getCaption(),
+            'permalink' => $context->getPermalink(),
+            'version_current' => $version,
+            'version_published' => $context->getBlock()->getVersion(),
+            'url_properties' => $context->getPropertiesUrl(),
+            'url_cancel' => $context->getCancelUrl(),
+            'url' => $context->getCanvasUrl(),
+        ];
+
+        return $this->render($this->getParameter('opifer_content.content_edit_view'), $parameters);
+    }
+
     /**
      * @param Request $request
      * @param integer $id

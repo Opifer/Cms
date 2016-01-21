@@ -15,6 +15,7 @@ base:
     system: system
     schemas: schemas
     users: users
+    template: template
     templates: templates
 
 # Content
@@ -149,7 +150,7 @@ profile:
 # Security
 security:
     login:
-        title: login
+        title: Opifer CMS
         email: "Email:"
         username: "Username:"
         password: "Password:"
@@ -198,14 +199,15 @@ form:
 
 # Buttons
 button:
-    add: add new
-    all: show all
-    cancel: cancel
-    delete: delete
-    edit: edit
-    publish: publish
-    reset: reset
-    quit: quit
+    add: Add New
+    all: Show All
+    cancel: Cancel
+    delete: Delete
+    edit: Edit
+    publish: Publish
+    reset: Reset
+    quit: Quit
+    design: Design
 
 # Labels
 label:

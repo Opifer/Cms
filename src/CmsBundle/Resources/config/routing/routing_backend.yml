@@ -30,31 +30,31 @@ opifer_cms_menu_delete:
         id: \d+
 
 opifer_cms_setting_index:
-    path: /settings
+    path: /setting
     defaults: { _controller: OpiferCmsBundle:Backend/Setting:index }
 
 opifer_cms_template_index:
-    path: /templates
+    path: /template
     defaults: { _controller: OpiferCmsBundle:Backend/Template:index }
 
 opifer_cms_template_create:
-    path: /templates/create
+    path: /template/create
     defaults: { _controller: OpiferCmsBundle:Backend/Template:create }
 
 opifer_cms_template_edit:
-    path: /templates/edit/{id}
+    path: /template/edit/{id}
     defaults: { _controller: OpiferCmsBundle:Backend/Template:edit }
     requirements:
         id: \d+
 
 opifer_cms_template_delete:
-    path: /templates/delete/{id}
+    path: /template/delete/{id}
     defaults: { _controller: OpiferCmsBundle:Backend/Template:delete }
     requirements:
         id: \d+
 
 opifer_cms_site_index:
-    path: /sites
+    path: /site
     defaults: { _controller: OpiferCmsBundle:Backend/Site:index }
 
 opifer_cms_site_create:
@@ -62,33 +62,33 @@ opifer_cms_site_create:
     defaults: { _controller: OpiferCmsBundle:Backend/Site:create }
 
 opifer_cms_site_edit:
-    path: /sites/edit/{id}
+    path: /site/edit/{id}
     defaults: { _controller: OpiferCmsBundle:Backend/Site:edit }
     requirements:
         id: \d+
 
 opifer_cms_site_delete:
-    path: /sites/delete/{id}
+    path: /site/delete/{id}
     defaults: { _controller: OpiferCmsBundle:Backend/Site:delete }
     requirements:
         id: \d+
 
 opifer_cms_cronjob_index:
-    path: /cronjobs
+    path: /cronjob
     defaults: { _controller: OpiferCmsBundle:Backend/Cronjob:index }
 
 opifer_cms_cronjob_create:
-    path: /cronjobs/create
+    path: /cronjob/create
     defaults: { _controller: OpiferCmsBundle:Backend/Cronjob:create }
 
 opifer_cms_cronjob_edit:
-    path: /cronjobs/edit/{id}
+    path: /cronjob/edit/{id}
     defaults: { _controller: OpiferCmsBundle:Backend/Cronjob:edit }
     requirements:
         id: \d+
 
 opifer_cms_cronjob_delete:
-    path: /cronjobs/delete/{id}
+    path: /cronjob/delete/{id}
     defaults: { _controller: OpiferCmsBundle:Backend/Cronjob:delete }
     requirements:
         id: \d+
@@ -152,11 +152,11 @@ opifer_content_directory_index:
     defaults: { _controller: OpiferCmsBundle:Backend/Directory:index }
 
 opifer_form_form_index:
-    path: /forms
+    path: /form
     defaults: { _controller: OpiferCmsBundle:Backend/Form:index }
 
 opifer_form_post_index:
-    path: /forms/{formId}/posts
+    path: /form/{formId}/posts
     defaults: { _controller: OpiferCmsBundle:Backend/Post:index }
     requirements:
         formId: \d+

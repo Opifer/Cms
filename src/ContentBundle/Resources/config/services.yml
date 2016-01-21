@@ -16,7 +16,8 @@ parameters:
     opifer.content.twig.content_extension.class: Opifer\ContentBundle\Twig\ContentExtension
     opifer.rulesengine.provider.content.class: Opifer\ContentBundle\RulesEngine\ContentRulesProvider
     opifer.content.block_manager.class: Opifer\ContentBundle\Block\BlockManager
-    opifer.content.content_editor.class: Opifer\ContentBundle\Designer\ContentEditor
+    opifer.content.content_design_context.class: Opifer\ContentBundle\Designer\ContentContext
+    opifer.content.template_design_context.class: Opifer\ContentBundle\Designer\TemplateContext
 
 services:
     opifer.content.content_manager.default:
@@ -113,11 +114,15 @@ services:
 
     opifer.content.block_manager:
         class: %opifer.content.block_manager.class%
-        arguments: [@doctrine.orm.default_entity_manager]
+        arguments: ['@doctrine.orm.default_entity_manager']
 
-    opifer.content.content_editor:
-        class: %opifer.content.content_editor.class%
-        arguments: [@opifer.content.block_manager, @doctrine.orm.default_entity_manager, @session]
+    opifer.content.content_design_context:
+        class: %opifer.content.content_design_context.class%
+        arguments: ['@router', '@opifer.content.content_manager']
+
+    opifer.content.template_design_context:
+        class: %opifer.content.template_design_context.class%
+        arguments: ['@router', '@doctrine.orm.default_entity_manager']
 
 
 #    opifer.content.block_content_type:

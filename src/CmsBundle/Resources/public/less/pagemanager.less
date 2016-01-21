@@ -90,7 +90,7 @@
     }
 
     .navbar {
-        min-height: 42px;
+        min-height: 40px;
     }
 
     .navbar-btn {
@@ -109,6 +109,7 @@
             border-width: 0;
 
             &:hover {
+                background: #2a2a2a;
                 text-decoration: underline;
             }
         }
@@ -159,9 +160,14 @@
         left: 0;
         padding-right: 200px;
         text-align: center;
-        .navbar-vertical-align(30px);
+        .navbar-vertical-align(40px);
         z-index: -1;
         color: white;
+        line-height: 1;
+
+        small {
+            color: @gray-light;
+        }
     }
 
     .navbar-static-top {
@@ -295,7 +301,7 @@
 //    overflow: hidden;
     z-index: 550;
     position: absolute;
-    top: 42px;
+    top: 40px;
     left: 0;
     bottom: 0;
     right: 0;

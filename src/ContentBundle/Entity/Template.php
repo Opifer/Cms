@@ -66,7 +66,7 @@ class Template
     /**
      * @var BlockInterface
      *
-     * @ORM\ManyToOne(targetEntity="Opifer\ContentBundle\Entity\Block")
+     * @ORM\OneToOne(targetEntity="Opifer\ContentBundle\Entity\Block", cascade={"persist", "remove"})
      * @ORM\JoinColumn(name="block_id", referencedColumnName="id")
      **/
     protected $block;
