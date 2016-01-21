@@ -78,9 +78,9 @@ class ContentContext extends AbstractDesignContext
     /**
      * {@inheritDoc}
      */
-    public function getCanvasUrl()
+    public function getCanvasUrl($version)
     {
-        return $this->router->generate('opifer_content_contenteditor_view', ['id' => $this->subject->getBlock()->getId(), 'version' => $this->version]);
+        return $this->router->generate('opifer_content_contenteditor_view', ['id' => $this->subject->getBlock()->getId(), 'version' => $version]);
     }
 
 

@@ -88,7 +88,7 @@ abstract class AbstractDesignContext implements DesignContextInterface
     /**
      * @return string
      */
-    public function getCanvasUrl()
+    public function getCanvasUrl($version)
     {
         throw new NotImplementedException('Design Context must implement getCanvasUrl method');
     }

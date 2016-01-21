@@ -68,7 +68,7 @@ class ContentEditorController extends Controller
             'version_published' => $context->getBlock()->getVersion(),
             'url_properties' => $context->getPropertiesUrl(),
             'url_cancel' => $context->getCancelUrl(),
-            'url' => $context->getCanvasUrl(),
+            'url' => $context->getCanvasUrl($version),
         ];
 
         return $this->render($this->getParameter('opifer_content.content_edit_view'), $parameters);
