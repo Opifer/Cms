@@ -178,7 +178,7 @@
         min-height: 100px;
 
         &.hovered {
-            z-index: 1000;
+            z-index: 2000;
         }
     }
 
@@ -204,13 +204,13 @@
     }
 
     .pm-placeholder {
+        outline: 1px dashed #ddd;
         .clearfix;
 
         &.pm-empty {
-            border: 1px dashed #ddd;
             padding: @padding-large-vertical @padding-base-horizontal;
             margin: @grid-gutter-width/2 @grid-gutter-width/4;
-            min-height: 100px;
+            min-height: 30px;
         }
 
         &.pm-accept {

@@ -13,12 +13,6 @@ parameters:
     opifer.content.column_block.class: Opifer\ContentBundle\Block\ColumnBlockService
 
 services:
-    opifer.content.document_block:
-        class: %opifer.content.document_block.class%
-        arguments: [@templating]
-        tags:
-            - { name: opifer.content.block_service, alias: document }
-
     opifer.content.html_block:
         class: %opifer.content.html_block.class%
         arguments: [@templating]

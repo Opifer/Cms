@@ -2,20 +2,22 @@
     <div class="file-drop-area-overlay">
         <h3>Drop files to upload</h3>
     </div>
-    <div class="page-header clearfix">
-        <h1>Media Manager</h1>
-    </div>
     <div class="container-fluid">
-    <div class="row">
-        <div class="col-md-4 form-group">
-            <div class="input-group search-group">
-                <input type="text" class="form-control" placeholder="Enter name, filename or description" ng-model="mediaCollection.search" ng-change="mediaCollection.loadMore(true)">
-                <span class="input-group-addon">
-                    <i class="fa fa-search"></i>
-                </span>
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="page-header">
+                    <h1>Media Manager</h1>
+                </div>
+            </div>
+            <div class="col-md-4 form-group">
+                <div class="input-group search-group">
+                    <span class="input-group-addon">
+                        <i class="material-icons md-18">search</i>
+                    </span>
+                    <input type="text" class="form-control" placeholder="Enter name, filename or description" ng-model="mediaCollection.search" ng-change="mediaCollection.loadMore(true)">
+                </div>
             </div>
         </div>
-    </div>
     </div>
     <section class="page-section media-items">
         <div ng-show="uploadingFiles != null">
@@ -36,10 +38,10 @@
                         <span class="details" ng-if="item.provider == 'image'">{{ item.metadata.width }}x{{ item.metadata.height }}px</span>
                     </div>
                     <div class="center-stage">
-                        <button type="button" ng-if="picker.name" ng-click="selectMedia($index)" class="btn btn-skeleton include">Use media</button>
-                        <button type="button" ng-if="!picker.name" ng-click="editMedia($index)" class="btn btn-skeleton edit">Edit</button>
-                        <button type="button" ng-if="!picker.name" ng-click="confirmDelete($index)" class="btn btn-skeleton delete">Delete</button>
-                        <!--<button type="button" ng-if="!picker.name" ng-click="zoomMedia($index)" class="btn btn-skeleton zoom">Zoom</button>-->
+                        <button type="button" ng-if="picker.name" ng-click="selectMedia($index)" class="btn btn-default-outline include">Use media</button>
+                        <button type="button" ng-if="!picker.name" ng-click="editMedia($index)" class="btn btn-default-outline edit">Edit</button>
+                        <button type="button" ng-if="!picker.name" ng-click="confirmDelete($index)" class="btn btn-default-outline delete">Delete</button>
+                        <!--<button type="button" ng-if="!picker.name" ng-click="zoomMedia($index)" class="btn btn-default-outline zoom">Zoom</button>-->
                     </div>
                     <span class="name">{{ item.name }}</span>
                 </div>
