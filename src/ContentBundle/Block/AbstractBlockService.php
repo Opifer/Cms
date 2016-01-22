@@ -4,6 +4,7 @@ namespace Opifer\ContentBundle\Block;
 
 use Symfony\Bundle\FrameworkBundle\Templating\EngineInterface;
 use Opifer\ContentBundle\Model\BlockInterface;
+use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -68,6 +69,21 @@ abstract class AbstractBlockService
     public function getName(BlockInterface $block = null)
     {
         return $this->name;
+    }
+
+    /**
+     * @param BlockInterface $block
+     */
+    public function preFormSubmit(BlockInterface $block)
+    {
+    }
+
+    /**
+     * @param FormInterface $form
+     * @param BlockInterface $block
+     */
+    public function postFormSubmit(FormInterface $form, BlockInterface $block)
+    {
     }
 
     /**

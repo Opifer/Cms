@@ -96,8 +96,7 @@ services:
             - { name: form.type, alias: contentpicker }
 
     opifer.content.form.content_list_picker_type:
-        class: %opifer.content.form.content_list_picker_type.class%
-        arguments: [@doctrine, @property_accessor]
+        class: '%opifer.content.form.content_list_picker_type.class%'
         tags:
             - { name: form.type, alias: content_list_picker }
 

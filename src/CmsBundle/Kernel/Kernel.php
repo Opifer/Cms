@@ -37,6 +37,7 @@ abstract class Kernel extends BaseKernel
             new \Knp\Bundle\MenuBundle\KnpMenuBundle(),
             new \Liip\ImagineBundle\LiipImagineBundle(),
             new \Presta\SitemapBundle\PrestaSitemapBundle(),
+            new \SimpleThings\EntityAudit\SimpleThingsEntityAuditBundle(),
             new \Symfony\Cmf\Bundle\RoutingBundle\CmfRoutingBundle(),
 
             // Opifer bundles
