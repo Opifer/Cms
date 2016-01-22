@@ -17,7 +17,7 @@ class UserController extends Controller
      */
     public function indexAction()
     {
-        $source = new Entity($this->container->getParameter('opifer_cms.user.class'));
+        $source = new Entity($this->container->getParameter('opifer_cms.user_model'));
 
         $editAction = new RowAction('edit', 'opifer_cms_user_edit');
         $editAction->setRouteParameters(['id']);
@@ -43,7 +43,7 @@ class UserController extends Controller
      */
     public function newAction(Request $request)
     {
-        $user = $this->container->getParameter('opifer_cms.user.class');
+        $user = $this->getParameter('opifer_cms.user_model');
         $user = new $user();
 
         $form = $this->createForm($this->get('opifer.cms.user_form'), $user);

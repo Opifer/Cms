@@ -2,13 +2,11 @@
 
 {% block body %}
     <div class="page-header clearfix">
-        <h1 class="pull-left">Users</h1>
-        <a href="{{ path('opifer_cms_user_new') }}" class="btn btn-default pull-right">
-            new user
+        <a href="{{ path('opifer_cms_user_new') }}" class="btn btn-link pull-right">
+            <i class="material-icons">add</i> {{ 'button.add'|trans|capitalize }}
         </a>
+        <h1>{{ 'base.users'|trans|capitalize }}</h1>
     </div>
 
-    <section class="panel-section">
-        {{ grid(grid, 'OpiferCmsBundle:Backend/Grid:grid.html.twig') }}
-    </section>
+    {% include 'OpiferCmsBundle:Components:grid.html.twig' with { 'grid': grid } %}
 {% endblock body %}
