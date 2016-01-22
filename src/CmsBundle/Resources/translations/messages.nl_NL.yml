@@ -207,6 +207,10 @@ form:
     field: veld
     value: waarde
 
+    options:
+        enable: Actief
+        disable: Inactief
+
 # Buttons
 button:
     add: nieuwe toevoegen

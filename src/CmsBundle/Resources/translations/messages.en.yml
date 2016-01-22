@@ -209,6 +209,10 @@ form:
     field: field
     value: value
 
+    options:
+        enable: Enable
+        disable: Disable
+
 # Buttons
 button:
     add: add new

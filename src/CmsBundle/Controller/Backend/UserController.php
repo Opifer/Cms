@@ -4,6 +4,7 @@ namespace Opifer\CmsBundle\Controller\Backend;
 
 use APY\DataGridBundle\Grid\Action\RowAction;
 use APY\DataGridBundle\Grid\Source\Entity;
+use Opifer\CmsBundle\Form\Type\UserFormType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -46,7 +47,7 @@ class UserController extends Controller
         $user = $this->getParameter('opifer_cms.user_model');
         $user = new $user();
 
-        $form = $this->createForm($this->get('opifer.cms.user_form'), $user);
+        $form = $this->createForm(UserFormType::class, $user);
         $form->handleRequest($request);
 
         if ($form->isValid()) {
@@ -78,7 +79,7 @@ class UserController extends Controller
         $em = $this->getDoctrine()->getManager();
         $user = $em->getRepository('OpiferCmsBundle:User')->find($id);
 
-        $form = $this->createForm($this->get('opifer.cms.user_form'), $user);
+        $form = $this->createForm(UserFormType::class, $user);
         $form->handleRequest($request);
 
         if ($form->isValid()) {
