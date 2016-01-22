@@ -9,6 +9,7 @@ $(document).ready(function() {
     pagemanager = (function () {
         var client = null;
         var ownerType = 'template';
+        var typeId = 0;
         var ownerId = 0;
         var mprogress = null;
         var hasUnsavedChanges = false;
@@ -57,6 +58,9 @@ $(document).ready(function() {
                 $('#pm-iframe').css('width', width);
             });
 
+
+            ownerType = $('#pm-document').attr('data-pm-type');
+            typeId = $('#pm-document').attr('data-pm-type-id');
             ownerId = $('#pm-document').attr('data-pm-id');
             version = $('#pm-document').attr('data-pm-version');
             versionPublished = $('#pm-document').attr('data-pm-version-published');
@@ -153,7 +157,7 @@ $(document).ready(function() {
         };
 
         var refreshBlock = function (id) {
-            $.get(Routing.generate('opifer_content_api_contenteditor_view_block', {id: id, rootVersion: version})).done(function (data) {
+            $.get(Routing.generate('opifer_content_api_contenteditor_view_block', {type: ownerType, typeId: typeId, id: id, rootVersion: version})).done(function (data) {
                 getBlockElement(id).replaceWith(data.view);
                 showToolbars();
             });
@@ -293,7 +297,7 @@ $(document).ready(function() {
         var createBlock = function (block, reference) {
             console.log('Creating new block', pagemanager.ownerId, block);
 
-            $.post(Routing.generate('opifer_content_api_contenteditor_create_block', {ownerId: ownerId, rootVersion: version}), block).done(function (data, textStatus, request) {
+            $.post(Routing.generate('opifer_content_api_contenteditor_create_block', {type: ownerType, typeId: typeId, ownerId: ownerId, rootVersion: version}), block).done(function (data, textStatus, request) {
                 var viewUrl = request.getResponseHeader('Location');
                 var id = data.id;
 

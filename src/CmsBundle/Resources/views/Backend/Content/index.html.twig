@@ -2,14 +2,18 @@
 
 {% block body %}
     {% spaceless %}
-        <div class="page-header clearfix">
-            <h1 class="pull-left">Content</h1>
-            <a href="{{ path('opifer_content_content_new') }}" class="btn btn-link pull-right">
-                <i class="material-icons">add</i> {{ 'button.add'|trans }}
-            </a>
+        <div class="col-xs-12">
+            <div class="page-header">
+                <a href="{{ path('opifer_content_content_new') }}" class="btn btn-link pull-right">
+                    <i class="material-icons">add</i> {{ 'button.add'|trans }}
+                </a>
+                <h1>Content</h1>
+            </div>
         </div>
 
-        <content-browser site-id="" locale="nl_NL" directory-id="{{ directoryId }}" active="true"></content-browser>
+        <div class="col-xs-12">
+            <content-browser site-id="" locale="nl_NL" directory-id="{{ directoryId }}" active="true"></content-browser>
+        </div>
 
         <div class="modal modal-delete fallin" id="{{ 'modalDelete' ~ slug|default|capitalize }}" tabindex="-1" role="dialog" aria-labelledby="DeleteModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-sm">

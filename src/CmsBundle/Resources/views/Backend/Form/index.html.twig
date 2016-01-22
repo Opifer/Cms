@@ -2,11 +2,13 @@
 
 {% block body %}
     {% spaceless %}
-        <div class="page-header clearfix">
+        <div class="col-xs-12">
+        <div class="page-header">
             <a href="{{ path('opifer_form_form_create') }}" class="btn btn-link pull-right">
                 <i class="material-icons">add</i> {{ 'button.add'|trans|capitalize }}
             </a>
             <h1>{{ 'base.forms'|trans|capitalize }}</h1>
+        </div>
         </div>
 
         {% include 'OpiferCmsBundle:Components:grid.html.twig' with { 'grid': grid } %}

@@ -3,9 +3,7 @@
 namespace Opifer\CmsBundle\Controller\Backend;
 
 use APY\DataGridBundle\Grid\Action\RowAction;
-use APY\DataGridBundle\Grid\Column\TextColumn;
 use APY\DataGridBundle\Grid\Source\Entity;
-use Doctrine\Common\Collections\ArrayCollection;
 use Opifer\ContentBundle\Entity\Template;
 use Opifer\ContentBundle\Form\Type\TemplateType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -22,30 +20,23 @@ class TemplateController extends Controller
     {
         $source = new Entity('OpiferContentBundle:Template');
 
-        $editAction = new RowAction('edit', 'opifer_cms_template_edit');
+        $editAction = new RowAction('button.edit', 'opifer_cms_template_edit');
         $editAction->setRouteParameters(['id']);
 
-        $deleteAction = new RowAction('delete', 'opifer_cms_template_delete');
+        $deleteAction = new RowAction('button.delete', 'opifer_cms_template_delete');
         $deleteAction->setRouteParameters(['id']);
 
-//        $attributesColumn = new TextColumn(['id' => 'attributes', 'Attributes', 'source' => false, 'filterable' => false, 'sortable' => false, 'safe' => false]);
-//        $attributesColumn->manipulateRenderCell(function ($value, $row, $router) {
-//            $html = '';
-//            foreach ($row->getEntity()->getAttributes() as $attribute) {
-//                $html .= '<span class="label label-primary" style="display:inline-block">'.$attribute->getDisplayName().'</span>';
-//            }
-//
-//            return $html;
-//        });
+        $designAction = new RowAction('button.design', 'opifer_content_contenteditor_design');
+        $designAction->setRouteParameters(['type' => 'template', 'id']);
 
         $grid = $this->get('grid');
 
         /* @var $grid \APY\DataGridBundle\Grid\Grid */
         $grid->setId('templates')
             ->setSource($source)
-//            ->addColumn($attributesColumn)
             ->addRowAction($editAction)
-            ->addRowAction($deleteAction);
+            ->addRowAction($deleteAction)
+            ->addRowAction($designAction);
 
         return $grid->getGridResponse('OpiferCmsBundle:Backend/Template:index.html.twig');
     }

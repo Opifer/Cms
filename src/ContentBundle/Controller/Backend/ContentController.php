@@ -54,72 +54,16 @@ class ContentController extends Controller
             $content->setBlock($document);
             $manager->save($content);
 
-            return $this->redirect($this->generateUrl('opifer_content_content_edit', [
-                'id'     => $content->getId(),
-                'version' => 0,
+            return $this->redirect($this->generateUrl('opifer_content_contenteditor_design', [
+                'type'    => 'content',
+                'id'      => $content->getId(),
+                'rootVersion' => 0,
             ]));
         }
 
         return $this->render($this->getParameter('opifer_content.content_new_view'), [
             'form' => $form->createView(),
         ]);
-    }
-
-
-    /**
-     * Graphical Content editor
-     *
-     * @param Request $request
-     * @param integer $id
-     * @param integer $version
-     *
-     * @return Response
-     */
-    public function editAction(Request $request, $id, $version = 1)
-    {
-        $this->getDoctrine()->getManager()->getFilters()->disable('draftversion');
-
-        /** @var ContentManager $contentManager */
-        $contentManager = $this->get('opifer.content.content_manager');
-        /** @var BlockManager $blockManager */
-        $blockManager = $this->get('opifer.content.block_manager');
-
-        $content = $contentManager->getRepository()->find($id);
-
-
-        if ( ! $content) {
-            throw $this->createNotFoundException('No content found for id ' . $id);
-        }
-
-        if (!$content->getBlock()) {
-            // Create a new document
-            $version = 1;
-            $document = new DocumentBlock();
-            $document->setRootVersion(1);
-
-            $content->setBlock($document);
-            $contentManager->save($content);
-        }
-
-        if (!$version) {
-            $version = $blockManager->getNewVersion($content->getBlock());
-            $content->getBlock()->setRootVersion($version);
-        }
-
-        $parameters = [
-            'manager' => $blockManager,
-            'block' => $content->getBlock(),
-            'id' => $content->getId(),
-            'title' => $content->getTitle(),
-            'permalink' => $this->generateUrl('_content', ['slug' => $content->getSlug()]),
-            'version_current' => $version,
-            'version_published' => $content->getBlock()->getVersion(),
-            'url_properties' => $this->generateUrl('opifer_content_content_details', ['id' => $content->getId()]),
-            'url_cancel' =>  $this->generateUrl('opifer_content_content_index', []),
-            'url' => $this->generateUrl('opifer_content_contenteditor_view', ['id' => $content->getBlock()->getId(), 'version' => $version]),
-        ];
-
-        return $this->render($this->getParameter('opifer_content.content_edit_view'), $parameters);
     }
 
     /**
