@@ -25,7 +25,7 @@ class ContentCollectionBlockService extends AbstractBlockService implements Bloc
 {
     /** @var EntityManager */
     protected $em;
-    protected $view = 'OpiferContentBundle:Block:Content/image.html.twig';
+    protected $view = 'OpiferContentBundle:Block:Content/contentCollection.html.twig';
     protected $originalCollection;
 
     /**
@@ -57,12 +57,12 @@ class ContentCollectionBlockService extends AbstractBlockService implements Bloc
         // Default panel
         $builder->add(
             $builder->create('default', 'form', ['virtual' => true])
-                ->add('collection', 'content_list_picker', [
+                ->add('blockContentCollection', 'content_list_picker', [
                     'label'    => 'collection',
                     'multiple' => true,
                     'property' => 'title',
                     'class'    => 'Opifer\CmsBundle\Entity\Content',
-                    'data'     => $options['data']->getCollection()
+                    'data'     => $options['data']->getBlockContentCollection()
                 ])
         );
     }
@@ -95,7 +95,7 @@ class ContentCollectionBlockService extends AbstractBlockService implements Bloc
     {
         $this->originalCollection = new ArrayCollection();
         /** @var ContentCollectionBlock $block */
-        foreach ($block->getCollection() as $blockContent) {
+        foreach ($block->getBlockContentCollection() as $blockContent) {
             $this->originalCollection->add($blockContent);
         }
     }
@@ -106,15 +106,15 @@ class ContentCollectionBlockService extends AbstractBlockService implements Bloc
     public function postFormSubmit(FormInterface $form, BlockInterface $block)
     {
         /** @var BlockContent $blockContent */
-        foreach ($form->get('default')->get('collection')->getData() as $blockContent) {
+        foreach ($form->get('default')->get('blockContentCollection')->getData() as $blockContent) {
             $blockContent->setBlock($block);
         }
 
         /** @var BlockContent $blockContent */
         foreach ($this->originalCollection as $blockContent) {
             /** @var ContentCollectionBlock $block */
-            if (false === $block->getCollection()->contains($blockContent)) {
-                $block->getCollection()->removeElement($blockContent);
+            if (false === $block->getBlockContentCollection()->contains($blockContent)) {
+                $block->getBlockContentCollection()->removeElement($blockContent);
                 $this->em->remove($blockContent);
             }
         }

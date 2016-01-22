@@ -13,20 +13,20 @@ use Opifer\ContentBundle\Model\ContentInterface;
  *
  * @ORM\Entity
  */
-class ContentCollectionBlock extends Block
+class ContentCollectionBlock extends Block implements \IteratorAggregate, \Countable
 {
     /**
-     * @var ContentInterface[]|ArrayCollection
+     * @var BlockContent[]|ArrayCollection
      *
      * @ORM\OneToMany(targetEntity="Opifer\ContentBundle\Entity\BlockContent", mappedBy="block", cascade={"persist"})
      */
-    protected $collection;
+    protected $blockContentCollection;
 
     public function __construct()
     {
         parent::__construct();
 
-        $this->collection = new ArrayCollection();
+        $this->blockContentCollection = new ArrayCollection();
     }
 
     /**
@@ -41,9 +41,9 @@ class ContentCollectionBlock extends Block
      * @param  BlockContent $content
      * @return $this
      */
-    public function addContent(BlockContent $content)
+    public function addBlockContent(BlockContent $content)
     {
-        $this->collection[] = $content;
+        $this->blockContentCollection[] = $content;
 
         return $this;
     }
@@ -51,27 +51,60 @@ class ContentCollectionBlock extends Block
     /**
      * @param BlockContent $content
      */
-    public function removeContent(BlockContent $content)
+    public function removeBlockContent(BlockContent $content)
     {
-        $this->collection->removeElement($content);
+        $this->blockContentCollection->removeElement($content);
     }
 
     /**
      * @param  Collection $collection
      * @return $this
      */
-    public function setCollection($collection)
+    public function setBlockContentCollection($collection)
     {
-        $this->collection = $collection;
+        $this->blockContentCollection = $collection;
 
         return $this;
     }
 
     /**
-     * @return ArrayCollection|ContentInterface[]
+     * Get the collection of BlockContent items
+     *
+     * @return ArrayCollection|BlockContent[]
+     */
+    public function getBlockContentCollection()
+    {
+        return $this->blockContentCollection;
+    }
+
+    /**
+     * Get the collection of actual content items
+     *
+     * @return ContentInterface[]|ArrayCollection
      */
     public function getCollection()
     {
-        return $this->collection;
+        $collection = new ArrayCollection();
+        foreach ($this->blockContentCollection as $blockContent) {
+            $collection->add($blockContent->getContent());
+        }
+
+        return $collection;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function count()
+    {
+        return count($this->blockContentCollection);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getIterator()
+    {
+        return $this->getCollection();
     }
 }

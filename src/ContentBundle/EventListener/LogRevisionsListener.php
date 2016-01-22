@@ -111,10 +111,10 @@ class LogRevisionsListener extends BaseLogRevisionsListener
         $tableName = $tableName = $this->config->getTableName($class);
         $query = "SELECT id FROM " . $tableName . " WHERE id = ? AND rev = ?";
 
-        // If there is already a log for this version, update
         $existingLogEntry = $this->em->getConnection()->fetchAssoc($query, [$entityData['id'], $revision]);
         if ($existingLogEntry) {
             $params[] = $entityData['id'];
+            // If there is already a log for this version, update the revision.
             $this->conn->executeUpdate($this->getUpdateRevisionSQL($class), $params, $types);
         } else {
             $this->conn->executeUpdate($this->getInsertRevisionSQL($class), $params, $types);
