@@ -118,11 +118,12 @@ services:
         tags:
             - { name: 'form.type', alias: 'opifer_autocomplete' }
 
-    opifer.cms.redirect_type:
-        class: 'Opifer\CmsBundle\Form\Type\RedirectType'
-        decorates: 'opifer.redirect.redirect_type'
+    # Form Type Extension
+
+    opifer.cms.redirect_type_extension:
+        class: Opifer\CmsBundle\Form\Extension\RedirectTypeExtension
         tags:
-            - { name: 'form.type', alias: 'opifer_redirect' }
+            - { name: form.type_extension, extended_type: Opifer\RedirectBundle\Form\Type\RedirectType }
 
     # Entity Managers
 

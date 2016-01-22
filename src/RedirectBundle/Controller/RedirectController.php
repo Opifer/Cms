@@ -2,6 +2,7 @@
 
 namespace Opifer\RedirectBundle\Controller;
 
+use Opifer\RedirectBundle\Form\Type\RedirectType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -36,7 +37,7 @@ class RedirectController extends Controller
 
         $redirect = $manager->createNew();
 
-        $form = $this->createForm('opifer_redirect', $redirect);
+        $form = $this->createForm(RedirectType::class, $redirect);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -65,7 +66,7 @@ class RedirectController extends Controller
 
         $redirect = $manager->getRepository()->find($id);
 
-        $form = $this->createForm('opifer_redirect', $redirect);
+        $form = $this->createForm(RedirectType::class, $redirect);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
