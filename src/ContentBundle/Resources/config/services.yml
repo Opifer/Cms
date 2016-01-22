@@ -119,6 +119,12 @@ services:
         arguments: [@opifer.content.block_manager, @doctrine.orm.default_entity_manager, @session]
 
 
+    simplethings_entityaudit.log_revisions_listener:
+        class: Opifer\ContentBundle\EventListener\LogRevisionsListener
+        arguments: ['@simplethings_entityaudit.manager']
+        tags:
+            - { name: doctrine.event_subscriber, connection: default }
+
 #    opifer.content.block_content_type:
 #        class: %opifer.content.block_adapter_type.class%
 #        arguments: [@opifer.content.image_block]
