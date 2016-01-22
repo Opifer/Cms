@@ -17,6 +17,7 @@ base:
     users: users
     template: template
     templates: templates
+    posts: posts
 
 # Content
 content:

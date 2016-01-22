@@ -15,6 +15,7 @@ base:
     system: systeem
     schemas: schemas
     users: gebruikers
+    posts: posts
 
 # Content
 content:
