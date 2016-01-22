@@ -9,6 +9,7 @@
 namespace Opifer\ContentBundle\Environment;
 
 use Opifer\ContentBundle\Entity\Template;
+use Opifer\ContentBundle\Model\BlockInterface;
 
 class TemplateEnvironment extends Environment
 {
@@ -47,6 +48,20 @@ class TemplateEnvironment extends Environment
         }
 
         return $blockOwners;
+    }
+
+    /**
+     * @param BlockInterface $block
+     *
+     * @return string
+     */
+    public function getBlockMode(BlockInterface $block = null)
+    {
+        if ($block && $block->getOwner()->getId() != $this->template->getBlock()->getId()) {
+            return 'default';
+        }
+
+        return $this->blockMode;
     }
 
     /**

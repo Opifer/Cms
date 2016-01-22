@@ -89,15 +89,10 @@
         position: relative;
 
         .material-icons {
-            position: absolute;
             font-size: 18px;
-            left: 8px;
-            top: 6px;
-        }
-
-        &:after {
-            position: relative;
-            content: "\0000a0\0000a0\0000a0\0000a0";
+            display: inline-flex;
+            vertical-align: middle;
+            margin-top: -1px;
         }
     }
 
@@ -110,14 +105,23 @@
 }
 
 .pm-toolbar-text {
+    float: left;
     font-weight: bold;
     display: inline-block;
-    padding: 5px @padding-base-horizontal 2px;
+    padding: 3px 1px;
     overflow: hidden;
-    line-height: 20px;
     text-overflow: ellipsis;
     white-space: nowrap;
-    width: 100%;
+    width: 50%;
+}
+
+.pm-button-group {
+    float: left;
+    width: 50%;
+
+    .btn-icon {
+        padding: 0;
+    }
 }
 
 .pm-viewmode-content {
@@ -145,16 +149,16 @@
     .pm-content {
         position: relative;
 
-        &:after {
-            content: " ";
-            position: absolute;
-            z-index: 200;
-            background: fade(#eecdcf, 50%);
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-        }
+//        &:after {
+//            content: " ";
+//            position: absolute;
+//            z-index: 200;
+//            background: fade(#eecdcf, 50%);
+//            top: 0;
+//            left: 0;
+//            width: 100%;
+//            height: 100%;
+//        }
     }
 
     .pm-layout {

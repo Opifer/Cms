@@ -87,9 +87,11 @@ abstract class Environment
     }
 
     /**
+     * @param BlockInterface $block
+     *
      * @return string
      */
-    public function getBlockMode()
+    public function getBlockMode(BlockInterface $block = null)
     {
         return $this->blockMode;
     }

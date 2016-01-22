@@ -10,6 +10,7 @@ namespace Opifer\ContentBundle\Environment;
 
 use Opifer\ContentBundle\Model\ContentInterface;
 use Opifer\ContentBundle\Model\ContentManager;
+use Opifer\ContentBundle\Model\BlockInterface;
 
 class ContentEnvironment extends TemplateEnvironment
 {
@@ -64,6 +65,20 @@ class ContentEnvironment extends TemplateEnvironment
         );
 
         return array_merge(parent::getViewParameters(), $parameters);
+    }
+
+    /**
+     * @param BlockInterface $block
+     *
+     * @return string
+     */
+    public function getBlockMode(BlockInterface $block = null)
+    {
+        if ($block && $block->getOwner()->getId() != $this->content->getBlock()->getId()) {
+            return 'default';
+        }
+
+        return $this->blockMode;
     }
 
     /**
