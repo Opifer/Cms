@@ -2,10 +2,8 @@
 
 namespace Opifer\ContentBundle\Controller\Backend;
 
-use Doctrine\Common\Collections\ArrayCollection;
-use Opifer\ContentBundle\Entity\BlockContent;
+use Opifer\ContentBundle\Entity\DocumentBlock;
 use Opifer\ContentBundle\Form\Type\BlockAdapterFormType;
-use Opifer\ContentBundle\Form\Type\ContentEditorType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -19,36 +17,78 @@ use Opifer\ContentBundle\Block\BlockServiceInterface;
  */
 class ContentEditorController extends Controller
 {
+
+    /**
+     * Graphical Content editor
+     *
+     * @param Request $request
+     * @param string  $type
+     * @param integer $version
+     *
+     * @return Response
+     */
+    public function designAction(Request $request, $type, $id, $version = 0)
+    {
+        $this->getDoctrine()->getManager()->getFilters()->disable('draftversion');
+
+        /** @var BlockManager $blockManager */
+        $blockManager = $this->get('opifer.content.block_manager');
+
+        /** @var AbstractDesignSuite $suite */
+        $suite = $this->get(sprintf('opifer.content.%s_design_suite', $type));
+        $suite->load($id, $version);
+
+        if (!$suite->getBlock()) {
+            // Create a new document
+            $version = 1;
+            $document = new DocumentBlock();
+            $document->setRootVersion(1);
+
+            $suite->setBlock($document);
+            $suite->saveSubject();
+        }
+
+        if (!$version) {
+            $version = $blockManager->getNewVersion($suite->getBlock());
+            $suite->getSubject()->getBlock()->setRootVersion($version);
+        }
+
+        $parameters = [
+            'manager' => $blockManager,
+            'block' => $suite->getBlock(),
+            'id' => $suite->getSubject()->getId(),
+            'type' => $type,
+            'title' => $suite->getTitle(),
+            'caption' => $suite->getCaption(),
+            'permalink' => $suite->getPermalink(),
+            'version_current' => $version,
+            'version_published' => $suite->getBlock()->getVersion(),
+            'url_properties' => $suite->getPropertiesUrl(),
+            'url_cancel' => $suite->getCancelUrl(),
+            'url' => $suite->getCanvasUrl($version),
+        ];
+
+        return $this->render($this->getParameter('opifer_content.content_edit_view'), $parameters);
+    }
+
     /**
      * @param Request $request
+     * @param string  $type
      * @param integer $id
      * @param integer $version
      *
      * @return mixed
-     *
-     * @throws \Exception
      */
-    public function viewAction(Request $request, $id, $version = 0)
+    public function viewAction(Request $request, $type, $id, $version = 0)
     {
         $this->getDoctrine()->getManager()->getFilters()->disable('draftversion');
 
-        /** @var BlockManager $manager */
-        $manager   = $this->get('opifer.content.block_manager');
-        $block     = $manager->find($id, $version);
+        /** @var Environment $environment */
+        $environment = $this->get(sprintf('opifer.content.block_%s_environment', $type));
+        $environment->load($id, $version);
+        $environment->setBlockMode('manage');
 
-        /** @var BlockServiceInterface $service */
-        $service   = $this->get('opifer.content.block_manager')->getService($block);
-
-        $contentManager = $this->get('opifer.content.content_manager');
-        if ($content = $contentManager->getRepository()->findOneBy(['block' => $block])) {
-            $service->setView($content->getTemplate()->getView());
-        } elseif ($template = $this->getDoctrine()->getRepository('OpiferContentBundle:Template')->findOneBy(['block' => $block])) {
-            $service->setView($template->getView());
-        } else {
-            throw new \Exception('Document block seems to be orphaned, could not generate view.');
-        }
-
-        return $service->manage($block);
+        return $this->render($environment->getView(), $environment->getViewParameters());
     }
 
     /**
@@ -95,20 +135,6 @@ class ContentEditorController extends Controller
 
         return $this->render($service->getEditView(), ['block_service' => $service, 'block' => $block, 'form' => $form->createView(), 'update_preview' => $updatePreview]);
     }
-
-//    /**
-//     * @param Request $request
-//     * @param integer $id
-//     * @param integer $current
-//     *
-//     * @return Response
-//     */
-//    public function versionDialogAction(Request $request, $id, $current)
-//    {
-//        $versions = array();
-//
-//        return $this->render('OpiferContentBundle:Editor:version_dialog.html.twig', ['versions' => $versions, 'current' => $current]);
-//    }
 
     /**
      * @param integer $id

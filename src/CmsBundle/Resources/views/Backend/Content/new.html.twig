@@ -4,15 +4,18 @@
 
     <section class="container">
         <div class="row">
-            <div class="col-xs-12 col-md-8 col-md-offset-2">
-                <div class="page-header clearfix text-center">
-                    <h1>{{ 'content.new.title'|trans }}</h1>
+            <div class="col-xs-12 col-md-10 col-md-offset-2">
+                <div class="page-header">
+                    <h1>
+                        <small>{{ 'base.content'|trans }}</small><br />
+                        Create new
+                    </h1>
                 </div>
                 {{ form_start(form, {'attr' : { 'novalidate' : 'novalidate' }, 'style': 'horizontal' }) }}
                 {% set form_save_btn = form_widget(form.save) %}
                 {{ form_rest(form) }}
                 <div class="form-group">
-                    <div class="col-xs-12 col-lg-10 col-lg-offset-2">
+                    <div class="col-xs-12">
                         {{ form_save_btn|raw }}
                         <a href="{{ path('opifer_content_content_index') }}" class="btn btn-link pull-right">{{ 'button.cancel'|trans|capitalize }}</a>
                     </div>

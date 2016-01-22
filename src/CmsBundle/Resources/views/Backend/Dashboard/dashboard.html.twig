@@ -14,7 +14,7 @@
 
             {% for item in latest_content %}
             <article class="tile-img col-xs-6 col-md-3 {% if not item.coverImage %}tile-noimg{% endif %}">
-                <a href="{{ path('opifer_content_content_edit', {'id' : item.id }) }}">
+                <a href="{{ path('opifer_content_contenteditor_design', {'type': 'content', 'id' : item.id }) }}">
                     <div class="tile-body"  {% if item.coverImage %}style="background-image: url({{ item.coverImage|imagine_filter('dashboard_content') }})" {% endif %}>
                         <div class="text">
                             <span class="date">{{ item.updatedAt|localizeddate('medium') }}</span>

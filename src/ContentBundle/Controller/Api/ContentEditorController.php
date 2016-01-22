@@ -24,18 +24,24 @@ class ContentEditorController extends Controller
     /**
      * Retrieve the manage view for a block
      *
+     * @param string  $type
+     * @param integer $typeId
      * @param integer $id
      * @param integer $rootVersion
      *
      * @return JsonResponse
      */
-    public function viewBlockAction($id, $rootVersion)
+    public function viewBlockAction($type, $typeId, $id, $rootVersion)
     {
         $this->getDoctrine()->getManager()->getFilters()->disable('draftversion');
         /** @var BlockManager $manager */
         $manager = $this->get('opifer.content.block_manager');
 
-        $block = $manager->find($id, $rootVersion, true);
+        /** @var Environment $environment */
+        $environment = $this->get(sprintf('opifer.content.block_%s_environment', $type));
+        $environment->load($typeId, $rootVersion);
+
+        $block = $environment->getBlock($id);
         $service = $manager->getService($block);
 
         $this->get('opifer.content.twig.content_extension')->setBlockMode('manage');
@@ -47,12 +53,14 @@ class ContentEditorController extends Controller
      * Creates a new block
      *
      * @param Request $request
+     * @param string  $type
+     * @param integer $typeId
      * @param integer $ownerId
      * @param integer $rootVersion
      *
      * @return JsonResponse
      */
-    public function createBlockAction(Request $request, $ownerId, $rootVersion)
+    public function createBlockAction(Request $request, $type, $typeId, $ownerId, $rootVersion)
     {
         $this->getDoctrine()->getManager()->getFilters()->disable('draftversion');
 
@@ -62,7 +70,7 @@ class ContentEditorController extends Controller
 
         $sort        = $request->request->get('sort');
         $parentId    = $request->request->get('parent');
-        $type        = $request->request->get('type');
+        $class       = $request->request->get('type');
         $placeholder = (int) $request->request->get('placeholder');
         $data        = $request->request->get('data');
         $data        = json_decode($data, true);
@@ -74,11 +82,11 @@ class ContentEditorController extends Controller
                 throw new \Exception("Only new versions can be editted. New version is {$newVersion} while you requested {$rootVersion}");
             }
 
-            $block = $manager->createBlock($ownerId, $type, $parentId, $placeholder, $sort, $data, $rootVersion);
+            $block = $manager->createBlock($ownerId, $class, $parentId, $placeholder, $sort, $data, $rootVersion);
 
             $response = new JsonResponse(['state' => 'created', 'id' => $block->getId()]);
             $response->setStatusCode(201);
-            $response->headers->add(['Location' => $this->generateUrl('opifer_content_api_contenteditor_view_block', ['id' => $block->getId(), 'rootVersion' => $rootVersion])]);
+            $response->headers->add(['Location' => $this->generateUrl('opifer_content_api_contenteditor_view_block', ['type' => $type, 'typeId' => $typeId, 'id' => $block->getId(), 'rootVersion' => $rootVersion])]);
 
         } catch (\Exception $e) {
             $response->setStatusCode(500);

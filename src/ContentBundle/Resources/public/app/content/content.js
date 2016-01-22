@@ -308,11 +308,11 @@ angular.module('OpiferContent', ['angular-inview'])
                 };
 
                 $scope.editContent = function (id) {
-                    window.location = Routing.generate('opifer_content_content_edit', {'id': id});
+                    window.location = Routing.generate('opifer_content_contenteditor_design', {'type': 'content', 'id': id});
                 };
 
                 $scope.editUrl = function (id) {
-                    return Routing.generate('opifer_content_content_edit', {'id': id});
+                    return Routing.generate('opifer_content_contenteditor_design', {'type': 'content', 'id': id});
                 };
 
                 $scope.copyContent = function (id) {

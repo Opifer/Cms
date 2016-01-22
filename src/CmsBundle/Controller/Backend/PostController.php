@@ -43,7 +43,8 @@ class PostController extends BasePostController
         $grid->setId('posts')
             ->setSource($source)
             ->addRowAction($viewAction)
-            ->addRowAction($deleteAction);
+            ->addRowAction($deleteAction)
+            ->setActionsColumnSeparator(' ');
 
         return $grid->getGridResponse('OpiferCmsBundle:Backend/Post:index.html.twig', ['form' => $form]);
     }

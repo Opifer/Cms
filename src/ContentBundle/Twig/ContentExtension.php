@@ -4,6 +4,9 @@ namespace Opifer\ContentBundle\Twig;
 
 use Opifer\ContentBundle\Block\BlockContainerInterface;
 use Opifer\ContentBundle\Block\BlockOwnerInterface;
+use Opifer\ContentBundle\Entity\CompositeBlock;
+use Opifer\ContentBundle\Entity\DocumentBlock;
+use Opifer\ContentBundle\Environment\Environment;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpKernel\Controller\ControllerReference;
 use Symfony\Component\HttpKernel\Fragment\FragmentHandler;
@@ -26,6 +29,9 @@ class ContentExtension extends \Twig_Extension
 
     /** @var string */
     protected $blockMode;
+
+    /** @var \Opifer\ContentBundle\Block\Environment */
+    protected $blockEnvironment;
 
     /** @var ContainerInterface */
     protected $container;
@@ -67,32 +73,7 @@ class ContentExtension extends \Twig_Extension
                 'is_safe' => array('html'),
                 'needs_context' => true
             )),
-            new \Twig_SimpleFunction('get_content', [$this, 'getContent'], [
-                'is_safe' => array('html')
-            ]),
-            new \Twig_SimpleFunction('get_content_by_id', [$this, 'getContentById'], [
-                'is_safe' => array('html')
-            ]),
-            new \Twig_SimpleFunction('content_picker', [$this, 'contentPicker'], [
-                'is_safe' => array('html')
-            ]),
-            new \Twig_SimpleFunction('breadcrumbs', [$this, 'getBreadcrumbs'], [
-                'is_safe' => array('html')
-            ]),
         ];
-    }
-
-    /**
-     * Get a content item by its slug
-     *
-     * @return \Opifer\CmsBundle\Entity\Content
-     */
-    public function getContent($slug)
-    {
-        $content = $this->contentManager->getRepository()
-            ->findOneBySlug($slug);
-
-        return $content;
     }
 
     /**
@@ -105,14 +86,10 @@ class ContentExtension extends \Twig_Extension
     {
         $manager = $this->container->get('opifer.content.block_manager');
 
-        if (isset($arguments['block_mode'])) {
-            $this->blockMode = $arguments['block_mode'];
-        }
-
         $service = $manager->getService($block);
 
-        if ($this->blockMode && $this->blockMode === 'manage') {
-            $content =  $service->manage($block)->getContent();
+        if ($this->blockEnvironment->getBlockMode() === 'manage') {
+            $content =  $service->setEnvironment($this->blockEnvironment)->manage($block)->getContent();
 //            $block->isRendered = true;
 //
 //            // TODO check for unrendered blocks
@@ -140,69 +117,41 @@ class ContentExtension extends \Twig_Extension
      */
     public function renderPlaceholder($context, $key = 0)
     {
-        if (isset($context['block_mode'])) {
-            $this->blockMode = $context['block_mode'];
+        if (isset($context['environment'])) {
+            $this->blockEnvironment = $context['environment'];
         }
 
         $content = '';
 
-        if (isset($context['block'])) {
-            $container = $context['block'];
-            foreach ($container->getChildren() as $block) {
+        if ($this->blockEnvironment instanceof Environment) {
+            /** @var BlockInterface $container */
+
+            if (isset($context['block'])) {
+                $container = $context['block'];
+                if ($container instanceof CompositeBlock) {
+                    $blocks = $this->blockEnvironment->getBlockChildren($container);
+                } else {
+                    throw new \Exception('Tried to render placeholder in a block which is not a CompositeBlock');
+                }
+            } else {
+                $blocks = $this->blockEnvironment->getRootBlocks();
+            }
+
+
+            foreach ($blocks as $block) {
                 if ($block->getPosition() === (int) $key || ((int) $key === 0 && $block->getPosition() === 0)) {
                     $content .= $this->renderBlock($block);
                 }
 
-                continue; // skip blocks that are not supposed to render at this placeholder key
+//                continue; // skip blocks that are not supposed to render at this placeholder key
             }
         }
 
-        if ($this->blockMode && $this->blockMode === 'manage') {
+        if ($this->blockEnvironment->getBlockMode() === 'manage') { // && $this->blockEnvironment->getContent()->getBlock()->getId() == $block->getOwner()->getId()
             $content = $this->container->get('templating')->render('OpiferContentBundle:Block:manage.html.twig', ['content' => $content, 'key' => $key, 'manage_type' => 'placeholder']);
         }
 
         return $content;
-    }
-
-    /**
-     * Get a content item by its id
-     *
-     * @return \Opifer\CmsBundle\Entity\Content
-     */
-    public function getContentById($id)
-    {
-        $content = $this->contentManager->getRepository()
-            ->findOneById($id);
-
-        return $content;
-    }
-
-
-    public function getBreadcrumbs(ContentInterface $content)
-    {
-        $return = [];
-        $breadcrumbs = $content->getBreadcrumbs();
-
-        if(sizeof($breadcrumbs) == 1 && key($breadcrumbs) == 'index') {
-            return $return;
-        }
-
-        $index = 0;
-        foreach ($breadcrumbs as $slug => $title) {
-            if(substr($slug, -6) == '/index') {
-                continue;
-            }
-
-            $indexSlug = (sizeof($breadcrumbs)-1 == $index) ? $slug : $slug.'/index';
-
-            if($content = $this->contentManager->getRepository()->findOneBy(['slug' => $indexSlug])) {
-                $return[$slug.'/'] = $content->getTitle();
-            }
-
-            $index++;
-        }
-
-        return $return;
     }
 
     /**

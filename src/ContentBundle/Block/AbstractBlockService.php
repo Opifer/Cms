@@ -43,10 +43,12 @@ abstract class AbstractBlockService
      */
     public function execute(BlockInterface $block, Response $response = null)
     {
-        return $this->renderResponse($this->getView($block), array(
+        $parameters = array(
             'block_service'  => $this,
             'block'          => $block,
-        ), $response);
+        );
+
+        return $this->renderResponse($this->getView($block), $parameters,  $response);
     }
 
     /**
@@ -54,13 +56,34 @@ abstract class AbstractBlockService
      */
     public function manage(BlockInterface $block, Response $response = null)
     {
-        return $this->renderResponse($this->getManageView($block), array(
+        $parameters = array(
             'block_service'  => $this,
             'block'          => $block,
             'block_view'     => $this->getView($block),
-            'block_mode'     => 'manage',
             'manage_type'    => $this->getManageFormTypeName(),
-        ), $response);
+        );
+
+        return $this->renderResponse($this->getManageView($block), $parameters, $response);
+    }
+
+    /**
+     * @return Environment
+     */
+    public function getEnvironment()
+    {
+        return $this->environment;
+    }
+
+    /**
+     * @param Environment $environment
+     *
+     * @return BlockServiceInterface
+     */
+    public function setEnvironment($environment)
+    {
+        $this->environment = $environment;
+
+        return $this;
     }
 
     /**
@@ -190,14 +213,6 @@ abstract class AbstractBlockService
             ]);
     }
 
-//    public function buildPropertiesForm(FormBuilderInterface $builder, array $options)
-//    {
-//        return $builder->create('properties', 'form')
-//                        ->add('id', 'text')
-//                        ->add('extra_classes', 'text');
-//    }
-
-
     /**
      * Configures the options for this type. (replaces the setDefaultOptions
      * method that was deprecated since Symfony 2.7)
@@ -231,4 +246,6 @@ abstract class AbstractBlockService
     {
         return $this->getTemplating()->renderResponse($view, $parameters, $response);
     }
+
+
 }
