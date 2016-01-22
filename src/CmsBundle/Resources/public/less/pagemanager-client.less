@@ -80,12 +80,12 @@
         margin: 0;
     }
 
-    .btn {
+    .pm-btn {
         font-size: @font-size-base;
         border-radius: 0;
     }
 
-    .btn-icon {
+    .pm-btn-icon {
         position: relative;
 
         .material-icons {
@@ -94,13 +94,6 @@
             vertical-align: middle;
             margin-top: -1px;
         }
-    }
-
-    .btn-edit {
-//        background: @brand-primary;
-    }
-    .btn-delete {
-//        background: @brand-danger;
     }
 }
 
@@ -115,12 +108,13 @@
     width: 50%;
 }
 
-.pm-button-group {
+.pm-btn-group {
     float: left;
     width: 50%;
 
-    .btn-icon {
+    .pm-btn-icon {
         padding: 0;
+        color: white;
     }
 }
 
@@ -138,7 +132,7 @@
             right: 0;
             color: white;
 
-            .btn {
+            .pm-btn {
                 color: white;
             }
         }
@@ -168,7 +162,7 @@
             display: block;
             color: darken(#eecdcf, 40%);
 
-            a, .btn {
+            a, .pm-btn {
                 color: darken(#eecdcf, 40%);
             }
         }
@@ -233,7 +227,6 @@
         padding: 5px;
     }
 }
-
 
 .list-group-item.pm-block-item {
     .pm;

@@ -17,9 +17,9 @@
     <div class="pm-block pm-layout" data-pm-block-id="{{ block.id }}">
         <div class="pm pm-toolbar clearfix hidden">
             <div class="pm-toolbar-text"><code>{{ block.id }}</code> {{ block_service.name(block) }}</div>
-            <div class="pm-button-group">
-                <a href="#" class="btn btn-icon pull-right btn-delete"><i class="material-icons">close</i></a>
-                <a href="#" class="btn btn-icon pull-right btn-edit"><i class="material-icons">create</i></a>
+            <div class="pm-btn-group">
+                <a href="#" class="pm-btn pm-btn-icon pull-right pm-btn-delete"><i class="material-icons">close</i></a>
+                <a href="#" class="pm-btn pm-btn-icon pull-right pm-btn-edit"><i class="material-icons">create</i></a>
             </div>
         </div>
         {% include block_view %}
@@ -29,9 +29,9 @@
 {% block block_manage_stealth_toolbar %}
     <div class="pm pm-toolbar clearfix hidden">
         <div class="pm-toolbar-text"><code>{{ block.id }}</code>  {{ block_service.name }} </div>
-        <div class="pm-button-group">
-            <a href="#" class="btn btn-icon btn-sm pull-right btn-delete"><i class="material-icons">close</i></a>
-            <a href="#" class="btn btn-icon btn-sm pull-right btn-edit"><i class="material-icons">create</i></a>
+        <div class="pm-btn-group">
+            <a href="#" class="pm-btn pm-btn-icon pm-btn-sm pull-right pm-btn-delete"><i class="material-icons">close</i></a>
+            <a href="#" class="pm-btn pm-btn-icon pm-btn-sm pull-right pm-btn-edit"><i class="material-icons">create</i></a>
         </div>
     </div>
 {% endblock block_manage_stealth_toolbar %}
@@ -49,9 +49,9 @@
     <div class="pm-block pm-content" data-pm-block-id="{{ block.id }}">
         <div class="pm pm-toolbar clearfix hidden">
             <div class="pm-toolbar-text"><code>{{ block.id }}</code> {{ block_service.name }}</div>
-            <div class="pm-button-group">
-                <a href="#" class="btn btn-icon pull-right btn-delete"><i class="material-icons">close</i></a>
-                <a href="#" class="btn btn-icon pull-right btn-edit"><i class="material-icons">create</i></a>
+            <div class="pm-btn-group">
+                <a href="#" class="pm-btn pm-btn-icon pull-right pm-btn-delete"><i class="material-icons">close</i></a>
+                <a href="#" class="pm-btn pm-btn-icon pull-right pm-btn-edit"><i class="material-icons">create</i></a>
             </div>
         </div>
         {% include block_view %}

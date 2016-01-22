@@ -101,7 +101,7 @@ $(document).ready(function() {
                 return false;
             });
 
-            $(document).on('click', '.pm-block .btn-edit', function (e) {
+            $(document).on('click', '.pm-block .pm-btn-edit', function (e) {
                 e.preventDefault();
                 editBlock($(this).closest('.pm-block').attr('data-pm-block-id'));
             });
@@ -356,14 +356,14 @@ $(document).ready(function() {
                 $(parent.document).trigger(event);
             });
 
-            iFrame.contents().find('body').on('click', '.pm-block .btn-edit', function(e) {
+            iFrame.contents().find('body').on('click', '.pm-block .pm-btn-edit', function(e) {
                 e.preventDefault();
                 var id = $(this).closest('.pm-block').attr('data-pm-block-id');
                 editBlock(id);
             });
 
             // Delete block (click)
-            iFrame.contents().find('body').on('click', '.pm-block .btn-delete', function(e) {
+            iFrame.contents().find('body').on('click', '.pm-block .pm-btn-delete', function(e) {
                 e.preventDefault();
                 var id = $(this).closest('.pm-block').attr('data-pm-block-id');
                 deleteBlock(id);
@@ -429,7 +429,7 @@ $(document).ready(function() {
                     // Create new block
                     if ($(ui.item).hasClass('pm-block-item')) {
                         var reference = $(this).find('.pm-block-item');
-                        var type = $(ui.item).attr('data-pm-block-type');
+                        var className = $(ui.item).attr('data-pm-block-type');
                         var parent = $(this).parent().closest('.pm-layout').attr('data-pm-block-id');
                         var placeholderKey = $(this).closest('.pm-placeholder').attr('data-pm-placeholder-key');
                         var data = $(ui.item).attr('data-pm-block-data');
@@ -437,7 +437,7 @@ $(document).ready(function() {
                         $(ui.item).attr('data-pm-block-id', '0'); // Set default so toArray won't trip and fall below
                         var sortOrder = $(this).sortable('toArray', {attribute: 'data-pm-block-id'});
 
-                        createBlock({type: type, parent: parent, placeholder: placeholderKey, sort: sortOrder, data: data}, reference);
+                        createBlock({className: className, parent: parent, placeholder: placeholderKey, sort: sortOrder, data: data}, reference);
                     }
                 },
                 over: function (event, ui) {

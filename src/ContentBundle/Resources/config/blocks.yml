@@ -53,7 +53,7 @@ services:
         class: %opifer.content.container_block.class%
         arguments: [@templating]
         tags:
-            - { name: opifer.content.block_service, alias: container }
+            - { name: opifer.content.block_service, alias: container_container }
         calls:
             - [setWrapper, ["container"]]
 
