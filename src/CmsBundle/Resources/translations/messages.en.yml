@@ -16,6 +16,7 @@ base:
     schemas: schemas
     users: users
     templates: templates
+    posts: posts
 
 # Content
 content:

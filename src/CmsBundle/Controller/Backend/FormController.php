@@ -36,8 +36,7 @@ class FormController extends BaseFormController
             ->setSource($source)
             ->addColumn($postsColumn)
             ->addRowAction($editAction)
-            ->addRowAction($deleteAction)
-            ->setActionsColumnSeparator(' ');
+            ->addRowAction($deleteAction);
 
         return $grid->getGridResponse('OpiferCmsBundle:Backend/Form:index.html.twig');
     }
