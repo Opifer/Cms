@@ -68,20 +68,6 @@ class ContentEnvironment extends TemplateEnvironment
     }
 
     /**
-     * @param BlockInterface $block
-     *
-     * @return string
-     */
-    public function getBlockMode(BlockInterface $block = null)
-    {
-        if ($block && $block->getOwner()->getId() != $this->content->getBlock()->getId()) {
-            return 'default';
-        }
-
-        return $this->blockMode;
-    }
-
-    /**
      * @return ContentInterface
      */
     public function getContent()

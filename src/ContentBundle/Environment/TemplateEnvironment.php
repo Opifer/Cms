@@ -51,20 +51,6 @@ class TemplateEnvironment extends Environment
     }
 
     /**
-     * @param BlockInterface $block
-     *
-     * @return string
-     */
-    public function getBlockMode(BlockInterface $block = null)
-    {
-        if ($block && $block->getOwner()->getId() != $this->template->getBlock()->getId()) {
-            return 'default';
-        }
-
-        return $this->blockMode;
-    }
-
-    /**
      * @return array
      */
     public function getViewParameters()
