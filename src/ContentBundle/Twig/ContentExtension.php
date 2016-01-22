@@ -88,7 +88,7 @@ class ContentExtension extends \Twig_Extension
 
         $service = $manager->getService($block);
 
-        if ($this->blockEnvironment->getBlockMode() === 'manage') {
+        if ($this->blockEnvironment->getBlockMode($block) == 'manage') {
             $content =  $service->setEnvironment($this->blockEnvironment)->manage($block)->getContent();
 //            $block->isRendered = true;
 //

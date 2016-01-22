@@ -70,7 +70,7 @@ class ContentEditorController extends Controller
 
         $sort        = $request->request->get('sort');
         $parentId    = $request->request->get('parent');
-        $class       = $request->request->get('type');
+        $className       = $request->request->get('className');
         $placeholder = (int) $request->request->get('placeholder');
         $data        = $request->request->get('data');
         $data        = json_decode($data, true);
@@ -82,7 +82,7 @@ class ContentEditorController extends Controller
                 throw new \Exception("Only new versions can be editted. New version is {$newVersion} while you requested {$rootVersion}");
             }
 
-            $block = $manager->createBlock($ownerId, $class, $parentId, $placeholder, $sort, $data, $rootVersion);
+            $block = $manager->createBlock($ownerId, $className, $parentId, $placeholder, $sort, $data, $rootVersion);
 
             $response = new JsonResponse(['state' => 'created', 'id' => $block->getId()]);
             $response->setStatusCode(201);

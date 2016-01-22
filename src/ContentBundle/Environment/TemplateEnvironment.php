@@ -9,6 +9,7 @@
 namespace Opifer\ContentBundle\Environment;
 
 use Opifer\ContentBundle\Entity\Template;
+use Opifer\ContentBundle\Model\BlockInterface;
 
 class TemplateEnvironment extends Environment
 {
