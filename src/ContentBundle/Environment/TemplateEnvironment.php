@@ -40,8 +40,11 @@ class TemplateEnvironment extends Environment
      */
     protected function getBlockOwners()
     {
-        $blockOwners = array();
-        $blockOwners[] = $this->template->getBlock();
+        $blockOwners = [];
+        if ($this->template->getBlock()) {
+            $blockOwners[] = $this->template->getBlock();
+        }
+
         if ($this->template->getParent()) {
             $blockOwners[] = $this->template->getParent()->getBlock();
         }
