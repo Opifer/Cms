@@ -20,4 +20,15 @@ use Opifer\FormBundle\Model\Post as BasePost;
  */
 class Post extends BasePost implements EntityInterface
 {
+    /**
+     * @var int
+     *
+     * @JMS\Expose
+     * @ORM\Id
+     * @ORM\Column(name="id", type="integer")
+     * @ORM\GeneratedValue(strategy="AUTO")
+     *
+     * @GRID\Column(title="Id", size="10", type="number")
+     */
+    protected $id;
 }
