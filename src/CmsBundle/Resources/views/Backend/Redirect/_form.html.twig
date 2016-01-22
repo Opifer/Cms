@@ -3,8 +3,8 @@
 
     <div class="form-group form-footer">
         <div class="col-xs-12">
-            <input type="submit" value="Save" class="btn btn-primary"/>
-            <a href="{{ path('opifer_redirect_redirect_index') }}" class="btn btn-link">Cancel</a>
+            <button type="submit" class="btn btn-primary">{{ 'button.submit'|trans|capitalize }} </button>
+            <a href="{{ path('opifer_redirect_redirect_index') }}" class="btn btn-link">{{ 'button.cancel'|trans }}</a>
         </div>
     </div>
 {{ form_end(form) }}

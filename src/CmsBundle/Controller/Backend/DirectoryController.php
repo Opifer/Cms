@@ -30,8 +30,7 @@ class DirectoryController extends BaseDirectoryController
         $grid->setId('directories')
             ->setSource($source)
             ->addRowAction($editAction)
-            ->addRowAction($deleteAction)
-            ->setActionsColumnSeparator(' ');
+            ->addRowAction($deleteAction);
 
         return $grid->getGridResponse('OpiferCmsBundle:Backend/Directory:index.html.twig');
     }

@@ -22,7 +22,6 @@ parameters:
     opifer.cms.sitemap_listener.class: Opifer\CmsBundle\EventListener\SitemapListener
     opifer.cms.slug_form_type.class: Opifer\CmsBundle\Form\Type\SlugType
     opifer.cms.tableprefix_listener.class: Opifer\CmsBundle\EventListener\TablePrefixSubscriber
-    opifer.cms.user_form.class: Opifer\CmsBundle\Form\Type\UserFormType
     twig.extension.intl.class: Twig_Extensions_Extension_Intl
 
     opifer.cms.event_subscriber.load_orm_metadata.class: Opifer\CmsBundle\EventListener\LoadORMMetadataSubscriber
@@ -55,10 +54,10 @@ services:
             - { name: 'form.type', alias: 'admin_attribute_parameters' }
 
     opifer.cms.user_form:
-        class: '%opifer.cms.user_form.class%'
+        class: Opifer\CmsBundle\Form\Type\UserFormType
         arguments: ['%security.role_hierarchy.roles%', '%opifer_cms.user_model%']
         tags:
-            - { name: 'form.type', alias: 'admin_user_form' }
+            - { name: 'form.type' }
 
     opifer.cms.form.collapsible_collection:
         class: '%opifer.cms.form.collapsible_collection.class%'

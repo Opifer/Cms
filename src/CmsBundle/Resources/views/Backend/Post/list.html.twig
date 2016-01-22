@@ -3,11 +3,9 @@
 {% block body %}
     {% spaceless %}
         <div class="page-header clearfix">
-            <h1 class="pull-left">Posts</h1>
+            <h1 class="pull-left">{{ 'base.posts'|trans|capitalize }}</h1>
         </div>
 
-        <div class="container-fluid">
-            {{ grid(grid, 'OpiferCmsBundle:Backend/Grid:grid.html.twig') }}
-        </div>
+        {% include 'OpiferCmsBundle:Components:grid.html.twig' with { 'grid': grid } %}
     {% endspaceless %}
 {% endblock body %}

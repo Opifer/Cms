@@ -36,8 +36,7 @@ class TemplateController extends Controller
             ->setSource($source)
             ->addRowAction($editAction)
             ->addRowAction($deleteAction)
-            ->addRowAction($designAction)
-            ->setActionsColumnSeparator(' ');
+            ->addRowAction($designAction);
 
         return $grid->getGridResponse('OpiferCmsBundle:Backend/Template:index.html.twig');
     }
