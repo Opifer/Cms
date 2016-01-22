@@ -3,6 +3,10 @@
 namespace Opifer\CmsBundle\Form\Type;
 
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\PasswordType;
+use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -32,21 +36,26 @@ class UserFormType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('username')
-            ->add('email')
-            ->add('plainPassword', 'repeated', [
-                'type' => 'password',
+            ->add('username', TextType::class)
+            ->add('email', TextType::class)
+            ->add('plainPassword', RepeatedType::class, [
+                'type' => PasswordType::class,
                 'first_options' => ['label' => 'form.password'],
                 'second_options' => ['label' => 'form.password_confirmation'],
                 'invalid_message' => 'fos_user.password.mismatch',
             ])
-            ->add('enabled', 'choice', [
-                'choices' => [true => 'Enable', false => 'Disable'],
+            ->add('enabled', ChoiceType::class, [
+                'choices' => [
+                    'form.options.enable' => true,
+                    'form.options.disable' => false,
+                ],
+                'choices_as_values' => true,
                 'data' => true,
             ])
-            ->add('roles', 'choice', [
+            ->add('roles', ChoiceType::class, [
                 'multiple' => true,
                 'choices' => $this->flattenRoles($this->roles),
+                'choices_as_values' => true,
             ])
         ;
     }

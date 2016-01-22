@@ -165,6 +165,7 @@ user:
         success: %username% was updated successfully!
     new:
         success: '%username% was successfully created with ID "%id%"'
+    create_user: create a new user
 
 # Form field labels
 form:
@@ -187,6 +188,21 @@ form:
     post_notify:
         placeholder: "Enter recipients email address"
         help_text: ""
+
+    back_to_form: back to form
+    back_to_posts: back to posts
+    post_on: 'Post %id% on "%name%"'
+    posts_for: 'Posts for "%name%"'
+    edit_form: 'Edit form "%name%"'
+    see_posts: see posts
+    new_form: new form
+
+    field: field
+    value: value
+
+    options:
+        enable: Enable
+        disable: Disable
 
 # Buttons
 button:
@@ -236,6 +252,6 @@ confirmation:
         description: "Are you sure you want to delete"
 
 schema:
-    post_notify: E-mail notification
+    post_notify: Email notification
     delete:
         warning: "We're unable to remove this template. It might still be in use by content items."

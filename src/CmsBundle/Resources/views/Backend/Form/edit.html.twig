@@ -3,16 +3,14 @@
 {% block body %}
     {% spaceless %}
         <div class="page-header clearfix">
-            <h1 class="pull-left">Edit form "{{ form.name }}"</h1>
             <a href="{{ path('opifer_form_post_index', {'formId': form.id}) }}" class="btn btn-default pull-right">
-                {{ 'See posts'|trans|capitalize }}
+                {{ 'form.see_posts'|trans|capitalize }}
             </a>
+            <h1>{{ 'form.edit_form'|trans({ 'name': form.name }) }}</h1>
         </div>
 
         <div class="container">
-            <div class="row">
-                {% include 'OpiferCmsBundle:Backend/Form:_form.html.twig' %}
-            </div>
+            {% include 'OpiferCmsBundle:Backend/Form:_form.html.twig' %}
         </div>
     {% endspaceless %}
 {% endblock body %}
