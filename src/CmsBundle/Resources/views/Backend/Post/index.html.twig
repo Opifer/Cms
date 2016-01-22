@@ -3,14 +3,12 @@
 {% block body %}
     {% spaceless %}
         <div class="page-header clearfix">
-            <h1 class="pull-left">Posts for {{ form.name }}</h1>
+            <h1 class="pull-left">{{ 'form.posts_for'|trans({ '%name%': form.name }) }}</h1>
             <a href="{{ path('opifer_form_form_edit', {'id': form.id}) }}" class="btn btn-default pull-right">
-                {{ 'back to form'|trans|capitalize }}
+                {{ 'form.back_to_form'|trans|capitalize }}
             </a>
         </div>
 
-        <div class="container-fluid">
-            {{ grid(grid, 'OpiferCmsBundle:Backend/Grid:grid.html.twig') }}
-        </div>
+        {% include 'OpiferCmsBundle:Components:grid.html.twig' with { 'grid': grid } %}
     {% endspaceless %}
 {% endblock body %}

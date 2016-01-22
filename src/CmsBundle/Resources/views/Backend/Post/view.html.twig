@@ -3,9 +3,9 @@
 {% block body %}
     {% spaceless %}
         <div class="page-header clearfix">
-            <h1 class="pull-left">Post {{ post.id }} on "{{ post.form.name }}"</h1>
+            <h1 class="pull-left">{{ 'form.post_on'|trans({ '%id%': post.id, '%name%': post.form.name }) }}</h1>
             <a href="{{ path('opifer_form_post_index', {'formId': post.form.id}) }}" class="btn btn-default pull-right">
-                {{ 'back to posts'|trans|capitalize }}
+                {{ 'form.back_to_posts'|trans|capitalize }}
             </a>
         </div>
 
@@ -13,8 +13,8 @@
             <div class="row">
                 <table class="table">
                     <tr>
-                        <th>Property</th>
-                        <th>Value</th>
+                        <th>{{ 'form.field'|trans|capitalize }}</th>
+                        <th>{{ 'form.value'|trans|capitalize }}</th>
                     </tr>
                     {% for key, value in post.valueset.namedvalues %}
                         <tr>

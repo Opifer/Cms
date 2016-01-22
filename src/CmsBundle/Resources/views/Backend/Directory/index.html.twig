@@ -8,7 +8,5 @@
         </a>
     </div>
 
-    <section class="panel-section">
-        {{ grid(grid, 'OpiferCmsBundle:Backend/Grid:grid.html.twig') }}
-    </section>
+    {% include 'OpiferCmsBundle:Components:grid.html.twig' with { 'grid': grid } %}
 {% endblock body %}

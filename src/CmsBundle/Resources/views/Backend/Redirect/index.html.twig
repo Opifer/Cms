@@ -3,10 +3,10 @@
 {% block body %}
     {% spaceless %}
         <div class="page-header clearfix">
-            <h1 class="pull-left">Redirects</h1>
-            <a href="{{ path('opifer_redirect_redirect_create') }}" class="btn btn-primary pull-right">
-                New redirect
+            <a href="{{ path('opifer_redirect_redirect_create') }}" class="btn btn-link pull-right">
+                <i class="material-icons">add</i> {{ 'button.add'|trans|capitalize }}
             </a>
+            <h1 class="pull-left">{{ 'base.redirects'|trans|capitalize }}</h1>
         </div>
 
         <div class="container">

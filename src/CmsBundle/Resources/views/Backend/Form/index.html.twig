@@ -6,11 +6,9 @@
             <a href="{{ path('opifer_form_form_create') }}" class="btn btn-link pull-right">
                 <i class="material-icons">add</i> {{ 'button.add'|trans|capitalize }}
             </a>
-            <h1>Forms</h1>
+            <h1>{{ 'base.forms'|trans|capitalize }}</h1>
         </div>
 
-        <div class="container-fluid">
-            {{ grid(grid, 'OpiferCmsBundle:Backend/Grid:grid.html.twig') }}
-        </div>
+        {% include 'OpiferCmsBundle:Components:grid.html.twig' with { 'grid': grid } %}
     {% endspaceless %}
 {% endblock body %}
