@@ -11,7 +11,5 @@
     </div>
     </div>
 
-    <section class="container-fluid">
-        {{ grid(grid, 'OpiferCmsBundle:Backend/Grid:grid.html.twig') }}
-    </section>
+    {% include 'OpiferCmsBundle:Components:grid.html.twig' with { 'grid': grid } %}
 {% endblock body %}

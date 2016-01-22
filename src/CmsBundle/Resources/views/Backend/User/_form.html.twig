@@ -3,8 +3,8 @@
 
     <div class="form-group form-footer">
         <div class="col-xs-12">
-            <input type="submit" value="Save" class="btn btn-primary"/>
-            <a href="{{ path('opifer_cms_user_index') }}" class="btn btn-link">{{ 'form.cancel'|trans|capitalize }}</a>
+            <button class="btn btn-default" type="submit">{{ 'form.submit'|trans|capitalize }}</button>
+            <a href="{{ path('opifer_cms_user_index') }}" class="btn btn-link">{{ 'button.cancel'|trans|capitalize }}</a>
         </div>
     </div>
 {{ form_end(form) }}
