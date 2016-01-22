@@ -11,7 +11,7 @@ namespace Opifer\ContentBundle\Designer;
 use Opifer\ContentBundle\Model\BlockInterface;
 use Symfony\Component\Intl\Exception\NotImplementedException;
 
-abstract class AbstractDesignContext implements DesignContextInterface
+abstract class AbstractDesignSuite implements DesignSuiteInterface
 {
     /**
      * @var RouterInterface
@@ -132,5 +132,13 @@ abstract class AbstractDesignContext implements DesignContextInterface
         $this->subject = $subject;
 
         return $this;
+    }
+
+    /**
+     * @return Environment
+     */
+    public function getEnvironment()
+    {
+        throw new NotImplementedException('Design Context must implement getEnvironment method');
     }
 }

@@ -38,23 +38,20 @@ class ContentController extends Controller
     {
         $version = $request->query->get('_version');
         $response = new Response();
-        /** @var BlockManager $manager */
-        $manager  = $this->get('opifer.content.block_manager');
-        $block    = $content->getBlock();
+
+        /** @var ContentEnvironment $environment */
+        $environment = $this->get('opifer.content.block_content_environment');
 
         $response->setStatusCode($statusCode);
 
         if (null !== $version && $this->isGranted('ROLE_ADMIN')) {
-            $block = $content->getBlock();
             $this->getDoctrine()->getManager()->getFilters()->disable('draftversion');
-            $manager->revert($block, $version);
+            $environment->load($content->getId(), $version);
+        } else {
+            $environment->load($content->getId());
         }
 
-        /** @var BlockServiceInterface $service */
-        $service        = $manager->getService($block);
-        $service->setView($content->getTemplate()->getView());
-
-        return $service->execute($block);
+        return $this->render($environment->getView(), $environment->getViewParameters());
     }
 
     /**

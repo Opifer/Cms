@@ -2,11 +2,10 @@
 
 namespace Opifer\ContentBundle\Designer;
 
-
 use Opifer\ContentBundle\Model\ContentManager;
 use Symfony\Component\Routing\RouterInterface;
 
-class ContentContext extends AbstractDesignContext
+class ContentSuite extends AbstractDesignSuite
 {
     /**
      * @var ContentManager
@@ -80,7 +79,7 @@ class ContentContext extends AbstractDesignContext
      */
     public function getCanvasUrl($version)
     {
-        return $this->router->generate('opifer_content_contenteditor_view', ['id' => $this->subject->getBlock()->getId(), 'version' => $version]);
+        return $this->router->generate('opifer_content_contenteditor_view', ['type' => 'content', 'id' => $this->subject->getId(), 'version' => $version]);
     }
 
 

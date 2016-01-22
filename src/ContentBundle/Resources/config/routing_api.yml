@@ -1,47 +1,40 @@
 opifer_content_api_content:
-    path: /contents
+    path: /content
     defaults: { _controller: OpiferContentBundle:Api/Content:index }
     methods: [GET]
     options:
         expose: true
 
 opifer_content_api_content_ids:
-    path: /contents/ids/{ids}
+    path: /content/ids/{ids}
     defaults: { _controller: OpiferContentBundle:Api/Content:ids }
     methods: [GET]
     options:
         expose: true
 
 opifer_content_api_content_view:
-    path: /contents/{id}
+    path: /content/{id}
     defaults: { _controller: OpiferContentBundle:Api/Content:view }
     methods: [GET]
     options:
         expose: true
 
 opifer_content_api_content_delete:
-    path: /contents/{id}
+    path: /content/{id}
     defaults: { _controller: OpiferContentBundle:Api/Content:delete }
     methods: [DELETE]
     options:
         expose: true
 
 opifer_content_api_directory:
-    path: /directories
+    path: /directory
     defaults: { _controller: OpiferContentBundle:Api/Directory:index }
     methods: [GET]
     options:
         expose: true
 
-opifer_content_api_layout:
-    path: /layouts
-    defaults: { _controller: OpiferContentBundle:Api/Layout:index }
-    methods: [GET]
-    options:
-        expose: true
-
 opifer_content_api_contenteditor_create_block:
-    path: /contenteditor/createblock/{ownerId}/{rootVersion}
+    path: /contenteditor/createblock/{type}/{typeId}/{ownerId}/{rootVersion}
     defaults: { _controller: OpiferContentBundle:Api/ContentEditor:createBlock }
     methods: [POST]
     options:
@@ -55,7 +48,7 @@ opifer_content_api_contenteditor_move_block:
         expose: true
 
 opifer_content_api_contenteditor_view_block:
-    path: /contenteditor/viewblock/{id}/{rootVersion}
+    path: /contenteditor/viewblock/{type}/{typeId}/{id}/{rootVersion}
     defaults: { _controller: OpiferContentBundle:Api/ContentEditor:viewBlock }
     methods: [GET]
     options:

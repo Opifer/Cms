@@ -16,8 +16,10 @@ parameters:
     opifer.content.twig.content_extension.class: Opifer\ContentBundle\Twig\ContentExtension
     opifer.rulesengine.provider.content.class: Opifer\ContentBundle\RulesEngine\ContentRulesProvider
     opifer.content.block_manager.class: Opifer\ContentBundle\Block\BlockManager
-    opifer.content.content_design_context.class: Opifer\ContentBundle\Designer\ContentContext
-    opifer.content.template_design_context.class: Opifer\ContentBundle\Designer\TemplateContext
+    opifer.content.content_design_suite.class: Opifer\ContentBundle\Designer\ContentSuite
+    opifer.content.template_design_suite.class: Opifer\ContentBundle\Designer\TemplateSuite
+    opifer.content.block_content_environment.class: Opifer\ContentBundle\Environment\ContentEnvironment
+    opifer.content.block_template_environment.class: Opifer\ContentBundle\Environment\TemplateEnvironment
 
 services:
     opifer.content.content_manager.default:
@@ -116,13 +118,24 @@ services:
         class: %opifer.content.block_manager.class%
         arguments: ['@doctrine.orm.default_entity_manager']
 
-    opifer.content.content_design_context:
-        class: %opifer.content.content_design_context.class%
+    opifer.content.content_design_suite:
+        class: %opifer.content.content_design_suite.class%
         arguments: ['@router', '@opifer.content.content_manager']
 
-    opifer.content.template_design_context:
-        class: %opifer.content.template_design_context.class%
+    opifer.content.template_design_suite:
+        class: %opifer.content.template_design_suite.class%
         arguments: ['@router', '@doctrine.orm.default_entity_manager']
+
+    opifer.content.block_content_environment:
+        class: %opifer.content.block_content_environment.class%
+        arguments: ['@doctrine.orm.default_entity_manager', '@opifer.content.block_manager']
+        calls:
+            - [setContentManager, ['@opifer.content.content_manager']]
+
+
+    opifer.content.block_template_environment:
+        class: %opifer.content.block_template_environment.class%
+        arguments: ['@doctrine.orm.default_entity_manager', '@opifer.content.block_manager']
 
 
 #    opifer.content.block_content_type:

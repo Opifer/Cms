@@ -7,7 +7,7 @@ use Opifer\ContentBundle\Model\TemplateManager;
 use Symfony\Component\Routing\RouterInterface;
 use Doctrine\ORM\EntityManagerInterface;
 
-class TemplateContext extends AbstractDesignContext
+class TemplateSuite extends AbstractDesignSuite
 {
 
     /**
@@ -73,7 +73,7 @@ class TemplateContext extends AbstractDesignContext
      */
     public function getCanvasUrl($version)
     {
-        return $this->router->generate('opifer_content_contenteditor_view', ['id' => $this->subject->getBlock()->getId(), 'version' => $version]);
+        return $this->router->generate('opifer_content_contenteditor_view', ['type' => 'template', 'id' => $this->subject->getId(), 'version' => $version]);
     }
 
 

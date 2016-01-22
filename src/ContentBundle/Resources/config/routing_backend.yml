@@ -76,7 +76,7 @@ opifer_content_contenteditor_version_picker:
         expose: true
 
 opifer_content_contenteditor_view:
-    path: /contenteditor/view/{id}/{version}
+    path: /contenteditor/view/{type}/{id}/{version}
     defaults: { _controller: OpiferContentBundle:Backend/ContentEditor:view, version: 0 }
     options:
         expose: true

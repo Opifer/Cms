@@ -55,7 +55,7 @@
     </div>
 
     <div class="pm-editor split-pane fixed-right">
-        <div class="split-pane-component pm-preview pm-viewmode-content" id="pm-document" data-pm-id="{{ block.id }}" data-pm-version="{{ version_current }}" data-pm-version-published="{{ version_published }}" data-pm-permalink="{{ permalink|default }}">
+        <div class="split-pane-component pm-preview pm-viewmode-content" id="pm-document" data-pm-id="{{ block.id }}" data-pm-type="{{ type }}" data-pm-type-id="{{ id }}" data-pm-version="{{ version_current }}" data-pm-version-published="{{ version_published }}" data-pm-permalink="{{ permalink|default }}">
             <iframe data-url="{{ url }}" frameborder="no" id="pm-iframe"></iframe>
         </div>
         <div class="split-pane-divider" id="my-divider"></div>

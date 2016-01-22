@@ -9,6 +9,7 @@ use Opifer\ContentBundle\Block\BlockServiceInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use Opifer\ContentBundle\Block\Tool\ContentTool;
 use Opifer\ContentBundle\Block\Tool\ToolsetMemberInterface;
+use Opifer\ContentBundle\Entity\Template;
 use Opifer\ContentBundle\Model\BlockInterface;
 use Opifer\ContentBundle\Repository\BlockLogEntryRepository;
 
@@ -143,6 +144,25 @@ class BlockManager
         }
 
         return $block;
+    }
+
+    /**
+     * @param BlockOwnerInterface $owner
+     * @param mixed               $rootVersion
+     *
+     * @return array
+     */
+    public function findByOwner(BlockOwnerInterface $owner, $rootVersion = null)
+    {
+        $blocks = $this->getRepository()->findBy(['owner' => $owner], ['sort' => 'asc']);
+
+        if ($rootVersion) {
+            foreach ($blocks as $block) {
+                $this->revert($block, $rootVersion);
+            }
+        }
+
+        return $blocks;
     }
 
     /**
