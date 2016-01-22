@@ -27,7 +27,7 @@ class BlockContent
     /**
      * @var BlockInterface
      *
-     * @ORM\ManyToOne(targetEntity="Opifer\ContentBundle\Entity\ContentCollectionBlock", inversedBy="collection", cascade={"persist"})
+     * @ORM\ManyToOne(targetEntity="Opifer\ContentBundle\Entity\ContentCollectionBlock", inversedBy="blockContentCollection", cascade={"persist"})
      * @ORM\JoinColumn(name="block_id", referencedColumnName="id")
      */
     protected $block;

@@ -83,7 +83,7 @@ class ContentCollectionBlockService extends AbstractBlockService implements Bloc
         $tool = new ContentTool('Content Collection', 'OpiferContentBundle:ContentCollectionBlock');
 
         $tool->setIcon('view_list')
-            ->setDescription('Provides an image from the library in the right size.');
+            ->setDescription('Adds references to a collection of content items');
 
         return $tool;
     }
