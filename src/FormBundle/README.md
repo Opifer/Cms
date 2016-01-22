@@ -112,7 +112,7 @@ class PageController extends Controller
 ```
 
 ```twig
-{% app/Resources/views/Page/contact.html.twig %}
+{# app/Resources/views/Page/contact.html.twig #}
 
 {% set form = create_form_view(form) %}
 {{ form_start(form) }}
