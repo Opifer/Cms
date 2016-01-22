@@ -38,7 +38,7 @@ class AttachmentListener implements EventSubscriberInterface
         $this->entityManager->refresh($post);
 
         foreach ($values as $value) {
-            if ($value instanceof AttachmentValue) {
+            if ($value instanceof AttachmentValue && $value->getFile() != null) {
                 $media = $this->mediaManager->createMedia();
                 $media->setFile($value->getFile());
                 $media->setProvider('file');
