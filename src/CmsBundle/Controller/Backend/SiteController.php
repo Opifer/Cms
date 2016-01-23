@@ -30,8 +30,7 @@ class SiteController extends Controller
         $grid->setId('sites')
             ->setSource($source)
             ->addRowAction($editAction)
-            ->addRowAction($deleteAction)
-            ->setActionsColumnSeparator(' ');
+            ->addRowAction($deleteAction);
 
         return $grid->getGridResponse('OpiferCmsBundle:Backend/Site:index.html.twig');
     }

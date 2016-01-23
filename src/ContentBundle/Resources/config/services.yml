@@ -99,8 +99,7 @@ services:
             - { name: form.type, alias: contentpicker }
 
     opifer.content.form.content_list_picker_type:
-        class: %opifer.content.form.content_list_picker_type.class%
-        arguments: [@doctrine, @property_accessor]
+        class: '%opifer.content.form.content_list_picker_type.class%'
         tags:
             - { name: form.type, alias: content_list_picker }
 
@@ -137,6 +136,12 @@ services:
         class: %opifer.content.block_template_environment.class%
         arguments: ['@doctrine.orm.default_entity_manager', '@opifer.content.block_manager']
 
+
+    simplethings_entityaudit.log_revisions_listener:
+        class: Opifer\ContentBundle\EventListener\LogRevisionsListener
+        arguments: ['@simplethings_entityaudit.manager']
+        tags:
+            - { name: doctrine.event_subscriber, connection: default }
 
 #    opifer.content.block_content_type:
 #        class: %opifer.content.block_adapter_type.class%

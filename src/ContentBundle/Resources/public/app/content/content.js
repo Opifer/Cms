@@ -18,22 +18,22 @@ angular.module('OpiferContent', ['angular-inview'])
         $scope.selecteditems = [];
         $scope.formname = '';
         $scope.multiple = false;
-        $scope.order = {
-            sort: 'manual',
-            order: []
-        };
+        //$scope.order = {
+        //    sort: 'manual',
+        //    order: []
+        //};
 
-        $scope.sortableOptions = {
-            // Update the order variable when the order of items has changed
-            stop: function () {
-                var order = [];
-                for (var i = 0; i < $scope.selecteditems.length; i++) {
-                    order.push($scope.selecteditems[i].id);
-                }
-
-                $scope.order.order = order;
-            }
-        };
+        //$scope.sortableOptions = {
+        //    // Update the order variable when the order of items has changed
+        //    stop: function () {
+        //        var order = [];
+        //        for (var i = 0; i < $scope.selecteditems.length; i++) {
+        //            order.push($scope.selecteditems[i].id);
+        //        }
+        //
+        //        $scope.order.order = order;
+        //    }
+        //};
 
         /**
          * Set content
@@ -55,7 +55,7 @@ angular.module('OpiferContent', ['angular-inview'])
                 if (angular.isDefined(content)) {
                     content = JSON.parse(content);
                     if (content.length) {
-                        $scope.order.order = content;
+                        //$scope.order.order = content;
                         content = content.toString();
 
                         $http.get(Routing.generate('opifer_content_api_content_ids', {'ids': content}))
@@ -88,7 +88,7 @@ angular.module('OpiferContent', ['angular-inview'])
 
             if ($scope.multiple) {
                 $scope.selecteditems.push(content);
-                $scope.order.order.push(content.id);
+                //$scope.order.order.push(content.id);
             } else {
                 $scope.content = content;
                 $scope.isPickerOpen = false;

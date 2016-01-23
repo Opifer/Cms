@@ -139,6 +139,8 @@ class ContentManager implements ContentManagerInterface
      * @param string           $parentKey
      *
      * @throws NestedContentFormException
+     *
+     * @deprecated
      */
     public function handleNestedContentForm(Request $request, ContentInterface $content, $parentKey = 'opifer_content')
     {
@@ -156,6 +158,8 @@ class ContentManager implements ContentManagerInterface
      * @return bool
      *
      * @throws \Exception
+     *
+     * @deprecated
      */
     public function recursiveContentMapper(Request $request, ContentInterface $content, $level = 1, $parentKey = 'opifer_content')
     {

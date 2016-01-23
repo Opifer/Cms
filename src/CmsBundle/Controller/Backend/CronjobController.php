@@ -30,8 +30,7 @@ class CronjobController extends Controller
         $grid->setId('cronjobs')
             ->setSource($source)
             ->addRowAction($editAction)
-            ->addRowAction($deleteAction)
-            ->setActionsColumnSeparator(' ');
+            ->addRowAction($deleteAction);
 
         $grid->getColumn('state')->manipulateRenderCell(function ($value, $row, $router) {
             switch ($value) {

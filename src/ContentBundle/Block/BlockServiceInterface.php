@@ -3,6 +3,7 @@
 namespace Opifer\ContentBundle\Block;
 
 use Opifer\ContentBundle\Model\BlockInterface;
+use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Form\FormBuilderInterface;
 
@@ -39,4 +40,18 @@ interface BlockServiceInterface
      */
     public function buildManageForm(FormBuilderInterface $builder, array $options);
 
+    /**
+     * Executed before the form handles the request and officially submits the form
+     *
+     * @param BlockInterface $block
+     */
+    public function preFormSubmit(BlockInterface $block);
+
+    /**
+     * Executed after the form is defined valid and before the block is actually persisted
+     *
+     * @param FormInterface $form
+     * @param BlockInterface $block
+     */
+    public function postFormSubmit(FormInterface $form, BlockInterface $block);
 }

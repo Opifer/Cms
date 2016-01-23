@@ -17,7 +17,6 @@
         {% endif %}
 
         <div class="content-picker" ng-controller="ContentPickerController" ng-cloak ng-init="init('{{ {'id': content.id|default, 'title': content.title|default|escape, 'coverImage': (content.coverImage|default) ? content.coverImage|imagine_filter('medialibrary') : '', 'path': path('_content', {'slug': content.slug|default})}|json_encode }}')">
-
             {{ form_row(form.content_id, {'attr': {'ng-value': 'content.id'} }) }}
             {% verbatim %}
             <div class="wrapper">
@@ -46,14 +45,13 @@
     {% spaceless %}
 
         {% set content = form.vars.value|json_encode() %}
-        {% set formname = full_name|replace({'[content][]': ''}) %}
 
-        <div class="content-picker content-picker-list" ng-controller="ContentPickerController" ng-cloak ng-init="init('{{ content }}', '{{ formname }}', true)">
+        <div class="content-picker content-picker-list" ng-controller="ContentPickerController" ng-cloak ng-init="init('{{ content }}', '{{ full_name }}', true)">
             {% verbatim %}
-            <input type="hidden" name="{{ formname }}[sort]" value="{{ order }}"/>
+            <!--<input type="hidden" name="{{ formname }}[sort]" value="{{ order }}"/>-->
             <div class="wrapper" ui-sortable="sortableOptions" ng-model="selecteditems">
                 <div class="content-picked-item" ng-repeat="item in selecteditems" style="display:block;">
-                    <input type="hidden" id="" name="{{ formname }}[content][]" value="{{ item.id }}">
+                    <input type="hidden" id="" name="{{ formname }}" value="{{ item.id }}">
                     <div style="background-image: url({{ item.coverImage }});" class="content-cover"></div>
                     <div class="content-picked-details">
                         <span class="content-title">{{ item.title }}</span>

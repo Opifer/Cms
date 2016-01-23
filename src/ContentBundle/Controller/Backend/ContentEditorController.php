@@ -4,7 +4,6 @@ namespace Opifer\ContentBundle\Controller\Backend;
 
 use Opifer\ContentBundle\Entity\DocumentBlock;
 use Opifer\ContentBundle\Form\Type\BlockAdapterFormType;
-use Opifer\ContentBundle\Form\Type\ContentEditorType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -115,15 +114,21 @@ class ContentEditorController extends Controller
 
         $block = $manager->find($id, $rootVersion);
 
+        /** @var BlockServiceInterface $service */
         $service = $manager->getService($block);
         $block->setRootVersion($rootVersion);
 
         $updatePreview = false; // signals parent window preview from iframe to update preview
 
+        $service->preFormSubmit($block);
+
         $form = $this->createForm(new BlockAdapterFormType($service), $block);
         $form->handleRequest($request);
 
         if ($form->isValid()) {
+
+            $service->postFormSubmit($form, $block);
+
             $manager->save($block);
             $updatePreview = true;
         }
