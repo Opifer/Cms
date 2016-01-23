@@ -42,7 +42,7 @@
         "mtdowling/cron-expression": "1.0.*",
         "pagerfanta/pagerfanta": "^1.0.3",
         "presta/sitemap-bundle": "^1.3",
-        "simplethings/entity-audit-bundle": "dev-patch-1@dev",
+        "simplethings/entity-audit-bundle": "dev-develop@dev",
         "symfony-cmf/routing-bundle": "~1.3",
         "willdurand/js-translation-bundle": "~2.2"
     },
