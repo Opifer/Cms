@@ -216,8 +216,6 @@ class BlockManager
             self::treeRemoveInvalidChildren($block);
             $block->accept(new SortVisitor());
         }
-
-        $this->getService($block)->postLoad($block);
     }
 
     /**

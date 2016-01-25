@@ -23,7 +23,6 @@ class ListBlockService extends AbstractBlockService implements BlockServiceInter
     /** @var EntityManager */
     protected $em;
     protected $view = 'OpiferContentBundle:Block:Content/list.html.twig';
-    protected $originalCollection;
 
     /**
      * @param EngineInterface $templating
@@ -64,7 +63,7 @@ class ListBlockService extends AbstractBlockService implements BlockServiceInter
         );
     }
 
-    public function postLoad(BlockInterface $block)
+    public function load(BlockInterface $block)
     {
         $collection = $this->em->getRepository('OpiferCmsBundle:Content')
             ->createQueryBuilder('c')
