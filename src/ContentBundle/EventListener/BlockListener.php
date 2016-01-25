@@ -11,7 +11,7 @@ use Opifer\ContentBundle\Model\BlockInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
- * Media Entity Listener.
+ * Block Entity Listener.
  *
  * This class listens to Doctrine events and calls the matching method on
  * the Block Service
@@ -49,6 +49,13 @@ class BlockListener implements EventSubscriber
         ];
     }
 
+    /**
+     * Get the service
+     *
+     * @param LifecycleEventArgs $args
+     * @return \Opifer\ContentBundle\Block\BlockServiceInterface
+     * @throws \Exception
+     */
     public function getService(LifecycleEventArgs $args)
     {
         $service = $args->getObject();

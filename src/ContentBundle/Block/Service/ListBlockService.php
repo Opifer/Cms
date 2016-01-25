@@ -24,7 +24,7 @@ class ListBlockService extends AbstractBlockService implements BlockServiceInter
 {
     /** @var EntityManager */
     protected $em;
-    protected $view = 'OpiferContentBundle:Block:Content/contentCollection.html.twig';
+    protected $view = 'OpiferContentBundle:Block:Content/list.html.twig';
     protected $originalCollection;
 
     /**
