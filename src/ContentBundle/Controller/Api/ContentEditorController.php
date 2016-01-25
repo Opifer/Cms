@@ -13,6 +13,7 @@ use Opifer\ContentBundle\Event\ContentResponseEvent;
 use Opifer\ContentBundle\OpiferContentEvents as Events;
 use Opifer\ContentBundle\Entity\Block;
 use Opifer\ContentBundle\Block\BlockManager;
+use Opifer\ContentBundle\Environment\Environment;
 
 /**
  * Class ContentEditorController
@@ -40,11 +41,10 @@ class ContentEditorController extends Controller
         /** @var Environment $environment */
         $environment = $this->get(sprintf('opifer.content.block_%s_environment', $type));
         $environment->load($typeId, $rootVersion);
+        $environment->setBlockMode('manage');
 
         $block = $environment->getBlock($id);
         $service = $manager->getService($block);
-
-        $this->get('opifer.content.twig.content_extension')->setBlockMode('manage');
 
         return new JsonResponse(['view' => $service->manage($block)->getContent()]);
     }

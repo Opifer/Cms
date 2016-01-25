@@ -41,6 +41,7 @@ class OpiferContentExtension extends Extension implements PrependExtensionInterf
             'opifer_content.content_new_view' => $config['content']['views']['new'],
             'opifer_content.content_edit_view' => $config['content']['views']['edit'],
             'opifer_content.content_details_view' => $config['content']['views']['details'],
+            'opifer_content.content_history_view' => $config['content']['views']['history'],
         ];
 
         return $params;

@@ -1,0 +1,91 @@
+
+.container-smooth {
+    max-width: @container-lg;
+
+    @media (min-width: 1px) {
+        width: auto;
+    }
+}
+
+.va-container {
+    display: table;
+    position: relative;
+    height: 100%;
+    width: 100%;
+}
+
+.container-h {
+    height: 100%;
+}
+
+.container-v {
+    width: 100%;
+}
+
+.va-middle {
+    vertical-align: middle;
+}
+
+.va-middle,
+.va-top,
+.va-bottom {
+    display: table-cell;
+}
+
+.row-space-2 {
+    margin-bottom: @grid-gutter-width/2;
+}
+.row-space-4 {
+    margin-bottom: @grid-gutter-width;
+}
+.row-space-8 {
+    margin-bottom: @grid-gutter-width*2;
+}
+
+.row-space-top-2 {
+    margin-top: @grid-gutter-width/2;
+}
+.row-space-top-4 {
+    margin-top: @grid-gutter-width;
+}
+.row-space-top-8 {
+    margin-top: @grid-gutter-width*2;
+}
+
+// Gutters
+
+.p-xs-0 {
+    @media @xs {
+        margin-top: 0;
+        padding-left: 0;
+        margin-bottom: 0;
+        padding-right: 0;
+    }
+}
+
+.p-sm-0 {
+    @media @sm {
+        margin-top: 0;
+        padding-left: 0;
+        margin-bottom: 0;
+        padding-right: 0;
+    }
+}
+
+.p-md-0 {
+    @media @md {
+        margin-top: 0;
+        padding-left: 0;
+        margin-bottom: 0;
+        padding-right: 0;
+    }
+}
+
+.p-lg-0 {
+    @media @lg {
+        margin-top: 0;
+        padding-left: 0;
+        margin-bottom: 0;
+        padding-right: 0;
+    }
+}

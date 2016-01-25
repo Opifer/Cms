@@ -73,6 +73,10 @@ $(document).ready(function() {
                 isLoading();
             });
 
+            $(function () {
+                $('[data-toggle="tooltip"]').tooltip({trigger:'hover'})
+            });
+
             // Resize iframe based on their contents (for block editing view)
             iFrame.attr('src', iFrame.attr('data-url'));
             iFrame.bind('load', function () {
@@ -84,6 +88,13 @@ $(document).ready(function() {
             $(document).ajaxComplete(function (e) {
                 isNotLoading();
             });
+            //
+            //$('a[href="#tab-history"]').on('shown.bs.tab', function (e) {
+            //    e.target // newly activated tab
+            //    e.relatedTarget // previous active tab
+            //
+            //
+            //})
 
 
             $(document).on('submit', '#pm-block-edit form', function (e) {

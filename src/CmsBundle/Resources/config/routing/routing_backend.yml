@@ -155,6 +155,12 @@ opifer_content_directory_index:
     path: /directory
     defaults: { _controller: OpiferCmsBundle:Backend/Directory:index }
 
+opifer_content_content_history:
+    path: /content/history/{type}/{id}/{version}
+    defaults: { _controller: OpiferCmsBundle:Backend/Content:history, version: 0 }
+    options:
+        expose: true
+
 opifer_form_form_index:
     path: /form
     defaults: { _controller: OpiferCmsBundle:Backend/Form:index }

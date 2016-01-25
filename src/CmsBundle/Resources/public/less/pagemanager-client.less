@@ -148,11 +148,23 @@
             }
         }
     }
+
+    .pm-layout {
+        min-height: @grid-gutter-width*2;
+
+        > .pm-toolbar {
+            display: none;
+        }
+    }
 }
 
 .pm-viewmode-layout {
     .pm-content {
         position: relative;
+
+        > .pm-toolbar {
+            display: none;
+        }
 
 //        &:after {
 //            content: " ";
@@ -230,7 +242,7 @@
                 font-size: 12px;
                 color: #aaa;
             }
-            
+
             &.pm-accept:before {
                 content: " ";
             }

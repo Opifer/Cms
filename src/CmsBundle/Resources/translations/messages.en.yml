@@ -58,6 +58,8 @@ content:
             placeholder: Enter a title for your page
     new:
         title: Create new content
+    history:
+        title: Change history
 
 # Dashboard
 dashboard:
