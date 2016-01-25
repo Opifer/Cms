@@ -62,8 +62,8 @@ $(document).ready(function() {
             ownerType = $('#pm-document').attr('data-pm-type');
             typeId = $('#pm-document').attr('data-pm-type-id');
             ownerId = $('#pm-document').attr('data-pm-id');
-            version = $('#pm-document').attr('data-pm-version');
-            versionPublished = $('#pm-document').attr('data-pm-version-published');
+            version = parseInt($('#pm-document').attr('data-pm-version'));
+            versionPublished = parseInt($('#pm-document').attr('data-pm-version-published'));
             permalink = $('#pm-document').attr('data-pm-permalink');
 
             // Split page library
@@ -578,8 +578,12 @@ $(document).ready(function() {
                         callback: function() {
                             versionPublished = version;
                             $.post(Routing.generate('opifer_content_api_contenteditor_publish'), {id: ownerId, version: version}).done(function (data, textStatus, request) {
+                                version++;
                                 updateVersionPicker();
-                                bootbox.alert("Published.", function() {});
+                                loadVersion(version);
+                                bootbox.alert("Published.", function() {
+
+                                });
                             }).error(function(data){
                                 showAPIError(data);
                             });
@@ -598,7 +602,7 @@ $(document).ready(function() {
         var loadVersion = function(versionToLoad) {
             isLoading();
             version = versionToLoad;
-            iFrame.attr('src', Routing.generate('opifer_content_contenteditor_view', {id: ownerId, version: versionToLoad}));
+            iFrame.attr('src', Routing.generate('opifer_content_contenteditor_view', {type: ownerType, id: ownerId, version: versionToLoad}));
             updateVersionPicker();
             version <= versionPublished ? lockEditing() : unlockEditing();
         };
