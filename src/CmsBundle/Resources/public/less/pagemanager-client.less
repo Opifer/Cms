@@ -217,8 +217,23 @@
 
         &.pm-empty {
             padding: @padding-large-vertical @padding-base-horizontal;
-            margin: @grid-gutter-width/2 @grid-gutter-width/4;
+            margin: 2px;
             min-height: 30px;
+
+            &:before {
+                content: "empty placeholder";
+                display: block;
+                text-align: center;
+                text-transform: uppercase;
+                /* font-weight: bold; */
+                font-family: "Myriad Pro", "Segoe UI", Arial, sans-serif;
+                font-size: 12px;
+                color: #aaa;
+            }
+            
+            &.pm-accept:before {
+                content: " ";
+            }
         }
 
         &.pm-accept {
