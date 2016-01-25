@@ -216,15 +216,14 @@
         .col-visual {
             position: absolute;
 //            background: #F5F7F9;
-            color: #777;
+            color: #ddd;
             width: 45px;
             height: 40px;
             top: 8px;
             text-align: center;
 
             .material-icons {
-                font-size: 30px;
-                line-height: 38px;
+                font-size: 36px;
             }
         }
 
@@ -251,6 +250,20 @@
 
     .list-group-item-text {
         font-size: @font-size-small;
+    }
+
+    .ui-mprogress .deter-bar,
+    .ui-mprogress .indeter-bar,
+    .ui-mprogress .query-bar,
+    .ui-mprogress .bar-bg,
+    .ui-mprogress .buffer-bg,
+    .ui-mprogress .mp-ui-dashed {
+        background: white;
+    }
+
+    .ui-mprogress .bar-bg,
+    .ui-mprogress .buffer-bg {
+        background: #777;
     }
 }
 
@@ -335,7 +348,7 @@
 
 #pm-block-edit {
     position: relative;
-    margin: @grid-gutter-width/2;
+    margin-bottom: @grid-gutter-width/2;
     background: white;
     box-shadow: 0 2px 5px rgba(0,0,0,.05);
 

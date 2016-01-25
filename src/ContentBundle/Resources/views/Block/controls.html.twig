@@ -7,14 +7,8 @@
     </div>
 {% endblock block_manage_placeholder %}
 
-{% block block_manage_template %}
-    <div class="pm-block pm-layout pm-template" data-pm-block-id="{{ block.id }}">
-        {% include block_view %}
-    </div>
-{% endblock block_manage_template %}
-
 {% block block_manage_layout %}
-    <div class="pm-block pm-layout" data-pm-block-id="{{ block.id }}">
+    <div class="pm-block pm-layout" data-pm-block-id="{{ block.id }}" data-pm-block-owner-id="{{ block.owner.id }}">
         <div class="pm pm-toolbar clearfix hidden">
             <div class="pm-toolbar-text"><code>{{ block.id }}</code> {{ block_service.name(block) }}</div>
             <div class="pm-btn-group">
@@ -26,27 +20,8 @@
     </div>
 {% endblock block_manage_layout %}
 
-{% block block_manage_stealth_toolbar %}
-    <div class="pm pm-toolbar clearfix hidden">
-        <div class="pm-toolbar-text"><code>{{ block.id }}</code>  {{ block_service.name }} </div>
-        <div class="pm-btn-group">
-            <a href="#" class="pm-btn pm-btn-icon pm-btn-sm pull-right pm-btn-delete"><i class="material-icons">close</i></a>
-            <a href="#" class="pm-btn pm-btn-icon pm-btn-sm pull-right pm-btn-edit"><i class="material-icons">create</i></a>
-        </div>
-    </div>
-{% endblock block_manage_stealth_toolbar %}
-
-{% block block_manage_stealth %}
-    {% set block_stealth_class = "pm-block pm-content" %}
-    {% set block_stealth_attr = "data-pm-block-id=" ~ block.id ~ "" %}
-    {% set block_stealth_id = block.id %}
-    {% set block_stealth_service_name = block_service.name %}
-    {% set block_stealth_toolbar = block('block_manage_stealth_toolbar')%}
-    {% include block_view %}
-{% endblock block_manage_stealth %}
-
 {% block block_manage_default %}
-    <div class="pm-block pm-content" data-pm-block-id="{{ block.id }}">
+    <div class="pm-block pm-content" data-pm-block-id="{{ block.id }}" data-pm-block-owner-id="{{ block.owner.id }}">
         <div class="pm pm-toolbar clearfix hidden">
             <div class="pm-toolbar-text"><code>{{ block.id }}</code> {{ block_service.name }}</div>
             <div class="pm-btn-group">
@@ -54,6 +29,8 @@
                 <a href="#" class="pm-btn pm-btn-icon pull-right pm-btn-edit"><i class="material-icons">create</i></a>
             </div>
         </div>
-        {% include block_view %}
+        <div class="clearfix">
+            {% include block_view %}
+        </div>
     </div>
 {% endblock block_manage_default %}

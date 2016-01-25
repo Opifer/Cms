@@ -352,6 +352,13 @@ $(document).ready(function() {
 
             iFrame.contents().find('body').append(link);
 
+            iFrame.contents().find('.pm-block').each(function() {
+                console.log($(this).attr('data-pm-block-owner-id'), ownerId);
+                if ($(this).attr('data-pm-block-owner-id') != ownerId) {
+                    $(this).addClass('pm-inherited');
+                }
+            });
+
             $('.pm-placeholder', iFrame.contents()).on('mousemove mouseup', function (event) {
                 $(parent.document).trigger(event);
             });

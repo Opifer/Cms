@@ -70,7 +70,7 @@ class ContentEditorController extends Controller
 
         $sort        = $request->request->get('sort');
         $parentId    = $request->request->get('parent');
-        $className       = $request->request->get('className');
+        $className   = $request->request->get('className');
         $placeholder = (int) $request->request->get('placeholder');
         $data        = $request->request->get('data');
         $data        = json_decode($data, true);

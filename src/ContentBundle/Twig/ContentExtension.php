@@ -147,7 +147,7 @@ class ContentExtension extends \Twig_Extension
             }
         }
 
-        if ($this->blockEnvironment->getBlockMode() === 'manage') { // && $this->blockEnvironment->getContent()->getBlock()->getId() == $block->getOwner()->getId()
+        if ($this->blockEnvironment && $this->blockEnvironment->getBlockMode() === 'manage') { // && $this->blockEnvironment->getContent()->getBlock()->getId() == $block->getOwner()->getId()
             $content = $this->container->get('templating')->render('OpiferContentBundle:Block:manage.html.twig', ['content' => $content, 'key' => $key, 'manage_type' => 'placeholder']);
         }
 
