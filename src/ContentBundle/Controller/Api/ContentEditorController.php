@@ -46,6 +46,9 @@ class ContentEditorController extends Controller
         $block = $environment->getBlock($id);
         $service = $manager->getService($block);
 
+        $this->get('opifer.content.twig.content_extension')->setBlockEnvironment($environment);
+
+
         return new JsonResponse(['view' => $service->manage($block)->getContent()]);
     }
 

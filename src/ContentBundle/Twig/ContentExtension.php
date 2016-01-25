@@ -27,9 +27,6 @@ class ContentExtension extends \Twig_Extension
     /** @var ContentManager */
     protected $contentManager;
 
-    /** @var string */
-    protected $blockMode;
-
     /** @var \Opifer\ContentBundle\Block\Environment */
     protected $blockEnvironment;
 
@@ -163,20 +160,19 @@ class ContentExtension extends \Twig_Extension
     }
 
     /**
-     * @return string
+     * @return \Opifer\ContentBundle\Block\Environment
      */
-    public function getBlockMode()
+    public function getBlockEnvironment()
     {
-        return $this->blockMode;
+        return $this->blockEnvironment;
     }
 
     /**
-     * @param string $blockMode
+     * @param \Opifer\ContentBundle\Block\Environment $blockEnvironment
      */
-    public function setBlockMode($blockMode)
+    public function setBlockEnvironment($blockEnvironment)
     {
-        $this->blockMode = $blockMode;
+        $this->blockEnvironment = $blockEnvironment;
     }
-
 
 }

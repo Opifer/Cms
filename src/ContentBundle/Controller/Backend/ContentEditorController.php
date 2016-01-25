@@ -9,6 +9,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Opifer\ContentBundle\Block\BlockManager;
 use Opifer\ContentBundle\Block\BlockServiceInterface;
+use Opifer\ContentBundle\Environment\Environment;
 
 /**
  * Class ContentEditorController
@@ -129,7 +130,7 @@ class ContentEditorController extends Controller
 
             $service->postFormSubmit($form, $block);
 
-            $manager->save($block);
+            $manager->save($block, $rootVersion);
             $updatePreview = true;
         }
 
