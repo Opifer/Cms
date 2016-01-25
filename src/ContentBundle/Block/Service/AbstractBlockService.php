@@ -43,6 +43,8 @@ abstract class AbstractBlockService
      */
     public function execute(BlockInterface $block, Response $response = null)
     {
+        $this->load($block);
+
         $parameters = array(
             'block_service'  => $this,
             'block'          => $block,
@@ -56,6 +58,8 @@ abstract class AbstractBlockService
      */
     public function manage(BlockInterface $block, Response $response = null)
     {
+        $this->load($block);
+
         $parameters = array(
             'block_service'  => $this,
             'block'          => $block,

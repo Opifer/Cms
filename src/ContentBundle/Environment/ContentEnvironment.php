@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: dylan
- * Date: 22/01/16
- * Time: 11:03
- */
 
 namespace Opifer\ContentBundle\Environment;
 
