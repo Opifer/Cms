@@ -3,15 +3,9 @@
 namespace Opifer\ContentBundle\Controller\Api;
 
 use Opifer\ContentBundle\Block\ContentBlockAdapter;
-use Opifer\ContentBundle\Form\Type\BlockAdapterFormType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\JsonResponse;
-use Opifer\ContentBundle\Event\ResponseEvent;
-use Opifer\ContentBundle\Event\ContentResponseEvent;
-use Opifer\ContentBundle\OpiferContentEvents as Events;
-use Opifer\ContentBundle\Entity\Block;
 use Opifer\ContentBundle\Block\BlockManager;
 use Opifer\ContentBundle\Environment\Environment;
 

@@ -8,7 +8,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Opifer\ContentBundle\Block\BlockManager;
-use Opifer\ContentBundle\Block\BlockServiceInterface;
+use Opifer\ContentBundle\Block\Service\BlockServiceInterface;
 use Opifer\ContentBundle\Environment\Environment;
 
 /**

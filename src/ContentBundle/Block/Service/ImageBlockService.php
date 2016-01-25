@@ -1,28 +1,28 @@
 <?php
 
-namespace Opifer\ContentBundle\Block;
+namespace Opifer\ContentBundle\Block\Service;
 
 use Opifer\ContentBundle\Block\Tool\ContentTool;
 use Opifer\ContentBundle\Block\Tool\ToolsetMemberInterface;
-use Opifer\ContentBundle\Entity\HtmlBlock;
-use Symfony\Component\Form\FormBuilderInterface;
+use Opifer\ContentBundle\Entity\ImageBlock;
 use Opifer\ContentBundle\Model\BlockInterface;
+use Symfony\Component\Form\FormBuilderInterface;
 
 /**
- * Class HtmlBlockService
+ * Class ImageBlockService
  *
  * @package Opifer\ContentBundle\Block
  */
-class HtmlBlockService extends AbstractBlockService implements BlockServiceInterface, ToolsetMemberInterface
+class ImageBlockService extends AbstractBlockService implements BlockServiceInterface, ToolsetMemberInterface
 {
-    protected $view = 'OpiferContentBundle:Block:Content/html.html.twig';
+    protected $view = 'OpiferContentBundle:Block:Content/image.html.twig';
 
     /**
      * {@inheritDoc}
      */
     public function getName(BlockInterface $block = null)
     {
-        return 'Content';
+        return 'Image';
     }
 
     /**
@@ -34,8 +34,13 @@ class HtmlBlockService extends AbstractBlockService implements BlockServiceInter
 
         // Default panel
         $builder->add(
-            $builder->create('default', 'form', ['inherit_data' => true])
-                    ->add('value', 'ckeditor', ['label' => 'label.rich_text', 'attr' => ['label_col' => 12, 'widget_col' => 12]])
+            $builder->create('default', 'form', ['virtual' => true])
+                ->add('media', 'mediapicker', [
+                    'required'  => false,
+                    'multiple' => false,
+                    'property' => 'name',
+                    'class' => 'OpiferCmsBundle:Media',
+                ])
         )->add(
             $builder->create('properties', 'form')
                 ->add('id', 'text', ['attr' => ['help_text' => 'help.html_id']])
@@ -48,7 +53,7 @@ class HtmlBlockService extends AbstractBlockService implements BlockServiceInter
      */
     public function createBlock()
     {
-        return new HtmlBlock;
+        return new ImageBlock;
     }
 
     /**
@@ -56,11 +61,12 @@ class HtmlBlockService extends AbstractBlockService implements BlockServiceInter
      */
     public function getTool()
     {
-        $tool = new ContentTool('Content', 'OpiferContentBundle:HtmlBlock');
+        $tool = new ContentTool('Image', 'OpiferContentBundle:ImageBlock');
 
-        $tool->setIcon('subject')
-            ->setDescription('Rich content editable through WYSIWYG editor.');
+        $tool->setIcon('image')
+            ->setDescription('Provides an image from the library in the right size.');
 
         return $tool;
     }
+
 }
