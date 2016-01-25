@@ -475,6 +475,7 @@ class BlockManager
             $siblings = $this->sortBlocksByIds($siblings, $sort);
 
             foreach ($siblings as $sibling) {
+                $sibling->setRootVersion($rootVersion);
                 $this->save($sibling);
             }
         }
