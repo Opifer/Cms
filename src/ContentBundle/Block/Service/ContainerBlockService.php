@@ -1,6 +1,6 @@
 <?php
 
-namespace Opifer\ContentBundle\Block;
+namespace Opifer\ContentBundle\Block\Service;
 
 use Opifer\ContentBundle\Block\Tool\ContainerTool;
 use Opifer\ContentBundle\Block\Tool\ToolsetMemberInterface;

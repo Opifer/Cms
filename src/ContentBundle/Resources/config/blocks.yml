@@ -1,16 +1,14 @@
 parameters:
     opifer.content.list_block.class: Opifer\ContentBundle\Block\Service\ListBlockService
-    opifer.content.container_block.class: Opifer\ContentBundle\Block\ContainerBlockService
-    opifer.content.column_block.class: Opifer\ContentBundle\Block\ColumnBlockService
-    opifer.content.document_block.class: Opifer\ContentBundle\Block\DocumentBlockService
-    opifer.content.html_block.class: Opifer\ContentBundle\Block\HtmlBlockService
-    opifer.content.image_block.class: Opifer\ContentBundle\Block\ImageBlockService
-    opifer.content.jumbotron_block.class: Opifer\ContentBundle\Block\JumbotronBlockService
+    opifer.content.container_block.class: Opifer\ContentBundle\Block\Service\ContainerBlockService
+    opifer.content.column_block.class: Opifer\ContentBundle\Block\Service\ColumnBlockService
+    opifer.content.html_block.class: Opifer\ContentBundle\Block\Service\HtmlBlockService
+    opifer.content.image_block.class: Opifer\ContentBundle\Block\Service\ImageBlockService
+    opifer.content.jumbotron_block.class: Opifer\ContentBundle\Block\Service\JumbotronBlockService
     opifer.content.jumbotron_block.styles: ["jumbotron-sm", "jumbotron-lg", "text-regular", "text-contrast"]
-    opifer.content.button_block.class: Opifer\ContentBundle\Block\ButtonBlockService
+    opifer.content.button_block.class: Opifer\ContentBundle\Block\Service\ButtonBlockService
     opifer.content.button_block.styles: ["btn-sm", "btn-lg", "btn-primary", "btn-default", "btn-block", "center-block"]
 #    opifer.content.image_gallery_block.class: Opifer\ContentBundle\Block\ImageGalleryBlockService
-    opifer.content.layout_block.class: Opifer\ContentBundle\Block\LayoutBlockService
 
 services:
     opifer.content.html_block:

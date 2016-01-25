@@ -249,7 +249,6 @@ $(document).ready(function() {
                 console.debug(id, Routing.generate('opifer_content_contenteditor_edit_block', {'id': id, rootVersion: version}));
                 $.get(Routing.generate('opifer_content_contenteditor_edit_block', {id: id, rootVersion: version})).success(function (data) {
                     $('#pm-block-edit').html(data);
-                    updateVersionPicker();
 
                     // Bootstrap AngularJS app (media library etc) after altering DOM
                     angular.bootstrap($('#pm-block-edit form'), ["MainApp"]);
@@ -282,6 +281,11 @@ $(document).ready(function() {
 
         var closeEditBlock = function (id) {
             unselectBlock(id);
+            $('#pm-block-edit').addClass('hidden');
+        };
+
+        var clearEditBlock = function () {
+            $('#pm-block-edit').attr('data-pm-block-id', 0);
             $('#pm-block-edit').addClass('hidden');
         };
 
@@ -531,6 +535,7 @@ $(document).ready(function() {
                 data: values,
                 success: function (data) {
                     callback(data);
+                    updateVersionPicker();
                 }
             }).error(function(data){
                 showAPIError(data);
@@ -602,8 +607,9 @@ $(document).ready(function() {
         var loadVersion = function(versionToLoad) {
             isLoading();
             version = versionToLoad;
-            iFrame.attr('src', Routing.generate('opifer_content_contenteditor_view', {type: ownerType, id: ownerId, version: versionToLoad}));
+            iFrame.attr('src', Routing.generate('opifer_content_contenteditor_view', {type: ownerType, id: typeId, version: versionToLoad}));
             updateVersionPicker();
+            clearEditBlock();
             version <= versionPublished ? lockEditing() : unlockEditing();
         };
 

@@ -5,7 +5,7 @@ namespace Opifer\ContentBundle\Block;
 use Doctrine\Common\Collections\ArrayCollection;
 use Gedmo\SoftDeleteable\SoftDeleteableListener;
 use Opifer\CmsBundle\EventListener\LoggableListener;
-use Opifer\ContentBundle\Block\BlockServiceInterface;
+use Opifer\ContentBundle\Block\Service\BlockServiceInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use Opifer\ContentBundle\Block\Tool\ContentTool;
 use Opifer\ContentBundle\Block\Tool\ToolsetMemberInterface;
@@ -476,6 +476,7 @@ class BlockManager
             $siblings = $this->sortBlocksByIds($siblings, $sort);
 
             foreach ($siblings as $sibling) {
+                $sibling->setRootVersion($rootVersion);
                 $this->save($sibling);
             }
         }

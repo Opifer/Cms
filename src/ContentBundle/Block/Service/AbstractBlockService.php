@@ -1,6 +1,6 @@
 <?php
 
-namespace Opifer\ContentBundle\Block;
+namespace Opifer\ContentBundle\Block\Service;
 
 use Symfony\Bundle\FrameworkBundle\Templating\EngineInterface;
 use Opifer\ContentBundle\Model\BlockInterface;

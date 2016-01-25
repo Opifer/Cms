@@ -2,7 +2,7 @@
 
 namespace Opifer\ContentBundle\Form\Type;
 
-use Opifer\ContentBundle\Block\BlockServiceInterface;
+use Opifer\ContentBundle\Block\Service\BlockServiceInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 use Symfony\Component\Form\FormTypeInterface;
