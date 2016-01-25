@@ -219,6 +219,7 @@ opifer_content:
             new: 'OpiferCmsBundle:Backend/Content:new.html.twig'
             edit: 'OpiferCmsBundle:Backend/Content:edit.html.twig'
             details: 'OpiferCmsBundle:Backend/Content:details.html.twig'
+            history: 'OpiferCmsBundle:Backend/Content:history.html.twig'
 
 simple_things_entity_audit:
     audited_entities:

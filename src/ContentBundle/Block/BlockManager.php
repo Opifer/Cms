@@ -275,11 +275,11 @@ class BlockManager
     {
         if (!$recursive) {
             if ($rootVersion) {
-                $block->setRootVersion($rootVersion);
+                $block->setRootVersion((int) $rootVersion);
             }
 
             $this->em->persist($block);
-            $this->em->flush();
+            $this->em->flush($block);
         }
     }
 
@@ -467,9 +467,9 @@ class BlockManager
 
         if ($siblings) {
             // kick siblings not in this placeholder
-            foreach ($siblings as $sibling) {
+            foreach ($siblings as $k => $sibling) {
                 if ($sibling->getPosition() != $placeholder) {
-                    $siblings->removeElement($sibling);
+                    unset($siblings[$k]);
                 }
             }
             $siblings = $this->sortBlocksByIds($siblings, $sort);

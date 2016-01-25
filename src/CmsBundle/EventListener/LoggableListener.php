@@ -105,7 +105,7 @@ class LoggableListener extends BaseLoggableListener
                 }
             }
 
-            if($action === self::ACTION_UPDATE && 0 === count($newValues)) {
+            if($action === self::ACTION_UPDATE && 0 === count($newValues) && !($object instanceof BlockInterface)) {
                 return null;
             }
 
@@ -134,6 +134,8 @@ class LoggableListener extends BaseLoggableListener
                     $logEntry->setObjectClass($meta->name);
                     $logEntry->setLoggedAt();
                     $logEntry->setData($newValues);
+                } else if($action === self::ACTION_UPDATE && 0 === count($newValues)) {
+                    return null;
                 }
 
                 if ($action !== self::ACTION_CREATE) {

@@ -56,6 +56,12 @@ opifer_content_content_index:
     requirements:
         directoryId:  \d+
 
+opifer_content_content_history:
+    path: /content/history/{type}/{id}/{version}
+    defaults: { _controller: OpiferContentBundle:Backend/Content:history, version: 0 }
+    options:
+        expose: true
+
 # Contenteditor
 opifer_content_contenteditor_design:
     path: /designer/{type}/{id}/{rootVersion}

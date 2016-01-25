@@ -75,23 +75,27 @@ class ColumnBlockService extends AbstractBlockService implements BlockServiceInt
 
             $form = $event->getForm();
 
+            // @todo: Replace with a nice getDefaultOptions method
+            $properties = $block->getProperties();
+            if (!count($properties) ) {
+                $properties['styles'] = array();
+                $cols = array_fill(0, 4, array_fill(0, $block->getColumnCount(), null));
+                $keys = array('xs', 'sm', 'md', 'lg');
+                $properties['spans'] = array_combine($keys, $cols);
+                $properties['gutters'] = array_combine($keys, $cols);
+                $block->setProperties($properties);
+            }
+
             $styles = ['row-space-top-2', 'row-space-top-4', 'row-space-top-8', 'row-space-2', 'row-space-4', 'row-space-8'];
             $form->get('properties')->add('styles', 'choice', [
                 'label' => 'label.styling',
-                'choices'  => array_combine($styles, $styles),
+                'choices'  => $styles,
                 'required' => false,
                 'expanded' => true,
                 'multiple' => true,
                 'attr'     => ['help_text' => 'help.html_styles'],
             ]);
 
-            // @todo: Replace with a nice getDefaultOptions method
-            $properties = $block->getProperties();
-            if (!isset($properties['styles']) ) {
-                $properties['styles'] = array();
-            }
-
-            $block->setProperties($properties);
 
             $form->get('properties')->add('spans', 'span_collection', ['column_count' => $block->getColumnCount(), 'label' => 'label.spans', 'attr' => ['help_text' => 'help.column_spans']]);
             $form->get('properties')->add('gutters', 'gutter_collection', ['column_count' => $block->getColumnCount(), 'label' => 'label.gutters', 'attr' => ['help_text' => 'help.column_gutters']]);

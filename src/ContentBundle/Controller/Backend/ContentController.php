@@ -131,4 +131,11 @@ class ContentController extends Controller
             'id' => $duplicateContentId,
         ]));
     }
+
+
+    public function historyAction(Request $request, $type, $id, $version = 0)
+    {
+
+        return $this->render($this->getParameter('opifer_content.content_history_view'), array());
+    }
 }

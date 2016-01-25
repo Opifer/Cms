@@ -62,6 +62,11 @@
     * {
         -webkit-font-smoothing: auto !important;
     }
+
+    .material-icons {
+        display: inline-flex;
+        vertical-align: middle;
+    }
 //
 //    .navbar {
 //        margin-bottom: 0;
@@ -212,6 +217,54 @@
         }
     }
 
+    .nav-tabs {
+        border-width: 0;
+        .clearfix;
+
+        > li {
+            margin-top: 0;
+
+            > a {
+                color: #aaa;
+                margin-right: 0;
+                border: 1px solid #333;
+                border-width: 1px 0 0 0;
+                padding: 12px;
+
+                &:last-child {
+                    border-width: 1px 0;
+                }
+            }
+
+            &.active:hover > a,
+            &.active > a {
+                font-weight: normal;
+                color: #fff;
+                background: #555;
+                border-color: #555;
+                z-index: 1000;
+            }
+
+            &:hover > a {
+                color: #fff;
+                background: #444;
+                border-color: #333;
+                z-index: 1000;
+            }
+        }
+    }
+
+    .tooltip-inner {
+        padding: 12px;
+        border-radius: 3px;
+        min-width: 140px;
+        font-size: @font-size-base;
+    }
+
+    .tab-pane {
+        height: 100%;
+    }
+
     .list-group {
         .col-visual {
             position: absolute;
@@ -320,7 +373,7 @@
     right: 0;
 }
 
-#pm-iframe {
+.pm-tab-iframe {
     width: 100%;
     min-height: 100%;
     margin: 0 auto;
@@ -376,6 +429,7 @@
 #pm-document {
     min-width: 35em;
     right: 35em;
+    left: 50px;
     margin-right: 2px;
     z-index: 80;
 //    overflow-y: hidden;
@@ -387,11 +441,17 @@
     width: 1px;
 }
 
+.pm-tabs {
+    width: 50px;
+    z-index: 90;
+}
+
 #right-component {
     width: 35em;
     min-width: 350px;
     z-index: 90;
 }
+
 //
 // Bootbox
 //
