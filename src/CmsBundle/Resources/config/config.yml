@@ -220,10 +220,6 @@ opifer_content:
             edit: 'OpiferCmsBundle:Backend/Content:edit.html.twig'
             details: 'OpiferCmsBundle:Backend/Content:details.html.twig'
 
-simple_things_entity_audit:
-    audited_entities:
-        - Opifer\ContentBundle\Entity\BlockContent
-
 opifer_eav:
     attribute_class: Opifer\CmsBundle\Entity\Attribute
     media_class:     Opifer\CmsBundle\Entity\Media

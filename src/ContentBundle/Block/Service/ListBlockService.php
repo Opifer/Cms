@@ -8,8 +8,7 @@ use Opifer\ContentBundle\Block\AbstractBlockService;
 use Opifer\ContentBundle\Block\BlockServiceInterface;
 use Opifer\ContentBundle\Block\Tool\ContentTool;
 use Opifer\ContentBundle\Block\Tool\ToolsetMemberInterface;
-use Opifer\ContentBundle\Entity\BlockContent;
-use Opifer\ContentBundle\Entity\ContentCollectionBlock;
+use Opifer\ContentBundle\Entity\ListBlock;
 use Opifer\ContentBundle\Model\BlockInterface;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Bundle\FrameworkBundle\Templating\EngineInterface;
@@ -21,7 +20,7 @@ use Symfony\Component\Form\FormInterface;
 /**
  * Content Collection Block Service
  */
-class ContentCollectionBlockService extends AbstractBlockService implements BlockServiceInterface, ToolsetMemberInterface
+class ListBlockService extends AbstractBlockService implements BlockServiceInterface, ToolsetMemberInterface
 {
     /** @var EntityManager */
     protected $em;
@@ -44,7 +43,7 @@ class ContentCollectionBlockService extends AbstractBlockService implements Bloc
      */
     public function getName(BlockInterface $block = null)
     {
-        return 'Content Collection';
+        return 'List';
     }
 
     /**
@@ -57,14 +56,27 @@ class ContentCollectionBlockService extends AbstractBlockService implements Bloc
         // Default panel
         $builder->add(
             $builder->create('default', 'form', ['virtual' => true])
-                ->add('blockContentCollection', 'content_list_picker', [
+                ->add('value', 'content_list_picker', [
                     'label'    => 'collection',
                     'multiple' => true,
                     'property' => 'title',
                     'class'    => 'Opifer\CmsBundle\Entity\Content',
-                    'data'     => $options['data']->getBlockContentCollection()
+                    'data'     => $options['data']->getValue()
                 ])
         );
+    }
+
+    public function postLoad(BlockInterface $block)
+    {
+        $collection = $this->em->getRepository('OpiferCmsBundle:Content')
+            ->createQueryBuilder('c')
+            ->where('c.id IN (:ids)')->setParameter('ids', json_decode($block->getValue()))
+            ->getQuery()
+            ->getResult();
+
+        if ($collection) {
+            $block->setCollection($collection);
+        }
     }
 
     /**
@@ -72,7 +84,7 @@ class ContentCollectionBlockService extends AbstractBlockService implements Bloc
      */
     public function createBlock()
     {
-        return new ContentCollectionBlock();
+        return new ListBlock();
     }
 
     /**
@@ -80,43 +92,11 @@ class ContentCollectionBlockService extends AbstractBlockService implements Bloc
      */
     public function getTool()
     {
-        $tool = new ContentTool('Content Collection', 'OpiferContentBundle:ContentCollectionBlock');
+        $tool = new ContentTool('List', 'OpiferContentBundle:ListBlock');
 
         $tool->setIcon('view_list')
             ->setDescription('Adds references to a collection of content items');
 
         return $tool;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function preFormSubmit(BlockInterface $block)
-    {
-        $this->originalCollection = new ArrayCollection();
-        /** @var ContentCollectionBlock $block */
-        foreach ($block->getBlockContentCollection() as $blockContent) {
-            $this->originalCollection->add($blockContent);
-        }
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function postFormSubmit(FormInterface $form, BlockInterface $block)
-    {
-        /** @var BlockContent $blockContent */
-        foreach ($form->get('default')->get('blockContentCollection')->getData() as $blockContent) {
-            $blockContent->setBlock($block);
-        }
-
-        /** @var BlockContent $blockContent */
-        foreach ($this->originalCollection as $blockContent) {
-            /** @var ContentCollectionBlock $block */
-            if (false === $block->getBlockContentCollection()->contains($blockContent)) {
-                $block->getBlockContentCollection()->removeElement($blockContent);
-                $this->em->remove($blockContent);
-            }
-        }
     }
 }

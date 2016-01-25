@@ -1,4 +1,5 @@
 parameters:
+    opifer.content.block_listener.class: Opifer\ContentBundle\EventListener\BlockListener
     opifer.content.content_init_type.class: Opifer\ContentBundle\Form\Type\ContentInitType
     opifer.content.content_list_value_provider.class: Opifer\ContentBundle\ValueProvider\ContentListValueProvider
     opifer.content.content_manager.default.class: Opifer\ContentBundle\Model\ContentManager
@@ -100,6 +101,7 @@ services:
 
     opifer.content.form.content_list_picker_type:
         class: '%opifer.content.form.content_list_picker_type.class%'
+        arguments: ['@opifer.content.content_manager']
         tags:
             - { name: form.type, alias: content_list_picker }
 
@@ -131,20 +133,12 @@ services:
         calls:
             - [setContentManager, ['@opifer.content.content_manager']]
 
-
     opifer.content.block_template_environment:
         class: %opifer.content.block_template_environment.class%
         arguments: ['@doctrine.orm.default_entity_manager', '@opifer.content.block_manager']
 
-
-    simplethings_entityaudit.log_revisions_listener:
-        class: Opifer\ContentBundle\EventListener\LogRevisionsListener
-        arguments: ['@simplethings_entityaudit.manager']
+    opifer.content.block_listener:
+        class: '%opifer.content.block_listener.class%'
+        arguments: ['@service_container']
         tags:
-            - { name: doctrine.event_subscriber, connection: default }
-
-#    opifer.content.block_content_type:
-#        class: %opifer.content.block_adapter_type.class%
-#        arguments: [@opifer.content.image_block]
-#        tags:
-#            - { name: form.type, alias: image_block }
+            - { name: doctrine.event_subscriber }
