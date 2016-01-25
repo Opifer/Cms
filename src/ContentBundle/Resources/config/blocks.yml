@@ -1,5 +1,5 @@
 parameters:
-    opifer.content.content_collection_block.class: Opifer\ContentBundle\Block\Service\ContentCollectionBlockService
+    opifer.content.list_block.class: Opifer\ContentBundle\Block\Service\ListBlockService
     opifer.content.container_block.class: Opifer\ContentBundle\Block\Service\ContainerBlockService
     opifer.content.column_block.class: Opifer\ContentBundle\Block\Service\ColumnBlockService
     opifer.content.html_block.class: Opifer\ContentBundle\Block\Service\HtmlBlockService
@@ -23,11 +23,11 @@ services:
         tags:
             - { name: opifer.content.block_service, alias: image }
 
-    opifer.content.content_collection_block:
-        class: '%opifer.content.content_collection_block.class%'
+    opifer.content.list_block:
+        class: '%opifer.content.list_block.class%'
         arguments: ['@templating', '@doctrine.orm.entity_manager']
         tags:
-            - { name: opifer.content.block_service, alias: content_collection }
+            - { name: opifer.content.block_service, alias: list }
 
     opifer.content.jumbotron_block:
         class: '%opifer.content.jumbotron_block.class%'
