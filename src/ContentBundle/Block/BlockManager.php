@@ -217,6 +217,7 @@ class BlockManager
             $block->accept(new SortVisitor());
         }
 
+        $this->getService($block)->postLoad($block);
     }
 
     /**

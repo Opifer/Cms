@@ -198,6 +198,13 @@ abstract class AbstractBlockService
     /**
      * {@inheritdoc}
      */
+    public function postLoad(BlockInterface $block)
+    {
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function load(BlockInterface $block)
     {
     }
@@ -246,6 +253,4 @@ abstract class AbstractBlockService
     {
         return $this->getTemplating()->renderResponse($view, $parameters, $response);
     }
-
-
 }
