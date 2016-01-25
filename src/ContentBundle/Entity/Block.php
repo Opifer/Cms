@@ -130,6 +130,7 @@ abstract class Block implements BlockInterface, DraftVersionInterface
     /**
      * @var \DateTime
      *
+     * @Gedmo\Versioned
      * @ORM\Column(name="deleted_at", type="datetime", nullable=true)
      */
     protected $deletedAt;

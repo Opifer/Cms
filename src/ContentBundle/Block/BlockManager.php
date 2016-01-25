@@ -157,10 +157,18 @@ class BlockManager
         $blocks = $this->getRepository()->findBy(['owner' => $owner], ['sort' => 'asc']);
 
         if ($rootVersion) {
-            foreach ($blocks as $block) {
+            foreach ($blocks as $key => $block) {
                 $this->revert($block, $rootVersion);
+
+                if ($block->getDeletedAt() && $block->getDeletedAt() < new \DateTime) {
+                    unset($blocks[$key]);
+                }
             }
         }
+
+        usort($blocks, function ($a, $b) {
+            return ($a->getSort() < $b->getSort()) ? -1 : 1;
+        });
 
         return $blocks;
     }
@@ -168,28 +176,22 @@ class BlockManager
     /**
      * Publishes a block version
      *
-     * @param BlockInterface $block
-     * @param null|integer   $rootVersion
+     * @param BlockOwnerInterface $block
+     * @param null|integer        $rootVersion
      */
-    public function publish(BlockInterface $block, $rootVersion)
+    public function publish(BlockOwnerInterface $block, $rootVersion)
     {
         $this->killLoggableListener();
+        $this->killSoftDeletableListener();
 
-        if ($block instanceof BlockContainerInterface) {
-            $iterator = new \RecursiveIteratorIterator(
-                new RecursiveBlockIterator(
-                    $block->getChildren()
-                ),
-                \RecursiveIteratorIterator::SELF_FIRST
-            );
+        $owned = $this->findByOwner($block);
 
-            foreach ($iterator as $descendant) {
-                $this->revertSingle($descendant, $rootVersion);
-                $descendant->setPublish(true);
-                $descendant->setVersion($rootVersion);
-                $descendant->setRootVersion($rootVersion);
-                $this->save($descendant);
-            }
+        foreach ($owned as $descendant) {
+            $this->revertSingle($descendant, $rootVersion);
+            $descendant->setPublish(true);
+            $descendant->setVersion($rootVersion);
+            $descendant->setRootVersion($rootVersion);
+            $this->save($descendant);
         }
 
         $this->revertSingle($block, $rootVersion);
@@ -288,10 +290,16 @@ class BlockManager
      */
     public function remove(BlockInterface $block, $rootVersion = null, $recursive = false)
     {
-        if (!$recursive) {
-            $block->setRootVersion($rootVersion);
+        $this->killSoftDeletableListener();
 
-            $this->em->remove($block);
+        if (!$recursive) {
+            if ($rootVersion) {
+                $block->setRootVersion($rootVersion);
+            }
+
+            $block->setDeletedAt(new \DateTime());
+
+//            $this->em->remove($block);
             $this->em->flush();
         }
     }
@@ -456,6 +464,7 @@ class BlockManager
         $this->save($block);
 
         $siblings = $this->getSiblings($block, $rootVersion);
+
         if ($siblings) {
             // kick siblings not in this placeholder
             foreach ($siblings as $sibling) {
@@ -487,22 +496,17 @@ class BlockManager
     public function getSiblings(BlockInterface $block, $rootVersion)
     {
         $owner = $block->getOwner();
-        $this->revert($owner, $rootVersion);
+        $family = $this->findByOwner($owner, $rootVersion);
 
-        $iterator = new \RecursiveIteratorIterator(
-            new RecursiveBlockIterator(
-                $owner->getChildren()
-            ),
-            \RecursiveIteratorIterator::SELF_FIRST
-        );
+        $siblings = array();
 
-        foreach ($iterator as $item) {
-            if ($item->getParent() && $item->getParent()->getId() == $block->getParent()->getId()) {
-                return $item->getParent()->getChildren();
+        foreach ($family as $member) {
+            if ($member->getParent() && $member->getParent()->getId() == $block->getParent()->getId()) {
+                array_push($siblings, $member);
             }
         }
 
-        return false;
+        return $siblings;
     }
 
 
@@ -541,13 +545,13 @@ class BlockManager
      */
     public function sortBlocksByIds($blocks, $sort)
     {
-        $array = $blocks->getValues();
+//        $array = $blocks->getValues();
 
-        array_walk($array, function ($block) use ($sort) {
+        array_walk($blocks, function ($block) use ($sort) {
             $block->setSort(array_search($block->getId(), $sort));
         });
 
-        return $array;
+        return $blocks;
     }
 
     /**
@@ -561,6 +565,7 @@ class BlockManager
 
         return $version + 1;
     }
+
 
     /**
      * Fixes nested tree hierarchy between parent and children by examining child's parent.
