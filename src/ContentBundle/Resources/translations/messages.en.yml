@@ -1,13 +1,5 @@
 # Content
 content:
-    edit:
-        create:
-            title: create new content
-        mode:
-            simple: simple
-            advanced: advanced
-        return: return to directory
-        success: "%title% was saved successfully!"
     form:
         description:
             placeholder: Description for your page
@@ -31,6 +23,7 @@ content:
             help_text: The title of the page is displayed in the browser tab and in searchengines
     new:
         title: Create new content
+        nav: Create new
 
 # Directory
 directory:

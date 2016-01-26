@@ -228,36 +228,6 @@ class Content extends BaseContent
     }
 
     /**
-     * @todo find image in blocks instead of deprecated values
-     *
-     * Finds first available image for listing purposes
-     *
-     * @return string
-     */
-    public function getCoverImage()
-    {
-//        foreach ($this->getValueSet()->getValues() as $value) {
-//            switch (get_class($value)) {
-//                case 'Opifer\EavBundle\Entity\NestedValue':
-//                    foreach ($value->getNested() as $nested) {
-//                        if (false !== $cv = $nested->getCoverImage()) {
-//                            return $cv;
-//                        }
-//                    }
-//                    break;
-//                case 'Opifer\EavBundle\Entity\MediaValue':
-//                    foreach ($value->getMedias() as $media) {
-//                        return $media->getReference();
-//                        break;
-//                    }
-//                    break;
-//            }
-//        }
-
-        return false;
-    }
-
-    /**
      * @todo clean this mess up
      *
      * Gets the attributes and places them in an (by Twig) easily accessible array

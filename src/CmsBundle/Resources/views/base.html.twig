@@ -22,10 +22,19 @@
                         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                             <ul class="nav navbar-nav">
                                 <li><a href="{{ path('opifer_cms_dashboard') }}"><i class="material-icons md-24">dashboard</i></a></li>
-                                <li><a href="{{ path('opifer_content_content_index') }}">{{ "nav.content"|trans|capitalize }}</a></li>
-                                <li><a href="{{ path('opifer_content_directory_index') }}"> {{ "nav.directory"|trans|capitalize }}</a></li>
+                                <li class="dropdown">
+                                    <a class="dropdown-toggle" data-toggle="dropdown">{{ "nav.content"|trans|capitalize }} <i class="material-icons md-18">keyboard_arrow_down</i></a>
+                                    <ul class="dropdown-menu">
+                                        <li><a href="{{ path('opifer_content_content_new') }}">{{ 'content.new.nav'|trans|capitalize }}</a></li>
+                                        <li class="divider"></li>
+                                        <li><a href="{{ path('opifer_content_content_index') }}">{{ "nav.content"|trans|capitalize }}</a></li>
+                                        <li><a href="{{ path('opifer_content_content_index') }}">Shared blocks</a></li>
+                                        <li class="divider"></li>
+                                        <li><a href="{{ path('opifer_cms_template_index') }}">{{ 'base.templates'|trans|capitalize }}</a></li>
+                                        <li><a href="{{ path('opifer_content_content_index') }}">Content types</a></li>
+                                    </ul>
+                                </li>
                                 <li><a href="{{ path('opifer_media_media_index') }}">{{ "nav.media"|trans|capitalize }}</a></li>
-                                {#<li><a href="{{ path('opifer_cms_menu_index') }}"><i class="fa fa-navicon visible-xs-block"></i> {{ "nav.sitemenu"|trans|capitalize }}</a></li>#}
                                 <li class="dropdown">
                                     <a class="dropdown-toggle" data-toggle="dropdown">{{ 'base.forms'|trans|capitalize }} <i class="material-icons md-18">keyboard_arrow_down</i></a>
                                     <ul class="dropdown-menu">
@@ -40,8 +49,7 @@
                                 <li class="dropdown">
                                     <a class="dropdown-toggle" data-toggle="dropdown">{{ app.user.username|capitalize }} <i class="material-icons md-18">keyboard_arrow_down</i></a>
                                     <ul class="dropdown-menu">
-                                        {#<li><a href="{{ path('fos_user_profile_edit') }}">{{ 'base.profile'|trans|capitalize }}</a></li>
-                                        <li class="divider"></li>#}
+                                        <li><a href="{{ path('opifer_cms_user_edit', {'id': app.user.id}) }}">{{ 'base.profile'|trans|capitalize }}</a></li>
                                         <li><a href="{{ path('fos_user_security_logout') }}">{{ 'base.logout'|trans|capitalize }}</a></li>
                                     </ul>
                                 </li>
