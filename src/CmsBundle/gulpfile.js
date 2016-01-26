@@ -66,7 +66,6 @@ gulp.task('css', function () {
     return gulp.src([
         '../MediaBundle/Resources/public/css/main.less',
         '../MediaBundle/Resources/public/css/dropzone.less',
-        '../ContentBundle/Resources/public/css/main.less',
         'Resources/public/components/angular-loading-bar/build/loading-bar.css',
         'Resources/public/less/main.less'
         ])
