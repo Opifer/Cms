@@ -5,6 +5,7 @@ namespace Opifer\ContentBundle\EventListener\Serializer;
 use JMS\Serializer\EventDispatcher\EventSubscriberInterface;
 use JMS\Serializer\EventDispatcher\ObjectEvent;
 
+use JMS\Serializer\EventDispatcher\PreSerializeEvent;
 use Liip\ImagineBundle\Imagine\Cache\CacheManager;
 
 use Opifer\ContentBundle\Model\Content;
@@ -44,7 +45,14 @@ class ContentEventSubscriber implements EventSubscriberInterface
     {
         return array(
             array('event' => 'serializer.post_serialize', 'method' => 'onPostSerialize'),
+            array('event' => 'serializer.pre_serialize', 'method' => 'onPreSerialize'),
         );
+    }
+
+    public function onPreSerialize(PreSerializeEvent $event)
+    {
+        // do something
+        $event->getContext();
     }
 
     /**
@@ -68,7 +76,7 @@ class ContentEventSubscriber implements EventSubscriberInterface
     }
 
     /**
-     * Finds first available image for listing purposes
+     * Finds first available image for listing purposes TODO: this is very inefficient
      *
      * @param Content $content
      *
@@ -76,25 +84,15 @@ class ContentEventSubscriber implements EventSubscriberInterface
      */
     public function getCoverImage(Content $content)
     {
-        if ($content->getValueSet() === null) {
+        if ($content->getBlock() === null) {
             return false;
         }
 
-        foreach ($content->getValueSet()->getValues() as $value) {
-            switch (get_class($value)) {
-                case 'Opifer\EavBundle\Entity\NestedValue':
-                    foreach ($value->getNested() as $nested) {
-                        if (false !== $cv = $this->getCoverImage($nested)) {
-                            return $cv;
-                        }
-                    }
-                    break;
-                case 'Opifer\EavBundle\Entity\MediaValue':
-                    foreach ($value->getMedias() as $media) {
-                        return $media->getReference();
-                        break;
-                    }
-                    break;
+        foreach ($content->getBlock()->getOwning() as $block) {
+            $reflect = new \ReflectionClass($block);
+
+            if ($reflect->hasProperty('media') && $block->getMedia()) {
+                return $block->getMedia()->getReference();
             }
         }
 

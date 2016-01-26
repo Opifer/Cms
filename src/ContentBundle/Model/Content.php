@@ -806,4 +806,26 @@ class Content implements ContentInterface, EntityInterface
         return ($this->getParent()) ? $this->getParent()->getId() : 0;
     }
 
+    /**
+     * Finds first available image for listing purposes
+     *
+     * @return bool
+     */
+    public function getCoverImage()
+    {
+        if ($this->getBlock() === null) {
+            return false;
+        }
+
+        foreach ($this->getBlock()->getOwning() as $block) {
+            $reflect = new \ReflectionClass($block);
+
+            if ($reflect->hasProperty('media') && $block->getMedia()) {
+                return $block->getMedia()->getReference();
+            }
+        }
+
+        return false;
+    }
+
 }

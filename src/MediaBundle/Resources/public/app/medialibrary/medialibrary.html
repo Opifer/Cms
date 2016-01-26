@@ -9,7 +9,9 @@
                     <h1>Media Manager</h1>
                 </div>
             </div>
-            <div class="col-md-4 form-group">
+        </div>
+        <div class="row row-space-4">
+            <div class="col-md-4">
                 <div class="input-group search-group">
                     <span class="input-group-addon">
                         <i class="material-icons md-18">search</i>
@@ -18,57 +20,57 @@
                 </div>
             </div>
         </div>
+        <section class="row media-items">
+            <div ng-show="uploadingFiles != null">
+                <div ng-repeat="f in uploadingFiles">
+                    <div class="progress">
+                        <div class="progress-bar" role="progressbar" aria-valuenow="{{ progress[$index] }}" aria-valuemin="0" aria-valuemax="100" style="width: {{ progress[$index] }}%;">
+                            {{ progress[$index] }}%
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-xs-12 clearfix" ng-cloak>
+                <div ng-repeat="item in mediaCollection.items" class="item {{ item.provider }} {{ item.file_type }}">
+                    <img ng-src="{{ item.images.medialibrary }}" ng-if="item.provider == 'image'" class="visual" alt="{{ item.name }}">
+                    <div class="image-wrapper">
+                        <div class="extended-data">
+                            <span class="details" ng-if="item.provider == 'image'">{{ item.metadata.width }}x{{ item.metadata.height }}px</span>
+                        </div>
+                        <div class="center-stage">
+                            <button type="button" ng-if="picker.name" ng-click="selectMedia($index)" class="btn btn-default-outline include">Use media</button>
+                            <button type="button" ng-if="!picker.name" ng-click="editMedia($index)" class="btn btn-default-outline edit">Edit</button>
+                            <button type="button" ng-if="!picker.name" ng-click="confirmDelete($index)" class="btn btn-default-outline delete">Delete</button>
+                            <!--<button type="button" ng-if="!picker.name" ng-click="zoomMedia($index)" class="btn btn-default-outline zoom">Zoom</button>-->
+                        </div>
+                        <span class="name">{{ item.name }}</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="panel-body text-center">
+                <div class="btn btn-primary" id="btnMediaPaginate" data-loading-text="Loading..."  in-view="mediaCollection.loadMore()" ng-click="mediaCollection.loadMore()" ng-if="(picker.pickerShown || !picker.name)" ng-hide="mediaCollection.end">
+                    Load more
+                </div>
+            </div>
+
+            <ng-modal show='confirmation.shown'>
+                <div class="modal-header">
+                    <h4 class="modal-title">Confirm delete</h4>
+                </div>
+                <div class="modal-body">
+                    Do you really want to delete {{ confirmation.name }}?
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default btn-link" ng-click="confirmation.shown = false">
+                        Cancel
+                    </button>
+                    <button class="btn btn-danger modal-confirm-button" ng-click="deleteMedia(confirmation.idx)" title="Confirms removal">
+                        Delete
+                    </button>
+                </div>
+            </ng-modal>
+        </section>
     </div>
-    <section class="page-section media-items">
-        <div ng-show="uploadingFiles != null">
-            <div ng-repeat="f in uploadingFiles">
-                <div class="progress">
-                    <div class="progress-bar" role="progressbar" aria-valuenow="{{ progress[$index] }}" aria-valuemin="0" aria-valuemax="100" style="width: {{ progress[$index] }}%;">
-                        {{ progress[$index] }}%
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="clearfix" ng-cloak>
-            <div ng-repeat="item in mediaCollection.items" class="item {{ item.provider }} {{ item.file_type }}">
-                <img ng-src="{{ item.images.medialibrary }}" ng-if="item.provider == 'image'" class="visual" alt="{{ item.name }}">
-                <div class="image-wrapper">
-                    <div class="extended-data">
-                        <span class="details" ng-if="item.provider == 'image'">{{ item.metadata.width }}x{{ item.metadata.height }}px</span>
-                    </div>
-                    <div class="center-stage">
-                        <button type="button" ng-if="picker.name" ng-click="selectMedia($index)" class="btn btn-default-outline include">Use media</button>
-                        <button type="button" ng-if="!picker.name" ng-click="editMedia($index)" class="btn btn-default-outline edit">Edit</button>
-                        <button type="button" ng-if="!picker.name" ng-click="confirmDelete($index)" class="btn btn-default-outline delete">Delete</button>
-                        <!--<button type="button" ng-if="!picker.name" ng-click="zoomMedia($index)" class="btn btn-default-outline zoom">Zoom</button>-->
-                    </div>
-                    <span class="name">{{ item.name }}</span>
-                </div>
-            </div>
-        </div>
-
-        <div class="panel-body text-center">
-            <div class="btn btn-primary" id="btnMediaPaginate" data-loading-text="Loading..."  in-view="mediaCollection.loadMore()" ng-click="mediaCollection.loadMore()" ng-if="(picker.pickerShown || !picker.name)" ng-hide="mediaCollection.end">
-                Load more
-            </div>
-        </div>
-
-        <ng-modal show='confirmation.shown'>
-            <div class="modal-header">
-                <h4 class="modal-title">Confirm delete</h4>
-            </div>
-            <div class="modal-body">
-                Do you really want to delete {{ confirmation.name }}?
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default btn-link" ng-click="confirmation.shown = false">
-                    Cancel
-                </button>
-                <button class="btn btn-danger modal-confirm-button" ng-click="deleteMedia(confirmation.idx)" title="Confirms removal">
-                    Delete
-                </button>
-            </div>
-        </ng-modal>
-    </section>
 </div>

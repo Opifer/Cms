@@ -32,16 +32,21 @@
                 </div>
             </div>
             <script type="text/ng-template" id="content_tree_template.html">
-                    <div class="treeview-node-details">
-                        <div class="col-details" ng-click="editContent(content.id)">
+                    <div class="treeview-node-details" ng-class="isExpanded(content) ? 'expanded' : ''">
+                        <div class="col-details">
+                            <div class="content-figure">
+                                <a class="btn-expand" ng-click="expand(content)" ng-show="childNodes(content.id).length > 0"></a>
+                                <div class="content-visual" ng-click="expand(content)">
+                                    <i class="material-icons" ng-if="!content.coverImage">description</i>
+                                    <div ng-click="expand(content)" ng-if="content.coverImage" afkl-lazy-image="{{ content.coverImage }}" afkl-lazy-image-options='{"background": true}' class="cover-image afkl-lazy-wrapper afkl-img-ratio-1-1"></div>
+                                    <div class="content-markers">
+                                        <i class="marker-active" ng-if="content.active"></i>
+                                        <i class="marker-inactive" ng-if="!content.active"></i>
+                                    </div>
+                                </div>
+                            </div>
                             <div class="content-details">
-                                <div class="content-visual" ng-if="content.coverImage" ng-class="content.active ? '' : 'cell-inactive'">
-                                    <div ng-click="editContent(content.id)" afkl-lazy-image="{{ content.coverImage }}" afkl-lazy-image-options='{"background": true}' class="afkl-lazy-wrapper afkl-img-ratio-1-1"></div>
-                                </div>
-                                <div class="content-visual" ng-click="editContent(content.id)" ng-if="!content.coverImage">
-                                    <i class="material-icons">description</i>
-                                </div>
-                                <span class="content-title" ng-class="content.active ? '' : 'text-muted'">{{ content.title}}</span>
+                                <span class="content-title" ng-click="editContent(content.id)" ng-class="content.active ? '' : 'text-muted'">{{ content.title}}</span>
                             </div>
                         </div>
                         <div class="col-path" ng-class="content.active ? '' : 'text-muted'"><s ng-if="!content.active"><small>{{ content.path}}</small></s><a href="{{ content.path}}" target="_blank" ng-if="content.active"><small>{{ content.path}}</small></a></div>

@@ -31,7 +31,7 @@ abstract class AbstractDesignSuite implements DesignSuiteInterface
 
 
     /**
-     * @return object
+     * @return AbstractDesignSuite
      */
     public function load($id = 0, $version = 1)
     {
@@ -140,5 +140,13 @@ abstract class AbstractDesignSuite implements DesignSuiteInterface
     public function getEnvironment()
     {
         throw new NotImplementedException('Design Context must implement getEnvironment method');
+    }
+
+    /**
+     * Event hook for post publishing actions
+     */
+    public function postPublish()
+    {
+
     }
 }

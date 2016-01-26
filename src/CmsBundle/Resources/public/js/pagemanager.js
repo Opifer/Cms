@@ -582,7 +582,7 @@ $(document).ready(function() {
                         className: 'btn-primary',
                         callback: function() {
                             versionPublished = version;
-                            $.post(Routing.generate('opifer_content_api_contenteditor_publish'), {id: ownerId, version: version}).done(function (data, textStatus, request) {
+                            $.post(Routing.generate('opifer_content_api_contenteditor_publish'), {id: ownerId, version: version, type: ownerType, typeId: typeId}).done(function (data, textStatus, request) {
                                 version++;
                                 updateVersionPicker();
                                 loadVersion(version);
