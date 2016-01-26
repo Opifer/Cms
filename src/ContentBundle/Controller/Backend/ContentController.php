@@ -18,6 +18,25 @@ use Opifer\ContentBundle\OpiferContentEvents as Events;
 class ContentController extends Controller
 {
     /**
+     * Index action.
+     *
+     * @param integer $type
+     *
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    public function indexAction($type = 0)
+    {
+        if ($type) {
+            $type = $this->get('opifer.content.content_type_manager')->getRepository()->find($type);
+            $type = ($type) ? $type->getId() : 0;
+        }
+
+        return $this->render($this->getParameter('opifer_content.content_index_view'), [
+            'type' => $type
+        ]);
+    }
+
+    /**
      * Select the type of content, the site and the language before actually
      * creating a new content item.
      *
@@ -87,27 +106,6 @@ class ContentController extends Controller
         return $this->render($this->getParameter('opifer_content.content_details_view'), [
             'content' => $content,
             'form' => $form->createView()
-        ]);
-    }
-
-    /**
-     * Index action.
-     *
-     * @param Request $request
-     * @param integer $directoryId
-     *
-     * @return \Symfony\Component\HttpFoundation\Response
-     */
-    public function indexAction(Request $request, $directoryId)
-    {
-        $event = new ResponseEvent($request);
-        $this->get('event_dispatcher')->dispatch(Events::CONTENT_CONTROLLER_INDEX, $event);
-        if (null !== $event->getResponse()) {
-            return $event->getResponse();
-        }
-
-        return $this->render($this->getParameter('opifer_content.content_index_view'), [
-            'directoryId' => $directoryId
         ]);
     }
 

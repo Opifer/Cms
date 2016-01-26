@@ -35,10 +35,10 @@ opifer_content_content_duplicate:
         expose: true
 
 opifer_content_content_index:
-    path: /content/{directoryId}
-    defaults: { _controller: OpiferContentBundle:Backend/Content:index, directoryId: 0 }
+    path: /content/{type}
+    defaults: { _controller: OpiferContentBundle:Backend/Content:index, type: 0 }
     requirements:
-        directoryId:  \d+
+        type:  \d+
 
 opifer_content_content_history:
     path: /content/history/{type}/{id}/{version}

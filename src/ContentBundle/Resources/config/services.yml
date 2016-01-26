@@ -6,8 +6,6 @@ parameters:
     opifer.content.content_type.class: Opifer\ContentBundle\Form\Type\ContentType
     opifer.content.content_value_provider.class: Opifer\ContentBundle\ValueProvider\ContentValueProvider
     opifer.content.content_type_manager.class: Opifer\ContentBundle\Model\ContentTypeManager
-#    opifer.content.directory_manager.default.class: Opifer\ContentBundle\Model\DirectoryManager
-#    opifer.content.directory_type.class: Opifer\ContentBundle\Form\Type\DirectoryType
     opifer.content.form.contentpicker_type.class: Opifer\ContentBundle\Form\Type\ContentPickerType
     opifer.content.form.gutter_collection_type.class: Opifer\ContentBundle\Form\Type\GutterCollectionType
     opifer.content.form.span_collection_type.class: Opifer\ContentBundle\Form\Type\SpanCollectionType
@@ -25,10 +23,6 @@ services:
     opifer.content.content_manager.default:
         class: %opifer.content.content_manager.default.class%
         arguments: [@doctrine.orm.default_entity_manager, @form.factory, @opifer.eav.eav_manager, %opifer_content.content_class%, %opifer_eav.schema_class%]
-
-#    opifer.content.directory_manager.default:
-#        class: %opifer.content.directory_manager.default.class%
-#        arguments: [@doctrine.orm.default_entity_manager, %opifer_content.directory_class%]
 
     # Serializer
     opifer.content.handler.serialization:
