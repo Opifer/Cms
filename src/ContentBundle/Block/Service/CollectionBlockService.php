@@ -4,8 +4,6 @@ namespace Opifer\ContentBundle\Block\Service;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\EntityManager;
-use Opifer\ContentBundle\Block\AbstractBlockService;
-use Opifer\ContentBundle\Block\BlockServiceInterface;
 use Opifer\ContentBundle\Block\Tool\ContentTool;
 use Opifer\ContentBundle\Block\Tool\ToolsetMemberInterface;
 use Opifer\ContentBundle\Entity\CollectionBlock;

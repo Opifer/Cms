@@ -76,39 +76,32 @@
         <div class="split-pane-divider" id="my-divider"></div>
         <div class="split-pane-component pm-toolset" id="right-component">
             <div class="pm-toolset-body pm">
-                <div class="col-xs-12">
+                <div class="pm-col">
                     <div class="pm pm-toolset-card hidden" id="pm-block-edit">
                     </div>
                 </div>
                 <div class="pm-toolset-card">
-                    <div class="col-xs-12">
 
                         {# begin tools_blocks #}
                         <div id="pm-tools-blocks" class="pm-tools-blockset">
-                            <div class="row">
-                                <div class="col-xs-12 text-center">
-                                    <h4 class="title">Blocks</h4>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-xs-12">
-                                    <div class="list-group">
-                                        {% for tool in manager.tools %}
-                                            {% if tool.type == 'content' %}
-                                                <div class="list-group-item pm-block-item" data-pm-block-type="{{ tool.service }}">
-                                                    <div class="col-visual">
-                                                        <i class="material-icons">{{ tool.icon }}</i>
-                                                    </div>
-                                                    <div class="col-text">
-                                                        <h4 class="list-group-item-heading">{{ tool.name }}</h4>
-
-                                                        <p class="list-group-item-text">{{ tool.description }}</p>
-                                                    </div>
+                            <div class="pm-col">
+                                <h4 class="title text-center">Blocks</h4>
+                                <div class="list-group">
+                                    {% for tool in manager.tools %}
+                                        {% if tool.type == 'content' %}
+                                            <div class="list-group-item pm-block-item" data-pm-block-type="{{ tool.service }}">
+                                                <div class="col-visual">
+                                                    <i class="material-icons">{{ tool.icon }}</i>
                                                 </div>
-                                            {% endif %}
-                                        {% endfor %}
+                                                <div class="col-text">
+                                                    <h4 class="list-group-item-heading">{{ tool.name }}</h4>
 
-                                    </div>
+                                                    <p class="list-group-item-text">{{ tool.description }}</p>
+                                                </div>
+                                            </div>
+                                        {% endif %}
+                                    {% endfor %}
+
                                 </div>
                             </div>
                         </div>
@@ -116,56 +109,44 @@
 
                         {# begin tools_layouts #}
                         <div id="pm-tools-layouts" class="pm-tools-blockset hidden">
-                            <div class="row">
-                                <div class="col-xs-12 text-center">
-                                    <h4 class="title">Containers</h4>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-xs-12">
-                                    <div class="list-group">
+                            <div class="pm-col">
+                                <h4 class="title text-center">Containers</h4>
+                                <div class="list-group">
 
-                                        {% for tool in manager.tools %}
-                                            {% if tool.type == 'container' %}
-                                                <div class="list-group-item pm-block-item" data-pm-block-type="{{ tool.service }}" data-pm-block-data='{{ tool.datajson }}'>
-                                                    <div class="col-visual">
-                                                        <i class="material-icons">{{ tool.icon }}</i>
-                                                    </div>
-                                                    <div class="col-text">
-                                                        <h4 class="list-group-item-heading">{{ tool.name }}</h4>
-
-                                                        <p class="list-group-item-text">{{ tool.description }}</p>
-                                                    </div>
+                                    {% for tool in manager.tools %}
+                                        {% if tool.type == 'container' %}
+                                            <div class="list-group-item pm-block-item" data-pm-block-type="{{ tool.service }}" data-pm-block-data='{{ tool.datajson }}'>
+                                                <div class="col-visual">
+                                                    <i class="material-icons">{{ tool.icon }}</i>
                                                 </div>
-                                            {% endif %}
-                                        {% endfor %}
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-xs-12 text-center">
-                                    <h4 class="title">Columns</h4>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-xs-12">
-                                    <div class="list-group">
+                                                <div class="col-text">
+                                                    <h4 class="list-group-item-heading">{{ tool.name }}</h4>
 
-                                        {% for tool in manager.tools %}
-                                            {% if tool.type == 'column' %}
-                                                <div class="list-group-item pm-block-item" data-pm-block-type="{{ tool.service }}" data-pm-block-data='{{ tool.datajson }}'>
-                                                    <div class="col-visual">
-                                                        <i class="material-icons">{{ tool.icon }}</i>
-                                                    </div>
-                                                    <div class="col-text">
-                                                        <h4 class="list-group-item-heading">{{ tool.name }}</h4>
-
-                                                        <p class="list-group-item-text">{{ tool.description }}</p>
-                                                    </div>
+                                                    <p class="list-group-item-text">{{ tool.description }}</p>
                                                 </div>
-                                            {% endif %}
-                                        {% endfor %}
-                                        </div>
+                                            </div>
+                                        {% endif %}
+                                    {% endfor %}
+                                </div>
+                            </div>
+                            <div class="pm-col">
+                                <h4 class="title text-center">Columns</h4>
+                                <div class="list-group">
+
+                                    {% for tool in manager.tools %}
+                                        {% if tool.type == 'column' %}
+                                            <div class="list-group-item pm-block-item" data-pm-block-type="{{ tool.service }}" data-pm-block-data='{{ tool.datajson }}'>
+                                                <div class="col-visual">
+                                                    <i class="material-icons">{{ tool.icon }}</i>
+                                                </div>
+                                                <div class="col-text">
+                                                    <h4 class="list-group-item-heading">{{ tool.name }}</h4>
+
+                                                    <p class="list-group-item-text">{{ tool.description }}</p>
+                                                </div>
+                                            </div>
+                                        {% endif %}
+                                    {% endfor %}
                                     </div>
                                 </div>
                             </div>

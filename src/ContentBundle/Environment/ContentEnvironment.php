@@ -50,6 +50,14 @@ class ContentEnvironment extends TemplateEnvironment
     }
 
     /**
+     * {@inheritDoc}
+     */
+    protected function getMainBlock()
+    {
+        return $this->content->getBlock();
+    }
+
+    /**
      * @return array
      */
     public function getViewParameters()

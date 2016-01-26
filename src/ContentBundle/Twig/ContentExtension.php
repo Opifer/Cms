@@ -3,6 +3,7 @@
 namespace Opifer\ContentBundle\Twig;
 
 use Opifer\ContentBundle\Block\BlockContainerInterface;
+use Opifer\ContentBundle\Block\BlockManager;
 use Opifer\ContentBundle\Block\BlockOwnerInterface;
 use Opifer\ContentBundle\Entity\CompositeBlock;
 use Opifer\ContentBundle\Entity\DocumentBlock;
@@ -81,6 +82,7 @@ class ContentExtension extends \Twig_Extension
      */
     public function renderBlock(BlockInterface $block, $arguments = array())
     {
+        /** @var BlockManager $manager */
         $manager = $this->container->get('opifer.content.block_manager');
 
         $service = $manager->getService($block);

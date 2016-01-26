@@ -54,6 +54,14 @@ class TemplateEnvironment extends Environment
     }
 
     /**
+     * {@inheritDoc}
+     */
+    protected function getMainBlock()
+    {
+        return $this->template->getBlock();
+    }
+
+    /**
      * @return array
      */
     public function getViewParameters()
