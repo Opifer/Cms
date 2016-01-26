@@ -14,7 +14,6 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 class Schema implements SchemaInterface
 {
-
     /**
      * @var integer
      *
@@ -66,7 +65,6 @@ class Schema implements SchemaInterface
      * @ORM\ManyToMany(targetEntity="Opifer\EavBundle\Model\AttributeInterface", mappedBy="allowedSchemas")
      **/
     protected $allowedInAttributes;
-
 
     /**
      * Constructor

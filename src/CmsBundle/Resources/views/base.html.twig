@@ -29,9 +29,12 @@
                                         <li class="divider"></li>
                                         <li><a href="{{ path('opifer_content_content_index') }}">{{ "nav.content"|trans|capitalize }}</a></li>
                                         <li><a href="{{ path('opifer_content_content_index') }}">Shared blocks</a></li>
+                                        {% for content_type in content_type_manager.types %}
+                                            <li><a href="{{ path('opifer_content_content_index', {'type': content_type.id}) }}">{{ content_type.name }}</a></li>
+                                        {% endfor %}
                                         <li class="divider"></li>
                                         <li><a href="{{ path('opifer_cms_template_index') }}">{{ 'base.templates'|trans|capitalize }}</a></li>
-                                        <li><a href="{{ path('opifer_content_content_index') }}">Content types</a></li>
+                                        <li><a href="{{ path('opifer_content_contenttype_index') }}">Content types</a></li>
                                     </ul>
                                 </li>
                                 <li><a href="{{ path('opifer_media_media_index') }}">{{ "nav.media"|trans|capitalize }}</a></li>

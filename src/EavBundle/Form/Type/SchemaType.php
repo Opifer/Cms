@@ -11,9 +11,7 @@ class SchemaType extends AbstractType
     /** @var AttributeType */
     protected $attributeType;
 
-    /**
-     * @var
-     */
+    /** @var string */
     protected $schemaClass;
 
     /**
@@ -52,9 +50,6 @@ class SchemaType extends AbstractType
         ])->add('object_class', 'schema_object_class', [
             'label' => 'schema.object_class',
             'attr'  => [ 'help_text' => 'form.object_class.help_text']
-        ])->add('presentation', 'presentationeditor', [
-            'label' => 'schema.presentation',
-            'attr'  => [ 'help_text' => 'form.presentation.help_text']
         ])->add('attributes', 'bootstrap_collection', [
             'allow_add'    => true,
             'allow_delete' => true,

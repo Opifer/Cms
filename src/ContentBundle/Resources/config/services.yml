@@ -5,6 +5,7 @@ parameters:
     opifer.content.content_router.class: Opifer\ContentBundle\Router\ContentRouter
     opifer.content.content_type.class: Opifer\ContentBundle\Form\Type\ContentType
     opifer.content.content_value_provider.class: Opifer\ContentBundle\ValueProvider\ContentValueProvider
+    opifer.content.content_type_manager.class: Opifer\ContentBundle\Model\ContentTypeManager
 #    opifer.content.directory_manager.default.class: Opifer\ContentBundle\Model\DirectoryManager
 #    opifer.content.directory_type.class: Opifer\ContentBundle\Form\Type\DirectoryType
     opifer.content.form.contentpicker_type.class: Opifer\ContentBundle\Form\Type\ContentPickerType
@@ -128,3 +129,13 @@ services:
         arguments: ['@service_container']
         tags:
             - { name: doctrine.event_subscriber }
+
+    # Content Types
+
+    opifer.content.content_type_manager:
+        class: '%opifer.content.content_type_manager.class%'
+        arguments:
+          - '@doctrine.orm.default_entity_manager'
+          - '@opifer.eav.schema_manager'
+          - '@opifer.content.content_manager'
+          - '%opifer_content.content_type_class%'

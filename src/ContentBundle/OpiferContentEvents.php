@@ -21,14 +21,6 @@ final class OpiferContentEvents
     const CONTENT_CONTROLLER_VIEW = 'opifer_content.content_controller_view';
 
     /**
-     * Init event
-     *
-     * Called before any actions inside the newAction in ContentController
-     * Receives the Opifer\ContentBundle\Event\ResponseEvent
-     */
-    const CONTENT_CONTROLLER_INIT = 'opifer_content.content_controller_init';
-
-    /**
      * New event
      *
      * Called before any actions inside the newAction in ContentController

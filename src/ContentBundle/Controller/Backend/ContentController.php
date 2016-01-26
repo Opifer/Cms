@@ -22,23 +22,23 @@ class ContentController extends Controller
      * creating a new content item.
      *
      * @param Request $request
+     * @param integer $type
      *
      * @return Response
      */
-    public function createAction(Request $request)
+    public function createAction(Request $request, $type = 0)
     {
         /** @var ContentManager $manager */
         $manager = $this->get('opifer.content.content_manager');
-        $event = new ResponseEvent($request);
-        $this->get('event_dispatcher')->dispatch(Events::CONTENT_CONTROLLER_INIT, $event);
 
-        if (null !== $event->getResponse()) {
-            return $event->getResponse();
+        if ($type) {
+            $contentType = $this->get('opifer.content.content_type_manager')->getRepository()->find($type);
+            $content = $this->get('opifer.eav.eav_manager')->initializeEntity($contentType->getSchema());
+            $content->setContentType($contentType);
+        } else {
+            $content = $manager->initialize();
         }
 
-        $contentClass = $this->container->getParameter('opifer_content.content_class');
-        /** @var ContentInterface $content */
-        $content = new $contentClass;
         $form = $this->createForm(ContentType::class, $content);
         $form->handleRequest($request);
 
@@ -52,11 +52,11 @@ class ContentController extends Controller
             $content->setBlock($document);
             $manager->save($content);
 
-            return $this->redirect($this->generateUrl('opifer_content_contenteditor_design', [
+            return $this->redirectToRoute('opifer_content_contenteditor_design', [
                 'type'    => 'content',
                 'id'      => $content->getId(),
                 'rootVersion' => 0,
-            ]));
+            ]);
         }
 
         return $this->render($this->getParameter('opifer_content.content_new_view'), [
@@ -84,7 +84,10 @@ class ContentController extends Controller
             $manager->save($content);
         }
 
-        return $this->render($this->getParameter('opifer_content.content_details_view'), [ 'content' => $content, 'form' => $form->createView() ]);
+        return $this->render($this->getParameter('opifer_content.content_details_view'), [
+            'content' => $content,
+            'form' => $form->createView()
+        ]);
     }
 
     /**
@@ -103,7 +106,9 @@ class ContentController extends Controller
             return $event->getResponse();
         }
 
-        return $this->render($this->getParameter('opifer_content.content_index_view'), [ 'directoryId' => $directoryId ]);
+        return $this->render($this->getParameter('opifer_content.content_index_view'), [
+            'directoryId' => $directoryId
+        ]);
     }
 
     /**
@@ -132,7 +137,6 @@ class ContentController extends Controller
 
     public function historyAction(Request $request, $type, $id, $version = 0)
     {
-
         return $this->render($this->getParameter('opifer_content.content_history_view'), array());
     }
 }

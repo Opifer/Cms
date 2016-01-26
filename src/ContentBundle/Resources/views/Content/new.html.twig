@@ -9,14 +9,13 @@
                     <h1>{{ 'title.new_content'|trans }}</h1>
                 </div>
                 {{ form_start(form, {'attr' : { 'novalidate' : 'novalidate' }, 'style': 'horizontal' }) }}
-                {% set form_save_btn = form_widget(form.save) %}
-                {{ form_rest(form) }}
-                <div class="form-group">
-                    <div class="col-xs-12 col-lg-10 col-lg-offset-2">
-                        {{ form_save_btn|raw }}
-                        <a href="{{ path('opifer_content_content_index') }}" class="btn btn-default">{{ 'button.cancel'|trans|capitalize }}</a>
+                    {{ form_widget(form) }}
+                    <div class="form-group">
+                        <div class="col-xs-12 col-lg-10 col-lg-offset-2">
+                            <button type="submit" class="btn btn-primary">{{ 'button.submit'|trans }}</button>
+                            <a href="{{ path('opifer_content_content_index') }}" class="btn btn-default">{{ 'button.cancel'|trans|capitalize }}</a>
+                        </div>
                     </div>
-                </div>
                 {{ form_end(form) }}
             </div>
         </div>

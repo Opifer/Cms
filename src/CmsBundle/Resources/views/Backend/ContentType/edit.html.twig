@@ -1,0 +1,13 @@
+{% extends 'OpiferCmsBundle::base.html.twig' %}
+
+{% block body %}
+    {% spaceless %}
+        <div class="page-header clearfix">
+            <h1>{{ 'form.edit_content_type'|trans({ 'name': content_type.name }) }}</h1>
+        </div>
+
+        <div class="container">
+            {% include 'OpiferCmsBundle:Backend/ContentType:_form.html.twig' %}
+        </div>
+    {% endspaceless %}
+{% endblock body %}
