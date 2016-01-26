@@ -766,4 +766,17 @@ class Content implements ContentInterface, EntityInterface
         $this->block = $block;
     }
 
+    /**
+     *
+     * @JMS\VirtualProperty
+     * @JMS\SerializedName("parent_id")
+     * @JMS\Groups({"detail", "list"})
+     *
+     * @return integer
+     */
+    public function getParentId()
+    {
+        return ($this->getParent()) ? $this->getParent()->getId() : 0;
+    }
+
 }

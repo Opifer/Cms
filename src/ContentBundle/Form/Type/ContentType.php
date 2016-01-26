@@ -63,7 +63,6 @@ class ContentType extends AbstractType
                 'class' => 'Opifer\CmsBundle\Entity\Content',
                 'choice_label' => 'title',
                 'required' => false,
-                'empty_data' => '/',
             ])
             ->add('alias', 'text', [
                 'attr'        => [
