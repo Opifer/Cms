@@ -1,12 +1,7 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: dylan
- * Date: 25/01/16
- * Time: 11:57
- */
 
 namespace Opifer\CmsBundle\Controller\Backend;
+
 use Symfony\Component\HttpFoundation\Request;
 
 use Opifer\ContentBundle\Controller\Backend\ContentController as BaseContentController;

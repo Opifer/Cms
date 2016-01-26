@@ -3,6 +3,7 @@
 namespace Opifer\EavBundle\Form\Type;
 
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
@@ -44,7 +45,7 @@ class SchemaObjectClassType extends AbstractType
      */
     public function getParent()
     {
-        return 'choice';
+        return ChoiceType::class;
     }
 
     /**
@@ -52,7 +53,7 @@ class SchemaObjectClassType extends AbstractType
      */
     public function getName()
     {
-        return 'schema_object_class';
+        return $this->getBlockPrefix();
     }
 
     /**
@@ -60,6 +61,6 @@ class SchemaObjectClassType extends AbstractType
      */
     public function getBlockPrefix()
     {
-        return $this->getBlockPrefix();
+        return 'schema_object_class';
     }
 }

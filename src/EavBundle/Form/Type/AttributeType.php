@@ -17,9 +17,7 @@ class AttributeType extends AbstractType
     /** @var string */
     protected $attributeClass;
 
-    /**
-     * @var string
-     */
+    /** @var string */
     protected $schemaClass;
 
     /** @var OptionType */
@@ -75,7 +73,8 @@ class AttributeType extends AbstractType
         ])->add('sort', IntegerType::class, [
             'label' => 'attribute.sort',
             'attr'  => [ 'help_text' => 'form.sort.help_text', 'widget_col' => 2 ],
-            'empty_data' => 0
+            'empty_data' => 0,
+            'required' => false
         ])->add('required', ChoiceType::class, [
             'choices' => [
                 false => 'Not required',

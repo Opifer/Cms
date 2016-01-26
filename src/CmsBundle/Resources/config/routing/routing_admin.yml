@@ -1,3 +1,0 @@
-# Usage is of this file is deprecated. Use routing_backend instead.
-_opifer_backend:
-    resource: "routing_backend.yml"

@@ -26,12 +26,6 @@ class ContentController extends Controller
      */
     public function indexAction(Request $request)
     {
-        $event = new ResponseEvent($request);
-        $this->get('event_dispatcher')->dispatch(Events::CONTENT_CONTROLLER_INDEX, $event);
-        if (null !== $event->getResponse()) {
-            return $event->getResponse();
-        }
-
         $paginator = $this->get('opifer.content.content_manager')
             ->getPaginatedByRequest($request);
 

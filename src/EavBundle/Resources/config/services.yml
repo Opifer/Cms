@@ -11,7 +11,6 @@ parameters:
     opifer.eav.form.eav_value.class: 'Opifer\EavBundle\Form\Type\ValueType'
     opifer.eav.form.fauxtype.class: 'Opifer\EavBundle\Form\Type\FauxType'
     opifer.eav.form.option_type.class: 'Opifer\EavBundle\Form\Type\OptionType'
-    opifer.eav.form.presentationeditor.class: 'Opifer\EavBundle\Form\Type\PresentationEditorType'
     opifer.eav.form.schema_type.class: 'Opifer\EavBundle\Form\Type\SchemaType'
     opifer.eav.form.schema_object_class_type.class: 'Opifer\EavBundle\Form\Type\SchemaObjectClassType'
     opifer.eav.form.value_provider_type.class: 'Opifer\EavBundle\Form\Type\ValueProviderType'
@@ -66,11 +65,6 @@ services:
         tags:
             - { name: form.type, alias: eav_option }
 
-    opifer.eav.form.presentationeditor:
-        class: '%opifer.eav.form.presentationeditor.class%'
-        tags:
-            - { name: form.type, alias: presentationeditor }
-
     opifer.eav.form.fauxtype:
         class: '%opifer.eav.form.fauxtype.class%'
         tags:
@@ -90,9 +84,9 @@ services:
 
     opifer.eav.form.schema_type:
         class: '%opifer.eav.form.schema_type.class%'
-        arguments: ['@opifer.eav.form.attribute_type', '%opifer_eav.schema_class%']
+        arguments: ['%opifer_eav.schema_class%']
         tags:
-            - { name: form.type, alias: eav_schema }
+            - { name: form.type }
 
     opifer.eav.form.valueset_type:
         class: '%opifer.eav.form.valueset_type.class%'

@@ -26,13 +26,6 @@ opifer_content_api_content_delete:
     options:
         expose: true
 
-opifer_content_api_directory:
-    path: /directory
-    defaults: { _controller: OpiferContentBundle:Api/Directory:index }
-    methods: [GET]
-    options:
-        expose: true
-
 opifer_content_api_contenteditor_create_block:
     path: /contenteditor/createblock/{type}/{typeId}/{ownerId}/{rootVersion}
     defaults: { _controller: OpiferContentBundle:Api/ContentEditor:createBlock }

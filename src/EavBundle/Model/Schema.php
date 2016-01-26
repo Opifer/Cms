@@ -14,7 +14,6 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 class Schema implements SchemaInterface
 {
-
     /**
      * @var integer
      *
@@ -23,23 +22,6 @@ class Schema implements SchemaInterface
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     protected $id;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="displayName", type="string", length=255)
-     * @Assert\NotBlank()
-     */
-    protected $displayName;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="name", type="string", length=128)
-     *
-     * @Assert\Regex("/^[a-z-_]+$/")
-     */
-    protected $name;
 
     /**
      * @var string
@@ -66,7 +48,6 @@ class Schema implements SchemaInterface
      * @ORM\ManyToMany(targetEntity="Opifer\EavBundle\Model\AttributeInterface", mappedBy="allowedSchemas")
      **/
     protected $allowedInAttributes;
-
 
     /**
      * Constructor
@@ -111,59 +92,6 @@ class Schema implements SchemaInterface
     {
         return $this->objectClass;
     }
-
-
-    /**
-     * Set name
-     *
-     * @param  string $name
-     *
-     * @return Schema
-     */
-    public function setName($name)
-    {
-        $this->name = $name;
-
-        return $this;
-    }
-
-
-    /**
-     * Get name
-     *
-     * @return string
-     */
-    public function getName()
-    {
-        return $this->name;
-    }
-
-
-    /**
-     * Set displayName
-     *
-     * @param  string $displayName
-     *
-     * @return Schema
-     */
-    public function setDisplayName($displayName)
-    {
-        $this->displayName = $displayName;
-
-        return $this;
-    }
-
-
-    /**
-     * Get displayName
-     *
-     * @return string
-     */
-    public function getDisplayName()
-    {
-        return $this->displayName;
-    }
-
 
     /**
      * Add attributes

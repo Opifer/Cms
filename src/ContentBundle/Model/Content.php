@@ -46,6 +46,14 @@ class Content implements ContentInterface, EntityInterface
     protected $valueSet;
 
     /**
+     * @var ContentType
+     *
+     * @ORM\ManyToOne(targetEntity="Opifer\ContentBundle\Model\ContentTypeInterface", inversedBy="content")
+     * @ORM\JoinColumn(name="content_type_id", referencedColumnName="id")
+     */
+    protected $contentType;
+
+    /**
      * @var boolean
      *
      * @JMS\Expose
@@ -170,16 +178,6 @@ class Content implements ContentInterface, EntityInterface
     protected $deletedAt;
 
     /**
-     * @var SchemaInterface
-     */
-    public $schema;
-
-    /**
-     * @var ArrayCollection
-     */
-    protected $attributeValues;
-
-    /**
      * @var \Opifer\ContentBundle\Entity\Template
      *
      * @ORM\ManyToOne(targetEntity="Opifer\ContentBundle\Entity\Template", fetch="EAGER")
@@ -194,6 +192,16 @@ class Content implements ContentInterface, EntityInterface
      * @ORM\JoinColumn(name="block_id", referencedColumnName="id")
      **/
     protected $block;
+
+    /**
+     * @var SchemaInterface
+     */
+    public $schema;
+
+    /**
+     * @var ArrayCollection
+     */
+    protected $attributeValues;
 
 
     /**
@@ -348,10 +356,29 @@ class Content implements ContentInterface, EntityInterface
     }
 
     /**
+     * @return ContentType
+     */
+    public function getContentType()
+    {
+        return $this->contentType;
+    }
+
+    /**
+     * @param ContentTypeInterface $contentType
+     * @return Content
+     */
+    public function setContentType(ContentTypeInterface $contentType)
+    {
+        $this->contentType = $contentType;
+
+        return $this;
+    }
+
+    /**
      * Set lft
      *
      * @param  integer   $lft
-     * @return Directory
+     * @return Content
      */
     public function setLft($lft)
     {
@@ -374,7 +401,7 @@ class Content implements ContentInterface, EntityInterface
      * Set lvl
      *
      * @param  integer   $lvl
-     * @return Directory
+     * @return Content
      */
     public function setLvl($lvl)
     {
@@ -397,7 +424,7 @@ class Content implements ContentInterface, EntityInterface
      * Set rgt
      *
      * @param  integer   $rgt
-     * @return Directory
+     * @return Content
      */
     public function setRgt($rgt)
     {
@@ -420,7 +447,7 @@ class Content implements ContentInterface, EntityInterface
      * Set root
      *
      * @param  integer   $root
-     * @return Directory
+     * @return Content
      */
     public function setRoot($root)
     {
@@ -725,8 +752,8 @@ class Content implements ContentInterface, EntityInterface
     {
         $crumbs = [];
 
-        if (null !== $this->directory) {
-            $crumbs = $this->getDirectory()->getBreadCrumbs();
+        if (null !== $this->parent) {
+            $crumbs = $this->getParent()->getBreadCrumbs();
         }
 
         $crumbs[$this->slug] = $this->getTitle();
@@ -761,7 +788,7 @@ class Content implements ContentInterface, EntityInterface
     /**
      * @param BlockInterface $block
      */
-    public function setBlock($block)
+    public function setBlock(BlockInterface $block)
     {
         $this->block = $block;
     }

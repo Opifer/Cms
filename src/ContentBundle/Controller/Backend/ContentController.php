@@ -18,27 +18,46 @@ use Opifer\ContentBundle\OpiferContentEvents as Events;
 class ContentController extends Controller
 {
     /**
+     * Index action.
+     *
+     * @param integer $type
+     *
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    public function indexAction($type = 0)
+    {
+        if ($type) {
+            $type = $this->get('opifer.content.content_type_manager')->getRepository()->find($type);
+            $type = ($type) ? $type->getId() : 0;
+        }
+
+        return $this->render($this->getParameter('opifer_content.content_index_view'), [
+            'type' => $type
+        ]);
+    }
+
+    /**
      * Select the type of content, the site and the language before actually
      * creating a new content item.
      *
      * @param Request $request
+     * @param integer $type
      *
      * @return Response
      */
-    public function createAction(Request $request)
+    public function createAction(Request $request, $type = 0)
     {
         /** @var ContentManager $manager */
         $manager = $this->get('opifer.content.content_manager');
-        $event = new ResponseEvent($request);
-        $this->get('event_dispatcher')->dispatch(Events::CONTENT_CONTROLLER_INIT, $event);
 
-        if (null !== $event->getResponse()) {
-            return $event->getResponse();
+        if ($type) {
+            $contentType = $this->get('opifer.content.content_type_manager')->getRepository()->find($type);
+            $content = $this->get('opifer.eav.eav_manager')->initializeEntity($contentType->getSchema());
+            $content->setContentType($contentType);
+        } else {
+            $content = $manager->initialize();
         }
 
-        $contentClass = $this->container->getParameter('opifer_content.content_class');
-        /** @var ContentInterface $content */
-        $content = new $contentClass;
         $form = $this->createForm(ContentType::class, $content);
         $form->handleRequest($request);
 
@@ -52,11 +71,11 @@ class ContentController extends Controller
             $content->setBlock($document);
             $manager->save($content);
 
-            return $this->redirect($this->generateUrl('opifer_content_contenteditor_design', [
+            return $this->redirectToRoute('opifer_content_contenteditor_design', [
                 'type'    => 'content',
                 'id'      => $content->getId(),
                 'rootVersion' => 0,
-            ]));
+            ]);
         }
 
         return $this->render($this->getParameter('opifer_content.content_new_view'), [
@@ -84,26 +103,10 @@ class ContentController extends Controller
             $manager->save($content);
         }
 
-        return $this->render($this->getParameter('opifer_content.content_details_view'), [ 'content' => $content, 'form' => $form->createView() ]);
-    }
-
-    /**
-     * Index action.
-     *
-     * @param Request $request
-     * @param integer $directoryId
-     *
-     * @return \Symfony\Component\HttpFoundation\Response
-     */
-    public function indexAction(Request $request, $directoryId)
-    {
-        $event = new ResponseEvent($request);
-        $this->get('event_dispatcher')->dispatch(Events::CONTENT_CONTROLLER_INDEX, $event);
-        if (null !== $event->getResponse()) {
-            return $event->getResponse();
-        }
-
-        return $this->render($this->getParameter('opifer_content.content_index_view'), [ 'directoryId' => $directoryId ]);
+        return $this->render($this->getParameter('opifer_content.content_details_view'), [
+            'content' => $content,
+            'form' => $form->createView()
+        ]);
     }
 
     /**
@@ -132,7 +135,6 @@ class ContentController extends Controller
 
     public function historyAction(Request $request, $type, $id, $version = 0)
     {
-
         return $this->render($this->getParameter('opifer_content.content_history_view'), array());
     }
 }

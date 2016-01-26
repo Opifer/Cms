@@ -28,20 +28,6 @@ class Schema extends BaseSchema
     /**
      * @var string
      *
-     * @ORM\Column(name="displayName", type="string", length=255, nullable=true)
-     */
-    protected $displayName;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="name", type="string", length=128, unique=true, nullable=true)
-     */
-    protected $name;
-
-    /**
-     * @var string
-     *
      * @ORM\Column(name="object_class", type="string", length=128)
      */
     protected $objectClass;
@@ -52,13 +38,6 @@ class Schema extends BaseSchema
      * @ORM\OneToMany(targetEntity="Attribute", mappedBy="schema", cascade={"all"}, orphanRemoval=true)
      */
     protected $attributes;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="presentation", type="text", nullable=true)
-     */
-    protected $presentation;
 
     /**
      * @var ArrayCollection
