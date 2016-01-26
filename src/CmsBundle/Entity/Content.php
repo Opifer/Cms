@@ -14,6 +14,7 @@ use Opifer\ContentBundle\Model\Content as BaseContent;
  * @ORM\Entity(repositoryClass="Opifer\CmsBundle\Repository\ContentRepository")
  * @ORM\Table(name="content")
  * @JMS\ExclusionPolicy("all")
+ * @Gedmo\Tree(type="nested")
  */
 class Content extends BaseContent
 {
@@ -83,6 +84,43 @@ class Content extends BaseContent
      * @ORM\JoinColumn(name="site_id", referencedColumnName="id")
      */
     protected $site;
+
+    /**
+     * @Gedmo\TreeLeft
+     * @ORM\Column(name="lft", type="integer")
+     */
+    protected $lft;
+
+    /**
+     * @Gedmo\TreeLevel
+     * @ORM\Column(name="lvl", type="integer")
+     */
+    protected $lvl;
+
+    /**
+     * @Gedmo\TreeRight
+     * @ORM\Column(name="rgt", type="integer")
+     */
+    protected $rgt;
+
+    /**
+     * @Gedmo\TreeRoot
+     * @ORM\Column(name="root", type="integer", nullable=true)
+     */
+    protected $root;
+
+    /**
+     * @Gedmo\TreeParent
+     * @ORM\ManyToOne(targetEntity="Opifer\ContentBundle\Model\ContentInterface", inversedBy="children")
+     * @ORM\JoinColumn(name="parent_id", referencedColumnName="id", onDelete="CASCADE")
+     */
+    protected $parent;
+
+    /**
+     * @ORM\OneToMany(targetEntity="Opifer\ContentBundle\Model\ContentInterface", mappedBy="parent")
+     * @ORM\OrderBy({"lft" = "ASC"})
+     */
+    protected $children;
 
     /**
      * Created at.
