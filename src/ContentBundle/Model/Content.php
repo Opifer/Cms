@@ -21,6 +21,7 @@ use Opifer\ContentBundle\Entity\Template;
  *
  * @JMS\ExclusionPolicy("all")
  * @Gedmo\SoftDeleteable(fieldName="deletedAt", timeAware=false)
+ * @Gedmo\Tree(type="nested")
  */
 class Content implements ContentInterface, EntityInterface
 {
@@ -94,7 +95,7 @@ class Content implements ContentInterface, EntityInterface
      * @JMS\Groups({"detail", "list"})
      * @Gedmo\Slug(handlers={
      *      @Gedmo\SlugHandler(class="Opifer\ContentBundle\Handler\SlugHandler", options={
-     *          @Gedmo\SlugHandlerOption(name="relationField", value="directory"),
+     *          @Gedmo\SlugHandlerOption(name="relationField", value="parent"),
      *          @Gedmo\SlugHandlerOption(name="relationSlugField", value="slug"),
      *          @Gedmo\SlugHandlerOption(name="separator", value="/"),
      *          @Gedmo\SlugHandlerOption(name="onSlugCompletion", value={"appendIndex"})
@@ -105,10 +106,42 @@ class Content implements ContentInterface, EntityInterface
     protected $slug;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Opifer\ContentBundle\Model\DirectoryInterface")
-     * @ORM\JoinColumn(name="directory_id", referencedColumnName="id", nullable=true, onDelete="SET NULL")
+     * @Gedmo\TreeLeft
+     * @ORM\Column(name="lft", type="integer")
      */
-    protected $directory;
+    protected $lft;
+
+    /**
+     * @Gedmo\TreeLevel
+     * @ORM\Column(name="lvl", type="integer")
+     */
+    protected $lvl;
+
+    /**
+     * @Gedmo\TreeRight
+     * @ORM\Column(name="rgt", type="integer")
+     */
+    protected $rgt;
+
+    /**
+     * @Gedmo\TreeRoot
+     * @ORM\Column(name="root", type="integer", nullable=true)
+     */
+    protected $root;
+
+    /**
+     * @Gedmo\TreeParent
+     * @ORM\ManyToOne(targetEntity="Opifer\ContentBundle\Model\ContentInterface", inversedBy="children")
+     * @ORM\JoinColumn(name="parent_id", referencedColumnName="id", onDelete="CASCADE")
+     */
+    protected $parent;
+
+    /**
+     * @ORM\OneToMany(targetEntity="Opifer\ContentBundle\Model\ContentInterface", mappedBy="parent")
+     * @ORM\OrderBy({"lft" = "ASC"})
+     */
+    protected $children;
+
     /**
      * @var \DateTime
      *
@@ -291,30 +324,6 @@ class Content implements ContentInterface, EntityInterface
     }
 
     /**
-     * Set directory
-     *
-     * @param DirectoryInterface $directory
-     *
-     * @return Content
-     */
-    public function setDirectory(DirectoryInterface $directory = null)
-    {
-        $this->directory = $directory;
-
-        return $this;
-    }
-
-    /**
-     * Get directory
-     *
-     * @return DirectoryInterface
-     */
-    public function getDirectory()
-    {
-        return $this->directory;
-    }
-
-    /**
      * Set alias
      *
      * @param string $alias
@@ -336,6 +345,157 @@ class Content implements ContentInterface, EntityInterface
     public function getAlias()
     {
         return $this->alias;
+    }
+
+    /**
+     * Set lft
+     *
+     * @param  integer   $lft
+     * @return Directory
+     */
+    public function setLft($lft)
+    {
+        $this->lft = $lft;
+
+        return $this;
+    }
+
+    /**
+     * Get lft
+     *
+     * @return integer
+     */
+    public function getLft()
+    {
+        return $this->lft;
+    }
+
+    /**
+     * Set lvl
+     *
+     * @param  integer   $lvl
+     * @return Directory
+     */
+    public function setLvl($lvl)
+    {
+        $this->lvl = $lvl;
+
+        return $this;
+    }
+
+    /**
+     * Get lvl
+     *
+     * @return integer
+     */
+    public function getLvl()
+    {
+        return $this->lvl;
+    }
+
+    /**
+     * Set rgt
+     *
+     * @param  integer   $rgt
+     * @return Directory
+     */
+    public function setRgt($rgt)
+    {
+        $this->rgt = $rgt;
+
+        return $this;
+    }
+
+    /**
+     * Get rgt
+     *
+     * @return integer
+     */
+    public function getRgt()
+    {
+        return $this->rgt;
+    }
+
+    /**
+     * Set root
+     *
+     * @param  integer   $root
+     * @return Directory
+     */
+    public function setRoot($root)
+    {
+        $this->root = $root;
+
+        return $this;
+    }
+
+    /**
+     * Get root
+     *
+     * @return integer
+     */
+    public function getRoot()
+    {
+        return $this->root;
+    }
+
+    /**
+     * Set parent
+     *
+     * @param  ContentInterface $parent
+     * @return ContentInterface
+     */
+    public function setParent(ContentInterface $parent = null)
+    {
+        $this->parent = $parent;
+
+        return $this;
+    }
+
+    /**
+     * Get parent
+     *
+     * @return ContentInterface
+     */
+    public function getParent()
+    {
+        return $this->parent;
+    }
+
+    /**
+     * Add children
+     *
+     * @param  ContentInterface $children
+     * @return ContentInterface
+     */
+    public function addChild(ContentInterface $child)
+    {
+        $this->children[] = $child;
+
+        return $this;
+    }
+
+    /**
+     * Remove children
+     *
+     * @param  ContentInterface $children
+     * @return ContentInterface
+     */
+    public function removeChild(ContentInterface $child)
+    {
+        $this->children->removeElement($child);
+
+        return $this;
+    }
+
+    /**
+     * Get children
+     *
+     * @return ContentInterface[]|\Doctrine\Common\Collections\Collection
+     */
+    public function getChildren()
+    {
+        return $this->children;
     }
 
     /**

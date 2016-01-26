@@ -5,21 +5,21 @@ opifer_content_formtype_angular:
         expose: true
 
 # Backend Directory
-opifer_content_directory_index:
-    path: /directory
-    defaults: { _controller: OpiferContentBundle:Backend/Directory:index }
-
-opifer_content_directory_new:
-    path: /directory/new
-    defaults: { _controller: OpiferContentBundle:Backend/Directory:new }
-
-opifer_content_directory_edit:
-    path: /directory/edit/{id}
-    defaults: { _controller: OpiferContentBundle:Backend/Directory:edit }
-
-opifer_content_directory_delete:
-    path: /directory/delete/{id}
-    defaults: { _controller: OpiferContentBundle:Backend/Directory:delete }
+#opifer_content_directory_index:
+#    path: /directory
+#    defaults: { _controller: OpiferContentBundle:Backend/Directory:index }
+#
+#opifer_content_directory_new:
+#    path: /directory/new
+#    defaults: { _controller: OpiferContentBundle:Backend/Directory:new }
+#
+#opifer_content_directory_edit:
+#    path: /directory/edit/{id}
+#    defaults: { _controller: OpiferContentBundle:Backend/Directory:edit }
+#
+#opifer_content_directory_delete:
+#    path: /directory/delete/{id}
+#    defaults: { _controller: OpiferContentBundle:Backend/Directory:delete }
 
 opifer_content_template_index:
     path: /template
@@ -34,9 +34,9 @@ opifer_content_template_editor_view:
     defaults: { _controller: OpiferContentBundle:Backend/Template:editorView }
 
 # Backend content
-opifer_content_content_new:
-    path: /content/new/{schema}/{mode}
-    defaults: { _controller: OpiferContentBundle:Backend/Content:new, schema: 0, mode: simple }
+opifer_content_content_create:
+    path: /content/create/{schema}/{mode}
+    defaults: { _controller: OpiferContentBundle:Backend/Content:create, schema: 0, mode: simple }
 
 opifer_content_content_details:
     path: /content/details/{id}

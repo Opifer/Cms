@@ -77,18 +77,7 @@ class ContentTest extends \PHPUnit_Framework_TestCase
         $content->setSlug('slug/index');
         $this->assertEquals('slug/', $content->getBaseSlug());
     }
-
-    public function testDirectory()
-    {
-        $content = $this->getContent();
-        $this->assertNull($content->getDirectory());
-
-        $directory = new Directory();
-
-        $content->setDirectory($directory);
-        $this->assertEquals($directory, $content->getDirectory());
-    }
-
+    
     public function testCreatedAt()
     {
         $content = $this->getContent();

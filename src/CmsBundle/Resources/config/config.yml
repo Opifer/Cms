@@ -209,8 +209,6 @@ liip_imagine:
 
 # Content
 opifer_content:
-    directory_class: 'Opifer\CmsBundle\Entity\Directory'
-    layout_class:    'Opifer\CmsBundle\Entity\Layout'
     content_manager: 'opifer.cms.content_manager'
     content:
         class: 'Opifer\CmsBundle\Entity\Content'
