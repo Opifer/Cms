@@ -8,6 +8,9 @@
 
 namespace Opifer\ContentBundle\Environment;
 
+use Opifer\ContentBundle\Block\BlockOwnerInterface;
+use Opifer\ContentBundle\Entity\Block;
+use Opifer\ContentBundle\Entity\DocumentBlock;
 use Opifer\ContentBundle\Model\BlockInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use Opifer\ContentBundle\Block\BlockManager;
@@ -57,6 +60,13 @@ abstract class Environment
      * @return array
      */
     abstract protected function getBlockOwners();
+
+    /**
+     * Return the main block of the environment
+     *
+     * @return BlockOwnerInterface
+     */
+    abstract protected function getMainBlock();
 
     /**
      * Returns view parameters array that can be passed to any Response
@@ -115,15 +125,11 @@ abstract class Environment
     {
         $this->loadBlocks();
 
-        $blockOwners = $this->getBlockOwners();
+        $cacheKey = $this->getCacheKey();
 
-        foreach ($blockOwners as $blockOwner) {
-            $cacheKey = $this->getCacheKey($blockOwner->getId());
-
-            foreach ($this->blockCache[$cacheKey] as $member) {
-                if ($member->getId() == $id) {
-                    return $member;
-                }
+        foreach ($this->blockCache[$cacheKey] as $member) {
+            if ($member->getId() == $id) {
+                return $member;
             }
         }
 
@@ -134,14 +140,14 @@ abstract class Environment
     {
         $this->loadBlocks();
 
+        $cacheKey = $this->getCacheKey();
+
         $blocks = array();
         $blockOwners = $this->getBlockOwners();
 
-        foreach ($blockOwners as $blockOwner) {
-            $cacheKey = $this->getCacheKey($blockOwner->getId());
-
-            foreach ($this->blockCache[$cacheKey] as $member) {
-                if ($member->getParent()->getId() == $blockOwner->getId()) {
+        foreach ($this->blockCache[$cacheKey] as $member) {
+            foreach ($blockOwners as $blockOwner) {
+                if ($member->getParent() && $member->getParent()->getId() == $blockOwner->getId()) {
                     array_push($blocks, $member);
                 }
             }
@@ -153,7 +159,6 @@ abstract class Environment
     /**
      *
      * @param BlockInterface $block
-     * @param mixed          $versions Array map with block owner id and version number
      *
      * @return array
      */
@@ -161,16 +166,17 @@ abstract class Environment
     {
         $this->loadBlocks();
 
-        $blockOwners = $this->getBlockOwners();
-
         $children = array();
-        foreach ($blockOwners as $blockOwner) {
-            $cacheKey = $this->getCacheKey($blockOwner->getId());
+        $cacheKey = $this->getCacheKey();
 
-            foreach ($this->blockCache[$cacheKey] as $member) {
-                if ($member->getParent()->getId() == $block->getId() || ($member->getParent()->getId() == $member->getOwner()->getId() && $block instanceof BlockOwnerInterface)) {
-                    array_push($children, $member);
-                }
+        foreach ($this->blockCache[$cacheKey] as $member) {
+            if ($member->getParent() == null)
+                continue;
+
+            if ($member->getParent()->getId() == $block->getId()) { // direct child
+                array_push($children, $member);
+            } else if ($member->getOwner() && $member->getParent()->getId() == $member->getOwner()->getId() && $block instanceof BlockOwnerInterface) {
+                array_push($children, $member);
             }
         }
 
@@ -189,23 +195,31 @@ abstract class Environment
             return;
 
         $blockOwners = $this->getBlockOwners();
+        $blocks = array();
 
         foreach ($blockOwners as $blockOwner) {
             $version = $this->getVersion($blockOwner->getId());
-            $cacheKey = $this->getCacheKey($blockOwner->getId());
 
-            if (!isset($this->blockCache[$cacheKey])) {
-                $this->blockCache[$cacheKey] = $this->blockManager->findByOwner($blockOwner, $version);
-            }
+            $owned = $this->blockManager->findByOwner($blockOwner, $version);
+
+            $blocks = array_merge($blocks, $owned);
         }
+
+        $blocks = $this->blockManager->sortBlocks(array_merge($blocks, $blockOwners));
+        $cacheKey = $this->getCacheKey();
+
+        $this->blockCache[$cacheKey] = array_filter($blocks, function($item) {
+            return ($item instanceof DocumentBlock) ? false : true;
+        });
 
         $this->isLoaded = true;
 
         return $this;
     }
 
-    protected function getCacheKey($id)
+    protected function getCacheKey()
     {
+        $id = $this->getMainBlock()->getId();
         $version = $this->getVersion($id);
         $cacheKey = ($version) ? sprintf('%d-%d', $id, $version) : $id;
 

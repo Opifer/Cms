@@ -426,7 +426,7 @@ class BlockManager
             $siblings = $this->getSiblings($block, $rootVersion);
             $siblings[] = $block;
             if ($siblings) {
-                $siblings = $this->sortBlocksByIds($siblings, $sort);
+                $siblings = $this->sortBlocksByDirective($siblings, $sort);
 
                 foreach ($siblings as $sibling) {
                     $this->save($sibling);
@@ -465,13 +465,7 @@ class BlockManager
         $siblings = $this->getSiblings($block, $rootVersion);
 
         if ($siblings) {
-            // kick siblings not in this placeholder
-            foreach ($siblings as $k => $sibling) {
-                if ($sibling->getPosition() != $placeholder) {
-                    unset($siblings[$k]);
-                }
-            }
-            $siblings = $this->sortBlocksByIds($siblings, $sort);
+            $siblings = $this->sortBlocksByDirective($siblings, $sort);
 
             foreach ($siblings as $sibling) {
                 $sibling->setRootVersion($rootVersion);
@@ -543,12 +537,48 @@ class BlockManager
      *
      * @return array
      */
-    public function sortBlocksByIds($blocks, $sort)
+    public function sortBlocksByDirective($blocks, $sort)
     {
-//        $array = $blocks->getValues();
-
         array_walk($blocks, function ($block) use ($sort) {
             $block->setSort(array_search($block->getId(), $sort));
+        });
+
+        return $blocks;
+    }
+
+    /**
+     * Sorts an array of Blocks using their $sort property taking into account inherited
+     * BlockOwners.
+     *
+     * @param array $blocks
+     *
+     * @return array
+     */
+    public function sortBlocks(array $blocks)
+    {
+        // Determine hierarchy of ownership first
+        $hierarchy = array();
+        foreach ($blocks as $block) {
+            if ($block instanceof BlockOwnerInterface) {
+                $key = ($block->getParent()) ? array_search($block->getParent()->getId(), $hierarchy) : false;
+                $pos = ($key) ? $key-1 : count($hierarchy)+1;
+                $hierarchy[$pos] = $block->getId();
+            }
+        }
+        $hierarchy = array_flip($hierarchy); // Flip it for easier lookup by parentId as key.
+
+        usort($blocks, function ($a, $b) use ($hierarchy) {
+            if ($a->getOwner() === null || $b->getOwner() === null) {
+                return 0;
+            }
+
+            // when blocks sort positions are equal and they have different
+            // owners apply inherited sorting
+            if ($a->getSort() === $b->getSort() && $a->getOwner()->getId() != $b->getOwner()->getId()) {
+                return ($hierarchy[$a->getOwner()->getId()] < $hierarchy[$b->getOwner()->getId()]) ? 1 : -1;
+            }
+
+            return ($a->getSort() < $b->getSort()) ? -1 : 1;
         });
 
         return $blocks;
