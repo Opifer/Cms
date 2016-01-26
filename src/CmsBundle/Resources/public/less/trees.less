@@ -20,10 +20,6 @@
     }
 }
 
-
-
-
-
 .treeview-content {
     .material-icons {
         display: inline-flex;
@@ -121,3 +117,107 @@
     }
 
 }
+
+
+// Tree
+
+.tree {
+    min-height: 20px;
+
+    > ul {
+        margin: 0;
+        padding: 0;
+    }
+
+    li {
+        list-style-type: none;
+        margin: 0;
+        padding: 5px 5px 0 5px;
+        position: relative;
+
+        &:before,
+        &:after {
+            content: '';
+            left: -28px;
+            position: absolute;
+            right: auto;
+        }
+
+        &:before {
+            border-left: 1px solid #ddd;
+            bottom: 50px;
+            height: 100%;
+            top: 0;
+            width: 1px;
+        }
+
+        &:after {
+            border-top: 1px solid #ddd;
+            height: 20px;
+            top: 15px;
+            width: 25px;
+        }
+
+        &:last-child:before {
+            height: 15px;
+        }
+
+        .expand {
+            display: none;
+        }
+
+        &.parent_li > .expand {
+            display: inline-block;
+            padding: 0;
+            text-decoration: none;
+
+            &:before {
+                &:extend(.material-icons);
+                content: '\E5C5';
+                line-height: .9em;
+                color: @gray-light;
+                .rotate(270deg);
+            }
+
+            &.expanded:before {
+                .rotate(0deg);
+            }
+
+            &:hover,
+            &:hover+ul li .expand {
+                color: @gray-darker;
+            }
+        }
+
+        .checkmark {
+            display: inline-block;
+            padding: 0;
+            text-decoration: none;
+
+            &:after {
+                &:extend(.material-icons);
+                content: '\E835';
+                line-height: .9em;
+            }
+        }
+
+        &.selected > .checkmark {
+            &:after {
+                content: '\E834';
+                color: black;
+            }
+        }
+
+        &.parent_li > span {
+            cursor: pointer;
+        }
+    }
+
+    > ul > li:before,
+    > ul > li:after {
+        border: 0;
+    }
+}
+
+
+

@@ -47,7 +47,7 @@ gulp.task('js', function () {
         'Resources/public/js/pagemanager.js',
         'Resources/public/app/app.js',
 
-            '../ContentBundle/Resources/public/js/app.js',
+        '../ContentBundle/Resources/public/js/app.js',
         '../ContentBundle/Resources/public/app/content/content.js',
         '../ContentBundle/Resources/public/app/presentationeditor/presentationeditor.js',
         '../MediaBundle/Resources/public/js/dropzone.js',
@@ -69,7 +69,6 @@ gulp.task('css', function () {
     return gulp.src([
         '../MediaBundle/Resources/public/css/main.less',
         '../MediaBundle/Resources/public/css/dropzone.less',
-        '../ContentBundle/Resources/public/css/main.less',
         'Resources/public/components/angular-loading-bar/build/loading-bar.css',
         'Resources/public/less/main.less'
         ])

@@ -115,7 +115,7 @@
     {% macro render_tree(item) %}
         <ul>
             <li data-id="{{ item.id }}">
-                <span><i class="material-icons">folder-open</i></span> {{ item.title }}
+                <span class="expand"></span> <span class="checkmark"></span> {{ item.title }}
                 {% if item.__children|default() %}
                     {% for child in item.__children %}
                         {{ _self.render_tree(child) }}
