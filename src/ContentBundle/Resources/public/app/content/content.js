@@ -126,7 +126,7 @@ angular.module('OpiferContent', ['angular-inview'])
             controller: function ($scope, ContentService, $attrs) {
                 var pageLoaded = false;
                 $scope.navto = false;
-                $scope.maxPerPage = 100;
+                $scope.maxPerPage = 1000;
                 $scope.currentPage = 1;
                 $scope.numberOfResults = 0;
                 $scope.remainingResults = 0;
