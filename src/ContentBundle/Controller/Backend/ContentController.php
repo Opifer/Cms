@@ -3,9 +3,9 @@
 namespace Opifer\ContentBundle\Controller\Backend;
 
 use Opifer\CmsBundle\Manager\ContentManager;
-use Opifer\ContentBundle\Block\BlockManager;
-use Opifer\ContentBundle\Block\ContentBlockAdapter;
 use Opifer\ContentBundle\Entity\DocumentBlock;
+use Opifer\ContentBundle\Form\Type\ContentType;
+use Opifer\ContentBundle\Model\ContentInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -13,13 +13,10 @@ use Opifer\ContentBundle\Event\ResponseEvent;
 use Opifer\ContentBundle\OpiferContentEvents as Events;
 
 /**
- * Class ContentController
- *
- * @package Opifer\ContentBundle\Controller\Backend
+ * Backend Content Controller
  */
 class ContentController extends Controller
 {
-
     /**
      * Select the type of content, the site and the language before actually
      * creating a new content item.
@@ -28,7 +25,7 @@ class ContentController extends Controller
      *
      * @return Response
      */
-    public function newAction(Request $request)
+    public function createAction(Request $request)
     {
         /** @var ContentManager $manager */
         $manager = $this->get('opifer.content.content_manager');
@@ -40,8 +37,9 @@ class ContentController extends Controller
         }
 
         $contentClass = $this->container->getParameter('opifer_content.content_class');
+        /** @var ContentInterface $content */
         $content = new $contentClass;
-        $form = $this->createForm('opifer_content_details', $content);
+        $form = $this->createForm(ContentType::class, $content);
         $form->handleRequest($request);
 
         if ($form->isValid()) {
@@ -79,7 +77,7 @@ class ContentController extends Controller
         $manager = $this->get('opifer.content.content_manager');
         $content = $manager->getRepository()->find($id);
 
-        $form = $this->createForm('opifer_content_details', $content);
+        $form = $this->createForm(ContentType::class, $content);
         $form->handleRequest($request);
 
         if ($form->isValid()) {
@@ -107,7 +105,6 @@ class ContentController extends Controller
 
         return $this->render($this->getParameter('opifer_content.content_index_view'), [ 'directoryId' => $directoryId ]);
     }
-
 
     /**
      * Duplicates content based on their id.

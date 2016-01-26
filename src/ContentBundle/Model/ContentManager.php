@@ -62,9 +62,7 @@ class ContentManager implements ContentManagerInterface
     }
 
     /**
-     * Get repository
-     *
-     * @return \Doctrine\ORM\EntityRepository
+     * {@inheritdoc}
      */
     public function getRepository()
     {
@@ -127,93 +125,6 @@ class ContentManager implements ContentManagerInterface
     public function findActiveByAlias($alias)
     {
         return $this->getRepository()->findActiveByAlias($alias);
-    }
-
-
-    /**
-     * Handle the nested content forms
-     *
-     * @param Request          $request
-     *
-     * @param ContentInterface $content
-     * @param string           $parentKey
-     *
-     * @throws NestedContentFormException
-     *
-     * @deprecated
-     */
-    public function handleNestedContentForm(Request $request, ContentInterface $content, $parentKey = 'opifer_content')
-    {
-        $this->recursiveContentMapper($request, $content, 1, $parentKey);
-    }
-
-    /**
-     * Maps the formdata to the related nestedcontent item resursively
-     *
-     * @param ContentInterface $content
-     * @param $request
-     * @param int $level
-     * @param string $parentKey
-     *
-     * @return bool
-     *
-     * @throws \Exception
-     *
-     * @deprecated
-     */
-    public function recursiveContentMapper(Request $request, ContentInterface $content, $level = 1, $parentKey = 'opifer_content')
-    {
-        $formdata = $request->request->all();
-
-        foreach ($content->getNestedContentAttributes() as $attribute => $value) {
-
-            $relatedformdata = $this->eavManager->getFormDataByLevel($formdata, $attribute, $level, $parentKey);
-
-            // Store the original Ids, so we can check later what items were removed
-            $ids = [];
-            $oldIds = [];
-            if ($formdata[$parentKey.'_valueset_namedvalues_'.$attribute] != '') {
-                $oldIds = explode(',', $formdata[$parentKey.'_valueset_namedvalues_'.$attribute]);
-            }
-
-            $sort = 0;
-            foreach ($relatedformdata as $key => $data) {
-                $keys = $this->eavManager->parseNestedTypeName($key);
-
-                $nestedContent = $this->getContentByReference($keys['reference']);
-                $nestedContent->setSlug(md5(time() + rand()));
-
-                if ($nestedContent->getTitle() == "") {
-                    $nestedContent->setTitle('_');
-                }
-
-                $form = new NestedType($key);
-                $form = $this->formFactory->create($form, $nestedContent);
-                $form->handleRequest($request);
-
-                $nestedContent->setNestedSort($sort);
-                $sort++;
-
-                // We do not check the standard isValid() method here, because our form
-                // is not actually submitted.
-                if (count($form->getErrors(true)) < 1) {
-                    $this->em->persist($value);
-                    $value->addNested($nestedContent);
-                    $nestedContent->setNestedIn($value);
-                    $this->save($nestedContent);
-
-                    $ids[] = $nestedContent->getId();
-                } else {
-                    throw new NestedContentFormException('Something went wrong while saving nested content. Message: '. $form->getErrors());
-                }
-
-                $this->recursiveContentMapper($request, $nestedContent, $level+1, $key);
-            }
-
-            $this->remove(array_diff($oldIds, $ids));
-        }
-
-        return true;
     }
 
     /**

@@ -3,11 +3,9 @@
 namespace Opifer\CmsBundle\Tests\Entity;
 
 use Opifer\CmsBundle\Entity\Content;
-use Opifer\CmsBundle\Entity\Directory;
 use Opifer\CmsBundle\Entity\Site;
 use Opifer\CmsBundle\Entity\User;
 use Opifer\CmsBundle\Entity\ValueSet;
-use Opifer\EavBundle\Entity\NestedValue;
 
 class ContentTest extends \PHPUnit_Framework_TestCase
 {
@@ -18,17 +16,6 @@ class ContentTest extends \PHPUnit_Framework_TestCase
 
         $content->setSite($expected);
         $actual = $content->getSite();
-
-        $this->assertSame($expected, $actual);
-    }
-
-    public function testDirectory()
-    {
-        $expected = new Directory();
-        $content = new Content();
-
-        $content->setDirectory($expected);
-        $actual = $content->getDirectory();
 
         $this->assertSame($expected, $actual);
     }

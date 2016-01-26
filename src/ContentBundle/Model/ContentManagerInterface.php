@@ -41,4 +41,11 @@ interface ContentManagerInterface
      * @return ContentInterface
      */
     public function findOneBySlug($slug);
+
+    /**
+     * Get repository
+     *
+     * @return \Doctrine\ORM\EntityRepository
+     */
+    public function getRepository();
 }
