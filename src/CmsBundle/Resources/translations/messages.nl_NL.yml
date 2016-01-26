@@ -2,6 +2,7 @@
 base:
     cronjobs: cron jobs
     content: content
+    contenttypes: content types
     forms: formulieren
     help: help
     imagefilters: afbeeldingsinstellingen

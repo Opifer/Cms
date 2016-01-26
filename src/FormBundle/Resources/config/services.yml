@@ -4,45 +4,42 @@ parameters:
     opifer.form.form_form.class: Opifer\FormBundle\Form\Type\FormType
     opifer.form.notification_mail_listener.class: Opifer\FormBundle\EventListener\NotificationMailListener
     opifer.form.post_form.class: Opifer\FormBundle\Form\Type\PostType
-    opifer.form.schema_form.class: Opifer\FormBundle\Form\Type\SchemaType
     opifer.form.post_manager.class: Opifer\FormBundle\Model\PostManager
 
 services:
-    # Model Managers
+    # Form
 
     opifer.form.form_manager:
-        class: %opifer.form.form_manager.class%
-        arguments: [@doctrine.orm.default_entity_manager, @opifer.eav.schema_manager, @opifer.form.post_manager, %opifer_form.form_class%]
-
-    opifer.form.post_manager:
-        class: %opifer.form.post_manager.class%
-        arguments: [@doctrine.orm.default_entity_manager, %opifer_form.post_class%]
-
-    # Form types
+        class: '%opifer.form.form_manager.class%'
+        arguments:
+            - '@doctrine.orm.default_entity_manager'
+            - '@opifer.eav.schema_manager'
+            - '@opifer.form.post_manager'
+            - '%opifer_form.form_class%'
 
     opifer.form.form_form:
-        class: %opifer.form.form_form.class%
-        arguments: [@doctrine.orm.entity_manager]
+        class: '%opifer.form.form_form.class%'
+        arguments: ['@doctrine.orm.entity_manager', '%opifer_form.post_class%']
         tags:
             - { name: form.type, alias: opifer_form_form }
 
+    # Post
+
+    opifer.form.post_manager:
+        class: '%opifer.form.post_manager.class%'
+        arguments: ['@doctrine.orm.default_entity_manager', '%opifer_form.post_class%']
+
     opifer.form.post_form:
-        class: %opifer.form.post_form.class%
-        arguments: [@router]
+        class: '%opifer.form.post_form.class%'
+        arguments: ['@router']
         tags:
             - { name: form.type, alias: opifer_form_post }
-
-    opifer.form.schema_form:
-        class: %opifer.form.schema_form.class%
-        arguments: [@opifer.eav.form.attribute_type, %opifer_eav.schema_class%]
-        tags:
-            - { name: form.type, alias: opifer_form_schema }
 
     # Twig
 
     opifer.form.form_extension:
-        class: %opifer.form.form_extension.class%
-        arguments: [@opifer.eav.eav_manager, @form.factory]
+        class: '%opifer.form.form_extension.class%'
+        arguments: ['@opifer.eav.eav_manager', '@form.factory']
         public: false
         tags:
             - { name: twig.extension }
@@ -50,7 +47,7 @@ services:
     # Event Listeners
 
     opifer.form.notification_mail_listener:
-        class: %opifer.form.notification_mail_listener.class%
-        arguments: [@templating, @mailer, %opifer_form.from_email%]
+        class: '%opifer.form.notification_mail_listener.class%'
+        arguments: ['@templating', '@mailer', '%opifer_form.from_email%']
         tags:
             - { name: kernel.event_subscriber }

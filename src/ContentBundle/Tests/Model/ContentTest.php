@@ -3,9 +3,7 @@
 namespace Opifer\ContentBundle\Tests\Model;
 
 use Opifer\ContentBundle\Model\Content;
-use Opifer\ContentBundle\Model\Directory;
 use Opifer\ContentBundle\Tests\TestData\Schema;
-use Opifer\EavBundle\Entity\NestedValue;
 use Opifer\EavBundle\Entity\Value;
 use Opifer\EavBundle\Tests\TestData\ValueSet;
 

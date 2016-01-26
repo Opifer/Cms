@@ -170,6 +170,7 @@ twig:
             - 'OpiferCmsBundle:Form:fields.html.twig' # At the bottom to make sure form action are being set to '#' when empty
     globals:
         settings: '@opifer.cms.settings'
+        content_type_manager: '@opifer.content.content_type_manager'
 
 # Media
 opifer_media:
@@ -211,13 +212,19 @@ liip_imagine:
 opifer_content:
     content_manager: 'opifer.cms.content_manager'
     content:
-        class: 'Opifer\CmsBundle\Entity\Content'
+        class: Opifer\CmsBundle\Entity\Content
         views:
             index: 'OpiferCmsBundle:Backend/Content:index.html.twig'
             new: 'OpiferCmsBundle:Backend/Content:new.html.twig'
             edit: 'OpiferCmsBundle:Backend/Content:edit.html.twig'
             details: 'OpiferCmsBundle:Backend/Content:details.html.twig'
             history: 'OpiferCmsBundle:Backend/Content:history.html.twig'
+    content_type:
+        class: Opifer\CmsBundle\Entity\ContentType
+        views:
+            index: 'OpiferCmsBundle:Backend/ContentType:index.html.twig'
+            create: 'OpiferCmsBundle:Backend/ContentType:create.html.twig'
+            edit: 'OpiferCmsBundle:Backend/ContentType:edit.html.twig'
 
 opifer_eav:
     attribute_class: Opifer\CmsBundle\Entity\Attribute

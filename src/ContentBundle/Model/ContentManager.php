@@ -52,6 +52,19 @@ class ContentManager implements ContentManagerInterface
     }
 
     /**
+     * Initialize the content entity
+     *
+     * @param int $type
+     * @return ContentInterface
+     */
+    public function initialize($type = 0)
+    {
+        $class = $this->getClass();
+
+        return new $class();
+    }
+
+    /**
      * Get the class
      *
      * @return string

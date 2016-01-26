@@ -1,0 +1,18 @@
+{% extends 'OpiferContentBundle::base.html.twig' %}
+
+{% block opifer_content_body %}
+    {% spaceless %}
+        <div class="page-header clearfix">
+            <h1 class="pull-left">New Content Type</h1>
+        </div>
+
+        <div class="container">
+            <div class="row">
+                {{ form_start(form) }}
+                    {{ form_widget(form) }}
+                    <input type="submit" value="Save"/>
+                {{ form_end(form) }}
+            </div>
+        </div>
+    {% endspaceless %}
+{% endblock opifer_content_body %}

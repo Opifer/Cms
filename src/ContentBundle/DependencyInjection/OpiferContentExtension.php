@@ -40,6 +40,10 @@ class OpiferContentExtension extends Extension implements PrependExtensionInterf
             'opifer_content.content_edit_view' => $config['content']['views']['edit'],
             'opifer_content.content_details_view' => $config['content']['views']['details'],
             'opifer_content.content_history_view' => $config['content']['views']['history'],
+            'opifer_content.content_type_class' => $config['content_type']['class'],
+            'opifer_content.content_type_index_view' => $config['content_type']['views']['index'],
+            'opifer_content.content_type_create_view' => $config['content_type']['views']['create'],
+            'opifer_content.content_type_edit_view' => $config['content_type']['views']['edit'],
         ];
 
         return $params;
@@ -72,6 +76,7 @@ class OpiferContentExtension extends Extension implements PrependExtensionInterf
                         'orm' => [
                             'resolve_target_entities' => [
                                 'Opifer\ContentBundle\Model\ContentInterface' => $config['content']['class'],
+                                'Opifer\ContentBundle\Model\ContentTypeInterface' => $config['content_type']['class'],
                             ],
                         ],
                     ]);

@@ -8,8 +8,6 @@ angular.module('MainApp', [
     'ngResource',
     'mediaLibrary',
     'OpiferContent',
-    'OpiferPresentationEditor',
-    'OpiferNestedContent',
     'googleAddress',
     'ui.sortable',
     'afkl.lazyImage',

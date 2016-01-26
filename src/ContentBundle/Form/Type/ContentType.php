@@ -7,6 +7,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 use Opifer\ContentBundle\Form\DataTransformer\SlugTransformer;
+use Opifer\EavBundle\Form\Type\ValueSetType;
 
 /**
  * Content Form Type
@@ -74,9 +75,10 @@ class ContentType extends AbstractType
             ])
         ;
 
-        $builder->add('save', 'submit', [
-            'label' => 'button.submit',
-        ]);
+        // Only add the ValueSetType if a ContentType is set, to avoid persisting empty valuesets.
+        if ($options['data']->getValueSet()) {
+            $builder->add('valueset', ValueSetType::class);
+        }
     }
 
     /**

@@ -4,23 +4,6 @@ opifer_content_formtype_angular:
     options:
         expose: true
 
-# Backend Directory
-#opifer_content_directory_index:
-#    path: /directory
-#    defaults: { _controller: OpiferContentBundle:Backend/Directory:index }
-#
-#opifer_content_directory_new:
-#    path: /directory/new
-#    defaults: { _controller: OpiferContentBundle:Backend/Directory:new }
-#
-#opifer_content_directory_edit:
-#    path: /directory/edit/{id}
-#    defaults: { _controller: OpiferContentBundle:Backend/Directory:edit }
-#
-#opifer_content_directory_delete:
-#    path: /directory/delete/{id}
-#    defaults: { _controller: OpiferContentBundle:Backend/Directory:delete }
-
 opifer_content_template_index:
     path: /template
     defaults: { _controller: OpiferContentBundle:Backend/Template:index }
@@ -33,10 +16,11 @@ opifer_content_template_editor_view:
     path: /template/editor/view/{id}
     defaults: { _controller: OpiferContentBundle:Backend/Template:editorView }
 
-# Backend content
+# Content
+
 opifer_content_content_create:
-    path: /content/create/{schema}/{mode}
-    defaults: { _controller: OpiferContentBundle:Backend/Content:create, schema: 0, mode: simple }
+    path: /content/create/{type}/{mode}
+    defaults: { _controller: OpiferContentBundle:Backend/Content:create, type: 0, mode: simple }
 
 opifer_content_content_details:
     path: /content/details/{id}
@@ -51,10 +35,10 @@ opifer_content_content_duplicate:
         expose: true
 
 opifer_content_content_index:
-    path: /content/{directoryId}
-    defaults: { _controller: OpiferContentBundle:Backend/Content:index, directoryId: 0 }
+    path: /content/{type}
+    defaults: { _controller: OpiferContentBundle:Backend/Content:index, type: 0 }
     requirements:
-        directoryId:  \d+
+        type:  \d+
 
 opifer_content_content_history:
     path: /content/history/{type}/{id}/{version}
@@ -63,6 +47,7 @@ opifer_content_content_history:
         expose: true
 
 # Contenteditor
+
 opifer_content_contenteditor_design:
     path: /designer/{type}/{id}/{rootVersion}
     defaults: { _controller: OpiferContentBundle:Backend/ContentEditor:design, rootVersion: 0 }
@@ -86,3 +71,21 @@ opifer_content_contenteditor_view:
     defaults: { _controller: OpiferContentBundle:Backend/ContentEditor:view, version: 0 }
     options:
         expose: true
+
+# Content Types
+
+opifer_content_contenttype_index:
+    path: /contenttype
+    defaults: { _controller: OpiferContentBundle:Backend/ContentType:index }
+
+opifer_content_contenttype_create:
+    path: /contenttype/create
+    defaults: { _controller: OpiferContentBundle:Backend/ContentType:create }
+
+opifer_content_contenttype_edit:
+    path: /contenttype/edit/{id}
+    defaults: { _controller: OpiferContentBundle:Backend/ContentType:edit }
+
+opifer_content_contenttype_delete:
+    path: /contenttype/delete/{id}
+    defaults: { _controller: OpiferContentBundle:Backend/ContentType:delete }
