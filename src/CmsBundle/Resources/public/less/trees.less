@@ -138,16 +138,16 @@
         &:before,
         &:after {
             content: '';
-            left: -28px;
+            left: -6px;
             position: absolute;
             right: auto;
+            z-index: 1;
         }
 
         &:before {
             border-left: 1px solid #ddd;
-            bottom: 50px;
-            height: 100%;
-            top: 0;
+            bottom: -1px;
+            top: 1px;
             width: 1px;
         }
 
@@ -155,7 +155,7 @@
             border-top: 1px solid #ddd;
             height: 20px;
             top: 15px;
-            width: 25px;
+            width: 30px;
         }
 
         &:last-child:before {
@@ -163,13 +163,20 @@
         }
 
         .expand {
-            display: none;
-        }
-
-        &.parent_li > .expand {
             display: inline-block;
             padding: 0;
             text-decoration: none;
+            background: white;
+            width: 22px;
+            position: relative;
+            z-index: 100;
+
+            &:before {
+                content: ' ';
+            }
+        }
+
+        &.parent_li > .expand {
 
             &:before {
                 &:extend(.material-icons);

@@ -107,22 +107,24 @@
 {% block opifer_content_parent_widget %}
     <input name="{{ full_name }}" id="{{ id }}" type="hidden" value="{{ value }}">
     <div class="tree" data-input-id="{{ id }}">
+        <ul>
         {% for item in tree %}
             {{ _self.render_tree(item) }}
         {% endfor %}
+        </ul>
     </div>
 
     {% macro render_tree(item) %}
-        <ul>
             <li data-id="{{ item.id }}">
                 <span class="expand"></span> <span class="checkmark"></span> {{ item.title }}
                 {% if item.__children|default() %}
+                    <ul>
                     {% for child in item.__children %}
                         {{ _self.render_tree(child) }}
                     {% endfor %}
+                    </ul>
                 {% endif %}
             </li>
-        </ul>
     {% endmacro %}
 {% endblock %}
 
