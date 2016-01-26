@@ -24,29 +24,26 @@
                 </div>
                 <div class="collapse navbar-collapse" id="navbar">
                     <div class="btn-toolbar navbar-right">
+                        <div class="btn-group navbar-btn">
+                            {% if url_properties %}<a href="{{ url_properties }}" class="btn btn-icon btn-default" id="pm-btn-properties"><i class="material-icons">settings</i></a>{% endif %}
+                        </div>
+                        <div class="navbar-divider"></div>
                         <div class="btn-group navbar-btn hidden">
                             <a href="#" target="_blank" id="pm-btn-run" class="btn btn btn-default btn-icon"><i class="material-icons">launch</i></a>
                         </div>
                         {{ render(controller('OpiferContentBundle:Backend/ContentEditor:versionPicker', {'id': block.id, 'current': version_current, 'published': version_published})) }}
-                        <div class="btn-group navbar-btn">
-                            <span>&nbsp;</span>
-                        </div>
+                        <div class="navbar-divider"></div>
                         <div class="btn-group navbar-btn" data-toggle="buttons" role="group" aria-label="">
                             <label for="viewmode-xs" class="btn btn-icon btn-default"><input type="radio" name="screenwidth" id="viewmode-xs" value="xs" autocomplete="off"><i class="material-icons">phone_iphone</i></label>
                             <label for="viewmode-sm" class="btn btn-icon btn-default"><input type="radio" name="screenwidth" id="viewmode-sm" value="sm" autocomplete="off"><i class="material-icons">tablet_mac</i></label>
                             <label for="viewmode-md" class="btn btn-icon btn-default"><input type="radio" name="screenwidth" id="viewmode-md" value="md" autocomplete="off"><i class="material-icons">tablet</i></label>
                             <label for="viewmode-lg" class="btn btn-icon btn-default active"><input type="radio" name="screenwidth" id="viewmode-lg" value="lg" autocomplete="off" checked><i class="material-icons">laptop_mac</i></label>
                         </div>
-                        <div class="btn-group navbar-btn">
-                            {#<a class="btn btn btn-default btn-icon btn-reload disabled"><i class="material-icons">autorenew</i></a>#}
-                        </div>
-                        <div class="btn-group navbar-btn">
-                            {% if url_properties %}<a href="{{ url_properties }}" class="btn btn btn-default" id="pm-btn-properties">Properties</a>{% endif %}
-                        </div>
+                        <div class="navbar-divider"></div>
                         <div class="btn-group navbar-btn" data-toggle="buttons" role="group" aria-label="">
-                            <label for="viewmode-content" id="pm-btn-viewmode-content" class="btn btn-default active"><input type="radio" name="viewmode" id="viewmode-content" value="CONTENT" autocomplete="off" checked>Content</label>
-                            <label for="viewmode-preview" id="pm-btn-viewmode-preview" class="btn btn-default"><input type="radio" name="viewmode" id="viewmode-preview" value="PREVIEW" autocomplete="off">Preview</label>
-                            <label for="viewmode-layout" id="pm-btn-viewmode-layout" class="btn btn-default"><input type="radio" name="viewmode" id="viewmode-layout" value="LAYOUT" autocomplete="off">Layout</label>
+                            <label for="viewmode-content" id="pm-btn-viewmode-content" class="btn btn-icon btn-default active"><input type="radio" name="viewmode" id="viewmode-content" value="CONTENT" autocomplete="off" checked><i class="material-icons">subtitles</i></label>
+                            <label for="viewmode-preview" id="pm-btn-viewmode-preview" class="btn btn-icon btn-default"><input type="radio" name="viewmode" id="viewmode-preview" value="PREVIEW" autocomplete="off"><i class="material-icons">pageview</i></label>
+                            <label for="viewmode-layout" id="pm-btn-viewmode-layout" class="btn btn-icon btn-default"><input type="radio" name="viewmode" id="viewmode-layout" value="LAYOUT" autocomplete="off"><i class="material-icons">web</i></label>
                         </div>
                     </div>
                 </div>
@@ -58,8 +55,10 @@
         <aside class="pm-tabs">
             <ul class="nav nav-inverse nav-tabs nav-stacked nav-tabs-" role="tablist">
                 <li role="presentation" class="active" data-toggle="tooltip" data-placement="right" title="Designer"><a href="#tab-design" role="tab" data-toggle="tab"><i class="material-icons">layers</i></a></li>
-                <li role="presentation" data-toggle="tooltip" data-placement="right" title="Change history"><a href="#tab-history" role="tab" data-toggle="tab"><i class="material-icons">track_changes</i></a></li>
-                <li role="presentation" data-toggle="tooltip" data-placement="right" title="Developer tools"><a href="#tab-developer" role="tab" data-toggle="tab"><i class="material-icons">assistant</i></a></li>
+                <li role="presentation" data-toggle="tooltip" data-placement="right" title="Change history"><a href="#tab-history" role="tab" data-toggle="tab"><i class="material-icons">change_history</i></a></li>
+                <li role="presentation" data-toggle="tooltip" data-placement="right" title="SEO tools"><a href="#tab-seo" role="tab" data-toggle="tab"><i class="material-icons">pageview</i></a></li>
+                <li role="presentation" data-toggle="tooltip" data-placement="right" title="SEO tools"><a href="#tab-extensions" role="tab" data-toggle="tab"><i class="material-icons">extension</i></a></li>
+                <li role="presentation" data-toggle="tooltip" data-placement="right" title="Developer tools"><a href="#tab-developer" role="tab" data-toggle="tab"><i class="material-icons">developer_board</i></a></li>
             </ul>
         </aside>
         <div class="split-pane-component pm-preview pm-viewmode-content tab-content" id="pm-document" data-pm-id="{{ block.id }}" data-pm-type="{{ type }}" data-pm-type-id="{{ id }}" data-pm-version="{{ version_current }}" data-pm-version-published="{{ version_published }}" data-pm-permalink="{{ permalink|default }}">

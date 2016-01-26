@@ -1,85 +1,87 @@
 <div class="content-browser">
-    <nav class="navbar navbar-default" role="navigation">
-        <div class="container-fluid">
-            <!-- Brand and toggle get grouped for better mobile display -->
-            <div class="navbar-header">
-                <div class="btn-group navbar-btn navbar-left">
-                    <button type="button" class="btn btn-default" ng-click="previous()" ng-disabled="histPointer < 1"><i class="fa fa-chevron-left"></i></button>
-                    <button type="button" class="btn btn-default" ng-click="next()" ng-disabled="histPointer + 1 >= history.length"><i class="fa fa-chevron-right"></i></button>
+    <div class="row row-space-2">
+        <div class="col-xs-12">
+            <form class="form-inline" role="search">
+                <div class="form-group">
+                    <div class="input-group search-group">
+                        <input type="text" class="form-control" placeholder="Search" ng-model="query">
+                        <span class="input-group-addon">
+                            <i class="material-icons md-18">search</i>
+                        </span>
+                    </div>
                 </div>
-                <form class="navbar-form navbar-right" role="search">
-                    <div class="form-group">
-                        <div class="input-group search-group">
-                            <input type="text" class="form-control" placeholder="Search" ng-model="query">
-                            <span class="input-group-addon">
-                                <i class="fa fa-search"></i>
-                            </span>
+                <i class="material-icons" ng-click="clearSearch()" ng-show="query">close</i>
+            </form>
+        </div>
+    </div>
+    <section class="row">
+        <div class="col-xs-12">
+        <div class="treeview treeview-content">
+            <div class="treeview-headers">
+                <div class="treeview-headers-details">
+                    Content
+                </div>
+                <div class="treeview-headers-path">
+                    Permalink
+                </div>
+                <div class="treeview-headers-type">
+                    Type
+                </div>
+                <div width="treeview-headers-actions">
+                    Actions
+                </div>
+            </div>
+            <script type="text/ng-template" id="content_tree_template.html">
+                    <div class="treeview-node-details">
+                        <div class="col-details" ng-click="editContent(content.id)">
+                            <div class="content-details">
+                                <div class="content-visual" ng-if="content.coverImage" ng-class="content.active ? '' : 'cell-inactive'">
+                                    <div ng-click="editContent(content.id)" afkl-lazy-image="{{ content.coverImage }}" afkl-lazy-image-options='{"background": true}' class="afkl-lazy-wrapper afkl-img-ratio-1-1"></div>
+                                </div>
+                                <div class="content-visual" ng-click="editContent(content.id)" ng-if="!content.coverImage">
+                                    <i class="material-icons">description</i>
+                                </div>
+                                <span class="content-title" ng-class="content.active ? '' : 'text-muted'">{{ content.title}}</span>
+                            </div>
+                        </div>
+                        <div class="col-path" ng-class="content.active ? '' : 'text-muted'"><s ng-if="!content.active"><small>{{ content.path}}</small></s><a href="{{ content.path}}" target="_blank" ng-if="content.active"><small>{{ content.path}}</small></a></div>
+                        <div class="col-type"><span class="label label-info">{{ content.schemaDisplayName}}</span></div>
+                        <div class="col-actions" ng-if="mode == 'ADMIN'">
+                            <div class="btn-group">
+                                <button type="button" class="btn btn-link dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    Actions <span class="caret"></span>
+                                </button>
+                                <ul class="dropdown-menu pull-right">
+                                    <li><a href="{{ editUrl(content.id) }}"><i class="material-icons md-18">mode_edit</i> Edit</a></li>
+                                    <li><a href="{{ editUrl(content.id) }}"><i class="material-icons md-18">layers</i> Design</a></li>
+                                    <li><a class="js-delete-confirm" ng-click="confirmCopyContent($index, $event)" data-action_title="Duplicate" data-confirmation_message="Do you really want to duplicate " data-name="{{ content.title }}"><i class="material-icons md-18">control_point_duplicate</i> Duplicate</a></li>
+                                    <li role="separator" class="divider"></li>
+                                    <li><a class="js-delete-confirm" ng-click="confirmDeleteContent($index, $event)" data-action_title="Delete"  data-confirmation_message="Do you really want to delete " data-name="{{ content.title }}"><i class="material-icons md-18">delete</i> Delete</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="col-actions" ng-if="mode == 'PICKER'">
+                            <a href="#" ng-click="pickContent(content)" ng-show="!hasContent(content)">Add</a>
+                            <a href="#" class="text-danger" ng-click="unpickContent(content)" ng-show="hasContent(content)">Remove</a>&nbsp;
+                        </div>
+                        <div class="col-actions" ng-if="mode == 'PICKER_SINGLE'">
+                            <a href="#" ng-click="pickContent(content)">Choose</a>
                         </div>
                     </div>
-                    <i class="fa fa-times" ng-click="clearSearch()" ng-show="query"></i>
-                </form>
-            </div>
-        </div><!-- /.container-fluid -->
-    </nav>
-    <section class="panel-section">
-        <table class="table">
-            <thead>
-                <tr>
-                    <th width="32">
-
-                    </th>
-                    <th>
-                        Title
-                    </th>
-                    <th class="detail hidden-xs">
-                        Permalink
-                    </th>
-                    <th class="detail hidden-xs">
-                        Schema
-                    </th>
-                    <th width="170">
-
-                    </th>
-                </tr>
-            </thead>
-            <tr ng-repeat="directory in directorys">
-                <td ng-click="navigateToDirectory(directory)" class="cell-cover"><i class="material-icons">folder</i></td>
-                <td><a ng-click="navigateToDirectory(directory)" class="text-muted">{{ directory.name}}</a></td>
-                <td class="detail hidden-xs"><span class="light">/{{ directory.slug}}</span></td>
-                <td class="detail hidden-xs"></td>
-                <td class="actions"><a ng-click="navigateToDirectory(directory)" class="next">Open</a></td>
-            </tr>
-            <tr ng-repeat="content in contents track by $index">
-                <td class="cell-coverimg" ng-if="content.coverImage" ng-class="content.active ? '' : 'cell-inactive'">
-                    <div ng-click="editContent(content.id)" afkl-lazy-image="{{ content.coverImage }}" afkl-lazy-image-options='{"background": true}' class="afkl-lazy-wrapper afkl-img-ratio-1-1"></div>
-                </td>
-                <td class="" ng-click="editContent(content.id)" ng-if="!content.coverImage">
-                    <i class="material-icons">description</i>
-                </td>
-                <td ng-click="editContent(content.id)" class="" ng-class="content.active ? '' : 'text-muted'">{{ content.title}}</td>
-                <td class="hidden-xs" ng-class="content.active ? '' : 'text-muted'"><s ng-if="!content.active"><small>{{ content.path}}</small></s><a href="{{ content.path}}" target="_blank" ng-if="content.active"><small>{{ content.path}}</small></a></td>
-                <td class="detail hidden-xs"><span class="label label-info">{{ content.schemaDisplayName}}</span></td>
-                <td class="actions" ng-if="mode == 'ADMIN'">
-                    <a class="text-muted js-delete-confirm" ng-click="confirmCopyContent($index, $event)" data-action_title="Duplicate" data-btn_type="btn-primary" data-confirmation_message="Do you really want to duplicate " data-name="{{ content.title }}">Duplicate</a>&nbsp;
-                    <a href="{{ editUrl(content.id) }}">Edit</a>&nbsp;
-                    <a class="danger js-delete-confirm" ng-click="confirmDeleteContent($index, $event)" data-action_title="Delete" data-btn_type="btn-danger" data-confirmation_message="Do you really want to delete " data-name="{{ content.title }}">Delete</a>
-                    <!-- <a  class="danger js-delete-confirm" ng-click="confirmDeleteContent(content.id)" data-name="{{ content.title }}" data-toggle="modal" data-target="#modalDelete">Delete</a> -->
-                    <!--ng-click="deleteContent(content.id)"-->
-                </td>
-                <td class="actions" ng-if="mode == 'PICKER'">
-                    <a href="#" ng-click="pickContent(content)" ng-show="!hasContent(content)">Add</a>
-                    <a href="#" class="text-danger" ng-click="unpickContent(content)" ng-show="hasContent(content)">Remove</a>&nbsp;
-                </td>
-                <td class="actions" ng-if="mode == 'PICKER_SINGLE'">
-                    <a href="#" ng-click="pickContent(content)">Choose</a>
-                </td>
-            </tr>
-        </table>
+                    <ul class="treeview-node">
+                        <li ng-include="'content_tree_template.html'" ng-repeat="content in childNodes(content.id)" class="treeview-node"></li>
+                    </ul>
+            </script>
+            <ul class="treeview-node">
+                <li ng-include="'content_tree_template.html'" ng-repeat="content in rootNodes()" class="treeview-node"></li>
+            </ul>
+        </div>
         <nav class="center-block panel-body text-center">
             <button ng-model="btnPaginate" ng-click="loadMore()" in-view="loadMore()" type="button" data-loading-text="Loading..."  class="btn btn-primary" ng-hide="(maxPerPage * currentPage) > numberOfResults">
                 {{ lblPaginate }}
             </button>
         </nav>
+        </div>
     </section>
 </div>
 

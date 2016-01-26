@@ -58,8 +58,8 @@ template:
 # Buttons
 button:
     submit: Save
-    add: add new
-    all: show all
-    cancel: cancel
-    delete: delete
-    edit: edit
+    add: Add new
+    all: Show all
+    cancel: Cancel
+    delete: Delete
+    edit: Edit

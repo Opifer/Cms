@@ -124,6 +124,23 @@
 //        }
     }
 
+    .navbar-divider {
+        float: left;
+        width: 40px;
+        height: 40px;
+        position: relative;
+
+        &:before {
+            content: " ";
+            position: absolute;
+            width: 1px;
+            height: 26px;
+            border-left: 1px solid #333;
+            left: 50%;
+            top: 6px;
+        }
+    }
+
     .btn-default,
     .btn-primary,
     .btn-danger {
@@ -200,11 +217,14 @@
     }
 
     .btn-icon {
+        &.active {
+            color: #FFC000;
+        }
+
         .material-icons {
             position: absolute;
-            font-size: 21px;
             left: 8px;
-            top: 4px;
+            top: 3px;
         }
 
         &:hover {
