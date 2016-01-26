@@ -19,19 +19,13 @@ class SchemaRepository extends EntityRepository
      */
     public function findByRequest(Request $request)
     {
-        $qb = $this->createQueryBuilder('t');
-
-        if ($request->get('name')) {
-            $qb->andWhere('t.name = :name')->setParameter('name', $request->get('name'));
-        }
+        $qb = $this->createQueryBuilder('s');
 
         if ($request->get('attribute')) {
-            $qb->join('t.allowedInAttributes', 'a')
+            $qb->join('s.allowedInAttributes', 'a')
                 ->andWhere('a.id = :attributeId')
                 ->setParameter('attributeId', $request->get('attribute'));
         }
-
-        $qb->orderBy('t.displayName', 'ASC');
 
         return $qb->getQuery()->getArrayResult();
     }

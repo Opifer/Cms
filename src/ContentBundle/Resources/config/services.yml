@@ -139,3 +139,9 @@ services:
           - '@opifer.eav.schema_manager'
           - '@opifer.content.content_manager'
           - '%opifer_content.content_type_class%'
+
+    opifer.content.content_type_type:
+        class: Opifer\ContentBundle\Form\Type\ContentTypeType
+        arguments: ['%opifer_content.content_class%']
+        tags:
+            - { name: form.type }

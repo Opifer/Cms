@@ -1,13 +1,17 @@
 {% extends 'OpiferCmsBundle::base.html.twig' %}
 
 {% block body %}
-    {% spaceless %}
-        <div class="page-header clearfix">
-            <h1>{{ 'form.edit_content_type'|trans({ 'name': content_type.name }) }}</h1>
+    <section class="container">
+        <div class="row">
+            <div class="col-xs-12 col-md-10 col-md-offset-2">
+                <div class="page-header">
+                    <h1>
+                        <span class="small">{{ 'base.contenttypes'|trans }}</span><br />
+                        Edit "{{ content_type.name }}"
+                    </h1>
+                </div>
+                {% include 'OpiferCmsBundle:Backend/ContentType:_form.html.twig' %}
+            </div>
         </div>
-
-        <div class="container">
-            {% include 'OpiferCmsBundle:Backend/ContentType:_form.html.twig' %}
-        </div>
-    {% endspaceless %}
+    </section>
 {% endblock body %}

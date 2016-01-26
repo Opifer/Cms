@@ -57,7 +57,7 @@ class ContentTypeController extends Controller
 
             $contentTypeManager->save($contentType);
 
-            $this->addFlash('success', 'Form has been created successfully');
+            $this->addFlash('success', 'Content type has been created successfully');
 
             return $this->redirectToRoute('opifer_content_contenttype_edit', ['id' => $contentType->getId()]);
         }
@@ -115,7 +115,7 @@ class ContentTypeController extends Controller
 
             $contentTypeManager->save($contentType);
 
-            $this->addFlash('success', 'Event has been updated successfully');
+            $this->addFlash('success', 'Content type has been updated successfully');
 
             return $this->redirectToRoute('opifer_content_contenttype_edit', ['id' => $contentType->getId()]);
         }
@@ -147,43 +147,4 @@ class ContentTypeController extends Controller
 
         return $this->redirectToRoute('opifer_content_contenttype_index');
     }
-
-    /**
-     * Submit a ContentType.
-     *
-     * In case you would like to perform actions after the post is stored in the database,
-     * you could create an EventListener that listens to the `Events::POST_FORM_SUBMIT` event.
-     *
-     * @param Request $request
-     * @param int     $id
-     *
-     * @return Response
-     */
-    //public function submitAction(Request $request, $id)
-    //{
-    //    $form = $this->get('opifer.content.content_type_manager')->getRepository()->find($id);
-    //
-    //    if (!$form) {
-    //        throw $this->createNotFoundException('The form could not be found');
-    //    }
-    //
-    //    $post = $this->get('opifer.eav.eav_manager')->initializeEntity($form->getSchema());
-    //    $post->setForm($form);
-    //
-    //    $postForm = $this->createForm('opifer_form_post', $post, ['form_id' => $id]);
-    //    $postForm->handleRequest($request);
-    //
-    //    if ($postForm->isSubmitted() && $postForm->isValid()) {
-    //        $this->get('opifer.form.post_manager')->save($post);
-    //
-    //        $event = new FormSubmitEvent($post);
-    //        $this->get('event_dispatcher')->dispatch(Events::POST_FORM_SUBMIT, $event);
-    //
-    //        if ($form->getRedirectUrl()) {
-    //            return $this->redirect($form->getRedirectUrl());
-    //        }
-    //    }
-    //
-    //    return $this->redirect($request->headers->get('referer'));
-    //}
 }

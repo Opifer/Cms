@@ -25,24 +25,6 @@ content:
         title: Create new content
         nav: Create new
 
-# Directory
-directory:
-    index:
-        title: directories
-    edit:
-        title: edit directory
-    parent:
-        label: Parent directory
-        empty: "(no parent directory)"
-        help_text: choose a parent for this directory if applicable
-    name:
-        help_text: enter a name for this directory
-    menu:
-        default:
-            label: default
-    submit: Save directory
-    type: Directory
-
 # Form field labels
 form:
     name: Name
@@ -81,7 +63,3 @@ button:
     cancel: cancel
     delete: delete
     edit: edit
-
-
-label:
-

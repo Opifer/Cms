@@ -1,13 +1,17 @@
 {% extends 'OpiferCmsBundle::base.html.twig' %}
 
 {% block body %}
-    {% spaceless %}
-        <div class="page-header clearfix">
-            <h1>{{ 'form.new_content_type'|trans|capitalize }}</h1>
+    <section class="container">
+        <div class="row">
+            <div class="col-xs-12 col-md-10 col-md-offset-2">
+                <div class="page-header">
+                    <h1>
+                        <span class="small">{{ 'base.contenttypes'|trans }}</span><br />
+                        Create new
+                    </h1>
+                </div>
+                {% include 'OpiferCmsBundle:Backend/ContentType:_form.html.twig' %}
+            </div>
         </div>
-
-        <div class="container">
-            {% include 'OpiferCmsBundle:Backend/ContentType:_form.html.twig' %}
-        </div>
-    {% endspaceless %}
+    </section>
 {% endblock body %}

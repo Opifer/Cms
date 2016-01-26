@@ -14,6 +14,19 @@ use Opifer\EavBundle\Form\Type\SchemaType;
  */
 class ContentTypeType extends AbstractType
 {
+    /** @var string */
+    protected $contentClass;
+
+    /**
+     * Constructor.
+     *
+     * @param string $contentClass
+     */
+    public function __construct($contentClass)
+    {
+        $this->contentClass = $contentClass;
+    }
+
     /**
      * {@inheritDoc}
      */
@@ -21,7 +34,9 @@ class ContentTypeType extends AbstractType
     {
         $builder
             ->add('name')
-            ->add('schema', SchemaType::class)
+            ->add('schema', SchemaType::class, [
+                'object_class' => $this->contentClass
+            ])
         ;
     }
 }

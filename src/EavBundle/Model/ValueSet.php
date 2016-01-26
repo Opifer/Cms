@@ -292,7 +292,7 @@ class ValueSet implements ValueSetInterface
             }
         }
 
-        throw new \BadMethodCallException('The valueset for schema "'.$this->schema->getName().'" does not have a value called "'.$name.'".');
+        throw new \BadMethodCallException(sprintf('The valueset for schema "%d" does not have a value called "%s".', $this->schema->getId(), $name));
     }
 
     /**
