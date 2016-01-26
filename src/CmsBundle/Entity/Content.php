@@ -5,6 +5,7 @@ namespace Opifer\CmsBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use JMS\Serializer\Annotation as JMS;
+use Opifer\ContentBundle\Model\ContentTypeInterface;
 use Symfony\Component\Validator\Constraints as Assert;
 use Opifer\ContentBundle\Model\Content as BaseContent;
 
@@ -29,6 +30,16 @@ class Content extends BaseContent
      * @JMS\Groups({"detail", "list"})
      */
     protected $id;
+
+    /**
+     * @var ContentTypeInterface
+     *
+     * @JMS\Expose
+     * @JMS\Groups({"detail", "list"})
+     * @ORM\ManyToOne(targetEntity="Opifer\ContentBundle\Model\ContentTypeInterface", inversedBy="content")
+     * @ORM\JoinColumn(name="content_type_id", referencedColumnName="id")
+     */
+    protected $contentType;
 
     /**
      * @var bool

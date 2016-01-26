@@ -45,7 +45,7 @@
                             </div>
                         </div>
                         <div class="col-path" ng-class="content.active ? '' : 'text-muted'"><s ng-if="!content.active"><small>{{ content.path}}</small></s><a href="{{ content.path}}" target="_blank" ng-if="content.active"><small>{{ content.path}}</small></a></div>
-                        <div class="col-type"><span class="label label-info">{{ content.schemaDisplayName}}</span></div>
+                        <div class="col-type"><span class="label label-info">{{ content.content_type.name }}</span></div>
                         <div class="col-actions" ng-if="mode == 'ADMIN'">
                             <div class="btn-group">
                                 <button type="button" class="btn btn-link dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
