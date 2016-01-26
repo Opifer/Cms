@@ -3,7 +3,10 @@
 namespace Opifer\FormBundle\Form\Type;
 
 use Doctrine\ORM\EntityManager;
+use Opifer\EavBundle\Form\Type\SchemaType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\EmailType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 
 /**
@@ -13,19 +16,22 @@ use Symfony\Component\Form\FormBuilderInterface;
  */
 class FormType extends AbstractType
 {
-    /**
-     * @var EntityManager
-     */
+    /** @var EntityManager */
     protected $em;
+
+    /** @var string */
+    protected $postClass;
 
     /**
      * Constructor.
      *
      * @param EntityManager $em
+     * @param string        $postClass
      */
-    public function __construct(EntityManager $em)
+    public function __construct(EntityManager $em, $postClass)
     {
         $this->em = $em;
+        $this->postClass = $postClass;
     }
 
     /**
@@ -35,13 +41,21 @@ class FormType extends AbstractType
     {
         $builder
             ->add('name')
-            ->add('notificationEmail', 'email', [
-                'required' => false
+            ->add('notificationEmail', EmailType::class, [
+                'required' => false,
+                'attr' => [
+                    'placeholder' => 'example@email.com'
+                ]
             ])
-            ->add('redirectUrl', 'text', [
-                'required' => false
+            ->add('redirectUrl', TextType::class, [
+                'required' => false,
+                'attr' => [
+                    'placeholder' => '/success'
+                ]
             ])
-            ->add('schema', 'opifer_form_schema')
+            ->add('schema', SchemaType::class, [
+                'object_class' => $this->postClass
+            ])
         ;
     }
 

@@ -5,6 +5,7 @@ namespace Opifer\FormBundle\Controller;
 use Doctrine\Common\Collections\ArrayCollection;
 use Opifer\FormBundle\Event\Events;
 use Opifer\FormBundle\Event\FormSubmitEvent;
+use Opifer\FormBundle\Form\Type\FormType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -43,7 +44,7 @@ class FormController extends Controller
 
         $form = $formManager->create();
 
-        $formType = $this->createForm('opifer_form_form', $form);
+        $formType = $this->createForm(FormType::class, $form);
         $formType->handleRequest($request);
 
         if ($formType->isSubmitted() && $formType->isValid()) {
@@ -92,7 +93,7 @@ class FormController extends Controller
             $originalAttributes->add($attributes);
         }
 
-        $formType = $this->createForm('opifer_form_form', $form);
+        $formType = $this->createForm(FormType::class, $form);
         $formType->handleRequest($request);
 
         if ($formType->isSubmitted() && $formType->isValid()) {
