@@ -270,10 +270,14 @@ class ValueSet implements ValueSetInterface
     /**
      * Get attributes
      *
-     * @return \Doctrine\ORM\Collections\ArrayCollection
+     * @return ArrayCollection
      */
     public function getAttributes()
     {
+        if (!$this->getSchema()) {
+            return new ArrayCollection();
+        }
+
         return $this->getSchema()->getAttributes();
     }
 
