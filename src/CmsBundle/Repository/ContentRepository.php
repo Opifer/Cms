@@ -3,6 +3,7 @@
 namespace Opifer\CmsBundle\Repository;
 
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\ORM\Query\Expr\Join;
 use Opifer\ContentBundle\Model\Content;
 use Opifer\ContentBundle\Model\ContentRepository as BaseContentRepository;
 
@@ -116,6 +117,46 @@ class ContentRepository extends BaseContentRepository
     {
         $query = $this->createQueryBuilder('c')
             ->orderBy('c.updatedAt', 'DESC')
+            ->setMaxResults($limit)
+            ->getQuery();
+
+        return $query->getResult();
+    }
+
+    /**
+     * Find the last created content items.
+     *
+     * @param int $limit
+     *
+     * @return ArrayCollection
+     */
+    public function findLastCreated($limit = 5)
+    {
+        $query = $this->createQueryBuilder('c')
+            ->orderBy('c.createdAt', 'DESC')
+            ->setMaxResults($limit)
+            ->getQuery();
+
+        return $query->getResult();
+    }
+
+    /**
+     * Find the latest unpublished content items.
+     *
+     * @param int $limit
+     *
+     * @return ArrayCollection
+     */
+    public function findUnpublished($limit = 5)
+    {
+        $this->getEntityManager()->getFilters()->disable('draftversion');
+
+        $query = $this->createQueryBuilder('c')
+            ->innerJoin('c.block', 'block')
+            ->leftJoin('block.owning', 'owning')
+            ->leftJoin('OpiferContentBundle:BlockLogEntry', 'logentry', Join::WITH, 'logentry.objectId = owning.id')
+            ->orderBy('c.createdAt', 'DESC')
+            ->where('block.version < logentry.rootVersion')
             ->setMaxResults($limit)
             ->getQuery();
 

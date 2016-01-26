@@ -254,11 +254,18 @@
     margin-bottom: @line-height-computed;
 }
 
-.grid-column-__actions {
-    a {
-        margin-right: .5em;
-        color: @gray;
-        text-decoration: underline;
-        text-transform: capitalize;
+.grid-row-actions {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+
+    li {
+        margin: 0 1em 0 0;
+        padding: 0;
+        display: inline;
+
+        &:last-child {
+            margin-right: 0;
+        }
     }
 }

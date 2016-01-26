@@ -8,6 +8,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Opifer\ContentBundle\Block\BlockManager;
 use Opifer\ContentBundle\Environment\Environment;
+use Opifer\ContentBundle\Designer\AbstractDesignSuite;
 
 /**
  * Class ContentEditorController
@@ -183,17 +184,23 @@ class ContentEditorController extends Controller
         $manager  = $this->get('opifer.content.block_manager');
         $response = new JsonResponse;
         $id          = (int) $request->request->get('id');
-        $rootVersion = (int) $request->request->get('version');
+        $version     = (int) $request->request->get('version');
+        $type        = $request->request->get('type');
+        $typeId      = (int) $request->request->get('typeId');
 
         try {
-            $newVersion = $manager->getNewVersion($manager->find($id, $rootVersion));
+            $newVersion = $manager->getNewVersion($manager->find($id, $version));
 
-            if ($rootVersion !== $newVersion) {
-                throw new \Exception("Only new versions can be published. New version is {$newVersion} while you requested {$rootVersion}");
+            if ($version < $newVersion) {
+                throw new \Exception("Only new versions can be published. New version is {$newVersion} while you requested {$version}");
             }
 
             $block = $manager->find($id);
-            $manager->publish($block, $rootVersion);
+            $manager->publish($block, $version);
+
+            /** @var AbstractDesignSuite $suite */
+            $suite = $this->get(sprintf('opifer.content.%s_design_suite', $type));
+            $suite->load($typeId, $version)->postPublish();
 
             $response->setStatusCode(200);
             $response->setData(['state' => 'published']);

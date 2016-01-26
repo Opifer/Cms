@@ -21,12 +21,6 @@
 }
 
 .treeview-content {
-    .material-icons {
-        display: inline-flex;
-        vertical-align: middle;
-        line-height: 0.9;
-        color: @gray;
-    }
 
     .treeview-col {
         .va-middle;
@@ -65,29 +59,38 @@
     .treeview-node {
 
         ul.treeview-node .col-details {
-            padding-left: 30px;
+            padding-left: 55px;
         }
 
         ul.treeview-node ul.treeview-node .col-details {
-            padding-left: 60px;
+            padding-left: 85px;
         }
 
         ul.treeview-node ul.treeview-node ul.treeview-node .col-details {
-            padding-left: 90px;
+            padding-left: 115px;
         }
 
         ul.treeview-node ul.treeview-node ul.treeview-node ul.treeview-node .col-details {
-            padding-left: 120px;
+            padding-left: 145px;
         }
 
         ul.treeview-node ul.treeview-node ul.treeview-node ul.treeview-node ul.treeview-node .col-details {
-            padding-left: 150px;
+            padding-left: 175px;
         }
+    }
+
+    .treeview-node-details + ul.treeview-node {
+        display: none;
+    }
+
+    .treeview-node-details.expanded + ul.treeview-node {
+        display: block;
     }
 
     .col-details {
         .make-xs-column(5);
         .treeview-col;
+        padding-left: 25px;
     }
 
     .col-path {
@@ -105,16 +108,100 @@
         position: relative;
     }
 
-    .content-visual {
+    .content-figure {
+        position: relative;
+    }
+
+    .btn-expand {
         position: absolute;
-        left: 0;
-        width: 50px;
+        width: 25px;
+        height: 40px;
+        left: -25px;
+        top: -4px;
+
+        &:before {
+            &:extend(.material-icons);
+            content: '\E5C5';
+            line-height: 40px;
+            height: 40px;
+            color: @gray-light;
+            text-align: center;
+            .rotate(270deg);
+        }
+    }
+
+    .expanded > div > div > .btn-expand {
+        &:before {
+            .rotate(0deg);
+        }
+    }
+
+    .content-visual {
+        position: relative;
+        float: left;
+        width: 40px;
         text-align: center;
+        height: 40px;
+        background: #aaa;
+        color: white;
+        margin: -4px 0;
+
+        > .material-icons {
+            line-height: 40px;
+        }
+
+        .cover-image {
+            position: absolute;
+            left: 0;
+            right: 0;
+            width: 40px;
+            height: 40px;
+            background-size: cover;
+            background-position: center center;
+        }
+
+        .content-markers {
+            position: absolute;
+            left: -3px;
+            bottom: -3px;
+            text-align: left;
+
+            .material-icons {
+                font-size: 18px;
+            }
+
+            > i:before {
+                &:extend(.material-icons);
+                font-size: 18px;
+                text-shadow: 1px 1px 0 #fff, -1px -1px 0 #fff, -1px 1px #fff, 1px -1px 0 #fff;
+            }
+
+            .marker-active:before {
+                color: @brand-success;
+                content: "\E86C";
+            }
+
+            .marker-inactive:before {
+                color: @brand-danger;
+                content: "\E15C";
+            }
+        }
+    }
+
+    .content-details {
+        float: left;
+        .va-middle;
+        margin-left: @grid-gutter-width/2;
     }
 
     .content-title {
-        margin-left: 60px;
+        display: inline-block;
+        font-size: 15px;
+        cursor: pointer;
+        padding: 7px 0;
     }
+
+
 
 }
 
@@ -175,6 +262,7 @@
                 content: ' ';
             }
         }
+
 
         &.parent_li > .expand {
 

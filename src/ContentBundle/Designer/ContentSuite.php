@@ -27,7 +27,7 @@ class ContentSuite extends AbstractDesignSuite
         $this->subject = $this->contentManager->getRepository()->find($id);
         $this->version = $version;
 
-        if ( ! $this->subject) {
+        if (!$this->subject) {
             throw $this->createNotFoundException('No content found for id ' . $id);
         }
 
@@ -85,6 +85,18 @@ class ContentSuite extends AbstractDesignSuite
 
     public function saveSubject()
     {
+        $this->contentManager->save($this->subject);
+
+        return $this;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function postPublish()
+    {
+        $this->subject->setUpdatedAt(new \DateTime);
+
         $this->contentManager->save($this->subject);
 
         return $this;

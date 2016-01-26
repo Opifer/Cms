@@ -24,6 +24,7 @@ gulp.task('js', function () {
         'Resources/public/components/jquery-slugify/dist/slugify.js',
         'Resources/public/components/underscore/underscore.js',
         'Resources/public/components/angular/angular.js',
+        'Resources/public/components/angular-cookies/angular-cookies.js',
         'Resources/public/components/angular-route/angular-route.js',
         'Resources/public/components/angular-resource/angular-resource.js',
         'Resources/public/components/angular-google-maps/dist/angular-google-maps.js',

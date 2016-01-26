@@ -1,4 +1,4 @@
-angular.module('OpiferContent', ['angular-inview'])
+angular.module('OpiferContent', ['angular-inview', 'ngCookies'])
 
     .factory('ContentService', ['$resource', '$routeParams', function ($resource, $routeParams) {
         return $resource(Routing.generate('opifer_content_api_content') + '/:id', {}, {
@@ -7,7 +7,7 @@ angular.module('OpiferContent', ['angular-inview'])
         });
     }])
 
-    .controller('ContentPickerController', ['$scope', '$http', '$rootScope', function ($scope, $http, $rootScope) {
+    .controller('ContentPickerController', ['$scope', '$http', '$rootScope', '$cookies', function ($scope, $http, $rootScope, $cookies) {
         $scope.content = {};
         $scope.selecteditems = [];
         $scope.formname = '';
@@ -123,7 +123,7 @@ angular.module('OpiferContent', ['angular-inview'])
                 receiver: '@'
             },
             templateUrl: '/bundles/opifercontent/app/content/content.html',
-            controller: function ($scope, ContentService, $attrs) {
+            controller: function ($scope, ContentService, $attrs, $cookies) {
                 var pageLoaded = false;
                 $scope.navto = false;
                 $scope.maxPerPage = 1000;
@@ -136,6 +136,10 @@ angular.module('OpiferContent', ['angular-inview'])
                 $scope.query = null;
                 $scope.inSearch = false;
                 $scope.busyLoading = false;
+                $scope.expandMap = $cookies.getObject('contentExpandMap');
+                if (!Array.isArray($scope.expandMap)) {
+                    $scope.expandMap = new Array;
+                }
                 $scope.confirmation = {
                     shown: false,
                     name: '',
@@ -147,21 +151,6 @@ angular.module('OpiferContent', ['angular-inview'])
                     $scope.histPointer = 0;
                     $scope.history.push(0);
                 }
-                //
-                //$scope.$watch('directoryId', function (newValue, oldValue) {
-                //    if ($scope.navto === true) {
-                //        if ($scope.history.length) {
-                //            $scope.history.splice($scope.histPointer + 1, 99);
-                //            $scope.histPointer++;
-                //            $scope.history.push(newValue);
-                //        } else {
-                //            $scope.history.push(newValue);
-                //            $scope.histPointer = 1;
-                //        }
-                //        $scope.navto = false;
-                //    }
-                //});
-
 
                 $scope.fetchContents = function () {
                     if ($scope.active == false) {
@@ -187,14 +176,9 @@ angular.module('OpiferContent', ['angular-inview'])
 
                 $scope.searchContents = function () {
                     ContentService.index({
-                            site_id: $scope.siteId,
-                            //locale: $scope.locale,
-                            q: $scope.query,
-                            p: $scope.currentPage,
-                            limit: $scope.maxPerPage
+                            q: $scope.query
                         },
                         function (response, headers) {
-                            $scope.directorys = [];
                             $scope.contents = [];
                             for (var key in response.results) {
                                 $scope.contents.push(response.results[key]);
@@ -216,26 +200,22 @@ angular.module('OpiferContent', ['angular-inview'])
                 }, 300));
                 $scope.fetchContents();
 
-                //
-                //$scope.fetchDirectorys = function () {
-                //    DirectoryService.index({
-                //            site_id: $scope.siteId,
-                //            directory_id: $scope.directoryId,
-                //            //locale: $scope.locale
-                //        },
-                //        function (response) {
-                //            $scope.directorys = response.directories;
-                //            if (!pageLoaded) {
-                //                var parents = response.parents;
-                //                angular.forEach(parents, function (value, key) {
-                //                    $scope.histPointer++;
-                //                    $scope.history.push(value);
-                //                });
-                //                pageLoaded = true;
-                //            }
-                //        });
-                //};
-                //$scope.fetchDirectorys();
+
+                $scope.expand = function (content) {
+                    var idx = $scope.expandMap.indexOf(content.id);
+
+                    if (idx >= 0) {
+                        $scope.expandMap.splice(idx, 1);
+                    } else {
+                        $scope.expandMap.push(content.id);
+                    }
+
+                    $cookies.putObject('contentExpandMap', $scope.expandMap);
+                };
+
+                $scope.isExpanded = function (content) {
+                    return $scope.expandMap.indexOf(content.id) >= 0;
+                };
 
                 $scope.reloadContents = function () {
                     $scope.contents = [];
@@ -273,13 +253,6 @@ angular.module('OpiferContent', ['angular-inview'])
                     $scope.confirmation.shown = !$scope.confirmation.shown;
                 };
 
-                //$scope.navigateToDirectory = function (directory) {
-                //    $scope.navto = true;
-                //    $scope.directoryId = directory.id;
-                //    $scope.numberOfResults = $scope.maxPerPage - 1; // prevent infinitescrolling
-                //    $scope.reloadContents();
-                //};
-
                 $scope.editContent = function (id) {
                     window.location = Routing.generate('opifer_content_contenteditor_design', {'type': 'content', 'id': id});
                 };
@@ -293,10 +266,14 @@ angular.module('OpiferContent', ['angular-inview'])
                 };
 
                 $scope.rootNodes = function () {
+                    if ($scope.query) return $scope.contents;
+
                     return this.childNodes(0);
                 };
 
                 $scope.childNodes = function (parent_id) {
+                    if ($scope.query) return [];
+
                     var nodes = [];
                     angular.forEach($scope.contents, function (c, index) {
                         if (c.parent_id == parent_id) {

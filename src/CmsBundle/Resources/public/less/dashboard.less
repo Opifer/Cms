@@ -40,14 +40,13 @@
         .text {
             position: absolute;
             z-index: 11;
-            padding: 120px @padding-large-horizontal @padding-large-vertical;
+            padding: 90px @padding-large-horizontal @padding-large-vertical;
             height: inherit;
-            #gradient > .vertical(rgba(0,0,0,.05), rgba(0,0,0,.3), 30%, 100%);
+            #gradient > .vertical(rgba(0,0,0,.05), rgba(0,0,0,.5), 30%, 100%);
             width: 100%;
         }
 
         .date {
-            text-transform: uppercase;
             bottom: 0;
         }
 
@@ -55,6 +54,28 @@
             display: block;
             font-size: @font-size-large;
             font-family: @headings-font-family;
+        }
+
+        .name {
+            display: block;
+        }
+
+        .author {
+            position: absolute;
+            z-index: 15;
+            bottom: 20px;
+            left: @grid-gutter-width/2;
+
+            .avatar {
+                width: 36px;
+                height: 36px;
+                float: left;
+            }
+
+            .details {
+                float: left;
+                margin-left: @grid-gutter-width/2;
+            }
         }
     }
 

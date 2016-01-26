@@ -8,34 +8,89 @@
     {#
         Newest content widget
     #}
-    <section class="dashboard-section container-fluid">
-        <h2 class="text-center">Recently edited content</h2>
+    <div class="container-fluid">
         <div class="row">
+            <div class="col-xs-12 col-sm-6">
+                <section class="dashboard-section">
+                    <h2>Recently published content</h2>
+                    <div class="row">
 
-            {% for item in latest_content %}
-            <article class="tile-img col-xs-6 col-md-3 tile-noimg{#{% if not item.coverImage %}tile-noimg{% endif %}#}">
-                <a href="{{ path('opifer_content_contenteditor_design', {'type': 'content', 'id' : item.id }) }}">
-                    {#<div class="tile-body"  {% if item.coverImage %}style="background-image: url({{ item.coverImage|imagine_filter('dashboard_content') }})" {% endif %}>#}
-                    <div class="tile-body">
-                        <div class="text">
-                            <span class="date">{{ item.updatedAt|localizeddate('medium') }}</span>
-                            <span class="title">{{ item.title }}</span>
-                        </div>
+                        {% for item in latest_content %}
+                            <article class="tile-img col-md-6 col-lg-4 {% if not item.coverImage %}tile-noimg{% endif %}">
+                                <a href="{{ path('opifer_content_contenteditor_design', {'type': 'content', 'id' : item.id }) }}">
+                                    <div class="tile-body"  {% if item.coverImage %}style="background-image: url({{ item.coverImage|imagine_filter('dashboard_content') }})" {% endif %}>
+                                        <div class="text">
+                                            <span class="title">{{ item.title }}</span>
+                                            <span class="permalink">{{ item.slug }}</span>
+                                        </div>
+                                        <div class="author">
+                                            <div class="avatar">
+                                                <i class="material-icons md-36">account_circle</i>
+                                            </div>
+                                            <div class="details">
+                                                <span class="name">{{ item.author.username }}</span>
+                                                <span class="date">{{ item.updatedAt|localizeddate('medium') }}</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </a>
+                            </article>
+                        {% endfor %}
                     </div>
-                </a>
-            </article>
-            {% endfor %}
+                </section>
 
-            <div class="col-xs-12 text-center">
-               <a href="{{ path('opifer_content_content_index') }}" class="btn btn-link">
-                    {{ 'all content'|trans|capitalize }}
-                   <i class="material-icons md-18">chevron_right</i>
-                </a>
+                <section class="dashboard-section">
+                    <h2>Content currently worked on </h2>
+                    <div class="row">
+
+                        {% for item in unpublished_content %}
+                            <article class="tile-img col-xs-6 col-lg-4 {% if not item.coverImage %}tile-noimg{% endif %}">
+                                <a href="{{ path('opifer_content_contenteditor_design', {'type': 'content', 'id' : item.id }) }}">
+                                    <div class="tile-body"  {% if item.coverImage %}style="background-image: url({{ item.coverImage|imagine_filter('dashboard_content') }})" {% endif %}>
+                                        <div class="text">
+                                            <span class="date">{{ item.updatedAt|localizeddate('medium') }}</span>
+                                            <span class="title">{{ item.title }}</span>
+                                        </div>
+                                    </div>
+                                </a>
+                            </article>
+                        {% endfor %}
+
+                    </div>
+                </section>
+
+            </div>
+            <div class="col-xs-12 col-sm-6">
+                <section class="dashboard-section">
+                    <h2>Newly created content</h2>
+                    <div class="row">
+
+                        {% for item in new_content %}
+                            <article class="tile-img col-xs-6 col-md-4 {% if not item.coverImage %}tile-noimg{% endif %}">
+                                <a href="{{ path('opifer_content_contenteditor_design', {'type': 'content', 'id' : item.id }) }}">
+                                    <div class="tile-body"  {% if item.coverImage %}style="background-image: url({{ item.coverImage|imagine_filter('dashboard_content') }})" {% endif %}>
+                                        <div class="text">
+                                            <span class="date">{{ item.updatedAt|localizeddate('medium') }}</span>
+                                            <span class="title">{{ item.title }}</span>
+                                        </div>
+                                    </div>
+                                </a>
+                            </article>
+                        {% endfor %}
+
+                    </div>
+                </section>
             </div>
 
-        </div>
-    </section>
 
+            <div class="col-xs-12 text-center">
+                <a href="{{ path('opifer_content_content_index') }}" class="btn btn-link">
+                    {{ 'all content'|trans|capitalize }}
+                    <i class="material-icons md-18">chevron_right</i>
+                </a>
+            </div>
+        </div>
+    </div>
     {#
         Newest content widget
     #}

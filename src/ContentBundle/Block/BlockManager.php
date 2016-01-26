@@ -11,6 +11,7 @@ use Opifer\ContentBundle\Block\Tool\ContentTool;
 use Opifer\ContentBundle\Block\Tool\ToolsetMemberInterface;
 use Opifer\ContentBundle\Entity\Template;
 use Opifer\ContentBundle\Model\BlockInterface;
+use Opifer\ContentBundle\Model\ContentInterface;
 use Opifer\ContentBundle\Repository\BlockLogEntryRepository;
 
 /**
