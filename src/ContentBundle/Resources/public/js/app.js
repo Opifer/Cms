@@ -3,12 +3,10 @@ $(document).ready(function() {
     $('.tree').find('li:has(ul)').addClass('parent_li').attr('role', 'treeitem').find(' > span.expand').on('click', function (e) {
         var children = $(this).parent('li.parent_li').find(' > ul > li');
         if (children.is(':visible')) {
-            children.hide('fast');
-            $(this).removeClass('expanded');
+            $(this).parent('li.parent_li').removeClass('expanded');
         }
         else {
-            children.show('fast');
-            $(this).addClass('expanded');
+            $(this).parent('li.parent_li').addClass('expanded');
         }
         e.stopPropagation();
     });

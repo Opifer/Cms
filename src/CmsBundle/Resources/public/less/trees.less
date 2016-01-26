@@ -65,23 +65,23 @@
     .treeview-node {
 
         ul.treeview-node .col-details {
-            padding-left: 25px;
+            padding-left: 30px;
         }
 
         ul.treeview-node ul.treeview-node .col-details {
-            padding-left: 50px;
+            padding-left: 60px;
         }
 
         ul.treeview-node ul.treeview-node ul.treeview-node .col-details {
-            padding-left: 75px;
+            padding-left: 90px;
         }
 
         ul.treeview-node ul.treeview-node ul.treeview-node ul.treeview-node .col-details {
-            padding-left: 100px;
+            padding-left: 120px;
         }
 
         ul.treeview-node ul.treeview-node ul.treeview-node ul.treeview-node ul.treeview-node .col-details {
-            padding-left: 125px;
+            padding-left: 150px;
         }
     }
 
@@ -186,15 +186,25 @@
                 .rotate(270deg);
             }
 
-            &.expanded:before {
-                .rotate(0deg);
-            }
-
             &:hover,
             &:hover+ul li .expand {
                 color: @gray-darker;
             }
         }
+
+
+        &.expanded > .expand:before {
+            .rotate(0deg);
+        }
+
+        &.parent_li > ul {
+            display: none;
+        }
+
+        &.parent_li.expanded > ul{
+            display: block;
+        }
+
 
         .checkmark {
             display: inline-block;
