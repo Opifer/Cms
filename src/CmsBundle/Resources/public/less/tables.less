@@ -3,18 +3,36 @@
         border-bottom: 0;
     }
     th {
-        background: #eee;
+        padding: 7px 8px;
         font-weight: normal;
-        color: #000;
-        border-top: 0;
-        border-bottom: 0;
-    }
-    th a {
-        color: #000;
+        color: @gray;
+
+        > a {
+            color: @gray;
+        }
+
+        .material-icons {
+            display: inline-flex;
+            vertical-align: middle;
+            line-height: 0.9;
+            color: @gray;
+        }
+
+        &:first-child {
+            border-left-width: 0;
+        }
+        &:last-child {
+            border-right-width: 0;
+        }
+
     }
     > tbody > tr > td {
-        padding: 10px 8px;
+        padding: 8px;
+        white-space: nowrap;
+        border-width: 1px 0;
+        color: @gray-darker;
     }
+
     > tbody > tr:last-child > td {
         border-bottom: 1px solid #ddd;
     }

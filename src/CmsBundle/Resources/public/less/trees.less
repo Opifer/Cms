@@ -1,0 +1,123 @@
+.treeview {
+    display: block;
+    margin: 0;
+    padding: 0;
+
+    ul.treeview-node {
+        display: block;
+        margin: 0;
+        padding: 0;
+    }
+
+    li.treeview-node {
+        display: block;
+        margin: 0;
+        padding: 0;
+    }
+
+    .treeview-node-details {
+        .clearfix;
+    }
+}
+
+
+
+
+
+.treeview-content {
+    .material-icons {
+        display: inline-flex;
+        vertical-align: middle;
+        line-height: 0.9;
+        color: @gray;
+    }
+
+    .treeview-col {
+        .va-middle;
+        padding: 8px;
+    }
+
+    .treeview-headers {
+        border-bottom: 1px solid #ddd;
+
+        > div {
+            padding: 8px;
+        }
+
+        .treeview-headers-details {
+            .make-xs-column(5);
+        }
+
+        .treeview-headers-path {
+            .make-xs-column(3);
+        }
+
+        .treeview-headers-type {
+            .make-xs-column(2);
+        }
+
+        .treeview-headers-actions {
+            .make-xs-column(2);
+        }
+
+    }
+
+    .treeview-node-details {
+        border-bottom: 1px solid #ddd;
+    }
+
+    .treeview-node {
+
+        ul.treeview-node .col-details {
+            padding-left: 25px;
+        }
+
+        ul.treeview-node ul.treeview-node .col-details {
+            padding-left: 50px;
+        }
+
+        ul.treeview-node ul.treeview-node ul.treeview-node .col-details {
+            padding-left: 75px;
+        }
+
+        ul.treeview-node ul.treeview-node ul.treeview-node ul.treeview-node .col-details {
+            padding-left: 100px;
+        }
+
+        ul.treeview-node ul.treeview-node ul.treeview-node ul.treeview-node ul.treeview-node .col-details {
+            padding-left: 125px;
+        }
+    }
+
+    .col-details {
+        .make-xs-column(5);
+        .treeview-col;
+    }
+
+    .col-path {
+        .make-xs-column(3);
+        .treeview-col;
+    }
+
+    .col-type,
+    .col-actions {
+        .make-xs-column(2);
+        .treeview-col;
+    }
+
+    .content-details {
+        position: relative;
+    }
+
+    .content-visual {
+        position: absolute;
+        left: 0;
+        width: 50px;
+        text-align: center;
+    }
+
+    .content-title {
+        margin-left: 60px;
+    }
+
+}

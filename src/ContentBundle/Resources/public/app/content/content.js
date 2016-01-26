@@ -7,12 +7,6 @@ angular.module('OpiferContent', ['angular-inview'])
         });
     }])
 
-    .factory('DirectoryService', ['$resource', '$routeParams', function ($resource, $routeParams) {
-        return $resource(Routing.generate('opifer_content_api_directory'), {}, {
-            index: {method: 'GET', params: {}, cache: true}
-        });
-    }])
-
     .controller('ContentPickerController', ['$scope', '$http', '$rootScope', function ($scope, $http, $rootScope) {
         $scope.content = {};
         $scope.selecteditems = [];
@@ -41,7 +35,6 @@ angular.module('OpiferContent', ['angular-inview'])
          * @param  {array} content
          * @param  {string} formname
          * @param {bool} multiple
-         * @param {string} directoryId
          */
         $scope.init = function (content, formname, multiple) {
             $scope.formname = formname;
@@ -125,13 +118,12 @@ angular.module('OpiferContent', ['angular-inview'])
                 context: '@',
                 siteId: '@',
                 active: '=',
-                directoryId: '@',
                 //locale: '@',
                 mode: '@',
                 receiver: '@'
             },
             templateUrl: '/bundles/opifercontent/app/content/content.html',
-            controller: function ($scope, ContentService, DirectoryService, $attrs) {
+            controller: function ($scope, ContentService, $attrs) {
                 var pageLoaded = false;
                 $scope.navto = false;
                 $scope.maxPerPage = 100;
@@ -155,20 +147,20 @@ angular.module('OpiferContent', ['angular-inview'])
                     $scope.histPointer = 0;
                     $scope.history.push(0);
                 }
-
-                $scope.$watch('directoryId', function (newValue, oldValue) {
-                    if ($scope.navto === true) {
-                        if ($scope.history.length) {
-                            $scope.history.splice($scope.histPointer + 1, 99);
-                            $scope.histPointer++;
-                            $scope.history.push(newValue);
-                        } else {
-                            $scope.history.push(newValue);
-                            $scope.histPointer = 1;
-                        }
-                        $scope.navto = false;
-                    }
-                });
+                //
+                //$scope.$watch('directoryId', function (newValue, oldValue) {
+                //    if ($scope.navto === true) {
+                //        if ($scope.history.length) {
+                //            $scope.history.splice($scope.histPointer + 1, 99);
+                //            $scope.histPointer++;
+                //            $scope.history.push(newValue);
+                //        } else {
+                //            $scope.history.push(newValue);
+                //            $scope.histPointer = 1;
+                //        }
+                //        $scope.navto = false;
+                //    }
+                //});
 
 
                 $scope.fetchContents = function () {
@@ -177,7 +169,6 @@ angular.module('OpiferContent', ['angular-inview'])
                     }
                     ContentService.index({
                             site_id: $scope.siteId,
-                            directory_id: $scope.directoryId,
                             //locale: $scope.locale,
                             q: $scope.query,
                             p: $scope.currentPage,
@@ -197,7 +188,6 @@ angular.module('OpiferContent', ['angular-inview'])
                 $scope.searchContents = function () {
                     ContentService.index({
                             site_id: $scope.siteId,
-                            directory_id: 0,
                             //locale: $scope.locale,
                             q: $scope.query,
                             p: $scope.currentPage,
@@ -226,31 +216,31 @@ angular.module('OpiferContent', ['angular-inview'])
                 }, 300));
                 $scope.fetchContents();
 
-                $scope.fetchDirectorys = function () {
-                    DirectoryService.index({
-                            site_id: $scope.siteId,
-                            directory_id: $scope.directoryId,
-                            //locale: $scope.locale
-                        },
-                        function (response) {
-                            $scope.directorys = response.directories;
-                            if (!pageLoaded) {
-                                var parents = response.parents;
-                                angular.forEach(parents, function (value, key) {
-                                    $scope.histPointer++;
-                                    $scope.history.push(value);
-                                });
-                                pageLoaded = true;
-                            }
-                        });
-                };
-                $scope.fetchDirectorys();
+                //
+                //$scope.fetchDirectorys = function () {
+                //    DirectoryService.index({
+                //            site_id: $scope.siteId,
+                //            directory_id: $scope.directoryId,
+                //            //locale: $scope.locale
+                //        },
+                //        function (response) {
+                //            $scope.directorys = response.directories;
+                //            if (!pageLoaded) {
+                //                var parents = response.parents;
+                //                angular.forEach(parents, function (value, key) {
+                //                    $scope.histPointer++;
+                //                    $scope.history.push(value);
+                //                });
+                //                pageLoaded = true;
+                //            }
+                //        });
+                //};
+                //$scope.fetchDirectorys();
 
                 $scope.reloadContents = function () {
                     $scope.contents = [];
                     $scope.currentPage = 1;
                     $scope.fetchContents();
-                    $scope.fetchDirectorys();
                 };
 
                 $scope.clearSearch = function () {
@@ -259,7 +249,6 @@ angular.module('OpiferContent', ['angular-inview'])
                     $scope.currentPage = 1;
                     $scope.contents = [];
                     $scope.fetchContents();
-                    $scope.fetchDirectorys();
                 };
 
                 $scope.deleteContent = function (id) {
@@ -284,28 +273,12 @@ angular.module('OpiferContent', ['angular-inview'])
                     $scope.confirmation.shown = !$scope.confirmation.shown;
                 };
 
-                $scope.previous = function () {
-                    if ($scope.history.length) {
-                        $scope.directoryId = $scope.history[$scope.histPointer - 1];
-                        $scope.histPointer--;
-                        $scope.reloadContents();
-                    }
-                };
-
-                $scope.next = function () {
-                    if ($scope.history.length) {
-                        $scope.directoryId = $scope.history[$scope.histPointer + 1];
-                        $scope.histPointer++;
-                        $scope.reloadContents();
-                    }
-                };
-
-                $scope.navigateToDirectory = function (directory) {
-                    $scope.navto = true;
-                    $scope.directoryId = directory.id;
-                    $scope.numberOfResults = $scope.maxPerPage - 1; // prevent infinitescrolling
-                    $scope.reloadContents();
-                };
+                //$scope.navigateToDirectory = function (directory) {
+                //    $scope.navto = true;
+                //    $scope.directoryId = directory.id;
+                //    $scope.numberOfResults = $scope.maxPerPage - 1; // prevent infinitescrolling
+                //    $scope.reloadContents();
+                //};
 
                 $scope.editContent = function (id) {
                     window.location = Routing.generate('opifer_content_contenteditor_design', {'type': 'content', 'id': id});
@@ -317,6 +290,21 @@ angular.module('OpiferContent', ['angular-inview'])
 
                 $scope.copyContent = function (id) {
                     window.location = Routing.generate('opifer_content_content_duplicate', {'id': id});
+                };
+
+                $scope.rootNodes = function () {
+                    return this.childNodes(0);
+                };
+
+                $scope.childNodes = function (parent_id) {
+                    var nodes = [];
+                    angular.forEach($scope.contents, function (c, index) {
+                        if (c.parent_id == parent_id) {
+                            this.push(c);
+                        }
+                    }, nodes);
+
+                    return nodes;
                 };
 
                 $scope.confirmCopyContent = function (idx, $event) {
