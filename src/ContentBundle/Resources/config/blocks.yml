@@ -5,6 +5,7 @@ parameters:
     opifer.content.column_block.class: Opifer\ContentBundle\Block\Service\ColumnBlockService
     opifer.content.html_block.class: Opifer\ContentBundle\Block\Service\HtmlBlockService
     opifer.content.image_block.class: Opifer\ContentBundle\Block\Service\ImageBlockService
+    opifer.content.image_block.filters: ["medialibrary", "dashboard_content", "non-existent"]
     opifer.content.jumbotron_block.class: Opifer\ContentBundle\Block\Service\JumbotronBlockService
     opifer.content.jumbotron_block.styles: ["jumbotron-sm", "jumbotron-md", "jumbotron-lg", "text-regular", "text-contrast"]
     opifer.content.button_block.class: Opifer\ContentBundle\Block\Service\ButtonBlockService
@@ -26,7 +27,7 @@ services:
 
     opifer.content.image_block:
         class: '%opifer.content.image_block.class%'
-        arguments: ['@templating']
+        arguments: ['@templating', '%opifer.content.image_block.filters%', '%liip_imagine.filter_sets%']
         tags:
             - { name: opifer.content.block_service, alias: image }
 
