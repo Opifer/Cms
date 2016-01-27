@@ -1,13 +1,19 @@
 file:
+    singular: file
+    plural: files
     label: file
     new: upload new %provider%
     name:
         label: name
 
 image:
+    singular: image
+    plural: images
     label: image
 
 media:
+    singular: media
+    plural: media
     edit: edit %name%
     new: add new %provider%
     no_preview: no preview
@@ -18,12 +24,6 @@ media:
     upload:
         button: Update file data
         success: "Your uploads have been saved. Optionally you could change the name or add some tags below."
-
-imagefilter:
-    new: new imagefilter
-
-tag:
-    help_text: "Type the tagnames and separate them with a comma. E.g. Red, Green, Blue"
 
 youtube:
     label: youtube video

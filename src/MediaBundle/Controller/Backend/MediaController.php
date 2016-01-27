@@ -102,7 +102,7 @@ class MediaController extends Controller
         // Clone the old Media, so we don't perform any useless actions inside the provider
         $media->old = clone $media;
 
-        $form = $this->createForm(new MediaType(), $media, ['provider' => $provider]);
+        $form = $this->createForm(MediaType::class, $media, ['provider' => $provider]);
         $form->handleRequest($request);
 
         if ($form->isValid()) {
