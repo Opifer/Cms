@@ -5,17 +5,19 @@
         <h1 class="text-center"><i class="material-icons text-muted">dashboard</i> {{ 'dashboard.title'|trans|capitalize }}</h1>
     </div>
 
-    {#
-        Newest content widget
-    #}
     <div class="container-fluid">
-        <div class="row">
+        <div class="row row-space-8">
             <div class="col-xs-12 col-sm-6">
                 <section class="dashboard-section">
+                    <a href="{{ path('opifer_content_content_index') }}" class="btn btn-link pull-right">
+                        {{ 'all content'|trans|capitalize }}
+                        <i class="material-icons md-18">chevron_right</i>
+                    </a>
                     <h2>Recently published content</h2>
                     <div class="row">
 
                         {% for item in latest_content %}
+                            {% block content_tile %}
                             <article class="tile-img col-md-6 col-lg-4 {% if not item.coverImage %}tile-noimg{% endif %}">
                                 <a href="{{ path('opifer_content_contenteditor_design', {'type': 'content', 'id' : item.id }) }}">
                                     <div class="tile-body"  {% if item.coverImage %}style="background-image: url({{ item.coverImage|imagine_filter('dashboard_content') }})" {% endif %}>
@@ -35,6 +37,7 @@
                                     </div>
                                 </a>
                             </article>
+                            {% endblock content_tile %}
                         {% endfor %}
                     </div>
                 </section>
@@ -44,16 +47,7 @@
                     <div class="row">
 
                         {% for item in unpublished_content %}
-                            <article class="tile-img col-xs-6 col-lg-4 {% if not item.coverImage %}tile-noimg{% endif %}">
-                                <a href="{{ path('opifer_content_contenteditor_design', {'type': 'content', 'id' : item.id }) }}">
-                                    <div class="tile-body"  {% if item.coverImage %}style="background-image: url({{ item.coverImage|imagine_filter('dashboard_content') }})" {% endif %}>
-                                        <div class="text">
-                                            <span class="date">{{ item.updatedAt|localizeddate('medium') }}</span>
-                                            <span class="title">{{ item.title }}</span>
-                                        </div>
-                                    </div>
-                                </a>
-                            </article>
+                            {{ block('content_tile') }}
                         {% endfor %}
 
                     </div>
@@ -66,16 +60,7 @@
                     <div class="row">
 
                         {% for item in new_content %}
-                            <article class="tile-img col-xs-6 col-md-4 {% if not item.coverImage %}tile-noimg{% endif %}">
-                                <a href="{{ path('opifer_content_contenteditor_design', {'type': 'content', 'id' : item.id }) }}">
-                                    <div class="tile-body"  {% if item.coverImage %}style="background-image: url({{ item.coverImage|imagine_filter('dashboard_content') }})" {% endif %}>
-                                        <div class="text">
-                                            <span class="date">{{ item.updatedAt|localizeddate('medium') }}</span>
-                                            <span class="title">{{ item.title }}</span>
-                                        </div>
-                                    </div>
-                                </a>
-                            </article>
+                            {{ block('content_tile') }}
                         {% endfor %}
 
                     </div>
@@ -83,12 +68,6 @@
             </div>
 
 
-            <div class="col-xs-12 text-center">
-                <a href="{{ path('opifer_content_content_index') }}" class="btn btn-link">
-                    {{ 'all content'|trans|capitalize }}
-                    <i class="material-icons md-18">chevron_right</i>
-                </a>
-            </div>
         </div>
     </div>
     {#

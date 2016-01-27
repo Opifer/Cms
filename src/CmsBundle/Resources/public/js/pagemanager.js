@@ -1,7 +1,6 @@
 var pagemanager;
 var CKEDITOR_BASEPATH = '/bundles/opifercms/components/ckeditor/';
 
-
 $(document).ready(function() {
     //
     // PageManager: general encapsulation, you know, to organise and stuff

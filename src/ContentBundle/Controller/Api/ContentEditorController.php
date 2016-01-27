@@ -76,7 +76,7 @@ class ContentEditorController extends Controller
         try {
             $newVersion = $manager->getNewVersion($manager->find($ownerId, (int) $rootVersion));
 
-            if ((int) $rootVersion !== $newVersion) {
+            if ((int) $rootVersion < $newVersion) {
                 throw new \Exception("Only new versions can be editted. New version is {$newVersion} while you requested {$rootVersion}");
             }
 
@@ -112,7 +112,7 @@ class ContentEditorController extends Controller
         try {
             $newVersion = $manager->getNewVersion($manager->find($id, $rootVersion));
 
-            if ((int) $rootVersion !== $newVersion) {
+            if ((int) $rootVersion < $newVersion) {
                 throw new \Exception("Only new versions can be editted. New version is {$newVersion} while you requested {$rootVersion}");
             }
 
