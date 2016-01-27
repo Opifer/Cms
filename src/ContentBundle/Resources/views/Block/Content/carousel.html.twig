@@ -1,0 +1,24 @@
+{% set id = block.properties.id|default ? block.properties.id : 'carousel-'~block.id %}
+
+<div id="{{ id }}" class="carousel slide clearfix {{ block.properties.extra_classes|default }}" data-ride="carousel" style="min-height:100px;">
+    {% if block.properties.show_indicators|default %}
+        <ol class="carousel-indicators">
+            {% for slide in block.children %}
+                <li data-target="#{{ id }}" data-slide-to="{{ loop.index0 }}" {% if loop.first %}class="active"{% endif %}></li>
+            {% endfor %}
+        </ol>
+    {% endif %}
+
+    <div class="carousel-inner" role="listbox">
+        {{ render_placeholder() }}
+    </div>
+
+    {% if block.properties.show_controls|default %}
+        <a class="left carousel-control" href="#{{ id }}" role="button" data-slide="prev">
+            <i class="material-icons" aria-hidden="true">navigate_before</i>
+        </a>
+        <a class="right carousel-control" href="#{{ id }}" role="button" data-slide="next">
+            <i class="material-icons" aria-hidden="true">navigate_next</i>
+        </a>
+    {% endif %}
+</div>

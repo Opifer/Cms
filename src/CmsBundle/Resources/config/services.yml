@@ -38,6 +38,11 @@ services:
         class: 'Opifer\CmsBundle\Security\CaptchaAuthenticator'
         arguments: ['@request_stack', '@security.password_encoder', '%opifer_cms.google_captcha_secret%', '%opifer_cms.google_captcha_site_key%']
 
+    opifer.cms.authentication_success_handler:
+        class: Opifer\CmsBundle\Security\AuthenticationSuccessHandler
+        arguments: ['@security.http_utils', [], '@router']
+        public: false
+
     # Twig Extensions
 
     twig.extension.intl:

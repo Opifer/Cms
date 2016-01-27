@@ -1,0 +1,8 @@
+<div class="item {% if block.isfirstchild %}active{% endif %}">
+    {% if block.media|default %}
+        <img src="{{ block.media.reference|default('fallback.jpeg')|imagine_filter('medialibrary') }}">
+    {% endif %}
+    <div class="carousel-caption">
+        {{ block.value|default }}
+    </div>
+</div>
