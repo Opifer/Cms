@@ -5,12 +5,9 @@ namespace Opifer\ContentBundle\Controller\Backend;
 use Opifer\CmsBundle\Manager\ContentManager;
 use Opifer\ContentBundle\Entity\DocumentBlock;
 use Opifer\ContentBundle\Form\Type\ContentType;
-use Opifer\ContentBundle\Model\ContentInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Opifer\ContentBundle\Event\ResponseEvent;
-use Opifer\ContentBundle\OpiferContentEvents as Events;
 
 /**
  * Backend Content Controller

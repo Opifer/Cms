@@ -6,6 +6,7 @@ use Opifer\ContentBundle\Block\Tool\ContentTool;
 use Opifer\ContentBundle\Block\Tool\ToolsetMemberInterface;
 use Opifer\ContentBundle\Entity\ImageBlock;
 use Opifer\ContentBundle\Model\BlockInterface;
+use Opifer\MediaBundle\Form\Type\MediaPickerType;
 use Symfony\Component\Form\FormBuilderInterface;
 
 /**
@@ -35,11 +36,9 @@ class ImageBlockService extends AbstractBlockService implements BlockServiceInte
         // Default panel
         $builder->add(
             $builder->create('default', 'form', ['virtual' => true])
-                ->add('media', 'mediapicker', [
+                ->add('media', MediaPickerType::class, [
                     'required'  => false,
-                    'multiple' => false,
-                    'property' => 'name',
-                    'class' => 'OpiferCmsBundle:Media',
+                    'multiple' => false
                 ])
         )->add(
             $builder->create('properties', 'form')

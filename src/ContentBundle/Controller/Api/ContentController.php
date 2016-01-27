@@ -2,17 +2,10 @@
 
 namespace Opifer\ContentBundle\Controller\Api;
 
-use JMS\Serializer\SerializerBuilder;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Security\Core\Exception\AccessDeniedException;
-
-use Opifer\ContentBundle\Model\ContentInterface;
-use Opifer\ContentBundle\Event\ContentResponseEvent;
-use Opifer\ContentBundle\Event\ResponseEvent;
-use Opifer\ContentBundle\OpiferContentEvents as Events;
 
 use JMS\Serializer\SerializationContext;
 
@@ -78,12 +71,6 @@ class ContentController extends Controller
         $manager = $this->get('opifer.content.content_manager');
         $content = $manager->getRepository()->find($id);
 
-        $event = new ContentResponseEvent($content, $request);
-        $this->get('event_dispatcher')->dispatch(Events::CONTENT_CONTROLLER_VIEW, $event);
-        if (null !== $event->getResponse()) {
-            return $event->getResponse();
-        }
-
         $content = $this->get('jms_serializer')->serialize($content, 'json');
 
         return new Response($content, 200, ['Content-Type' => 'application/json']);
@@ -101,12 +88,6 @@ class ContentController extends Controller
     {
         $manager = $this->get('opifer.content.content_manager');
         $content = $manager->getRepository()->find($id);
-
-        $event = new ContentResponseEvent($content, $request);
-        $this->get('event_dispatcher')->dispatch(Events::CONTENT_CONTROLLER_DELETE, $event);
-        if (null !== $event->getResponse()) {
-            return $event->getResponse();
-        }
 
         $em = $this->get('doctrine')->getManager();
         $em->remove($content);
