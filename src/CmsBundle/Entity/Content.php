@@ -91,6 +91,7 @@ class Content extends BaseContent
      * @var string
      *
      * @JMS\Expose
+     * @JMS\Groups({"detail", "list"})
      * @Gedmo\Slug(handlers={
      *      @Gedmo\SlugHandler(class="Opifer\ContentBundle\Handler\AliasHandler", options={
      *          @Gedmo\SlugHandlerOption(name="field", value="slug"),
