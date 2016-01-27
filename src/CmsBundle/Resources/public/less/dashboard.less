@@ -13,6 +13,16 @@
     .tile-img {
         color: white;
         margin-bottom: @line-height-computed;
+        transition: transform 100ms;
+
+        &:hover {
+            transform: scale(1.05);
+            z-index: 100;
+
+            .tile-body {
+                box-shadow: 0 5px 15px rgba(0,0,0,.3);
+            }
+        }
 
         a {
             color: white;

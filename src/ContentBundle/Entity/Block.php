@@ -92,20 +92,33 @@ abstract class Block implements BlockInterface, DraftVersionInterface
     protected $sort = 0;
 
     /**
-     * @var integer
-     *
-     * @Gedmo\Versioned
-     * @ORM\Column(type="integer")
-     */
-    protected $level = 0;
-
-    /**
      * @var array
      *
      * @Gedmo\Versioned
      * @ORM\Column(type="json_array", nullable=true)
      */
     protected $properties;
+
+    /**
+     * @var boolean
+     *
+     * @ORM\Column(type="boolean")
+     */
+    protected $shared = false;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(type="string", nullable=true)
+     */
+    protected $sharedName;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(type="string", nullable=true)
+     */
+    protected $sharedDisplayName;
 
     /**
      * @var \DateTime
@@ -468,6 +481,54 @@ abstract class Block implements BlockInterface, DraftVersionInterface
     public function setPublish($publish)
     {
         $this->publish = $publish;
+    }
+
+    /**
+     * @return string
+     */
+    public function getSharedDisplayName()
+    {
+        return $this->sharedDisplayName;
+    }
+
+    /**
+     * @param string $sharedDisplayName
+     */
+    public function setSharedDisplayName($sharedDisplayName)
+    {
+        $this->sharedDisplayName = $sharedDisplayName;
+    }
+
+    /**
+     * @return boolean
+     */
+    public function isShared()
+    {
+        return $this->shared;
+    }
+
+    /**
+     * @param boolean $shared
+     */
+    public function setShared($shared)
+    {
+        $this->shared = $shared;
+    }
+
+    /**
+     * @return int
+     */
+    public function getSharedName()
+    {
+        return $this->sharedName;
+    }
+
+    /**
+     * @param int $sharedName
+     */
+    public function setSharedName($sharedName)
+    {
+        $this->sharedName = $sharedName;
     }
 
     /**

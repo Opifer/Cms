@@ -9,6 +9,7 @@ parameters:
     opifer.content.jumbotron_block.styles: ["jumbotron-sm", "jumbotron-md", "jumbotron-lg", "text-regular", "text-contrast"]
     opifer.content.button_block.class: Opifer\ContentBundle\Block\Service\ButtonBlockService
     opifer.content.button_block.styles: ["btn-sm", "btn-lg", "btn-primary", "btn-default", "btn-block", "center-block"]
+    opifer.content.pointer_block.class: Opifer\ContentBundle\Block\Service\PointerBlockService
 #    opifer.content.image_gallery_block.class: Opifer\ContentBundle\Block\ImageGalleryBlockService
 
 services:
@@ -51,6 +52,12 @@ services:
             - { name: opifer.content.block_service, alias: button }
         calls:
             - [setStyles, [%opifer.content.button_block.styles%]]
+
+    opifer.content.pointer_block:
+        class: '%opifer.content.pointer_block.class%'
+        arguments: ['@templating', '@opifer.content.block_manager']
+        tags:
+            - { name: opifer.content.block_service, alias: pointer }
 
     opifer.content.container_section_block:
         class: '%opifer.content.container_block.class%'

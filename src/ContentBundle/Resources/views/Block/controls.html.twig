@@ -34,3 +34,18 @@
         </div>
     </div>
 {% endblock block_manage_default %}
+
+{% block block_manage_pointer %}
+    <div class="pm-block pm-content" data-pm-block-id="{{ pointer.id }}" data-pm-block-reference-id="{{ block.id }}" data-pm-block-owner-id="{{ pointer.owner.id }}">
+        <div class="pm pm-toolbar clearfix hidden">
+            <div class="pm-toolbar-text"><code>{{ block.id }}</code> {{ block_service.name }}</div>
+            <div class="pm-btn-group">
+                <a href="#" class="pm-btn pm-btn-icon pull-right pm-btn-delete"><i class="material-icons">close</i></a>
+                <a href="#" class="pm-btn pm-btn-icon pull-right pm-btn-edit"><i class="material-icons">create</i></a>
+            </div>
+        </div>
+        <div class="clearfix">
+            {% include block_view %}
+        </div>
+    </div>
+{% endblock block_manage_pointer %}

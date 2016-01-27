@@ -25,6 +25,21 @@ content:
         title: Create new content
         nav: Create new
 
+block:
+    shared:
+        label: Shared
+        edit:
+            warning: This is a shared block
+    shared_name:
+        label: Name
+        placeholder: 'Only use [a-zA-Z] characters'
+        help_text: 'Give the shared block a name as a reference'
+    shared_displayname:
+        label: Display name
+        placeholder: ''
+        help_text: 'Human friendly readable name for this shared block'
+
+
 # Form field labels
 form:
     name: Name

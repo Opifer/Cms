@@ -2,12 +2,15 @@
 
 namespace Opifer\ContentBundle\Block\Service;
 
+use Opifer\ContentBundle\Entity\Block;
 use Symfony\Bundle\FrameworkBundle\Templating\EngineInterface;
 use Opifer\ContentBundle\Model\BlockInterface;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\FormEvent;
+use Symfony\Component\Form\FormEvents;
 
 /**
  * Class AbstractBlockService
@@ -218,10 +221,22 @@ abstract class AbstractBlockService
      */
     public function buildManageForm(FormBuilderInterface $builder, array $options)
     {
-        $builder
-            ->add('save', 'submit', [
-                'label' => 'button.submit'
-            ]);
+
+        $builder->addEventListener(FormEvents::PRE_SET_DATA, function (FormEvent $event) {
+            /** @var Block $block */
+            $block = $event->getData();
+            $form = $event->getForm();
+
+            if ($block->isShared()) {
+                $form
+                    ->add('sharedName', 'text', [
+                        'label' => 'block.shared_name.label'
+                    ])
+                    ->add('sharedDisplayName', 'text', [
+                        'label' => 'block.shared_displayname.label'
+                    ]);
+            }
+        });
     }
 
     /**

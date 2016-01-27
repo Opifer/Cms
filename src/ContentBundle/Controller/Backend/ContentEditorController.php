@@ -101,23 +101,23 @@ class ContentEditorController extends Controller
      *
      * @throws \Exception
      */
-    public function editBlockAction(Request $request, $id, $rootVersion = 0)
+    public function editBlockAction(Request $request, $id, $version = 0)
     {
         $this->getDoctrine()->getManager()->getFilters()->disable('draftversion');
 
         /** @var BlockManager $manager */
         $manager = $this->get('opifer.content.block_manager');
-        $newVersion = $manager->getNewVersion($manager->find($id, (int) $rootVersion));
+        $version = $manager->getNewVersion($manager->find($id));
 
-        if ((int) $rootVersion !== $newVersion) {
-            throw new \Exception("Only new versions can be editted. New version is {$newVersion} while you requested {$rootVersion}");
-        }
+//        if ((int) $rootVersion !== $newVersion) {
+//            throw new \Exception("Only new versions can be editted. New version is {$newVersion} while you requested {$rootVersion}");
+//        }
 
-        $block = $manager->find($id, $rootVersion);
+        $block = $manager->find($id, $version);
 
         /** @var BlockServiceInterface $service */
         $service = $manager->getService($block);
-        $block->setRootVersion($rootVersion);
+        $block->setRootVersion($version);
 
         $updatePreview = false; // signals parent window preview from iframe to update preview
 
@@ -130,7 +130,7 @@ class ContentEditorController extends Controller
 
             $service->postFormSubmit($form, $block);
 
-            $manager->save($block, $rootVersion);
+            $manager->save($block, $version);
             $updatePreview = true;
         }
 

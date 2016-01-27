@@ -9,10 +9,12 @@ use Opifer\ContentBundle\Block\Service\BlockServiceInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use Opifer\ContentBundle\Block\Tool\ContentTool;
 use Opifer\ContentBundle\Block\Tool\ToolsetMemberInterface;
+use Opifer\ContentBundle\Entity\PointerBlock;
 use Opifer\ContentBundle\Entity\Template;
 use Opifer\ContentBundle\Model\BlockInterface;
 use Opifer\ContentBundle\Model\ContentInterface;
 use Opifer\ContentBundle\Repository\BlockLogEntryRepository;
+use Symfony\Bundle\FrameworkBundle\Templating\EngineInterface;
 
 /**
  * Class BlockManager
@@ -153,7 +155,7 @@ class BlockManager
      *
      * @return array
      */
-    public function findByOwner(BlockOwnerInterface $owner, $rootVersion = null)
+    public function findByOwner(BlockInterface $owner, $rootVersion = null)
     {
         $blocks = $this->getRepository()->findBy(['owner' => $owner], ['sort' => 'asc']);
 
@@ -180,8 +182,16 @@ class BlockManager
      * @param BlockOwnerInterface $block
      * @param null|integer        $rootVersion
      */
-    public function publish(BlockOwnerInterface $block, $rootVersion)
+    public function publish(BlockInterface $block, $rootVersion = false)
     {
+        if (!($block instanceof BlockOwnerInterface) && !$block->isShared()) {
+            throw new \Exception ('Can only publish blocks of type BlockOwner or shared');
+        }
+
+        if ($rootVersion == false) { // Just publish newest
+            $rootVersion = $this->getNewVersion($block);
+        }
+
         $this->killLoggableListener();
         $this->killSoftDeletableListener();
 
@@ -270,6 +280,8 @@ class BlockManager
      * @param BlockInterface $block
      * @param null|integer   $rootVersion
      * @param boolean        $recursive
+     *
+     * @return BlockManager
      */
     public function save(BlockInterface $block, $rootVersion = null, $recursive = false)
     {
@@ -281,6 +293,8 @@ class BlockManager
             $this->em->persist($block);
             $this->em->flush($block);
         }
+
+        return $this;
     }
 
     /**
@@ -476,6 +490,47 @@ class BlockManager
     }
 
     /**
+     * Makes a block shared and creates a pointer block in it's place
+     *
+     * This method performs the change and persists/flushes to the database.
+     *
+     * @param integer $id
+     * @param integer $rootVersion
+     *
+     * @return BlockPointer
+     */
+    public function makeBlockShared($id, $rootVersion)
+    {
+        if ($this->em->getFilters()->isEnabled('draftversion')) {
+            $this->em->getFilters()->disable('draftversion');
+        }
+
+        $block = $this->find($id, $rootVersion);
+
+        // Duplicate some of the settings to the pointer
+        $pointer = new PointerBlock();
+        $pointer->setOwner($block->getOwner());
+        $pointer->setParent($block->getParent());
+        $pointer->setReference($block);
+        $pointer->setRootVersion($rootVersion);
+
+        // Detach and make shared
+        $block->setShared(true);
+        $block->setParent(null);
+        $block->setOwner(null);
+        $block->setPosition(0);
+        $block->setSort(0);
+        $block->setRootVersion($rootVersion);
+
+
+        $this->killLoggableListener();
+
+        $this->save($block)->save($pointer);
+
+        return $pointer;
+    }
+
+    /**
      * Gets the Block nodes siblings at a version.
      *
      * Retrieving siblings from the database could be simple if we did not need to take
@@ -592,7 +647,7 @@ class BlockManager
      */
     public function getNewVersion(BlockInterface $block)
     {
-        $version = ($block instanceof BlockOwnerInterface) ? $block->getVersion() : $block->getOwner()->getVersion();
+        $version = ($block instanceof BlockOwnerInterface || $block->isShared()) ? $block->getVersion() : $block->getOwner()->getVersion();
 
         return $version + 1;
     }
