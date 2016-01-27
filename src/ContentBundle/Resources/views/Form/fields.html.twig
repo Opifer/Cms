@@ -43,8 +43,16 @@
 #}
 {% block content_list_picker_widget %}
     {% spaceless %}
+        {% set array = [] %}
+        {% for item in form.vars.value %}
+            {% if item.id|default %}
+                {% set array = array|merge([item.id]) %}
+            {% else %}
+                {% set array = array|merge([item]) %}
+            {% endif %}
+        {% endfor %}
 
-        {% set content = form.vars.value|json_encode() %}
+        {% set content = array|json_encode() %}
 
         <div class="content-picker content-picker-list" ng-controller="ContentPickerController" ng-cloak ng-init="init('{{ content }}', '{{ full_name }}', true)">
             {% verbatim %}
