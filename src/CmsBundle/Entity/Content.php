@@ -2,12 +2,13 @@
 
 namespace Opifer\CmsBundle\Entity;
 
+use APY\DataGridBundle\Grid\Mapping as GRID;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use JMS\Serializer\Annotation as JMS;
+use Opifer\ContentBundle\Model\Content as BaseContent;
 use Opifer\ContentBundle\Model\ContentTypeInterface;
 use Symfony\Component\Validator\Constraints as Assert;
-use Opifer\ContentBundle\Model\Content as BaseContent;
 
 /**
  * Content.
@@ -16,6 +17,7 @@ use Opifer\ContentBundle\Model\Content as BaseContent;
  * @ORM\Table(name="content")
  * @JMS\ExclusionPolicy("all")
  * @Gedmo\Tree(type="nested")
+ * @GRID\Source(columns="id, title, slug")
  */
 class Content extends BaseContent
 {
@@ -28,6 +30,7 @@ class Content extends BaseContent
      *
      * @JMS\Expose
      * @JMS\Groups({"detail", "list"})
+     * @GRID\Column(title="Id", size="10", type="number")
      */
     protected $id;
 
