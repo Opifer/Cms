@@ -95,7 +95,7 @@ class SlideBlockService extends AbstractBlockService implements BlockServiceInte
     {
         $tool = new ContentTool('Slide', 'OpiferContentBundle:SlideBlock');
 
-        $tool->setIcon('perm_media')
+        $tool->setIcon('filter')
             ->setDescription('A basic carousel slide');
 
         return $tool;
