@@ -4,6 +4,7 @@ namespace Opifer\CmsBundle\Controller\Backend;
 
 use APY\DataGridBundle\Grid\Action\RowAction;
 use APY\DataGridBundle\Grid\Source\Entity;
+use Opifer\CmsBundle\Form\Type\ProfileType;
 use Opifer\CmsBundle\Form\Type\UserFormType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
@@ -93,6 +94,36 @@ class UserController extends Controller
         }
 
         return $this->render('OpiferCmsBundle:Backend/User:edit.html.twig', [
+            'form' => $form->createView(),
+            'user' => $user,
+        ]);
+    }
+
+    /**
+     * Edit the current users' profile.
+     *
+     * @param Request $request
+     *
+     * @return Response
+     */
+    public function profileAction(Request $request)
+    {
+        $user = $this->getUser();
+
+        $form = $this->createForm(ProfileType::class, $user);
+        $form->handleRequest($request);
+
+        if ($form->isValid()) {
+            $this->get('fos_user.user_manager')->updateUser($user, true);
+
+            $this->addFlash('success', $this->get('translator')->trans('user.edit.success', [
+                '%username%' => ucfirst($user->getUsername()),
+            ]));
+
+            return $this->redirectToRoute('opifer_cms_user_profile');
+        }
+
+        return $this->render('OpiferCmsBundle:Backend/User:profile.html.twig', [
             'form' => $form->createView(),
             'user' => $user,
         ]);

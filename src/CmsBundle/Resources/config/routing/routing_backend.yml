@@ -111,6 +111,10 @@ opifer_cms_user_edit:
     requirements:
         id: \d+
 
+opifer_cms_user_profile:
+    path: /profile
+    defaults: { _controller: OpiferCmsBundle:Backend/User:profile }
+
 opifer_ckeditor_content:
     path: /ckeditor/content
     defaults: { _controller: OpiferCmsBundle:CKEditor:content }
