@@ -2,10 +2,13 @@
 
 namespace Opifer\MediaBundle\Form\Type;
 
+use Doctrine\ORM\EntityRepository;
 use Opifer\MediaBundle\Provider\Pool;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormView;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
  * Media Picker Form Type.
@@ -14,19 +17,36 @@ use Symfony\Component\Form\FormView;
  */
 class MediaPickerType extends AbstractType
 {
-    /**
-     * @var \Opifer\MediaBundle\Provider\Pool
-     */
+    /** @var \Opifer\MediaBundle\Provider\Pool */
     protected $providerPool;
+
+    /** @var string */
+    protected $mediaClass;
 
     /**
      * Constructor.
      *
-     * @param Pool $providerPool
+     * @param Pool   $providerPool
+     * @param string $mediaClass
      */
-    public function __construct(Pool $providerPool)
+    public function __construct(Pool $providerPool, $mediaClass)
     {
         $this->providerPool = $providerPool;
+        $this->mediaClass = $mediaClass;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function configureOptions(OptionsResolver $resolver)
+    {
+        $resolver->setDefaults([
+            'property' => 'name',
+            'class' => $this->mediaClass,
+            'query_builder' => function (EntityRepository $mediaRepository) {
+                return $mediaRepository->createQueryBuilder('m')->add('orderBy', 'm.name ASC');
+            }
+        ]);
     }
 
     /**
@@ -44,7 +64,7 @@ class MediaPickerType extends AbstractType
      */
     public function getParent()
     {
-        return 'entity';
+        return EntityType::class;
     }
 
     /**

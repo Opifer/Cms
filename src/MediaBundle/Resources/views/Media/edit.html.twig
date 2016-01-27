@@ -7,6 +7,9 @@
 {% block opifer_media_body %}
     <section class="page-section">
         <img src="{{ media.reference|imagine_filter('medialibrary') }}" alt="{{ media.name }}">
-        {{ form(form, {'style': 'horizontal'}) }}
+        {{ form_start(form) }}
+            {{ form_widget(form) }}
+            <button type="submit" class="btn btn-primary">{{ 'button.submit'|trans }}</button>
+        {{ form_end(form) }}
     </section>
 {% endblock opifer_media_body %}
