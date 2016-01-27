@@ -4,19 +4,17 @@ namespace Opifer\ContentBundle\Block\Service;
 
 use Opifer\ContentBundle\Block\Tool\ContentTool;
 use Opifer\ContentBundle\Block\Tool\ToolsetMemberInterface;
-use Opifer\ContentBundle\Entity\JumbotronBlock;
+use Opifer\ContentBundle\Entity\SlideBlock;
 use Opifer\ContentBundle\Model\BlockInterface;
 use Opifer\MediaBundle\Form\Type\MediaPickerType;
 use Symfony\Component\Form\FormBuilderInterface;
 
 /**
- * Class JumbotronBlockService
- *
- * @package Opifer\ContentBundle\Block
+ * Slide Block Service
  */
-class JumbotronBlockService extends AbstractBlockService implements BlockServiceInterface, ToolsetMemberInterface
+class SlideBlockService extends AbstractBlockService implements BlockServiceInterface, ToolsetMemberInterface
 {
-    protected $view = 'OpiferContentBundle:Block:Content/jumbotron.html.twig';
+    protected $view = 'OpiferContentBundle:Block:Content/slide.html.twig';
 
     /** @var array */
     protected $styles;
@@ -26,7 +24,7 @@ class JumbotronBlockService extends AbstractBlockService implements BlockService
      */
     public function getName(BlockInterface $block = null)
     {
-        return 'Jumbotron';
+        return 'Slide';
     }
 
     /**
@@ -71,7 +69,7 @@ class JumbotronBlockService extends AbstractBlockService implements BlockService
      */
     public function createBlock()
     {
-        return new JumbotronBlock;
+        return new SlideBlock;
     }
 
     /**
@@ -95,10 +93,10 @@ class JumbotronBlockService extends AbstractBlockService implements BlockService
      */
     public function getTool()
     {
-        $tool = new ContentTool('Jumbotron', 'OpiferContentBundle:JumbotronBlock');
+        $tool = new ContentTool('Slide', 'OpiferContentBundle:SlideBlock');
 
-        $tool->setIcon('settings_overscan')
-            ->setDescription('Large piece of content with bigger font and optional background image.');
+        $tool->setIcon('filter')
+            ->setDescription('A basic carousel slide');
 
         return $tool;
     }

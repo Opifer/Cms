@@ -163,7 +163,7 @@ class Content
     /**
      * @var Media
      *
-     * @ORM\ManyToOne(targetEntity="Media")
+     * @ORM\ManyToOne(targetEntity="Opifer\MediaBundle\Model\MediaInterface")
      * @ORM\JoinColumn(name="media_id", referencedColumnName="id", onDelete="SET NULL")
      */
     protected $image;
@@ -200,6 +200,7 @@ In your content FormType, add the `mediapicker` form type:
 namespace AppBundle\Form\Type;
 
 use Doctrine\ORM\EntityRepository;
+use Opifer\MediaBundle\Form\Type\MediaPickerType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 
@@ -209,13 +210,8 @@ class ContentType extends AbstractType
     {
         $builder
             // ...
-            ->add('image', 'mediapicker', [
+            ->add('image', MediaPickerType::class, [
                 'multiple' => false,
-                'property' => 'name',
-                'class' => 'AppBundle:Media',
-                'query_builder' => function (EntityRepository $mediaRepository) {
-                    return $mediaRepository->createQueryBuilder('m')->add('orderBy', 'm.name ASC');
-                }
             ])
         ;
     }

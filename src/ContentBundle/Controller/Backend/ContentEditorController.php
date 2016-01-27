@@ -134,7 +134,12 @@ class ContentEditorController extends Controller
             $updatePreview = true;
         }
 
-        return $this->render($service->getEditView(), ['block_service' => $service, 'block' => $block, 'form' => $form->createView(), 'update_preview' => $updatePreview]);
+        return $this->render($service->getEditView(), [
+            'block_service' => $service,
+            'block' => $block,
+            'form' => $form->createView(),
+            'update_preview' => $updatePreview
+        ]);
     }
 
     /**

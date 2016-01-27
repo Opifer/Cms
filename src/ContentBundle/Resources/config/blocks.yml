@@ -1,18 +1,27 @@
 parameters:
-    opifer.content.collection_block.class: Opifer\ContentBundle\Block\Service\CollectionBlockService
-    opifer.content.list_block.class: Opifer\ContentBundle\Block\Service\ListBlockService
-    opifer.content.container_block.class: Opifer\ContentBundle\Block\Service\ContainerBlockService
-    opifer.content.column_block.class: Opifer\ContentBundle\Block\Service\ColumnBlockService
-    opifer.content.html_block.class: Opifer\ContentBundle\Block\Service\HtmlBlockService
-    opifer.content.image_block.class: Opifer\ContentBundle\Block\Service\ImageBlockService
-    opifer.content.jumbotron_block.class: Opifer\ContentBundle\Block\Service\JumbotronBlockService
-    opifer.content.jumbotron_block.styles: ["jumbotron-sm", "jumbotron-md", "jumbotron-lg", "text-regular", "text-contrast"]
     opifer.content.button_block.class: Opifer\ContentBundle\Block\Service\ButtonBlockService
     opifer.content.button_block.styles: ["btn-sm", "btn-lg", "btn-primary", "btn-default", "btn-block", "center-block"]
+    opifer.content.carousel_block.class: Opifer\ContentBundle\Block\Service\CarouselBlockService
+    opifer.content.collection_block.class: Opifer\ContentBundle\Block\Service\CollectionBlockService
+    opifer.content.column_block.class: Opifer\ContentBundle\Block\Service\ColumnBlockService
+    opifer.content.container_block.class: Opifer\ContentBundle\Block\Service\ContainerBlockService
+    opifer.content.html_block.class: Opifer\ContentBundle\Block\Service\HtmlBlockService
+    opifer.content.image_block.class: Opifer\ContentBundle\Block\Service\ImageBlockService
+    opifer.content.image_block.filters: ["medialibrary", "dashboard_content", "non-existent"]
+    opifer.content.jumbotron_block.class: Opifer\ContentBundle\Block\Service\JumbotronBlockService
+    opifer.content.jumbotron_block.styles: ["jumbotron-sm", "jumbotron-md", "jumbotron-lg", "text-regular", "text-contrast"]
     opifer.content.pointer_block.class: Opifer\ContentBundle\Block\Service\PointerBlockService
+    opifer.content.list_block.class: Opifer\ContentBundle\Block\Service\ListBlockService
+    opifer.content.slide_block.class: Opifer\ContentBundle\Block\Service\SlideBlockService
 #    opifer.content.image_gallery_block.class: Opifer\ContentBundle\Block\ImageGalleryBlockService
 
 services:
+    opifer.content.carousel_block:
+        class: '%opifer.content.carousel_block.class%'
+        arguments: ['@templating']
+        tags:
+            - { name: opifer.content.block_service, alias: carousel }
+
     opifer.content.collection_block:
         class: '%opifer.content.collection_block.class%'
         arguments: ['@templating', '@doctrine.orm.entity_manager']
@@ -27,7 +36,7 @@ services:
 
     opifer.content.image_block:
         class: '%opifer.content.image_block.class%'
-        arguments: ['@templating']
+        arguments: ['@templating', '%opifer.content.image_block.filters%', '%liip_imagine.filter_sets%']
         tags:
             - { name: opifer.content.block_service, alias: image }
 
@@ -58,6 +67,12 @@ services:
         arguments: ['@templating', '@opifer.content.block_manager']
         tags:
             - { name: opifer.content.block_service, alias: pointer }
+
+    opifer.content.slide_block:
+        class: '%opifer.content.slide_block.class%'
+        arguments: ['@templating']
+        tags:
+            - { name: opifer.content.block_service, alias: slide }
 
     opifer.content.container_section_block:
         class: '%opifer.content.container_block.class%'

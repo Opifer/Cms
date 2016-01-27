@@ -52,7 +52,7 @@
                                 <li class="dropdown">
                                     <a class="dropdown-toggle" data-toggle="dropdown">{{ app.user.username|capitalize }} <i class="material-icons md-18">keyboard_arrow_down</i></a>
                                     <ul class="dropdown-menu">
-                                        <li><a href="{{ path('opifer_cms_user_edit', {'id': app.user.id}) }}">{{ 'base.profile'|trans|capitalize }}</a></li>
+                                        <li><a href="{{ path('opifer_cms_user_profile') }}">{{ 'base.profile'|trans|capitalize }}</a></li>
                                         <li><a href="{{ path('fos_user_security_logout') }}">{{ 'base.logout'|trans|capitalize }}</a></li>
                                     </ul>
                                 </li>

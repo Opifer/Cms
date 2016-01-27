@@ -70,7 +70,6 @@ class FileProvider extends AbstractProvider
             ->add('name', 'text', [
                 'label' => 'file.name.label',
             ])
-            ->add('Update', 'submit')
         ;
     }
 
