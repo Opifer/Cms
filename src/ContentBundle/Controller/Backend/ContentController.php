@@ -20,19 +20,26 @@ class ContentController extends Controller
     /**
      * Index action.
      *
-     * @param integer $type
-     *
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function indexAction($type = 0)
+    public function indexAction()
     {
-        if ($type) {
-            $type = $this->get('opifer.content.content_type_manager')->getRepository()->find($type);
-            $type = ($type) ? $type->getId() : 0;
-        }
+        return $this->render($this->getParameter('opifer_content.content_index_view'));
+    }
 
-        return $this->render($this->getParameter('opifer_content.content_index_view'), [
-            'type' => $type
+    /**
+     * @param int $type
+     * @return Response
+     */
+    public function typeAction($type)
+    {
+        $contentType = $this->get('opifer.content.content_type_manager')->getRepository()->find($type);
+
+        $content = $this->get('opifer.content.content_manager')->getRepository()->findByType($contentType);
+
+        return $this->render($this->getParameter('opifer_content.content_type_view'), [
+            'content_type' => $contentType,
+            'content' => $content,
         ]);
     }
 

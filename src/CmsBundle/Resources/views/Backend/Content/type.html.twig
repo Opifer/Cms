@@ -1,0 +1,16 @@
+{% extends 'OpiferCmsBundle::base.html.twig' %}
+
+{% block body %}
+    {% spaceless %}
+        <div class="col-xs-12">
+            <div class="page-header">
+                <a href="{{ path('opifer_content_content_create', {'type': content_type.id}) }}" class="btn btn-link pull-right">
+                    <i class="material-icons">add</i> Add {{ content_type.name }}
+                </a>
+                <h1>{{ content_type.name }}</h1>
+            </div>
+        </div>
+
+        {% include 'OpiferCmsBundle:Components:grid.html.twig' with { 'grid': grid } %}
+    {% endspaceless %}
+{% endblock body %}

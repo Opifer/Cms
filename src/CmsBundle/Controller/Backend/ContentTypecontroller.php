@@ -27,7 +27,7 @@ class ContentTypeController extends BaseContentTypeController
 
         /* @var $grid \APY\DataGridBundle\Grid\Grid */
         $grid = $this->get('grid');
-        $grid->setId('forms')
+        $grid->setId('content_types')
             ->setSource($source)
             ->addRowAction($editAction)
             ->addRowAction($deleteAction);
