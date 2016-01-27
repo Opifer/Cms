@@ -73,26 +73,16 @@ class User extends FOSUser
     /**
      * @var string
      *
-     * @ORM\Column(name="facebook_id", type="string", length=255, nullable=true)
+     * @ORM\Column(name="company_id", type="string", length=255, nullable=true)
      */
-    protected $facebookId;
-
-    /**
-     * @ORM\Column(name="facebook_access_token", type="string", length=255, nullable=true)
-     */
-    protected $facebookAccessToken;
+    protected $company;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="google_id", type="string", length=255, nullable=true)
+     * @ORM\Column(name="job_position", type="string", length=255, nullable=true)
      */
-    protected $googleId;
-
-    /**
-     * @ORM\Column(name="google_access_token", type="string", length=255, nullable=true)
-     */
-    protected $googleAccessToken;
+    protected $jobPosition;
 
     /**
      * @var ArrayCollection
@@ -148,17 +138,6 @@ class User extends FOSUser
 
         $this->groups = new ArrayCollection();
         $this->contents = new ArrayCollection();
-    }
-
-    public function serialize()
-    {
-        return serialize(array($this->facebookId, parent::serialize()));
-    }
-
-    public function unserialize($data)
-    {
-        list($this->facebookId, $parentData) = unserialize($data);
-        parent::unserialize($parentData);
     }
 
     /**
@@ -230,6 +209,42 @@ class User extends FOSUser
     }
 
     /**
+     * @return string
+     */
+    public function getCompany()
+    {
+        return $this->company;
+    }
+
+    /**
+     * @param string $company
+     * @return User
+     */
+    public function setCompany($company)
+    {
+        $this->company = $company;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getJobPosition()
+    {
+        return $this->jobPosition;
+    }
+
+    /**
+     * @param string $jobPosition
+     * @return User
+     */
+    public function setJobPosition($jobPosition)
+    {
+        $this->jobPosition = $jobPosition;
+        return $this;
+    }
+
+    /**
      * Get expires at
      *
      * @return \DateTime
@@ -247,92 +262,6 @@ class User extends FOSUser
     public function getCredentialsExpireAt()
     {
         return $this->credentialsExpireAt;
-    }
-
-    /**
-     * @param string $facebookId
-     *
-     * @return User
-     */
-    public function setFacebookId($facebookId)
-    {
-        $this->facebookId = $facebookId;
-
-        return $this;
-    }
-
-    /**
-     * Get Facebook ID
-     *
-     * @return string
-     */
-    public function getFacebookId()
-    {
-        return $this->facebookId;
-    }
-
-    /**
-     * @param string $facebookAccessToken
-     *
-     * @return User
-     */
-    public function setFacebookAccessToken($facebookAccessToken)
-    {
-        $this->facebookAccessToken = $facebookAccessToken;
-
-        return $this;
-    }
-
-    /**
-     * Get FacebookAccessToken
-     *
-     * @return string
-     */
-    public function getFacebookAccessToken()
-    {
-        return $this->facebookAccessToken;
-    }
-
-    /**
-     * @param string $googleId
-     *
-     * @return $this
-     */
-    public function setGoogleId($googleId)
-    {
-        $this->googleId = $googleId;
-
-        return $this;
-    }
-
-    /**
-     * Get google ID
-     *
-     * @return string
-     */
-    public function getGoogleId()
-    {
-        return $this->googleId;
-    }
-
-    /**
-     * @param string $googleAccessToken
-     *
-     * @return void
-     */
-    public function setGoogleAccessToken($googleAccessToken)
-    {
-        $this->googleAccessToken = $googleAccessToken;
-    }
-
-    /**
-     * Get googleAccessToken
-     *
-     * @return string
-     */
-    public function getGoogleAccessToken()
-    {
-        return $this->googleAccessToken;
     }
 
     /**

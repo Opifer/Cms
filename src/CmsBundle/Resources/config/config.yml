@@ -215,6 +215,7 @@ opifer_content:
         class: Opifer\CmsBundle\Entity\Content
         views:
             index: 'OpiferCmsBundle:Backend/Content:index.html.twig'
+            type: 'OpiferCmsBundle:Backend/Content:type.html.twig'
             new: 'OpiferCmsBundle:Backend/Content:new.html.twig'
             edit: 'OpiferCmsBundle:Backend/Content:edit.html.twig'
             details: 'OpiferCmsBundle:Backend/Content:details.html.twig'

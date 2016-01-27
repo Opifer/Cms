@@ -35,8 +35,12 @@ opifer_content_content_duplicate:
         expose: true
 
 opifer_content_content_index:
-    path: /content/{type}
-    defaults: { _controller: OpiferContentBundle:Backend/Content:index, type: 0 }
+    path: /content
+    defaults: { _controller: OpiferContentBundle:Backend/Content:index }
+
+opifer_content_content_type:
+    path: /content/type/{type}
+    defaults: { _controller: OpiferContentBundle:Backend/Content:type }
     requirements:
         type:  \d+
 

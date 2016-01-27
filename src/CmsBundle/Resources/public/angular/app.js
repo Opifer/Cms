@@ -8,7 +8,6 @@ angular.module('MainApp', [
     'ngResource',
     'mediaLibrary',
     'OpiferContent',
-    'googleAddress',
     'ui.sortable',
     'afkl.lazyImage',
     'angularFileUpload'

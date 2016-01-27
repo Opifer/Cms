@@ -101,9 +101,9 @@ opifer_cms_user_index:
     path: /users
     defaults: { _controller: OpiferCmsBundle:Backend/User:index }
 
-opifer_cms_user_new:
-    path: /users/new
-    defaults: { _controller: OpiferCmsBundle:Backend/User:new }
+opifer_cms_user_create:
+    path: /users/create
+    defaults: { _controller: OpiferCmsBundle:Backend/User:create }
 
 opifer_cms_user_edit:
     path: /users/edit/{id}
@@ -154,6 +154,12 @@ fos_user_group:
 opifer_content_directory_index:
     path: /directory
     defaults: { _controller: OpiferCmsBundle:Backend/Directory:index }
+
+opifer_content_content_type:
+    path: /content/type/{type}
+    defaults: { _controller: OpiferCmsBundle:Backend/Content:type }
+    requirements:
+        type:  \d+
 
 opifer_content_content_history:
     path: /content/history/{type}/{id}/{version}
