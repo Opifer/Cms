@@ -42,7 +42,7 @@ class UserController extends Controller
      *
      * @return Response
      */
-    public function newAction(Request $request)
+    public function createAction(Request $request)
     {
         $user = $this->getParameter('opifer_cms.user_model');
         $user = new $user();
@@ -61,7 +61,7 @@ class UserController extends Controller
             return $this->redirectToRoute('opifer_cms_user_index');
         }
 
-        return $this->render('OpiferCmsBundle:Backend/User:new.html.twig', [
+        return $this->render('OpiferCmsBundle:Backend/User:create.html.twig', [
             'form' => $form->createView(),
         ]);
     }

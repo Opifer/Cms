@@ -36,14 +36,6 @@ class UserFormType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('username', TextType::class)
-            ->add('email', TextType::class)
-            ->add('plainPassword', RepeatedType::class, [
-                'type' => PasswordType::class,
-                'first_options' => ['label' => 'form.password'],
-                'second_options' => ['label' => 'form.password_confirmation'],
-                'invalid_message' => 'fos_user.password.mismatch',
-            ])
             ->add('enabled', ChoiceType::class, [
                 'choices' => [
                     'form.options.enable' => true,
@@ -95,6 +87,14 @@ class UserFormType extends AbstractType
         }
 
         return array_unique($result);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getParent()
+    {
+        return ProfileType::class;
     }
 
     /**
