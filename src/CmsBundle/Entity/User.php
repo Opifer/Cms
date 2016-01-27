@@ -5,9 +5,9 @@ namespace Opifer\CmsBundle\Entity;
 use APY\DataGridBundle\Grid\Mapping as GRID;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
-use FOS\AdvancedEncoderBundle\Security\Encoder\EncoderAwareInterface;
 use FOS\UserBundle\Model\GroupInterface;
 use FOS\UserBundle\Model\User as FOSUser;
+use Opifer\MediaBundle\Model\MediaInterface;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -16,6 +16,9 @@ use Doctrine\Common\Collections\ArrayCollection;
  * @ORM\MappedSuperclass
  *
  * @ORM\Table("users")
+ *
+ * @UniqueEntity("username")
+ * @UniqueEntity("email")
  *
  * @ORM\Entity
  * @ORM\Table(name="users")
@@ -52,6 +55,14 @@ class User extends FOSUser
      * @ORM\Column(name="last_name", type="string", length=255, nullable=true)
      */
     protected $lastName;
+
+    /**
+     * @var MediaInterface
+     *
+     * @ORM\ManyToOne(targetEntity="Opifer\MediaBundle\Model\MediaInterface")
+     * @ORM\JoinColumn(name="avatar_id", referencedColumnName="id")
+     */
+    protected $avatar;
 
     /**
      * @var string
@@ -206,6 +217,25 @@ class User extends FOSUser
     public function getFullName()
     {
         return $this->firstName.' '.$this->lastName;
+    }
+
+    /**
+     * @return MediaInterface
+     */
+    public function getAvatar()
+    {
+        return $this->avatar;
+    }
+
+    /**
+     * @param MediaInterface $avatar
+     * @return User
+     */
+    public function setAvatar(MediaInterface $avatar)
+    {
+        $this->avatar = $avatar;
+
+        return $this;
     }
 
     /**
