@@ -6,6 +6,7 @@ use Opifer\ContentBundle\Block\Tool\ContentTool;
 use Opifer\ContentBundle\Block\Tool\ToolsetMemberInterface;
 use Opifer\ContentBundle\Entity\JumbotronBlock;
 use Opifer\ContentBundle\Model\BlockInterface;
+use Opifer\MediaBundle\Form\Type\MediaPickerType;
 use Symfony\Component\Form\FormBuilderInterface;
 
 /**
@@ -55,11 +56,9 @@ class JumbotronBlockService extends AbstractBlockService implements BlockService
 
         $builder->add(
             $builder->create('default', 'form', ['inherit_data' => true])
-                ->add('media', 'mediapicker', [
+                ->add('media', MediaPickerType::class, [
                     'required'  => false,
                     'multiple' => false,
-                    'property' => 'name',
-                    'class' => 'OpiferCmsBundle:Media',
                 ])
                 ->add('value', 'ckeditor', ['label' => 'label.rich_text', 'attr' => ['label_col' => 12, 'widget_col' => 12]])
         )->add(
