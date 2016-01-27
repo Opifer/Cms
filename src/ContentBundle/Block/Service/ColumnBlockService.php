@@ -214,5 +214,4 @@ class ColumnBlockService extends AbstractBlockService implements BlockServiceInt
 
         return $gutterStyles;
     }
-
 }
