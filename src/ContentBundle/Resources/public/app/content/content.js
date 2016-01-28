@@ -319,6 +319,10 @@ angular.module('OpiferContent', ['angular-inview'])
                     window.location = Routing.generate('opifer_content_content_duplicate', {'id': id});
                 };
 
+                $scope.getUrl = function (slug) {
+                    return Routing.generate('_content', {'slug': slug});
+                };
+
                 $scope.confirmCopyContent = function (idx, $event) {
                     var selected = $scope.contents[idx];
 

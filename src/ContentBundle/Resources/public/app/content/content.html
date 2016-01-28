@@ -62,8 +62,8 @@
                     <a href="{{ content.path}}" target="_blank" ng-if="content.active"><small>{{ content.path}}</small></a>
                 </td>
                 <td class="hidden-xs" ng-class="content.active ? '' : 'text-muted'">
-                    <a href="{{ content.path }}" target="_blank" ng-if="content.active && content.alias">
-                        <small>{{ content.alias }}</small>
+                    <a href="{{getAliasContentRoute(content.alias)}}" target="_blank" ng-if="content.active && content.alias && content.alias != ''">
+                        <small>{{ getUrl(content.alias) }}</small>
                     </a>
                 </td>
                 <td class="detail hidden-xs"><span class="label label-info">{{ content.templateDisplayName}}</span></td>
