@@ -79,7 +79,7 @@ class ColumnBlockService extends AbstractBlockService implements BlockServiceInt
             $properties = $block->getProperties();
             if (!count($properties) ) {
                 $properties['styles'] = array();
-                $cols = array_fill(0, 4, array_fill(0, $block->getColumnCount(), null));
+                $cols = array_fill(0, 4, array_fill(0, $block->getColumnCount(), 12/$block->getColumnCount()));
                 $keys = array('xs', 'sm', 'md', 'lg');
                 $properties['spans'] = array_combine($keys, $cols);
                 $properties['gutters'] = array_combine($keys, $cols);

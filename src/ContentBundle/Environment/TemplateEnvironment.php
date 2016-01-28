@@ -21,13 +21,9 @@ class TemplateEnvironment extends Environment
     /**
      * {@inheritDoc}
      */
-    public function load($id = 0, $version = false)
+    public function load($id = 0)
     {
         $this->template = $this->em->getRepository('OpiferContentBundle:Template')->find($id);
-
-        if ($version) {
-            $this->versionMap[$this->template->getBlock()->getId()] = $version;
-        }
 
         if ( ! $this->template) {
             throw $this->createNotFoundException('No template found for id ' . $id);

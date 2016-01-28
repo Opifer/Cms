@@ -27,7 +27,7 @@ opifer_content_api_content_delete:
         expose: true
 
 opifer_content_api_contenteditor_create_block:
-    path: /contenteditor/createblock/{type}/{typeId}/{ownerId}/{rootVersion}
+    path: /contenteditor/createblock/{type}/{typeId}/{ownerId}
     defaults: { _controller: OpiferContentBundle:Api/ContentEditor:createBlock }
     methods: [POST]
     options:
@@ -41,21 +41,21 @@ opifer_content_api_contenteditor_move_block:
         expose: true
 
 opifer_content_api_contenteditor_view_block:
-    path: /contenteditor/viewblock/{type}/{typeId}/{id}/{rootVersion}
+    path: /contenteditor/viewblock/{type}/{typeId}/{id}
     defaults: { _controller: OpiferContentBundle:Api/ContentEditor:viewBlock }
     methods: [GET]
     options:
         expose: true
 
 opifer_content_api_contenteditor_remove_block:
-    path: /contenteditor/removeblock/{id}/{rootVersion}
+    path: /contenteditor/removeblock/{id}
     defaults: { _controller: OpiferContentBundle:Api/ContentEditor:removeBlock }
     methods: [DELETE]
     options:
         expose: true
 
 opifer_content_api_contenteditor_make_shared:
-    path: /contenteditor/makeshared/{type}/{typeId}/{ownerId}/{version}
+    path: /contenteditor/makeshared/{type}/{typeId}/{ownerId}
     defaults: { _controller: OpiferContentBundle:Api/ContentEditor:makeShared }
     methods: [POST]
     options:

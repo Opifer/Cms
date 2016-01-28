@@ -25,22 +25,26 @@ class ContentEditorController extends Controller
      * @param string  $type
      * @param integer $typeId
      * @param integer $id
-     * @param integer $rootVersion
      *
      * @return JsonResponse
      */
-    public function viewBlockAction($type, $typeId, $id, $rootVersion)
+    public function viewBlockAction($type, $typeId, $id)
     {
         $this->getDoctrine()->getManager()->getFilters()->disable('draftversion');
+
         /** @var BlockManager $manager */
         $manager = $this->get('opifer.content.block_manager');
 
         /** @var Environment $environment */
         $environment = $this->get(sprintf('opifer.content.block_%s_environment', $type));
-        $environment->load($typeId, $rootVersion);
-        $environment->setBlockMode('manage');
+        $version = $manager->getNewVersion($id);
+
+        $environment->load($typeId)->setVersion($version);
 
         $block = $environment->getBlock($id);
+
+        $environment->setBlockMode('manage');
+
         $service = $manager->getService($block);
 
         $this->get('opifer.content.twig.content_extension')->setBlockEnvironment($environment);
@@ -56,11 +60,10 @@ class ContentEditorController extends Controller
      * @param string  $type
      * @param integer $typeId
      * @param integer $ownerId
-     * @param integer $rootVersion
      *
      * @return JsonResponse
      */
-    public function createBlockAction(Request $request, $type, $typeId, $ownerId, $rootVersion)
+    public function createBlockAction(Request $request, $type, $typeId, $ownerId)
     {
         $this->getDoctrine()->getManager()->getFilters()->disable('draftversion');
 
@@ -76,17 +79,11 @@ class ContentEditorController extends Controller
         $data        = json_decode($data, true);
 
         try {
-            $newVersion = $manager->getNewVersion($manager->find($ownerId, (int) $rootVersion));
-
-            if ((int) $rootVersion < $newVersion) {
-                throw new \Exception("Only new versions can be edited. New version is {$newVersion} while you requested {$rootVersion}");
-            }
-
-            $block = $manager->createBlock($ownerId, $className, $parentId, $placeholder, $sort, $data, $rootVersion);
+            $block = $manager->createBlock($ownerId, $className, $parentId, $placeholder, $sort, $data);
 
             $response = new JsonResponse(['state' => 'created', 'id' => $block->getId()]);
             $response->setStatusCode(201);
-            $response->headers->add(['Location' => $this->generateUrl('opifer_content_api_contenteditor_view_block', ['type' => $type, 'typeId' => $typeId, 'id' => $block->getId(), 'rootVersion' => $rootVersion])]);
+            $response->headers->add(['Location' => $this->generateUrl('opifer_content_api_contenteditor_view_block', ['type' => $type, 'typeId' => $typeId, 'id' => $block->getId()])]);
 
         } catch (\Exception $e) {
             $response->setStatusCode(500);
@@ -104,7 +101,7 @@ class ContentEditorController extends Controller
      *
      * @return JsonResponse
      */
-    public function removeBlockAction($id, $rootVersion)
+    public function removeBlockAction($id)
     {
         $this->getDoctrine()->getManager()->getFilters()->disable('draftversion');
         /** @var BlockManager $manager */
@@ -112,14 +109,8 @@ class ContentEditorController extends Controller
         $response = new JsonResponse;
 
         try {
-            $newVersion = $manager->getNewVersion($manager->find($id, $rootVersion));
-
-            if ((int) $rootVersion < $newVersion) {
-                throw new \Exception("Only new versions can be edited. New version is {$newVersion} while you requested {$rootVersion}");
-            }
-
-            $block = $manager->find($id, $rootVersion);
-            $manager->remove($block, $rootVersion);
+            $block = $manager->find($id);
+            $manager->remove($block);
             $response->setData(['state' => 'removed']);
         } catch (\Exception $e) {
             $response->setStatusCode(500);
@@ -140,6 +131,7 @@ class ContentEditorController extends Controller
     public function moveBlockAction(Request $request)
     {
         $this->getDoctrine()->getManager()->getFilters()->disable('draftversion');
+
         /** @var BlockManager $manager */
         $manager  = $this->get('opifer.content.block_manager');
         $response = new JsonResponse;
@@ -148,21 +140,12 @@ class ContentEditorController extends Controller
         $parentId    = (int) $request->request->get('parent');
         $sort        = $request->request->get('sort');
         $placeholder = (int) $request->request->get('placeholder');
-        $rootVersion = (int) $request->request->get('rootVersion');
-
 
         try {
-            $newVersion = $manager->getNewVersion($manager->find($id, $rootVersion));
-
-            if ($rootVersion !== $newVersion) {
-                throw new \Exception("Only new versions can be edited. New version is {$newVersion} while you requested {$rootVersion}");
-            }
-
-            $manager->moveBlock($id, $parentId, $placeholder, $sort, $rootVersion);
+            $manager->moveBlock($id, $parentId, $placeholder, $sort);
 
             $response->setStatusCode(200);
             $response->setData(['state' => 'moved']);
-            //        $response->headers->add(['Location' => $this->generateUrl('opifer_content_api_pagemanager_view_block', ['id' => $block->getId()])]);
         } catch (\Exception $e) {
             $response->setStatusCode(500, 'Exception');
             $response->setData(['error' => $e->getMessage()]);
@@ -178,7 +161,7 @@ class ContentEditorController extends Controller
      *
      * @return JsonResponse
      */
-    public function makeSharedAction(Request $request, $type, $typeId, $ownerId, $version)
+    public function makeSharedAction(Request $request, $type, $typeId, $ownerId)
     {
         $this->getDoctrine()->getManager()->getFilters()->disable('draftversion');
 
@@ -189,18 +172,12 @@ class ContentEditorController extends Controller
         $id       = (int)$request->request->get('id');
 
         try {
-            $newVersion = $manager->getNewVersion($manager->find($id, $version));
-
-            if ($version < $newVersion) {
-                throw new \Exception("Only new versions can be editted. New version is {$newVersion} while you requested {$version}");
-            }
-
             /** @var PointerBlock $pointerBlock */
-            $pointerBlock = $manager->makeBlockShared($id, $version);
+            $pointerBlock = $manager->makeBlockShared($id);
 
             $response->setStatusCode(200);
             $response->setData(['state' => 'created', 'id' => $pointerBlock->getId()]);
-            $response->headers->add(['Location' => $this->generateUrl('opifer_content_api_contenteditor_view_block', ['type' => $type, 'typeId' => $typeId, 'id' => $pointerBlock->getId(), 'rootVersion' => $version])]);
+            $response->headers->add(['Location' => $this->generateUrl('opifer_content_api_contenteditor_view_block', ['type' => $type, 'typeId' => $typeId, 'id' => $pointerBlock->getId()])]);
         } catch (\Exception $e) {
             $response->setStatusCode(500, 'Exception');
             $response->setData(['error' => $e->getMessage()]);
@@ -258,18 +235,12 @@ class ContentEditorController extends Controller
         $typeId      = (int) $request->request->get('typeId');
 
         try {
-            $newVersion = $manager->getNewVersion($manager->find($id, $version));
-
-            if ($version < $newVersion) {
-                throw new \Exception("Only new versions can be published. New version is {$newVersion} while you requested {$version}");
-            }
-
             $block = $manager->find($id);
-            $manager->publish($block, $version);
+            $manager->publish($block);
 
             /** @var AbstractDesignSuite $suite */
             $suite = $this->get(sprintf('opifer.content.%s_design_suite', $type));
-            $suite->load($typeId, $version)->postPublish();
+            $suite->load($typeId, $manager->getNewVersion($block))->postPublish();
 
             $response->setStatusCode(200);
             $response->setData(['state' => 'published']);
@@ -292,14 +263,15 @@ class ContentEditorController extends Controller
     public function discardBlockAction(Request $request)
     {
         $this->getDoctrine()->getManager()->getFilters()->disable('draftversion');
+
         /** @var BlockManager $manager */
         $manager = $this->get('opifer.content.block_manager');
+
         $response = new JsonResponse;
         $id = (int) $request->request->get('id');
-        $rootVersion = (int) $request->request->get('version');
 
         try {
-            $manager->discardAll($id, $rootVersion);
+            $manager->discardAll($id);
 
             $response->setStatusCode(200);
             $response->setData(['state' => 'discarded']);

@@ -86,7 +86,7 @@ class ContentEditorController extends Controller
 
         /** @var Environment $environment */
         $environment = $this->get(sprintf('opifer.content.block_%s_environment', $type));
-        $environment->load($id, $version);
+        $environment->load($id)->setVersion((int) $version);
         $environment->setBlockMode('manage');
 
         return $this->render($environment->getView(), $environment->getViewParameters());

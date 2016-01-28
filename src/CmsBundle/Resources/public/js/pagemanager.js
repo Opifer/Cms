@@ -198,7 +198,7 @@ $(document).ready(function() {
         };
 
         var refreshBlock = function (id) {
-            $.get(Routing.generate('opifer_content_api_contenteditor_view_block', {type: ownerType, typeId: typeId, id: id, rootVersion: version})).done(function (data) {
+            $.get(Routing.generate('opifer_content_api_contenteditor_view_block', {type: ownerType, typeId: typeId, id: id})).done(function (data) {
                 getBlockElement(id).replaceWith(data.view);
                 showToolbars();
             });
@@ -290,7 +290,7 @@ $(document).ready(function() {
                 isLoadingEdit();
                 selectBlock(id);
 
-                $.get(Routing.generate('opifer_content_contenteditor_edit_block', {id: editId, rootVersion: version})).success(function (data) {
+                $.get(Routing.generate('opifer_content_contenteditor_edit_block', {id: editId})).success(function (data) {
                     $('#pm-block-edit').html(data);
 
                     // Bootstrap AngularJS app (media library etc) after altering DOM
@@ -346,7 +346,7 @@ $(document).ready(function() {
                         className: 'btn-primary',
                         callback: function() {
 
-                            $.post(Routing.generate('opifer_content_api_contenteditor_make_shared', {type: ownerType, typeId: typeId, ownerId: ownerId, version: version}), {id: id}).done(function (data, textStatus, request) {
+                            $.post(Routing.generate('opifer_content_api_contenteditor_make_shared', {type: ownerType, typeId: typeId, ownerId: ownerId}), {id: id}).done(function (data, textStatus, request) {
                                 var viewUrl = request.getResponseHeader('Location');
                                 var newId = data.id;
                                 var reference = getBlockElement(id);
@@ -376,7 +376,7 @@ $(document).ready(function() {
         // Delete block
         var deleteBlock = function (id) {
             $.ajax({
-                url: Routing.generate('opifer_content_api_contenteditor_remove_block', {id: id, rootVersion: version}),
+                url: Routing.generate('opifer_content_api_contenteditor_remove_block', {id: id}),
                 type: 'DELETE',
                 dataType: 'json', // Choosing a JSON datatype
                 success: function (data) {
@@ -394,7 +394,7 @@ $(document).ready(function() {
         // Call API to create a new block
         //
         var createBlock = function (block, reference) {
-            $.post(Routing.generate('opifer_content_api_contenteditor_create_block', {type: ownerType, typeId: typeId, ownerId: ownerId, rootVersion: version}), block).done(function (data, textStatus, request) {
+            $.post(Routing.generate('opifer_content_api_contenteditor_create_block', {type: ownerType, typeId: typeId, ownerId: ownerId}), block).done(function (data, textStatus, request) {
                 var viewUrl = request.getResponseHeader('Location');
                 var id = data.id;
 
@@ -477,6 +477,7 @@ $(document).ready(function() {
                 $(this).addClass('hovered');
             });
 
+
             $('.pm-block-item').draggable({
                 appendTo: '#pm-list-group-container',
                 helper: 'clone',
@@ -558,10 +559,10 @@ $(document).ready(function() {
                 start: function (event, ui) {
                     $(this).addClass('pm-accept').closest('.pm-layout').addClass('pm-accept');
                     iFrame.contents().find('.pm-preview').addClass('pm-dragging');
+                    //console.log(event, ui);
                 },
                 stop: function (event, ui) {
                     $(document).scrollTop(0); // Fix for dissappearing .navbar.
-                    console.log('Stopped sorting:', ui.placeholder);
                     iFrame.contents().find('.pm-preview').removeClass('pm-dragging');
                     iFrame.contents().find('.pm-block, .pm-placeholder').removeClass('pm-accept');
                     paintEmptyPlaceholders();
@@ -573,7 +574,7 @@ $(document).ready(function() {
                         var parentId = $(ui.item).parent().closest('.pm-layout').attr('data-pm-block-id');
                         var placeholderKey = $(ui.item).closest('.pm-placeholder').attr('data-pm-placeholder-key');
 
-                        $.post(Routing.generate('opifer_content_api_contenteditor_move_block'), {sort: sortOrder, id: blockId, rootVersion: version, parent: parentId, placeholder: placeholderKey}).done(function (data, textStatus, request) {
+                        $.post(Routing.generate('opifer_content_api_contenteditor_move_block'), {sort: sortOrder, id: blockId, parent: parentId, placeholder: placeholderKey}).done(function (data, textStatus, request) {
                             //console.log("Block moved", data);
                             updateVersionPicker();
                         }).error(function(data){
@@ -585,7 +586,6 @@ $(document).ready(function() {
 
             return this;
         };
-
 
         // Find placeholders for this layout specifically.
         var highlightPlaceholders = function(layoutId) {
@@ -634,7 +634,7 @@ $(document).ready(function() {
                         label: 'Discard',
                         className: 'btn-danger',
                         callback: function() {
-                            $.post(Routing.generate('opifer_content_api_contenteditor_discard'), {id: ownerId, version: version}).done(function (data, textStatus, request) {
+                            $.post(Routing.generate('opifer_content_api_contenteditor_discard'), {id: ownerId}).done(function (data, textStatus, request) {
                                 updateVersionPicker();
                                 bootbox.alert("Discarded.", function() {});
                             }).error(function(data){
@@ -660,7 +660,7 @@ $(document).ready(function() {
                         className: 'btn-primary',
                         callback: function() {
                             versionPublished = version;
-                            $.post(Routing.generate('opifer_content_api_contenteditor_publish'), {id: ownerId, version: version, type: ownerType, typeId: typeId}).done(function (data, textStatus, request) {
+                            $.post(Routing.generate('opifer_content_api_contenteditor_publish'), {id: ownerId, type: ownerType, typeId: typeId}).done(function (data, textStatus, request) {
                                 version++;
                                 updateVersionPicker();
                                 loadVersion(version);

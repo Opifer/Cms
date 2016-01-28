@@ -20,13 +20,9 @@ class ContentEnvironment extends TemplateEnvironment
     /**
      * {@inheritDoc}
      */
-    public function load($id = 0, $version = false)
+    public function load($id = 0)
     {
         $this->content = $this->contentManager->getRepository()->find($id);
-
-        if ($version) {
-            $this->versionMap[$this->content->getBlock()->getId()] = $version;
-        }
 
         if ( ! $this->content) {
             throw $this->createNotFoundException('No content found for id ' . $id);
