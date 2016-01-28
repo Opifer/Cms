@@ -7,7 +7,6 @@ parameters:
     opifer.eav.form.date_picker_type.class: 'Opifer\EavBundle\Form\Type\DatePickerType'
     opifer.eav.form.datetime_picker_type.class: 'Opifer\EavBundle\Form\Type\DateTimePickerType'
     opifer.eav.form.eav_type.class: 'Opifer\EavBundle\Form\Type\EavType'
-    opifer.eav.form.eav_post_type.class: 'Opifer\EavBundle\Form\Type\EavPostType'
     opifer.eav.form.eav_value.class: 'Opifer\EavBundle\Form\Type\ValueType'
     opifer.eav.form.fauxtype.class: 'Opifer\EavBundle\Form\Type\FauxType'
     opifer.eav.form.option_type.class: 'Opifer\EavBundle\Form\Type\OptionType'
@@ -18,7 +17,6 @@ parameters:
     opifer.eav.form.values_type.class: 'Opifer\EavBundle\Form\Type\ValuesType'
     opifer.eav.form.valueset_type.class: 'Opifer\EavBundle\Form\Type\ValueSetType'
     opifer.eav.schema_manager.class: 'Opifer\EavBundle\Model\SchemaManager'
-    opifer.eav.twig_extension.class: 'Opifer\EavBundle\Templating\TwigExtension'
     opifer.eav.value_provider.pool.class: 'Opifer\EavBundle\ValueProvider\Pool'
 
 services:
@@ -75,12 +73,6 @@ services:
         arguments: ['@router']
         tags:
             - { name: form.type, alias: eav }
-
-    opifer.eav.form.eav_post_type:
-        class: '%opifer.eav.form.eav_post_type.class%'
-        arguments: ['@router']
-        tags:
-            - { name: form.type, alias: eav_post }
 
     opifer.eav.form.schema_type:
         class: '%opifer.eav.form.schema_type.class%'

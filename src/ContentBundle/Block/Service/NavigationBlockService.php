@@ -6,34 +6,29 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\EntityManager;
 use Opifer\ContentBundle\Block\Tool\ContentTool;
 use Opifer\ContentBundle\Block\Tool\ToolsetMemberInterface;
-use Opifer\ContentBundle\Entity\ListBlock;
+use Opifer\ContentBundle\Entity\NavigationBlock;
 use Opifer\ContentBundle\Model\BlockInterface;
-use Opifer\ContentBundle\Model\ContentManagerInterface;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Bundle\FrameworkBundle\Templating\EngineInterface;
-use Symfony\Component\Form\CallbackTransformer;
-use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\Form\FormInterface;
 
 /**
  * Content Collection Block Service
  */
-class ListBlockService extends AbstractBlockService implements BlockServiceInterface, ToolsetMemberInterface
+class NavigationBlockService extends AbstractBlockService implements BlockServiceInterface, ToolsetMemberInterface
 {
-    /** @var ContentManagerInterface */
-    protected $contentManager;
+    /** @var EntityManager */
+    protected $em;
     protected $view = 'OpiferContentBundle:Block:Content/list.html.twig';
 
     /**
      * @param EngineInterface $templating
      * @param EntityManager   $em
      */
-    public function __construct(EngineInterface $templating, ContentManagerInterface $contentManager)
+    public function __construct(EngineInterface $templating, EntityManager $em)
     {
         parent::__construct($templating);
 
-        $this->contentManager = $contentManager;
+        $this->em = $em;
     }
 
     /**
@@ -41,7 +36,7 @@ class ListBlockService extends AbstractBlockService implements BlockServiceInter
      */
     public function getName(BlockInterface $block = null)
     {
-        return 'List';
+        return 'Navigation';
     }
 
     /**
@@ -54,19 +49,19 @@ class ListBlockService extends AbstractBlockService implements BlockServiceInter
         // Default panel
         $builder->add(
             $builder->create('default', 'form', ['virtual' => true])
-                ->add('value', 'content_list_picker', [
-                    'label'    => 'collection',
-                    'multiple' => true,
-                    'property' => 'title',
-                    'class'    => 'Opifer\CmsBundle\Entity\Content',
-                    'data'     => $options['data']->getValue()
-                ])
+                //->add('value', 'content_list_picker', [
+                //    'label'    => 'collection',
+                //    'multiple' => true,
+                //    'property' => 'title',
+                //    'class'    => 'Opifer\CmsBundle\Entity\Content',
+                //    'data'     => $options['data']->getValue()
+                //])
         );
     }
 
     public function load(BlockInterface $block)
     {
-        $collection = $this->contentManager->getRepository()
+        $collection = $this->em->getRepository('OpiferCmsBundle:Content')
             ->createQueryBuilder('c')
             ->where('c.id IN (:ids)')->setParameter('ids', json_decode($block->getValue()))
             ->getQuery()
@@ -82,7 +77,7 @@ class ListBlockService extends AbstractBlockService implements BlockServiceInter
      */
     public function createBlock()
     {
-        return new ListBlock();
+        return new NavigationBlock();
     }
 
     /**
@@ -90,10 +85,10 @@ class ListBlockService extends AbstractBlockService implements BlockServiceInter
      */
     public function getTool()
     {
-        $tool = new ContentTool('List', 'OpiferContentBundle:ListBlock');
+        $tool = new ContentTool('Navigation', 'OpiferContentBundle:NavigationBlock');
 
         $tool->setIcon('view_list')
-            ->setDescription('Adds references to a collection of content items');
+            ->setDescription('');
 
         return $tool;
     }

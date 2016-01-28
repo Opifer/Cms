@@ -7,11 +7,11 @@ use Opifer\MediaBundle\Model\MediaInterface;
 use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
- * SlideBlock
+ * Carousel Slide Block
  *
  * @ORM\Entity
  */
-class SlideBlock extends Block
+class CarouselSlideBlock extends Block
 {
     /**
      * @var MediaInterface

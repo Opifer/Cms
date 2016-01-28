@@ -116,9 +116,7 @@ class UserController extends Controller
         if ($form->isValid()) {
             $this->get('fos_user.user_manager')->updateUser($user, true);
 
-            $this->addFlash('success', $this->get('translator')->trans('user.edit.success', [
-                '%username%' => ucfirst($user->getUsername()),
-            ]));
+            $this->addFlash('success', 'Your profile was updated successfully!');
 
             return $this->redirectToRoute('opifer_cms_user_profile');
         }

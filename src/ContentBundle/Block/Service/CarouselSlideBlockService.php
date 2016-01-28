@@ -4,17 +4,17 @@ namespace Opifer\ContentBundle\Block\Service;
 
 use Opifer\ContentBundle\Block\Tool\ContentTool;
 use Opifer\ContentBundle\Block\Tool\ToolsetMemberInterface;
-use Opifer\ContentBundle\Entity\SlideBlock;
+use Opifer\ContentBundle\Entity\CarouselSlideBlock;
 use Opifer\ContentBundle\Model\BlockInterface;
 use Opifer\MediaBundle\Form\Type\MediaPickerType;
 use Symfony\Component\Form\FormBuilderInterface;
 
 /**
- * Slide Block Service
+ * Carousel Slide Block Service
  */
-class SlideBlockService extends AbstractBlockService implements BlockServiceInterface, ToolsetMemberInterface
+class CarouselSlideBlockService extends AbstractBlockService implements BlockServiceInterface, ToolsetMemberInterface
 {
-    protected $view = 'OpiferContentBundle:Block:Content/slide.html.twig';
+    protected $view = 'OpiferContentBundle:Block:Content/carousel_slide.html.twig';
 
     /** @var array */
     protected $styles;
@@ -24,7 +24,7 @@ class SlideBlockService extends AbstractBlockService implements BlockServiceInte
      */
     public function getName(BlockInterface $block = null)
     {
-        return 'Slide';
+        return 'Carousel slide';
     }
 
     /**
@@ -69,7 +69,7 @@ class SlideBlockService extends AbstractBlockService implements BlockServiceInte
      */
     public function createBlock()
     {
-        return new SlideBlock;
+        return new CarouselSlideBlock();
     }
 
     /**
@@ -93,7 +93,7 @@ class SlideBlockService extends AbstractBlockService implements BlockServiceInte
      */
     public function getTool()
     {
-        $tool = new ContentTool('Slide', 'OpiferContentBundle:SlideBlock');
+        $tool = new ContentTool('Carousel slide', 'OpiferContentBundle:CarouselSlideBlock');
 
         $tool->setIcon('filter')
             ->setDescription('A basic carousel slide');
