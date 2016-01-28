@@ -1,15 +1,11 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: dylan
- * Date: 21/01/16
- * Time: 09:48
- */
 
 namespace Opifer\ContentBundle\Designer;
 
+use Opifer\ContentBundle\Environment\Environment;
 use Opifer\ContentBundle\Model\BlockInterface;
 use Symfony\Component\Intl\Exception\NotImplementedException;
+use Symfony\Component\Routing\RouterInterface;
 
 abstract class AbstractDesignSuite implements DesignSuiteInterface
 {
@@ -27,8 +23,6 @@ abstract class AbstractDesignSuite implements DesignSuiteInterface
      * @var int
      */
     protected $version;
-
-
 
     /**
      * @return AbstractDesignSuite

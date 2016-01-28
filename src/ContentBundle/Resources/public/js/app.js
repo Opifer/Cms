@@ -1,9 +1,13 @@
 $(document).ready(function() {
-    loadListTree()
+    loadListTree();
+
+    loadDatePickers();
 });
 
 $(document).ajaxComplete(function() {
-    loadListTree()
+    loadListTree();
+
+    loadDatePickers();
 });
 
 function loadListTree() {
@@ -26,4 +30,15 @@ function loadListTree() {
         $(this).closest('.tree').find('li.selected').removeClass('selected');
         $(this).parent('li').addClass('selected');
     });
+}
+
+function loadDatePickers()
+{
+    $('.datetimepicker').datetimepicker({
+        format: 'YYYY-MM-DD HH:mm'
+    });
+
+    $('.datepicker').datetimepicker({
+        format: 'YYYY-MM-DD'
+    })
 }

@@ -32,6 +32,8 @@ gulp.task('js', function () {
         'Resources/public/components/angular-ui-sortable/sortable.js',
         'Resources/public/components/angular-loading-bar/build/loading-bar.js',
         'Resources/public/components/bootstrap/dist/js/bootstrap.js',
+        'Resources/public/components/moment/min/moment.min.js',
+        'Resources/public/components/eonasdan-bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js',
         'Resources/public/components/dropzone/dist/dropzone.js',
         'Resources/public/components/iframe-resizer/src/iframeResizer.js',
         'Resources/public/components/ngInfiniteScroll/build/ng-infinite-scroll.js',
@@ -67,6 +69,7 @@ gulp.task('css', function () {
         '../MediaBundle/Resources/public/css/main.less',
         '../MediaBundle/Resources/public/css/dropzone.less',
         'Resources/public/components/angular-loading-bar/build/loading-bar.css',
+        'Resources/public/components/eonasdan-bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.css',
         'Resources/public/less/main.less'
         ])
         .pipe(gulpif(/[.]less/, less()))

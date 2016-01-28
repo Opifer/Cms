@@ -30,7 +30,7 @@ services:
 
     opifer.content.collection_block:
         class: '%opifer.content.collection_block.class%'
-        arguments: ['@templating', '@doctrine.orm.entity_manager']
+        arguments: ['@templating', '@opifer.content.content_manager']
         tags:
             - { name: opifer.content.block_service, alias: collection }
 
@@ -48,7 +48,7 @@ services:
 
     opifer.content.list_block:
         class: '%opifer.content.list_block.class%'
-        arguments: ['@templating', '@doctrine.orm.entity_manager']
+        arguments: ['@templating', '@opifer.content.content_manager']
         tags:
             - { name: opifer.content.block_service, alias: list }
 

@@ -8,6 +8,7 @@ use Opifer\ContentBundle\Block\Tool\ContentTool;
 use Opifer\ContentBundle\Block\Tool\ToolsetMemberInterface;
 use Opifer\ContentBundle\Entity\ListBlock;
 use Opifer\ContentBundle\Model\BlockInterface;
+use Opifer\ContentBundle\Model\ContentManagerInterface;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Bundle\FrameworkBundle\Templating\EngineInterface;
 use Symfony\Component\Form\CallbackTransformer;
@@ -20,19 +21,19 @@ use Symfony\Component\Form\FormInterface;
  */
 class ListBlockService extends AbstractBlockService implements BlockServiceInterface, ToolsetMemberInterface
 {
-    /** @var EntityManager */
-    protected $em;
+    /** @var ContentManagerInterface */
+    protected $contentManager;
     protected $view = 'OpiferContentBundle:Block:Content/list.html.twig';
 
     /**
      * @param EngineInterface $templating
      * @param EntityManager   $em
      */
-    public function __construct(EngineInterface $templating, EntityManager $em)
+    public function __construct(EngineInterface $templating, ContentManagerInterface $contentManager)
     {
         parent::__construct($templating);
 
-        $this->em = $em;
+        $this->contentManager = $contentManager;
     }
 
     /**
@@ -65,7 +66,7 @@ class ListBlockService extends AbstractBlockService implements BlockServiceInter
 
     public function load(BlockInterface $block)
     {
-        $collection = $this->em->getRepository('OpiferCmsBundle:Content')
+        $collection = $this->contentManager->getRepository()
             ->createQueryBuilder('c')
             ->where('c.id IN (:ids)')->setParameter('ids', json_decode($block->getValue()))
             ->getQuery()
