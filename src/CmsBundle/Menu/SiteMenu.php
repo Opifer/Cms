@@ -9,12 +9,6 @@ use Knp\Menu\MenuItem as KnpMenu;
 
 /**
  * Dynamic menu builder.
- *
- * Checking access:
- * $this->security->isGranted('ROLE_SUPER_ADMIN')
- *
- * Get database data:
- * $this->em->getRepository('OpiferCmsBundle:Menu')->findAll()
  */
 class SiteMenu extends MenuBuilder implements MenuInterface
 {
