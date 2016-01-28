@@ -324,7 +324,7 @@ $(document).ready(function() {
 
         var closeEditBlock = function (id) {
             unselectBlock(id);
-            $('#pm-block-edit').addClass('hidden');
+            $('#pm-block-edit').attr('data-pm-block-id', '').addClass('hidden');
         };
 
         var clearEditBlock = function () {

@@ -9,6 +9,7 @@ use Opifer\ContentBundle\Model\BlockInterface;
 use Gedmo\Loggable\Mapping\Event\LoggableAdapter;
 use Gedmo\Tool\Wrapper\AbstractWrapper;
 use Doctrine\ORM\UnitOfWork;
+use Doctrine\ORM\Mapping\ClassMetadata;
 
 /**
  * Loggable listener
@@ -139,7 +140,7 @@ class LoggableListener extends BaseLoggableListener
                 }
 
                 if ($action !== self::ACTION_CREATE) {
-                    $uow->clearEntityChangeSet(spl_object_hash($object));
+                    $this->resetVersionedData($ea, $object);
 //                    $uow->detach($object);
                 }
 
@@ -157,5 +158,45 @@ class LoggableListener extends BaseLoggableListener
         }
 
         return null;
+    }
+
+
+    protected function resetVersionedData($ea, $object)
+    {
+        $om        = $ea->getObjectManager();
+        $wrapped   = AbstractWrapper::wrap($object, $om);
+        $objectMeta = $wrapped->getMetadata();
+        $meta      = $wrapped->getMetadata();
+        $config    = $this->getConfiguration($om, $meta->name);
+        /** @var UnitOfWork $uow */
+        $uow       = $om->getUnitOfWork();
+
+        foreach ($ea->getObjectChangeSet($uow, $object) as $field => $changes) {
+            if (empty($config['versioned']) || !in_array($field, $config['versioned'])) {
+                continue;
+            }
+
+            $value = $changes[0];
+//            $this->mapValue($om, $objectMeta, $field, $value);
+            $wrapped->setPropertyValue($field, $value);
+        }
+
+//        $uow->computeChangeSet($objectMeta, $object);
+    }
+
+
+    /**
+     * @param ClassMetadata $objectMeta
+     * @param string        $field
+     * @param mixed         $value
+     */
+    protected function mapValue($om, ClassMetadata $objectMeta, $field, &$value)
+    {
+        if (!$objectMeta->isSingleValuedAssociation($field)) {
+            return;
+        }
+
+        $mapping = $objectMeta->getAssociationMapping($field);
+        $value   = $value ? $om->getReference($mapping['targetEntity'], $value) : null;
     }
 }

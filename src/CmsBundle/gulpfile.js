@@ -44,7 +44,6 @@ gulp.task('js', function () {
         'Resources/public/components/mprogress/mprogress.min.js',
         'Resources/public/components/ng-file-upload/angular-file-upload.min.js',
         'Resources/public/components/typeahead.js/dist/typeahead.bundle.js',
-        'Resources/public/components/jqtree/tree.jquery.js',
         '../../../../braincrafted/bootstrap-bundle/Braincrafted/Bundle/BootstrapBundle/Resources/js/bc-bootstrap-collection.js',
         '../../../../infinite-networks/form-bundle/Resources/public/js/collections.js',
         'Resources/public/js/split-pane.js',
@@ -89,7 +88,6 @@ gulp.task('css', function () {
         '../MediaBundle/Resources/public/css/main.less',
         '../MediaBundle/Resources/public/css/dropzone.less',
         'Resources/public/components/angular-loading-bar/build/loading-bar.css',
-        'Resources/public/components/jqtree/jqtree.css',
         'Resources/public/components/eonasdan-bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.css',
         'Resources/public/less/main.less'
     ];
