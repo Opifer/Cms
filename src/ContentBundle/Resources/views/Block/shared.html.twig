@@ -7,11 +7,7 @@
             <div class="row">
 
                 <div class="page-header">
-                    <a href="{{ path('opifer_content_contenttype_create') }}" class="btn btn-link pull-right">
-                        <i class="material-icons">add</i>
-                        New content_type
-                    </a>
-                    <h1>Content types</h1>
+                    <h1>{{ "title.block_shared"|trans }}</h1>
                 </div>
                 <table class="table table-striped">
                     <thead>
@@ -22,13 +18,13 @@
                     </tr>
                     </thead>
                     <tbody>
-                    {% for content_type in content_types %}
+                    {% for item in shared %}
                         <tr>
-                            <td>{{ content_type.id }}</td>
-                            <td>{{ content_type.displayname }}</td>
+                            <td>{{ item.id }}</td>
+                            <td>{{ item.displayname }}</td>
                             <td>
-                                <a href="{{ path('opifer_content_contenttype_edit', {'id': content_type.id}) }}"><i class="fa fa-edit"></i> Edit</a>
-                                <a href="{{ path('opifer_content_contenttype_delete', {'id': content_type.id}) }}"><i class="fa fa-remove"></i> Delete</a>
+                                <a href="{{ path('opifer_content_item_edit', {'id': item.id}) }}"><i class="fa fa-edit"></i> Edit</a>
+                                <a href="{{ path('opifer_content_item_delete', {'id': item.id}) }}"><i class="fa fa-remove"></i> Delete</a>
                             </td>
                         </tr>
                     {% endfor %}

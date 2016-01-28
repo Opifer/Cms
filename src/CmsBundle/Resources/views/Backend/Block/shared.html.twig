@@ -1,0 +1,13 @@
+{% extends 'OpiferCmsBundle::base.html.twig' %}
+
+{% block body %}
+    {% spaceless %}
+        <div class="col-xs-12">
+            <div class="page-header">
+                <h1>{{ "title.block_shared"|trans }}</h1>
+            </div>
+        </div>
+
+        {% include 'OpiferCmsBundle:Components:grid.html.twig' with { 'grid': grid } %}
+    {% endspaceless %}
+{% endblock body %}
