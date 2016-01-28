@@ -563,7 +563,6 @@ $(document).ready(function() {
                 },
                 stop: function (event, ui) {
                     $(document).scrollTop(0); // Fix for dissappearing .navbar.
-                    console.log('Stopped sorting:', ui.placeholder);
                     iFrame.contents().find('.pm-preview').removeClass('pm-dragging');
                     iFrame.contents().find('.pm-block, .pm-placeholder').removeClass('pm-accept');
                     paintEmptyPlaceholders();
