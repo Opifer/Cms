@@ -11,6 +11,7 @@ use Opifer\ContentBundle\Model\BlockInterface;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Bundle\FrameworkBundle\Templating\EngineInterface;
+use Doctrine\ORM\EntityRepository;
 
 /**
  * Class PointerBlockService
@@ -19,6 +20,8 @@ use Symfony\Bundle\FrameworkBundle\Templating\EngineInterface;
  */
 class PointerBlockService extends AbstractBlockService implements BlockServiceInterface, ToolsetMemberInterface
 {
+    protected $view = 'OpiferContentBundle:Block:Content/pointer.html.twig'; // Dummy view
+
     /**
      * @var BlockManager
      */
@@ -59,7 +62,7 @@ class PointerBlockService extends AbstractBlockService implements BlockServiceIn
         $parameters = array(
             'block_service'  => $this,
             'pointer'        => $block,
-            'block'          => $block->getReference(),
+            'block'          => $block->getReference() ? $block->getReference() : $block,
             'block_view'     => $this->getView($block),
             'manage_type'    => $this->getManageFormTypeName(),
         );
@@ -72,6 +75,9 @@ class PointerBlockService extends AbstractBlockService implements BlockServiceIn
      */
     public function getView(BlockInterface $block)
     {
+        if (!$block->getReference()) {
+            return $this->view;
+        }
 
         return $this->getReferenceService($block)->getView($block->getReference());
     }
@@ -86,7 +92,7 @@ class PointerBlockService extends AbstractBlockService implements BlockServiceIn
      */
     public function getName(BlockInterface $block = null)
     {
-        if (!$block) {
+        if (!$block || !$block->getReference()) {
             return 'Shared';
         }
 
@@ -99,6 +105,24 @@ class PointerBlockService extends AbstractBlockService implements BlockServiceIn
     public function buildManageForm(FormBuilderInterface $builder, array $options)
     {
 //        parent::buildManageForm($builder, $options);
+
+        // Default panel
+        $builder->add(
+            $builder->create('default', 'form', ['inherit_data' => true])
+                ->add('reference', 'entity', [
+                    'required'      => false,
+                    'label'         => 'label.block',
+                    'class'         => 'OpiferContentBundle:Block',
+                    'property'      => 'sharedDisplayName', // Assuming that the entity has a "name" property
+                    'query_builder' => function (EntityRepository $blockRepository) {
+                        return $blockRepository->createQueryBuilder('b')
+                            ->add('orderBy', 'b.sharedDisplayName ASC')
+                            ->andWhere("b.shared = 1")
+                            ->andWhere("b.owner IS NULL");
+                        ;
+                    },
+                ])
+        );
     }
 
     /**

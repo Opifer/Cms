@@ -130,7 +130,7 @@ class ContentEditorController extends Controller
 
             $service->postFormSubmit($form, $block);
 
-            $manager->save($block, $version);
+            $manager->save($block);
             $updatePreview = true;
         }
 

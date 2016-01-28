@@ -7,20 +7,7 @@
         <a href="#close" class="btn btn-close" id="btn-cancel"><i class="material-icons">close</i></a>
         <div class="row row-space-2">
             <div class="col-xs-12">
-                <h3 class="pull-left">{{ block_service.name(block) }}</h3>
-                <div class="pull-left dropdown">
-                    <button class="btn btn-heading-blend dropdown-toggle" type="button" id="blockEditContextMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                        <i class="material-icons md-18">menu</i>
-                    </button>
-                    <ul class="dropdown-menu" aria-labelledby="blockEditContextMenu">
-                        {% if not block.isShared %}
-                        <li><a href="#" class="pm-btn-make-shared"><i class="material-icons md-18">all_inclusive</i> Make shared</a></li>
-                        {% endif %}
-                        {% if block.isShared %}
-                            <li><a href="#" class="pm-btn-publish-shared"><i class="material-icons md-18">publish</i> Publish</a></li>
-                        {% endif %}
-                    </ul>
-                </div>
+                <h3>{{ block_service.name(block) }}</h3>
             </div>
         </div>
         {% if block.isShared %}
@@ -31,13 +18,25 @@
         </div>
         {% endif %}
         <div class="row row-space-2">
-            <div class="col-xs-8 col-xs-offset-2">
-                <div class="btn-group btn-group-justified">
-                    {% if form.default|default %}<a class="btn btn-default active" href="#block-general" data-toggle="tab">General</a>{% endif %}
-                    <a class="btn btn-default{% if not form.default|default %} active{% endif %}" href="#block-properties" data-toggle="tab">Properties</a>
-                    {% if block.isShared %}<a class="btn btn-default active" href="#block-shared" data-toggle="tab">Shared</a>{% endif %}
-                </div>
-            </div>
+            <ul class="nav nav-tabs nav-tabs-spill">
+                {% if form.default|default %}<li role="presentation" class="active"><a href="#block-general" data-toggle="tab">General</a></li>{% endif %}
+                {% if form.properties is defined %}<li role="presentation"><a {% if not form.default|default %}class="active"{% endif %} href="#block-properties" data-toggle="tab">Properties</a></li>{% endif %}
+                {% if block.isShared %}<li role="presentation"><a href="#block-shared" data-toggle="tab">Shared</a></li>{% endif %}
+                <li class="dropdown pull-right">
+                    <a class="dropdown-toggle" type="button" id="blockEditContextMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                        <i class="material-icons md-18">menu</i>
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="blockEditContextMenu">
+                        {% if not block.isShared %}
+                            <li><a href="#" class="pm-btn-make-shared"><i class="material-icons md-18">all_inclusive</i> Make shared</a></li>
+                        {% endif %}
+                        {% if block.isShared %}
+                            <li><a href="#" class="pm-btn-publish-shared"><i class="material-icons md-18">publish</i> Publish</a></li>
+                        {% endif %}
+                    </ul>
+
+                </li>
+            </ul>
         </div>
         <div class="row">
             <div class="col-xs-12 clearfix">

@@ -2,6 +2,10 @@ title:
     content: Content
     block_shared: Shared blocks
 
+
+label:
+    block: Block
+
 # Content
 content:
     form:
