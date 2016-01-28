@@ -84,7 +84,7 @@ class CarouselBlockService extends AbstractBlockService implements BlockServiceI
         $tool = new ContentTool('Carousel', 'OpiferContentBundle:CarouselBlock');
 
         $tool->setIcon('view_carousel')
-            ->setDescription('Create a carousel of with two or more slides');
+            ->setDescription('Create a carousel of two or more slides');
 
         return $tool;
     }

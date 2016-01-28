@@ -29,13 +29,6 @@ opifer_cms_exception_404:
 opifer_form:
     resource: "@OpiferFormBundle/Resources/config/routing.yml"
 
-opifer_eav_form_submit:
-    pattern: /eav/form/submit/{valueId}
-    defaults: { _controller: OpiferEavBundle:Form:submit }
-    requirements:
-        valueId: "\d+"
-    methods: [POST]
-
 # API routes
 
 opifer_cms_home:

@@ -1,13 +1,15 @@
 //npm install -g gulp
-//npm install --save-dev gulp gulp-if gulp-uglify gulp-uglifycss gulp-less gulp-concat gulp-sourcemaps gulp-watch gulp-livereload gulp-imagemin imagemin-pngquant
+//npm install --save-dev gulp gulp-util gulp-if gulp-uglify gulp-uglifycss gulp-less gulp-concat gulp-sourcemaps gulp-watch gulp-livereload gulp-imagemin imagemin-pngquant
 
 var gulp = require('gulp'),
     gulpif = require('gulp-if'),
     uglify = require('gulp-uglify'),
+    util = require('gulp-util'),
     uglifycss = require('gulp-uglifycss'),
     imagemin = require('gulp-imagemin'),
     pngquant = require('imagemin-pngquant'),
     less = require('gulp-less'),
+    fs = require('fs'),
     concat = require('gulp-concat'),
     sourcemaps = require('gulp-sourcemaps'),
     livereload = require('gulp-livereload'),
@@ -16,7 +18,7 @@ var gulp = require('gulp'),
 
 // JAVASCRIPT TASK: write one minified js file out of jquery.js, bootstrap.js and all of my custom js files
 gulp.task('js', function () {
-    return gulp.src([
+    var files = [
         'Resources/public/components/ng-file-upload/angular-file-upload-shim.min.js',
         'Resources/public/components/jquery/dist/jquery.min.js',
         'Resources/public/components/jquery-ui/ui/jquery-ui.js',
@@ -33,14 +35,16 @@ gulp.task('js', function () {
         'Resources/public/components/angular-ui-sortable/sortable.js',
         'Resources/public/components/angular-loading-bar/build/loading-bar.js',
         'Resources/public/components/bootstrap/dist/js/bootstrap.js',
+        'Resources/public/components/moment/min/moment.min.js',
+        'Resources/public/components/eonasdan-bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js',
         'Resources/public/components/dropzone/dist/dropzone.js',
-        'Resources/public/components/iframe-resizer/src/iframeResizer.js',
         'Resources/public/components/ngInfiniteScroll/build/ng-infinite-scroll.js',
         'Resources/public/components/afkl-lazy-image/release/lazy-image.js',
         'Resources/public/components/bootbox.js/bootbox.js',
         'Resources/public/components/mprogress/mprogress.min.js',
         'Resources/public/components/ng-file-upload/angular-file-upload.min.js',
         'Resources/public/components/typeahead.js/dist/typeahead.bundle.js',
+        'Resources/public/components/jqtree/tree.jquery.js',
         '../../../../braincrafted/bootstrap-bundle/Braincrafted/Bundle/BootstrapBundle/Resources/js/bc-bootstrap-collection.js',
         '../../../../infinite-networks/form-bundle/Resources/public/js/collections.js',
         'Resources/public/js/split-pane.js',
@@ -53,9 +57,26 @@ gulp.task('js', function () {
         '../MediaBundle/Resources/public/js/dropzone.js',
         '../MediaBundle/Resources/public/app/modal/modal.js',
         '../MediaBundle/Resources/public/app/medialibrary/medialibrary.js',
-        '../RedirectBundle/Resources/public/app/ruleeditor/ruleeditor.js',
 
-        'Resources/public/components/ckeditor/ckeditor.js'])
+        'Resources/public/components/ckeditor/ckeditor.js'
+    ];
+
+    files.forEach(function(file) {
+        if (file.indexOf('*') !== -1) {
+            return;
+        }
+
+        fs.stat(file, function(err, stat) {
+            if (err) {
+                throw new util.PluginError({
+                    plugin: 'deploy',
+                    message: file + ' does not exist'
+                });
+            }
+        });
+    });
+
+    return gulp.src(files)
         .pipe(concat('app.js'))
         .pipe(sourcemaps.write('./'))
         .pipe(gulp.dest('Resources/public/js'));
@@ -64,12 +85,31 @@ gulp.task('js', function () {
 
 // CSS TASK: write one minified css file out of bootstrap.less and all of my custom less files
 gulp.task('css', function () {
-    return gulp.src([
+    var files = [
         '../MediaBundle/Resources/public/css/main.less',
         '../MediaBundle/Resources/public/css/dropzone.less',
         'Resources/public/components/angular-loading-bar/build/loading-bar.css',
+        'Resources/public/components/jqtree/jqtree.css',
+        'Resources/public/components/eonasdan-bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.css',
         'Resources/public/less/main.less'
-        ])
+    ];
+
+    files.forEach(function(file) {
+        if (file.indexOf('*') !== -1) {
+            return;
+        }
+
+        fs.stat(file, function(err, stat) {
+            if (err) {
+                throw new util.PluginError({
+                    plugin: 'deploy',
+                    message: file + ' does not exist'
+                });
+            }
+        });
+    });
+
+    return gulp.src(files)
         .pipe(gulpif(/[.]less/, less()))
         .pipe(concat('app.css'))
         .pipe(uglifycss())

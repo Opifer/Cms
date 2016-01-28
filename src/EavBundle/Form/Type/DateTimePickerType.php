@@ -16,16 +16,16 @@ class DateTimePickerType extends AbstractType
         $resolver->setDefaults([
             'widget' => 'single_text',
             'format' => 'yyyy-MM-dd HH:mm',
-            'attr' => ['class' => 'datetimepicker']
+            'attr' => ['class' => 'datetimepicker'],
         ]);
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getParent()
     {
-        return 'datetime';
+        return DateTimeType::class;
     }
 
     /**
@@ -33,7 +33,7 @@ class DateTimePickerType extends AbstractType
      */
     public function getName()
     {
-        return 'opifer_eav_datetime_picker';
+        return $this->getBlockPrefix();
     }
 
     /**

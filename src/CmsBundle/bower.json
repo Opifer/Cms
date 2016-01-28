@@ -4,6 +4,7 @@
     "jquery": ">=1.11",
     "jquery-ui": "~1.10.2",
     "bootstrap": "~3.3.6",
+    "eonasdan-bootstrap-datetimepicker": "~4.17",
     "angular": "~1.4.9",
     "angular-resource": "~1.4.9",
     "angular-route": "~1.4.9",

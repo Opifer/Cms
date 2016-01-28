@@ -70,7 +70,7 @@ class ContentListPickerType extends AbstractType
      */
     public function getParent()
     {
-        return 'entity';
+        return EntityType::class;
     }
 
     /**

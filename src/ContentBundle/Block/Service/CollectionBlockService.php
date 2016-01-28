@@ -8,6 +8,7 @@ use Opifer\ContentBundle\Block\Tool\ContentTool;
 use Opifer\ContentBundle\Block\Tool\ToolsetMemberInterface;
 use Opifer\ContentBundle\Entity\CollectionBlock;
 use Opifer\ContentBundle\Model\BlockInterface;
+use Opifer\ContentBundle\Model\ContentManagerInterface;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Bundle\FrameworkBundle\Templating\EngineInterface;
 use Symfony\Component\Form\CallbackTransformer;
@@ -23,19 +24,19 @@ use Symfony\Component\Form\FormInterface;
  */
 class CollectionBlockService extends AbstractBlockService implements BlockServiceInterface, ToolsetMemberInterface
 {
-    /** @var EntityManager */
-    protected $em;
+    /** @var ContentManagerInterface */
+    protected $contentManager;
     protected $view = 'OpiferContentBundle:Block:Content/collection.html.twig';
 
     /**
-     * @param EngineInterface $templating
-     * @param EntityManager   $em
+     * @param EngineInterface         $templating
+     * @param ContentManagerInterface $contentManager
      */
-    public function __construct(EngineInterface $templating, EntityManager $em)
+    public function __construct(EngineInterface $templating, ContentManagerInterface $contentManager)
     {
         parent::__construct($templating);
 
-        $this->em = $em;
+        $this->contentManager = $contentManager;
     }
 
     /**
@@ -83,7 +84,7 @@ class CollectionBlockService extends AbstractBlockService implements BlockServic
     {
         $properties = $block->getProperties();
 
-        $qb = $this->em->getRepository('OpiferCmsBundle:Content')
+        $qb = $this->contentManager->getRepository()
             ->createQueryBuilder('c');
 
         if (isset($properties['order_by'])) {
