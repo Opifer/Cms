@@ -36,7 +36,7 @@
 {% endblock block_manage_default %}
 
 {% block block_manage_pointer %}
-    <div class="pm-block pm-content" data-pm-block-id="{{ pointer.id }}" data-pm-block-reference-id="{{ block.id }}" data-pm-block-owner-id="{{ pointer.owner.id }}">
+    <div class="pm-block pm-content pm-shared" data-pm-block-id="{{ pointer.id }}" data-pm-block-reference-id="{{ block.id }}" data-pm-block-owner-id="{{ pointer.owner.id }}">
         <div class="pm pm-toolbar clearfix hidden">
             <div class="pm-toolbar-text"><code>{{ block.id }}</code> {{ block_service.name }}</div>
             <div class="pm-btn-group">

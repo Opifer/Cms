@@ -27,8 +27,11 @@ $(document).ready(function() {
         var VIEWMODE_PREVIEW = 'PREVIEW';
         var iFrame = $('#pm-iframe');
         var permalink = null;
+        var splitPane = $('.split-pane');
+        var settings = {rightColumnWidth: 380};
 
         var onReady = function () {
+
             mprogress = new Mprogress({
                 template: 3
             });
@@ -68,7 +71,11 @@ $(document).ready(function() {
             permalink = $('#pm-document').attr('data-pm-permalink');
 
             // Split page library
-            $('.split-pane').splitPane();
+            splitPane.splitPane();
+            splitPane.on('dividerdragend', function (event, data) {
+                settings.rightColumnWidth = data.lastComponentSize;
+                saveSettings();
+            });
 
             $(document).ajaxStart(function (e) {
                 isLoading();
@@ -154,6 +161,10 @@ $(document).ready(function() {
                 publishShared($(this).closest('form').attr('data-pm-block-id'));
             });
 
+            var cookieSettings = Cookies.getJSON('pmSettings');
+            jQuery.extend(settings, cookieSettings);
+
+            applySettings();
 
             window.onbeforeunload = function() {
                 if (hasUnsavedChanges) {
@@ -176,6 +187,14 @@ $(document).ready(function() {
         var isNotLoading = function () {
             mprogress.end();
             $('#pm-navbar').removeClass('isloading');
+        };
+
+        var applySettings = function () {
+            splitPane.splitPane('lastComponentSize', settings.rightColumnWidth);
+        };
+
+        var saveSettings = function () {
+            Cookies.set('pmSettings', settings);
         };
 
         var refreshBlock = function (id) {

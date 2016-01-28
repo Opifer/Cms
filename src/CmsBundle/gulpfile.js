@@ -20,6 +20,7 @@ gulp.task('js', function () {
         'Resources/public/components/ng-file-upload/angular-file-upload-shim.min.js',
         'Resources/public/components/jquery/dist/jquery.min.js',
         'Resources/public/components/jquery-ui/ui/jquery-ui.js',
+        'Resources/public/components/js-cookie/src/js.cookie.js',
         'Resources/public/components/speakingurl/lib/speakingurl.js',
         'Resources/public/components/jquery-slugify/dist/slugify.js',
         'Resources/public/components/underscore/underscore.js',

@@ -13,7 +13,7 @@ use Symfony\Component\HttpFoundation\Response;
 class ContentTypeController extends BaseContentTypeController
 {
     /**
-     * @return Response
+     * {@inheritdoc}
      */
     public function indexAction()
     {
