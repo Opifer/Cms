@@ -207,7 +207,7 @@
     #btn-cancel {
         position: absolute;
         right: 0;
-        top: 0;
+        top: 10px;
         color: @gray-light;
         z-index: 100;
 
@@ -259,7 +259,7 @@
             &.active:hover > a,
             &.active > a {
                 font-weight: normal;
-                color: #fff;
+                color: #FFC000;
                 background: #555;
                 border-color: #555;
                 z-index: 700;
@@ -496,9 +496,15 @@
     .close {
         .material-icons;
         content: "close";
-        top: 8px;
+        top: 4px;
         position: absolute;
-        right: 12px;
+        right: 6px;
+        color: @gray;
+        opacity: 1;
+
+        &:hover {
+            color: @gray-darker;
+        }
     }
 
     .modal-content {
@@ -512,17 +518,15 @@
     }
 
     .modal-footer {
-        background: @gray-bg-lighter;
+        border: 0;
 
         .btn {
             &.btn-primary:focus {
                 border-color: @btn-primary-border;
                 outline: 0;
-                .box-shadow(~"0 1px 0 rgba(0,0,0,.2)");
             }
 
             .button-size(5px; 20px; @font-size-base; @line-height-base; 0);
-            box-shadow: 0 1px 0 fade( darken(@brand-primary, 25%), 10%);
         }
     }
 }

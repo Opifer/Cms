@@ -54,6 +54,20 @@ opifer_content_api_contenteditor_remove_block:
     options:
         expose: true
 
+opifer_content_api_contenteditor_make_shared:
+    path: /contenteditor/makeshared/{type}/{typeId}/{ownerId}/{version}
+    defaults: { _controller: OpiferContentBundle:Api/ContentEditor:makeShared }
+    methods: [POST]
+    options:
+        expose: true
+
+opifer_content_api_contenteditor_publish_shared:
+    path: /contenteditor/publishshared
+    defaults: { _controller: OpiferContentBundle:Api/ContentEditor:publishShared }
+    methods: [POST]
+    options:
+        expose: true
+
 opifer_content_api_contenteditor_publish:
     path: /contenteditor/publish
     defaults: { _controller: OpiferContentBundle:Api/ContentEditor:publishBlock }

@@ -13,6 +13,16 @@
     .tile-img {
         color: white;
         margin-bottom: @line-height-computed;
+        transition: transform 100ms;
+
+        &:hover {
+            transform: scale(1.05);
+            z-index: 100;
+
+            .tile-body {
+                box-shadow: 0 5px 15px rgba(0,0,0,.3);
+            }
+        }
 
         a {
             color: white;
@@ -20,7 +30,7 @@
 
         .tile-body {
             position: relative;
-            height: 200px;
+            height: 180px;
             overflow: hidden;
             background: @gray-lighter;
             background-size: cover;
@@ -40,7 +50,7 @@
         .text {
             position: absolute;
             z-index: 11;
-            padding: 90px @padding-large-horizontal @padding-large-vertical;
+            padding: 70px @padding-large-horizontal @padding-large-vertical;
             height: inherit;
             #gradient > .vertical(rgba(0,0,0,.05), rgba(0,0,0,.5), 30%, 100%);
             width: 100%;

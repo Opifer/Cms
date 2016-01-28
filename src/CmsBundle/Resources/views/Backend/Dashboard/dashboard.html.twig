@@ -19,23 +19,21 @@
                         {% for item in latest_content %}
                             {% block content_tile %}
                             <article class="tile-img col-md-6 col-lg-4 {% if not item.coverImage %}tile-noimg{% endif %}">
-                                <a href="{{ path('opifer_content_contenteditor_design', {'type': 'content', 'id' : item.id }) }}">
-                                    <div class="tile-body"  {% if item.coverImage %}style="background-image: url({{ item.coverImage|imagine_filter('dashboard_content') }})" {% endif %}>
-                                        <div class="text">
-                                            <span class="title">{{ item.title }}</span>
-                                            <span class="permalink">{{ item.slug }}</span>
+                                <div class="tile-body"  {% if item.coverImage %}style="background-image: url({{ item.coverImage|imagine_filter('dashboard_content') }})" {% endif %}>
+                                    <div class="text">
+                                        <a href="{{ path('opifer_content_contenteditor_design', {'type': 'content', 'id' : item.id }) }}" class="title">{{ item.title }}</a>
+                                        <a href="{{ path('_content', {'slug': item.slug}) }}" class="permalink small" target="_blank">{{ path('_content', {'slug': item.slug}) }}</a>
+                                    </div>
+                                    <div class="author">
+                                        <div class="avatar">
+                                            <i class="material-icons md-36">account_circle</i>
                                         </div>
-                                        <div class="author">
-                                            <div class="avatar">
-                                                <i class="material-icons md-36">account_circle</i>
-                                            </div>
-                                            <div class="details">
-                                                <span class="name">{{ item.author.username }}</span>
-                                                <span class="date">{{ item.updatedAt|localizeddate('medium') }}</span>
-                                            </div>
+                                        <div class="details">
+                                            <span class="name">{{ item.author.username }}</span>
+                                            <span class="date">{{ item.updatedAt|localizeddate('medium') }}</span>
                                         </div>
                                     </div>
-                                </a>
+                                </div>
                             </article>
                             {% endblock content_tile %}
                         {% endfor %}

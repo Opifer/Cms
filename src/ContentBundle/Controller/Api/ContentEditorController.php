@@ -2,7 +2,9 @@
 
 namespace Opifer\ContentBundle\Controller\Api;
 
+use Imagine\Image\Point;
 use Opifer\ContentBundle\Block\ContentBlockAdapter;
+use Opifer\ContentBundle\Entity\PointerBlock;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -77,7 +79,7 @@ class ContentEditorController extends Controller
             $newVersion = $manager->getNewVersion($manager->find($ownerId, (int) $rootVersion));
 
             if ((int) $rootVersion < $newVersion) {
-                throw new \Exception("Only new versions can be editted. New version is {$newVersion} while you requested {$rootVersion}");
+                throw new \Exception("Only new versions can be edited. New version is {$newVersion} while you requested {$rootVersion}");
             }
 
             $block = $manager->createBlock($ownerId, $className, $parentId, $placeholder, $sort, $data, $rootVersion);
@@ -113,7 +115,7 @@ class ContentEditorController extends Controller
             $newVersion = $manager->getNewVersion($manager->find($id, $rootVersion));
 
             if ((int) $rootVersion < $newVersion) {
-                throw new \Exception("Only new versions can be editted. New version is {$newVersion} while you requested {$rootVersion}");
+                throw new \Exception("Only new versions can be edited. New version is {$newVersion} while you requested {$rootVersion}");
             }
 
             $block = $manager->find($id, $rootVersion);
@@ -153,7 +155,7 @@ class ContentEditorController extends Controller
             $newVersion = $manager->getNewVersion($manager->find($id, $rootVersion));
 
             if ($rootVersion !== $newVersion) {
-                throw new \Exception("Only new versions can be editted. New version is {$newVersion} while you requested {$rootVersion}");
+                throw new \Exception("Only new versions can be edited. New version is {$newVersion} while you requested {$rootVersion}");
             }
 
             $manager->moveBlock($id, $parentId, $placeholder, $sort, $rootVersion);
@@ -169,6 +171,73 @@ class ContentEditorController extends Controller
         return $response;
     }
 
+    /**
+     * Makes a block shared and created a PointerBlock in its place
+     *
+     * @param Request $request
+     *
+     * @return JsonResponse
+     */
+    public function makeSharedAction(Request $request, $type, $typeId, $ownerId, $version)
+    {
+        $this->getDoctrine()->getManager()->getFilters()->disable('draftversion');
+
+        /** @var BlockManager $manager */
+        $manager = $this->get('opifer.content.block_manager');
+
+        $response = new JsonResponse;
+        $id       = (int)$request->request->get('id');
+
+        try {
+            $newVersion = $manager->getNewVersion($manager->find($id, $version));
+
+            if ($version < $newVersion) {
+                throw new \Exception("Only new versions can be editted. New version is {$newVersion} while you requested {$version}");
+            }
+
+            /** @var PointerBlock $pointerBlock */
+            $pointerBlock = $manager->makeBlockShared($id, $version);
+
+            $response->setStatusCode(200);
+            $response->setData(['state' => 'created', 'id' => $pointerBlock->getId()]);
+            $response->headers->add(['Location' => $this->generateUrl('opifer_content_api_contenteditor_view_block', ['type' => $type, 'typeId' => $typeId, 'id' => $pointerBlock->getId(), 'rootVersion' => $version])]);
+        } catch (\Exception $e) {
+            $response->setStatusCode(500, 'Exception');
+            $response->setData(['error' => $e->getMessage()]);
+        }
+
+        return $response;
+    }
+
+    /**
+     * Publishes a shared block and it's members
+     *
+     * @param Request $request
+     *
+     * @return JsonResponse
+     */
+    public function publishSharedAction(Request $request)
+    {
+        $this->getDoctrine()->getManager()->getFilters()->disable('draftversion');
+
+        /** @var BlockManager $manager */
+        $manager  = $this->get('opifer.content.block_manager');
+        $response = new JsonResponse;
+        $id       = (int) $request->request->get('id');
+
+        try {
+            $block = $manager->find($id);
+            $manager->publish($block);
+
+            $response->setStatusCode(200);
+            $response->setData(['state' => 'published']);
+        } catch (\Exception $e) {
+            $response->setStatusCode(500);
+            $response->setData(['error' => $e->getMessage() . $e->getTraceAsString()]);
+        }
+
+        return $response;
+    }
 
     /**
      * Publishes a block and it's members

@@ -45,6 +45,35 @@
     .btn-default;
 }
 
+.btn-close {
+    border: 0;
+
+    &:focus,
+    &:hover {
+        border: 0;
+        color: black;
+    }
+}
+
+.btn-heading-blend {
+    padding: 5px;
+    margin-top: 13px;
+    margin-left: 3px;
+    border: 0;
+    background-color: transparent;
+    color: @gray-light;
+
+    &:active:focus,
+    &:active {
+        outline: none;
+        box-shadow: none;
+    }
+
+    &:hover {
+        color: @gray-darker;
+        background-color: transparent;
+    }
+}
 
 .btn-default-outline {
     background: transparent;

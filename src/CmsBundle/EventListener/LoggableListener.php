@@ -146,7 +146,7 @@ class LoggableListener extends BaseLoggableListener
                 // Reset version number to that of owner Document, so we keep a tree
                 // of blocks together on a single version #
                 $logEntry->setRootVersion($this->rootVersion);
-                $logEntry->setRootId(($object instanceof BlockOwnerInterface) ? $object->getId() : $object->getOwner()->getId());
+                $logEntry->setRootId(($object instanceof BlockOwnerInterface || $object->isShared()) ? $object->getId() : $object->getOwner()->getId());
 //                $uow->computeChangeSet($logEntryMeta, $logEntry);
             }
 
