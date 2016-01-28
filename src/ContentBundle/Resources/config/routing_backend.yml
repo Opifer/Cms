@@ -76,6 +76,26 @@ opifer_content_contenteditor_view:
     options:
         expose: true
 
+# Block
+
+opifer_content_block_shared:
+    path: /content/shared
+    defaults: { _controller: OpiferContentBundle:Backend/Block:shared }
+    options:
+        expose: true
+
+opifer_content_block_shared_edit:
+    path: /content/shared/edit/{id}
+    defaults: { _controller: OpiferContentBundle:Backend/Block:sharedEdit }
+    options:
+        expose: true
+
+opifer_content_block_delete:
+    path: /content/block/delete/{id}
+    defaults: { _controller: OpiferContentBundle:Backend/Block:delete}
+    options:
+        expose: true
+
 # Content Types
 
 opifer_content_contenttype_index:

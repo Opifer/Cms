@@ -123,6 +123,7 @@ nav:
     content: Content
     directory: Directories
     media: Media
+    block_shared: shared blocks
     form:
         parent:
             help_text: Choose a parent for this menu if applicable

@@ -7,32 +7,6 @@ opifer_cms_form_post_list:
     path: /forms/posts
     defaults: { _controller: OpiferCmsBundle:Backend/Post:list }
 
-opifer_cms_menu_index:
-    path: /menu
-    defaults: { _controller: OpiferCmsBundle:Backend/Menu:index }
-    methods: [GET]
-
-opifer_cms_menu_create:
-    path: /menu/create/{type}
-    defaults: { _controller: OpiferCmsBundle:Backend/Menu:create }
-    methods: [GET, POST]
-    requirements:
-        type: group|item
-
-opifer_cms_menu_edit:
-    path: /menu/edit/{id}
-    defaults: { _controller: OpiferCmsBundle:Backend/Menu:edit }
-    methods: [GET, POST]
-    requirements:
-        id: \d+
-
-opifer_cms_menu_delete:
-    path: /menu/delete/{id}
-    defaults: { _controller: OpiferCmsBundle:Backend/Menu:delete }
-    methods: [GET]
-    requirements:
-        id: \d+
-
 opifer_cms_setting_index:
     path: /setting
     defaults: { _controller: OpiferCmsBundle:Backend/Setting:index }
@@ -168,6 +142,12 @@ opifer_content_content_type:
 opifer_content_content_history:
     path: /content/history/{type}/{id}/{version}
     defaults: { _controller: OpiferCmsBundle:Backend/Content:history, version: 0 }
+    options:
+        expose: true
+
+opifer_content_block_shared:
+    path: /content/shared
+    defaults: { _controller: OpiferCmsBundle:Backend/Block:shared }
     options:
         expose: true
 

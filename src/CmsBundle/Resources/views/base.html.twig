@@ -28,10 +28,10 @@
                                         <li><a href="{{ path('opifer_content_content_create') }}">{{ 'content.new.nav'|trans|capitalize }}</a></li>
                                         <li class="divider"></li>
                                         <li><a href="{{ path('opifer_content_content_index') }}">{{ "nav.content"|trans|capitalize }}</a></li>
-                                        <li><a href="{{ path('opifer_content_content_index') }}">Shared blocks</a></li>
                                         {% for content_type in content_type_manager.types %}
                                             <li><a href="{{ path('opifer_content_content_type', {'type': content_type.id}) }}">{{ content_type.name }}</a></li>
                                         {% endfor %}
+                                        <li><a href="{{ path('opifer_content_block_shared') }}">{{ "nav.block_shared"|trans|capitalize }}</a></li>
                                         <li class="divider"></li>
                                         <li><a href="{{ path('opifer_cms_template_index') }}">{{ 'base.templates'|trans|capitalize }}</a></li>
                                         <li><a href="{{ path('opifer_content_contenttype_index') }}">Content types</a></li>

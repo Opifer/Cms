@@ -226,6 +226,9 @@ opifer_content:
             index: 'OpiferCmsBundle:Backend/ContentType:index.html.twig'
             create: 'OpiferCmsBundle:Backend/ContentType:create.html.twig'
             edit: 'OpiferCmsBundle:Backend/ContentType:edit.html.twig'
+    block:
+        views:
+            shared: 'OpiferCmsBundle:Backend/Block:shared.html.twig'
 
 opifer_eav:
     attribute_class: Opifer\CmsBundle\Entity\Attribute

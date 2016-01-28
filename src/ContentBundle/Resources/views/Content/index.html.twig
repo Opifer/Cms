@@ -3,10 +3,10 @@
 {% block opifer_content_body %}
     {% spaceless %}
         <div class="page-header clearfix">
-            <h1 class="pull-left">Content</h1>
             <a href="{{ path('opifer_content_content_create') }}" class="btn btn-default pull-right">
                 {{ 'button.add'|trans }}
             </a>
+            <h1>{{ "title.content"|trans }}</h1>
         </div>
 
         <content-browser site-id="" locale="nl_NL" active="true"></content-browser>
