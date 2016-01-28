@@ -44,11 +44,22 @@
 }
 
 .pm-placeholder-droparea {
-    min-height: 60px;
+    min-height: 40px;
     height: 100%;
-    border: 1px dashed @gray-light;
     padding: @padding-base-vertical @padding-base-horizontal;
-    background: fade(#FFD92E, 30%);
+    background: rgba(0,0,0,.9);
+    margin: 5px 0;
+
+    &:after {
+        content: "drop here";
+        display: block;
+        text-align: center;
+        text-transform: uppercase;
+        color: #555;
+        padding: 10px 0;
+        font-size: 12px;
+        font-weight: bold;
+    }
 }
 
 .pm-caption {
@@ -217,44 +228,36 @@
         > .pm-toolbar {
             background-color: #eecdcf;
         }
-
-        &.pm-accept {
-            background: fade(#eecdcf, 20%);
-            padding: 10px;
-
-            > .pm-toolbar {
-                border: 1px solid #b23d44;
-            }
-
-            //        .pm-placeholder {
-            //            min-height
-            //        }
-        }
     }
 
     .pm-placeholder {
         outline: 1px dashed #bbb;
+        min-height: 30px;
         .clearfix;
 
         &.pm-empty {
             padding: @padding-large-vertical @padding-base-horizontal;
             margin: 2px;
             min-height: 30px;
+
+            &:after {
+                content: "placeholder";
+                display: block;
+                text-align: center;
+                text-transform: uppercase;
+                color: #d4d4d4;
+                padding: 10px 0;
+                font-size: 12px;
+                font-weight: bold;
+            }
         }
 
-        &:after {
-            content: "placeholder";
-            display: block;
-            text-align: center;
-            text-transform: uppercase;
-            color: #d4d4d4;
-            padding: 10px 0;
-            font-size: 12px;
-            font-weight: bold;
+        &.pm-empty.pm-accept {
+            padding: 0;
         }
 
         &.pm-accept {
-            margin: 10px 0;
+            //margin: 10px 0;
             outline: 1px dashed @brand-success;
             background: fade(@brand-success, 20%);
         }

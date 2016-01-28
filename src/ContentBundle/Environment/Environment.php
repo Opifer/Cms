@@ -52,7 +52,7 @@ abstract class Environment
      *
      * @return array
      */
-    abstract public function load($id, $version = false);
+    abstract public function load($id);
 
     /**
      * Return all block owners to assist block loading.
@@ -226,7 +226,22 @@ abstract class Environment
         return $cacheKey;
     }
 
-    protected function getVersion($id)
+    /**
+     * @param integer $id
+     * @param integer $version
+     *
+     * return integer
+     */
+    public function setVersion($version, $id = false)
+    {
+        if ($id === false) {
+            $id = $this->getMainBlock()->getId();
+        }
+
+        $this->versionMap[$id] = $version;
+    }
+
+    public function getVersion($id)
     {
         return ($this->versionMap && isset($this->versionMap[$id])) ? $this->versionMap[$id] : false;
     }

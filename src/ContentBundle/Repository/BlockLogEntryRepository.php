@@ -17,14 +17,15 @@ class BlockLogEntryRepository extends LogEntryRepository
      * @param integer $ownerId
      * @param integer $rootVersion
      */
-    public function discardAll($rootId, $rootVersion)
+    public function discardAll($rootId)
     {
         $dql = "DELETE FROM Opifer\ContentBundle\Entity\BlockLogEntry log";
+        $dql .= "LEFT JOIN Opifer\ContentBundle\Entity\Block block ON block.id = log.object_id";
         $dql .= " WHERE log.rootId = :rootId";
-        $dql .= " AND log.rootVersion = :rootVersion";
+        $dql .= " AND log.rootVersion = block.version";
 
         $q = $this->_em->createQuery($dql);
-        $q->setParameters(compact('rootId', 'rootVersion', 'rootVersion'));
+        $q->setParameters(compact('rootId'));
         $q->execute();
     }
 

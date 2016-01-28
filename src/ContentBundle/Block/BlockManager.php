@@ -151,17 +151,17 @@ class BlockManager
 
     /**
      * @param BlockOwnerInterface $owner
-     * @param mixed               $rootVersion
+     * @param boolean             $version
      *
      * @return array
      */
-    public function findByOwner(BlockInterface $owner, $rootVersion = null)
+    public function findByOwner(BlockInterface $owner, $version = false)
     {
         $blocks = $this->getRepository()->findBy(['owner' => $owner], ['sort' => 'asc']);
 
-        if ($rootVersion) {
+        if ($version) {
             foreach ($blocks as $key => $block) {
-                $this->revert($block, $rootVersion);
+                $this->revertSingle($block, $version);
 
                 if ($block->getDeletedAt() && $block->getDeletedAt() < new \DateTime) {
                     unset($blocks[$key]);
@@ -180,35 +180,32 @@ class BlockManager
      * Publishes a block version
      *
      * @param BlockOwnerInterface $block
-     * @param null|integer        $rootVersion
+     * @param boolean|integer     $version
      */
-    public function publish(BlockInterface $block, $rootVersion = false)
+    public function publish(BlockInterface $block)
     {
         if (!($block instanceof BlockOwnerInterface) && !$block->isShared()) {
             throw new \Exception ('Can only publish blocks of type BlockOwner or shared');
-        }
-
-        if ($rootVersion == false) { // Just publish newest
-            $rootVersion = $this->getNewVersion($block);
         }
 
         $this->killLoggableListener();
         $this->killSoftDeletableListener();
 
         $owned = $this->findByOwner($block);
+        $version = $this->getNewVersion($block);
 
         foreach ($owned as $descendant) {
-            $this->revertSingle($descendant, $rootVersion);
+            $this->revertSingle($descendant, $version);
             $descendant->setPublish(true);
-            $descendant->setVersion($rootVersion);
-            $descendant->setRootVersion($rootVersion);
+            $descendant->setVersion($version);
+            $descendant->setRootVersion($version);
             $this->save($descendant);
         }
 
-        $this->revertSingle($block, $rootVersion);
+        $this->revertSingle($block, $version);
         $block->setPublish(true);
-        $block->setVersion($rootVersion);
-        $block->setRootVersion($rootVersion);
+        $block->setVersion($version);
+        $block->setRootVersion($version);
         $this->save($block);
     }
 
@@ -218,9 +215,9 @@ class BlockManager
      * @param BlockInterface $block
      * @param null|integer   $rootVersion
      */
-    public function revert(BlockInterface $block, $rootVersion)
+    public function revert(BlockInterface $block, $version)
     {
-        $block->accept(new RevertVisitor($this, $rootVersion));
+        $block->accept(new RevertVisitor($this, $version));
 
         if ($block instanceof BlockContainerInterface) {
             self::treeAddMissingChildren($block);
@@ -238,19 +235,19 @@ class BlockManager
      * @param BlockInterface $block
      * @param integer        $rootVersion
      */
-    public function revertSingle(BlockInterface $block, $rootVersion)
+    public function revertSingle(BlockInterface $block, $version)
     {
         // check for LogEntries
         /** @var BlockLogEntryRepository $repo */
         $repo = $this->em->getRepository('OpiferContentBundle:BlockLogEntry');
 
-        $logs = $repo->getLogEntriesRoot($block, $rootVersion);
+        $logs = $repo->getLogEntriesRoot($block, $version);
 
         if (count($logs)) {
             $latest = current($logs)->getVersion();
             $repo->revert($block, $latest);  // We "revert" to the current working draft, as the Block itself is a published one
         } else {
-            if ($block->getVersion() > $rootVersion) {
+            if ($block->getVersion() > $version) {
                 // no logs where found, assume block was created in a later version
                 $block->getParent()->removeChild($block);
                 unset($block);
@@ -278,21 +275,15 @@ class BlockManager
 
     /**
      * @param BlockInterface $block
-     * @param null|integer   $rootVersion
-     * @param boolean        $recursive
      *
      * @return BlockManager
      */
-    public function save(BlockInterface $block, $rootVersion = null, $recursive = false)
+    public function save(BlockInterface $block)
     {
-        if (!$recursive) {
-            if ($rootVersion) {
-                $block->setRootVersion((int) $rootVersion);
-            }
+        $block->setRootVersion($this->getNewVersion($block));
 
-            $this->em->persist($block);
-            $this->em->flush($block);
-        }
+        $this->em->persist($block);
+        $this->em->flush($block);
 
         return $this;
     }
@@ -302,19 +293,15 @@ class BlockManager
      * @param null|integer   $rootVersion
      * @param boolean        $recursive
      */
-    public function remove(BlockInterface $block, $rootVersion = null, $recursive = false)
+    public function remove(BlockInterface $block, $recursive = false)
     {
         $this->killSoftDeletableListener();
 
         if (!$recursive) {
-            if ($rootVersion) {
-                $block->setRootVersion($rootVersion);
-            }
-
+            $version = $this->getNewVersion($block);
             $block->setDeletedAt(new \DateTime());
-
-//            $this->em->remove($block);
-            $this->em->flush();
+            $block->setRootVersion($version);
+            $this->em->flush($block);
         }
     }
 
@@ -322,9 +309,9 @@ class BlockManager
      * @param integer $ownerId
      * @param integer $rootVersion
      */
-    public function discardAll($ownerId, $rootVersion)
+    public function discardAll($ownerId)
     {
-        $owner = $this->find($ownerId, $rootVersion);
+        $owner = $this->find($ownerId);
         if (!$owner instanceof BlockOwnerInterface) {
             throw new \Exception('Discard all changes is only possible on Block owners');
         }
@@ -332,7 +319,7 @@ class BlockManager
         $this->killLoggableListener();
         $this->killSoftDeletableListener();
 
-        $this->em->getRepository('OpiferContentBundle:BlockLogEntry')->discardAll($ownerId, $rootVersion);
+        $this->em->getRepository('OpiferContentBundle:BlockLogEntry')->discardAll($ownerId);
 
         if ($this->em->getFilters()->isEnabled('softdeleteable')) {
             $this->em->getFilters()->disable('softdeleteable');
@@ -390,20 +377,20 @@ class BlockManager
      * @param integer      $placeholder
      * @param array        $sort
      * @param null|array   $data
-     * @param null|integer $rootVersion
      *
      * @throws \Exception
      *
      * @return BlockInterface
      */
-    public function createBlock($ownerId, $type, $parentId, $placeholder, $sort, $data = null, $rootVersion = null)
+    public function createBlock($ownerId, $type, $parentId, $placeholder, $sort, $data = null)
     {
-        $owner = $this->find($ownerId, $rootVersion);
+        $owner = $this->find($ownerId);
+        $version = $this->getNewVersion($owner);
         $className = $this->em->getClassMetadata($type)->getName();
         $block = new $className();
-        $parent = $this->find($parentId ?: $ownerId, $rootVersion);
+        $parent = $this->find($parentId ?: $ownerId);
 
-        $block->setRootVersion($rootVersion);
+        $block->setRootVersion($version);
         $block->setPosition($placeholder);
         $block->setSort(0); // < default, gets recalculated later for entire level
         $block->setLevel(0); // < need to be calculated when putting in the tree
@@ -411,7 +398,7 @@ class BlockManager
         // Set owner
         $block->setOwner($owner);
         $owner->addOwning($block);
-        $owner->setRootVersion($rootVersion);
+        $owner->setRootVersion($version);
 
         // This should replaced with a more hardened function
         if ($data) {
@@ -422,7 +409,7 @@ class BlockManager
         }
 
         $block->setParent($parent);
-        $parent->setRootVersion($rootVersion);
+        $parent->setRootVersion($version);
 
         // Save now, rest will be in changeset. All we do is a create a stub entry anyway.
         $this->save($block);
@@ -438,7 +425,7 @@ class BlockManager
                 $sort
             );
 
-            $siblings = $this->getSiblings($block, $rootVersion);
+            $siblings = $this->getSiblings($block, $version);
             $siblings[] = $block;
             if ($siblings) {
                 $siblings = $this->sortBlocksByDirective($siblings, $sort);
@@ -462,28 +449,31 @@ class BlockManager
      * @param integer $parentId
      * @param integer $placeholder
      * @param array   $sort
-     * @param integer $rootVersion
      */
-    public function moveBlock($id, $parentId, $placeholder, $sort, $rootVersion)
+    public function moveBlock($id, $parentId, $placeholder, $sort)
     {
-        $block = $this->find($id, $rootVersion);
-        $parent = ($parentId) ? $this->find($parentId, $rootVersion) : $block->getOwner();
+        $block = $this->find($id);
+        $version = $this->getNewVersion($block);
+        $block = $this->find($id, $version);
+
+        $parent = ($parentId) ? $this->find($parentId) : $block->getOwner();
 
         $block->setPosition($placeholder);
-        $block->setRootVersion($rootVersion);
+        $block->setRootVersion($version);
 
         $block->setParent($parent);
         $parent->addChild($block);
 
         $this->save($block);
 
-        $siblings = $this->getSiblings($block, $rootVersion);
+        $siblings = $this->getSiblings($block, $version);
 
         if ($siblings) {
             $siblings = $this->sortBlocksByDirective($siblings, $sort);
 
             foreach ($siblings as $sibling) {
-                $sibling->setRootVersion($rootVersion);
+                $sibling->setRootVersion($version);
+                $block->setSort($sibling->getSort());
                 $this->save($sibling);
             }
         }
@@ -499,20 +489,21 @@ class BlockManager
      *
      * @return BlockPointer
      */
-    public function makeBlockShared($id, $rootVersion)
+    public function makeBlockShared($id)
     {
         if ($this->em->getFilters()->isEnabled('draftversion')) {
             $this->em->getFilters()->disable('draftversion');
         }
 
-        $block = $this->find($id, $rootVersion);
+        $block = $this->find($id);
+        $version = $this->getNewVersion($block);
 
         // Duplicate some of the settings to the pointer
         $pointer = new PointerBlock();
         $pointer->setOwner($block->getOwner());
         $pointer->setParent($block->getParent());
         $pointer->setReference($block);
-        $pointer->setRootVersion($rootVersion);
+        $pointer->setRootVersion($version);
 
         // Detach and make shared
         $block->setShared(true);
@@ -520,7 +511,7 @@ class BlockManager
         $block->setOwner(null);
         $block->setPosition(0);
         $block->setSort(0);
-        $block->setRootVersion($rootVersion);
+        $block->setRootVersion($version);
 
 
         $this->killLoggableListener();
@@ -543,10 +534,10 @@ class BlockManager
      *
      * @return false|ArrayCollection
      */
-    public function getSiblings(BlockInterface $block, $rootVersion)
+    public function getSiblings(BlockInterface $block, $version = false)
     {
         $owner = $block->getOwner();
-        $family = $this->findByOwner($owner, $rootVersion);
+        $family = $this->findByOwner($owner, $version);
 
         $siblings = array();
 
@@ -641,12 +632,16 @@ class BlockManager
     }
 
     /**
-     * @param BlockInterface $block
+     * @param mixed $block
      *
      * @return int
      */
-    public function getNewVersion(BlockInterface $block)
+    public function getNewVersion($block)
     {
+        if (!is_object($block)) {
+            $block = $this->find($block);
+        }
+
         $version = ($block instanceof BlockOwnerInterface || $block->isShared()) ? $block->getVersion() : $block->getOwner()->getVersion();
 
         return $version + 1;
