@@ -9,22 +9,10 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Opifer\ContentBundle\Model\BlockInterface;
 
 /**
- * Class HtmlBlockService
- *
- * @package Opifer\ContentBundle\Block
+ * HTML Block Service
  */
 class HtmlBlockService extends AbstractBlockService implements BlockServiceInterface, ToolsetMemberInterface
 {
-    protected $view = 'OpiferContentBundle:Block:Content/html.html.twig';
-
-    /**
-     * {@inheritDoc}
-     */
-    public function getName(BlockInterface $block = null)
-    {
-        return 'Content';
-    }
-
     /**
      * {@inheritdoc}
      */

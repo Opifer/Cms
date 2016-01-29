@@ -249,6 +249,9 @@ label:
     name: Name
     display_name: Display name
 
+message:
+    no_items_found: "No items found"
+
 # Delete confirmation
 confirmation:
     delete:

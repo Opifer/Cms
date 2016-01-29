@@ -37,6 +37,9 @@
                             </article>
                             {% endblock content_tile %}
                         {% endfor %}
+                        {% if latest_content|length == 0 %}
+                            <div class="col-xs-12"><div class="well"><span class="text-muted">{{ "message.no_items_found"|trans }}</span></div></div>
+                        {% endif %}
                     </div>
                 </section>
 
@@ -47,6 +50,9 @@
                         {% for item in unpublished_content %}
                             {{ block('content_tile') }}
                         {% endfor %}
+                        {% if unpublished_content|length == 0 %}
+                        <div class="col-xs-12"><div class="well"><span class="text-muted">{{ "message.no_items_found"|trans }}</span></div></div>
+                        {% endif %}
 
                     </div>
                 </section>
@@ -60,6 +66,9 @@
                         {% for item in new_content %}
                             {{ block('content_tile') }}
                         {% endfor %}
+                        {% if new_content|length == 0 %}
+                            <div class="col-xs-12"><div class="well"><span class="text-muted">{{ "message.no_items_found"|trans }}</span></div></div>
+                        {% endif %}
 
                     </div>
                 </section>

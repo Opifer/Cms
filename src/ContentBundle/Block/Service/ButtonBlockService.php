@@ -9,25 +9,10 @@ use Opifer\ContentBundle\Model\BlockInterface;
 use Symfony\Component\Form\FormBuilderInterface;
 
 /**
- * Class ButtonBlockService
- *
- * @package Opifer\ContentBundle\Block
+ * Button Block Service
  */
 class ButtonBlockService extends AbstractBlockService implements BlockServiceInterface, ToolsetMemberInterface
 {
-    protected $view = 'OpiferContentBundle:Block:Content/button.html.twig';
-
-    /** @var array */
-    protected $styles;
-
-    /**
-     * {@inheritDoc}
-     */
-    public function getName(BlockInterface $block = null)
-    {
-        return 'Button';
-    }
-
     /**
      * {@inheritdoc}
      */
@@ -50,10 +35,10 @@ class ButtonBlockService extends AbstractBlockService implements BlockServiceInt
             ->add('extra_classes', 'text', ['attr' => ['help_text' => 'help.extra_classes']]);
 
 
-        if ($this->styles) {
+        if ($this->config['styles']) {
             $propertiesForm->add('styles', 'choice', [
                 'label' => 'label.styling',
-                'choices'  => array_combine($this->styles, $this->styles),
+                'choices'  => array_combine($this->config['styles'], $this->config['styles']),
                 'required' => false,
                 'expanded' => true,
                 'multiple' => true,
@@ -81,15 +66,7 @@ class ButtonBlockService extends AbstractBlockService implements BlockServiceInt
      */
     public function getStyles()
     {
-        return $this->styles;
-    }
-
-    /**
-     * @param array $styles
-     */
-    public function setStyles($styles)
-    {
-        $this->styles = $styles;
+        return $this->config['styles'];
     }
 
     /**

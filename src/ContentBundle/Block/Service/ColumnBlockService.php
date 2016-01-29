@@ -22,15 +22,11 @@ class ColumnBlockService extends AbstractBlockService implements BlockServiceInt
     /** @var integer */
     protected $columnCount = 1;
 
-    /** @var string */
-    protected $view = 'OpiferContentBundle:Block:Layout/layout.html.twig';
-
     /**
      * {@inheritdoc}
      */
     public function execute(BlockInterface $block, Response $response = null)
     {
-
         $parameters = array(
             'block_service'  => $this,
             'block'          => $block,
@@ -62,7 +58,6 @@ class ColumnBlockService extends AbstractBlockService implements BlockServiceInt
     public function buildManageForm(FormBuilderInterface $builder, array $options)
     {
         parent::buildManageForm($builder, $options);
-
 
         $propertiesForm = $builder->create('properties', 'form')
             ->add('id', 'text', ['attr' => ['help_text' => 'help.html_id']])
@@ -109,7 +104,6 @@ class ColumnBlockService extends AbstractBlockService implements BlockServiceInt
     public function configureManageOptions(OptionsResolver $resolver)
     {
     }
-
 
     /**
      * {@inheritDoc}
@@ -164,7 +158,6 @@ class ColumnBlockService extends AbstractBlockService implements BlockServiceInt
     {
         $this->columnCount = $columnCount;
     }
-
 
     /**
      * @param BlockInterface $block

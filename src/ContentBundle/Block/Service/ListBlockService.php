@@ -2,7 +2,6 @@
 
 namespace Opifer\ContentBundle\Block\Service;
 
-use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\EntityManager;
 use Opifer\ContentBundle\Block\Tool\ContentTool;
 use Opifer\ContentBundle\Block\Tool\ToolsetMemberInterface;
@@ -10,12 +9,8 @@ use Opifer\ContentBundle\Entity\ListBlock;
 use Opifer\ContentBundle\Form\Type\ContentListPickerType;
 use Opifer\ContentBundle\Model\BlockInterface;
 use Opifer\ContentBundle\Model\ContentManagerInterface;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Bundle\FrameworkBundle\Templating\EngineInterface;
-use Symfony\Component\Form\CallbackTransformer;
-use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\Form\FormInterface;
 
 /**
  * Content Collection Block Service
@@ -24,25 +19,17 @@ class ListBlockService extends AbstractBlockService implements BlockServiceInter
 {
     /** @var ContentManagerInterface */
     protected $contentManager;
-    protected $view = 'OpiferContentBundle:Block:Content/list.html.twig';
 
     /**
      * @param EngineInterface $templating
      * @param EntityManager   $em
+     * @param array           $config
      */
-    public function __construct(EngineInterface $templating, ContentManagerInterface $contentManager)
+    public function __construct(EngineInterface $templating, ContentManagerInterface $contentManager, array $config)
     {
-        parent::__construct($templating);
+        parent::__construct($templating, $config);
 
         $this->contentManager = $contentManager;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function getName(BlockInterface $block = null)
-    {
-        return 'List';
     }
 
     /**
@@ -60,9 +47,21 @@ class ListBlockService extends AbstractBlockService implements BlockServiceInter
                     'multiple' => true,
                     'data'     => $options['data']->getValue()
                 ])
+        )->add(
+            $builder->create('properties', 'form')
+                ->add('template', 'choice', [
+                    'label'         => 'label.template',
+                    'placeholder'   => 'placeholder.choice_optional',
+                    'attr'          => ['help_text' => 'help_text.block_template'],
+                    'choices'       => $this->config['templates'],
+                    'required'      => false,
+                ])
         );
     }
 
+    /**
+     * @param BlockInterface $block
+     */
     public function load(BlockInterface $block)
     {
         $collection = $this->contentManager->getRepository()
