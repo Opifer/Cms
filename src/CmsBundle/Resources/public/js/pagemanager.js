@@ -475,7 +475,9 @@ $(document).ready(function() {
             iFrame.contents().find('.pm-block').mouseover(function() {
                 iFrame.contents().find('.pm-block').removeClass('hovered');
                 $(this).addClass('hovered');
-            });
+            }).mouseleave(function() {
+                $(this).removeClass('hovered');
+            });;
 
 
             $('.pm-block-item').draggable({

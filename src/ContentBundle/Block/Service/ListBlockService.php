@@ -55,7 +55,7 @@ class ListBlockService extends AbstractBlockService implements BlockServiceInter
         $builder->add(
             $builder->create('default', 'form', ['virtual' => true])
                 ->add('value', 'content_list_picker', [
-                    'label'    => 'collection',
+                    'label'    => 'label.content',
                     'multiple' => true,
                     'property' => 'title',
                     'class'    => 'Opifer\CmsBundle\Entity\Content',
