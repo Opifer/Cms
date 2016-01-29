@@ -3,6 +3,8 @@
 namespace Opifer\ContentBundle\Form\Type;
 
 use Opifer\ContentBundle\Block\Service\BlockServiceInterface;
+use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\FormType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormTypeInterface;
@@ -15,7 +17,7 @@ use Symfony\Component\OptionsResolver\OptionsResolverInterface;
  *
  * @package Opifer\Form\Type
  */
-class BlockAdapterFormType implements FormTypeInterface
+class BlockAdapterFormType extends AbstractType
 {
     /** @var BlockServiceInterface */
     protected $blockService;
@@ -37,34 +39,6 @@ class BlockAdapterFormType implements FormTypeInterface
     }
 
     /**
-     * {@inheritdoc}
-     */
-    public function buildView(FormView $view, FormInterface $form, array $options)
-    {
-        //$this->blockService->buildManageView($view, $form, $options);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function finishView(FormView $view, FormInterface $form, array $options)
-    {
-        //$this->blockService->finishManage($view, $form, $options);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function setDefaultOptions(OptionsResolverInterface $resolver)
-    {
-        if (!$resolver instanceof OptionsResolver) {
-            throw new \InvalidArgumentException(sprintf('Custom resolver "%s" must extend "Symfony\Component\OptionsResolver\OptionsResolver".', get_class($resolver)));
-        }
-
-        $this->configureOptions($resolver);
-    }
-
-    /**
      * Configures the options for this type.
      *
      * @param OptionsResolver $resolver The resolver for the options.
@@ -79,8 +53,9 @@ class BlockAdapterFormType implements FormTypeInterface
      */
     public function getParent()
     {
-        return 'form';
+        return FormType::class;
     }
+
     /**
      * {@inheritdoc}
      */
