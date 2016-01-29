@@ -24,7 +24,9 @@
     "bootbox.js": "~4.4.0",
     "mprogress": "~0.1.1",
     "typeahead.js": "~0.11",
-    "js-cookie": "~2.1.0"
+    "js-cookie": "~2.1.0",
+    "nestedSortable": "https://github.com/ilikenwf/nestedSortable.git#747d42c6c4303a60174158691c0c90e80fd83254",
+    "angular-ui-tree": "~2.1.3"
   },
   "resolutions": {
     "angular": "1.4.9",

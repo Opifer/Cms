@@ -6,6 +6,7 @@ use Doctrine\ORM\EntityManager;
 use Opifer\ContentBundle\Block\Tool\ContentTool;
 use Opifer\ContentBundle\Block\Tool\ToolsetMemberInterface;
 use Opifer\ContentBundle\Entity\ListBlock;
+use Opifer\ContentBundle\Form\Type\ContentListPickerType;
 use Opifer\ContentBundle\Model\BlockInterface;
 use Opifer\ContentBundle\Model\ContentManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Templating\EngineInterface;
@@ -41,11 +42,9 @@ class ListBlockService extends AbstractBlockService implements BlockServiceInter
         // Default panel
         $builder->add(
             $builder->create('default', 'form', ['virtual' => true])
-                ->add('value', 'content_list_picker', [
+                ->add('value',  ContentListPickerType::class, [
                     'label'    => 'label.content',
                     'multiple' => true,
-                    'property' => 'title',
-                    'class'    => 'Opifer\CmsBundle\Entity\Content',
                     'data'     => $options['data']->getValue()
                 ])
         )->add(

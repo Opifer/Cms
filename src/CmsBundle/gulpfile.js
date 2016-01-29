@@ -33,6 +33,7 @@ gulp.task('js', function () {
         'Resources/public/components/angular-google-maps/dist/angular-google-maps.js',
         'Resources/public/components/angular-inview/angular-inview.js',
         'Resources/public/components/angular-ui-sortable/sortable.js',
+        'Resources/public/components/angular-ui-tree/dist/angular-ui-tree.js',
         'Resources/public/components/angular-loading-bar/build/loading-bar.js',
         'Resources/public/components/bootstrap/dist/js/bootstrap.js',
         'Resources/public/components/moment/min/moment.min.js',

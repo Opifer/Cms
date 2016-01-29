@@ -78,6 +78,12 @@ services:
         tags:
             - { name: form.type, alias: content_list_picker }
 
+    opifer.content.form.content_tree_picker_type:
+        class: Opifer\ContentBundle\Form\Type\ContentTreePickerType
+        arguments: ['@opifer.content.content_manager']
+        tags:
+            - { name: form.type }
+
     opifer.content.form.gutter_collection:
         class: %opifer.content.form.gutter_collection_type.class%
         tags:
