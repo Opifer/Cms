@@ -17,13 +17,14 @@
 }
 
 .nav-tabs {
-    height: 30px;
+    height: 34px;
 }
 
 .nav-tabs > li {
 
-    &.dropdown:hover,
+    &.dropdown:hover a,
     &.dropdown a:hover {
+        color: #111;
         background: transparent;
         border-color: transparent;
     }
@@ -39,8 +40,12 @@
     }
 
     > a {
-        padding: 5px 10px;
-        color: @text-color;
+        padding: 7px 15px;
+        color: #666;
+
+        &:hover {
+            color: #111;
+        }
     }
 }
 

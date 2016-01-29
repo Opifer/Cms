@@ -5,6 +5,10 @@ title:
 
 label:
     block: Block
+    content: Content
+
+warning:
+    block_shared_edit: 'This is a shared block. <br /><span class="small">Shared blocks need publishing individually.</span>'
 
 # Content
 content:
@@ -36,8 +40,6 @@ content:
 block:
     shared:
         label: Shared
-        edit:
-            warning: This is a shared block
     shared_name:
         label: Name
         placeholder: 'Only use [a-zA-Z] characters'
@@ -86,3 +88,5 @@ button:
     cancel: Cancel
     delete: Delete
     edit: Edit
+    publish: Publish
+    block_share: Share block
