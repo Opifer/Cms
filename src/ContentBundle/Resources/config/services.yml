@@ -80,7 +80,7 @@ services:
 
     opifer.content.form.content_tree_picker_type:
         class: Opifer\ContentBundle\Form\Type\ContentTreePickerType
-        arguments: ['@opifer.content.content_manager']
+        arguments: ['@opifer.content.content_manager', '@opifer.content.navigation_block']
         tags:
             - { name: form.type }
 
