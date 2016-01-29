@@ -1,13 +1,4 @@
 {#
-    Presentation Editor Widget
-#}
-{% block presentationeditor_widget %}
-    {% spaceless %}
-        <presentation-editor formid="{{ id }}" name="{{ full_name }}" value="{{ form.vars.value|replace({"\n": '', ' ': ''})|json_encode() }}"></presentation-editor>
-    {% endspaceless %}
-{% endblock %}
-
-{#
     The single content picker widget.
 #}
 {% block contentpicker_widget %}
@@ -71,14 +62,6 @@
 
             <div class="wrapper">
                 <button type="button" class="btn btn-default" ng-click="isPickerOpen = !isPickerOpen">Add items</button>
-                <div class="content-picked-item" ng-show="content.id">
-                    <div style="background-image: url({{ content.coverImage }});" class="content-cover"></div>
-                    <div class="content-picked-details">
-                        <span class="content-title">{{ content.title }}</span>
-                        <span class="content-path">{{ content.path }}</span>
-                    </div>
-                    <a class="remover" ng-click="content={}"></a>
-                </div>
             </div>
 
             <ng-modal show="isPickerOpen">
@@ -89,6 +72,39 @@
     {% endspaceless %}
 {% endblock %}
 
+{% block content_tree_picker_widget %}
+    {% set content = form.vars.value %}
+    <div class="content-picker content-picker-list" ng-controller="ContentPickerController" ng-cloak ng-init="init('{{ content }}', '{{ full_name }}', true)">
+        {% verbatim %}
+        <pre class="sortable-tree-input">{{ selecteditems|json:object }}</pre>
+        <input type="hidden" id="" name="{{ formname }}" value="{{ selecteditems }}">
+        <div ui-tree class="angular-tree" data-max-depth="3">
+            <ol ui-tree-nodes="" ng-model="selecteditems">
+                <li ng-repeat="item in selecteditems" ui-tree-node class="tree-node">
+                    <div ui-tree-handle>
+                        {{ item.title }}
+                    </div>
+                    <ol ui-tree-nodes="" ng-model="item.children">
+                        <li ng-repeat="subItem in item.children" ui-tree-node>
+                            <div ui-tree-handle>
+                                {{ subItem.title }}
+                            </div>
+                        </li>
+                    </ol>
+                </li>
+            </ol>
+        </div>
+
+        <div class="wrapper">
+            <button type="button" class="btn btn-default" ng-click="isPickerOpen = !isPickerOpen">Add items</button>
+        </div>
+
+        <ng-modal show="isPickerOpen">
+            <content-browser site-id="0" locale="nl_NL" directory-id="0" mode="PICKER" active="isPickerOpen"></content-browser>
+        </ng-modal>
+        {% endverbatim %}
+    </div>
+{% endblock content_tree_picker_widget %}
 
 {% block span_collection_widget %}
     {{ block('column_collection_widget') }}
@@ -99,7 +115,6 @@
 {% endblock %}
 
 {% block column_collection_widget %}
-    {#{{ form|length }}#}
     <table class="table-column-span" width="100%">
         {% for row in form %}
         <tr>
@@ -123,18 +138,18 @@
     </div>
 
     {% macro render_tree(item) %}
-            <li data-id="{{ item.id }}">
-                <span class="expand"></span> <span class="checkmark"></span> {{ item.title }}
-                {% if item.__children|default() %}
-                    <ul>
-                    {% for child in item.__children %}
-                        {{ _self.render_tree(child) }}
-                    {% endfor %}
-                    </ul>
-                {% endif %}
-            </li>
+        <li data-id="{{ item.id }}">
+            <span class="expand"></span> <span class="checkmark"></span> {{ item.title }}
+            {% if item.__children|default() %}
+                <ul>
+                {% for child in item.__children %}
+                    {{ _self.render_tree(child) }}
+                {% endfor %}
+                </ul>
+            {% endif %}
+        </li>
     {% endmacro %}
-{% endblock %}
+{% endblock opifer_content_parent_widget %}
 
 {#{% block column_span_widget %}#}
     {#&#123;&#35;{{ form|length }}&#35;&#125;#}
