@@ -3,6 +3,7 @@
 namespace Opifer\MediaBundle\Tests\Provider;
 
 use Mockery as m;
+use Opifer\MediaBundle\Form\Type\DropzoneType;
 use Opifer\MediaBundle\Provider\FileProvider;
 
 class FileProviderTest extends \PHPUnit_Framework_TestCase
@@ -29,7 +30,7 @@ class FileProviderTest extends \PHPUnit_Framework_TestCase
         $this->router->shouldReceive('generate')->andReturn('/generated/path');
 
         $builder = m::mock('Symfony\Component\Form\FormBuilderInterface');
-        $builder->shouldReceive('add')->with('files', 'dropzone', [
+        $builder->shouldReceive('add')->with('files', DropzoneType::class, [
             'mapped' => false,
             'path' => '/generated/path',
             'form_action' => '/generated/path',
