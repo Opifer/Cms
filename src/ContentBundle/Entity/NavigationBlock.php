@@ -20,6 +20,9 @@ class NavigationBlock extends Block
      */
     protected $value;
 
+    /** @var array */
+    protected $tree;
+
     /**
      * @return string
      */
@@ -44,6 +47,26 @@ class NavigationBlock extends Block
     public function setValue($value)
     {
         $this->value = $value;
+
+        return $this;
+    }
+
+    /**
+     * @return array
+     */
+    public function getTree()
+    {
+        return $this->tree;
+    }
+
+    /**
+     * @param array $tree
+     *
+     * @return NavigationBlock
+     */
+    public function setTree($tree)
+    {
+        $this->tree = $tree;
 
         return $this;
     }

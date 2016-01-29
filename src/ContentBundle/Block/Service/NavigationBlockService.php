@@ -7,28 +7,35 @@ use Doctrine\ORM\EntityManager;
 use Opifer\ContentBundle\Block\Tool\ContentTool;
 use Opifer\ContentBundle\Block\Tool\ToolsetMemberInterface;
 use Opifer\ContentBundle\Entity\NavigationBlock;
+use Opifer\ContentBundle\Form\Type\ContentTreePickerType;
 use Opifer\ContentBundle\Model\BlockInterface;
+use Opifer\ContentBundle\Model\ContentManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Templating\EngineInterface;
 use Symfony\Component\Form\FormBuilderInterface;
 
 /**
- * Content Collection Block Service
+ * Navigation Block Service
  */
 class NavigationBlockService extends AbstractBlockService implements BlockServiceInterface, ToolsetMemberInterface
 {
-    /** @var EntityManager */
-    protected $em;
-    protected $view = 'OpiferContentBundle:Block:Content/list.html.twig';
+    protected $view = 'OpiferContentBundle:Block:Content/navigation.html.twig';
 
     /**
-     * @param EngineInterface $templating
-     * @param EntityManager   $em
+     * @var ContentManagerInterface
      */
-    public function __construct(EngineInterface $templating, EntityManager $em)
+    protected $contentManager;
+
+    /**
+     * Constructor
+     *
+     * @param EngineInterface $templating
+     * @param ContentManagerInterface $contentManager
+     */
+    public function __construct(EngineInterface $templating, ContentManagerInterface $contentManager)
     {
         parent::__construct($templating);
 
-        $this->em = $em;
+        $this->contentManager = $contentManager;
     }
 
     /**
@@ -49,28 +56,40 @@ class NavigationBlockService extends AbstractBlockService implements BlockServic
         // Default panel
         $builder->add(
             $builder->create('default', 'form', ['virtual' => true])
-                //->add('value', 'content_list_picker', [
-                //    'label'    => 'collection',
-                //    'multiple' => true,
-                //    'property' => 'title',
-                //    'class'    => 'Opifer\CmsBundle\Entity\Content',
-                //    'data'     => $options['data']->getValue()
-                //])
+                ->add('value', ContentTreePickerType::class)
         );
     }
 
     public function load(BlockInterface $block)
     {
-        $collection = $this->em->getRepository('OpiferCmsBundle:Content')
+        /** @var NavigationBlock $block */
+        $array = json_decode($block->getValue(), true);
+        $ids = $this->gatherIds($array);
+
+        $collection = $this->contentManager->getRepository()
             ->createQueryBuilder('c')
-            ->where('c.id IN (:ids)')->setParameter('ids', json_decode($block->getValue()))
+            ->where('c.id IN (:ids)')->setParameter('ids', $ids)
             ->getQuery()
             ->getResult();
 
         if ($collection) {
-            $block->setCollection($collection);
+            $block->setTree($collection);
         }
     }
+
+    protected function gatherIds(array $array, array $ids = array())
+    {
+        foreach ($array as $item) {
+            $ids[] = $item['id'];
+            if (isset($item['children']) && count($item['children'])) {
+                $this->gatherIds($item['children'], $ids);
+            }
+        }
+
+        return $ids;
+    }
+
+
 
     /**
      * {@inheritDoc}
@@ -87,8 +106,8 @@ class NavigationBlockService extends AbstractBlockService implements BlockServic
     {
         $tool = new ContentTool('Navigation', 'OpiferContentBundle:NavigationBlock');
 
-        $tool->setIcon('view_list')
-            ->setDescription('');
+        $tool->setIcon('menu')
+            ->setDescription('Generates a simple page navigation');
 
         return $tool;
     }

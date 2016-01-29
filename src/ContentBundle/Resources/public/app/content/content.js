@@ -1,4 +1,4 @@
-angular.module('OpiferContent', ['angular-inview', 'ngCookies'])
+angular.module('OpiferContent', ['angular-inview', 'ui.tree', 'ngCookies'])
 
     .factory('ContentService', ['$resource', '$routeParams', function ($resource, $routeParams) {
         return $resource(Routing.generate('opifer_content_api_content') + '/:id', {}, {
@@ -47,14 +47,25 @@ angular.module('OpiferContent', ['angular-inview', 'ngCookies'])
                 // When items have been passed to the init function, retrieve the related data.
                 if (angular.isDefined(content)) {
                     content = JSON.parse(content);
-                    if (content.length) {
+                    console.log('parsed', content);
+                    if (content.length && typeof content[0] === 'object') {
+                        angular.forEach(content, function (c, index) {
+                            content[index].items = [];
+                            console.log(content[index]);
+                            $scope.selecteditems.push(content[index]);
+                        });
+                    } else if (content.length) {
                         //$scope.order.order = content;
                         content = content.toString();
+
+                        console.log('tostring', content);
 
                         $http.get(Routing.generate('opifer_content_api_content_ids', {'ids': content}))
                             .success(function (data) {
                                 var results = data.results;
                                 for (var i = 0; i < results.length; i++) {
+                                    results[i].items = [];
+                                    console.log(results[i]);
                                     $scope.selecteditems.push(results[i]);
                                 }
                             })
@@ -80,6 +91,7 @@ angular.module('OpiferContent', ['angular-inview', 'ngCookies'])
             $rootScope.$emit('contentPicker.pickContent', content);
 
             if ($scope.multiple) {
+                content.items = [];
                 $scope.selecteditems.push(content);
                 //$scope.order.order.push(content.id);
             } else {

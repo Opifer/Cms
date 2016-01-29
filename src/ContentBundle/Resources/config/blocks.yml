@@ -11,8 +11,9 @@ parameters:
     opifer.content.image_block.filters: ["medialibrary", "dashboard_content", "non-existent"]
     opifer.content.jumbotron_block.class: Opifer\ContentBundle\Block\Service\JumbotronBlockService
     opifer.content.jumbotron_block.styles: ["jumbotron-sm", "jumbotron-md", "jumbotron-lg", "text-regular", "text-contrast"]
-    opifer.content.pointer_block.class: Opifer\ContentBundle\Block\Service\PointerBlockService
     opifer.content.list_block.class: Opifer\ContentBundle\Block\Service\ListBlockService
+    opifer.content.navigation_block.class: Opifer\ContentBundle\Block\Service\NavigationBlockService
+    opifer.content.pointer_block.class: Opifer\ContentBundle\Block\Service\PointerBlockService
 #    opifer.content.image_gallery_block.class: Opifer\ContentBundle\Block\ImageGalleryBlockService
 
 services:
@@ -51,6 +52,12 @@ services:
         arguments: ['@templating', '@opifer.content.content_manager']
         tags:
             - { name: opifer.content.block_service, alias: list }
+
+    opifer.content.navigation_block:
+        class: '%opifer.content.navigation_block.class%'
+        arguments: ['@templating', '@opifer.content.content_manager']
+        tags:
+            - { name: opifer.content.block_service, alias: navigation }
 
     opifer.content.jumbotron_block:
         class: '%opifer.content.jumbotron_block.class%'
