@@ -49,15 +49,15 @@
                         {{ form_rest(form.default, {'label_col': 12, 'widget_col': 12}) }}
                     </div>
                     {% endif %}
-                    <div class="tab-pane{% if not form.default|default %} active{% endif %} form-group-sm" id="block-properties">
+                    <div class="tab-pane{% if not form.default|default %} active{% endif %}" id="block-properties">
                         {% if form.properties|default %}
                             {% for type in form.properties %}
-                                {{ form_row(type, {'size': 'small'}) }}
+                                {{ form_row(type) }}
                             {% endfor %}
                         {% endif %}
                     </div>
                     {% if block.isShared %}
-                    <div class="tab-pane{% if not form.default|default %} active{% endif %} form-group-sm" id="block-shared">
+                    <div class="tab-pane{% if not form.default|default %} active{% endif %}" id="block-shared">
                         {% if form.sharedName is defined %}{{ form_row(form.sharedName) }}{% endif %}
                         {% if form.sharedDisplayName is defined %}{{ form_row(form.sharedDisplayName) }}{% endif %}
                     </div>

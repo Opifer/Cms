@@ -27,7 +27,7 @@
                         <span class="content-title">{{ content.title }}</span>
                         <span class="content-path" ng-hide="!content.path">{{ content.path }}</span>
                     </div>
-                    <a class="fa fa-times danger" ng-click="content={}"></a>
+                    <a class="remove" ng-click="content={}"></a>
                 </div>
             </div>
             <ng-modal show="isPickerOpen">
@@ -65,7 +65,7 @@
                         <span class="content-title">{{ item.title }}</span>
                         <span class="content-path">{{ item.path }}</span>
                     </div>
-                    <a class="fa fa-times danger" ng-click="removeContent($index)"></a>
+                    <a class="remove" ng-click="removeContent($index)"></a>
                 </div>
             </div>
 
@@ -77,7 +77,7 @@
                         <span class="content-title">{{ content.title }}</span>
                         <span class="content-path">{{ content.path }}</span>
                     </div>
-                    <a class="fa fa-times danger" ng-click="content={}"></a>
+                    <a class="remover" ng-click="content={}"></a>
                 </div>
             </div>
 

@@ -2,10 +2,9 @@
     display: inline-block;
     position: relative;
     font-size: @font-size-base;
-    line-height: (@line-height-base / 1.2);
     padding-left: 5rem;
     margin-left: 1rem;
-    height: 34px;
+    height: 40px;
     vertical-align: top;
 
 
@@ -13,33 +12,52 @@
         position: absolute;
         top: 0;
         left: 0;
-        width: 34px;
-        height: 34px;
-        background-color: @gray;
+        width: 40px;
+        height: 40px;
+        background-color: #ccc;
+        background-size: cover;
+        background-position: center center;
+        -webkit-filter: escape('brightness(1) saturate(1.15)');
+        filter: escape('brightness(1) saturate(1.15)');
+    }
+
+    .content-title {
+        display: block;
+        padding-right: 15px;
+        text-overflow: ellipsis;
+        overflow: hidden;
+        height: 1.3em;
     }
 
     .content-path {
         display: block;
         font-size: @font-size-small;
         color: @gray;
+        width: 100%;
+        padding-right: 15px;
+        text-overflow: ellipsis;
+        overflow: hidden;
+        height: 1.3em;
     }
 
-    .danger {
-        display: inline-block;
-        background: lighten(@gray-base, 70%);
-        color: #fff;
-        border-radius: 2px;
+    .remove {
+        position: absolute;
+        right: 5px;
+        top: 0;
         padding: 2px;
-        line-height: 1;
-        font-size: 13px;
         width: 18px;
         height: 18px;
-        text-align: center;
-        vertical-align: top;
+        color: @gray;
+
+        &:before {
+            &:extend(.material-icons);
+            content: "\E5CD";
+            font-size: 16px;
+        }
+
 
         &:hover {
-            color: #fff;
-            background: lighten(@gray-base, 50%);
+            color: #000;
         }
     }
 
@@ -53,6 +71,7 @@
     display: inline-block;
     margin-right: 1rem;
     vertical-align: middle;
+    width: 100%;
 }
 
 .content-picker-list {

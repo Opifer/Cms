@@ -61,6 +61,15 @@ class ListBlockService extends AbstractBlockService implements BlockServiceInter
                     'class'    => 'Opifer\CmsBundle\Entity\Content',
                     'data'     => $options['data']->getValue()
                 ])
+        )->add(
+            $builder->create('properties', 'form')
+                ->add('template', 'choice', [
+                    'label'         => 'label.template',
+                    'placeholder'   => 'placeholder.choice_optional',
+                    'attr'          => array('help_text' => 'help_text.block_template'),
+                    'choices'       => array('list_simple' => 'Simple list', 'tiles' => 'Tiles', 'tiles_text' => 'Tiles with description'),
+                    'required'      => false,
+                ])
         );
     }
 
