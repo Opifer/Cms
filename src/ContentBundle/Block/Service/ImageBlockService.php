@@ -70,7 +70,8 @@ class ImageBlockService extends AbstractBlockService implements BlockServiceInte
             $builder->create('default', FormType::class, ['virtual' => true])
                 ->add('media', MediaPickerType::class, [
                     'required'  => false,
-                    'multiple' => false
+                    'multiple' => false,
+                    'attr' => array('label_col' => 12, 'widget_col' => 12),
                 ])
         )->add(
             $builder->create('properties', 'form')

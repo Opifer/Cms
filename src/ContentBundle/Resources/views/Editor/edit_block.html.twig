@@ -46,7 +46,7 @@
 
                     {% if form.default|default %}
                     <div class="tab-pane active" id="block-general">
-                        {{ form_rest(form.default, {'label_col': 12, 'widget_col': 12}) }}
+                        {{ form_rest(form.default, {'label_col': 12, 'widget_col': 12, 'style': ''}) }}
                     </div>
                     {% endif %}
                     <div class="tab-pane{% if not form.default|default %} active{% endif %}" id="block-properties">
