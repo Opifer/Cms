@@ -56,14 +56,12 @@ angular.module('OpiferContent', ['angular-inview', 'ui.tree', 'ngCookies'])
                         //$scope.order.order = content;
                         content = content.toString();
 
-                        console.log('tostring', content);
-
                         $http.get(Routing.generate('opifer_content_api_content_ids', {'ids': content}))
                             .success(function (data) {
                                 var results = data.results;
                                 for (var i = 0; i < results.length; i++) {
-                                    results[i].children = [];
-                                    console.log(results[i]);
+                                    results[i].__children = [];
+
                                     $scope.selecteditems.push(results[i]);
                                 }
                             })
@@ -89,7 +87,7 @@ angular.module('OpiferContent', ['angular-inview', 'ui.tree', 'ngCookies'])
             $rootScope.$emit('contentPicker.pickContent', content);
 
             if ($scope.multiple) {
-                content.children = [];
+                content.__children = [];
                 $scope.selecteditems.push(content);
                 //$scope.order.order.push(content.id);
             } else {

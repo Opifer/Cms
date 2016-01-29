@@ -5,6 +5,7 @@ namespace Opifer\ContentBundle\Form\Type;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\PersistentCollection;
+use Opifer\ContentBundle\Block\Service\NavigationBlockService;
 use Opifer\ContentBundle\Model\ContentManager;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
@@ -21,14 +22,18 @@ class ContentTreePickerType extends AbstractType
     /** @var ContentManager */
     protected $contentManager;
 
+    /** @var NavigationBlockService */
+    protected $blockService;
+
     /**
      * Constructor
      *
      * @param ContentManager $contentManager
      */
-    public function __construct(ContentManager $contentManager)
+    public function __construct(ContentManager $contentManager, NavigationBlockService $blockService)
     {
         $this->contentManager = $contentManager;
+        $this->blockService = $blockService;
     }
 
     /**
@@ -40,64 +45,51 @@ class ContentTreePickerType extends AbstractType
     {
         $builder->addModelTransformer(new CallbackTransformer(
             function ($original) {
+                $tree = $this->blockService->getTree($original);
 
-                //$ids = json_decode($original);
-                //
-                //$items = $this->contentManager->getRepository()
-                //    ->createQueryBuilder('c')
-                //    ->where('c.id IN (:ids)')
-                //    ->setParameter('ids', $ids)
-                //    ->getQuery()
-                //    ->getResult();
-                //
-                return $original;
+                return json_encode($tree);
             },
             function ($submitted) {
+                $array = json_decode($submitted, true);
 
-                //if (!$submitted instanceof ArrayCollection && !is_array($submitted)) {
-                //    return null;
-                //}
-                //
-                //$ids = [];
-                //foreach ($submitted as $content) {
-                //    $ids[] = $content->getId();
-                //}
-                //
-                //return json_encode($ids);
-                return trim($submitted);
+                $stripped = $this->stripMetadata($array);
+
+                return trim(json_encode($stripped));
             }
         ));
     }
 
-    //protected function cleanSerializedData($data)
-    //{
-    //    foreach ($data as $item) {
-    //        unset($item['parent_id']);
-    //        unset($item['active']);
-    //        unset($item['parent_id']);
-    //        unset($item['parent_id']);
-    //    }
-    //}
+    /**
+     * Strips metadata that should not be stored
+     *
+     * @param array $array
+     * @param array $stripped
+     * @return array
+     */
+    protected function stripMetadata(array $array, $stripped = [])
+    {
+        $allowed = ['id', '__children'];
+        foreach ($array as $item) {
+            if (count($item['__children'])) {
+                $item['__children'] = $this->stripMetadata($item['__children'], $stripped);
+            }
 
+            $stripped[] = array_intersect_key($item, array_flip($allowed));
+        }
+
+        return $stripped;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function getParent()
     {
         return TextareaType::class;
     }
 
     /**
-     * {@inheritDoc}
-     */
-    public function configureOptions(OptionsResolver $resolver)
-    {
-        //$resolver->setDefaults([
-        //    'multiple' => true,
-        //    'property' => 'title',
-        //    'class'    => $this->contentManager->getClass(),
-        //]);
-    }
-
-    /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getBlockPrefix()
     {

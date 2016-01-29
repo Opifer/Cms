@@ -1,5 +1,17 @@
-<ul>
-    {% for item in block.tree %}
-        <li>{{ item.title }}</li>
-    {% endfor %}
-</ul>
+
+<div>
+    {{ _self.render_tree(block.tree) }}
+</div>
+
+{% macro render_tree(tree) %}
+    <ul>
+        {% for item in tree %}
+            <li>
+                {{ item.title }}
+                {% if item.__children|default() %}
+                    {{ _self.render_tree(item.__children) }}
+                {% endif %}
+            </li>
+        {% endfor %}
+    </ul>
+{% endmacro %}

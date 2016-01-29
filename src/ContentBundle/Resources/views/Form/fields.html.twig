@@ -76,7 +76,7 @@
     {% set content = form.vars.value %}
     <div class="content-picker content-picker-list" ng-controller="ContentPickerController" ng-cloak ng-init="init('{{ content }}', '{{ full_name }}', true)">
         {% verbatim %}
-        <pre class="sortable-tree-input">{{ selecteditems|json:object }}</pre>
+        <!--<pre class="sortable-tree-input">{{ selecteditems|json:object }}</pre>-->
         <input type="hidden" id="" name="{{ formname }}" value="{{ selecteditems }}">
         <div ui-tree class="angular-tree" data-max-depth="3">
             <ol ui-tree-nodes="" ng-model="selecteditems">
@@ -84,8 +84,8 @@
                     <div ui-tree-handle>
                         {{ item.title }}
                     </div>
-                    <ol ui-tree-nodes="" ng-model="item.children">
-                        <li ng-repeat="subItem in item.children" ui-tree-node>
+                    <ol ui-tree-nodes="" ng-model="item.__children">
+                        <li ng-repeat="subItem in item.__children" ui-tree-node>
                             <div ui-tree-handle>
                                 {{ subItem.title }}
                             </div>

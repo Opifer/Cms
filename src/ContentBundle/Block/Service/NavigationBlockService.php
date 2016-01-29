@@ -21,6 +21,8 @@ class NavigationBlockService extends AbstractBlockService implements BlockServic
     /** @var ContentManagerInterface */
     protected $contentManager;
 
+    protected $collection;
+
     /**
      * Constructor
      *
@@ -55,25 +57,34 @@ class NavigationBlockService extends AbstractBlockService implements BlockServic
     public function load(BlockInterface $block)
     {
         /** @var NavigationBlock $block */
-        $array = json_decode($block->getValue(), true);
-        if (!$array) {
-            return;
-        }
-
-        $ids = $this->gatherIds($array);
-
-        $collection = $this->contentManager->getRepository()
-            ->createQueryBuilder('c')
-            ->where('c.id IN (:ids)')->setParameter('ids', $ids)
-            ->getQuery()
-            ->getResult();
-
-        if ($collection) {
-            $block->setTree($collection);
-        }
+        $block->setTree($this->GetTree($block->getValue()));
     }
 
     /**
+     * @param  string $json
+     * @return array
+     */
+    public function getTree($json)
+    {
+        $simpleTree = json_decode($json, true);
+        if (!$simpleTree) {
+            return [];
+        }
+
+        $collection = $this->contentManager->getRepository()
+            ->createQueryBuilder('c')
+            ->where('c.id IN (:ids)')->setParameter('ids', $this->gatherIds($simpleTree))
+            ->getQuery()
+            ->getArrayResult(); // TODO Serialize instead of transforming the complete object to array
+
+        $this->setCollection($collection);
+
+        return $this->buildTree($simpleTree);
+    }
+
+    /**
+     * Gather all ids, so we can retrieve all content in a single query
+     *
      * @param array $array
      * @param array $ids
      * @return array
@@ -82,8 +93,8 @@ class NavigationBlockService extends AbstractBlockService implements BlockServic
     {
         foreach ($array as $item) {
             $ids[] = $item['id'];
-            if (isset($item['children']) && count($item['children'])) {
-                $this->gatherIds($item['children'], $ids);
+            if (isset($item['__children']) && count($item['__children'])) {
+                $ids = $this->gatherIds($item['__children'], $ids);
             }
         }
 
@@ -91,7 +102,52 @@ class NavigationBlockService extends AbstractBlockService implements BlockServic
     }
 
     /**
-     * {@inheritDoc}
+     * Keep collection as key-value
+     *
+     * @param $collection
+     */
+    protected function setCollection($collection)
+    {
+        $array = [];
+        foreach ($collection as $content) {
+            $array[$content['id']] = $content;
+        }
+
+        $this->collection = $array;
+    }
+
+    /**
+     * Build the tree from the simpletree and the collection
+     *
+     * @param array $simpleTree
+     * @param array $tree
+     * @return array
+     */
+    protected function buildTree(array $simpleTree, $tree = [])
+    {
+        foreach ($simpleTree as $item) {
+            if (!isset($this->collection[$item['id']])) {
+                continue;
+            }
+
+            $content = $this->collection[$item['id']];
+
+            unset($this->collection[$item['id']]); // TODO Fix multi-usage of single item
+
+            if (isset($item['__children']) && count($item['__children'])) {
+                $content['__children'] = $this->buildTree($item['__children']);
+            } else {
+                $content['__children'] = [];
+            }
+
+            $tree[] = $content;
+        }
+
+        return $tree;
+    }
+
+    /**
+     * {@inheritdoc}
      */
     public function createBlock()
     {
@@ -99,7 +155,7 @@ class NavigationBlockService extends AbstractBlockService implements BlockServic
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getTool()
     {
