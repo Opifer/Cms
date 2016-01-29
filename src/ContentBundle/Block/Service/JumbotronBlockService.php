@@ -16,19 +16,6 @@ use Symfony\Component\Form\FormBuilderInterface;
  */
 class JumbotronBlockService extends AbstractBlockService implements BlockServiceInterface, ToolsetMemberInterface
 {
-    protected $view = 'OpiferContentBundle:Block:Content/jumbotron.html.twig';
-
-    /** @var array */
-    protected $styles;
-
-    /**
-     * {@inheritDoc}
-     */
-    public function getName(BlockInterface $block = null)
-    {
-        return 'Jumbotron';
-    }
-
     /**
      * {@inheritdoc}
      */
@@ -41,12 +28,12 @@ class JumbotronBlockService extends AbstractBlockService implements BlockService
             ->add('extra_classes', 'text', ['attr' => ['help_text' => 'help.extra_classes']]);
 
 
-        if ($this->styles) {
+        if ($this->config['styles']) {
 
             $propertiesForm
                 ->add('styles', 'choice', [
                     'label' => 'label.styling',
-                    'choices'  => array_combine($this->styles, $this->styles),
+                    'choices'  => array_combine($this->config['styles'], $this->config['styles']),
                     'required' => false,
                     'expanded' => true,
                     'multiple' => true,
@@ -79,15 +66,7 @@ class JumbotronBlockService extends AbstractBlockService implements BlockService
      */
     public function getStyles()
     {
-        return $this->styles;
-    }
-
-    /**
-     * @param array $styles
-     */
-    public function setStyles($styles)
-    {
-        $this->styles = $styles;
+        return $this->config['styles'];
     }
 
     /**

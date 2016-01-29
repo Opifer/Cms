@@ -20,10 +20,6 @@ class ContainerBlockService extends AbstractBlockService implements BlockService
 {
     protected $wrapper = "container";
 
-
-    /** @var string */
-    protected $view = 'OpiferContentBundle:Block:Layout/layout.html.twig';
-
     /**
      * {@inheritdoc}
      */
@@ -156,5 +152,4 @@ class ContainerBlockService extends AbstractBlockService implements BlockService
     {
         $this->wrapper = $wrapper;
     }
-
 }

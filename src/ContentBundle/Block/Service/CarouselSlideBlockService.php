@@ -14,19 +14,6 @@ use Symfony\Component\Form\FormBuilderInterface;
  */
 class CarouselSlideBlockService extends AbstractBlockService implements BlockServiceInterface, ToolsetMemberInterface
 {
-    protected $view = 'OpiferContentBundle:Block:Content/carousel_slide.html.twig';
-
-    /** @var array */
-    protected $styles;
-
-    /**
-     * {@inheritDoc}
-     */
-    public function getName(BlockInterface $block = null)
-    {
-        return 'Carousel slide';
-    }
-
     /**
      * {@inheritdoc}
      */
@@ -39,12 +26,12 @@ class CarouselSlideBlockService extends AbstractBlockService implements BlockSer
             ->add('extra_classes', 'text', ['attr' => ['help_text' => 'help.extra_classes']]);
 
 
-        if ($this->styles) {
+        if ($this->config['styles']) {
 
             $propertiesForm
                 ->add('styles', 'choice', [
                     'label' => 'label.styling',
-                    'choices'  => array_combine($this->styles, $this->styles),
+                    'choices'  => array_combine($this->config['styles'], $this->config['styles']),
                     'required' => false,
                     'expanded' => true,
                     'multiple' => true,
@@ -77,7 +64,7 @@ class CarouselSlideBlockService extends AbstractBlockService implements BlockSer
      */
     public function getStyles()
     {
-        return $this->styles;
+        return $this->config['styles'];
     }
 
     /**
@@ -85,7 +72,7 @@ class CarouselSlideBlockService extends AbstractBlockService implements BlockSer
      */
     public function setStyles($styles)
     {
-        $this->styles = $styles;
+        $this->config['styles'] = $styles;
     }
 
     /**

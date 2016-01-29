@@ -17,26 +17,6 @@ use Symfony\Component\Form\FormBuilderInterface;
  */
 class CarouselBlockService extends AbstractBlockService implements BlockServiceInterface, ToolsetMemberInterface
 {
-    protected $view = 'OpiferContentBundle:Block:Content/carousel.html.twig';
-
-    /**
-     * Constructor.
-     *
-     * @param EngineInterface $templating
-     */
-    public function __construct(EngineInterface $templating)
-    {
-        parent::__construct($templating);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function getName(BlockInterface $block = null)
-    {
-        return 'Carousel';
-    }
-
     /**
      * {@inheritDoc}
      */
