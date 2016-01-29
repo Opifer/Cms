@@ -5,6 +5,7 @@ parameters:
     opifer.content.collection_block.class: Opifer\ContentBundle\Block\Service\CollectionBlockService
     opifer.content.column_block.class: Opifer\ContentBundle\Block\Service\ColumnBlockService
     opifer.content.container_block.class: Opifer\ContentBundle\Block\Service\ContainerBlockService
+    opifer.content.section_block.class: Opifer\ContentBundle\Block\Service\SectionBlockService
     opifer.content.html_block.class: Opifer\ContentBundle\Block\Service\HtmlBlockService
     opifer.content.image_block.class: Opifer\ContentBundle\Block\Service\ImageBlockService
     opifer.content.jumbotron_block.class: Opifer\ContentBundle\Block\Service\JumbotronBlockService
@@ -67,21 +68,17 @@ services:
         tags:
             - { name: opifer.content.block_service, alias: pointer }
 
-    opifer.content.container_section_block:
-        class: '%opifer.content.container_block.class%'
-        arguments: ['@templating', '%opifer_content.container_block_configuration%']
+    opifer.content.section_block:
+        class: '%opifer.content.section_block.class%'
+        arguments: ['@templating', '%opifer_content.section_block_configuration%']
         tags:
-            - { name: opifer.content.block_service, alias: container_section }
-        calls:
-            - [setWrapper, ["section"]]
+            - { name: opifer.content.block_service, alias: section }
 
     opifer.content.container_block:
         class: '%opifer.content.container_block.class%'
         arguments: ['@templating', '%opifer_content.container_block_configuration%']
         tags:
-            - { name: opifer.content.block_service, alias: container_container }
-        calls:
-            - [setWrapper, ["container"]]
+            - { name: opifer.content.block_service, alias: container }
 
     opifer.content.column_one_block:
         class: '%opifer.content.column_block.class%'

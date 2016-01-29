@@ -34,10 +34,11 @@ opifer_content:
             styles: [default]
         collection:
             view: 'OpiferContentBundle:Block:Content/collection.html.twig'
-        collumn:
+        column:
             view: 'OpiferContentBundle:Block:Layout/layout.html.twig'
         container:
             view: 'OpiferContentBundle:Block:Layout/layout.html.twig'
+            styles: {row-space-4: Spacing 4 (bottom)}
         html:
             view: 'OpiferContentBundle:Block:Content/html.html.twig'
         image:
@@ -45,7 +46,7 @@ opifer_content:
             allowed_filters: [medialibrary, dashboard_content]
         jumbotron:
             view: 'OpiferContentBundle:Block:Content/jumbotron.html.twig'
-            styles: [jumbotron-sm, jumbotron-md, jumbotron-lg, text-regular, text-contrast]
+            styles: {jumbotron-sm: Jumbotron Small, jumbotron-md: Jumbotron Medium, jumbotron-lg: Jumbotron Large, text-regular: Text regular (color), text-contrast: Text contrast (color)}
         list:
             view: 'OpiferContentBundle:Block:Content/list.html.twig'
             templates: {list_simple: Simple list, tiles: Tiles, tiles_text: Tiles with description}

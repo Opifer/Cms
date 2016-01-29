@@ -38,6 +38,8 @@ class ListBlockService extends AbstractBlockService implements BlockServiceInter
     {
         parent::buildManageForm($builder, $options);
 
+        $propertiesForm = $builder->create('properties', 'form');
+
         // Default panel
         $builder->add(
             $builder->create('default', 'form', ['virtual' => true])
@@ -49,15 +51,28 @@ class ListBlockService extends AbstractBlockService implements BlockServiceInter
                     'data'     => $options['data']->getValue()
                 ])
         )->add(
-            $builder->create('properties', 'form')
-                ->add('template', 'choice', [
+            $propertiesForm->add('template', 'choice', [
                     'label'         => 'label.template',
                     'placeholder'   => 'placeholder.choice_optional',
-                    'attr'          => ['help_text' => 'help_text.block_template'],
+                    'attr'          => ['help_text' => 'help.block_template'],
                     'choices'       => $this->config['templates'],
                     'required'      => false,
                 ])
         );
+
+
+        if ($this->config['styles']) {
+
+            $propertiesForm
+                ->add('styles', 'choice', [
+                    'label' => 'label.styling',
+                    'choices'  => $this->config['styles'],
+                    'required' => false,
+                    'expanded' => true,
+                    'multiple' => true,
+                    'attr' => ['help_text' => 'help.html_styles'],
+                ]);
+        }
     }
 
     /**

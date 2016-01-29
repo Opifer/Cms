@@ -33,7 +33,7 @@ class JumbotronBlockService extends AbstractBlockService implements BlockService
             $propertiesForm
                 ->add('styles', 'choice', [
                     'label' => 'label.styling',
-                    'choices'  => array_combine($this->config['styles'], $this->config['styles']),
+                    'choices'  => $this->config['styles'],
                     'required' => false,
                     'expanded' => true,
                     'multiple' => true,

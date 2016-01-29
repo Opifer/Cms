@@ -4,10 +4,8 @@ namespace Opifer\ContentBundle\Block\Service;
 
 use Opifer\ContentBundle\Block\Tool\ContainerTool;
 use Opifer\ContentBundle\Block\Tool\ToolsetMemberInterface;
-use Opifer\ContentBundle\Model\BlockInterface;
+use Opifer\ContentBundle\Entity\ContainerBlock;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\Form\FormEvent;
 
@@ -18,34 +16,6 @@ use Symfony\Component\Form\FormEvent;
  */
 class ContainerBlockService extends AbstractBlockService implements BlockServiceInterface, ToolsetMemberInterface
 {
-    protected $wrapper = "container";
-
-    /**
-     * {@inheritdoc}
-     */
-    public function execute(BlockInterface $block, Response $response = null)
-    {
-
-        $parameters = array(
-            'block_service'  => $this,
-            'block'          => $block,
-        );
-
-        return $this->renderResponse($this->getView($block), $parameters, $response);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function manage(BlockInterface $block, Response $response = null)
-    {
-        return $this->renderResponse($this->getManageView($block), array(
-            'block_service'  => $this,
-            'block'          => $block,
-            'block_view'     => $this->getView($block),
-            'manage_type'    => $this->getManageFormTypeName(),
-        ), $response);
-    }
 
     /**
      * {@inheritdoc}
@@ -66,17 +36,14 @@ class ContainerBlockService extends AbstractBlockService implements BlockService
 
             $form = $event->getForm();
 
-            if ($block->getWrapper() == 'section') {
-                $styles = ['row-space-top-2', 'row-space-top-4', 'row-space-top-8', 'row-space-2', 'row-space-4', 'row-space-8', 'light', 'dark'];
-                $form->get('properties')->add('styles', 'choice', [
-                    'label' => 'label.styling',
-                    'choices'  => array_combine($styles, $styles),
-                    'required' => false,
-                    'expanded' => true,
-                    'multiple' => true,
-                    'attr' => ['help_text' => 'help.html_styles'],
-                ]);
-            }
+            $form->get('properties')->add('styles', 'choice', [
+                'label' => 'label.styling',
+                'choices'  => $this->config['styles'],
+                'required' => false,
+                'expanded' => true,
+                'multiple' => true,
+                'attr' => ['help_text' => 'help.html_styles'],
+            ]);
 
             $form->get('properties')->add(
                 'container_size',
@@ -94,14 +61,6 @@ class ContainerBlockService extends AbstractBlockService implements BlockService
     /**
      * {@inheritDoc}
      */
-    public function configureManageOptions(OptionsResolver $resolver)
-    {
-    }
-
-
-    /**
-     * {@inheritDoc}
-     */
     public function getManageFormTypeName()
     {
         return 'layout';
@@ -112,15 +71,7 @@ class ContainerBlockService extends AbstractBlockService implements BlockService
      */
     public function createBlock()
     {
-        return new ColumnBlock();
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function getName(BlockInterface $block = null)
-    {
-        return ucfirst($this->wrapper);
+        return new ContainerBlock;
     }
 
     /**
@@ -130,26 +81,10 @@ class ContainerBlockService extends AbstractBlockService implements BlockService
     {
         $tool = new ContainerTool($this->getName(), 'OpiferContentBundle:ContainerBlock');
 
-        $tool->setData(['wrapper' => $this->wrapper])
+        $tool
             ->setIcon('crop_landscape')
-            ->setDescription('Wrapping element ' . $this->wrapper . ' to hold columns or content in');
+            ->setDescription('Container element to hold columns or other blocks in');
 
         return $tool;
-    }
-
-    /**
-     * @return string
-     */
-    public function getWrapper()
-    {
-        return $this->wrapper;
-    }
-
-    /**
-     * @param string $wrapper
-     */
-    public function setWrapper($wrapper)
-    {
-        $this->wrapper = $wrapper;
     }
 }
