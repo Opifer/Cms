@@ -311,6 +311,7 @@ $(document).ready(function() {
 
             $.get(url).success(function (data) {
                 $('#pm-block-edit').html(data);
+                angular.bootstrap($('#pm-block-edit form'), ["MainApp"]);
             });
 
             $('#pm-block-edit').removeClass('hidden');

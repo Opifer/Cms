@@ -6,6 +6,7 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\Form\Exception\UnexpectedTypeException;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
+use Opifer\EavBundle\Form\Type\ValueType;
 
 /**
  * Values Subscriber
@@ -61,7 +62,7 @@ class ValuesSubscriber implements EventSubscriberInterface
             if ($form->has($name)) {
                 continue;
             }
-            $form->add($name, 'eav_value', [
+            $form->add($name, ValueType::class, [
                 'label' => $value->getAttribute()->getDisplayName(),
                 'attribute' => $value->getAttribute(),
                 'entity' => get_class($value),
