@@ -50,7 +50,7 @@ services:
         class: '%opifer.media.form.mediapicker.class%'
         arguments: ['@opifer.media.provider.pool', '%opifer_media.media_class%']
         tags:
-            - { name: form.type, alias: mediapicker }
+            - { name: form.type }
 
     # Providers
     opifer.media.provider.pool:
