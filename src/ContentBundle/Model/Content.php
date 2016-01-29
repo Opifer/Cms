@@ -689,6 +689,11 @@ class Content implements ContentInterface, EntityInterface
     public function getAttributes()
     {
         $array = [];
+
+        if ($this->getValueSet() === null) {
+            return $array;
+        }
+
         foreach ($this->getValueSet()->getValues() as $value) {
             $array[$value->getAttribute()->getName()] = $value;
         }
