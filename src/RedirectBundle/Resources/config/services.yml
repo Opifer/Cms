@@ -4,16 +4,16 @@ parameters:
 
 services:
     opifer.redirect.redirect_manager.default:
-        class: %opifer.redirect.redirect_manager.default.class%
-        arguments: [@doctrine.orm.default_entity_manager, %opifer_redirect.redirect_class%]
+        class: '%opifer.redirect.redirect_manager.default.class%'
+        arguments: ['@doctrine.orm.default_entity_manager', '%opifer_redirect.redirect_class%']
 
     opifer.redirect.redirect_router:
-        class: %opifer.redirect.redirect_router.class%
-        arguments: [@request_stack, @opifer.redirect.redirect_manager]
+        class: '%opifer.redirect.redirect_router.class%'
+        arguments: ['@request_stack', '@opifer.redirect.redirect_manager']
 
     opifer.redirect.redirect_type:
         class: Opifer\RedirectBundle\Form\Type\RedirectType
-        arguments: [%opifer_redirect.redirect_class%]
+        arguments: ['%opifer_redirect.redirect_class%']
         tags:
             - { name: form.type, alias: opifer_redirect }
 

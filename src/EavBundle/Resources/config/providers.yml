@@ -1,6 +1,8 @@
 parameters:
     opifer.eav.boolean_value_provider.class: Opifer\EavBundle\ValueProvider\BooleanValueProvider
     opifer.eav.checklist_value_provider.class: Opifer\EavBundle\ValueProvider\ChecklistValueProvider
+    opifer.eav.date_value_provider.class: Opifer\EavBundle\ValueProvider\DateValueProvider
+    opifer.eav.datetime_value_provider.class: Opifer\EavBundle\ValueProvider\DatetimeValueProvider
     opifer.eav.radio_value_provider.class: Opifer\EavBundle\ValueProvider\RadioValueProvider
     opifer.eav.integer_value_provider.class: Opifer\EavBundle\ValueProvider\IntegerValueProvider
     opifer.eav.media_value_provider.class: Opifer\EavBundle\ValueProvider\MediaValueProvider
@@ -10,60 +12,55 @@ parameters:
 
 services:
     opifer.eav.boolean_value_provider:
-        class: %opifer.eav.boolean_value_provider.class%
+        class: '%opifer.eav.boolean_value_provider.class%'
         tags:
             - { name: opifer.eav.value_provider, alias: boolean }
 
     opifer.eav.checklist_value_provider:
-         class: %opifer.eav.checklist_value_provider.class%
-         arguments: [%opifer_eav.option_class%]
+         class: '%opifer.eav.checklist_value_provider.class%'
+         arguments: ['%opifer_eav.option_class%']
          tags:
              - { name: opifer.eav.value_provider, alias: checklist }
 
     opifer.eav.radio_value_provider:
-        class: %opifer.eav.radio_value_provider.class%
-        arguments: [%opifer_eav.option_class%]
+        class: '%opifer.eav.radio_value_provider.class%'
+        arguments: ['%opifer_eav.option_class%']
         tags:
             - { name: opifer.eav.value_provider, alias: radio }
 
     opifer.eav.date_value_provider:
-        class: Opifer\EavBundle\ValueProvider\DateValueProvider
+        class: '%opifer.eav.date_value_provider.class%'
         tags:
             - { name: opifer.eav.value_provider, alias: date }
 
     opifer.eav.datetime_value_provider:
-        class: Opifer\EavBundle\ValueProvider\DatetimeValueProvider
+        class: '%opifer.eav.datetime_value_provider.class%'
         tags:
             - { name: opifer.eav.value_provider, alias: datetime }
 
     opifer.eav.integer_value_provider:
-        class: %opifer.eav.integer_value_provider.class%
+        class: '%opifer.eav.integer_value_provider.class%'
         tags:
             - { name: opifer.eav.value_provider, alias: integer }
 
     opifer.eav.media_value_provider:
-        class: %opifer.eav.media_value_provider.class%
-        arguments: [%opifer_eav.media_class%]
+        class: '%opifer.eav.media_value_provider.class%'
+        arguments: ['%opifer_eav.media_class%']
         tags:
             - { name: opifer.eav.value_provider, alias: media }
 
     opifer.eav.string_value_provider:
-        class: %opifer.eav.string_value_provider.class%
+        class: '%opifer.eav.string_value_provider.class%'
         tags:
             - { name: opifer.eav.value_provider, alias: string }
 
     opifer.eav.text_value_provider:
-        class: %opifer.eav.text_value_provider.class%
+        class: '%opifer.eav.text_value_provider.class%'
         tags:
             - { name: opifer.eav.value_provider, alias: text }
 
     opifer.eav.select_value_provider:
-        class: %opifer.eav.select_value_provider.class%
-        arguments: [%opifer_eav.option_class%]
+        class: '%opifer.eav.select_value_provider.class%'
+        arguments: ['%opifer_eav.option_class%']
         tags:
             - { name: opifer.eav.value_provider, alias: select }
-
-    # opifer.eav.date_value_provider:
-    #     class: Opifer\EavBundle\ValueProvider\DateValueProvider
-    #     tags:
-    #         - { name: opifer.eav.value_provider, alias: date }
