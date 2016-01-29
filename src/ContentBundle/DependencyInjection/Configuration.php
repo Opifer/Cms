@@ -135,6 +135,22 @@ class Configuration implements ConfigurationInterface
                             ->addDefaultsIfNotSet()
                             ->children()
                                 ->scalarNode('view')->defaultValue('OpiferContentBundle:Block:Layout/layout.html.twig')->end()
+                                ->arrayNode('styles')
+                                    ->prototype('scalar')->end()
+                                    ->normalizeKeys(false)
+                                    ->useAttributeAsKey('name')
+                                ->end()
+                            ->end()
+                        ->end()
+                        ->arrayNode('section')
+                            ->addDefaultsIfNotSet()
+                            ->children()
+                                ->scalarNode('view')->defaultValue('OpiferContentBundle:Block:Layout/section.html.twig')->end()
+                                ->arrayNode('styles')
+                                    ->prototype('scalar')->end()
+                                    ->normalizeKeys(false)
+                                    ->useAttributeAsKey('name')
+                                ->end()
                             ->end()
                         ->end()
                         ->arrayNode('html')
@@ -161,8 +177,13 @@ class Configuration implements ConfigurationInterface
                                 ->scalarNode('view')->defaultValue('OpiferContentBundle:Block:Content/jumbotron.html.twig')->end()
                                 ->arrayNode('styles')
                                     ->prototype('scalar')->end()
+                                    ->normalizeKeys(false)
                                     ->defaultValue([
-                                        'jumbotron-sm', 'jumbotron-md', 'jumbotron-lg', 'text-regular', 'text-contrast'
+                                        'jumbotron-sm' => 'Jumbotron small',
+                                        'jumbotron-md' => 'Jumbotron medium',
+                                        'jumbotron-lg' => 'Jumbotron large',
+                                        'text-regular' => 'Text-color regular',
+                                        'text-contrast' => 'Text-color contrast',
                                     ])
                                 ->end()
                             ->end()
@@ -171,8 +192,15 @@ class Configuration implements ConfigurationInterface
                             ->addDefaultsIfNotSet()
                             ->children()
                                 ->scalarNode('view')->defaultValue('OpiferContentBundle:Block:Content/list.html.twig')->end()
+                                ->arrayNode('styles')
+                                    ->prototype('scalar')->end()
+                                    ->normalizeKeys(false)
+                                    ->useAttributeAsKey('name')
+                                ->end()
                                 ->arrayNode('templates')
-                                    ->prototype('array')->end()
+                                    ->prototype('scalar')->end()
+                                    ->normalizeKeys(false)
+                                    ->useAttributeAsKey('name')
                                     ->defaultValue([
                                         'list_simple' => 'Simple list',
                                         'tiles' => 'Tiles',

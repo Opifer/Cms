@@ -33,7 +33,7 @@ class JumbotronBlockService extends AbstractBlockService implements BlockService
             $propertiesForm
                 ->add('styles', 'choice', [
                     'label' => 'label.styling',
-                    'choices'  => array_combine($this->config['styles'], $this->config['styles']),
+                    'choices'  => $this->config['styles'],
                     'required' => false,
                     'expanded' => true,
                     'multiple' => true,
@@ -46,6 +46,7 @@ class JumbotronBlockService extends AbstractBlockService implements BlockService
                 ->add('media', MediaPickerType::class, [
                     'required'  => false,
                     'multiple' => false,
+                    'attr' => array('label_col' => 12, 'widget_col' => 12),
                 ])
                 ->add('value', 'ckeditor', ['label' => 'label.rich_text', 'attr' => ['label_col' => 12, 'widget_col' => 12]])
         )->add(
