@@ -20,20 +20,17 @@ use Doctrine\ORM\EntityRepository;
  */
 class PointerBlockService extends AbstractBlockService implements BlockServiceInterface, ToolsetMemberInterface
 {
-    protected $view = 'OpiferContentBundle:Block:Content/pointer.html.twig'; // Dummy view
-
-    /**
-     * @var BlockManager
-     */
+    /** @var BlockManager */
     protected $blockManager;
 
     /**
      * @param EngineInterface $templating
-     * @param BlockManager    $em
+     * @param BlockManager    $em\
+     * @param array           $config
      */
-    public function __construct(EngineInterface $templating, BlockManager $blockManager)
+    public function __construct(EngineInterface $templating, BlockManager $blockManager, array $config)
     {
-        parent::__construct($templating);
+        parent::__construct($templating, $config);
 
         $this->blockManager = $blockManager;
     }
@@ -76,7 +73,7 @@ class PointerBlockService extends AbstractBlockService implements BlockServiceIn
     public function getView(BlockInterface $block)
     {
         if (!$block->getReference()) {
-            return $this->view;
+            return $this->config['view'];
         }
 
         return $this->getReferenceService($block)->getView($block->getReference());
@@ -153,6 +150,4 @@ class PointerBlockService extends AbstractBlockService implements BlockServiceIn
 
         return $tool;
     }
-
-
 }

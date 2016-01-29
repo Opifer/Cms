@@ -26,25 +26,17 @@ class CollectionBlockService extends AbstractBlockService implements BlockServic
 {
     /** @var ContentManagerInterface */
     protected $contentManager;
-    protected $view = 'OpiferContentBundle:Block:Content/collection.html.twig';
 
     /**
      * @param EngineInterface         $templating
      * @param ContentManagerInterface $contentManager
+     * @param array                   $config
      */
-    public function __construct(EngineInterface $templating, ContentManagerInterface $contentManager)
+    public function __construct(EngineInterface $templating, ContentManagerInterface $contentManager, array $config)
     {
-        parent::__construct($templating);
+        parent::__construct($templating, $config);
 
         $this->contentManager = $contentManager;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function getName(BlockInterface $block = null)
-    {
-        return 'Collection';
     }
 
     /**
