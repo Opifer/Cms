@@ -3,7 +3,6 @@ parameters:
     opifer.content.content_list_value_provider.class: Opifer\ContentBundle\ValueProvider\ContentListValueProvider
     opifer.content.content_manager.default.class: Opifer\ContentBundle\Model\ContentManager
     opifer.content.content_router.class: Opifer\ContentBundle\Router\ContentRouter
-    opifer.content.content_type.class: Opifer\ContentBundle\Form\Type\ContentType
     opifer.content.content_value_provider.class: Opifer\ContentBundle\ValueProvider\ContentValueProvider
     opifer.content.content_type_manager.class: Opifer\ContentBundle\Model\ContentTypeManager
     opifer.content.form.contentpicker_type.class: Opifer\ContentBundle\Form\Type\ContentPickerType
@@ -39,7 +38,7 @@ services:
     # Form types
 
     opifer.content.content_type:
-        class: '%opifer.content.content_type.class%'
+        class: Opifer\ContentBundle\Form\Type\ContentType
         arguments: ['%opifer_content.content_class%']
         tags:
             - { name: form.type }

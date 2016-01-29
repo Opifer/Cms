@@ -3,6 +3,8 @@
 namespace Opifer\CmsBundle\Form\Type;
 
 use Opifer\ContentBundle\Form\Type\ContentType as BaseContentType;
+use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\FormBuilderInterface;
 
 /**
@@ -10,7 +12,7 @@ use Symfony\Component\Form\FormBuilderInterface;
  *
  * @package Opifer\CmsBundle\Form\Type
  */
-class ContentType extends BaseContentType
+class ContentType extends AbstractType
 {
     /**
      * {@inheritdoc}
@@ -18,7 +20,7 @@ class ContentType extends BaseContentType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('indexable', 'checkbox', [
+            ->add('indexable', CheckboxType::class, [
                 'label' => 'content.form.indexable.label',
                 'attr' => [
                     'align_with_widget' => true,
@@ -26,7 +28,7 @@ class ContentType extends BaseContentType
                     'help_text' => 'content.form.indexable.help_text',
                 ],
             ])
-            ->add('searchable', 'checkbox', [
+            ->add('searchable', CheckboxType::class, [
                 'label' => 'content.form.searchable.label',
                 'attr' => [
                     'align_with_widget' => true,
@@ -37,5 +39,13 @@ class ContentType extends BaseContentType
         ;
 
         parent::buildForm($builder, $options);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getParent()
+    {
+        return BaseContentType::class;
     }
 }
