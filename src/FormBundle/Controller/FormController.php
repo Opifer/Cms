@@ -6,6 +6,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Opifer\FormBundle\Event\Events;
 use Opifer\FormBundle\Event\FormSubmitEvent;
 use Opifer\FormBundle\Form\Type\FormType;
+use Opifer\FormBundle\Form\Type\PostType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -170,7 +171,7 @@ class FormController extends Controller
         $post = $this->get('opifer.eav.eav_manager')->initializeEntity($form->getSchema());
         $post->setForm($form);
 
-        $postForm = $this->createForm('opifer_form_post', $post, ['form_id' => $id]);
+        $postForm = $this->createForm(PostType::class, $post, ['form_id' => $id]);
         $postForm->handleRequest($request);
 
         if ($postForm->isSubmitted() && $postForm->isValid()) {

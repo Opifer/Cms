@@ -15,9 +15,9 @@ services:
         class: Opifer\RedirectBundle\Form\Type\RedirectType
         arguments: ['%opifer_redirect.redirect_class%']
         tags:
-            - { name: form.type, alias: opifer_redirect }
+            - { name: form.type }
 
     opifer.redirect.requirement_type:
         class: Opifer\RedirectBundle\Form\Type\RequirementType
         tags:
-            - { name: form.type, alias: opifer_requirement }
+            - { name: form.type }

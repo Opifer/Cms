@@ -2,8 +2,8 @@
 
 namespace Opifer\CmsBundle\Kernel;
 
-use Symfony\Component\HttpKernel\Kernel as BaseKernel;
 use Symfony\Component\Config\Loader\LoaderInterface;
+use Symfony\Component\HttpKernel\Kernel as BaseKernel;
 
 abstract class Kernel extends BaseKernel
 {

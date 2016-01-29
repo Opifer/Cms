@@ -6,9 +6,9 @@ use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use JMS\Serializer\Annotation as JMS;
 use Opifer\EavBundle\Model\EntityInterface;
+use Opifer\EavBundle\Model\SchemaInterface;
 use Opifer\EavBundle\Model\ValueSet;
 use Opifer\EavBundle\Model\ValueSetInterface;
-use Opifer\EavBundle\Model\SchemaInterface;
 
 /**
  * Post entity.

@@ -3,6 +3,7 @@
 namespace Opifer\CmsBundle\Form\Type;
 
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 
 /**
  * Class CKEditorType.
@@ -14,13 +15,13 @@ class CKEditorType extends AbstractType
      */
     public function getParent()
     {
-        return 'textarea';
+        return TextareaType::class;
     }
 
     /**
      * {@inheritdoc}
      */
-    public function getName()
+    public function getBlockPrefix()
     {
         return 'ckeditor';
     }

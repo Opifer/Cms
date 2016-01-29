@@ -2,12 +2,12 @@
 
 namespace Opifer\ContentBundle\Controller\Api;
 
+use JMS\Serializer\SerializationContext;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
 
-use JMS\Serializer\SerializationContext;
+use Symfony\Component\HttpFoundation\Response;
 
 class ContentController extends Controller
 {

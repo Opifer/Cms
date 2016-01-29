@@ -3,12 +3,12 @@
 namespace Opifer\ContentBundle\Form\Type;
 
 use Opifer\ContentBundle\Block\Service\BlockServiceInterface;
-use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\OptionsResolver\OptionsResolverInterface;
-use Symfony\Component\Form\FormTypeInterface;
-use Symfony\Component\Form\FormView;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormInterface;
+use Symfony\Component\Form\FormTypeInterface;
+use Symfony\Component\Form\FormView;
+use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
 /**
  * Class BlockAdapterFormType
@@ -81,11 +81,10 @@ class BlockAdapterFormType implements FormTypeInterface
     {
         return 'form';
     }
-
     /**
      * {@inheritdoc}
      */
-    public function getName()
+    public function getBlockPrefix()
     {
         return $this->blockService->getManageFormTypeName();
     }

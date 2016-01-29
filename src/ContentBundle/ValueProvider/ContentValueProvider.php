@@ -2,9 +2,10 @@
 
 namespace Opifer\ContentBundle\ValueProvider;
 
-use Symfony\Component\Form\FormBuilderInterface;
+use Opifer\ContentBundle\Form\Type\ContentPickerType;
 use Opifer\EavBundle\ValueProvider\AbstractValueProvider;
 use Opifer\EavBundle\ValueProvider\ValueProviderInterface;
+use Symfony\Component\Form\FormBuilderInterface;
 
 class ContentValueProvider extends AbstractValueProvider implements ValueProviderInterface
 {
@@ -14,7 +15,7 @@ class ContentValueProvider extends AbstractValueProvider implements ValueProvide
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('content', 'contentpicker', [
+        $builder->add('content', ContentPickerType::class, [
             'label'    => false,
         ]);
     }

@@ -4,8 +4,8 @@ namespace Opifer\ContentBundle\Form\Type;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\Form\FormEvents;
 use Symfony\Component\Form\FormEvent;
+use Symfony\Component\Form\FormEvents;
 
 /**
  * Class ColumnEnumType
@@ -37,7 +37,7 @@ class ColumnEnumType extends AbstractType
     /**
      * {@inheritDoc}
      */
-    public function getName()
+    public function getBlockPrefix()
     {
         return 'column_span';
     }

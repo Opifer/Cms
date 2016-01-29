@@ -5,13 +5,13 @@ namespace Opifer\CmsBundle\Security;
 use ReCaptcha\ReCaptcha;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
-use Symfony\Component\Security\Http\Authentication\SimpleFormAuthenticatorInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
 use Symfony\Component\Security\Core\Exception\UsernameNotFoundException;
 use Symfony\Component\Security\Core\User\UserProviderInterface;
+use Symfony\Component\Security\Http\Authentication\SimpleFormAuthenticatorInterface;
 
 class CaptchaAuthenticator implements SimpleFormAuthenticatorInterface
 {

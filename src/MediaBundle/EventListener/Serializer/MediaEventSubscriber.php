@@ -5,9 +5,9 @@ namespace Opifer\MediaBundle\EventListener\Serializer;
 use JMS\Serializer\EventDispatcher\EventSubscriberInterface;
 use JMS\Serializer\EventDispatcher\ObjectEvent;
 use Liip\ImagineBundle\Imagine\Cache\CacheManager;
+use Liip\ImagineBundle\Imagine\Filter\FilterConfiguration;
 use Opifer\MediaBundle\Model\MediaInterface;
 use Opifer\MediaBundle\Provider\Pool;
-use Liip\ImagineBundle\Imagine\Filter\FilterConfiguration;
 use PhpOption\None;
 
 /**

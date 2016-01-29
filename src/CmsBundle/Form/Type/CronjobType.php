@@ -3,6 +3,8 @@
 namespace Opifer\CmsBundle\Form\Type;
 
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\NumberType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 
 class CronjobType extends AbstractType
@@ -13,26 +15,18 @@ class CronjobType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('command', 'text', [
+            ->add('command', TextType::class, [
                 'attr' => [
                     'placeholder' => 'vendor:project:command',
                 ],
             ])
-            ->add('expression', 'text', [
+            ->add('expression', TextType::class, [
                 'attr' => [
                     'placeholder' => '* * * * *',
                 ],
             ])
-            ->add('priority', 'number')
+            ->add('priority', NumberType::class)
         ;
-    }
-
-    /**
-     * @deprecated
-     */
-    public function getName()
-    {
-        return $this->getBlockPrefix();
     }
 
     /**

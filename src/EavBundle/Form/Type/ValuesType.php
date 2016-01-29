@@ -42,14 +42,6 @@ class ValuesType extends AbstractType
     }
 
     /**
-     * @deprecated
-     */
-    public function getName()
-    {
-        return $this->getBlockPrefix();
-    }
-
-    /**
      * {@inheritDoc}
      */
     public function getBlockPrefix()

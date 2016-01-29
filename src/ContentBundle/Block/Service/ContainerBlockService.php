@@ -5,9 +5,12 @@ namespace Opifer\ContentBundle\Block\Service;
 use Opifer\ContentBundle\Block\Tool\ContainerTool;
 use Opifer\ContentBundle\Block\Tool\ToolsetMemberInterface;
 use Opifer\ContentBundle\Entity\ContainerBlock;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\FormType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\Form\FormEvents;
 use Symfony\Component\Form\FormEvent;
+use Symfony\Component\Form\FormEvents;
 
 /**
  * Class ColumnBlockService
@@ -25,9 +28,9 @@ class ContainerBlockService extends AbstractBlockService implements BlockService
         parent::buildManageForm($builder, $options);
 
 
-        $propertiesForm = $builder->create('properties', 'form')
-            ->add('id', 'text', ['attr' => ['help_text' => 'help.html_id']])
-            ->add('extra_classes', 'text', ['attr' => ['help_text' => 'help.extra_classes']]);
+        $propertiesForm = $builder->create('properties', FormType::class)
+            ->add('id', TextType::class, ['attr' => ['help_text' => 'help.html_id']])
+            ->add('extra_classes', TextType::class, ['attr' => ['help_text' => 'help.extra_classes']]);
 
         $builder->add($propertiesForm);
 
@@ -36,7 +39,7 @@ class ContainerBlockService extends AbstractBlockService implements BlockService
 
             $form = $event->getForm();
 
-            $form->get('properties')->add('styles', 'choice', [
+            $form->get('properties')->add('styles', ChoiceType::class, [
                 'label' => 'label.styling',
                 'choices'  => $this->config['styles'],
                 'required' => false,
@@ -45,16 +48,12 @@ class ContainerBlockService extends AbstractBlockService implements BlockService
                 'attr' => ['help_text' => 'help.html_styles'],
             ]);
 
-            $form->get('properties')->add(
-                'container_size',
-                'choice',
-                [
-                    'label' => 'label.container_sizing',
-                    'choices' => ['fluid' => 'label.container_fluid', '' => 'label.container_fixed', 'smooth' => 'label.container_smooth'],
-                    'required' => true,
-                    'attr' => ['help_text' => 'help.container_sizing'],
-                ]
-            );
+            $form->get('properties')->add('container_size', ChoiceType::class, [
+                'label' => 'label.container_sizing',
+                'choices' => ['fluid' => 'label.container_fluid', '' => 'label.container_fixed', 'smooth' => 'label.container_smooth'],
+                'required' => true,
+                'attr' => ['help_text' => 'help.container_sizing'],
+            ]);
         });
     }
 

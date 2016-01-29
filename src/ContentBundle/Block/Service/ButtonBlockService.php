@@ -6,6 +6,9 @@ use Opifer\ContentBundle\Block\Tool\ContentTool;
 use Opifer\ContentBundle\Block\Tool\ToolsetMemberInterface;
 use Opifer\ContentBundle\Entity\ButtonBlock;
 use Opifer\ContentBundle\Model\BlockInterface;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\FormType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 
 /**
@@ -20,23 +23,19 @@ class ButtonBlockService extends AbstractBlockService implements BlockServiceInt
     {
         parent::buildManageForm($builder, $options);
 
-        $propertiesForm = $builder->create('properties', 'form')
-            ->add('url', 'text', ['label' => 'label.url'])
-            ->add(
-                'target',
-                'choice',
-                [
-                    'label' => 'label.target',
-                    'choices' => ['_blank' => '_blank', '_self' => '_self'],
-                    'required' => false,
-                ]
-            )
-            ->add('id', 'text', ['attr' => ['help_text' => 'help.html_id']])
-            ->add('extra_classes', 'text', ['attr' => ['help_text' => 'help.extra_classes']]);
+        $propertiesForm = $builder->create('properties', FormType::class)
+            ->add('url', TextType::class, ['label' => 'label.url'])
+            ->add('target', ChoiceType::class, [
+                'label' => 'label.target',
+                'choices' => ['_blank' => '_blank', '_self' => '_self'],
+                'required' => false,
+            ])
+            ->add('id', TextType::class, ['attr' => ['help_text' => 'help.html_id']])
+            ->add('extra_classes', TextType::class, ['attr' => ['help_text' => 'help.extra_classes']]);
 
 
         if ($this->config['styles']) {
-            $propertiesForm->add('styles', 'choice', [
+            $propertiesForm->add('styles', ChoiceType::class, [
                 'label' => 'label.styling',
                 'choices'  => array_combine($this->config['styles'], $this->config['styles']),
                 'required' => false,
@@ -46,8 +45,8 @@ class ButtonBlockService extends AbstractBlockService implements BlockServiceInt
         }
 
         $builder->add(
-            $builder->create('default', 'form', ['inherit_data' => true])
-                ->add('value', 'text', ['label' => 'label.label'])
+            $builder->create('default', FormType::class, ['inherit_data' => true])
+                ->add('value', TextType::class, ['label' => 'label.label'])
         )->add(
             $propertiesForm
         );
@@ -81,6 +80,4 @@ class ButtonBlockService extends AbstractBlockService implements BlockServiceInt
 
         return $tool;
     }
-
-
 }

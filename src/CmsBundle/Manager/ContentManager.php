@@ -2,12 +2,12 @@
 
 namespace Opifer\CmsBundle\Manager;
 
+use Doctrine\ORM\EntityManagerInterface;
 use Opifer\ContentBundle\Model\ContentInterface;
 use Opifer\ContentBundle\Model\ContentManager as BaseContentManager;
 use Opifer\EavBundle\Manager\EavManager;
-use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorage;
-use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Form\FormFactoryInterface;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorage;
 
 class ContentManager extends BaseContentManager
 {

@@ -2,11 +2,11 @@
 
 namespace Opifer\ContentBundle\Handler;
 
-use Gedmo\Sluggable\SluggableListener;
-use Gedmo\Sluggable\Mapping\Event\SluggableAdapter;
-use Gedmo\Sluggable\Handler\SlugHandlerInterface;
 use Doctrine\Common\Persistence\Mapping\ClassMetadata;
 use Gedmo\Sluggable\Handler\RelativeSlugHandler;
+use Gedmo\Sluggable\Handler\SlugHandlerInterface;
+use Gedmo\Sluggable\Mapping\Event\SluggableAdapter;
+use Gedmo\Sluggable\SluggableListener;
 
 /**
  * class SlugHandler

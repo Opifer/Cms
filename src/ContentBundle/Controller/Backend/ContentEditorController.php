@@ -2,14 +2,14 @@
 
 namespace Opifer\ContentBundle\Controller\Backend;
 
+use Opifer\ContentBundle\Block\BlockManager;
+use Opifer\ContentBundle\Block\Service\BlockServiceInterface;
 use Opifer\ContentBundle\Entity\DocumentBlock;
+use Opifer\ContentBundle\Environment\Environment;
 use Opifer\ContentBundle\Form\Type\BlockAdapterFormType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Opifer\ContentBundle\Block\BlockManager;
-use Opifer\ContentBundle\Block\Service\BlockServiceInterface;
-use Opifer\ContentBundle\Environment\Environment;
 
 /**
  * Class ContentEditorController

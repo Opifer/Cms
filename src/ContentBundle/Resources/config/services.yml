@@ -40,8 +40,9 @@ services:
 
     opifer.content.content_type:
         class: '%opifer.content.content_type.class%'
+        arguments: ['%opifer_content.content_class%']
         tags:
-            - { name: form.type, alias: opifer_content }
+            - { name: form.type }
 
     opifer.content.content_parent_type:
         class: Opifer\ContentBundle\Form\Type\ContentParentType
@@ -83,13 +84,13 @@ services:
         class: '%opifer.content.form.contentpicker_type.class%'
         arguments: ['@opifer.content.content_manager']
         tags:
-            - { name: form.type, alias: contentpicker }
+            - { name: form.type }
 
     opifer.content.form.content_list_picker_type:
         class: '%opifer.content.form.content_list_picker_type.class%'
         arguments: ['@opifer.content.content_manager']
         tags:
-            - { name: form.type, alias: content_list_picker }
+            - { name: form.type }
 
     opifer.content.form.content_tree_picker_type:
         class: Opifer\ContentBundle\Form\Type\ContentTreePickerType
@@ -100,12 +101,12 @@ services:
     opifer.content.form.gutter_collection:
         class: '%opifer.content.form.gutter_collection_type.class%'
         tags:
-            - { name: form.type, alias: gutter_collection }
+            - { name: form.type }
 
     opifer.content.form.span_collection:
         class: '%opifer.content.form.span_collection_type.class%'
         tags:
-            - { name: form.type, alias: span_collection }
+            - { name: form.type }
 
     opifer.content.block_manager:
         class: '%opifer.content.block_manager.class%'

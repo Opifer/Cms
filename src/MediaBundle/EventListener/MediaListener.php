@@ -2,9 +2,9 @@
 
 namespace Opifer\MediaBundle\EventListener;
 
-use Doctrine\ORM\Events;
 use Doctrine\Common\EventSubscriber;
 use Doctrine\Common\Persistence\Event\LifecycleEventArgs;
+use Doctrine\ORM\Events;
 use Opifer\MediaBundle\Model\MediaInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 

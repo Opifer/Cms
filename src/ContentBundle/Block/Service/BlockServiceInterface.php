@@ -3,9 +3,9 @@
 namespace Opifer\ContentBundle\Block\Service;
 
 use Opifer\ContentBundle\Model\BlockInterface;
+use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Form\FormBuilderInterface;
 
 /**
  * Interface BlockServiceInterface

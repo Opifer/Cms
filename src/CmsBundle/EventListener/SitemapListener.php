@@ -3,10 +3,10 @@
 namespace Opifer\CmsBundle\EventListener;
 
 use Doctrine\ORM\EntityManager;
-use Symfony\Component\Routing\RouterInterface;
-use Presta\SitemapBundle\Service\SitemapListenerInterface;
 use Presta\SitemapBundle\Event\SitemapPopulateEvent;
+use Presta\SitemapBundle\Service\SitemapListenerInterface;
 use Presta\SitemapBundle\Sitemap\Url\UrlConcrete;
+use Symfony\Component\Routing\RouterInterface;
 
 class SitemapListener implements SitemapListenerInterface
 {

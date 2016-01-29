@@ -5,8 +5,8 @@ namespace Opifer\CmsBundle\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation as JMS;
-use Symfony\Component\Validator\Constraints as Assert;
 use Opifer\EavBundle\Model\Attribute as BaseAttribute;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Attribute.

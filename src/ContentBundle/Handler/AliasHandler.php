@@ -2,10 +2,10 @@
 
 namespace Opifer\ContentBundle\Handler;
 
-use Gedmo\Sluggable\SluggableListener;
-use Gedmo\Sluggable\Mapping\Event\SluggableAdapter;
 use Doctrine\Common\Persistence\Mapping\ClassMetadata;
 use Gedmo\Sluggable\Handler\SlugHandlerInterface;
+use Gedmo\Sluggable\Mapping\Event\SluggableAdapter;
+use Gedmo\Sluggable\SluggableListener;
 
 /**
 * Class AliasHandler

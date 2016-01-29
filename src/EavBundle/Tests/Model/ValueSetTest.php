@@ -2,8 +2,8 @@
 
 namespace Opifer\EavBundle\Tests\Model;
 
-use Opifer\EavBundle\Model\Schema;
 use Mockery as m;
+use Opifer\EavBundle\Model\Schema;
 use Opifer\EavBundle\Model\ValueSet;
 
 class ValueSetTest extends \PHPUnit_Framework_TestCase

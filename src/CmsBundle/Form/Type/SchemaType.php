@@ -2,9 +2,9 @@
 
 namespace Opifer\CmsBundle\Form\Type;
 
-use Symfony\Component\Form\FormBuilderInterface;
-use Opifer\EavBundle\Form\Type\SchemaType as EavSchemaType;
 use Opifer\CmsBundle\Entity\Post;
+use Opifer\EavBundle\Form\Type\SchemaType as EavSchemaType;
+use Symfony\Component\Form\FormBuilderInterface;
 
 class SchemaType extends EavSchemaType
 {

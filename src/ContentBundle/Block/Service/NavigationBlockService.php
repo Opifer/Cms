@@ -11,6 +11,7 @@ use Opifer\ContentBundle\Form\Type\ContentTreePickerType;
 use Opifer\ContentBundle\Model\BlockInterface;
 use Opifer\ContentBundle\Model\ContentManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Templating\EngineInterface;
+use Symfony\Component\Form\Extension\Core\Type\FormType;
 use Symfony\Component\Form\FormBuilderInterface;
 
 /**
@@ -46,7 +47,7 @@ class NavigationBlockService extends AbstractBlockService implements BlockServic
 
         // Default panel
         $builder->add(
-            $builder->create('default', 'form', ['virtual' => true])
+            $builder->create('default', FormType::class, ['virtual' => true])
                 ->add('value', ContentTreePickerType::class)
         );
     }

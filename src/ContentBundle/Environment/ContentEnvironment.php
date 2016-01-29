@@ -2,9 +2,9 @@
 
 namespace Opifer\ContentBundle\Environment;
 
+use Opifer\ContentBundle\Model\BlockInterface;
 use Opifer\ContentBundle\Model\ContentInterface;
 use Opifer\ContentBundle\Model\ContentManager;
-use Opifer\ContentBundle\Model\BlockInterface;
 
 class ContentEnvironment extends TemplateEnvironment
 {

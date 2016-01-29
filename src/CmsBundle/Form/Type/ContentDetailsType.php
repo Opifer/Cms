@@ -2,8 +2,8 @@
 
 namespace Opifer\CmsBundle\Form\Type;
 
-use Symfony\Component\Form\FormBuilderInterface;
 use Opifer\ContentBundle\Form\Type\ContentDetailsType as BaseContentDetailsType;
+use Symfony\Component\Form\FormBuilderInterface;
 
 /**
  * Class ContentDetailsType

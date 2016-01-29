@@ -2,13 +2,13 @@
 
 namespace Opifer\MediaBundle\Controller\Backend;
 
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
 use Opifer\MediaBundle\Event\MediaResponseEvent;
 use Opifer\MediaBundle\Event\ResponseEvent;
 use Opifer\MediaBundle\Form\Type\MediaType;
 use Opifer\MediaBundle\OpiferMediaEvents;
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 class MediaController extends Controller
 {
@@ -59,7 +59,7 @@ class MediaController extends Controller
 
         $media = $mediaManager->createMedia();
 
-        $form = $this->createForm(new MediaType(), $media, ['provider' => $mediaProvider]);
+        $form = $this->createForm(MediaType::class, $media, ['provider' => $mediaProvider]);
         $form->handleRequest($request);
 
         if ($form->isValid()) {

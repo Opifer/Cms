@@ -2,9 +2,11 @@
 
 namespace Opifer\ContentBundle\ValueProvider;
 
-use Symfony\Component\Form\FormBuilderInterface;
+use Opifer\ContentBundle\Form\Type\ContentListPickerType;
 use Opifer\EavBundle\ValueProvider\AbstractValueProvider;
 use Opifer\EavBundle\ValueProvider\ValueProviderInterface;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
+use Symfony\Component\Form\FormBuilderInterface;
 
 class ContentListValueProvider extends AbstractValueProvider implements ValueProviderInterface
 {
@@ -34,8 +36,8 @@ class ContentListValueProvider extends AbstractValueProvider implements ValuePro
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('sort', 'hidden');
-        $builder->add('content', 'content_list_picker', [
+        $builder->add('sort', HiddenType::class);
+        $builder->add('content', ContentListPickerType::class, [
             'label'    => $options['attribute']->getDisplayName(),
             'multiple' => true,
             'property' => 'title',

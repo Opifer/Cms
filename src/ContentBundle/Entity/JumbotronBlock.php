@@ -3,8 +3,8 @@
 namespace Opifer\ContentBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use Opifer\MediaBundle\Model\MediaInterface;
 use Gedmo\Mapping\Annotation as Gedmo;
+use Opifer\MediaBundle\Model\MediaInterface;
 
 /**
  * JumbotronBlock

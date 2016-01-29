@@ -3,8 +3,12 @@
 namespace Opifer\EavBundle\ValueProvider;
 
 use Doctrine\ORM\EntityRepository;
+use Opifer\MediaBundle\Form\Type\MediaPickerType;
 use Symfony\Component\Form\FormBuilderInterface;
 
+/**
+ * TODO Move to CmsBundle
+ */
 class MediaValueProvider extends AbstractValueProvider implements ValueProviderInterface
 {
     /** @var string */
@@ -33,14 +37,9 @@ class MediaValueProvider extends AbstractValueProvider implements ValueProviderI
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('medias', 'mediapicker', [
+        $builder->add('medias', MediaPickerType::class, [
             'label'         => $options['attribute']->getDisplayName(),
-            'multiple'      => true,   // Multiple selection allowed
-            'property'      => 'name', // Assuming that the entity has a "name" property
-            'class'         => $this->mediaClass,
-            'query_builder' => function (EntityRepository $mediaRepository) {
-                return $mediaRepository->createQueryBuilder('m')->add('orderBy', 'm.name ASC');
-            }
+            'multiple'      => true,
         ]);
     }
 

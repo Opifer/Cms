@@ -3,6 +3,7 @@
 namespace Opifer\MediaBundle\Form\Type;
 
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
@@ -28,17 +29,7 @@ class MediaType extends AbstractType
             $options['provider']->buildEditForm($builder, $options);
         }
 
-        $builder->add('provider', 'hidden', ['data' => $options['provider']->getName()]);
-    }
-
-    /**
-     * @deprecated
-     *
-     * @param OptionsResolverInterface $resolver
-     */
-    public function setDefaultOptions(OptionsResolverInterface $resolver)
-    {
-        $this->configureOptions($resolver);
+        $builder->add('provider', HiddenType::class, ['data' => $options['provider']->getName()]);
     }
 
     /**
@@ -54,16 +45,6 @@ class MediaType extends AbstractType
         $resolver->setDefaults([
             'provider' => null,
         ]);
-    }
-
-    /**
-     * {@inheritdoc}
-     *
-     * @deprecated
-     */
-    public function getName()
-    {
-        return $this->getBlockPrefix();
     }
 
     /**

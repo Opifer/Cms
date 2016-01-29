@@ -2,10 +2,10 @@
 
 namespace Opifer\CmsBundle\Form\Type;
 
-use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\FormBuilderInterface;
 use Opifer\CmsBundle\Form\DataTransformer\MenuGroupTransformer;
 use Opifer\CmsBundle\Manager\MenuManager;
+use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\FormBuilderInterface;
 
 class MenuGroupType extends AbstractType
 {
@@ -50,7 +50,7 @@ class MenuGroupType extends AbstractType
     /**
      * {@inheritdoc}
      */
-    public function getName()
+    public function getBlockPrefix()
     {
         return 'admin_menu_group';
     }

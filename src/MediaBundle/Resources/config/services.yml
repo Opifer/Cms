@@ -39,12 +39,12 @@ services:
         class: '%opifer.media.form.dropzone.class%'
         arguments: ['@opifer.media.media_manager']
         tags:
-            - { name: form.type, alias: dropzone }
+            - { name: form.type }
 
     opifer.media.form.media_edit:
         class: '%opifer.media.form.media_edit.class%'
         tags:
-            - { name: form.type, alias: opifer_media_edit }
+            - { name: form.type }
 
     opifer.media.form.mediapicker:
         class: '%opifer.media.form.mediapicker.class%'

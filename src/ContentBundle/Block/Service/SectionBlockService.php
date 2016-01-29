@@ -2,15 +2,17 @@
 
 namespace Opifer\ContentBundle\Block\Service;
 
+use Opifer\CmsBundle\Form\Type\CKEditorType;
 use Opifer\ContentBundle\Block\Tool\ContainerTool;
 use Opifer\ContentBundle\Block\Tool\ToolsetMemberInterface;
 use Opifer\ContentBundle\Entity\SectionBlock;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\FormType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 
 /**
- * Class SectionBlockService
- *
- * @package Opifer\ContentBundle\Block
+ * Section Block Service
  */
 class SectionBlockService extends AbstractBlockService implements BlockServiceInterface, ToolsetMemberInterface
 {
@@ -22,17 +24,17 @@ class SectionBlockService extends AbstractBlockService implements BlockServiceIn
         parent::buildManageForm($builder, $options);
 
         $builder->add(
-            $builder->create('default', 'form', ['inherit_data' => true])
-                ->add('header', 'ckeditor', ['label' => 'label.header', 'attr' => ['label_col' => 12, 'widget_col' => 12]])
-                ->add('footer', 'ckeditor', ['label' => 'label.footer', 'attr' => ['label_col' => 12, 'widget_col' => 12]])
+            $builder->create('default', FormType::Class, ['inherit_data' => true])
+                ->add('header', CKEditorType::class, ['label' => 'label.header', 'attr' => ['label_col' => 12, 'widget_col' => 12]])
+                ->add('footer', CKEditorType::class, ['label' => 'label.footer', 'attr' => ['label_col' => 12, 'widget_col' => 12]])
         );
 
-        $propertiesForm = $builder->create('properties', 'form')
-            ->add('id', 'text', ['attr' => ['help_text' => 'help.html_id']])
-            ->add('extra_classes', 'text', ['attr' => ['help_text' => 'help.extra_classes']]);
+        $propertiesForm = $builder->create('properties', FormType::Class)
+            ->add('id', TextType::class, ['attr' => ['help_text' => 'help.html_id']])
+            ->add('extra_classes', TextType::class, ['attr' => ['help_text' => 'help.extra_classes']]);
 
 
-        $propertiesForm->add('styles', 'choice', [
+        $propertiesForm->add('styles', ChoiceType::class, [
             'label' => 'label.styling',
             'choices'  => $this->config['styles'],
             'required' => false,

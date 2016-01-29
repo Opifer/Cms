@@ -2,16 +2,16 @@
 
 namespace Opifer\ContentBundle\Entity;
 
-use Gedmo\Mapping\Annotation as Gedmo;
-use Doctrine\ORM\Mapping as ORM;
-use JMS\Serializer\Annotation as JMS;
-
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation as Gedmo;
+
+use JMS\Serializer\Annotation as JMS;
+use Opifer\ContentBundle\Block\BlockContainerInterface;
 use Opifer\ContentBundle\Block\DraftVersionInterface;
 use Opifer\ContentBundle\Block\VisitorInterface;
 use Opifer\ContentBundle\Model\BlockInterface;
 use Opifer\ContentBundle\Model\ContentInterface;
-use Opifer\ContentBundle\Block\BlockContainerInterface;
 
 /**
  * Block

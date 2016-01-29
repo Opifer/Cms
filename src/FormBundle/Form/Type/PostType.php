@@ -2,9 +2,10 @@
 
 namespace Opifer\FormBundle\Form\Type;
 
+use Opifer\EavBundle\Form\Type\ValueSetType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Routing\RouterInterface;
 
 class PostType extends AbstractType
@@ -23,26 +24,26 @@ class PostType extends AbstractType
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder->setAction($this->router->generate('opifer_form_form_submit', ['id' => $options['form_id']]));
-        $builder->add('valueset', 'opifer_valueset');
+        $builder->add('valueset', ValueSetType::class);
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
-    public function setDefaultOptions(OptionsResolverInterface $resolver)
+    public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setRequired(['form_id']);
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
-    public function getName()
+    public function getBlockPrefix()
     {
         return 'opifer_form_post';
     }

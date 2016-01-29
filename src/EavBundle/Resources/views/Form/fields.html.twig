@@ -49,12 +49,3 @@
         {{ block('form_widget') }}
     {% endspaceless %}
 {% endblock %}
-
-{#
-    EAV Faux Widget
-#}
-{% block eav_faux_widget %}
-    {% spaceless %}
-        <input type="text" value="{{ form.vars.value }}" disabled="disabled" class="form-control"/>
-    {% endspaceless %}
-{% endblock %}

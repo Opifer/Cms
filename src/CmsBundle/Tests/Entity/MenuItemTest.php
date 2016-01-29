@@ -2,8 +2,8 @@
 
 namespace Opifer\CmsBundle\Tests\Entity;
 
-use Opifer\CmsBundle\Entity\MenuItem;
 use Opifer\CmsBundle\Entity\Content;
+use Opifer\CmsBundle\Entity\MenuItem;
 
 class MenuItemTest extends \PHPUnit_Framework_TestCase
 {

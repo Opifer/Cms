@@ -2,9 +2,9 @@
 
 namespace Opifer\MediaBundle;
 
-use Symfony\Component\HttpKernel\Bundle\Bundle;
-use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Opifer\MediaBundle\DependencyInjection\Compiler\ProviderCompilerPass;
+use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Symfony\Component\HttpKernel\Bundle\Bundle;
 
 class OpiferMediaBundle extends Bundle
 {

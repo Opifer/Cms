@@ -2,14 +2,14 @@
 
 namespace Opifer\ContentBundle\Controller\Backend;
 
+use APY\DataGridBundle\Grid\Action\DeleteMassAction;
+use APY\DataGridBundle\Grid\Action\RowAction;
+use APY\DataGridBundle\Grid\Source\Entity;
+use Opifer\ContentBundle\Entity\Template;
 use Opifer\ContentBundle\Form\Type\PageManagerType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use APY\DataGridBundle\Grid\Source\Entity;
-use APY\DataGridBundle\Grid\Action\RowAction;
-use APY\DataGridBundle\Grid\Action\DeleteMassAction;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
-use Opifer\ContentBundle\Entity\Template;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Class TemplateController

@@ -4,11 +4,13 @@ namespace Opifer\MediaBundle\Provider;
 
 use Gaufrette\Adapter\AwsS3;
 use Gaufrette\FileSystem;
+use Opifer\MediaBundle\Form\Type\DropzoneType;
+use Opifer\MediaBundle\Model\MediaInterface;
 use Opifer\MediaBundle\Routing\UrlGenerator;
-use Symfony\Component\Translation\TranslatorInterface;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Routing\RouterInterface;
-use Opifer\MediaBundle\Model\MediaInterface;
+use Symfony\Component\Translation\TranslatorInterface;
 
 class FileProvider extends AbstractProvider
 {
@@ -52,7 +54,7 @@ class FileProvider extends AbstractProvider
     public function buildCreateForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('files', 'dropzone', [
+            ->add('files', DropzoneType::class, [
                 'mapped' => false,
                 'path' => $this->router->generate('opifer_api_media_upload'),
                 'form_action' => $this->router->generate('opifer_media_media_updateall'),
@@ -67,7 +69,7 @@ class FileProvider extends AbstractProvider
     public function buildEditForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('name', 'text', [
+            ->add('name', TextType::class, [
                 'label' => 'file.name.label',
             ])
         ;

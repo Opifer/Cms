@@ -3,10 +3,10 @@
 namespace Opifer\CmsBundle\Router;
 
 use Symfony\Component\DependencyInjection\ContainerInterface;
-use Symfony\Component\Routing\Route;
-use Symfony\Component\Routing\RouterInterface;
-use Symfony\Component\Routing\RouteCollection;
 use Symfony\Component\Routing\Matcher\UrlMatcher;
+use Symfony\Component\Routing\Route;
+use Symfony\Component\Routing\RouteCollection;
+use Symfony\Component\Routing\RouterInterface;
 
 /**
  * Exception Router.

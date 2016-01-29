@@ -2,16 +2,18 @@
 
 namespace Opifer\ContentBundle\Block\Service;
 
+use Doctrine\ORM\EntityRepository;
 use Opifer\ContentBundle\Block\BlockManager;
 use Opifer\ContentBundle\Block\Tool\ContentTool;
 use Opifer\ContentBundle\Block\Tool\ToolsetMemberInterface;
 use Opifer\ContentBundle\Entity\Block;
 use Opifer\ContentBundle\Entity\PointerBlock;
 use Opifer\ContentBundle\Model\BlockInterface;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Symfony\Bundle\FrameworkBundle\Templating\EngineInterface;
+use Symfony\Component\Form\Extension\Core\Type\FormType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Bundle\FrameworkBundle\Templating\EngineInterface;
-use Doctrine\ORM\EntityRepository;
 
 /**
  * Class PointerBlockService
@@ -105,8 +107,8 @@ class PointerBlockService extends AbstractBlockService implements BlockServiceIn
 
         // Default panel
         $builder->add(
-            $builder->create('default', 'form', ['inherit_data' => true])
-                ->add('reference', 'entity', [
+            $builder->create('default', FormType::class, ['inherit_data' => true])
+                ->add('reference', EntityType::class, [
                     'required'      => false,
                     'label'         => 'label.block',
                     'class'         => 'OpiferContentBundle:Block',
