@@ -18,32 +18,21 @@ use Symfony\Component\Form\FormBuilderInterface;
  */
 class NavigationBlockService extends AbstractBlockService implements BlockServiceInterface, ToolsetMemberInterface
 {
-    protected $view = 'OpiferContentBundle:Block:Content/navigation.html.twig';
-
-    /**
-     * @var ContentManagerInterface
-     */
+    /** @var ContentManagerInterface */
     protected $contentManager;
 
     /**
      * Constructor
      *
-     * @param EngineInterface $templating
+     * @param EngineInterface         $templating
      * @param ContentManagerInterface $contentManager
+     * @param array                   $config
      */
-    public function __construct(EngineInterface $templating, ContentManagerInterface $contentManager)
+    public function __construct(EngineInterface $templating, ContentManagerInterface $contentManager, array $config)
     {
-        parent::__construct($templating);
+        parent::__construct($templating, $config);
 
         $this->contentManager = $contentManager;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function getName(BlockInterface $block = null)
-    {
-        return 'Navigation';
     }
 
     /**
@@ -60,10 +49,17 @@ class NavigationBlockService extends AbstractBlockService implements BlockServic
         );
     }
 
+    /**
+     * @param BlockInterface $block
+     */
     public function load(BlockInterface $block)
     {
         /** @var NavigationBlock $block */
         $array = json_decode($block->getValue(), true);
+        if (!$array) {
+            return;
+        }
+
         $ids = $this->gatherIds($array);
 
         $collection = $this->contentManager->getRepository()
@@ -77,6 +73,11 @@ class NavigationBlockService extends AbstractBlockService implements BlockServic
         }
     }
 
+    /**
+     * @param array $array
+     * @param array $ids
+     * @return array
+     */
     protected function gatherIds(array $array, array $ids = array())
     {
         foreach ($array as $item) {
@@ -88,8 +89,6 @@ class NavigationBlockService extends AbstractBlockService implements BlockServic
 
         return $ids;
     }
-
-
 
     /**
      * {@inheritDoc}

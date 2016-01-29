@@ -52,7 +52,7 @@ services:
 
     opifer.content.navigation_block:
         class: '%opifer.content.navigation_block.class%'
-        arguments: ['@templating', '@opifer.content.content_manager', '%opifer_content.list_block_configuration%']
+        arguments: ['@templating', '@opifer.content.content_manager', '%opifer_content.navigation_block_configuration%']
         tags:
             - { name: opifer.content.block_service, alias: navigation }
 
