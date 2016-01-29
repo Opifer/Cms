@@ -6,9 +6,16 @@ title:
 label:
     block: Block
     content: Content
+    template: Template
 
 warning:
     block_shared_edit: 'This is a shared block. <br /><span class="small">Shared blocks need publishing individually.</span>'
+
+placeholder:
+    choice_optional: Choose (optional)
+
+help_text:
+    block_template: Pick a template to change how this block is displayed
 
 # Content
 content:
