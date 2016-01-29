@@ -3,11 +3,11 @@
 namespace Opifer\EavBundle\ValueProvider;
 
 /**
- * This pool holds all the service values tagged with 'opifer.eav.value_provider'
+ * This pool holds the services tagged with 'opifer.eav.value_provider'
  */
 class Pool
 {
-    /** @var array */
+    /** @var ValueProviderInterface[] */
     protected $values;
 
     /**
@@ -38,7 +38,7 @@ class Pool
      *
      * @param string $alias
      *
-     * @return Opifer\EavBundle\ValueProvider\ValueProviderInterface
+     * @return ValueProviderInterface
      */
     public function getValue($alias)
     {
@@ -58,6 +58,7 @@ class Pool
             $entity = get_class($entity);
         }
 
+        /** @var ValueProviderInterface $provider */
         foreach ($this->getValues() as $provider) {
             if ($entity === $provider->getEntity()) {
                 return $provider;
@@ -70,7 +71,7 @@ class Pool
     /**
      * Get all registered values
      *
-     * @return array
+     * @return ValueProviderInterface[]
      */
     public function getValues()
     {

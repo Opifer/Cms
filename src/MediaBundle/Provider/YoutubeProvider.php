@@ -2,16 +2,19 @@
 
 namespace Opifer\MediaBundle\Provider;
 
+use Opifer\MediaBundle\Form\Type\MediaPickerType;
 use Opifer\MediaBundle\Model\Media;
-use Symfony\Component\Translation\TranslatorInterface;
-use Symfony\Component\Filesystem\Filesystem;
-use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\HttpFoundation\File\UploadedFile;
-use Symfony\Component\Validator\Constraints\NotBlank;
-use Symfony\Component\Validator\Constraints\Url;
 use Opifer\MediaBundle\Model\MediaInterface;
 use Opifer\MediaBundle\Model\MediaManagerInterface;
 use Opifer\MediaBundle\Validator\Constraint\YoutubeUrl;
+use Symfony\Component\Filesystem\Filesystem;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Symfony\Component\Translation\TranslatorInterface;
+use Symfony\Component\Validator\Constraints\NotBlank;
+use Symfony\Component\Validator\Constraints\Url;
 
 /**
  * Youtube Provider.
@@ -55,7 +58,7 @@ class YoutubeProvider extends AbstractProvider
     public function buildCreateForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('reference', 'text', [
+            ->add('reference', TextType::class, [
                 'data' => ($options['data']->getId()) ? 'https://www.youtube.com/watch?v='.$options['data']->getReference() : '',
                 'label' => $this->translator->trans('youtube.reference.label'),
                 'constraints' => [
@@ -64,12 +67,11 @@ class YoutubeProvider extends AbstractProvider
                     new YoutubeUrl(),
                 ],
             ])
-            ->add('thumb', 'mediapicker', [
+            ->add('thumb', MediaPickerType::class, [
                 'multiple' => false,
                 'property' => 'name',
-                'class' => $this->mediaManager->getClass(),
             ])
-            ->add('add '.$options['provider']->getLabel(), 'submit')
+            ->add('add '.$options['provider']->getLabel(), SubmitType::class)
         ;
     }
 

@@ -5,8 +5,8 @@ namespace Opifer\CmsBundle\Entity;
 use APY\DataGridBundle\Grid\Mapping as GRID;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
-use Opifer\FormBundle\Model\Form as BaseForm;
 use JMS\Serializer\Annotation as JMS;
+use Opifer\FormBundle\Model\Form as BaseForm;
 
 /**
  * @ORM\Entity(repositoryClass="Opifer\FormBundle\Model\FormRepository")

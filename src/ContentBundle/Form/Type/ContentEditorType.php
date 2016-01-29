@@ -23,7 +23,7 @@ class ContentEditorType extends AbstractType
     /**
      * {@inheritDoc}
      */
-    public function getName()
+    public function getBlockPrefix()
     {
         return 'content_editor';
     }

@@ -57,7 +57,7 @@ class ImageBlockService extends AbstractBlockService implements BlockServiceInte
                     'attr' => array('label_col' => 12, 'widget_col' => 12),
                 ])
         )->add(
-            $builder->create('properties', 'form')
+            $builder->create('properties', FormType::class)
                 ->add('id', TextType::class, ['attr' => ['help_text' => 'help.html_id']])
                 ->add('extra_classes', TextType::class, ['attr' => ['help_text' => 'help.extra_classes']])
                 ->add('filter', ChoiceType::class, [

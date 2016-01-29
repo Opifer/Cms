@@ -2,8 +2,8 @@
 
 namespace Opifer\MediaBundle\Provider;
 
-use Symfony\Component\Form\FormBuilderInterface;
 use Opifer\MediaBundle\Model\MediaInterface;
+use Symfony\Component\Form\FormBuilderInterface;
 
 abstract class AbstractProvider implements ProviderInterface
 {

@@ -2,10 +2,10 @@
 
 namespace Opifer\ContentBundle\Entity;
 
-use Doctrine\ORM\Mapping as ORM;
-
 use APY\DataGridBundle\Grid\Mapping as GRID;
+
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\ORM\Mapping as ORM;
 
 use Opifer\ContentBundle\Model\BlockInterface;
 

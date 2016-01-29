@@ -4,6 +4,7 @@ namespace Opifer\EavBundle\ValueProvider;
 
 use Doctrine\ORM\EntityRepository;
 use Opifer\EavBundle\Form\Transformer\CollectionToObjectTransformer;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\FormBuilderInterface;
 
 class SelectValueProvider extends AbstractValueProvider implements ValueProviderInterface
@@ -35,7 +36,7 @@ class SelectValueProvider extends AbstractValueProvider implements ValueProvider
         $transformer = new CollectionToObjectTransformer();
 
         $builder->add(
-            $builder->create('options', 'entity', [
+            $builder->create('options', EntityType::class, [
                 'required'      => ($options['attribute']->getRequired()) ? true : false,
                 'label'         => $options['attribute']->getDisplayName(),
                 'placeholder'   => 'Select…',

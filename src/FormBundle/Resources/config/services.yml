@@ -21,7 +21,7 @@ services:
         class: '%opifer.form.form_form.class%'
         arguments: ['@doctrine.orm.entity_manager', '%opifer_form.post_class%']
         tags:
-            - { name: form.type, alias: opifer_form_form }
+            - { name: form.type }
 
     # Post
 
@@ -33,7 +33,7 @@ services:
         class: '%opifer.form.post_form.class%'
         arguments: ['@router']
         tags:
-            - { name: form.type, alias: opifer_form_post }
+            - { name: form.type }
 
     # Twig
 

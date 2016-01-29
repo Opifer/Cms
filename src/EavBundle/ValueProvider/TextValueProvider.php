@@ -2,6 +2,7 @@
 
 namespace Opifer\EavBundle\ValueProvider;
 
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\FormBuilderInterface;
 
 class TextValueProvider extends AbstractValueProvider implements ValueProviderInterface
@@ -11,7 +12,7 @@ class TextValueProvider extends AbstractValueProvider implements ValueProviderIn
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('value', 'textarea', [
+        $builder->add('value', TextareaType::class, [
             'required' => ($options['attribute']->getRequired()) ? true : false,
             'label'    => false
         ]);

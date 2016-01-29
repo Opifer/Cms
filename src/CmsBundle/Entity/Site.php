@@ -2,8 +2,8 @@
 
 namespace Opifer\CmsBundle\Entity;
 
-use Doctrine\ORM\Mapping as ORM;
 use APY\DataGridBundle\Grid\Mapping as GRID;
+use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**

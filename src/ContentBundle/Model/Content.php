@@ -2,17 +2,17 @@
 
 namespace Opifer\ContentBundle\Model;
 
-use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use JMS\Serializer\Annotation as JMS;
-use Symfony\Component\Validator\Constraints as Assert;
+use Opifer\ContentBundle\Entity\Template;
 
 use Opifer\EavBundle\Entity\Value;
+use Opifer\EavBundle\Model\EntityInterface;
 use Opifer\EavBundle\Model\SchemaInterface;
 use Opifer\EavBundle\Model\ValueSetInterface;
-use Opifer\EavBundle\Model\EntityInterface;
-use Opifer\ContentBundle\Entity\Template;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Content

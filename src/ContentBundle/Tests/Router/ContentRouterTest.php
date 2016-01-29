@@ -6,8 +6,8 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Mockery as m;
 use Opifer\ContentBundle\Router\ContentRouter;
 use Opifer\ContentBundle\Tests\TestData\Content;
-use Symfony\Component\HttpFoundation\RequestContext;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\RequestContext;
 
 class ContentRouterTest extends \PHPUnit_Framework_TestCase
 {

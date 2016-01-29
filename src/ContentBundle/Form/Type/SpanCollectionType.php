@@ -3,15 +3,14 @@
 namespace Opifer\ContentBundle\Form\Type;
 
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
- * Class SpanCollectionType
- *
- * @package Opifer\ContentBundle\Form\Type
+ * Span Collection Type
  */
 class SpanCollectionType extends AbstractType
 {
@@ -53,7 +52,7 @@ class SpanCollectionType extends AbstractType
     /**
      * {@inheritDoc}
      */
-    public function getName()
+    public function getBlockPrefix()
     {
         return 'span_collection';
     }
@@ -63,6 +62,6 @@ class SpanCollectionType extends AbstractType
      */
     public function getParent()
     {
-        return 'collection';
+        return CollectionType::class;
     }
 }

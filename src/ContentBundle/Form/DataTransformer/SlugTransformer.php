@@ -2,9 +2,9 @@
 
 namespace Opifer\ContentBundle\Form\DataTransformer;
 
+use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\Form\DataTransformerInterface;
 use Symfony\Component\Form\Exception\TransformationFailedException;
-use Doctrine\Common\Persistence\ObjectManager;
 
 class SlugTransformer implements DataTransformerInterface
 {

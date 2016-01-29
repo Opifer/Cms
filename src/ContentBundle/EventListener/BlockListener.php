@@ -2,9 +2,9 @@
 
 namespace Opifer\ContentBundle\EventListener;
 
-use Doctrine\ORM\Events;
 use Doctrine\Common\EventSubscriber;
 use Doctrine\Common\Persistence\Event\LifecycleEventArgs;
+use Doctrine\ORM\Events;
 use Opifer\ContentBundle\Block\BlockManager;
 use Opifer\ContentBundle\Entity\DocumentBlock;
 use Opifer\ContentBundle\Model\BlockInterface;

@@ -2,6 +2,7 @@
 
 namespace Opifer\EavBundle\ValueProvider;
 
+use Opifer\EavBundle\Form\Type\DatePickerType;
 use Symfony\Component\Form\FormBuilderInterface;
 
 /**
@@ -14,7 +15,7 @@ class DateValueProvider extends AbstractValueProvider implements ValueProviderIn
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('value', 'opifer_eav_datetime_picker', [
+        $builder->add('value', DatePickerType::class, [
             'required' => ($options['attribute']->getRequired()) ? true : false,
             'format'   => 'yyyy-MM-dd'
         ]);

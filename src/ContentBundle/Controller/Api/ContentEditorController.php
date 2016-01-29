@@ -3,14 +3,14 @@
 namespace Opifer\ContentBundle\Controller\Api;
 
 use Imagine\Image\Point;
-use Opifer\ContentBundle\Block\ContentBlockAdapter;
-use Opifer\ContentBundle\Entity\PointerBlock;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\JsonResponse;
 use Opifer\ContentBundle\Block\BlockManager;
-use Opifer\ContentBundle\Environment\Environment;
+use Opifer\ContentBundle\Block\ContentBlockAdapter;
 use Opifer\ContentBundle\Designer\AbstractDesignSuite;
+use Opifer\ContentBundle\Entity\PointerBlock;
+use Opifer\ContentBundle\Environment\Environment;
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * Class ContentEditorController

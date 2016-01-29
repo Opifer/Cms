@@ -3,10 +3,10 @@
 namespace Opifer\ContentBundle\Block;
 
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\ORM\EntityManagerInterface;
 use Gedmo\SoftDeleteable\SoftDeleteableListener;
 use Opifer\CmsBundle\EventListener\LoggableListener;
 use Opifer\ContentBundle\Block\Service\BlockServiceInterface;
-use Doctrine\ORM\EntityManagerInterface;
 use Opifer\ContentBundle\Block\Tool\ContentTool;
 use Opifer\ContentBundle\Block\Tool\ToolsetMemberInterface;
 use Opifer\ContentBundle\Entity\PointerBlock;

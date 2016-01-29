@@ -48,15 +48,7 @@ class ValueProviderType extends AbstractType
      */
     public function getParent()
     {
-        return 'choice';
-    }
-
-    /**
-     * @deprecated
-     */
-    public function getName()
-    {
-        return $this->getBlockPrefix();
+        return ChoiceType::class;
     }
 
     /**

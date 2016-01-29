@@ -2,9 +2,9 @@
 
 namespace Opifer\CmsBundle\ValueProvider;
 
-use Symfony\Component\Form\FormBuilderInterface;
 use Opifer\EavBundle\ValueProvider\AbstractValueProvider;
 use Opifer\EavBundle\ValueProvider\ValueProviderInterface;
+use Symfony\Component\Form\FormBuilderInterface;
 
 class MenuGroupValueProvider extends AbstractValueProvider implements ValueProviderInterface
 {

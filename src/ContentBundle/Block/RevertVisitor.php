@@ -2,8 +2,8 @@
 
 namespace Opifer\ContentBundle\Block;
 
-use Opifer\ContentBundle\Model\BlockInterface;
 use Opifer\ContentBundle\Block\BlockManager;
+use Opifer\ContentBundle\Model\BlockInterface;
 
 /**
  * Class RevertVisitor

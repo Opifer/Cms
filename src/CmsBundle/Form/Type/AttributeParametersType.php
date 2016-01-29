@@ -3,15 +3,16 @@
 namespace Opifer\CmsBundle\Form\Type;
 
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class AttributeParametersType extends AbstractType
 {
     /**
      * {@inheritdoc}
      */
-    public function setDefaultOptions(OptionsResolverInterface $resolver)
+    public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
             'data_class' => null,
@@ -23,7 +24,7 @@ class AttributeParametersType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('required', 'checkbox', [
+        $builder->add('required', CheckboxType::class, [
             'required' => false,
             'label_attr' => [
                 'class' => 'col-lg-offset-2',
@@ -37,7 +38,7 @@ class AttributeParametersType extends AbstractType
     /**
      * {@inheritdoc}
      */
-    public function getName()
+    public function getBlockPrefix()
     {
         return 'admin_attribute_parameters';
     }

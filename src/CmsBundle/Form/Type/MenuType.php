@@ -2,9 +2,12 @@
 
 namespace Opifer\CmsBundle\Form\Type;
 
-use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\FormBuilderInterface;
 use Opifer\CmsBundle\Entity\MenuItem;
+use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Component\Form\Extension\Core\Type\IntegerType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\FormBuilderInterface;
 
 class MenuType extends AbstractType
 {
@@ -27,7 +30,7 @@ class MenuType extends AbstractType
                 'empty_data' => null,
                 'attr' => ['help_text' => 'menu.form.parent.help_text'],
             ])
-            ->add('name', 'text', [
+            ->add('name', TextType::class, [
                 'attr' => ['help_text' => 'menu.form.name.help_text'],
             ])
         ;
@@ -35,19 +38,19 @@ class MenuType extends AbstractType
         if ($options['data'] instanceof MenuItem) {
             $builder
                 ->add('content', 'contentpicker')
-                ->add('link', 'text', [
+                ->add('link', TextType::class, [
                     'attr' => ['help_text' => 'menu.form.link.help_text'],
                 ])
-                ->add('hiddenMobile', 'checkbox', [
+                ->add('hiddenMobile', CheckboxType::class, [
                     'label_attr' => ['class' => 'col-lg-offset-2'],
                 ])
-                ->add('hiddenTabletPortrait', 'checkbox', [
+                ->add('hiddenTabletPortrait', CheckboxType::class, [
                     'label_attr' => ['class' => 'col-lg-offset-2'],
                 ])
-                ->add('hiddenTabletLandscape', 'checkbox', [
+                ->add('hiddenTabletLandscape', CheckboxType::class, [
                     'label_attr' => ['class' => 'col-lg-offset-2'],
                 ])
-                ->add('hiddenDesktop', 'checkbox', [
+                ->add('hiddenDesktop', CheckboxType::class, [
                     'label_attr' => ['class' => 'col-lg-offset-2'],
                 ])
             ;
@@ -63,7 +66,7 @@ class MenuType extends AbstractType
             );
         }
 
-        $builder->add('sort', 'integer', [
+        $builder->add('sort', IntegerType::class, [
             'attr' => [
                 'help_text' => 'menu.form.sort.help_text',
                 'widget_col' => 4,
@@ -74,7 +77,7 @@ class MenuType extends AbstractType
     /**
      * {@inheritdoc}
      */
-    public function getName()
+    public function getBlockPrefix()
     {
         return 'menu_form';
     }

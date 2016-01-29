@@ -62,7 +62,7 @@ class FormType extends AbstractType
     /**
      * {@inheritDoc}
      */
-    public function getName()
+    public function getBlockPrefix()
     {
         return 'opifer_form_form';
     }

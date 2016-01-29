@@ -3,9 +3,9 @@
 namespace Opifer\CmsBundle\Menu;
 
 use Doctrine\Common\Collections\ArrayCollection;
+use Knp\Menu\MenuItem as KnpMenu;
 use Opifer\CmsBundle\Entity\Menu;
 use Opifer\CmsBundle\Entity\MenuGroup;
-use Knp\Menu\MenuItem as KnpMenu;
 
 /**
  * Dynamic menu builder.

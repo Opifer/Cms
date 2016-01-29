@@ -2,14 +2,15 @@
 
 namespace Opifer\MediaBundle\Form\Type;
 
+use Opifer\MediaBundle\Form\Transformer\CollectionToStringTransformer;
+use Opifer\MediaBundle\Model\MediaManagerInterface;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormView;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
-use Opifer\MediaBundle\Form\Transformer\CollectionToStringTransformer;
-use Opifer\MediaBundle\Model\MediaManagerInterface;
 
 /**
  * The dropzone form type.
@@ -57,16 +58,6 @@ class DropzoneType extends AbstractType
     }
 
     /**
-     * @deprecated
-     *
-     * @param OptionsResolverInterface $resolver
-     */
-    public function setDefaultOptions(OptionsResolverInterface $resolver)
-    {
-        $this->configureOptions($resolver);
-    }
-
-    /**
      * {@inheritdoc}
      */
     public function configureOptions(OptionsResolver $resolver)
@@ -86,17 +77,7 @@ class DropzoneType extends AbstractType
      */
     public function getParent()
     {
-        return 'text';
-    }
-
-    /**
-     * {@inheritdoc}
-     *
-     * @deprecated
-     */
-    public function getName()
-    {
-        return $this->getBlockPrefix();
+        return TextType::class;
     }
 
     /**

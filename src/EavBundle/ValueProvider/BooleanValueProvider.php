@@ -2,6 +2,7 @@
 
 namespace Opifer\EavBundle\ValueProvider;
 
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\FormBuilderInterface;
 
 /**
@@ -14,7 +15,7 @@ class BooleanValueProvider extends AbstractValueProvider implements ValueProvide
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('value', 'checkbox', [
+        $builder->add('value', CheckboxType::class, [
             'required' => ($options['attribute']->getRequired()) ? true : false,
         ]);
     }

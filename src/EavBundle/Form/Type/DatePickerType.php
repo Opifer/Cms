@@ -3,6 +3,7 @@
 namespace Opifer\EavBundle\Form\Type;
 
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class DatePickerType extends AbstractType
@@ -24,15 +25,7 @@ class DatePickerType extends AbstractType
      */
     public function getParent()
     {
-        return 'date';
-    }
-
-    /**
-     * @deprecated
-     */
-    public function getName()
-    {
-        return $this->getBlockPrefix();
+        return DateType::class;
     }
 
     /**

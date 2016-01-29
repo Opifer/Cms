@@ -4,13 +4,18 @@ namespace Opifer\ContentBundle\Block\Service;
 
 use Opifer\ContentBundle\Block\Tool\ColumnTool;
 use Opifer\ContentBundle\Block\Tool\ToolsetMemberInterface;
-use Opifer\ContentBundle\Model\BlockInterface;
-use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\HttpFoundation\Response;
 use Opifer\ContentBundle\Entity\ColumnBlock;
-use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Form\FormEvents;
+use Opifer\ContentBundle\Form\Type\GutterCollectionType;
+use Opifer\ContentBundle\Form\Type\SpanCollectionType;
+use Opifer\ContentBundle\Model\BlockInterface;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\FormType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvent;
+use Symfony\Component\Form\FormEvents;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
  * Class ColumnBlockService
@@ -59,9 +64,9 @@ class ColumnBlockService extends AbstractBlockService implements BlockServiceInt
     {
         parent::buildManageForm($builder, $options);
 
-        $propertiesForm = $builder->create('properties', 'form')
-            ->add('id', 'text', ['attr' => ['help_text' => 'help.html_id']])
-            ->add('extra_classes', 'text', ['attr' => ['help_text' => 'help.extra_classes']]);
+        $propertiesForm = $builder->create('properties', FormType::class)
+            ->add('id', TextType::class, ['attr' => ['help_text' => 'help.html_id']])
+            ->add('extra_classes', TextType::class, ['attr' => ['help_text' => 'help.extra_classes']]);
 
         $builder->add($propertiesForm);
 
@@ -82,7 +87,7 @@ class ColumnBlockService extends AbstractBlockService implements BlockServiceInt
             }
 
             $styles = ['row-space-top-2', 'row-space-top-4', 'row-space-top-8', 'row-space-2', 'row-space-4', 'row-space-8'];
-            $form->get('properties')->add('styles', 'choice', [
+            $form->get('properties')->add('styles', ChoiceType::class, [
                 'label' => 'label.styling',
                 'choices'  => $styles,
                 'required' => false,
@@ -92,8 +97,8 @@ class ColumnBlockService extends AbstractBlockService implements BlockServiceInt
             ]);
 
 
-            $form->get('properties')->add('spans', 'span_collection', ['column_count' => $block->getColumnCount(), 'label' => 'label.spans', 'attr' => ['help_text' => 'help.column_spans']]);
-            $form->get('properties')->add('gutters', 'gutter_collection', ['column_count' => $block->getColumnCount(), 'label' => 'label.gutters', 'attr' => ['help_text' => 'help.column_gutters']]);
+            $form->get('properties')->add('spans', SpanCollectionType::class, ['column_count' => $block->getColumnCount(), 'label' => 'label.spans', 'attr' => ['help_text' => 'help.column_spans']]);
+            $form->get('properties')->add('gutters', GutterCollectionType::class, ['column_count' => $block->getColumnCount(), 'label' => 'label.gutters', 'attr' => ['help_text' => 'help.column_gutters']]);
 
         });
     }

@@ -8,10 +8,8 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class ValueSetType extends AbstractType
 {
-
     /** @var string */
     protected $valueSetClass;
-
 
     /**
      * Constructor
@@ -28,7 +26,7 @@ class ValueSetType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('namedvalues', 'values_collection', [ 'fields' => $options['fields'] ]);
+        $builder->add('namedvalues', ValuesType::class, [ 'fields' => $options['fields'] ]);
     }
 
     /**
@@ -42,14 +40,6 @@ class ValueSetType extends AbstractType
             'data_class' => $this->valueSetClass,
             'fields'     => []
         ]);
-    }
-
-    /**
-     * @deprecated
-     */
-    public function getName()
-    {
-        return $this->getBlockPrefix();
     }
 
     /**

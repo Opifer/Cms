@@ -2,17 +2,18 @@
 
 namespace Opifer\CmsBundle\Command;
 
+use Doctrine\Common\Persistence\ManagerRegistry;
+use Opifer\CmsBundle\Entity\Cron;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Process\Process;
 use Symfony\Component\Process\ProcessBuilder;
-use Opifer\CmsBundle\Entity\Cron;
 
 /**
  * This command is the main entry point for pending cronjobs.
  *
- * To add cronjobs, simply create your own symfony command and add that command
+ * To add cronjobs, create your own symfony command and add that command
  * to the cronjobs page in the cms.
  *
  * @see  http://symfony.com/doc/current/cookbook/console/console_command.html

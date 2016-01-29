@@ -2,8 +2,8 @@
 
 namespace Opifer\CmsBundle\Tests\Entity;
 
-use Opifer\CmsBundle\Entity\Address;
 use Doctrine\Common\Collections\ArrayCollection;
+use Opifer\CmsBundle\Entity\Address;
 
 class AddressTest extends \PHPUnit_Framework_TestCase
 {

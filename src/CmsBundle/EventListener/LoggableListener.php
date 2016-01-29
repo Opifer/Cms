@@ -3,13 +3,13 @@
 namespace Opifer\CmsBundle\EventListener;
 
 use Doctrine\Common\EventArgs;
+use Doctrine\ORM\Mapping\ClassMetadata;
+use Doctrine\ORM\UnitOfWork;
 use Gedmo\Loggable\LoggableListener as BaseLoggableListener;
-use Opifer\ContentBundle\Block\BlockOwnerInterface;
-use Opifer\ContentBundle\Model\BlockInterface;
 use Gedmo\Loggable\Mapping\Event\LoggableAdapter;
 use Gedmo\Tool\Wrapper\AbstractWrapper;
-use Doctrine\ORM\UnitOfWork;
-use Doctrine\ORM\Mapping\ClassMetadata;
+use Opifer\ContentBundle\Block\BlockOwnerInterface;
+use Opifer\ContentBundle\Model\BlockInterface;
 
 /**
  * Loggable listener

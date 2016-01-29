@@ -2,7 +2,9 @@
 
 namespace Opifer\EavBundle\Form\Type;
 
+use Opifer\EavBundle\Entity\Value;
 use Opifer\EavBundle\ValueProvider\Pool;
+use Opifer\EavBundle\ValueProvider\ValueProviderInterface;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormInterface;
@@ -33,6 +35,7 @@ class ValueType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+        /** @var ValueProviderInterface $provider */
         $provider = $this->providerPool->getValue($options['attribute']->getValueType());
         $provider->buildForm($builder, $options);
     }
@@ -49,7 +52,7 @@ class ValueType extends AbstractType
         ]);
 
         $resolver->setDefaults([
-            'data_class' => 'Opifer\EavBundle\Entity\Value',
+            'data_class' => Value::class,
             'angular'    => [],
         ]);
     }
@@ -60,14 +63,6 @@ class ValueType extends AbstractType
     public function buildView(FormView $view, FormInterface $form, array $options)
     {
         $view->vars['attribute'] = $options['attribute'];
-    }
-
-    /**
-     * @deprecated
-     */
-    public function getName()
-    {
-        return $this->getBlockPrefix();
     }
 
     /**

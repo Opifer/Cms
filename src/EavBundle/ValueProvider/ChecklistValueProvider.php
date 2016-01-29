@@ -3,6 +3,7 @@
 namespace Opifer\EavBundle\ValueProvider;
 
 use Doctrine\ORM\EntityRepository;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\FormBuilderInterface;
 
 class ChecklistValueProvider extends AbstractValueProvider implements ValueProviderInterface
@@ -26,7 +27,7 @@ class ChecklistValueProvider extends AbstractValueProvider implements ValueProvi
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $attributeId = $options['attribute']->getId();
-        $builder->add('options', 'entity', [
+        $builder->add('options', EntityType::class, [
             'required'      => ($options['attribute']->getRequired()) ? true : false,
             'label'         => $options['attribute']->getDisplayName(),
             'multiple'      => true,   // Multiple selection allowed

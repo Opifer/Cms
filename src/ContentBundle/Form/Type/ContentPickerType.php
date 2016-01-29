@@ -2,12 +2,12 @@
 
 namespace Opifer\ContentBundle\Form\Type;
 
-use Opifer\ContentBundle\Model\ContentManagerInterface;
-use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\FormBuilderInterface;
-
 use Opifer\ContentBundle\Form\DataTransformer\ArrayKeyTransformer;
 use Opifer\ContentBundle\Form\DataTransformer\IdToContentTransformer;
+use Opifer\ContentBundle\Model\ContentManagerInterface;
+
+use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\FormBuilderInterface;
 
 /**
  * Content picker form type
@@ -41,16 +41,6 @@ class ContentPickerType extends AbstractType
         );
 
         $builder->addModelTransformer($transformer);
-    }
-
-    /**
-     * {@inheritDoc}
-     *
-     * @deprecated
-     */
-    public function getName()
-    {
-        return $this->getBlockPrefix();
     }
 
     /**

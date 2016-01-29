@@ -2,13 +2,13 @@
 
 namespace Opifer\CmsBundle\Controller\Frontend;
 
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\HttpFoundation\Response;
 use Opifer\CmsBundle\Entity\Content;
 use Opifer\CmsBundle\Entity\Layout;
 use Pagerfanta\Adapter\ArrayAdapter;
 use Pagerfanta\Pagerfanta;
 use Pagerfanta\View\TwitterBootstrap3View;
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * class SearchController.

@@ -2,8 +2,8 @@
 
 namespace Opifer\CmsBundle\Form\DataTransformer;
 
-use Symfony\Component\Form\DataTransformerInterface;
 use Opifer\CmsBundle\Manager\MenuManager;
+use Symfony\Component\Form\DataTransformerInterface;
 
 /**
  * Class MenuGroupTransformer.

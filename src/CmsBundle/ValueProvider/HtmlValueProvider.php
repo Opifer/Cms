@@ -2,9 +2,10 @@
 
 namespace Opifer\CmsBundle\ValueProvider;
 
+use Opifer\CmsBundle\Form\Type\CKEditorType;
 use Opifer\EavBundle\ValueProvider\AbstractValueProvider;
-use Symfony\Component\Form\FormBuilderInterface;
 use Opifer\EavBundle\ValueProvider\ValueProviderInterface;
+use Symfony\Component\Form\FormBuilderInterface;
 
 class HtmlValueProvider extends AbstractValueProvider implements ValueProviderInterface
 {
@@ -13,7 +14,7 @@ class HtmlValueProvider extends AbstractValueProvider implements ValueProviderIn
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('value', 'ckeditor', [
+        $builder->add('value', CKEditorType::class, [
             'label' => false,
         ]);
     }

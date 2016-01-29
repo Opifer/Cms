@@ -5,12 +5,12 @@ namespace Opifer\CmsBundle\Controller\Backend;
 use APY\DataGridBundle\Grid\Action\RowAction;
 use APY\DataGridBundle\Grid\Column\TextColumn;
 use APY\DataGridBundle\Grid\Source\Entity;
+use Opifer\CmsBundle\Entity\MenuGroup;
+use Opifer\CmsBundle\Entity\MenuItem;
 use Opifer\CmsBundle\Form\Type\MenuType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Opifer\CmsBundle\Entity\MenuGroup;
-use Opifer\CmsBundle\Entity\MenuItem;
 
 class MenuController extends Controller
 {

@@ -5,6 +5,7 @@ namespace Opifer\CmsBundle\Form\Type;
 use Doctrine\ORM\EntityManager;
 use Opifer\CmsBundle\Form\DataTransformer\PropertyToEntityTransformer;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -55,13 +56,13 @@ class AutocompleteType extends AbstractType
      */
     public function getParent()
     {
-        return 'text';
+        return TextType::class;
     }
 
     /**
      * {@inheritdoc}
      */
-    public function getName()
+    public function getBlockPrefix()
     {
         return 'opifer_autocomplete';
     }

@@ -3,13 +3,13 @@
 namespace Opifer\MediaBundle\Controller\Api;
 
 use JMS\Serializer\SerializationContext;
+use Opifer\MediaBundle\Event\MediaResponseEvent;
+use Opifer\MediaBundle\Event\ResponseEvent;
+use Opifer\MediaBundle\OpiferMediaEvents;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Opifer\MediaBundle\Event\MediaResponseEvent;
-use Opifer\MediaBundle\Event\ResponseEvent;
-use Opifer\MediaBundle\OpiferMediaEvents;
 
 class MediaController extends Controller
 {

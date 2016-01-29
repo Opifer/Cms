@@ -2,11 +2,11 @@
 
 namespace Opifer\ContentBundle\Controller\Backend;
 
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\HttpFoundation\Request;
-
 use Opifer\EavBundle\Entity\Attribute;
 use Opifer\EavBundle\Entity\ValueType;
+
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\Request;
 
 class FormTypeController extends Controller
 {

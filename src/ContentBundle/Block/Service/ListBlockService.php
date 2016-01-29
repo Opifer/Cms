@@ -10,6 +10,8 @@ use Opifer\ContentBundle\Form\Type\ContentListPickerType;
 use Opifer\ContentBundle\Model\BlockInterface;
 use Opifer\ContentBundle\Model\ContentManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Templating\EngineInterface;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\FormType;
 use Symfony\Component\Form\FormBuilderInterface;
 
 /**
@@ -39,18 +41,18 @@ class ListBlockService extends AbstractBlockService implements BlockServiceInter
     {
         parent::buildManageForm($builder, $options);
 
-        $propertiesForm = $builder->create('properties', 'form');
+        $propertiesForm = $builder->create('properties', FormType::class);
 
         // Default panel
         $builder->add(
-            $builder->create('default', 'form', ['virtual' => true])
+            $builder->create('default', FormType::class, ['virtual' => true])
                 ->add('value',  ContentListPickerType::class, [
                     'label'    => 'label.content',
                     'multiple' => true,
                     'data'     => $options['data']->getValue()
                 ])
         )->add(
-            $propertiesForm->add('template', 'choice', [
+            $propertiesForm->add('template', ChoiceType::class, [
                     'label'         => 'label.template',
                     'placeholder'   => 'placeholder.choice_optional',
                     'attr'          => ['help_text' => 'help.block_template'],
@@ -63,7 +65,7 @@ class ListBlockService extends AbstractBlockService implements BlockServiceInter
         if ($this->config['styles']) {
 
             $propertiesForm
-                ->add('styles', 'choice', [
+                ->add('styles', ChoiceType::class, [
                     'label' => 'label.styling',
                     'choices'  => $this->config['styles'],
                     'required' => false,

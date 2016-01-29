@@ -2,18 +2,18 @@
 
 namespace Opifer\ContentBundle\Router;
 
+use Doctrine\ORM\NoResultException;
+use Opifer\ContentBundle\Model\ContentManagerInterface;
+use Opifer\ContentBundle\Router\UrlGenerator;
 use Symfony\Component\DependencyInjection\ContainerInterface;
+use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Routing\Exception\ResourceNotFoundException;
+use Symfony\Component\Routing\Matcher\UrlMatcher;
 use Symfony\Component\Routing\RequestContext;
 use Symfony\Component\Routing\Route;
-use Symfony\Component\Routing\RouterInterface;
 use Symfony\Component\Routing\RouteCollection;
-use Symfony\Component\Routing\Matcher\UrlMatcher;
-use Symfony\Component\HttpFoundation\RequestStack;
-use Opifer\ContentBundle\Model\ContentManagerInterface;
-use Doctrine\ORM\NoResultException;
-use Symfony\Component\HttpFoundation\RedirectResponse;
-use Opifer\ContentBundle\Router\UrlGenerator;
+use Symfony\Component\Routing\RouterInterface;
 
 /**
  * Content Router.

@@ -3,8 +3,8 @@
 namespace Opifer\MediaBundle\Event;
 
 use Symfony\Component\EventDispatcher\Event;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 class ResponseEvent extends Event
 {

@@ -5,14 +5,14 @@ namespace Opifer\ContentBundle\Model;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Opifer\ContentBundle\Exception\NestedContentFormException;
+use Opifer\EavBundle\Entity\NestedValue;
+use Opifer\EavBundle\Form\Type\NestedType;
+use Opifer\EavBundle\Manager\EavManager;
 use Pagerfanta\Adapter\DoctrineORMAdapter;
+
 use Pagerfanta\Pagerfanta;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\HttpFoundation\Request;
-
-use Opifer\EavBundle\Form\Type\NestedType;
-use Opifer\EavBundle\Manager\EavManager;
-use Opifer\EavBundle\Entity\NestedValue;
 
 class ContentManager implements ContentManagerInterface
 {

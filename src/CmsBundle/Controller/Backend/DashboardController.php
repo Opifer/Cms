@@ -2,9 +2,9 @@
 
 namespace Opifer\CmsBundle\Controller\Backend;
 
+use Opifer\CmsBundle\Manager\ContentManager;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
-use Opifer\CmsBundle\Manager\ContentManager;
 
 class DashboardController extends Controller
 {

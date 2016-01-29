@@ -3,6 +3,7 @@
 namespace Opifer\EavBundle\Form\Type;
 
 use Doctrine\ORM\EntityRepository;
+use Opifer\CmsBundle\Form\Type\CollapsibleCollectionType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
@@ -20,19 +21,14 @@ class AttributeType extends AbstractType
     /** @var string */
     protected $schemaClass;
 
-    /** @var OptionType */
-    protected $optionType;
-
     /**
      * Constructor
      *
-     * @param OptionType $optionType
      * @param string     $attributeClass
      * @param string     $schemaClass
      */
-    public function __construct(OptionType $optionType, $attributeClass, $schemaClass)
+    public function __construct($attributeClass, $schemaClass)
     {
-        $this->optionType     = $optionType;
         $this->attributeClass = $attributeClass;
         $this->schemaClass  = $schemaClass;
     }
@@ -42,7 +38,7 @@ class AttributeType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('valueType', 'value_provider', [
+        $builder->add('valueType', ValueProviderType::class, [
             'label' => 'attribute.value_type',
             'attr'  => [
                 'placeholder' => 'form.value_type.placeholder',
@@ -89,31 +85,12 @@ class AttributeType extends AbstractType
             $form = $event->getForm();
 
             if ($attribute && in_array($attribute->getValueType(), ['checklist', 'select', 'radio'])) {
-                $form->add('options', 'collapsible_collection', [
+                // TODO Use Symfony's CollectionType here
+                $form->add('options', CollapsibleCollectionType::class, [
                     'allow_add'    => true,
                     'allow_delete' => true,
-                    'type'         => $this->optionType
+                    'type'         => OptionType::class
                 ]);
-            }
-
-            if ($attribute && $attribute->getValueType() == 'nested') {
-                $form->add(
-                    'allowedSchemas',
-                    'entity',
-                    [
-                        'class' => $this->schemaClass,
-                        'property' => 'displayName',
-                        'query_builder' => function (EntityRepository $er) {
-                            return $er->createQueryBuilder('t')
-                                ->orderBy('t.displayName', 'ASC');
-                        },
-                        'by_reference' => false,
-                        'expanded' => true,
-                        'multiple' => true,
-                        'label' => $this->translator->trans('attribute.allowed_schemas'),
-                        'attr' => ['help_text' => $this->translator->trans('form.allowed_schemas.help_text')]
-                    ]
-                );
             }
         });
     }
@@ -126,14 +103,6 @@ class AttributeType extends AbstractType
         $resolver->setDefaults([
             'data_class' => $this->attributeClass,
         ]);
-    }
-
-    /**
-     * @deprecated
-     */
-    public function getName()
-    {
-        return $this->getBlockPrefix();
     }
 
     /**

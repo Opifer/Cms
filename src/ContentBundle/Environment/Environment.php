@@ -8,12 +8,12 @@
 
 namespace Opifer\ContentBundle\Environment;
 
+use Doctrine\ORM\EntityManagerInterface;
+use Opifer\ContentBundle\Block\BlockManager;
 use Opifer\ContentBundle\Block\BlockOwnerInterface;
 use Opifer\ContentBundle\Entity\Block;
 use Opifer\ContentBundle\Entity\DocumentBlock;
 use Opifer\ContentBundle\Model\BlockInterface;
-use Doctrine\ORM\EntityManagerInterface;
-use Opifer\ContentBundle\Block\BlockManager;
 
 abstract class Environment
 {

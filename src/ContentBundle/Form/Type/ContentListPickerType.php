@@ -88,16 +88,6 @@ class ContentListPickerType extends AbstractType
 
     /**
      * {@inheritDoc}
-     *
-     * @deprecated
-     */
-    public function getName()
-    {
-        return $this->getBlockPrefix();
-    }
-
-    /**
-     * {@inheritDoc}
      */
     public function getBlockPrefix()
     {

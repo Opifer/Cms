@@ -3,9 +3,9 @@
 namespace Opifer\ContentBundle\Designer;
 
 
+use Doctrine\ORM\EntityManagerInterface;
 use Opifer\ContentBundle\Model\TemplateManager;
 use Symfony\Component\Routing\RouterInterface;
-use Doctrine\ORM\EntityManagerInterface;
 
 class TemplateSuite extends AbstractDesignSuite
 {

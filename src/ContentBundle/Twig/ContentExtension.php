@@ -8,14 +8,14 @@ use Opifer\ContentBundle\Block\BlockOwnerInterface;
 use Opifer\ContentBundle\Entity\CompositeBlock;
 use Opifer\ContentBundle\Entity\DocumentBlock;
 use Opifer\ContentBundle\Environment\Environment;
+use Opifer\ContentBundle\Model\BlockInterface;
+use Opifer\ContentBundle\Model\ContentInterface;
+use Opifer\ContentBundle\Model\ContentManager;
 use Symfony\Component\DependencyInjection\ContainerInterface;
+
+use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpKernel\Controller\ControllerReference;
 use Symfony\Component\HttpKernel\Fragment\FragmentHandler;
-use Symfony\Component\HttpFoundation\RequestStack;
-
-use Opifer\ContentBundle\Model\ContentManager;
-use Opifer\ContentBundle\Model\ContentInterface;
-use Opifer\ContentBundle\Model\BlockInterface;
 
 class ContentExtension extends \Twig_Extension
 {

@@ -4,8 +4,8 @@ namespace Opifer\CmsBundle\Twig\Extension;
 
 use Opifer\CmsBundle\Entity\AttachmentValue;
 use Opifer\EavBundle\Entity\Value;
-use Symfony\Component\Form\FormView;
 use Symfony\Bridge\Twig\Form\TwigRendererInterface;
+use Symfony\Component\Form\FormView;
 
 class FormExtension extends \Twig_Extension
 {

@@ -2,11 +2,11 @@
 
 namespace Opifer\CmsBundle\Form\Type;
 
-use Symfony\Component\Form\FormBuilderInterface;
+use Opifer\CmsBundle\Entity\Post;
 use Opifer\EavBundle\Form\Type\AttributeType as EavAttributeType;
+use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
-use Opifer\CmsBundle\Entity\Post;
 
 class AttributeType extends EavAttributeType
 {
