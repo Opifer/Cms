@@ -8,4 +8,5 @@ Adds the possibility to create pages with dynamic content in Symfony2 projects
 
 ## Documentation
 
-See the [summary](Resources/doc/summary.md).
+- See the [summary](Resources/doc/summary.md).
+- [Configuration Reference](Resources/doc/configuration-reference.md)

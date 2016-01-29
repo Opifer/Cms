@@ -20,15 +20,6 @@ use Symfony\Component\Form\FormBuilderInterface;
  */
 class ImageBlockService extends AbstractBlockService implements BlockServiceInterface, ToolsetMemberInterface
 {
-    protected $view = 'OpiferContentBundle:Block:Content/image.html.twig';
-
-    /**
-     * The allowed filters for the current block
-     *
-     * @var array
-     */
-    protected $filters;
-
     /**
      * All available filtersets with its configuration
      *
@@ -40,22 +31,14 @@ class ImageBlockService extends AbstractBlockService implements BlockServiceInte
      * Constructor.
      *
      * @param EngineInterface $templating
-     * @param array           $filters
      * @param array           $filterSets
+     * @param array           $config
      */
-    public function __construct(EngineInterface $templating, array $filters, array $filterSets)
+    public function __construct(EngineInterface $templating, array $filterSets, array $config)
     {
-        $this->templating = $templating;
-        $this->filters = $filters;
-        $this->filterSets = $filterSets;
-    }
+        parent::__construct($templating, $config);
 
-    /**
-     * {@inheritDoc}
-     */
-    public function getName(BlockInterface $block = null)
-    {
-        return 'Image';
+        $this->filterSets = $filterSets;
     }
 
     /**
@@ -105,7 +88,7 @@ class ImageBlockService extends AbstractBlockService implements BlockServiceInte
     {
         $filters = [];
 
-        foreach ($this->filters as $key) {
+        foreach ($this->config['allowed_filters'] as $key) {
             if (!isset($this->filterSets[$key])) {
                 continue;
             }
@@ -132,7 +115,7 @@ class ImageBlockService extends AbstractBlockService implements BlockServiceInte
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function createBlock()
     {
@@ -140,7 +123,7 @@ class ImageBlockService extends AbstractBlockService implements BlockServiceInte
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getTool()
     {
@@ -151,5 +134,4 @@ class ImageBlockService extends AbstractBlockService implements BlockServiceInte
 
         return $tool;
     }
-
 }

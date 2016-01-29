@@ -2,6 +2,7 @@
 
 namespace Opifer\ContentBundle\DependencyInjection;
 
+use Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition;
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
 
@@ -19,9 +20,9 @@ class Configuration implements ConfigurationInterface
     public function getConfigTreeBuilder()
     {
         $builder = new TreeBuilder();
-        $rootNode = $builder->root('opifer_content');
+        $node = $builder->root('opifer_content');
 
-        $rootNode
+        $node
             ->addDefaultsIfNotSet()
             ->children()
                 ->scalarNode('content_manager')
@@ -35,24 +36,25 @@ class Configuration implements ConfigurationInterface
                         ->arrayNode('views')
                             ->addDefaultsIfNotSet()
                             ->children()
-                                ->scalarNode('index')
-                                    ->defaultValue('OpiferContentBundle:Content:index.html.twig')
-                                ->end()
-                                ->scalarNode('type')
-                                    ->defaultValue('OpiferContentBundle:Content:type.html.twig')
-                                ->end()
-                                ->scalarNode('new')
-                                    ->defaultValue('OpiferContentBundle:Content:new.html.twig')
-                                ->end()
-                                ->scalarNode('edit')
-                                    ->defaultValue('OpiferContentBundle:Content:edit.html.twig')
-                                ->end()
-                                ->scalarNode('history')
-                                ->defaultValue('OpiferContentBundle:Content:history.html.twig')
-                                ->end()
-                                ->scalarNode('details')
-                                    ->defaultValue('OpiferContentBundle:Content:details.html.twig')
-                                ->end()
+                                ->scalarNode('index')->defaultValue('OpiferContentBundle:Content:index.html.twig')->end()
+                                ->scalarNode('type')->defaultValue('OpiferContentBundle:Content:type.html.twig')->end()
+                                ->scalarNode('new')->defaultValue('OpiferContentBundle:Content:new.html.twig')->end()
+                                ->scalarNode('edit')->defaultValue('OpiferContentBundle:Content:edit.html.twig')->end()
+                                ->scalarNode('history')->defaultValue('OpiferContentBundle:Content:history.html.twig')->end()
+                                ->scalarNode('details')->defaultValue('OpiferContentBundle:Content:details.html.twig')->end()
+                            ->end()
+                        ->end()
+                    ->end()
+                ->end()
+                ->arrayNode('content_type')
+                    ->children()
+                        ->scalarNode('class')->isRequired()->end()
+                        ->arrayNode('views')
+                        ->addDefaultsIfNotSet()
+                            ->children()
+                                ->scalarNode('index')->defaultValue('OpiferContentBundle:ContentType:index.html.twig')->end()
+                                ->scalarNode('create')->defaultValue('OpiferContentBundle:ContentType:create.html.twig')->end()
+                                ->scalarNode('edit')->defaultValue('OpiferContentBundle:ContentType:edit.html.twig')->end()
                             ->end()
                         ->end()
                     ->end()
@@ -62,38 +64,138 @@ class Configuration implements ConfigurationInterface
                         ->arrayNode('views')
                             ->addDefaultsIfNotSet()
                             ->children()
-                                ->scalarNode('shared')
-                                    ->defaultValue('OpiferContentBundle:Block:shared.html.twig')
-                                ->end()
-                                ->scalarNode('shared_edit')
-                                    ->defaultValue('OpiferContentBundle:Block:shared_edit.html.twig')
-                                ->end()
+                                ->scalarNode('shared')->defaultValue('OpiferContentBundle:Block:shared.html.twig')->end()
+                                ->scalarNode('shared_edit')->defaultValue('OpiferContentBundle:Block:shared_edit.html.twig')->end()
                             ->end()
                         ->end()
                     ->end()
                 ->end()
-                ->arrayNode('content_type')
+
+            ->end()
+        ;
+
+        $this->addBlocksSection($node);
+
+        return $builder;
+    }
+
+    /**
+     * Add Block specific configuration
+     *
+     * @param ArrayNodeDefinition $node
+     */
+    private function addBlocksSection(ArrayNodeDefinition $node)
+    {
+        $node
+            ->children()
+                ->arrayNode('blocks')
+                    ->addDefaultsIfNotSet()
                     ->children()
-                        ->scalarNode('class')->isRequired()->end()
-                        ->arrayNode('views')
+                        ->arrayNode('button')
                             ->addDefaultsIfNotSet()
                             ->children()
-                                ->scalarNode('index')
-                                    ->defaultValue('OpiferContentBundle:ContentType:index.html.twig')
+                                ->scalarNode('view')->defaultValue('OpiferContentBundle:Block:Content/button.html.twig')->end()
+                                ->arrayNode('styles')
+                                    ->prototype('scalar')->end()
+                                    ->defaultValue([
+                                        'btn-sm', 'btn-lg', 'btn-primary', 'btn-default', 'btn-block', 'center-block'
+                                    ])
                                 ->end()
-                                ->scalarNode('create')
-                                    ->defaultValue('OpiferContentBundle:ContentType:create.html.twig')
+                            ->end()
+                        ->end()
+                        ->arrayNode('carousel')
+                            ->addDefaultsIfNotSet()
+                            ->children()
+                                ->scalarNode('view')->defaultValue('OpiferContentBundle:Block:Content/carousel.html.twig')->end()
+                            ->end()
+                        ->end()
+                        ->arrayNode('carousel_slide')
+                            ->addDefaultsIfNotSet()
+                            ->children()
+                                ->scalarNode('view')->defaultValue('OpiferContentBundle:Block:Content/carousel_slide.html.twig')->end()
+                                ->arrayNode('styles')
+                                    ->prototype('scalar')->end()
+                                    ->defaultValue(['default'])
                                 ->end()
-                                ->scalarNode('edit')
-                                    ->defaultValue('OpiferContentBundle:ContentType:edit.html.twig')
+                            ->end()
+                        ->end()
+                        ->arrayNode('collection')
+                            ->addDefaultsIfNotSet()
+                            ->children()
+                                ->scalarNode('view')->defaultValue('OpiferContentBundle:Block:Content/collection.html.twig')->end()
+                            ->end()
+                        ->end()
+                        ->arrayNode('column')
+                            ->addDefaultsIfNotSet()
+                            ->children()
+                                ->scalarNode('view')->defaultValue('OpiferContentBundle:Block:Layout/layout.html.twig')->end()
+                            ->end()
+                        ->end()
+                        ->arrayNode('container')
+                            ->addDefaultsIfNotSet()
+                            ->children()
+                                ->scalarNode('view')->defaultValue('OpiferContentBundle:Block:Layout/layout.html.twig')->end()
+                            ->end()
+                        ->end()
+                        ->arrayNode('html')
+                            ->addDefaultsIfNotSet()
+                            ->children()
+                                ->scalarNode('view')->defaultValue('OpiferContentBundle:Block:Content/html.html.twig')->end()
+                            ->end()
+                        ->end()
+                        ->arrayNode('image')
+                            ->addDefaultsIfNotSet()
+                            ->children()
+                                ->scalarNode('view')->defaultValue('OpiferContentBundle:Block:Content/image.html.twig')->end()
+                                ->arrayNode('allowed_filters')
+                                    ->prototype('scalar')->end()
+                                    ->defaultValue([
+                                        'medialibrary', 'dashboard_content'
+                                    ])
                                 ->end()
+                            ->end()
+                        ->end()
+                        ->arrayNode('jumbotron')
+                            ->addDefaultsIfNotSet()
+                            ->children()
+                                ->scalarNode('view')->defaultValue('OpiferContentBundle:Block:Content/jumbotron.html.twig')->end()
+                                ->arrayNode('styles')
+                                    ->prototype('scalar')->end()
+                                    ->defaultValue([
+                                        'jumbotron-sm', 'jumbotron-md', 'jumbotron-lg', 'text-regular', 'text-contrast'
+                                    ])
+                                ->end()
+                            ->end()
+                        ->end()
+                        ->arrayNode('list')
+                            ->addDefaultsIfNotSet()
+                            ->children()
+                                ->scalarNode('view')->defaultValue('OpiferContentBundle:Block:Content/list.html.twig')->end()
+                                ->arrayNode('templates')
+                                    ->prototype('array')->end()
+                                    ->defaultValue([
+                                        'list_simple' => 'Simple list',
+                                        'tiles' => 'Tiles',
+                                        'tiles_text' => 'Tiles with description'
+                                    ])
+                                ->end()
+                            ->end()
+                        ->end()
+                        ->arrayNode('navigation')
+                            ->addDefaultsIfNotSet()
+                            ->children()
+                                ->scalarNode('view')->defaultValue('OpiferContentBundle:Block:Content/navigation.html.twig')->end()
+                            ->end()
+                        ->end()
+                        ->arrayNode('pointer')
+                            ->addDefaultsIfNotSet()
+                            ->children()
+                                ->scalarNode('view')->defaultValue('OpiferContentBundle:Block:Content/pointer.html.twig')->end()
                             ->end()
                         ->end()
                     ->end()
                 ->end()
             ->end()
         ;
-
-        return $builder;
     }
 }

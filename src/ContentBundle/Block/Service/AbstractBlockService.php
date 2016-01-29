@@ -3,6 +3,7 @@
 namespace Opifer\ContentBundle\Block\Service;
 
 use Opifer\ContentBundle\Entity\Block;
+use Opifer\ContentBundle\Environment\Environment;
 use Symfony\Bundle\FrameworkBundle\Templating\EngineInterface;
 use Opifer\ContentBundle\Model\BlockInterface;
 use Symfony\Component\Form\FormInterface;
@@ -20,9 +21,6 @@ use Symfony\Component\Form\FormEvents;
 abstract class AbstractBlockService
 {
     /** @var string */
-    protected $view;
-
-    /** @var string */
     protected $manageView = 'OpiferContentBundle:Block:manage.html.twig';
 
     /** @var string */
@@ -31,14 +29,22 @@ abstract class AbstractBlockService
     /** @var EngineInterface */
     protected $templating;
 
+    /**
+     * The block configuration
+     *
+     * @var array
+     */
+    protected $config;
+
     const FORM_GROUP_PROPERTIES = 'properties';
 
     /**
      * @param EngineInterface $templating
      */
-    public function __construct(EngineInterface $templating)
+    public function __construct(EngineInterface $templating, array $config)
     {
         $this->templating = $templating;
+        $this->config = $config;
     }
 
     /**
@@ -48,10 +54,10 @@ abstract class AbstractBlockService
     {
         $this->load($block);
 
-        $parameters = array(
-            'block_service'  => $this,
-            'block'          => $block,
-        );
+        $parameters = [
+            'block_service' => $this,
+            'block'         => $block,
+        ];
 
         return $this->renderResponse($this->getView($block), $parameters,  $response);
     }
@@ -63,12 +69,12 @@ abstract class AbstractBlockService
     {
         $this->load($block);
 
-        $parameters = array(
+        $parameters = [
             'block_service'  => $this,
             'block'          => $block,
             'block_view'     => $this->getView($block),
             'manage_type'    => $this->getManageFormTypeName(),
-        );
+        ];
 
         return $this->renderResponse($this->getManageView($block), $parameters, $response);
     }
@@ -98,7 +104,10 @@ abstract class AbstractBlockService
      */
     public function getName(BlockInterface $block = null)
     {
-        return $this->name;
+        $class = str_replace(__NAMESPACE__ . '\\', '', get_class($this));
+        $shortName = str_replace('BlockService', '', $class);
+
+        return $shortName;
     }
 
     /**
@@ -133,7 +142,7 @@ abstract class AbstractBlockService
      */
     public function getView(BlockInterface $block)
     {
-        return $this->view;
+        return $this->config['view'];
     }
 
     /**

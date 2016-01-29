@@ -47,6 +47,11 @@ class OpiferContentExtension extends Extension implements PrependExtensionInterf
             'opifer_content.content_type_edit_view' => $config['content_type']['views']['edit'],
         ];
 
+        // Block configuration
+        foreach ($config['blocks'] as $block => $blockConfig) {
+            $params['opifer_content.'.$block.'_block_configuration'] = $blockConfig;
+        }
+
         return $params;
     }
 
