@@ -50,8 +50,6 @@ angular.module('OpiferContent', ['angular-inview', 'ui.tree', 'ngCookies'])
                     console.log('parsed', content);
                     if (content.length && typeof content[0] === 'object') {
                         angular.forEach(content, function (c, index) {
-                            content[index].items = [];
-                            console.log(content[index]);
                             $scope.selecteditems.push(content[index]);
                         });
                     } else if (content.length) {
@@ -64,7 +62,7 @@ angular.module('OpiferContent', ['angular-inview', 'ui.tree', 'ngCookies'])
                             .success(function (data) {
                                 var results = data.results;
                                 for (var i = 0; i < results.length; i++) {
-                                    results[i].items = [];
+                                    results[i].children = [];
                                     console.log(results[i]);
                                     $scope.selecteditems.push(results[i]);
                                 }
@@ -91,7 +89,7 @@ angular.module('OpiferContent', ['angular-inview', 'ui.tree', 'ngCookies'])
             $rootScope.$emit('contentPicker.pickContent', content);
 
             if ($scope.multiple) {
-                content.items = [];
+                content.children = [];
                 $scope.selecteditems.push(content);
                 //$scope.order.order.push(content.id);
             } else {

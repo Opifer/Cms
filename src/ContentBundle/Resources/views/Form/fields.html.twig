@@ -73,7 +73,6 @@
 {% endblock %}
 
 {% block content_tree_picker_widget %}
-
     {% set content = form.vars.value %}
     <div class="content-picker content-picker-list" ng-controller="ContentPickerController" ng-cloak ng-init="init('{{ content }}', '{{ full_name }}', true)">
         {% verbatim %}
@@ -85,8 +84,8 @@
                     <div ui-tree-handle>
                         {{ item.title }}
                     </div>
-                    <ol ui-tree-nodes="" ng-model="item.items">
-                        <li ng-repeat="subItem in item.items" ui-tree-node>
+                    <ol ui-tree-nodes="" ng-model="item.children">
+                        <li ng-repeat="subItem in item.children" ui-tree-node>
                             <div ui-tree-handle>
                                 {{ subItem.title }}
                             </div>
