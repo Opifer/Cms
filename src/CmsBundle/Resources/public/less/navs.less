@@ -101,3 +101,31 @@ nav {
         margin-left: 20px;
     }
 }
+
+.dropdown-menu {
+    > li {
+        > span {
+            display: block;
+            padding: (@grid-gutter-width / 10) (@grid-gutter-width / 2);
+            clear: both;
+            font-weight: normal;
+            line-height: 1.42857143;
+            color: #333333;
+            white-space: nowrap;
+        }
+
+        > a {
+            padding: (@grid-gutter-width / 10) (@grid-gutter-width / 2);
+        }
+
+        > ul {
+            list-style: none;
+            padding-left: (@grid-gutter-width / 2);
+            margin-bottom: (@grid-gutter-width / 6);
+
+            a {
+                color: @gray-light;
+            }
+        }
+    }
+}
