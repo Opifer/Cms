@@ -100,14 +100,14 @@ class ContentRouter implements RouterInterface
             }
 
             // If no content was found, return 404
-            if (!$result['content'] || !$result['content'] instanceof ContentInterface) {
+            if (!isset($result['content']) || !$result['content'] instanceof ContentInterface) {
                 throw new ResourceNotFoundException('No page found for slug '.$pathinfo);
             }
 
             // If the passed slug doesn't match the found slug, redirect.
             $slug = str_replace('index', '', $result['content']->getSlug());
             if ($slug != $result['slug']) {
-                $redirect = new RedirectResponse($this->request->getBaseUrl()."/".$slug);
+                $redirect = new RedirectResponse($this->getRequest()->getBaseUrl()."/".$slug);
                 $redirect->sendHeaders();
                 exit;
             }

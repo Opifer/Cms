@@ -27,12 +27,13 @@ class ContentRouterTest extends \PHPUnit_Framework_TestCase
     public function testMatch()
     {
         $content = new Content();
+        $content->setSlug('about');
 
         $this->contentManager->shouldReceive('findOneForSlug', 'findActiveByAlias')->andReturn($content);
 
         $contentRouter = new ContentRouter($this->requestStack, $this->contentManager);
         $result = $contentRouter->match('/about');
-        
+
         $this->assertEquals($content, $result['content']);
     }
 
