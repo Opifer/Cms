@@ -4,6 +4,7 @@ namespace Opifer\ContentBundle\Model;
 
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ORM\NoResultException;
 use Opifer\ContentBundle\Exception\NestedContentFormException;
 use Pagerfanta\Adapter\DoctrineORMAdapter;
 use Pagerfanta\Pagerfanta;
@@ -83,6 +84,29 @@ class ContentManager implements ContentManagerInterface
         $paginator->setCurrentPage($request->get('p', 1));
 
         return $paginator;
+    }
+
+    /**
+     * Find a single content item for a given slug
+     *
+     * @param $slug
+     * @return ContentInterface
+     */
+    public function findOneForSlug($slug)
+    {
+        $matches = $this->getRepository()->findSlugMatches($slug);
+
+        if (count($matches) == 0) {
+            throw new NoResultException();
+        }
+
+        foreach ($matches as $match) {
+            if ($slug == $match->getSlug()) {
+                return $match;
+            }
+        }
+
+        return $matches[0];
     }
 
     /**

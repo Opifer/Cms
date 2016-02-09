@@ -155,6 +155,48 @@ class ContentRepository extends EntityRepository
     }
 
     /**
+     * Finds all content items matching the following slugs:
+     *
+     * - {slug}
+     * - {slug}/
+     * - {slug}/index
+     *
+     * @param $slug
+     * @return array
+     */
+    public function findSlugMatches($slug)
+    {
+        $additionals = [];
+        if (substr($slug, -1) == '/' || $slug == '') {
+            $additionals[] = $slug.'index';
+            $additionals[] = rtrim($slug, '/');
+        } elseif (substr($slug, -5) == 'index') {
+            $additionals[] = str_replace('index', '', $slug);
+            if (substr($slug, -6) == '/index') {
+                $additionals[] = str_replace('/index', '', $slug);
+            }
+        } else {
+            $additionals[] = $slug.'/';
+            $additionals[] = $slug.'/index';
+        }
+
+        $params = ['slug' => $slug, 'active' => true];
+
+        $wheres = 'c.slug = :slug';
+        foreach($additionals as $key => $additional) {
+            $wheres .= ' OR c.slug = :slug'.$key;
+            $params['slug'.$key] = $additional;
+        }
+
+        $qb = $this->createValuedQueryBuilder('c')
+            ->where($wheres)
+            ->andWhere('c.active = :active')
+            ->setParameters($params);
+
+        return $qb->getQuery()->getResult();
+    }
+
+    /**
      * Find one by slug with active status
      *
      * @param string $slug

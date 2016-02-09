@@ -2,7 +2,9 @@
 
 namespace Opifer\ContentBundle\Router;
 
+use Opifer\ContentBundle\Model\ContentInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Exception\ResourceNotFoundException;
 use Symfony\Component\Routing\RequestContext;
 use Symfony\Component\Routing\Route;
@@ -13,7 +15,6 @@ use Symfony\Component\HttpFoundation\RequestStack;
 use Opifer\ContentBundle\Model\ContentManagerInterface;
 use Doctrine\ORM\NoResultException;
 use Symfony\Component\HttpFoundation\RedirectResponse;
-use Opifer\ContentBundle\Router\UrlGenerator;
 
 /**
  * Content Router.
@@ -32,8 +33,8 @@ class ContentRouter implements RouterInterface
     /** @var ContentManagerInterface */
     protected $contentManager;
 
-    /** @var Request */
-    protected $request;
+    /** @var RequestStack */
+    protected $requestStack;
 
     /**
      * The constructor for this service.
@@ -43,7 +44,7 @@ class ContentRouter implements RouterInterface
     public function __construct(RequestStack $requestStack, ContentManagerInterface $contentManager)
     {
         $this->routeCollection = new RouteCollection();
-        $this->request = $requestStack->getCurrentRequest();
+        $this->requestStack = $requestStack;
         $this->contentManager = $contentManager;
 
         $this->createRoutes();
@@ -84,8 +85,6 @@ class ContentRouter implements RouterInterface
      * @return array An array of parameters
      *
      * @throws ResourceNotFoundException If the resource could not be found
-     * @throws MethodNotAllowedException If the resource was found but the
-     *                                   request method is not allowed
      */
     public function match($pathinfo)
     {
@@ -95,27 +94,22 @@ class ContentRouter implements RouterInterface
         if (!empty($result)) {
             try {
                 // The route matches, now check if it actually exists
-                $result['content'] = $this->contentManager->findActiveBySlug($result['slug']);
+                $result['content'] = $this->contentManager->findOneForSlug($result['slug']);
             } catch (NoResultException $e) {
-                try {
 
-                    //is it directory index
-                    if (substr($result['slug'], -1) == '/' || $result['slug'] == '') {
-                        $result['content'] = $this->contentManager->findActiveBySlug($result['slug'].'index');
-                    } else {
-                        if ($this->contentManager->findActiveBySlug($result['slug'].'/index')) {
-                            $redirect = new RedirectResponse($this->request->getBaseUrl()."/".$result['slug'].'/');
-                            $redirect->sendHeaders();
-                            exit;
-                        }
-                    }
-                } catch (NoResultException $ex) {
-                    try {
-                        $result['content'] = $this->contentManager->findActiveByAlias($result['slug']);
-                    } catch (NoResultException $ex) {
-                        throw new ResourceNotFoundException('No page found for slug '.$pathinfo);
-                    }
-                }
+            }
+
+            // If no content was found, return 404
+            if (!$result['content'] || !$result['content'] instanceof ContentInterface) {
+                throw new ResourceNotFoundException('No page found for slug '.$pathinfo);
+            }
+
+            // If the passed slug doesn't match the found slug, redirect.
+            $slug = str_replace('index', '', $result['content']->getSlug());
+            if ($slug != $result['slug']) {
+                $redirect = new RedirectResponse($this->request->getBaseUrl()."/".$slug);
+                $redirect->sendHeaders();
+                exit;
             }
         }
 
@@ -161,10 +155,18 @@ class ContentRouter implements RouterInterface
     {
         if (!isset($this->context)) {
             $this->context = new RequestContext();
-            $this->context->fromRequest($this->request);
+            $this->context->fromRequest($this->getRequest());
         }
 
         return $this->context;
+    }
+
+    /**
+     * @return Request
+     */
+    protected function getRequest()
+    {
+        return $this->requestStack->getCurrentRequest();
     }
 
     /**
