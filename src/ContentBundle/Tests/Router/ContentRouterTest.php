@@ -27,12 +27,13 @@ class ContentRouterTest extends \PHPUnit_Framework_TestCase
     public function testMatch()
     {
         $content = new Content();
+        $content->setSlug('about');
 
-        $this->contentManager->shouldReceive('findActiveBySlug', 'findActiveByAlias')->andReturn($content);
+        $this->contentManager->shouldReceive('findOneForSlug', 'findActiveByAlias')->andReturn($content);
 
         $contentRouter = new ContentRouter($this->requestStack, $this->contentManager);
         $result = $contentRouter->match('/about');
-        
+
         $this->assertEquals($content, $result['content']);
     }
 
@@ -41,7 +42,7 @@ class ContentRouterTest extends \PHPUnit_Framework_TestCase
      */
     public function testNotMatch()
     {
-        $this->contentManager->shouldReceive('findActiveBySlug', 'findActiveByAlias')->andThrow('Doctrine\ORM\NoResultException');
+        $this->contentManager->shouldReceive('findOneForSlug', 'findActiveByAlias')->andThrow('Doctrine\ORM\NoResultException');
 
         $contentRouter = new ContentRouter($this->requestStack, $this->contentManager);
         $result = $contentRouter->match('/about');
