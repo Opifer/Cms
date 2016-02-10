@@ -243,6 +243,6 @@ abstract class Environment
 
     public function getVersion($id)
     {
-        return ($this->versionMap && isset($this->versionMap[$id])) ? $this->versionMap[$id] : false;
+        return ($this->versionMap && isset($this->versionMap[$id])) ? $this->versionMap[$id] : BlockManager::VERSION_PUBLISHED;
     }
 }
