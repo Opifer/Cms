@@ -21,7 +21,7 @@ matrix:
   fast_finish: true
 
 before_install:
-  - if [[ ! -z "$GITHUB_OAUTH_TOKEN" ]]; then composer config -g github-oauth.github.com "$GITHUB_OAUTH_TOKEN" >/dev/null 2>&1; fi
+  - if [[ ! -z "$GITHUB_OAUTH_TOKEN" ]]; then composer config -g github-oauth.github.com "$GITHUB_OAUTH_TOKEN" >/dev/null 2>&1; fi;
   - if [[ $TRAVIS_PHP_VERSION != hhvm ]]; then phpenv config-rm xdebug.ini; fi;
   - if [[ $TRAVIS_PHP_VERSION != hhvm ]]; then echo "memory_limit=4096M" >> ~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/travis.ini; fi;
   - composer self-update
