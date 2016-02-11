@@ -451,7 +451,6 @@ $(document).ready(function() {
             iFrame.contents().find('body').append(link);
 
             iFrame.contents().find('.pm-block').each(function() {
-                console.log($(this).attr('data-pm-block-owner-id'), ownerId);
                 if ($(this).attr('data-pm-block-owner-id') != ownerId) {
                     $(this).addClass('pm-inherited');
                 }
@@ -546,7 +545,7 @@ $(document).ready(function() {
             });
 
             //$('.pm-block-item').on('dragstop',autoResizeFrame);
-            console.log('Server: client reports ready.');
+            //console.log('Server: client reports ready.');
             setViewMode(VIEWMODE_CONTENT);
 
             if (version <= versionPublished) {
@@ -565,15 +564,15 @@ $(document).ready(function() {
             var width = $(element).width();
             var pos = (iFrame.contents().find('body').scrollTop() > offset.top) ? 'fixed' : 'absolute';
             var dir = ($(element).attr('data-pm-block-type') == 'layout') ? 'right' : 'left';
-            console.log($(element).attr('data-pm-block-type'), dir);
+
             var side = (dir == 'right') ? (iFrame.contents().width() - (offset.left+width-1)) : offset.left+1;
             var top = (pos == 'fixed') ? 1 : offset.top + 1;
             toolbar.attr('data-pm-control-id', $(element).attr('data-pm-block-id')).css('position', pos).css('left', 'auto').css('right', 'auto').css('top', top).css(dir, side).removeClass('hidden');
             iFrame.contents().find('body').find('.remove').remove();
             $(element).find('.pm-handle').remove();
             $('<div class="pm-handle" />').appendTo(element);
+
             var toolData = $.parseJSON($(element).attr('data-pm-tool'));
-            console.log(toolData);
             toolbar.find('.pm-btn-label .material-icons').text(toolData.icon);
         };
 
