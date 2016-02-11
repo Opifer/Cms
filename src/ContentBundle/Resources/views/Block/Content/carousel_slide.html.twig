@@ -1,4 +1,4 @@
-<div class="item {% if block.isfirstchild %}active{% endif %}">
+<div class="item {% if block.isfirstchild %}active{% endif %}" {{ manage_tags() }}>
     {% if block.media|default %}
         <img src="{{ block.media.reference|default('fallback.jpeg')|imagine_filter('medialibrary') }}">
     {% endif %}

@@ -79,34 +79,64 @@
     font-size: @font-size-base;
     text-align: left;
     z-index: 9001;
+    background: #222;
+    position: absolute;
+    top: 15px;
+    left: 15px;
+    height: 38px;
+    box-shadow: 0 8px 15px rgba(0,0,0,.175);
 
     > .row {
         margin: 0;
     }
 
     .pm-btn-group {
-        padding: 2px;
+        padding: 0;
     }
 
     .pm-btn {
-        font-size: @font-size-base;
+        font-size: 24px;
         border-radius: 0;
+        border-right: 1px solid #333;
+        color: #ececec;
 
+        &:active,
+        &:focus,
         &:hover {
+            color: white;
+            background: #111;
             text-decoration: none;
         }
     }
 
+    .pm-btn-drag:hover {
+        cursor: move;
+    }
+
+    .pm-btn-label {
+        color: white !important;
+        background-color: #0062ff !important;
+    }
+
     .pm-btn-icon {
         position: relative;
+        display: inline-block;
+        height: 38px;
+        width: 38px;
+        text-align: center;
+        padding: 2px;
 
         .material-icons {
-            font-size: 18px;
+            font-size: 24px;
             display: inline-flex;
             vertical-align: middle;
             margin-top: -1px;
         }
     }
+}
+
+.pm-hovered {
+    outline: 4px dotted #0062ff;
 }
 
 .pm-toolbar-text {
@@ -117,16 +147,6 @@
     text-overflow: ellipsis;
     white-space: nowrap;
     width: 50%;
-}
-
-.pm-btn-group {
-    float: left;
-    width: 50%;
-
-    .pm-btn-icon {
-        padding: 0;
-        color: white;
-    }
 }
 
 .pm-viewmode-content,

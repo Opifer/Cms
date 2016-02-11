@@ -327,7 +327,7 @@ class BlockManager
         $this->killLoggableListener();
         $this->killSoftDeletableListener();
 
-        $this->em->getRepository('OpiferContentBundle:BlockLogEntry')->discardAll($ownerId);
+        $this->em->getRepository('OpiferContentBundle:BlockLogEntry')->discardAll($ownerId, $this->getNewVersion($owner));
 
         if ($this->em->getFilters()->isEnabled('softdeleteable')) {
             $this->em->getFilters()->disable('softdeleteable');
