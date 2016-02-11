@@ -21,9 +21,6 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 abstract class AbstractBlockService
 {
     /** @var string */
-    protected $manageView = 'OpiferContentBundle:Block:manage.html.twig';
-
-    /** @var string */
     protected $editView = 'OpiferContentBundle:Editor:edit_block.html.twig';
 
     /** @var EngineInterface */
@@ -150,7 +147,7 @@ abstract class AbstractBlockService
      */
     public function getManageView(BlockInterface $block)
     {
-        return $this->manageView;
+        return $this->config['view'];
     }
 
     /**

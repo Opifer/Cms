@@ -84,18 +84,6 @@ class ContentEventSubscriber implements EventSubscriberInterface
      */
     public function getCoverImage(Content $content)
     {
-        if ($content->getBlock() === null) {
-            return false;
-        }
-
-        foreach ($content->getBlock()->getOwning() as $block) {
-            $reflect = new \ReflectionClass($block);
-
-            if ($reflect->hasProperty('media') && $block->getMedia()) {
-                return $block->getMedia()->getReference();
-            }
-        }
-
-        return false;
+        return $content->getCoverImage();
     }
 }

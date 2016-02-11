@@ -1,4 +1,4 @@
-<ul>
+<ul {{ manage_tags() }}>
     {% for content in block.collection %}
         <li>{{ content.title }}</li>
     {% endfor %}

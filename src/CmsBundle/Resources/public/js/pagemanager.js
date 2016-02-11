@@ -22,6 +22,7 @@ $(document).ready(function() {
         var btnViewContent = $('#pm-btn-viewmode-content');
         var btnViewPreview = $('#pm-btn-viewmode-preview');
         var btnViewLayout = $('#pm-btn-viewmode-layout');
+        var toolbar = null;
         var VIEWMODE_CONTENT = 'CONTENT';
         var VIEWMODE_LAYOUT = 'LAYOUT';
         var VIEWMODE_PREVIEW = 'PREVIEW';
@@ -29,6 +30,7 @@ $(document).ready(function() {
         var permalink = null;
         var splitPane = $('.split-pane');
         var settings = {rightColumnWidth: 380};
+        var isDragging = false;
 
         var onReady = function () {
 
@@ -170,7 +172,7 @@ $(document).ready(function() {
                 if (hasUnsavedChanges) {
                     return "Attention: you will possible lose changes made.";
                 }
-            }
+            };
         };
 
         //var client = function () {
@@ -222,7 +224,7 @@ $(document).ready(function() {
         };
 
         var getBlockElement = function (id) {
-            return $('#pm-iframe').contents().find('div[data-pm-block-id="' + id + '"]');
+            return $('#pm-iframe').contents().find('*[data-pm-block-id="' + id + '"]');
         };
 
         var selectBlock = function (id) {
@@ -248,7 +250,7 @@ $(document).ready(function() {
             btnPublish.prop("disabled", true);
             btnDiscard.prop("disabled", true);
             btnViewContent.addClass('disabled');
-            btnViewLayout.addClass('disabled');
+            //btnViewLayout.addClass('disabled');
             setViewMode(VIEWMODE_PREVIEW);
         };
 
@@ -256,16 +258,17 @@ $(document).ready(function() {
             btnPublish.prop("disabled", false);
             btnDiscard.prop("disabled", false);
             btnViewContent.removeClass('disabled');
-            btnViewLayout.removeClass('disabled');
+            //btnViewLayout.removeClass('disabled');
         };
 
         var setViewMode = function(mode) {
             if (mode == VIEWMODE_CONTENT) {
                 $('.pm-tools-blockset').addClass('hidden');
                 $('#pm-tools-blocks').removeClass('hidden');
-            } else if (mode == VIEWMODE_LAYOUT) {
-                $('.pm-tools-blockset').addClass('hidden');
                 $('#pm-tools-layouts').removeClass('hidden');
+            //} else if (mode == VIEWMODE_LAYOUT) {
+            //    $('.pm-tools-blockset').addClass('hidden');
+            //    $('#pm-tools-layouts').removeClass('hidden');
             } else {
                 $('.pm-tools-blockset').addClass('hidden');
             }
@@ -311,6 +314,7 @@ $(document).ready(function() {
 
             $.get(url).success(function (data) {
                 $('#pm-block-edit').html(data);
+                angular.bootstrap($('#pm-block-edit form'), ["MainApp"]);
             });
 
             $('#pm-block-edit').removeClass('hidden');
@@ -435,7 +439,6 @@ $(document).ready(function() {
         };
 
         var onClientReady = function () {
-            sortables();
 
             link = document.createElement('link');
             link.type = "text/css";
@@ -448,37 +451,70 @@ $(document).ready(function() {
             iFrame.contents().find('body').append(link);
 
             iFrame.contents().find('.pm-block').each(function() {
-                console.log($(this).attr('data-pm-block-owner-id'), ownerId);
                 if ($(this).attr('data-pm-block-owner-id') != ownerId) {
                     $(this).addClass('pm-inherited');
                 }
             });
 
-            $('.pm-placeholder', iFrame.contents()).on('mousemove mouseup', function (event) {
+            $('.pm-placeholder', iFrame.contents()).on('mousemove mouseup mousedown', function (event) {
                 $(parent.document).trigger(event);
             });
 
-            iFrame.contents().find('body').on('click', '.pm-block .pm-btn-edit', function(e) {
+            iFrame.contents().find('body').on('click', '.pm-btn-edit', function(e) {
                 e.preventDefault();
-                var id = $(this).closest('.pm-block').attr('data-pm-block-id');
+                var id = $(this).closest('.pm-toolbar').attr('data-pm-control-id');
                 editBlock(id);
             });
 
             // Delete block (click)
-            iFrame.contents().find('body').on('click', '.pm-block .pm-btn-delete', function(e) {
+            iFrame.contents().find('body').on('click', '.pm-btn-delete', function(e) {
                 e.preventDefault();
-                var id = $(this).closest('.pm-block').attr('data-pm-block-id');
+                var id = $(this).closest('.pm-toolbar').attr('data-pm-control-id');
                 deleteBlock(id);
             });
 
 
-            iFrame.contents().find('.pm-block').mouseover(function() {
-                iFrame.contents().find('.pm-block').removeClass('hovered');
-                $(this).addClass('hovered');
-            }).mouseleave(function() {
-                $(this).removeClass('hovered');
-            });;
+            iFrame.contents().find('body').append('' +
+                '<div id="pm-toolbar" class="pm pm-toolbar hidden">' +
+                    //'   <div class="pm-toolbar-text"><code>{{ block.id }}</code> {{ block_service.name(block) }}</div>' +
+                '<div class="pm-btn-group">' +
+                '<span class="pm-btn pm-btn-icon pm-btn-label"><i class="material-icons"></i></span>' +
+                '<a href="#" class="pm-btn pm-btn-icon pm-btn-drag"><i class="material-icons">drag_handle</i></a>' +
+                '<a href="#" class="pm-btn pm-btn-icon pm-btn-delete"><i class="material-icons">delete</i></a>' +
+                '<a href="#" class="pm-btn pm-btn-icon pm-btn-edit"><i class="material-icons">create</i></a>' +
+                '</div>' +
+                '</div>');
+            toolbar = iFrame.contents().find('#pm-toolbar');
 
+
+            //iFrame.contents().find('*[data-pm-block-manage]').append('<div class="pm-handle" style="background: red; width: 50px; height: 50px;"></div>');
+            //destroySortables();
+            //sortables();
+
+            // Position Toolbar on Block when hovered
+            iFrame.contents().find('body').on('mouseover', '*[data-pm-block-manage]', function (e) {
+                e.stopPropagation();
+
+                if (isDragging == false) {
+                    showToolbar(this);
+                }
+            });
+
+
+            // Signal drag to Block from Toolbar
+            iFrame.contents().find('body').on('mousedown', '.pm-btn-drag', function (e) {
+                e.preventDefault();
+                var id = $(this).closest('.pm-toolbar').attr('data-pm-control-id');
+                var element = iFrame.contents().find('*[data-pm-block-id=\''+id+'\'] > .pm-handle');
+
+                e.type = "mousedown";
+                e.target = element[0];
+
+                element.trigger(e);
+                return false;
+            });
+
+            sortables();
 
             $('.pm-block-item').draggable({
                 appendTo: '#pm-list-group-container',
@@ -486,13 +522,18 @@ $(document).ready(function() {
                 iframeFix: true,
                 connectToSortable: sortables(),
                 start: function (event, ui) {
+                    isDragging = true;
+                    hideToolbar();
+
                     ui.helper.animate({
                         width: 330,
                         height: 80
                     });
+
                     //$('.pm-preview').addClass('pm-dragging');
                 },
                 stop: function () {
+                    isDragging = false;
                     $(document).scrollTop(0); // Fix for disappearing .navbar.
                     //$('.pm-preview').removeClass('pm-dragging');
                     //$('.pm-layout').removeClass('pm-layout-accept'); // cleaning up just to be sure
@@ -504,7 +545,7 @@ $(document).ready(function() {
             });
 
             //$('.pm-block-item').on('dragstop',autoResizeFrame);
-            console.log('Server: client reports ready.');
+            //console.log('Server: client reports ready.');
             setViewMode(VIEWMODE_CONTENT);
 
             if (version <= versionPublished) {
@@ -514,17 +555,42 @@ $(document).ready(function() {
             isNotLoading();
         };
 
+
+        var showToolbar = function (element) {
+            iFrame.contents().find('*[data-pm-block-manage]').removeClass('pm-hovered');
+            $(element).addClass('pm-hovered');
+
+            var offset = $(element).offset();
+            var width = $(element).width();
+            var pos = (iFrame.contents().find('body').scrollTop() > offset.top) ? 'fixed' : 'absolute';
+            var dir = ($(element).attr('data-pm-block-type') == 'layout') ? 'right' : 'left';
+
+            var side = (dir == 'right') ? (iFrame.contents().width() - (offset.left+width-1)) : offset.left+1;
+            var top = (pos == 'fixed') ? 1 : offset.top + 1;
+            toolbar.attr('data-pm-control-id', $(element).attr('data-pm-block-id')).css('position', pos).css('left', 'auto').css('right', 'auto').css('top', top).css(dir, side).removeClass('hidden');
+            iFrame.contents().find('body').find('.remove').remove();
+            $(element).find('.pm-handle').remove();
+            $('<div class="pm-handle" />').appendTo(element);
+
+            var toolData = $.parseJSON($(element).attr('data-pm-tool'));
+            toolbar.find('.pm-btn-label .material-icons').text(toolData.icon);
+        };
+
+        var hideToolbar = function () {
+            iFrame.contents().find('*[data-pm-block-manage]').removeClass('pm-hovered');
+            toolbar.addClass('hidden');
+        };
+
         //
         // Create a block by dropping in a placeholder
         //
         var sortables = function () {
             return iFrame.contents().find('.pm-placeholder').sortable({
-                handle: '.pm-toolbar',
+                handle: '.pm-handle',
                 revert: false,
-                distance: 10,
                 connectWith: iFrame.contents().find('.pm-placeholder'),
                 //greedy: true,
-                iframeFix: true,
+                iframeFix: false,
                 placeholder: 'pm-placeholder-droparea',
                 forcePlaceholderSize: true,
                 tolerance: "pointer",
@@ -562,18 +628,22 @@ $(document).ready(function() {
                     $(this).addClass('pm-accept').closest('.pm-layout').addClass('pm-accept');
                     iFrame.contents().find('.pm-preview').addClass('pm-dragging');
                     //console.log(event, ui);
+                    isDragging = true;
+                    hideToolbar();
                 },
                 stop: function (event, ui) {
                     $(document).scrollTop(0); // Fix for dissappearing .navbar.
+
                     iFrame.contents().find('.pm-preview').removeClass('pm-dragging');
                     iFrame.contents().find('.pm-block, .pm-placeholder').removeClass('pm-accept');
+                    isDragging = false;
                     paintEmptyPlaceholders();
 
                     if (!$(ui.item).hasClass('pm-block-item')) {
                         //Push order of blocks to backend service
                         var sortOrder = $(ui.item).closest('.pm-placeholder').sortable('toArray', {attribute: 'data-pm-block-id'});
                         var blockId = $(ui.item).attr('data-pm-block-id');
-                        var parentId = $(ui.item).parent().closest('.pm-layout').attr('data-pm-block-id');
+                        var parentId = $(ui.item).parent().closest('*[data-pm-block-id]').attr('data-pm-block-id');
                         var placeholderKey = $(ui.item).closest('.pm-placeholder').attr('data-pm-placeholder-key');
 
                         $.post(Routing.generate('opifer_content_api_contenteditor_move_block'), {sort: sortOrder, id: blockId, parent: parentId, placeholder: placeholderKey}).done(function (data, textStatus, request) {
@@ -637,7 +707,7 @@ $(document).ready(function() {
                         className: 'btn-danger',
                         callback: function() {
                             $.post(Routing.generate('opifer_content_api_contenteditor_discard'), {id: ownerId}).done(function (data, textStatus, request) {
-                                updateVersionPicker();
+                                loadVersion(version);
                                 bootbox.alert("Discarded.", function() {});
                             }).error(function(data){
                                 showAPIError(data);

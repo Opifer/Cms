@@ -33,6 +33,8 @@ class BlockManager
     /** @var EntityManager */
     protected $em;
 
+    const VERSION_PUBLISHED = "P";
+
     /**
      * Constructor
      *
@@ -157,6 +159,13 @@ class BlockManager
      */
     public function findByOwner(BlockInterface $owner, $version = false)
     {
+        if ($version === self::VERSION_PUBLISHED && !$this->em->getFilters()->isEnabled('draftversion')) {
+            $this->em->getFilters()->enable('draftversion');
+        } elseif ($this->em->getFilters()->isEnabled('draftversion')) {
+            $this->em->getFilters()->disable('draftversion');
+        }
+
+
         $blocks = $this->getRepository()->findBy(['owner' => $owner], ['sort' => 'asc']);
 
         if ($version) {
@@ -191,11 +200,10 @@ class BlockManager
         $this->killLoggableListener();
         $this->killSoftDeletableListener();
 
-        $owned = $this->findByOwner($block);
         $version = $this->getNewVersion($block);
+        $owned = $this->findByOwner($block, $version);
 
         foreach ($owned as $descendant) {
-            $this->revertSingle($descendant, $version);
             $descendant->setPublish(true);
             $descendant->setVersion($version);
             $descendant->setRootVersion($version);
@@ -319,7 +327,7 @@ class BlockManager
         $this->killLoggableListener();
         $this->killSoftDeletableListener();
 
-        $this->em->getRepository('OpiferContentBundle:BlockLogEntry')->discardAll($ownerId);
+        $this->em->getRepository('OpiferContentBundle:BlockLogEntry')->discardAll($ownerId, $this->getNewVersion($owner));
 
         if ($this->em->getFilters()->isEnabled('softdeleteable')) {
             $this->em->getFilters()->disable('softdeleteable');

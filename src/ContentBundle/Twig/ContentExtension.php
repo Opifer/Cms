@@ -5,6 +5,7 @@ namespace Opifer\ContentBundle\Twig;
 use Opifer\ContentBundle\Block\BlockContainerInterface;
 use Opifer\ContentBundle\Block\BlockManager;
 use Opifer\ContentBundle\Block\BlockOwnerInterface;
+use Opifer\ContentBundle\Entity\Block;
 use Opifer\ContentBundle\Entity\CompositeBlock;
 use Opifer\ContentBundle\Entity\DocumentBlock;
 use Opifer\ContentBundle\Environment\Environment;
@@ -71,6 +72,10 @@ class ContentExtension extends \Twig_Extension
                 'is_safe' => array('html'),
                 'needs_context' => true
             )),
+            new \Twig_SimpleFunction('manage_tags', [$this, 'renderManageTags'], array(
+                'is_safe' => array('html'),
+                'needs_context' => true
+            )),
         ];
     }
 
@@ -88,17 +93,7 @@ class ContentExtension extends \Twig_Extension
         $service = $manager->getService($block);
 
         if ($this->blockEnvironment->getBlockMode($block) == 'manage') {
-            $content =  $service->setEnvironment($this->blockEnvironment)->manage($block)->getContent();
-//            $block->isRendered = true;
-//
-//            // TODO check for unrendered blocks
-//            if ($block instanceof BlockContainerInterface) {
-//                foreach ($block->getChildren() as $child) {
-//                    if (!property_exists($child, 'isRendered') || $child->isRendered) {
-//                        $content .= $manager->getService($child)->manage($child)->getContent();
-//                    }
-//                }
-//            }
+            $content = $service->setEnvironment($this->blockEnvironment)->manage($block)->getContent();
 
             return $content;
         }
@@ -141,16 +136,39 @@ class ContentExtension extends \Twig_Extension
                 if ($block->getPosition() === (int) $key || ((int) $key === 0 && $block->getPosition() === 0)) {
                     $content .= $this->renderBlock($block);
                 }
-
-//                continue; // skip blocks that are not supposed to render at this placeholder key
             }
         }
 
-        if ($this->blockEnvironment && $this->blockEnvironment->getBlockMode() === 'manage') { // && $this->blockEnvironment->getContent()->getBlock()->getId() == $block->getOwner()->getId()
-            $content = $this->container->get('templating')->render('OpiferContentBundle:Block:manage.html.twig', ['content' => $content, 'key' => $key, 'manage_type' => 'placeholder']);
+        if ($this->blockEnvironment && $this->blockEnvironment->getBlockMode() === 'manage') {
+            $content = $this->container->get('templating')->render('OpiferContentBundle:Block/Layout/placeholder.html.twig', ['content' => $content, 'key' => $key, 'manage_type' => 'placeholder']);
         }
 
         return $content;
+    }
+
+    public function renderManageTags($context)
+    {
+        if (!$this->blockEnvironment || $this->blockEnvironment->getBlockMode() !== 'manage') {
+            return;
+        }
+
+        $tags = '';
+
+        if (isset($context['block'])) {
+            /** @var Block $block */
+            $block = $context['block'];
+
+            $tags .= sprintf(' data-pm-block-manage="true" data-pm-block-id="%d" data-pm-block-owner-id="%d" data-pm-block-type="%s"', $block->getId(), $block->getOwner()->getId(), $context['manage_type']);
+        } else if ($context['manage_type'] == 'placeholder')  {
+            $tags .= sprintf(' data-pm-type="placeholder" data-pm-placeholder-key="%s"', $context['key']);
+        }
+
+        if (isset($context['block_service'])) {
+            $service = $context['block_service'];
+            $tags .= sprintf(' data-pm-tool=\'%s\'', json_encode(array('icon' => $service->getTool()->getIcon())));
+        }
+
+        return $tags;
     }
 
     /**

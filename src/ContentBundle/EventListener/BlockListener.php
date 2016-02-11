@@ -13,8 +13,8 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 /**
  * Block Entity Listener.
  *
- * This class listens to Doctrine events and calls the matching method on
- * the Block Service
+ * This class listens to Doctrine events and calls the matching event methods on
+ * the Block Service.
  */
 class BlockListener implements EventSubscriber
 {

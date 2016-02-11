@@ -1,1 +1,1 @@
-<a href="{{ block.properties.url|default }}" class="btn  {{ block.properties.styles|default|join(' ') }} {{ block.properties.extra_classes|default }}" target="{{ block.properties.target|default }}">{{ block.value|default('button') }}</a>
+<a href="{{ block.properties.url|default }}" class="btn  {{ block.properties.styles|default|join(' ') }} {{ block.properties.extra_classes|default }}" target="{{ block.properties.target|default }}" {{ manage_tags() }}>{{ block.value|default('button') }}</a>

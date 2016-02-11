@@ -1,4 +1,4 @@
-<div class="jumbotron {{ block.properties.extra_classes|default }} {{ block.properties.styles|default|join(' ') }}" id="{{ block.properties.id|default }}" style="background-image: url({{ block.media ? block.media.reference|imagine_filter('venue_home') : asset('images/city_jumbo.jpg') }});">
+<div class="jumbotron {{ block.properties.extra_classes|default }} {{ block.properties.styles|default|join(' ') }}" id="{{ block.properties.id|default }}" style="background-image: url({{ block.media ? block.media.reference|imagine_filter('venue_home') : asset('images/city_jumbo.jpg') }});" {{ manage_tags() }}>
     <div class="jumbotron-gradient"></div>
     <div class="container va-container container-v container-h">
         <div class="va-middle">
