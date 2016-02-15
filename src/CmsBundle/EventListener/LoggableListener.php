@@ -141,14 +141,12 @@ class LoggableListener extends BaseLoggableListener
 
                 if ($action !== self::ACTION_CREATE) {
                     $this->resetVersionedData($ea, $object);
-//                    $uow->detach($object);
                 }
 
                 // Reset version number to that of owner Document, so we keep a tree
                 // of blocks together on a single version #
                 $logEntry->setRootVersion($this->rootVersion);
                 $logEntry->setRootId(($object instanceof BlockOwnerInterface || $object->isShared()) ? $object->getId() : $object->getOwner()->getId());
-//                $uow->computeChangeSet($logEntryMeta, $logEntry);
             }
 
             $om->persist($logEntry);
@@ -177,11 +175,8 @@ class LoggableListener extends BaseLoggableListener
             }
 
             $value = $changes[0];
-//            $this->mapValue($om, $objectMeta, $field, $value);
             $wrapped->setPropertyValue($field, $value);
         }
-
-//        $uow->computeChangeSet($objectMeta, $object);
     }
 
 

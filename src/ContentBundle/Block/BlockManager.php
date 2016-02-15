@@ -288,7 +288,13 @@ class BlockManager
      */
     public function save(BlockInterface $block)
     {
-        $block->setRootVersion($this->getNewVersion($block));
+        $version = $this->getNewVersion($block);
+
+        $block->setRootVersion($version);
+
+        // Reset LogEntry for the rare case the editted block ends up being the same as the published block
+        // and nothing gets updated (not even the logentry because UnitOfWork does not schedule any updates)
+        $this->em->getRepository('OpiferContentBundle:BlockLogEntry')->nullifyLogEntry($block, $version);
 
         $this->em->persist($block);
         $this->em->flush($block);
@@ -481,7 +487,6 @@ class BlockManager
 
             foreach ($siblings as $sibling) {
                 $sibling->setRootVersion($version);
-                $block->setSort($sibling->getSort());
                 $this->save($sibling);
             }
         }
@@ -595,7 +600,7 @@ class BlockManager
     public function sortBlocksByDirective($blocks, $sort)
     {
         array_walk($blocks, function ($block) use ($sort) {
-            $block->setSort(array_search($block->getId(), $sort));
+            $block->setSort(array_search($block->getId(), $sort, false));
         });
 
         return $blocks;

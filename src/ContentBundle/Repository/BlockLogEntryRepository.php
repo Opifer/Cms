@@ -85,4 +85,19 @@ class BlockLogEntryRepository extends LogEntryRepository
 
         return $q;
     }
+
+
+    public function nullifyLogEntry($entity, $rootVersion)
+    {
+        $wrapped = new EntityWrapper($entity, $this->_em);
+        $objectClass = $wrapped->getMetadata()->name;
+        $objectId = $wrapped->getIdentifier();
+
+        $logEntry = $this->findOneBy(compact('objectId', 'objectClass', 'rootVersion'));
+
+        if ($logEntry) {
+            $logEntry->setData(null);
+            $this->getEntityManager()->flush($logEntry);
+        }
+    }
 }
