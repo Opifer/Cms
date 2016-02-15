@@ -1,5 +1,7 @@
 $(document).ready(function() {
 
+    loadDatePickers();
+
     /**
      * Submit datagrid filters on change
      */
@@ -172,4 +174,14 @@ function adjustCkeditorConfig() {
     CKEDITOR.dtd.$removeEmpty['i'] = 0;
     CKEDITOR.dtd.$removeEmpty['span'] = 0;
     CKEDITOR.config.allowedContent = true;
+}
+
+function loadDatePickers() {
+    $('.datetimepicker').datetimepicker({
+        format: 'YYYY-MM-DD HH:mm'
+    });
+
+    $('.datepicker').datetimepicker({
+        format: 'YYYY-MM-DD'
+    })
 }
