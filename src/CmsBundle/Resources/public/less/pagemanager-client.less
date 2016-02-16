@@ -85,6 +85,13 @@
     left: 15px;
     height: 38px;
     box-shadow: 0 8px 15px rgba(0,0,0,.175);
+    opacity: 1;
+    transition: opacity 200ms;
+
+    &.hidden {
+        display: block !important;
+        opacity: 0;
+    }
 
     > .row {
         margin: 0;
@@ -136,8 +143,8 @@
 }
 
 .pm-hovered {
-    outline: 4px dotted #0062ff;
-    outline-offset: -4px;
+    outline: 5px dotted #0062ff;
+    outline-offset: -2px;
 }
 
 .pm-toolbar-text {
@@ -304,47 +311,47 @@
 
 .list-group-item.pm-block-item {
     .pm;
-    background: white;
-    margin: 30px auto;
-    max-width: 450px;
+    background: #111 !important;
+    color: white !important;
+    margin: 0;
+    max-width: 400px;
+    max-height: 100px;
     border: 0;
     border-radius: 0;
+    padding: 10px;
     box-shadow: 0 1px 10px rgba(0,0,0,.1);
+    z-index: 99999;
 
     .col-visual {
         position: absolute;
-        color: #0A539E;
+        color: white !important;
         width: 45px;
         height: 40px;
         top: 8px;
         text-align: center;
 
         .material-icons {
-            font-size: 30px;
+            font-size: 36px;
             line-height: 38px;
+            color: white !important;
         }
     }
 
     .col-text {
-        margin-left: 58px;
-    }
-
-    .list-group-item {
-        margin: 2px 0;
-        border: 0;
-        border-radius: 0;
+        padding: 0;
+        margin: 0 0 0 58px;
     }
 
     .list-group-item-heading {
-        font-family: @font-family-base;
-        font-size: @font-size-base;
-        font-weight: normal;
-        font-size: 16px;
-        margin: 0;
+        font-family:"Myriad Pro", "Segoe UI", Helvetica, Arial, sans-serif;
+        font-size: 16px !important;
+        font-weight: normal !important;
+        margin: 0 !important;
     }
 
     .list-group-item-text {
-        font-family: @font-family-base;
-        font-size: @font-size-small;
+        font-family: "Myriad Pro", "Segoe UI", Helvetica, Arial, sans-serif;
+        font-size: 12px !important;
+        margin: 0 !important;
     }
 }

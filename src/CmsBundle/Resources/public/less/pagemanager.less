@@ -355,6 +355,21 @@
     .title {
         color: #aaa;
         font-weight: normal;
+
+
+        &.collapsed {
+            &:before {
+                .rotate(270deg);
+            }
+        }
+
+        &:before {
+            &:extend(.material-icons);
+            content: '\E5C5';
+            line-height: .9em;
+            color: @gray-light;
+            .rotate(0deg);
+        }
     }
 }
 
@@ -419,6 +434,7 @@
 }
 
 .pm-toolset-card {
+    border-top: 1px solid #333;
 }
 
 #pm-block-edit {

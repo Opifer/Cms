@@ -161,14 +161,14 @@ class BlockManager
     {
         if ($version === self::VERSION_PUBLISHED && !$this->em->getFilters()->isEnabled('draftversion')) {
             $this->em->getFilters()->enable('draftversion');
-        } elseif ($this->em->getFilters()->isEnabled('draftversion')) {
+        } elseif ($version != self::VERSION_PUBLISHED && $this->em->getFilters()->isEnabled('draftversion')) {
             $this->em->getFilters()->disable('draftversion');
         }
 
 
         $blocks = $this->getRepository()->findBy(['owner' => $owner], ['sort' => 'asc']);
 
-        if ($version) {
+        if ($version && $version !== self::VERSION_PUBLISHED) {
             foreach ($blocks as $key => $block) {
                 $this->revertSingle($block, $version);
 
@@ -292,9 +292,11 @@ class BlockManager
 
         $block->setRootVersion($version);
 
-        // Reset LogEntry for the rare case the editted block ends up being the same as the published block
-        // and nothing gets updated (not even the logentry because UnitOfWork does not schedule any updates)
-        $this->em->getRepository('OpiferContentBundle:BlockLogEntry')->nullifyLogEntry($block, $version);
+        if (!$block->isPublish()) {
+            // Reset LogEntry for the rare case the editted block ends up being the same as the published block
+            // and nothing gets updated (not even the logentry because UnitOfWork does not schedule any updates)
+            $this->em->getRepository('OpiferContentBundle:BlockLogEntry')->nullifyLogEntry($block, $version);
+        }
 
         $this->em->persist($block);
         $this->em->flush($block);
