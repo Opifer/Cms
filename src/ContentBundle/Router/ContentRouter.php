@@ -106,7 +106,7 @@ class ContentRouter implements RouterInterface
 
             // If the passed slug doesn't match the found slug, redirect.
             $slug = str_replace('index', '', $result['content']->getSlug());
-            if ($slug != $result['slug']) {
+            if ($slug != $result['slug'] && $result['slug'] != $result['content']->getAlias()) {
                 $redirect = new RedirectResponse($this->getRequest()->getBaseUrl()."/".$slug);
                 $redirect->sendHeaders();
                 exit;
