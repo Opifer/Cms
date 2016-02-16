@@ -180,9 +180,9 @@ class ContentRepository extends EntityRepository
             $additionals[] = $slug.'/index';
         }
 
-        $params = ['slug' => $slug, 'active' => true];
+        $params = ['slug' => $slug, 'active' => true, 'alias' => $slug];
 
-        $wheres = 'c.slug = :slug';
+        $wheres = 'c.slug = :slug OR c.alias = :alias';
         foreach($additionals as $key => $additional) {
             $wheres .= ' OR c.slug = :slug'.$key;
             $params['slug'.$key] = $additional;
