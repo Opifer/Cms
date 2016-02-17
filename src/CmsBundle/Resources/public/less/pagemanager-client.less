@@ -4,6 +4,31 @@
 
 @pm-active-color: #FFC000;
 
+@pm-primary-bright: #0062ff;
+
+.pm-material-icons {
+    font: normal normal normal 20px/1 'Material Icons';
+    font-size: inherit;
+    display: inline-block;
+    width: 1em;
+    height: 1em;
+    line-height: 1;
+    text-transform: none;
+    letter-spacing: normal;
+    word-wrap: normal;
+
+    /* Support for all WebKit browsers. */
+    -webkit-font-smoothing: antialiased;
+    /* Support for Safari and Chrome. */
+    text-rendering: optimizeLegibility;
+
+    /* Support for Firefox. */
+    -moz-osx-font-smoothing: grayscale;
+
+    /* Support for IE. */
+    font-feature-settings: 'liga';
+}
+
 .pm {
 
     font-family: @font-family-base !important;
@@ -39,22 +64,37 @@
     }
 }
 
-.pm-placeholder-droparea {
-    min-height: 40px;
-    height: 100%;
-    padding: @padding-base-vertical @padding-base-horizontal;
-    background: rgba(0,0,0,.9);
-    margin: 5px 0;
+.pm-drag-placeholder {
+    height: 0 !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    overflow: visible;
+    position: relative;
+    z-index: 99999;
+    color: rgba(0,0,0,.8);
+    font-size: 0;
+    line-height: 0;
+
+    &:before,
+    &:after {
+        position: absolute;
+        .pm-material-icons;
+        font-size: 36px;
+        line-height: 36px;
+        color: @pm-primary-bright;
+        text-shadow: 0 2px 0 rgba(255,255,255,1), 2px 0 0 rgba(255,255,255,1), -2px 0 0 rgba(255,255,255,1), 0 -2px 0 rgba(255,255,255,1);
+    }
+
+    &:before {
+        top: -16px;
+        left: -7px;
+        content: "\E5C8";
+    }
 
     &:after {
-        content: "drop here";
-        display: block;
-        text-align: center;
-        text-transform: uppercase;
-        color: #555;
-        padding: 10px 0;
-        font-size: 12px;
-        font-weight: bold;
+        top: -16px;
+        right: -7px;
+        content: "\E5C4";
     }
 }
 
@@ -122,7 +162,7 @@
 
     .pm-btn-label {
         color: white !important;
-        background-color: #0062ff !important;
+        background-color: @pm-primary-bright !important;
     }
 
     .pm-btn-icon {
@@ -143,7 +183,7 @@
 }
 
 .pm-hovered {
-    outline: 5px dotted #0062ff;
+    outline: 5px dotted @pm-primary-bright;
     outline-offset: -2px;
 }
 
@@ -235,79 +275,37 @@
     }
 }
 
-.pm-viewmode-content,
-.pm-viewmode-layout {
-    .pm-block {
-        min-height: 100px;
-
-        &.hovered {
-            z-index: 9000;
-        }
-    }
-
-    .pm-layout {
-        text-align: left;
-
-        > .pm-toolbar {
-            background-color: #eecdcf;
-        }
-    }
+.pm-viewmode-content {
 
     .pm-placeholder {
-        outline: 1px dashed #bbb;
-        min-height: 30px;
+        outline: 4px dotted rgba(0,0,0,.15);
+        outline-offset: -2px;
+        min-height: 100px;
         .clearfix;
 
-        &.pm-empty {
-            padding: @padding-large-vertical @padding-base-horizontal;
-            margin: 2px;
-            min-height: 30px;
-
+        &[data-pm-empty="true"] {;
             &:after {
-                content: "placeholder";
+                .pm-material-icons;
+                content: "\E149";
+                color: rgba(0,0,0,.15);
+                font-size: 36px;
+                line-height: 100px;
+                margin: 0 auto;
+                width: 24px;
                 display: block;
-                text-align: center;
-                text-transform: uppercase;
-                color: #d4d4d4;
-                padding: 10px 0;
-                font-size: 12px;
-                font-weight: bold;
             }
         }
 
-        &.pm-empty.pm-accept {
-            padding: 0;
-        }
-
         &.pm-accept {
-            //margin: 10px 0;
-            outline: 1px dashed @brand-success;
-            background: fade(@brand-success, 20%);
-        }
-    }
+            outline-color: @brand-success;
 
-    .pm-accept {
-        .pm-placeholder {
-            padding: 15px 0;
-        }
-    }
-
-}
-
-.pm-viewmode-preview {
-    .pm-block {
-        > .pm-toolbar {
-            display: none;
+            &:after {
+                color: @brand-success;
+            }
         }
     }
 }
 
-.pm-dragging {
-    .pm-placeholder {
-        min-height: 150px;
-        padding: 5px;
-    }
-}
 
 .list-group-item.pm-block-item {
     .pm;

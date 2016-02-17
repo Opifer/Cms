@@ -66,7 +66,7 @@ abstract class Environment
      *
      * @return BlockOwnerInterface
      */
-    abstract protected function getMainBlock();
+    abstract public function getMainBlock();
 
     /**
      * Returns view parameters array that can be passed to any Response

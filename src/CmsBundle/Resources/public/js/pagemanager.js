@@ -453,7 +453,7 @@ $(document).ready(function() {
             link.rel = "stylesheet";
             link.href = '/bundles/opifercms/css/pagemanager-client.css';
             link.onload = function() {
-                showToolbars();
+                //showToolbars();
             };
 
             iFrame.contents().find('body').append(link);
@@ -538,6 +538,7 @@ $(document).ready(function() {
                 scroll: false,
                 connectToSortable: sortables(),
                 start: function (event, ui) {
+                    window.iFrameSortable = true;
                     isDragging = true;
                     hideToolbar();
 
@@ -553,20 +554,20 @@ $(document).ready(function() {
                     //$(document).scrollTop(0); // Fix for disappearing .navbar.
                     //$('.pm-preview').removeClass('pm-dragging');
                     //$('.pm-layout').removeClass('pm-layout-accept'); // cleaning up just to be sure
+                    window.iFrameSortable = false;
                 },
                 drag: function (event, ui) {
-                    ui.position.top += $('#pm-iframe').contents().scrollTop();
-                    console.log(event, ui);
+                    //ui.position.top += $('#pm-iframe').contents().scrollTop();
                 }
             });
 
-            //$('.pm-block-item').on('dragstop',autoResizeFrame);
-            //console.log('Server: client reports ready.');
             setViewMode(VIEWMODE_CONTENT);
 
             if (version <= versionPublished) {
                 lockEditing();
             }
+
+            loadToC();
 
             isNotLoading();
         };
@@ -604,14 +605,13 @@ $(document).ready(function() {
         var sortables = function () {
             return iFrame.contents().find('.pm-placeholder').sortable({
                 handle: '.pm-handle',
-                revert: false,
+                revert: true,
                 iframeFix: true,
                 scroll: false,
                 connectWith: iFrame.contents().find('.pm-placeholder'),
-                placeholder: 'pm-placeholder-droparea',
-                forcePlaceholderSize: true,
                 tolerance: "pointer",
                 cursorAt: { top: 0, left: 0 },
+                placeholder: 'pm-drag-placeholder',
                 receive: function (event, ui) {
                     // Create new block
                     if ($(ui.item).hasClass('pm-block-item')) {
@@ -633,8 +633,8 @@ $(document).ready(function() {
                     iFrame.contents().find('.pm-block, .pm-placeholder').removeClass('pm-accept');
                     $(this).addClass('pm-accept').closest('.pm-layout').addClass('pm-accept');
 
-                    var layoutId = $(this).addClass('pm-accept').closest('.pm-layout').attr('data-pm-block-id');
-                    highlightPlaceholders(layoutId);
+                    //var layoutId = $(this).addClass('pm-accept').closest('.pm-layout').attr('data-pm-block-id');
+                    //highlightPlaceholders(layoutId);
                 },
                 out: function (event, ui) {
                     //if ($.ui.ddmanager.current)
@@ -642,8 +642,8 @@ $(document).ready(function() {
                     iFrame.contents().find('.pm-block, .pm-placeholder').removeClass('pm-accept');
                 },
                 start: function (event, ui) {
-                    $(this).addClass('pm-accept').closest('.pm-layout').addClass('pm-accept');
-                    iFrame.contents().find('.pm-preview').addClass('pm-dragging');
+                    //$(this).addClass('pm-accept').closest('.pm-layout').addClass('pm-accept');
+                    //iFrame.contents().find('.pm-preview').addClass('pm-dragging');
                     //console.log(event, ui);
                     isDragging = true;
                     hideToolbar();
@@ -651,7 +651,7 @@ $(document).ready(function() {
                 stop: function (event, ui) {
                     //$(document).scrollTop(0); // Fix for dissappearing .navbar.
 
-                    iFrame.contents().find('.pm-preview').removeClass('pm-dragging');
+                    //iFrame.contents().find('.pm-preview').removeClass('pm-dragging');
                     iFrame.contents().find('.pm-block, .pm-placeholder').removeClass('pm-accept');
                     isDragging = false;
                     paintEmptyPlaceholders();
@@ -788,6 +788,12 @@ $(document).ready(function() {
             version <= versionPublished ? lockEditing() : unlockEditing();
         };
 
+        var loadToC = function () {
+            $.get(Routing.generate('opifer_content_contenteditor_toc', {type: ownerType, id: typeId, version: version})).done(function (data) {
+                $('#pm-toc').html(data);
+            });
+        };
+
         return {
             onReady: onReady,
             isLoading: isLoading,
@@ -810,58 +816,186 @@ $(document).ready(function() {
     pagemanager.onReady();
 });
 
-//Overrided prepareOffsets method
-$.widget( "ui.sortable", $.ui.sortable,  {
-    refreshPositions: function(fast) {
 
-            this._super();
+//
+// Override refreshPositions
+//
+$.widget( "ui.sortable", $.ui.sortable, {
+    refreshPositions: function (fast) {
 
-            // Determine whether items are being displayed horizontally
-            this.floating = this.items.length ?
-            this.options.axis === "x" || this._isFloating( this.items[ 0 ].item ) :
-                false;
+        this._super();
 
-            //This has to be redone because due to the item being moved out/into the offsetParent, the offsetParent's position will change
-            if(this.offsetParent && this.helper) {
-                this.offset.parent = this._getParentOffset();
+        // Determine whether items are being displayed horizontally
+        this.floating = this.items.length ?
+        this.options.axis === "x" || this._isFloating(this.items[0].item) :
+            false;
+
+        //This has to be redone because due to the item being moved out/into the offsetParent, the offsetParent's position will change
+        if (this.offsetParent && this.helper) {
+            this.offset.parent = this._getParentOffset();
+        }
+
+        var i, item, t, p;
+
+        for (i = this.items.length - 1; i >= 0; i--) {
+            item = this.items[i];
+
+            //We ignore calculating positions of all connected containers when we're not over them
+            if (item.instance !== this.currentContainer && this.currentContainer && item.item[0] !== this.currentItem[0]) {
+                continue;
             }
 
-            var i, item, t, p;
+            t = this.options.toleranceElement ? $(this.options.toleranceElement, item.item) : item.item;
 
-            for (i = this.items.length - 1; i >= 0; i--){
-                item = this.items[i];
+            if (!fast) {
+                item.width = t.outerWidth();
+                item.height = t.outerHeight();
+            }
 
-                //We ignore calculating positions of all connected containers when we're not over them
-                if(item.instance !== this.currentContainer && this.currentContainer && item.item[0] !== this.currentItem[0]) {
+            p = t.offset();
+            // CHANGED
+            if (window.iFrameSortable) {
+                p.top -= $('#pm-iframe').contents().scrollTop();
+            }
+            // CHANGED (END)
+            item.left = p.left;
+            item.top = p.top; // Remove iFrame scroll position (only change)
+        }
+
+        if (this.options.custom && this.options.custom.refreshContainers) {
+            this.options.custom.refreshContainers.call(this);
+        } else {
+            for (i = this.containers.length - 1; i >= 0; i--) {
+                p = this.containers[i].element.offset();
+
+                // CHANGED
+                if (window.iFrameSortable) {
+                    p.top -= $('#pm-iframe').contents().scrollTop();
+                }
+                //console.log(p.top, $('#pm-iframe').contents().scrollTop());
+                // CHANGED (END)
+                this.containers[i].containerCache.left = p.left;
+                this.containers[i].containerCache.top = p.top;
+                this.containers[i].containerCache.width = this.containers[i].element.outerWidth();
+                this.containers[i].containerCache.height = this.containers[i].element.outerHeight();
+            }
+        }
+
+        return this;
+    },
+
+    _contactContainers: function (event) {
+        var i, j, dist, itemWithLeastDistance, posProperty, sizeProperty, cur, nearBottom, floating, axis,
+            innermostContainer = null,
+            // CHANGED
+            innermostZIndex = null,
+            // CHANGED (END)
+            innermostIndex = null;
+
+        // get innermost container that intersects with item
+        for (i = this.containers.length - 1; i >= 0; i--) {
+
+            // never consider a container that's located within the item itself
+            if ($.contains(this.currentItem[0], this.containers[i].element[0])) {
+                continue;
+            }
+
+            var zIndex = 0;
+            try {
+                zIndex = $(this.containers[i].element[0]).zIndex();
+            } catch (err) {
+                zIndex = 0;
+            }
+            //console.log(zIndex, this.containers[i].element[0]);
+
+            if (this._intersectsWith(this.containers[i].containerCache)) {
+                // if we've already found a container and it's more "inner" than this, then continue
+                // or if we've already found a container that has a z-index larger than this, then also continue
+                if (innermostContainer && ($.contains(this.containers[i].element[0], innermostContainer.element[0]) || zIndex < innermostZIndex)) {
                     continue;
                 }
 
-                t = this.options.toleranceElement ? $(this.options.toleranceElement, item.item) : item.item;
+                innermostContainer = this.containers[i];
+                // CHANGED
+                //innermostZIndex = zIndex;
+                // CHANGED (END)
+                innermostIndex = i;
 
-                if (!fast) {
-                    item.width = t.outerWidth();
-                    item.height = t.outerHeight();
-                }
-
-                p = t.offset();
-                item.left = p.left;
-                item.top = p.top - $('#pm-iframe').contents().scrollTop(); // Remove iFrame scroll position (only change)
-
-                //console.log(item, $('#pm-iframe').contents().scrollTop());
-            }
-
-            if(this.options.custom && this.options.custom.refreshContainers) {
-                this.options.custom.refreshContainers.call(this);
             } else {
-                for (i = this.containers.length - 1; i >= 0; i--){
-                    p = this.containers[i].element.offset();
-                    this.containers[i].containerCache.left = p.left;
-                    this.containers[i].containerCache.top = p.top;
-                    this.containers[i].containerCache.width = this.containers[i].element.outerWidth();
-                    this.containers[i].containerCache.height = this.containers[i].element.outerHeight();
+                // container doesn't intersect. trigger "out" event if necessary
+                if (this.containers[i].containerCache.over) {
+                    this.containers[i]._trigger("out", event, this._uiHash(this));
+                    this.containers[i].containerCache.over = 0;
                 }
             }
 
-            return this;
         }
-    });
+
+        // if no intersecting containers found, return
+        if (!innermostContainer) {
+            return;
+        }
+
+        // move the item into the container if it's not there already
+        if (this.containers.length === 1) {
+            if (!this.containers[innermostIndex].containerCache.over) {
+                this.containers[innermostIndex]._trigger("over", event, this._uiHash(this));
+                this.containers[innermostIndex].containerCache.over = 1;
+            }
+        } else {
+
+            //When entering a new container, we will find the item with the least distance and append our item near it
+            dist = 10000;
+            itemWithLeastDistance = null;
+            floating = innermostContainer.floating || this._isFloating(this.currentItem);
+            posProperty = floating ? "left" : "top";
+            sizeProperty = floating ? "width" : "height";
+            axis = floating ? "clientX" : "clientY";
+
+            for (j = this.items.length - 1; j >= 0; j--) {
+                if (!$.contains(this.containers[innermostIndex].element[0], this.items[j].item[0])) {
+                    continue;
+                }
+                if (this.items[j].item[0] === this.currentItem[0]) {
+                    continue;
+                }
+
+                cur = this.items[j].item.offset()[posProperty];
+                nearBottom = false;
+                if (event[axis] - cur > this.items[j][sizeProperty] / 2) {
+                    nearBottom = true;
+                }
+
+                if (Math.abs(event[axis] - cur) < dist) {
+                    dist = Math.abs(event[axis] - cur);
+                    itemWithLeastDistance = this.items[j];
+                    this.direction = nearBottom ? "up" : "down";
+                }
+            }
+
+            //Check if dropOnEmpty is enabled
+            if (!itemWithLeastDistance && !this.options.dropOnEmpty) {
+                return;
+            }
+
+            if (this.currentContainer === this.containers[innermostIndex]) {
+                if (!this.currentContainer.containerCache.over) {
+                    this.containers[innermostIndex]._trigger("over", event, this._uiHash());
+                    this.currentContainer.containerCache.over = 1;
+                }
+                return;
+            }
+
+            itemWithLeastDistance ? this._rearrange(event, itemWithLeastDistance, null, true) : this._rearrange(event, null, this.containers[innermostIndex].element, true);
+            this._trigger("change", event, this._uiHash());
+            this.containers[innermostIndex]._trigger("change", event, this._uiHash(this));
+            this.currentContainer = this.containers[innermostIndex];
+
+            //Update the placeholder
+            this.options.placeholder.update(this.currentContainer, this.placeholder);
+
+            this.containers[innermostIndex]._trigger("over", event, this._uiHash(this));
+            this.containers[innermostIndex].containerCache.over = 1;
+        }
+    }
+});

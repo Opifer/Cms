@@ -1,0 +1,18 @@
+<p>TOC</p>
+
+{% macro node(block, environment) %}
+    {% import _self as toc %}
+    {% for node in environment.getBlockChildren(block) %}
+        <li>{{ node.blockType }}
+            <ul>
+            {{ toc.node(node, environment) }}
+            </ul>
+        </li>
+    {% endfor %}
+{% endmacro %}
+
+{% import _self as toc %}
+
+<ul>
+    {{ toc.node(block, environment) }}
+</ul>

@@ -76,6 +76,12 @@ opifer_content_contenteditor_view:
     options:
         expose: true
 
+opifer_content_contenteditor_toc:
+    path: /designer/toc/{type}/{id}/{version}
+    defaults: { _controller: OpiferContentBundle:Backend/ContentEditor:toc, version: 0 }
+    options:
+        expose: true
+
 # Block
 
 opifer_content_block_shared:
