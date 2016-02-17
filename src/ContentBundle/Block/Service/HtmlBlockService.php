@@ -47,9 +47,9 @@ class HtmlBlockService extends AbstractBlockService implements BlockServiceInter
      */
     public function getTool()
     {
-        $tool = new ContentTool('Content', 'OpiferContentBundle:HtmlBlock');
+        $tool = new ContentTool('Rich text', 'OpiferContentBundle:HtmlBlock');
 
-        $tool->setIcon('subject')
+        $tool->setIcon('text_fields')
             ->setDescription('Rich content editable through WYSIWYG editor.');
 
         return $tool;

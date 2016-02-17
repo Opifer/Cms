@@ -143,6 +143,16 @@ $(document).ready(function() {
                 publish();
             });
 
+            $(document).on('click', '.pm-btn-localize', function(e) {
+                e.preventDefault();
+                scrollToBlock($(this).attr('data-pm-block-id'));
+            });
+
+            $(document).on('click', '.pm-btn-edit', function(e) {
+                e.preventDefault();
+                editBlock($(this).attr('data-pm-block-id'), 'general');
+            });
+
             $(document).on('click', '#pm-btn-properties', function(e) {
                 e.preventDefault();
                 editProperties($(this).attr('href'));
@@ -199,6 +209,13 @@ $(document).ready(function() {
             Cookies.set('pmSettings', settings);
         };
 
+        var scrollToBlock = function (id) {
+            selectBlock(id);
+            iFrame.contents().find('html, body').animate({
+                scrollTop: getBlockElement(id).offset().top
+            }, 1000);
+        };
+
         var refreshBlock = function (id) {
             $.get(Routing.generate('opifer_content_api_contenteditor_view_block', {type: ownerType, typeId: typeId, id: id})).done(function (data) {
                 getBlockElement(id).replaceWith(data.view);
@@ -207,7 +224,7 @@ $(document).ready(function() {
         };
 
         var paintEmptyPlaceholders = function () {
-            $('#pm-iframe').contents().find('.pm-placeholder').each(function (index) {
+            iFrame.contents().find('.pm-placeholder').each(function (index) {
                 if ($(this).children().length) {
                     $(this).removeClass('pm-empty');
                 } else {
@@ -229,7 +246,8 @@ $(document).ready(function() {
 
         var selectBlock = function (id) {
             $('#pm-iframe').contents().find('.pm-block').removeClass('selected');
-            getBlockElement(id).addClass('selected');
+            var element = getBlockElement(id).addClass('selected');
+            showToolbar(element);
         };
 
         var getBlockReferenceId = function (id) {
@@ -511,7 +529,7 @@ $(document).ready(function() {
                 e.stopPropagation();
 
                 if (isDragging == false) {
-                    showToolbar(this);
+                    selectBlock($(this).attr('data-pm-block-id'));
                 }
             });
 
@@ -615,9 +633,9 @@ $(document).ready(function() {
                 receive: function (event, ui) {
                     // Create new block
                     if ($(ui.item).hasClass('pm-block-item')) {
-                        var reference = $(this).find('.pm-block-item');
+                        var reference = $(this).find('.pm-block-item').addClass('pm-block-insert');
                         var className = $(ui.item).attr('data-pm-block-type');
-                        var parent = $(this).parent().closest('.pm-layout').attr('data-pm-block-id');
+                        var parent = $(this).parent().closest('*[data-pm-block-id]').attr('data-pm-block-id');
                         var placeholderKey = $(this).closest('.pm-placeholder').attr('data-pm-placeholder-key');
                         var data = $(ui.item).attr('data-pm-block-data');
 

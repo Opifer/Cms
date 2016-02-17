@@ -93,8 +93,11 @@ class ContentEditorController extends Controller
         $environment = $this->get(sprintf('opifer.content.block_%s_environment', $type));
         $environment->load($id)->setVersion((int) $version);
 
+        $twigAnalyzer = $this->get('opifer.content.twig_analyzer');
+
         $parameters = [
             'environment' => $environment,
+            'analyzer' => $twigAnalyzer,
             'block' => $environment->getMainBlock(),
         ];
 

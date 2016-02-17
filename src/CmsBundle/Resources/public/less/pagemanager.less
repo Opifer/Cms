@@ -293,7 +293,7 @@
             position: absolute;
 //            background: #F5F7F9;
             color: #ddd;
-            width: 45px;
+            width: 36px;
             height: 40px;
             top: 8px;
             text-align: center;
@@ -304,7 +304,7 @@
         }
 
         .col-text {
-            margin-left: 58px;
+            margin-left: 51px;
         }
     }
 
@@ -322,10 +322,12 @@
 
     .list-group-item-heading {
         font-size: @font-size-base;
+        margin-bottom: 2px;
     }
 
     .list-group-item-text {
         font-size: @font-size-small;
+        color: #aaa;
     }
 
     .ui-mprogress .deter-bar,
@@ -496,6 +498,60 @@
     width: 35em;
     min-width: 260px;
     z-index: 900;
+}
+
+
+#pm-toc {
+    ul {
+        list-style: none;
+        padding-left: 3px;
+
+        ul {
+            padding-left: 23px;
+        }
+
+        .node-block {
+            .pm-btn-node {
+                display: none;
+                cursor: pointer;
+            }
+
+            &:hover {
+                .pm-btn-node {
+                    display: inline-block;
+                    font-size: 16px;
+                    color: #999;
+
+                    &:hover {
+                        color: white;
+                    }
+                }
+            }
+        }
+    }
+
+    i {
+        width: 20px;
+        line-height: 14px;
+    }
+
+    .node-placeholder {
+        > span {
+            color: #aaa;
+        }
+
+        &:before {
+            color: #aaa;
+            &:extend(.material-icons);
+            content: '\E5C5';
+            color: @gray-light;
+            .rotate(0deg);
+            font-size: 16px;
+            line-height: 12px;
+            width: 20px;
+            margin-left: 4px;
+        }
+    }
 }
 
 //

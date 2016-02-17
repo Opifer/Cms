@@ -70,7 +70,7 @@ class SectionBlockService extends AbstractBlockService implements BlockServiceIn
         $tool = new ContainerTool($this->getName(), 'OpiferContentBundle:SectionBlock');
 
         $tool
-            ->setIcon('crop_landscape')
+            ->setIcon('crop_din')
             ->setDescription('Section element to hold columns or content in');
 
         return $tool;

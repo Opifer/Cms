@@ -1,18 +1,26 @@
-<p>TOC</p>
-
-{% macro node(block, environment) %}
+{% macro node(block, environment, key = 0) %}
     {% import _self as toc %}
-    {% for node in environment.getBlockChildren(block) %}
-        <li>{{ node.blockType }}
+    {% for node in environment.blockChildren(block) %}
+        {% if key == node.position %}
+        <li data-pm-block-id="{{ node.id }}"><span class="node-block"><i class="material-icons md-18">{{ environment.getTool(node).icon }}</i> {{ environment.getTool(node).name }} <i data-pm-block-id="{{ node.id }}" class="pm-btn-node pm-btn-localize material-icons">location_searching</i><i data-pm-block-id="{{ node.id }}" class="pm-btn-node pm-btn-edit material-icons">edit</i></span>
+            {% if node is block_container %}
             <ul>
-            {{ toc.node(node, environment) }}
+                {% for placeholder in environment.getPlaceholders(node) %}
+                    <li class="node-placeholder"><span data-key="{{ placeholder.key }}" data-lineno="{{ placeholder.lineno }}">{{ placeholder.key }}</span>
+                        <ul>
+                            {{ toc.node(node, environment, placeholder.key) }}
+                        </ul>
+                    </li>
+                {% endfor %}
             </ul>
+            {% endif %}
         </li>
+        {% endif %}
     {% endfor %}
 {% endmacro %}
 
 {% import _self as toc %}
 
-<ul>
-    {{ toc.node(block, environment) }}
+<ul class="">
+    {{ toc.node(block, environment, 0) }}
 </ul>

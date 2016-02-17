@@ -39,12 +39,18 @@ abstract class Environment
      */
     protected $blockManager;
 
+    /**
+     * @var TwigAnalyzer
+     */
+    protected $twigAnalyzer;
+
     protected $blockCache;
 
-    public function __construct(EntityManagerInterface $em, BlockManager $blockManager)
+    public function __construct(EntityManagerInterface $em, BlockManager $blockManager, TwigAnalyzer $twigAnalyzer)
     {
         $this->em = $em;
         $this->blockManager = $blockManager;
+        $this->twigAnalyzer = $twigAnalyzer;
     }
 
     /**
@@ -244,5 +250,25 @@ abstract class Environment
     public function getVersion($id)
     {
         return ($this->versionMap && isset($this->versionMap[$id])) ? $this->versionMap[$id] : BlockManager::VERSION_PUBLISHED;
+    }
+
+    public function getTool(BlockInterface $block) {
+        return $this->getService($block)->getTool();
+    }
+
+    public function getService(BlockInterface $block) {
+        return $this->blockManager->getService($block);
+    }
+
+    public function getPlaceholders(BlockInterface $block)
+    {
+        if ($block instanceof DocumentBlock) {
+            $view = $this->getView();
+        } else {
+            $service = $this->blockManager->getService($block);
+            $view = $service->getView($block);
+        }
+
+        return $this->twigAnalyzer->findPlaceholders($view);
     }
 }
