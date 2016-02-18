@@ -70,6 +70,9 @@ class ContentParentType extends AbstractType
      */
     public function buildView(FormView $view, FormInterface $form, array $options)
     {
+        if (is_int($view->vars['data'])) {
+            $view->vars['value'] = $view->vars['data'];
+        }
         $view->vars['tree'] = $options['tree'];
     }
 
