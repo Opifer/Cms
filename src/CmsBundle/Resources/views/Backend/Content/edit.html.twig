@@ -81,13 +81,9 @@
                 <div class="pm-toolset-card pm-dark">
 
                     <div class="pm-col">
-                        <h4 class="title">Structure</h4>
-
-                        <div id="pm-toc">
-
-
+                        <h4 class="title" data-toggle="collapse" data-target="#pm-toc" aria-expanded="false" aria-controls="pm-toc">Table of contents</h4>
+                        <div class="collapse in" id="pm-toc">
                         </div>
-
                     </div>
                 </div>
                 <div class="pm-toolset-card pm-dark">
@@ -95,7 +91,7 @@
                         {# begin tools_blocks #}
                         <div id="pm-tools-blocks" class="pm-tools-blockset">
                             <div class="pm-col">
-                                <h4 class="title" data-toggle="collapse" data-target="#list-group-blocks" aria-expanded="false" aria-controls="list-group-blocks">Blocks</h4>
+                                <h4 class="title" data-toggle="collapse" data-target="#list-group-blocks" aria-expanded="true" aria-controls="list-group-blocks">Blocks</h4>
                                 <div class="collapse in list-group" id="list-group-blocks">
                                     {% for tool in manager.tools %}
                                         {% if tool.type == 'content' %}

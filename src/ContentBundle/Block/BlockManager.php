@@ -131,24 +131,41 @@ class BlockManager
      * With rootVersion set and version false it will give you the newest by default.
      *
      * @param integer      $id
-     * @param null|integer $rootVersion
+     * @param null|integer $version
      *
      * @return BlockInterface
      */
-    public function find($id, $rootVersion = null, $recursive = false)
+    public function find($id, $version = null)
     {
-        /** @var BlockInterface $block */
         $block = $this->getRepository()->find($id);
 
-        if ($rootVersion) {
-            if (!$recursive) {
-                $this->revert($block, $rootVersion);
-            } else {
-                return $this->revertRecursiveFromNode($block, $rootVersion);
-            }
+        if ($version) {
+            $this->revert($block, $version);
         }
 
         return $block;
+    }
+
+    /**
+     * Find a Block in the repository with optional specified version.
+     * With rootVersion set and version false it will give you the newest by default.
+     *
+     * @param integer      $id
+     * @param null|integer $version
+     *
+     * @return BlockInterface
+     */
+    public function findById($id, $version = null)
+    {
+        $blocks = $this->getRepository()->findById($id);
+
+        if ($version) {
+            foreach ($blocks as $block) {
+                $this->revert($block, $version);
+            }
+        }
+
+        return $blocks;
     }
 
     /**
@@ -409,7 +426,7 @@ class BlockManager
         $block->setRootVersion($version);
         $block->setPosition($placeholder);
         $block->setSort(0); // < default, gets recalculated later for entire level
-        $block->setLevel(0); // < need to be calculated when putting in the tree
+        $block->setSortParent(-1); // < need to be calculated when putting in the tree
 
         // Set owner
         $block->setOwner($owner);
@@ -441,13 +458,18 @@ class BlockManager
                 $sort
             );
 
-            $siblings = $this->getSiblings($block, $version);
-            $siblings[] = $block;
-            if ($siblings) {
-                $siblings = $this->sortBlocksByDirective($siblings, $sort);
 
-                foreach ($siblings as $sibling) {
-                    $this->save($sibling);
+            array_walk($sort, function (&$id) { $id = (int) $id; });
+            $contained = $this->findById($sort, $version);
+
+            if ($contained) {
+                $contained = $this->setSortsByDirective($contained, $sort);
+
+                foreach ($contained as $node) {
+                    if ($node->getOwner()->getId() == $block->getOwner()->getId()) {
+                        $node->setRootVersion($version);
+                        $this->save($node);
+                    }
                 }
             }
         } else {
@@ -482,14 +504,17 @@ class BlockManager
 
         $this->save($block);
 
-        $siblings = $this->getSiblings($block, $version);
+        array_walk($sort, function (&$id) { $id = (int) $id; });
+        $contained = $this->findById($sort, $version);
 
-        if ($siblings) {
-            $siblings = $this->sortBlocksByDirective($siblings, $sort);
+        if ($contained) {
+            $contained = $this->setSortsByDirective($contained, $sort);
 
-            foreach ($siblings as $sibling) {
-                $sibling->setRootVersion($version);
-                $this->save($sibling);
+            foreach ($contained as $node) {
+                if ($node->getOwner()->getId() == $block->getOwner()->getId()) {
+                    $node->setRootVersion($version);
+                    $this->save($node);
+                }
             }
         }
     }
@@ -594,16 +619,39 @@ class BlockManager
     }
 
     /**
-     * @param array   $blocks
-     * @param array   $sort
+     * @param array $blocks
+     * @param array $sort
      *
      * @return array
      */
-    public function sortBlocksByDirective($blocks, $sort)
+    public function setSortsByDirective($blocks, $sort)
     {
-        array_walk($blocks, function ($block) use ($sort) {
-            $block->setSort(array_search($block->getId(), $sort, false));
-        });
+        $sort = array_values($sort); // we're using keys as positions
+        $levels = array();
+
+        // Split arrays into levels by owner (child - parent)
+        foreach ($blocks as $block) {
+            $pos = array_search($block->getId(), $sort, false);
+            $levels[$block->getOwner()->getId()][$pos] = $block->getId();
+        }
+
+        foreach ($blocks as $block) {
+            $sortedIds = $levels[$block->getOwner()->getId()];
+            ksort($sortedIds);
+            $pos = array_search(array_search($block->getId(), $sortedIds), array_keys($sortedIds));
+            $block->setSort($pos);
+
+            if ($block->getOwner()->getSuper()) {
+                $superId = $block->getOwner()->getSuper()->getId();
+                // See if we need to position it below an inherited block
+                $pos = array_search($block->getId(), $levels[$block->getOwner()->getId()], false);
+                $prevBlockId = (isset($levels[$superId][$pos - 1])) ? $levels[$superId][$pos - 1] : null;
+                $prevBlockPos = array_search($prevBlockId, array_values($levels[$superId]));
+                $block->setSortParent(($prevBlockPos !== false) ? $prevBlockPos : -1);
+            } else {
+                $block->setSortParent(-1);
+            }
+        }
 
         return $blocks;
     }
@@ -618,32 +666,80 @@ class BlockManager
      */
     public function sortBlocks(array $blocks)
     {
-        // Determine hierarchy of ownership first
-        $hierarchy = array();
-        foreach ($blocks as $block) {
-            if ($block instanceof BlockOwnerInterface) {
-                $key = ($block->getParent()) ? array_search($block->getParent()->getId(), $hierarchy) : false;
-                $pos = ($key) ? $key-1 : count($hierarchy)+1;
-                $hierarchy[$pos] = $block->getId();
-            }
-        }
-        $hierarchy = array_flip($hierarchy); // Flip it for easier lookup by parentId as key.
-
-        usort($blocks, function ($a, $b) use ($hierarchy) {
-            if ($a->getOwner() === null || $b->getOwner() === null) {
-                return 0;
-            }
-
-            // when blocks sort positions are equal and they have different
-            // owners apply inherited sorting
-            if ($a->getSort() === $b->getSort() && $a->getOwner()->getId() != $b->getOwner()->getId()) {
-                return ($hierarchy[$a->getOwner()->getId()] < $hierarchy[$b->getOwner()->getId()]) ? 1 : -1;
-            }
-
+        // Perform a simple sort first
+        usort($blocks, function ($a, $b)  {
             return ($a->getSort() < $b->getSort()) ? -1 : 1;
         });
 
-        return $blocks;
+        // Determine hierarchy of ownership first
+        $ownerIds = array();
+        foreach ($blocks as $block) {
+            if ($block instanceof BlockOwnerInterface) {
+                $superKey = ($block->getSuper()) ? array_search($block->getSuper()->getId(), $ownerIds) : false;
+                if ($superKey === false) {
+                    array_unshift($ownerIds, $block->getId());
+                } else {
+                    $ownerIds = array_merge(array_slice($ownerIds, 0, $superKey+1), array($block->getId()), array_slice($ownerIds, $superKey+1));
+                }
+            }
+        }
+        $ownerIds = array_flip($ownerIds); // Flip it for easier lookup by parentId as key.
+
+        $sorted = array();
+        $parentOwnerId = null;
+        $parentSize = null;
+        foreach ($ownerIds as $ownerId => $ownerPos) {
+            // Get blocks in level/segment
+            $segment = array_values(array_filter($blocks, function ($block) use ($ownerId) {
+                return ($block->getOwner() && $block->getOwner()->getId() == $ownerId);
+            }));
+
+            if (! count($segment)) {
+                $parentOwnerId = $ownerId;
+                continue; // nothing to do for this owner
+            }
+
+            // now inject at correct positions
+            if (count($segment) && $parentOwnerId === null) {
+                $sorted = $segment;
+            } else if (count($segment)) {
+                $positioned = array_filter($segment, function ($block) {
+                   return ($block->getSortParent() !== null && $block->getSortParent() >= 0);
+                });
+
+                // if nothing is positioned throw them on top
+                if (! count($positioned)) {
+                    $sorted = array_merge($segment, $sorted);
+                } else {
+                    // first part
+                    $keys = array_keys($positioned);
+                    if ($keys[0] > 0) {
+                        $sorted = array_merge(array_slice($segment, 0, array_shift($keys)), $sorted);
+                    } elseif ($keys[0] == 0) {
+                        unset($keys[0]);
+                    }
+
+                    foreach ($positioned as $key => $block) {
+                        $endIdx = (count($keys)) ? array_shift($keys) : null;
+                        $insert = array_slice($segment, $key, ($endIdx) ? ($endIdx-$key) : null);
+
+                        foreach ($sorted as $insertIdx => $item) {
+                            // Check if we inherit from this block
+                            if ($item->getOwner()->getId() == $parentOwnerId && $item->getSort() == $block->getSortParent() &&
+                                // And check if we're in the same parent block on same position
+                                (($item->getParent()->getId() == $block->getParent()->getId() || $item->isInRoot() && $block->isInRoot()) && $item->getPosition() == $block->getPosition())) {
+                                break;
+                            }
+                        }
+                        $sorted = array_merge(array_slice($sorted, 0, $insertIdx+1), $insert, array_slice($sorted, $insertIdx+1));
+                    }
+                }
+            }
+
+            $parentOwnerId = $ownerId;
+        }
+
+        return $sorted;
     }
 
     /**

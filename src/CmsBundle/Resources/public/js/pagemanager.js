@@ -213,7 +213,7 @@ $(document).ready(function() {
             selectBlock(id);
             iFrame.contents().find('html, body').animate({
                 scrollTop: getBlockElement(id).offset().top
-            }, 1000);
+            }, 500);
         };
 
         var refreshBlock = function (id) {
@@ -476,7 +476,7 @@ $(document).ready(function() {
 
             iFrame.contents().find('body').append(link);
 
-            iFrame.contents().find('.pm-block').each(function() {
+            iFrame.contents().find('*[data-pm-block-manage="true"]').each(function() {
                 if ($(this).attr('data-pm-block-owner-id') != ownerId) {
                     $(this).addClass('pm-inherited');
                 }
@@ -594,6 +594,9 @@ $(document).ready(function() {
         var showToolbar = function (element) {
             toolbar.addClass('hidden');
             iFrame.contents().find('*[data-pm-block-manage]').removeClass('pm-hovered');
+            if ($(element).hasClass('pm-inherited')) {
+                return;
+            }
             $(element).addClass('pm-hovered');
 
             var offset = $(element).offset();
