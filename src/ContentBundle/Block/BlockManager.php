@@ -635,9 +635,12 @@ class BlockManager
             $levels[$block->getOwner()->getId()][$pos] = $block->getId();
         }
 
+        foreach ($levels as &$level) {
+            ksort($level);
+        }
+
         foreach ($blocks as $block) {
             $sortedIds = $levels[$block->getOwner()->getId()];
-            ksort($sortedIds);
             $pos = array_search(array_search($block->getId(), $sortedIds), array_keys($sortedIds));
             $block->setSort($pos);
 
