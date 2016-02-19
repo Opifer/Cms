@@ -33,6 +33,13 @@ opifer_media_media_delete:
 
 # API
 
+opifer_media_api_update:
+    path: /api/media/update
+    defaults: { _controller: OpiferMediaBundle:Api/Media:update }
+    methods: [PUT]
+    options:
+        expose: true
+
 opifer_api_media:
     path: /api/media
     defaults: { _controller: OpiferMediaBundle:Api/Media:index }

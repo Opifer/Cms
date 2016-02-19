@@ -16,11 +16,14 @@ class ScriptHandler
 
         chdir($cmdDirectory);
 
-        $command = 'bower install --allow-root';
-        exec($command, $output, $status);
+        exec('bower install --allow-root', $output, $return_var);
+        if ($return_var) {
+            throw new \RuntimeException("Running bower install failed with $return_var\n");
+        }
 
-        if ($status) {
-            throw new \RuntimeException("Running bower install failed with $status\n");
+        exec('gulp default', $output, $return_var);
+        if ($return_var) {
+            throw new \RuntimeException("Running gulp failed with $return_var\n");
         }
 
         chdir($currentDirectory);

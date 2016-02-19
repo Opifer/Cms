@@ -45,13 +45,25 @@
                 <div class="alert alert-info" ng-cloak ng-show="!selecteditems.length">
                     no media selected
                 </div>
-                <div ng-repeat="item in selecteditems" class="item {{ item.provider }} {{ item.file_type }}">
-                    <input type="hidden" id="" name="{{ picker.name }}" value="{{ item.id }}">
-                    <img ng-src="{{ item.images.medialibrary }}" ng-if="item.provider == 'image'" alt="">
-                    <div class="image-wrapper">
-                        <span class="name">{{ item.name }}</span><br>
-                        <div class="controls">
-                            <a ng-click="removeMedia($index)" class="fa fa-times danger"></a>
+                <div ng-repeat="item in selecteditems" class="row item {{ item.provider }} {{ item.file_type }}">
+                    <div class="col-sm-6">
+                        <input type="hidden" id="" name="{{ picker.name }}" value="{{ item.id }}">
+                        <img ng-src="{{ item.images.medialibrary }}" ng-if="item.provider == 'image'" alt="{{ item.alt }}">
+                        <div class="image-wrapper">
+                            <span class="name">{{ item.name }}</span><br>
+                            <div class="controls">
+                                <a ng-click="removeMedia($index)" class="fa fa-times danger"></a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <input type="text" name="name" ng-model="item.name" class="form-control">
+                            <input type="text" name="alt" ng-model="item.alt" class="form-control" placholder="alt">
+                            <input type="text" name="content_type" ng-model="item.content_type" class="form-control" disabled>
+                            <input type="text" name="filesize" ng-model="item.readable_filesize" class="form-control" disabled>
+                            <input type="text" name="reference" ng-model="item.reference" class="form-control" disabled>
+                            <a ng-click="saveMedia($index)" class="btn btn-default">Save</a>
                         </div>
                     </div>
                 </div>
