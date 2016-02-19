@@ -150,7 +150,7 @@ class ContentExtension extends \Twig_Extension
         }
 
         if ($this->blockEnvironment && $this->blockEnvironment->getBlockMode() === 'manage') {
-            $content = $this->container->get('templating')->render('OpiferContentBundle:Block/Layout/placeholder.html.twig', ['content' => $content, 'key' => $key, 'manage_type' => 'placeholder']);
+            $content = $this->container->get('templating')->render('OpiferContentBundle:Block/Layout:placeholder.html.twig', ['content' => $content, 'key' => $key, 'manage_type' => 'placeholder']);
         }
 
         return $content;

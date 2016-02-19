@@ -30,7 +30,6 @@ gulp.task('js', function () {
         'Resources/public/components/angular-cookies/angular-cookies.js',
         'Resources/public/components/angular-route/angular-route.js',
         'Resources/public/components/angular-resource/angular-resource.js',
-        'Resources/public/components/angular-google-maps/dist/angular-google-maps.js',
         'Resources/public/components/angular-inview/angular-inview.js',
         'Resources/public/components/angular-ui-sortable/sortable.js',
         'Resources/public/components/angular-ui-tree/dist/angular-ui-tree.js',
