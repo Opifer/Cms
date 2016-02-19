@@ -339,6 +339,24 @@ class BlockManager
     }
 
     /**
+     * Clones an entire tree and persists to database
+     *
+     * @param BlockOwnerInterface $block
+     *
+     * @return BlockOwnerInterface
+     */
+    public function duplicate(BlockOwnerInterface $block)
+    {
+        $blocks = $this->findByOwner($block);
+
+        foreach ($blocks as $owned) {
+
+        }
+
+        return $block;
+    }
+
+    /**
      * @param integer $ownerId
      * @param integer $rootVersion
      */

@@ -1,6 +1,6 @@
 {% if block.media|default %}
-    <img src="{{ block.media.reference|default('fallback.jpeg')|imagine_filter(block.properties.filter) }}" {{ manage_tags() }}>
-    {#{% if block.properties.enlarge|default %}#}
-        {#{{ block.properties.enlarge_filter }}#}
-    {#{% endif %}#}
+    <img src="{{ block.media.reference|imagine_filter(block.properties.filter) }}" {{ manage_tags() }} class="{{ block.properties.extra_classes|default }}">
+{% elseif manage|default %}
+    <div {{ manage_tags() }}></div>
 {% endif %}
+

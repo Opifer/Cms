@@ -43,6 +43,13 @@ class SectionBlockService extends AbstractBlockService implements BlockServiceIn
             'attr' => ['help_text' => 'help.html_styles'],
         ]);
 
+        $propertiesForm->add('container_size', ChoiceType::class, [
+            'label' => 'label.container_sizing',
+            'choices' => ['fluid' => 'label.container_fluid', '' => 'label.container_fixed', 'smooth' => 'label.container_smooth'],
+            'required' => true,
+            'attr' => ['help_text' => 'help.container_sizing'],
+        ]);
+
         $builder->add($propertiesForm);
     }
 

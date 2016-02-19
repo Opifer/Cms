@@ -123,6 +123,7 @@ class ContentController extends Controller
      */
     public function duplicateAction($id)
     {
+        /** @var ContentManager $contentManager */
         $contentManager = $this->get('opifer.content.content_manager');
         $content        = $contentManager->getRepository()->find($id);
 
