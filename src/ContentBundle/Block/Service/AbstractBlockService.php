@@ -70,6 +70,7 @@ abstract class AbstractBlockService
             'block_service'  => $this,
             'block'          => $block,
             'block_view'     => $this->getView($block),
+            'manage'         => true,
             'manage_type'    => $this->getManageFormTypeName(),
         ];
 

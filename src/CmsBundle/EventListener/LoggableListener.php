@@ -94,16 +94,7 @@ class LoggableListener extends BaseLoggableListener
             if (isset($config['versioned'])) { //$action !== self::ACTION_REMOVE &&
                 $newValues = $this->getObjectChangeSetData($ea, $object, $logEntry);
                 $logEntry->setData($newValues);
-                if (isset($this->changeSets[spl_object_hash($object)])) {
-                    // Recalculate changeset data from scratch because we are overwriting
-                    // and we are at risk to store only the latest change if we are flushing
-                    // the object multiple times in the same request. This happens for example
-                    // when we are sorting objects.
-                    $prevValues = $this->changeSets[spl_object_hash($object)];
-                    $newValues = array_merge($prevValues, $newValues);
-                } else {
-                    $this->changeSets[spl_object_hash($object)] = $newValues;
-                }
+                $this->changeSets[spl_object_hash($object)] = $newValues;
             }
 
             if($action === self::ACTION_UPDATE && 0 === count($newValues) && !($object instanceof BlockInterface)) {

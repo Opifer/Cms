@@ -91,6 +91,6 @@ class CarouselSlideBlock extends Block
      */
     public function getBlockType()
     {
-        return 'slide';
+        return 'carousel_slide';
     }
 }

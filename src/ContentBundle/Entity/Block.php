@@ -45,6 +45,22 @@ abstract class Block implements BlockInterface, DraftVersionInterface
     /**
      * @var BlockInterface
      *
+     * @ORM\ManyToOne(targetEntity="Opifer\ContentBundle\Entity\Block", cascade={}, inversedBy="inheritedBy")
+     * @ORM\JoinColumn(name="super_id", referencedColumnName="id", onDelete="SET NULL")
+     */
+    protected $super;
+
+    /**
+     * @var ArrayCollection
+     *
+     * @ORM\OneToMany(targetEntity="Opifer\ContentBundle\Entity\Block", mappedBy="super")
+     * @ORM\OrderBy({"sort" = "ASC"})
+     **/
+    protected $inheritedBy;
+
+    /**
+     * @var BlockInterface
+     *
      * @ORM\ManyToOne(targetEntity="Opifer\ContentBundle\Entity\Block", cascade={}, inversedBy="owning")
      * @ORM\JoinColumn(name="owner_id", referencedColumnName="id", onDelete="SET NULL")
      */
@@ -90,6 +106,14 @@ abstract class Block implements BlockInterface, DraftVersionInterface
      * @ORM\Column(type="integer")
      */
     protected $sort = 0;
+
+    /**
+     * @var null|integer
+     *
+     * @Gedmo\Versioned
+     * @ORM\Column(type="integer", nullable=true, options={"default":null})
+     */
+    protected $sortParent = null;
 
     /**
      * @var array
@@ -182,6 +206,18 @@ abstract class Block implements BlockInterface, DraftVersionInterface
         return sprintf("Block %d", $this->id);
     }
 
+
+    public function isInRoot()
+    {
+        if (! $this->getOwner()) {
+            return false;
+        } elseif (! $this->getParent()) {
+            return true;
+        }
+
+        return $this->getParent()->getId() == $this->getOwner()->getId();
+    }
+
     /**
      * @return int
      */
@@ -196,6 +232,22 @@ abstract class Block implements BlockInterface, DraftVersionInterface
     public function setId($id)
     {
         $this->id = $id;
+    }
+
+    /**
+     * @return BlockInterface
+     */
+    public function getSuper()
+    {
+        return $this->super;
+    }
+
+    /**
+     * @param BlockInterface $parent
+     */
+    public function setSuper($super)
+    {
+        $this->super = $super;
     }
 
     /**
@@ -264,19 +316,19 @@ abstract class Block implements BlockInterface, DraftVersionInterface
     }
 
     /**
-     * @return int
+     * @return int|null
      */
-    public function getLevel()
+    public function getSortParent()
     {
-        return $this->level;
+        return $this->sortParent;
     }
 
     /**
-     * @param int $level
+     * @param int $sortParent
      */
-    public function setLevel($level)
+    public function setSortParent($sortParent)
     {
-        $this->level = $level;
+        $this->sortParent = $sortParent;
     }
 
     /**

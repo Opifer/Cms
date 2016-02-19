@@ -19,6 +19,14 @@ class ListBlock extends Block
      * @var string
      *
      * @Gedmo\Versioned
+     * @ORM\Column(type="string", nullable=true)
+     */
+    protected $title;
+
+    /**
+     * @var string
+     *
+     * @Gedmo\Versioned
      * @ORM\Column(type="text", nullable=true)
      */
     protected $value;
@@ -41,6 +49,25 @@ class ListBlock extends Block
     public function getBlockType()
     {
         return 'list';
+    }
+
+    /**
+     * @return string
+     */
+    public function getTitle()
+    {
+        return $this->title;
+    }
+
+    /**
+     * @param string $title
+     *
+     * @return ListBlock
+     */
+    public function setTitle($title)
+    {
+        $this->title = $title;
+        return $this;
     }
 
     /**

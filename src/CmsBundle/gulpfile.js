@@ -21,7 +21,7 @@ gulp.task('js', function () {
     var files = [
         'Resources/public/components/ng-file-upload/angular-file-upload-shim.min.js',
         'Resources/public/components/jquery/dist/jquery.min.js',
-        'Resources/public/components/jquery-ui/ui/jquery-ui.js',
+        'Resources/public/components/jquery-ui/jquery-ui.js',
         'Resources/public/components/js-cookie/src/js.cookie.js',
         'Resources/public/components/speakingurl/lib/speakingurl.js',
         'Resources/public/components/jquery-slugify/dist/slugify.js',
@@ -48,7 +48,6 @@ gulp.task('js', function () {
         '../../../../braincrafted/bootstrap-bundle/Braincrafted/Bundle/BootstrapBundle/Resources/js/bc-bootstrap-collection.js',
         'Resources/public/js/split-pane.js',
         'Resources/public/js/main.js',
-        //'Resources/public/js/jquery-sortable-zindex.js',
         'Resources/public/js/pagemanager.js',
         'Resources/public/angular/app.js',
         '../ContentBundle/Resources/public/js/app.js',

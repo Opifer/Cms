@@ -26,6 +26,7 @@ label:
     container_fixed: Fixed width (fixed)
     header: Header
     footer: Footer
+    title: Title
 
 warning:
     block_shared_edit: 'This is a shared block. <br /><span class="small">Shared blocks need publishing individually.</span>'

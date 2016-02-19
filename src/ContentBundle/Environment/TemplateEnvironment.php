@@ -52,7 +52,7 @@ class TemplateEnvironment extends Environment
     /**
      * {@inheritDoc}
      */
-    protected function getMainBlock()
+    public function getMainBlock()
     {
         return $this->template->getBlock();
     }

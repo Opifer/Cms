@@ -243,7 +243,7 @@
                 margin-right: 0;
                 border: 1px solid #333;
                 border-width: 1px 0 0 0;
-                padding: 12px;
+                padding: 7px;
 
                 &:last-child {
                     border-width: 1px 0;
@@ -293,7 +293,7 @@
             position: absolute;
 //            background: #F5F7F9;
             color: #ddd;
-            width: 45px;
+            width: 36px;
             height: 40px;
             top: 8px;
             text-align: center;
@@ -304,7 +304,7 @@
         }
 
         .col-text {
-            margin-left: 58px;
+            margin-left: 51px;
         }
     }
 
@@ -322,10 +322,12 @@
 
     .list-group-item-heading {
         font-size: @font-size-base;
+        margin-bottom: 2px;
     }
 
     .list-group-item-text {
         font-size: @font-size-small;
+        color: #aaa;
     }
 
     .ui-mprogress .deter-bar,
@@ -351,10 +353,25 @@
     }
 }
 
-.pm-tools-blockset {
-    .title {
+.pm-toolset {
+    h4.title {
         color: #aaa;
         font-weight: normal;
+
+
+        &.collapsed {
+            &:before {
+                .rotate(270deg);
+            }
+        }
+
+        &:before {
+            &:extend(.material-icons);
+            content: '\E5C5';
+            line-height: .9em;
+            color: @gray-light;
+            .rotate(0deg);
+        }
     }
 }
 
@@ -419,6 +436,11 @@
 }
 
 .pm-toolset-card {
+    border-top: 1px solid #333;
+}
+
+.pm-dark {
+    color: @gray-lighter;
 }
 
 #pm-block-edit {
@@ -455,7 +477,7 @@
 #pm-document {
     min-width: 35em;
     right: 35em;
-    left: 48px;
+    left: 40px;
     margin-right: 2px;
     z-index: 80;
 //    overflow-y: hidden;
@@ -468,7 +490,7 @@
 }
 
 .pm-tabs {
-    width: 48px;
+    width: 40px;
     z-index: 90;
 }
 
@@ -476,6 +498,64 @@
     width: 35em;
     min-width: 260px;
     z-index: 900;
+}
+
+
+#pm-toc {
+    ul {
+        list-style: none;
+        padding-left: 5px;
+
+        ul {
+            padding-left: 23px;
+        }
+
+        .node-block {
+            width: 100%;
+            display: inline-block;
+
+            .pm-btn-node {
+                display: none;
+                cursor: pointer;
+            }
+
+            &:hover {
+                .pm-btn-node {
+                    display: inline-block;
+                    font-size: 16px;
+                    color: #999;
+
+                    &:hover {
+                        color: white;
+                    }
+                }
+            }
+        }
+    }
+
+    i {
+        width: 20px;
+        line-height: 14px;
+        color: #75C3FF;
+    }
+
+    .node-placeholder {
+        > span {
+            color: #aaa;
+        }
+
+        &:before {
+            color: #aaa;
+            &:extend(.material-icons);
+            content: '\E5C5';
+            color: @gray-light;
+            .rotate(0deg);
+            font-size: 16px;
+            line-height: 12px;
+            width: 20px;
+            margin-left: 4px;
+        }
+    }
 }
 
 //

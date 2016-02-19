@@ -5,6 +5,7 @@ namespace Opifer\ContentBundle\Controller\Backend;
 use Opifer\ContentBundle\Block\BlockManager;
 use Opifer\ContentBundle\Block\Service\BlockServiceInterface;
 use Opifer\ContentBundle\Entity\DocumentBlock;
+use Opifer\ContentBundle\Environment\ContentEnvironment;
 use Opifer\ContentBundle\Environment\Environment;
 use Opifer\ContentBundle\Form\Type\BlockAdapterFormType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -24,6 +25,7 @@ class ContentEditorController extends Controller
      *
      * @param Request $request
      * @param string  $type
+     * @param integer $id
      * @param integer $version
      *
      * @return Response
@@ -70,6 +72,36 @@ class ContentEditorController extends Controller
         ];
 
         return $this->render($this->getParameter('opifer_content.content_edit_view'), $parameters);
+    }
+
+
+    /**
+     * Table of Contents tree
+     *
+     * @param Request $request
+     * @param string  $type
+     * @param integer $id
+     * @param integer $version
+     *
+     * @return Response
+     */
+    public function tocAction(Request $request, $type, $id, $version)
+    {
+        $this->getDoctrine()->getManager()->getFilters()->disable('draftversion');
+
+        /** @var Environment $environment */
+        $environment = $this->get(sprintf('opifer.content.block_%s_environment', $type));
+        $environment->load($id)->setVersion((int) $version);
+
+        $twigAnalyzer = $this->get('opifer.content.twig_analyzer');
+
+        $parameters = [
+            'environment' => $environment,
+            'analyzer' => $twigAnalyzer,
+            'block' => $environment->getMainBlock(),
+        ];
+
+        return $this->render('OpiferContentBundle:Content:toc.html.twig', $parameters);
     }
 
     /**

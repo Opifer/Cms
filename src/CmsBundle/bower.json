@@ -2,7 +2,7 @@
   "name": "opifer-cmsbundle",
   "dependencies": {
     "jquery": ">=1.11",
-    "jquery-ui": "~1.10.2",
+    "jquery-ui": "~1.11.4",
     "bootstrap": "~3.3.6",
     "eonasdan-bootstrap-datetimepicker": "~4.17",
     "angular": "~1.4.9",

@@ -80,6 +80,16 @@ class ContentExtension extends \Twig_Extension
     }
 
     /**
+     * {@inheritdoc}
+     */
+    public function getTests ()
+    {
+        return [
+            new \Twig_SimpleTest('block_container', function (BlockInterface $block) { return $block instanceof BlockContainerInterface; }),
+        ];
+    }
+
+    /**
      * @param BlockInterface $block
      * @param array          $arguments
      *

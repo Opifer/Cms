@@ -132,35 +132,21 @@
     <div class="tree" data-input-id="{{ id }}">
         <ul>
         {% for item in tree %}
-            {{ _self.render_tree(item) }}
+            {{ _self.render_tree(item, value) }}
         {% endfor %}
         </ul>
     </div>
 
-    {% macro render_tree(item) %}
-        <li data-id="{{ item.id }}">
-            <span class="expand"></span> <span class="checkmark"></span> {{ item.title }}
+    {% macro render_tree(item, selected) %}
+        <li data-id="{{ item.id }}" class="{{ (selected == item.id) ? "selected" : "" }}">
+            <span class="expand "></span> <span class="checkmark"></span> {{ item.title }}
             {% if item.__children|default() %}
                 <ul>
                 {% for child in item.__children %}
-                    {{ _self.render_tree(child) }}
+                    {{ _self.render_tree(child, selected) }}
                 {% endfor %}
                 </ul>
             {% endif %}
         </li>
     {% endmacro %}
 {% endblock opifer_content_parent_widget %}
-
-{#{% block column_span_widget %}#}
-    {#&#123;&#35;{{ form|length }}&#35;&#125;#}
-            {#<tr>#}
-                {#{% for field in form %}#}
-                {#<td>{{ form_widget(field) }}</td>#}
-                {#{% endfor %}#}
-            {#</tr>#}
-            {#<tr>#}
-                {#{% for field in form %}#}
-                    {#<th>{{ form_label(field) }}</th>#}
-                {#{% endfor %}#}
-            {#</tr>#}
-{#{% endblock %}#}

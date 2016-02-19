@@ -48,7 +48,7 @@ class ContentEnvironment extends TemplateEnvironment
     /**
      * {@inheritDoc}
      */
-    protected function getMainBlock()
+    public function getMainBlock()
     {
         return $this->content->getBlock();
     }

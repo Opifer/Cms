@@ -46,6 +46,9 @@ class ListBlockService extends AbstractBlockService implements BlockServiceInter
         // Default panel
         $builder->add(
             $builder->create('default', FormType::class, ['virtual' => true])
+                ->add('title',  'text', [
+                    'label'         => 'label.title',
+                ])
                 ->add('value',  ContentListPickerType::class, [
                     'label'    => 'label.content',
                     'multiple' => true,
@@ -107,7 +110,7 @@ class ListBlockService extends AbstractBlockService implements BlockServiceInter
     {
         $tool = new ContentTool('List', 'OpiferContentBundle:ListBlock');
 
-        $tool->setIcon('view_list')
+        $tool->setIcon('list')
             ->setDescription('Adds references to a collection of content items');
 
         return $tool;

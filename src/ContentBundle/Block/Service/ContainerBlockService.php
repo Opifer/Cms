@@ -81,7 +81,7 @@ class ContainerBlockService extends AbstractBlockService implements BlockService
         $tool = new ContainerTool($this->getName(), 'OpiferContentBundle:ContainerBlock');
 
         $tool
-            ->setIcon('crop_landscape')
+            ->setIcon('crop_free')
             ->setDescription('Container element to hold columns or other blocks in');
 
         return $tool;

@@ -1,8 +1,4 @@
-{% if block.wrapper|default == 'section' %}
-    <section class="{{ block.properties.styles|default|join(' ') }} container{{ (block.properties.container_size|default) ? '-'~block.properties.container_size: '' }} {{ block.properties.extra_classes|default }}" {{ manage_tags() }}>
-        {{ render_placeholder() }}
-    </section>
-{% elseif block.wrapper|default == 'container' %}
+{% if block.wrapper|default == 'container' %}
     <div class="container{{ (block.properties.container_size|default) ? '-'~block.properties.container_size: '' }} {{ block.properties.styles|default|join(' ') }} {{ block.properties.extra_classes|default }}" {{ manage_tags() }}>
         {{ render_placeholder() }}
     </div>

@@ -4,6 +4,7 @@ namespace Opifer\ContentBundle\Model;
 
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
+use Opifer\ContentBundle\Block\BlockManager;
 use Opifer\ContentBundle\Exception\NestedContentFormException;
 use Opifer\EavBundle\Entity\NestedValue;
 use Opifer\EavBundle\Form\Type\NestedType;
@@ -241,6 +242,14 @@ class ContentManager implements ContentManagerInterface
             $this->detachAndPersist($duplicatedValue);
         }
         $this->em->flush();
+
+        // Duplicate blocks
+        /** @var BlockManager $blockManager */
+        $blockManager = $this->get('opifer.content.block_manager');
+        $duplicatedBlock = $blockManager->duplicate($content->getBlock());
+
+        $duplicatedContent->setBlock($duplicatedBlock);
+        $this->em->flush($duplicatedContent);
 
         return $duplicatedContent->getId();
     }

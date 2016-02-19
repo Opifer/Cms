@@ -70,6 +70,7 @@ class ContentController extends Controller
             $blockManager = $this->get('opifer.content.block_manager');
             $document = new DocumentBlock();
             $document->setPublish(true);
+            $document->setSuper($content->getTemplate()->getBlock());
             $blockManager->save($document);
 
             $content->setBlock($document);
@@ -122,6 +123,7 @@ class ContentController extends Controller
      */
     public function duplicateAction($id)
     {
+        /** @var ContentManager $contentManager */
         $contentManager = $this->get('opifer.content.content_manager');
         $content        = $contentManager->getRepository()->find($id);
 
