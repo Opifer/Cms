@@ -169,6 +169,16 @@ class Configuration implements ConfigurationInterface
                                         'medialibrary', 'dashboard_content'
                                     ])
                                 ->end()
+                                ->arrayNode('styles')
+                                    ->prototype('scalar')->end()
+                                    ->normalizeKeys(false)
+                                    ->defaultValue([
+                                        'img-responsive' => 'Responsive image',
+                                        'img-rounded' => 'Rounded image',
+                                        'img-circle' => 'Circular image',
+                                        'img-thumbnail' => 'Thumbnail image',
+                                    ])
+                                ->end()
                             ->end()
                         ->end()
                         ->arrayNode('jumbotron')

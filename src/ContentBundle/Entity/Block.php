@@ -69,7 +69,7 @@ abstract class Block implements BlockInterface, DraftVersionInterface
     /**
      * @var ArrayCollection
      *
-     * @ORM\OneToMany(targetEntity="Opifer\ContentBundle\Entity\Block", mappedBy="owner")
+     * @ORM\OneToMany(targetEntity="Opifer\ContentBundle\Entity\Block", cascade={"detach", "persist", "remove"}, mappedBy="owner")
      * @ORM\OrderBy({"sort" = "ASC"})
      **/
     protected $owning;
@@ -86,7 +86,7 @@ abstract class Block implements BlockInterface, DraftVersionInterface
     /**
      * @var ArrayCollection
      *
-     * @ORM\OneToMany(targetEntity="Opifer\ContentBundle\Entity\Block", mappedBy="parent", cascade={"persist", "remove"})
+     * @ORM\OneToMany(targetEntity="Opifer\ContentBundle\Entity\Block", mappedBy="parent", cascade={"detach", "persist", "remove"})
      * @ORM\OrderBy({"sort" = "ASC"})
      **/
     protected $children;

@@ -26,9 +26,6 @@ class ContentExtension extends \Twig_Extension
     /** @var FragmentHandler */
     protected $fragmentHandler;
 
-    /** @var ContentManager */
-    protected $contentManager;
-
     /** @var \Opifer\ContentBundle\Block\Environment */
     protected $blockEnvironment;
 
@@ -46,11 +43,10 @@ class ContentExtension extends \Twig_Extension
      * @param ContentManager      $contentManager
      * @param ContainerInterface  $container
      */
-    public function __construct(\Twig_Environment $twig, FragmentHandler $fragmentHandler, ContentManager $contentManager, ContainerInterface $container, RequestStack $requestStack)
+    public function __construct(\Twig_Environment $twig, FragmentHandler $fragmentHandler, ContainerInterface $container, RequestStack $requestStack)
     {
         $this->twig = $twig;
         $this->fragmentHandler = $fragmentHandler;
-        $this->contentManager = $contentManager;
         $this->container = $container;
         $this->requestStack = $requestStack;
 

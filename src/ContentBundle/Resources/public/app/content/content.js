@@ -2,8 +2,9 @@ angular.module('OpiferContent', ['angular-inview', 'ui.tree', 'ngCookies'])
 
     .factory('ContentService', ['$resource', '$routeParams', function ($resource, $routeParams) {
         return $resource(Routing.generate('opifer_content_api_content') + '/:id', {}, {
-            index: {method: 'GET', params: {}, cache: true},
-            delete: {method: 'DELETE', params: {id: $routeParams.id}}
+            index: {method: 'GET', params: {}, cache: false},
+            delete: {method: 'DELETE', params: {id: $routeParams.id}},
+            duplicate: {method: 'PUT', params: {id: $routeParams.id}, url: Routing.generate('opifer_content_api_content') + '/duplicate'}
         });
     }])
 
@@ -228,7 +229,7 @@ angular.module('OpiferContent', ['angular-inview', 'ui.tree', 'ngCookies'])
                 $scope.reloadContents = function () {
                     $scope.contents = [];
                     $scope.currentPage = 1;
-                    $scope.fetchContents();
+                    $scope.fetchContents({cache: false});
                 };
 
                 $scope.clearSearch = function () {
@@ -239,23 +240,18 @@ angular.module('OpiferContent', ['angular-inview', 'ui.tree', 'ngCookies'])
                     $scope.fetchContents();
                 };
 
-                $scope.deleteContent = function (id) {
-                    angular.forEach($scope.contents, function (c, index) {
-                        if (c.id === id) {
-                            ContentService.delete({id: c.id}, function () {
-                                $scope.contents.splice(index, 1);
-                            });
-                        }
+                $scope.deleteContent = function (content) {
+                    ContentService.delete({id: content.id}, function () {
+                        $scope.contents.splice($scope.contents.indexOf(content), 1);
                     });
 
-                    $scope.confirmation.shown = false;
+                     $scope.confirmation.shown = false;
                 };
 
-                $scope.confirmDeleteContent = function (idx, $event) {
-                    var selected = $scope.contents[idx];
-
-                    $scope.confirmation.idx = selected.id;
-                    $scope.confirmation.name = selected.title;
+                $scope.confirmDeleteContent = function (content, $event) {
+                    $scope.confirmation.object = content;
+                    $scope.confirmation.idx = content.id;
+                    $scope.confirmation.name = content.title;
                     $scope.confirmation.dataset = $event.currentTarget.dataset;
                     $scope.confirmation.action = $scope.deleteContent;
                     $scope.confirmation.shown = !$scope.confirmation.shown;
@@ -269,8 +265,11 @@ angular.module('OpiferContent', ['angular-inview', 'ui.tree', 'ngCookies'])
                     return Routing.generate('opifer_content_contenteditor_design', {'type': 'content', 'id': id});
                 };
 
-                $scope.copyContent = function (id) {
-                    window.location = Routing.generate('opifer_content_content_duplicate', {'id': id});
+                $scope.copyContent = function (content) {
+                    ContentService.duplicate({id: content.id}, function () {
+                        $scope.confirmation.shown = false;
+                        $scope.reloadContents();
+                    });
                 };
 
                 $scope.rootNodes = function () {
@@ -292,9 +291,9 @@ angular.module('OpiferContent', ['angular-inview', 'ui.tree', 'ngCookies'])
                     return nodes;
                 };
 
-                $scope.confirmCopyContent = function (idx, $event) {
-                    var selected = $scope.contents[idx];
+                $scope.confirmCopyContent = function (selected, $event) {
 
+                    $scope.confirmation.object = selected;
                     $scope.confirmation.idx = selected.id;
                     $scope.confirmation.name = selected.title;
                     $scope.confirmation.dataset = $event.currentTarget.dataset;

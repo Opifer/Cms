@@ -212,46 +212,43 @@ class ContentManager implements ContentManagerInterface
      * Duplicate a content item
      *
      * @param ContentInterface $content
+     *
+     * @return ContentInterface $duplicate
      */
     public function duplicate(ContentInterface $content)
     {
-        //get valueset to clone
-        $valueset = $content->getValueSet();
-
-        //clone valueset
-        $duplicatedValueset = clone $valueset;
-
-        $this->detachAndPersist($duplicatedValueset);
-
         //duplicate content
         $duplicatedContent = clone $content;
         $duplicatedContent->setSlug(null);
-        $duplicatedContent->setValueSet($duplicatedValueset);
 
+        //get valueset to clone
+        if (null !== $valueset = $content->getValueSet()) {
+            //clone valueset
+            $duplicatedValueset = clone $valueset;
+
+            $this->detachAndPersist($duplicatedValueset);
+            $duplicatedContent->setValueSet($duplicatedValueset);
+        }
+
+        $duplicatedContent->setBlock(null);
         $this->detachAndPersist($duplicatedContent);
 
-        //iterate values, clone each and assign duplicate valueset to it
-        foreach ($valueset->getValues() as $value) {
+        if ($valueset) {
+            //iterate values, clone each and assign duplicate valueset to it
+            foreach ($valueset->getValues() as $value) {
 
-            //skip empty attributes
-            if (is_null($value->getId())) continue;
+                //skip empty attributes
+                if (is_null($value->getId())) continue;
 
-            $duplicatedValue = clone ($value);
-            $duplicatedValue->setValueSet($duplicatedValueset);
+                $duplicatedValue = clone ($value);
+                $duplicatedValue->setValueSet($duplicatedValueset);
 
-            $this->detachAndPersist($duplicatedValue);
+                $this->detachAndPersist($duplicatedValue);
+            }
         }
         $this->em->flush();
 
-        // Duplicate blocks
-        /** @var BlockManager $blockManager */
-        $blockManager = $this->get('opifer.content.block_manager');
-        $duplicatedBlock = $blockManager->duplicate($content->getBlock());
-
-        $duplicatedContent->setBlock($duplicatedBlock);
-        $this->em->flush($duplicatedContent);
-
-        return $duplicatedContent->getId();
+        return $duplicatedContent;
     }
 
     /**
