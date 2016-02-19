@@ -75,7 +75,6 @@ angular.module('mediaLibrary', ['infinite-scroll', 'ngModal', 'angularFileUpload
 
         $scope.dropSupported = true;
 
-
         /**
          * Upload the dropped files
          *
@@ -161,6 +160,16 @@ angular.module('mediaLibrary', ['infinite-scroll', 'ngModal', 'angularFileUpload
             } else {
                 window.location = Routing.generate('opifer_media_media_edit', {'id': selected.id});
             }
+        };
+
+        $scope.saveMedia = function(idx) {
+            var data = $scope.selecteditems[idx];
+
+            $http.put(Routing.generate('opifer_media_api_update'), data)
+                .success(function(data) {
+                    //console.log('success');
+                }
+            );
         };
 
         /**

@@ -52,6 +52,22 @@ class MediaController extends Controller
         return new JsonResponse(json_decode($media, true));
     }
 
+    public function updateAction(Request $request)
+    {
+        $content = json_decode($request->getContent(), true);
+
+        $media = $this->get('opifer.media.media_manager')->getRepository()->find($content['id']);
+        $media->setName($content['name']);
+        $media->setAlt($content['alt']);
+
+        $em = $this->getDoctrine()->getManager();
+        $em->flush();
+
+        $media = $this->get('jms_serializer')->serialize($media, 'json', SerializationContext::create()->setGroups(['Default', 'detail']));
+
+        return new JsonResponse(json_decode($media, true));
+    }
+
     /**
      * Upload.
      *

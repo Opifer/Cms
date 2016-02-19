@@ -52,6 +52,14 @@ abstract class Media implements MediaInterface
     /**
      * @var string
      *
+     * @ORM\Column(name="alt", type="string", length=255, nullable=true)
+     * @JMS\Expose
+     */
+    protected $alt;
+
+    /**
+     * @var string
+     *
      * @Assert\NotBlank()
      * @ORM\Column(name="provider", type="string", length=255)
      * @JMS\Expose
@@ -99,6 +107,7 @@ abstract class Media implements MediaInterface
      * @var int
      *
      * @ORM\Column(name="filesize", type="integer", nullable=true)
+     * @JMS\Expose
      */
     protected $filesize;
 
@@ -210,6 +219,26 @@ abstract class Media implements MediaInterface
     public function getName()
     {
         return $this->name;
+    }
+
+    /**
+     * @return string
+     */
+    public function getAlt()
+    {
+        return $this->alt;
+    }
+
+    /**
+     * @param string $alt
+     *
+     * @return Media
+     */
+    public function setAlt($alt)
+    {
+        $this->alt = $alt;
+
+        return $this;
     }
 
     /**
@@ -419,6 +448,9 @@ abstract class Media implements MediaInterface
 
     /**
      * Get filesize with filesize extension.
+     *
+     * @JMS\VirtualProperty
+     * @JMS\SerializedName("readable_filesize")
      *
      * @return int|string
      */
