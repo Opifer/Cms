@@ -12,7 +12,9 @@ $(document).ajaxComplete(function() {
 
 function loadListTree() {
     $('.tree > ul').attr('role', 'tree').find('ul').attr('role', 'group');
-    $('.tree').find('li:has(ul)').addClass('parent_li').attr('role', 'treeitem').find(' > span.expand').on('click', function (e) {
+    $('.tree').find('li:has(ul)').addClass('parent_li').attr('role', 'treeitem');
+
+    $('body').on('click', '.tree span.expand', function (e) {
         var children = $(this).parent('li.parent_li').find(' > ul > li');
         if (children.is(':visible')) {
             $(this).parent('li.parent_li').removeClass('expanded');
@@ -23,12 +25,17 @@ function loadListTree() {
         e.stopPropagation();
     });
 
-    $('.tree').find('span.checkmark').on('click', function (e) {
+    $('body').on('click', '.tree span.checkmark', function (e) {
         var inputId = $(this).closest('.tree').data('input-id');
-
-        $('#' + inputId).val($(this).parent('li').data('id'));
+        var val = $(this).parent('li').data('id');
         $(this).closest('.tree').find('li.selected').removeClass('selected');
-        $(this).parent('li').addClass('selected');
+
+        if ($('#' + inputId).val() != val) {
+            $('#' + inputId).val(val);
+            $(this).parent('li').addClass('selected');
+        } else {
+            $('#' + inputId).val('');
+        }
     });
 }
 
