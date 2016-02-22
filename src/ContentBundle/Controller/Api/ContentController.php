@@ -112,6 +112,8 @@ class ContentController extends Controller
      */
     public function duplicateAction(Request $request)
     {
+        $this->getDoctrine()->getManager()->getFilters()->disable('draftversion');
+
         $content        = $this->get('request')->getContent();
         if (!empty($content)) {
             $params = json_decode($content, true);
@@ -126,12 +128,12 @@ class ContentController extends Controller
                 throw $this->createNotFoundException('No content found for id ' . $id);
             }
 
-            $duplicateContent = $contentManager->duplicate($content);
-
-            // Duplicate blocks
             /** @var BlockManager $blockManager */
             $blockManager = $this->container->get('opifer.content.block_manager');
             $duplicatedBlock = $blockManager->duplicate($content->getBlock());
+
+            $duplicateContent = $contentManager->duplicate($content);
+
             $duplicateContent->setBlock($duplicatedBlock);
 
             $this->getDoctrine()->getManager()->flush();
