@@ -47,20 +47,18 @@ class ListBlockService extends AbstractBlockService implements BlockServiceInter
         $builder->add(
             $builder->create('default', FormType::class, ['virtual' => true])
                 ->add('title',  'text', [
-                    'label'         => 'label.title',
+                    'label' => 'label.title',
                 ])
                 ->add('value',  ContentListPickerType::class, [
                     'label'    => 'label.content',
-                    'multiple' => true,
-                    'data'     => $options['data']->getValue()
                 ])
         )->add(
             $propertiesForm->add('template', ChoiceType::class, [
-                'label'         => 'label.template',
-                'placeholder'   => 'placeholder.choice_optional',
-                'attr'          => ['help_text' => 'help.block_template'],
-                'choices'       => $this->config['templates'],
-                'required'      => false,
+                'label'       => 'label.template',
+                'placeholder' => 'placeholder.choice_optional',
+                'attr'        => ['help_text' => 'help.block_template'],
+                'choices'     => $this->config['templates'],
+                'required'    => false,
             ])
         );
 
@@ -84,11 +82,7 @@ class ListBlockService extends AbstractBlockService implements BlockServiceInter
      */
     public function load(BlockInterface $block)
     {
-        $collection = $this->contentManager->getRepository()
-            ->createQueryBuilder('c')
-            ->where('c.id IN (:ids)')->setParameter('ids', json_decode($block->getValue()))
-            ->getQuery()
-            ->getResult();
+        $collection = $this->contentManager->getRepository()->findByIds(json_decode($block->getValue()));
 
         if ($collection) {
             $block->setCollection($collection);

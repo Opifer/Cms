@@ -34,23 +34,12 @@
 #}
 {% block content_list_picker_widget %}
     {% spaceless %}
-        {% set array = [] %}
-        {% for item in form.vars.value %}
-            {% if item.id|default %}
-                {% set array = array|merge([item.id]) %}
-            {% else %}
-                {% set array = array|merge([item]) %}
-            {% endif %}
-        {% endfor %}
-
-        {% set content = array|json_encode() %}
-
-        <div class="content-picker content-picker-list" ng-controller="ContentPickerController" ng-cloak ng-init="init('{{ content }}', '{{ full_name }}', true)">
+        <div class="content-picker content-picker-list" ng-controller="ContentPickerController" ng-cloak ng-init="init('{{ form.vars.value }}', '{{ full_name }}', true)">
             {% verbatim %}
-            <!--<input type="hidden" name="{{ formname }}[sort]" value="{{ order }}"/>-->
+            <input type="hidden" name="{{ formname }}" value="{{ selecteditems }}"/>
             <div class="wrapper" ui-sortable="sortableOptions" ng-model="selecteditems">
                 <div class="content-picked-item" ng-repeat="item in selecteditems" style="display:block;">
-                    <input type="hidden" id="" name="{{ formname }}" value="{{ item.id }}">
+                    <!--<input type="hidden" id="" name="{{ formname }}" value="{{ item.id }}">-->
                     <div style="background-image: url({{ item.coverImage }});" class="content-cover"></div>
                     <div class="content-picked-details">
                         <span class="content-title">{{ item.title }}</span>

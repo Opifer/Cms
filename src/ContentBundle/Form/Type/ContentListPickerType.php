@@ -9,6 +9,7 @@ use Opifer\ContentBundle\Model\ContentManager;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\CallbackTransformer;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\PropertyAccess\PropertyAccessorInterface;
@@ -40,25 +41,14 @@ class ContentListPickerType extends AbstractType
     {
         $builder->addModelTransformer(new CallbackTransformer(
             function ($original) {
-                $ids = json_decode($original);
-
-                $items = $this->contentManager->getRepository()
-                    ->createQueryBuilder('c')
-                    ->where('c.id IN (:ids)')
-                    ->setParameter('ids', $ids)
-                    ->getQuery()
-                    ->getResult();
-
-                return $items;
+                return $original;
             },
             function ($submitted) {
-                if (!$submitted instanceof ArrayCollection && !is_array($submitted)) {
-                    return null;
-                }
+                $array = json_decode($submitted, true);
 
                 $ids = [];
-                foreach ($submitted as $content) {
-                    $ids[] = $content->getId();
+                foreach ($array as $item) {
+                    $ids[] = $item['id'];
                 }
 
                 return json_encode($ids);
@@ -72,9 +62,8 @@ class ContentListPickerType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'multiple' => true,
             'property' => 'title',
-            'class'    => $this->contentManager->getClass(),
+            //'class'    => $this->contentManager->getClass(),
         ]);
     }
 
@@ -83,7 +72,7 @@ class ContentListPickerType extends AbstractType
      */
     public function getParent()
     {
-        return EntityType::class;
+        return TextType::class;
     }
 
     /**
