@@ -12,6 +12,9 @@ use Gedmo\Mapping\Annotation as Gedmo;
  */
 class NavigationBlock extends Block
 {
+    const CHOICE_TOP_LEVEL = 'top_level';
+    const CHOICE_CUSTOM = 'custom';
+
     /**
      * @var string
      *

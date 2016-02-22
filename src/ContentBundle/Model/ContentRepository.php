@@ -234,4 +234,37 @@ class ContentRepository extends NestedTreeRepository
 
         return $ordered;
     }
+
+    /**
+     * Joins and selects the toplevel content items and its children recursively.
+     *
+     * @param  int $levels
+     * @return array
+     */
+    public function findByLevels($levels = 1)
+    {
+        $qb = $this->createQueryBuilder('c');
+
+        if ($levels <= 1) {
+            $query = $qb->where('c.parent IS NULL');
+        } else {
+            $levels = $levels - 1;
+            $selects = ['c'];
+            for ($i = 1; $i <= $levels; $i++) {
+                $selects[] = 'c'.$i;
+            }
+
+            $query = $qb->select($selects);
+            $query->where('c.parent IS NULL');
+
+            for ($i = 1; $i <= $levels; $i++) {
+                $previous = ($i-1 == 0) ? '' : ($i-1);
+                $query->leftJoin('c'.$previous.'.children', 'c'.$i);
+            }
+        }
+
+        $query->andWhere('c.showInNavigation = :show')->setParameter('show', true);
+
+        return $query->getQuery()->getArrayResult();
+    }
 }

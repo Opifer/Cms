@@ -2,12 +2,16 @@ $(document).ready(function() {
     loadListTree();
 
     loadDatePickers();
+
+    loadNavigationBlockScripts();
 });
 
 $(document).ajaxComplete(function() {
     loadListTree();
 
     loadDatePickers();
+
+    loadNavigationBlockScripts();
 });
 
 function loadListTree() {
@@ -40,4 +44,15 @@ function loadDatePickers() {
     $('.datepicker').datetimepicker({
         format: 'YYYY-MM-DD'
     })
+}
+
+function loadNavigationBlockScripts() {
+    $('.toggle-content-picker').change(function(e) {
+        var selected = $(this).val();
+        if (selected == 'custom') {
+            $('.content-picker').closest('.form-group').show();
+        } else {
+            $('.content-picker').closest('.form-group').hide();
+        }
+    });
 }

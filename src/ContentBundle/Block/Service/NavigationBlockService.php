@@ -11,7 +11,10 @@ use Opifer\ContentBundle\Form\Type\ContentTreePickerType;
 use Opifer\ContentBundle\Model\BlockInterface;
 use Opifer\ContentBundle\Model\ContentManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Templating\EngineInterface;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\FormType;
+use Symfony\Component\Form\Extension\Core\Type\IntegerType;
+use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\FormBuilderInterface;
 
 /**
@@ -45,10 +48,44 @@ class NavigationBlockService extends AbstractBlockService implements BlockServic
     {
         parent::buildManageForm($builder, $options);
 
+        $showContentPicker = false;
+        if ($options['data'] && $options['data']->getValue() == 'custom') {
+            $showContentPicker = true;
+        }
+
         // Default panel
         $builder->add(
             $builder->create('default', FormType::class, ['virtual' => true])
-                ->add('value', ContentTreePickerType::class)
+                ->add('value', ChoiceType::class, [
+                    'label' => 'type',
+                    'choices' => [
+                        'Top level pages' => NavigationBlock::CHOICE_TOP_LEVEL,
+                        'Custom selection' => NavigationBlock::CHOICE_CUSTOM
+                    ],
+                    'choices_as_values' => true,
+                    'attr' => ['class' => 'toggle-content-picker']
+                ])
+                ->add(
+                    $builder->create('properties', FormType::class)
+                        ->add('tree', ContentTreePickerType::class, [
+                            'label' => 'custom selection',
+                            'mapped' => false,
+                            'attr' => [
+                                'formgroup' => [
+                                    'styles' => ($showContentPicker === false) ? 'display:none;' : ''
+                                ]
+                            ]
+                        ])
+                        ->add('levels', IntegerType::class, [
+                            'empty_data' => 1
+                        ])
+                        ->add('template', ChoiceType::class, [
+                            'choices' => [
+                                'Default' => 'default'
+                            ],
+                            'choices_as_values' => true,
+                        ])
+                )
         );
     }
 
@@ -58,7 +95,14 @@ class NavigationBlockService extends AbstractBlockService implements BlockServic
     public function load(BlockInterface $block)
     {
         /** @var NavigationBlock $block */
-        $block->setTree($this->GetTree($block->getValue()));
+        if ($block->getValue() == NavigationBlock::CHOICE_CUSTOM && isset($block->getProperties()['tree'])) {
+            $block->setTree($this->getTree($block->getProperties()['tree']));
+        } elseif ($block->getValue() == NavigationBlock::CHOICE_TOP_LEVEL) {
+            $levels = (isset($block->getProperties()['levels'])) ? $block->getProperties()['levels'] : 1;
+            $collection = $this->contentManager->getRepository()->findByLevels($levels);
+
+            $block->setTree($collection);
+        }
     }
 
     /**

@@ -5,11 +5,13 @@
 
 {% macro render_tree(tree) %}
     <ul>
-        {% for item in tree %}
+        {% for item in tree if item.showInNavigation == true %}
             <li>
                 {{ item.title }}
                 {% if item.__children|default() %}
                     {{ _self.render_tree(item.__children) }}
+                {% elseif item.children|default %}
+                    {{ _self.render_tree(item.children) }}
                 {% endif %}
             </li>
         {% endfor %}
