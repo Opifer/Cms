@@ -72,7 +72,7 @@
     {% endspaceless %}
 {% endblock %}
 
-{% block content_tree_picker_row %}
+{% block form_row %}
     {% spaceless %}
         {% set style = style|default(bootstrap_get_style()) %}
         {% set col_size = col_size|default(bootstrap_get_col_size()) %}
@@ -114,7 +114,7 @@
 
         {% if style == 'inline' %}&nbsp;{% endif %}
     {% endspaceless %}
-{% endblock content_tree_picker_row %}
+{% endblock form_row %}
 
 {% block content_tree_picker_widget %}
 
