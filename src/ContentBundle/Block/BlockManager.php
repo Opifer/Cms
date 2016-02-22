@@ -347,11 +347,46 @@ class BlockManager
      */
     public function duplicate(BlockOwnerInterface $block)
     {
+        $this->killDraftVersionFilter();
+        $this->killLoggableListener();
+
         $blocks = $this->findByOwner($block);
+        array_unshift($blocks, $block);
 
-        foreach ($blocks as $owned) {
+        // 1. Interate over all owned blocks and disconnect parents keeping ids
+        /** @var BlockInterface $original */
+        foreach ($blocks as $descendant) {
+            $descendant->originalId = $descendant->getId();
 
+            // if it has a parent we need to put it somewhere
+            if ($descendant->getParent()) {
+                $descendant->originalParentId = $descendant->getParent()->getId();
+                $descendant->setParent(null);
+            }
+
+            if ($descendant instanceof BlockContainerInterface) {
+                $descendant->setChildren(null);
+            }
+
+            $descendant->setOwner($block);
+
+            $this->em->detach($descendant);
+            $this->em->persist($descendant);
         }
+        $this->em->flush();
+
+        // 2. Iterate over all new blocks and reset their parents
+        foreach ($blocks as $descendant) {
+            if (isset($descendant->originalParentId)) {
+                foreach ($blocks as $parent) {
+                    if ($descendant->originalParentId === $parent->originalId) {
+                        $descendant->setParent($parent);
+                        $parent->addChild($descendant);
+                    }
+                }
+            }
+        }
+        $this->em->flush();
 
         return $block;
     }
@@ -383,6 +418,16 @@ class BlockManager
         }
 
         $this->em->flush();
+    }
+
+    /**
+     * Kills the DraftVersionFilter
+     */
+    public function killDraftVersionFilter()
+    {
+        if ($this->em->getFilters()->isEnabled('draftversion')) {
+            $this->em->getFilters()->disable('draftversion');
+        }
     }
 
     /**

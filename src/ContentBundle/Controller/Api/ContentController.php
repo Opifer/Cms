@@ -3,6 +3,7 @@
 namespace Opifer\ContentBundle\Controller\Api;
 
 use JMS\Serializer\SerializationContext;
+use Opifer\ContentBundle\Block\BlockManager;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -86,6 +87,10 @@ class ContentController extends Controller
      */
     public function deleteAction(Request $request, $id)
     {
+        /** @var BlockManager $blockManager */
+        $blockManager = $this->get('opifer.content.block_manager');
+        $blockManager->killLoggableListener();
+
         $manager = $this->get('opifer.content.content_manager');
         $content = $manager->getRepository()->find($id);
 
@@ -94,5 +99,49 @@ class ContentController extends Controller
         $em->flush();
 
         return new JsonResponse(['success' => true]);
+    }
+
+
+    /**
+     * Duplicates content based on their id.
+     *
+     * @param Request $request
+     * @param integer $id
+     *
+     * @return Response
+     */
+    public function duplicateAction(Request $request)
+    {
+        $content        = $this->get('request')->getContent();
+        if (!empty($content)) {
+            $params = json_decode($content, true);
+        }
+        /** @var ContentManager $contentManager */
+        $contentManager = $this->get('opifer.content.content_manager');
+        $content        = $contentManager->getRepository()->find($params['id']);
+        $response       = new JsonResponse;
+
+        try {
+            if ( ! $content) {
+                throw $this->createNotFoundException('No content found for id ' . $id);
+            }
+
+            $duplicateContent = $contentManager->duplicate($content);
+
+            // Duplicate blocks
+            /** @var BlockManager $blockManager */
+            $blockManager = $this->container->get('opifer.content.block_manager');
+            $duplicatedBlock = $blockManager->duplicate($content->getBlock());
+            $duplicateContent->setBlock($duplicatedBlock);
+
+            $this->getDoctrine()->getManager()->flush();
+
+            $response->setData(['success' => true]);
+        } catch (\Exception $e) {
+            $response->setStatusCode(500);
+            $response->setData(['error' => $e->getMessage()]);
+        }
+
+        return $response;
     }
 }

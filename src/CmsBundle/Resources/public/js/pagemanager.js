@@ -223,16 +223,6 @@ $(document).ready(function() {
             });
         };
 
-        var paintEmptyPlaceholders = function () {
-            iFrame.contents().find('.pm-placeholder').each(function (index) {
-                if ($(this).children().length) {
-                    $(this).removeClass('pm-empty');
-                } else {
-                    $(this).addClass('pm-empty');
-                }
-            });
-        };
-
         var loadRunButton = function () {
             if (permalink) {
                 btnRun.attr('href', permalink);
@@ -384,10 +374,9 @@ $(document).ready(function() {
                                     reference.replaceWith(data.view);
                                     // unbind and rebind sortable to allow new layouts with placeholders.
                                     editBlock(id);
-                                    sortables();
-                                    paintEmptyPlaceholders();
                                     updateVersionPicker();
                                     showToolbars();
+                                    sortables();
                                 }).fail(function(data){
                                     reference.remove();
                                     showAPIError(data);
@@ -411,9 +400,9 @@ $(document).ready(function() {
                 success: function (data) {
                     hideToolbar();
                     getBlockElement(id).remove();
-                    paintEmptyPlaceholders();
                     pagemanager.closeEditBlock(id);
                     updateVersionPicker();
+                    loadToC();
                 }
             }).error(function(data){
                 showAPIError(data);
@@ -432,10 +421,11 @@ $(document).ready(function() {
                     reference.replaceWith(data.view);
                     // unbind and rebind sortable to allow new layouts with placeholders.
                     editBlock(id);
-                    sortables();
-                    paintEmptyPlaceholders();
                     updateVersionPicker();
                     showToolbars();
+                    sortables();
+                    draggables;
+                    loadToC();
                 }).fail(function(data){
                     reference.remove();
                     showAPIError(data);
@@ -548,36 +538,7 @@ $(document).ready(function() {
             });
 
             sortables();
-
-            $('.pm-block-item').draggable({
-                appendTo: '#pm-list-group-container',
-                helper: 'clone',
-                iframeFix: true,
-                scroll: false,
-                connectToSortable: sortables(),
-                start: function (event, ui) {
-                    window.iFrameSortable = true;
-                    isDragging = true;
-                    hideToolbar();
-
-                    ui.helper.animate({
-                        width: 350,
-                        height: 60
-                    });
-
-                    $('.pm-preview').addClass('pm-dragging');
-                },
-                stop: function () {
-                    isDragging = false;
-                    //$(document).scrollTop(0); // Fix for disappearing .navbar.
-                    //$('.pm-preview').removeClass('pm-dragging');
-                    //$('.pm-layout').removeClass('pm-layout-accept'); // cleaning up just to be sure
-                    window.iFrameSortable = false;
-                },
-                drag: function (event, ui) {
-                    //ui.position.top += $('#pm-iframe').contents().scrollTop();
-                }
-            });
+            draggables();
 
             setViewMode(VIEWMODE_CONTENT);
 
@@ -618,6 +579,38 @@ $(document).ready(function() {
         var hideToolbar = function () {
             iFrame.contents().find('*[data-pm-block-manage]').removeClass('pm-hovered');
             toolbar.addClass('hidden');
+        };
+
+        var draggables = function () {
+            return $('.pm-block-item').draggable({
+                appendTo: '#pm-list-group-container',
+                helper: 'clone',
+                iframeFix: true,
+                scroll: false,
+                connectToSortable: sortables(),
+                start: function (event, ui) {
+                    window.iFrameSortable = true;
+                    isDragging = true;
+                    hideToolbar();
+
+                    ui.helper.animate({
+                        width: 350,
+                        height: 60
+                    });
+
+                    $('.pm-preview').addClass('pm-dragging');
+                },
+                stop: function () {
+                    isDragging = false;
+                    //$(document).scrollTop(0); // Fix for disappearing .navbar.
+                    //$('.pm-preview').removeClass('pm-dragging');
+                    //$('.pm-layout').removeClass('pm-layout-accept'); // cleaning up just to be sure
+                    window.iFrameSortable = false;
+                },
+                drag: function (event, ui) {
+                    //ui.position.top += $('#pm-iframe').contents().scrollTop();
+                }
+            });
         };
 
         //
@@ -675,7 +668,6 @@ $(document).ready(function() {
                     //iFrame.contents().find('.pm-preview').removeClass('pm-dragging');
                     iFrame.contents().find('.pm-block, .pm-placeholder').removeClass('pm-accept');
                     isDragging = false;
-                    paintEmptyPlaceholders();
 
                     if (!$(ui.item).hasClass('pm-block-item')) {
                         //Push order of blocks to backend service
@@ -698,14 +690,14 @@ $(document).ready(function() {
         };
 
         // Find placeholders for this layout specifically.
-        var highlightPlaceholders = function(layoutId) {
-            iFrame.contents().find('.pm-placeholder').removeClass('highlight');
-            $(this).find('.pm-placeholder').each(function(index) {
-                if ($(this).closest('.pm-layout').attr('data-pm-block-id') == layoutId) {
-                    $(this).addClass('highlight');
-                }
-            });
-        };
+        //var highlightPlaceholders = function(layoutId) {
+        //    iFrame.contents().find('.pm-placeholder').removeClass('highlight');
+        //    $(this).find('.pm-placeholder').each(function(index) {
+        //        if ($(this).closest('.pm-layout').attr('data-pm-block-id') == layoutId) {
+        //            $(this).addClass('highlight');
+        //        }
+        //    });
+        //};
 
         var destroySortables = function () {
             sortables().sortable('destroy');
@@ -823,7 +815,6 @@ $(document).ready(function() {
             selectBlock: selectBlock,
             unselectBlock: unselectBlock,
             getBlockElement: getBlockElement,
-            paintEmptyPlaceholders: paintEmptyPlaceholders,
             createBlock: createBlock,
             editBlock: editBlock,
             deleteBlock: deleteBlock,

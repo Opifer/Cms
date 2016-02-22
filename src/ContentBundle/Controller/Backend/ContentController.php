@@ -114,30 +114,6 @@ class ContentController extends Controller
         ]);
     }
 
-    /**
-     * Duplicates content based on their id.
-     *
-     * @param integer $id
-     *
-     * @return Response
-     */
-    public function duplicateAction($id)
-    {
-        /** @var ContentManager $contentManager */
-        $contentManager = $this->get('opifer.content.content_manager');
-        $content        = $contentManager->getRepository()->find($id);
-
-        if ( ! $content) {
-            throw $this->createNotFoundException('No content found for id ' . $id);
-        }
-
-        $duplicateContentId = $contentManager->duplicate($content);
-
-        return $this->redirect($this->generateUrl('opifer_content_content_edit', [
-            'id' => $duplicateContentId,
-        ]));
-    }
-
 
     public function historyAction(Request $request, $type, $id, $version = 0)
     {

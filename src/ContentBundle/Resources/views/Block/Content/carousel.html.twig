@@ -1,6 +1,6 @@
 {% set id = block.properties.id|default ? block.properties.id : 'carousel-'~block.id %}
 
-<div id="{{ id }}" class="carousel slide clearfix {{ block.properties.extra_classes|default }}" data-ride="carousel" style="min-height:100px;" {{ manage_tags() }}>
+<div id="{{ id }}" class="carousel slide clearfix {{ block.properties.extra_classes|default }} {{ block.properties.styles|default|join(' ') }}" data-ride="carousel" style="min-height:100px;" {{ manage_tags() }}>
     {% if block.properties.show_indicators|default %}
         <ol class="carousel-indicators">
             {% for slide in block.children %}

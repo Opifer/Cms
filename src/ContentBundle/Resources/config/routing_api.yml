@@ -26,6 +26,13 @@ opifer_content_api_content_delete:
     options:
         expose: true
 
+opifer_content_content_duplicate:
+    path: /content/duplicate
+    defaults: { _controller: OpiferContentBundle:Api/Content:duplicate }
+    methods: [PUT]
+    options:
+        expose: true
+
 opifer_content_api_contenteditor_create_block:
     path: /contenteditor/createblock/{type}/{typeId}/{ownerId}
     defaults: { _controller: OpiferContentBundle:Api/ContentEditor:createBlock }

@@ -44,6 +44,16 @@
 .btn-close {
     border: 0;
 
+    > i {
+        display: none !important;
+    }
+
+    &:before {
+        &:extend(.material-icons);
+        content: "close";
+        color: @text-color;
+    }
+
     &:focus,
     &:hover {
         border: 0;

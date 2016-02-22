@@ -163,10 +163,11 @@ angular.module('mediaLibrary', ['infinite-scroll', 'ngModal', 'angularFileUpload
         };
 
         $scope.saveMedia = function(idx) {
-            var data = $scope.selecteditems[idx];
+            var item = $scope.selecteditems[idx];
 
-            $http.put(Routing.generate('opifer_media_api_update'), data)
+            $http.put(Routing.generate('opifer_media_api_update'), item)
                 .success(function(data) {
+                    item.formOpen = false;
                     //console.log('success');
                 }
             );
