@@ -44,13 +44,8 @@ class ContentRepository extends NestedTreeRepository
 
         if ($request->get('q')) {
             $qb->leftJoin('c.template', 't');
-            $qb->andWhere('c.title LIKE :query OR c.alias LIKE :query OR c.slug LIKE :query OR t.displayName LIKE :query')->setParameter('query', '%' . $request->get('q') . '%');
-        } else {
-            //if ($request->get('directory_id')) {
-            //    $qb->andWhere('c.directory = :directory')->setParameter('directory', $request->get('directory_id'));
-            //} else {
-            //    $qb->andWhere('c.directory is NULL');
-            //}
+            $qb->andWhere('c.title LIKE :query OR c.alias LIKE :query OR c.slug LIKE :query OR t.displayName LIKE :query');
+            $qb->setParameter('query', '%' . $request->get('q') . '%');
         }
 
         if ($ids = $request->get('ids')) {

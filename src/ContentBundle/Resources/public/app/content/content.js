@@ -13,22 +13,7 @@ angular.module('OpiferContent', ['angular-inview', 'ui.tree', 'ngCookies'])
         $scope.selecteditems = [];
         $scope.formname = '';
         $scope.multiple = false;
-        //$scope.order = {
-        //    sort: 'manual',
-        //    order: []
-        //};
-
-        //$scope.sortableOptions = {
-        //    // Update the order variable when the order of items has changed
-        //    stop: function () {
-        //        var order = [];
-        //        for (var i = 0; i < $scope.selecteditems.length; i++) {
-        //            order.push($scope.selecteditems[i].id);
-        //        }
-        //
-        //        $scope.order.order = order;
-        //    }
-        //};
+        $scope.isPickerOpen = false;
 
         /**
          * Set content
@@ -54,7 +39,6 @@ angular.module('OpiferContent', ['angular-inview', 'ui.tree', 'ngCookies'])
                             $scope.selecteditems.push(content[index]);
                         });
                     } else if (content.length) {
-                        //$scope.order.order = content;
                         content = content.toString();
 
                         $http.get(Routing.generate('opifer_content_api_content_ids', {'ids': content}))
@@ -80,6 +64,7 @@ angular.module('OpiferContent', ['angular-inview', 'ui.tree', 'ngCookies'])
                     return true;
                 }
             }
+
             return false;
         };
 
@@ -90,7 +75,6 @@ angular.module('OpiferContent', ['angular-inview', 'ui.tree', 'ngCookies'])
             if ($scope.multiple) {
                 content.__children = [];
                 $scope.selecteditems.push(content);
-                //$scope.order.order.push(content.id);
             } else {
                 $scope.content = content;
                 $scope.isPickerOpen = false;
@@ -112,9 +96,9 @@ angular.module('OpiferContent', ['angular-inview', 'ui.tree', 'ngCookies'])
         };
     }])
 
-/**
- * Content browser directive
- */
+    /**
+     * Content browser directive
+     */
     .directive('contentBrowser', function () {
 
         return {
@@ -133,7 +117,6 @@ angular.module('OpiferContent', ['angular-inview', 'ui.tree', 'ngCookies'])
             },
             templateUrl: '/bundles/opifercontent/app/content/content.html',
             controller: function ($scope, ContentService, $attrs, $cookies) {
-                var pageLoaded = false;
                 $scope.navto = false;
                 $scope.maxPerPage = 1000;
                 $scope.currentPage = 1;
@@ -165,6 +148,7 @@ angular.module('OpiferContent', ['angular-inview', 'ui.tree', 'ngCookies'])
                     if ($scope.active == false) {
                         return;
                     }
+
                     ContentService.index({
                             site_id: $scope.siteId,
                             //locale: $scope.locale,
@@ -207,8 +191,13 @@ angular.module('OpiferContent', ['angular-inview', 'ui.tree', 'ngCookies'])
                         $scope.clearSearch();
                     }
                 }, 300));
-                $scope.fetchContents();
 
+                // Only fetch the content once while opening the browser
+                $scope.$watch('active', function() {
+                    if ($scope.active == true && $scope.contents.length == 0) {
+                        $scope.fetchContents();
+                    }
+                });
 
                 $scope.expand = function (content) {
                     var idx = $scope.expandMap.indexOf(content.id);
