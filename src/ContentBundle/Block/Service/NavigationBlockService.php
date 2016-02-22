@@ -7,6 +7,8 @@ use Doctrine\ORM\EntityManager;
 use Opifer\ContentBundle\Block\Tool\ContentTool;
 use Opifer\ContentBundle\Block\Tool\ToolsetMemberInterface;
 use Opifer\ContentBundle\Entity\NavigationBlock;
+use Opifer\ContentBundle\Form\Type\ContentListPickerType;
+use Opifer\ContentBundle\Form\Type\ContentPickerType;
 use Opifer\ContentBundle\Form\Type\ContentTreePickerType;
 use Opifer\ContentBundle\Model\BlockInterface;
 use Opifer\ContentBundle\Model\ContentManagerInterface;
@@ -49,7 +51,7 @@ class NavigationBlockService extends AbstractBlockService implements BlockServic
         parent::buildManageForm($builder, $options);
 
         $showContentPicker = false;
-        if ($options['data'] && $options['data']->getValue() == 'custom') {
+        if ($options['data'] && $options['data']->getValue() == NavigationBlock::CHOICE_CUSTOM) {
             $showContentPicker = true;
         }
 
@@ -57,7 +59,7 @@ class NavigationBlockService extends AbstractBlockService implements BlockServic
         $builder->add(
             $builder->create('default', FormType::class, ['virtual' => true])
                 ->add('value', ChoiceType::class, [
-                    'label' => 'type',
+                    'label' => 'label.navigation_block_value',
                     'choices' => [
                         'Top level pages' => NavigationBlock::CHOICE_TOP_LEVEL,
                         'Custom selection' => NavigationBlock::CHOICE_CUSTOM
@@ -67,23 +69,34 @@ class NavigationBlockService extends AbstractBlockService implements BlockServic
                 ])
                 ->add(
                     $builder->create('properties', FormType::class)
-                        ->add('tree', ContentTreePickerType::class, [
-                            'label' => 'custom selection',
-                            'mapped' => false,
+                        ->add('content', ContentListPickerType::class, [
+                            'label' => 'label.custom',
                             'attr' => [
-                                'formgroup' => [
+                                'form-group' => [
                                     'styles' => ($showContentPicker === false) ? 'display:none;' : ''
                                 ]
-                            ]
+                            ],
+                            'multiple' => true
                         ])
+                        //->add('tree', ContentTreePickerType::class, [
+                        //    'label' => 'label.custom',
+                        //    'attr' => [
+                        //        'form-group' => [
+                        //            'styles' => ($showContentPicker === false) ? 'display:none;' : ''
+                        //        ]
+                        //    ]
+                        //])
                         ->add('levels', IntegerType::class, [
-                            'empty_data' => 1
+                            'label' => 'label.levels',
+                            'empty_data' => 1,
+                            'attr' => ['help_text' => 'help.levels'],
                         ])
                         ->add('template', ChoiceType::class, [
-                            'choices' => [
-                                'Default' => 'default'
-                            ],
-                            'choices_as_values' => true,
+                            'label' => 'label.template',
+                            'placeholder' => 'placeholder.choice_optional',
+                            'attr' => ['help_text' => 'help.block_template'],
+                            'choices' => $this->config['templates'],
+                            'required' => false,
                         ])
                 )
         );
@@ -94,11 +107,16 @@ class NavigationBlockService extends AbstractBlockService implements BlockServic
      */
     public function load(BlockInterface $block)
     {
+        $levels = (isset($block->getProperties()['levels'])) ? $block->getProperties()['levels'] : 1;
+
         /** @var NavigationBlock $block */
-        if ($block->getValue() == NavigationBlock::CHOICE_CUSTOM && isset($block->getProperties()['tree'])) {
-            $block->setTree($this->getTree($block->getProperties()['tree']));
+        if ($block->getValue() == NavigationBlock::CHOICE_CUSTOM && isset($block->getProperties()['content'])) {
+            $ids = json_decode($block->getProperties()['content'], true);
+
+            $collection = $this->contentManager->getRepository()->findByLevels($levels, $ids);
+
+            $block->setTree($collection);
         } elseif ($block->getValue() == NavigationBlock::CHOICE_TOP_LEVEL) {
-            $levels = (isset($block->getProperties()['levels'])) ? $block->getProperties()['levels'] : 1;
             $collection = $this->contentManager->getRepository()->findByLevels($levels);
 
             $block->setTree($collection);
@@ -109,7 +127,7 @@ class NavigationBlockService extends AbstractBlockService implements BlockServic
      * @param  string $json
      * @return array
      */
-    public function getTree($json)
+    public function getCustomTree($json)
     {
         $simpleTree = json_decode($json, true);
         if (!$simpleTree) {
@@ -134,12 +152,12 @@ class NavigationBlockService extends AbstractBlockService implements BlockServic
      * @param array $ids
      * @return array
      */
-    protected function gatherIds(array $array, array $ids = array())
+    protected function gatherIdsFromTree(array $array, array $ids = array())
     {
         foreach ($array as $item) {
             $ids[] = $item['id'];
             if (isset($item['__children']) && count($item['__children'])) {
-                $ids = $this->gatherIds($item['__children'], $ids);
+                $ids = $this->gatherIdsFromTree($item['__children'], $ids);
             }
         }
 
@@ -168,7 +186,7 @@ class NavigationBlockService extends AbstractBlockService implements BlockServic
      * @param array $tree
      * @return array
      */
-    protected function buildTree(array $simpleTree, $tree = [])
+    protected function buildCustomTree(array $simpleTree, $tree = [])
     {
         foreach ($simpleTree as $item) {
             if (!isset($this->collection[$item['id']])) {
@@ -180,7 +198,7 @@ class NavigationBlockService extends AbstractBlockService implements BlockServic
             unset($this->collection[$item['id']]); // TODO Fix multi-usage of single item
 
             if (isset($item['__children']) && count($item['__children'])) {
-                $content['__children'] = $this->buildTree($item['__children']);
+                $content['__children'] = $this->buildCustomTree($item['__children']);
             } else {
                 $content['__children'] = [];
             }

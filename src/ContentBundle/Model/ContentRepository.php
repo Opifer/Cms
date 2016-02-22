@@ -241,26 +241,29 @@ class ContentRepository extends NestedTreeRepository
      * @param  int $levels
      * @return array
      */
-    public function findByLevels($levels = 1)
+    public function findByLevels($levels = 1, $ids = array())
     {
-        $qb = $this->createQueryBuilder('c');
+        $query = $this->createQueryBuilder('c');
 
-        if ($levels <= 1) {
-            $query = $qb->where('c.parent IS NULL');
-        } else {
+        if ($levels > 1) {
             $levels = $levels - 1;
             $selects = ['c'];
             for ($i = 1; $i <= $levels; $i++) {
                 $selects[] = 'c'.$i;
             }
 
-            $query = $qb->select($selects);
-            $query->where('c.parent IS NULL');
+            $query->select($selects);
 
             for ($i = 1; $i <= $levels; $i++) {
                 $previous = ($i-1 == 0) ? '' : ($i-1);
                 $query->leftJoin('c'.$previous.'.children', 'c'.$i);
             }
+        }
+
+        if ($ids) {
+            $query->andWhere('c.id IN (:ids)')->setParameter('ids', $ids);
+        } else {
+            $query->andWhere('c.parent IS NULL');
         }
 
         $query->andWhere('c.showInNavigation = :show')->setParameter('show', true);

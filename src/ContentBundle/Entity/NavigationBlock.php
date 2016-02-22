@@ -24,7 +24,9 @@ class NavigationBlock extends Block
     protected $value;
 
     /** @var array */
-    protected $tree;
+    protected $tree = [];
+
+    protected $properties = ['levels' => 1];
 
     /**
      * @return string
