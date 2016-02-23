@@ -14,7 +14,7 @@ use Opifer\ContentBundle\Model\BlockInterface;
  *
  * @package Opifer\ContentBundle\Entity
  */
-class DocumentBlock extends CompositeBlock implements BlockContainerInterface, BlockOwnerInterface
+class DocumentBlock extends CompositeBlock implements BlockContainerInterface, BlockOwnerInterface, BlockInterface
 {
     /**
      * {@inheritDoc}
@@ -26,6 +26,6 @@ class DocumentBlock extends CompositeBlock implements BlockContainerInterface, B
 
     public function getRootVersion()
     {
-        return $this->version;
+        return ($this->version) ? $this->version : 0;
     }
 }
