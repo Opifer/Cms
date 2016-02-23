@@ -24,4 +24,8 @@ class DocumentBlock extends CompositeBlock implements BlockContainerInterface, B
         return 'document';
     }
 
+    public function getRootVersion()
+    {
+        return $this->version;
+    }
 }
