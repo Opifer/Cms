@@ -223,6 +223,15 @@ class Configuration implements ConfigurationInterface
                             ->addDefaultsIfNotSet()
                             ->children()
                                 ->scalarNode('view')->defaultValue('OpiferContentBundle:Block:Content/navigation.html.twig')->end()
+                                ->arrayNode('templates')
+                                    ->prototype('scalar')->end()
+                                    ->normalizeKeys(false)
+                                    ->useAttributeAsKey('name')
+                                    ->defaultValue([
+                                        'navbar' => 'Navigation bar',
+                                        'sitemap' => 'Sitemap',
+                                    ])
+                                ->end()
                             ->end()
                         ->end()
                         ->arrayNode('pointer')

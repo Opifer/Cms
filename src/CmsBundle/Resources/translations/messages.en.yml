@@ -29,11 +29,6 @@ content:
             advanced: advanced
         success: "%title% was saved successfully!"
     form:
-        alias:
-            help_text: Enter a shortened url as alias for this page (optional)
-        description:
-            placeholder: Description for your page
-            help_text: Describe your page in a few important keywords
         directory:
             help_text: Directory this page will be stored in
         indexable:
@@ -48,15 +43,9 @@ content:
             label: Searchable
         site:
             help_text: Choose the site you want to create the content in
-        slug:
-            placeholder: Unique permalink slug for this page
         submit: Save
         schema:
             help_text: 'Define the type of content. If you want to add a new schema, <a href="%url%">create it here</a>'
-        template:
-            help_text: 'Choose a template as your starting point to create content with'
-        title:
-            placeholder: Enter a title for your page
     new:
         title: Create new content
     history:
@@ -175,7 +164,6 @@ user:
 form:
     current_password: Current password
     name: Name
-    description: Description
     email: Email
     new_password: New password
     new_password_confirmation: Verify new password
@@ -183,15 +171,7 @@ form:
     password: Password
     password_confirmation: Verify password
     permalink: permalink
-    presentation: presentation
-    slug:
-        label: "URL-friendly name"
-        help_text: "Use only letters and numbers, no spaces allowed a-z0-9_-"
-    title: Title
     username: username
-    post_notify:
-        placeholder: "Enter recipients email address"
-        help_text: ""
 
     back_to_form: back to form
     back_to_posts: back to posts

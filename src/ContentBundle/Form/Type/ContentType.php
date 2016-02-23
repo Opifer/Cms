@@ -34,46 +34,38 @@ class ContentType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $transformer = new SlugTransformer();
-
         // Add the default form fields
         $builder
             ->add('template', EntityType::class, [
                 'class'    => 'OpiferContentBundle:Template',
                 'property' => 'displayName',
                 'attr'     => [
-                    'help_text' => 'content.form.template.help_text'
+                    'help_text' => 'help.template'
                 ],
-//                'query_builder' => function(EntityRepository $repository) {
-//                    return $repository->createQueryBuilder('c')
-//                        ->where('c.objectClass = :objectClass')
-//                        ->setParameter('objectClass', $this->contentClass)
-//                        ->orderBy('c.displayName', 'ASC');
-//                }
             ])
             ->add('title', TextType::class, [
-                'label' => 'form.title',
+                'label' => 'label.title',
                 'attr'  => [
-                    'placeholder' => 'content.form.title.placeholder',
-                    'help_text'   => 'content.form.title.help_text',
+                    'placeholder' => 'placeholder.content_title',
+                    'help_text'   => 'help.content_title',
                 ]
             ])
             ->add('description', TextType::class, [
-                'label' => 'form.description',
+                'label' => 'label.description',
                 'attr'  => [
-                    'placeholder' => 'content.form.description.placeholder',
-                    'help_text'   => 'content.form.description.help_text',
+                    'placeholder' => 'placeholder.content_description',
+                    'help_text'   => 'help.content_description',
                 ]
             ])
             ->add(
                 $builder->create(
                     'slug', TextType::class, [
                         'attr' => [
-                            'placeholder' => 'content.form.slug.placeholder',
-                            'help_text'   => 'form.slug.help_text',
-
-                        ]]
-                )->addViewTransformer($transformer)
+                            'placeholder' => 'placeholder.slug',
+                            'help_text'   => 'help.slug',
+                        ]
+                    ]
+                )->addViewTransformer(new SlugTransformer())
             )
             ->add('parent', ContentParentType::class, [
                 'class' => $this->contentClass,
@@ -82,11 +74,20 @@ class ContentType extends AbstractType
             ])
             ->add('alias', TextType::class, [
                 'attr'        => [
-                    'help_text' => 'content.form.alias.help_text',
+                    'help_text' => 'help.alias',
                 ]
             ])
             ->add('active', CheckboxType::class, [
-                'attr' => ['align_with_widget' => true],
+                'attr' => [
+                    'align_with_widget' => true,
+                    'help_text' => 'help.active'
+                ],
+            ])
+            ->add('showInNavigation', CheckboxType::class, [
+                'attr' => [
+                    'align_with_widget' => true,
+                    'help_text' => 'help.show_in_navigation'
+                ],
             ])
         ;
 

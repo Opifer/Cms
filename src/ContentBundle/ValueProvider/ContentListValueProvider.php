@@ -38,11 +38,7 @@ class ContentListValueProvider extends AbstractValueProvider implements ValuePro
     {
         $builder->add('sort', HiddenType::class);
         $builder->add('content', ContentListPickerType::class, [
-            'label'    => $options['attribute']->getDisplayName(),
-            'multiple' => true,
-            'property' => 'title',
-            'class'    => $this->contentClass,
-            'data'     => $options['value']->getOrdered()
+            'label' => $options['attribute']->getDisplayName()
         ]);
     }
 

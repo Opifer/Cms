@@ -12,16 +12,14 @@ class LoadORMMetadataSubscriber implements EventSubscriber
     /**
      * @var array
      */
-    protected $classes;
+    private $entities;
 
     /**
-     * Constructor
-     *
-     * @param array $classes
+     * @param array $entities
      */
-    public function __construct($classes)
+    public function __construct(array $entities)
     {
-        $this->classes = $classes;
+        $this->entities = $entities;
     }
 
     /**
@@ -29,9 +27,9 @@ class LoadORMMetadataSubscriber implements EventSubscriber
      */
     public function getSubscribedEvents()
     {
-        return array(
+        return [
             'loadClassMetadata',
-        );
+        ];
     }
 
     /**
@@ -41,60 +39,55 @@ class LoadORMMetadataSubscriber implements EventSubscriber
     {
         /** @var ClassMetadata $metadata */
         $metadata = $eventArgs->getClassMetadata();
-//        if ($metadata->name == 'AppBundle\Entity\User') {
-            $this->process($metadata, $eventArgs->getEntityManager()->getConfiguration());
-//        }
-//
-//        if (!$metadata->isMappedSuperclass) {
-//            $this->setAssociationMappings($metadata, $eventArgs->getEntityManager()->getConfiguration());
-//        } else {
-//            $this->unsetAssociationMappings($metadata);
-//        }
-    }
 
-    private function process(ClassMetadataInfo $metadata, $configuration)
-    {
-        foreach($this->classes as $entity) {
-            if (isset($entity['model']) && $entity['model'] === $metadata->getName()) {
-                 $metadata->isMappedSuperclass = false;
-//                $this->mergeFieldMappings($metadata, $configuration);
-                if (isset($entity['repository'])) {
-                    $metadata->setCustomRepositoryClass($entity['repository']);
-                }
-            }
+        // Avoid unrelated entities
+        if (!in_array($metadata->getName(), $this->getSimpleModelArray()) &&
+            strpos($metadata->getName(), 'Opifer\CmsBundle\Entity') === false) {
+            return;
+        }
+
+        $this->convertToEntityIfNeeded($metadata);
+
+        if (!$metadata->isMappedSuperclass) {
+            $this->setAssociationMappings($metadata, $eventArgs->getEntityManager()->getConfiguration());
+        } else {
+            $this->unsetAssociationMappings($metadata);
         }
     }
 
-    private function mergeFieldMappings(ClassMetadataInfo $metadata, $configuration)
+    /**
+     * @param ClassMetadataInfo $metadata
+     */
+    private function convertToEntityIfNeeded(ClassMetadataInfo $metadata)
     {
-        foreach (class_parents($metadata->getName()) as $parent) {
-            $parentMetadata = new ClassMetadata(
-                $parent,
-                $configuration->getNamingStrategy()
-            );
-            if (in_array($parent, $configuration->getMetadataDriverImpl()->getAllClassNames())) {
-                $configuration->getMetadataDriverImpl()->loadMetadataForClass($parent, $parentMetadata);
-                if ($parentMetadata->isMappedSuperclass) {
-                    foreach ($parentMetadata->fieldMappings as $key => $value) {
-                        if (!isset($metadata->fieldMappings[$key])) {
-                            $metadata->fieldMappings[$key] = $value;
-                        }
-                    }
-                    foreach ($parentMetadata->getFieldNames() as $key => $value) {
-                        if (!isset($metadata->fieldNames[$key])) {
-                            $metadata->fieldNames[$key] = $value;
-                        }
-                    }
-                    foreach ($parentMetadata->getColumnNames() as $key => $value) {
-                        if (!isset($metadata->columnNames[$key])) {
-                            $metadata->columnNames[$key] = $value;
-                        }
-                    }
-                }
+        foreach ($this->entities as $alias => $resourceMetadata) {
+            if ($metadata->getName() !== $resourceMetadata['model']) {
+                continue;
             }
+
+            //if ($resourceMetadata->hasClass('repository')) {
+            //    $metadata->setCustomRepositoryClass($resourceMetadata->getClass('repository'));
+            //}
+
+            $metadata->isMappedSuperclass = false;
         }
     }
 
+    public function getSimpleModelArray()
+    {
+        $models = [];
+
+        foreach ($this->entities as $resourceMetadata) {
+            $models[] = $resourceMetadata['model'];
+        }
+
+        return $models;
+    }
+
+    /**
+     * @param ClassMetadataInfo $metadata
+     * @param $configuration
+     */
     private function setAssociationMappings(ClassMetadataInfo $metadata, $configuration)
     {
         foreach (class_parents($metadata->getName()) as $parent) {
@@ -102,6 +95,7 @@ class LoadORMMetadataSubscriber implements EventSubscriber
                 $parent,
                 $configuration->getNamingStrategy()
             );
+
             if (in_array($parent, $configuration->getMetadataDriverImpl()->getAllClassNames())) {
                 $configuration->getMetadataDriverImpl()->loadMetadataForClass($parent, $parentMetadata);
                 if ($parentMetadata->isMappedSuperclass) {
@@ -114,6 +108,10 @@ class LoadORMMetadataSubscriber implements EventSubscriber
             }
         }
     }
+
+    /**
+     * @param ClassMetadataInfo $metadata
+     */
     private function unsetAssociationMappings(ClassMetadataInfo $metadata)
     {
         foreach ($metadata->getAssociationMappings() as $key => $value) {
@@ -122,15 +120,20 @@ class LoadORMMetadataSubscriber implements EventSubscriber
             }
         }
     }
+    /**
+     * @param $type
+     *
+     * @return bool
+     */
     private function hasRelation($type)
     {
         return in_array(
             $type,
-            array(
+            [
                 ClassMetadataInfo::MANY_TO_MANY,
                 ClassMetadataInfo::ONE_TO_MANY,
                 ClassMetadataInfo::ONE_TO_ONE,
-            ),
+            ],
             true
         );
     }

@@ -1,9 +1,3 @@
-opifer_content_formtype_angular:
-    path: /formtype/angular
-    defaults: { _controller: OpiferContentBundle:Backend/FormType:angular }
-    options:
-        expose: true
-
 opifer_content_template_index:
     path: /template
     defaults: { _controller: OpiferContentBundle:Backend/Template:index }

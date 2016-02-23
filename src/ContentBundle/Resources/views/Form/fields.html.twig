@@ -34,23 +34,12 @@
 #}
 {% block content_list_picker_widget %}
     {% spaceless %}
-        {% set array = [] %}
-        {% for item in form.vars.value %}
-            {% if item.id|default %}
-                {% set array = array|merge([item.id]) %}
-            {% else %}
-                {% set array = array|merge([item]) %}
-            {% endif %}
-        {% endfor %}
-
-        {% set content = array|json_encode() %}
-
-        <div class="content-picker content-picker-list" ng-controller="ContentPickerController" ng-cloak ng-init="init('{{ content }}', '{{ full_name }}', true)">
+        <div class="content-picker content-picker-list" ng-controller="ContentPickerController" ng-cloak ng-init="init('{{ form.vars.value }}', '{{ full_name }}', true)">
             {% verbatim %}
-            <!--<input type="hidden" name="{{ formname }}[sort]" value="{{ order }}"/>-->
+            <input type="hidden" name="{{ formname }}" value="{{ selecteditems }}"/>
             <div class="wrapper" ui-sortable="sortableOptions" ng-model="selecteditems">
                 <div class="content-picked-item" ng-repeat="item in selecteditems" style="display:block;">
-                    <input type="hidden" id="" name="{{ formname }}" value="{{ item.id }}">
+                    <!--<input type="hidden" id="" name="{{ formname }}" value="{{ item.id }}">-->
                     <div style="background-image: url({{ item.coverImage }});" class="content-cover"></div>
                     <div class="content-picked-details">
                         <span class="content-title">{{ item.title }}</span>
@@ -72,7 +61,48 @@
     {% endspaceless %}
 {% endblock %}
 
+{% block content_list_picker_row %}
+    {% spaceless %}
+        {% set style = style|default(bootstrap_get_style()) %}
+        {% set col_size = col_size|default(bootstrap_get_col_size()) %}
+
+        {% if attr.label_col is defined and attr.label_col is not empty %}
+            {% set label_col = attr.label_col %}
+        {% endif %}
+        {% if attr.widget_col is defined and attr.widget_col is not empty %}
+            {% set widget_col = attr.widget_col %}
+            {% if label is sameas(false) and label_col is defined %}
+                {% set widget_col = widget_col + label_col %}
+            {% endif %}
+        {% endif %}
+        {% if attr.col_size is defined and attr.col_size is not empty %}
+            {% set col_size = attr.col_size %}
+        {% endif %}
+        {% if attr.style is defined and attr.style is not empty %}
+            {% set style = attr.style %}
+        {% endif %}
+
+        {% set label_col = label_col|default(bootstrap_get_label_col()) %}
+        {% set widget_col = widget_col|default(bootstrap_get_widget_col()) %}
+
+        <div class="form-group{% if form.vars.errors|length > 0 %} has-error{% endif %}{% if attr.form_group.class is defined %} {{ attr.form_group.class }}{% endif %}" {% if attr.form_group.styles is defined %}style="{{ attr.form_group.styles }}"{% endif %}>
+            {% if style == 'horizontal' %}
+                {{ form_label(form) }}
+                <div class="col-{{ col_size }}-{{ widget_col }}">
+                    {{ block('form_help') }}
+                    {{ form_errors(form) }}
+                </div>
+            {% else %}
+                {{ form_label(form) }}
+                {{ block('form_help') }}
+                {{ form_errors(form) }}
+            {% endif %}
+        </div>
+    {% endspaceless %}
+{% endblock content_list_picker_row %}
+
 {% block content_tree_picker_widget %}
+
     {% set content = form.vars.value %}
     <div class="content-picker content-picker-list" ng-controller="ContentPickerController" ng-cloak ng-init="init('{{ content }}', '{{ full_name }}', true)">
         {% verbatim %}

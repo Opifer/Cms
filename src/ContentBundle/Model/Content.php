@@ -195,6 +195,13 @@ class Content implements ContentInterface, EntityInterface
     protected $block;
 
     /**
+     * @var bool
+     *
+     * @ORM\Column(name="show_in_navigation", type="boolean")
+     */
+    protected $showInNavigation = true;
+
+    /**
      * @var SchemaInterface
      */
     public $schema;
@@ -524,6 +531,26 @@ class Content implements ContentInterface, EntityInterface
     public function getChildren()
     {
         return $this->children;
+    }
+
+    /**
+     * @return boolean
+     */
+    public function isShowInNavigation()
+    {
+        return $this->showInNavigation;
+    }
+
+    /**
+     * @param  boolean $showInNavigation
+     *
+     * @return Content
+     */
+    public function setShowInNavigation($showInNavigation)
+    {
+        $this->showInNavigation = $showInNavigation;
+
+        return $this;
     }
 
     /**

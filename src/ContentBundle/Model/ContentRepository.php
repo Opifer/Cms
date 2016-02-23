@@ -44,13 +44,8 @@ class ContentRepository extends NestedTreeRepository
 
         if ($request->get('q')) {
             $qb->leftJoin('c.template', 't');
-            $qb->andWhere('c.title LIKE :query OR c.alias LIKE :query OR c.slug LIKE :query OR t.displayName LIKE :query')->setParameter('query', '%' . $request->get('q') . '%');
-        } else {
-            //if ($request->get('directory_id')) {
-            //    $qb->andWhere('c.directory = :directory')->setParameter('directory', $request->get('directory_id'));
-            //} else {
-            //    $qb->andWhere('c.directory is NULL');
-            //}
+            $qb->andWhere('c.title LIKE :query OR c.alias LIKE :query OR c.slug LIKE :query OR t.displayName LIKE :query');
+            $qb->setParameter('query', '%' . $request->get('q') . '%');
         }
 
         if ($ids = $request->get('ids')) {
@@ -233,5 +228,41 @@ class ContentRepository extends NestedTreeRepository
         }
 
         return $ordered;
+    }
+
+    /**
+     * Joins and selects the toplevel content items and its children recursively.
+     *
+     * @param  int $levels
+     * @return array
+     */
+    public function findByLevels($levels = 1, $ids = array())
+    {
+        $query = $this->createQueryBuilder('c');
+
+        if ($levels > 1) {
+            $levels = $levels - 1;
+            $selects = ['c'];
+            for ($i = 1; $i <= $levels; $i++) {
+                $selects[] = 'c'.$i;
+            }
+
+            $query->select($selects);
+
+            for ($i = 1; $i <= $levels; $i++) {
+                $previous = ($i-1 == 0) ? '' : ($i-1);
+                $query->leftJoin('c'.$previous.'.children', 'c'.$i);
+            }
+        }
+
+        if ($ids) {
+            $query->andWhere('c.id IN (:ids)')->setParameter('ids', $ids);
+        } else {
+            $query->andWhere('c.parent IS NULL');
+        }
+
+        $query->andWhere('c.showInNavigation = :show')->setParameter('show', true);
+
+        return $query->getQuery()->getArrayResult();
     }
 }

@@ -12,6 +12,9 @@ use Gedmo\Mapping\Annotation as Gedmo;
  */
 class NavigationBlock extends Block
 {
+    const CHOICE_TOP_LEVEL = 'top_level';
+    const CHOICE_CUSTOM = 'custom';
+
     /**
      * @var string
      *
@@ -21,7 +24,9 @@ class NavigationBlock extends Block
     protected $value;
 
     /** @var array */
-    protected $tree;
+    protected $tree = [];
+
+    protected $properties = ['levels' => 1];
 
     /**
      * @return string
