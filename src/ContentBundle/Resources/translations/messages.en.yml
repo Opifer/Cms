@@ -1,7 +1,29 @@
-title:
-    content: Content
-    block_shared: Shared blocks
+button:
+    submit: Save
+    add: Add new
+    all: Show all
+    cancel: Cancel
+    delete: Delete
+    edit: Edit
+    publish: Publish
+    block_share: Share block
 
+help:
+    active: Status of publication of the content item where inactive means the content is not public accessible
+    alias: Enter a shortened url as alias for this page (optional)
+    block_template: Pick a template to change how this block is displayed
+    column_spans: Width of columns at a maximum of 16 units
+    column_gutters: Width of spacing between columns (px)
+    container_sizing: Strategy to determine width at different viewports
+    content_description: Describe your page in a few important keywords
+    content_title: The title of the page is displayed in the browser tab and in searchengines
+    extra_classes: Apply custom CSS classes to the block
+    html_id: 'Set an html #id to the block'
+    html_styles: Apply extra (css) styles to this block
+    levels: The amount of layers deep the data has to be fetched. `1` for only top-level content.
+    show_in_navigation: Allow this page in navigation
+    slug: Use only letters and numbers, no spaces allowed a-z0-9_-
+    template: Choose a template as your starting point to create content with
 
 label:
     block: Block
@@ -16,6 +38,7 @@ label:
     container_smooth: Fluid width (stretched)
     container_fixed: Fixed width (fixed)
     custom: Custom
+    description: Description
     footer: Footer
     gutter.xs: Gutter xs
     gutter.sm: Gutter sm
@@ -31,45 +54,29 @@ label:
     spans: Column width
     title: Title
 
-warning:
-    block_shared_edit: 'This is a shared block. <br /><span class="small">Shared blocks need publishing individually.</span>'
-
 placeholder:
     choice_optional: Choose (optional)
+    content_description: Description for your page
+    content_title: Enter a title for your page
+    slug: Unique permalink slug for this page
 
-help:
-    html_id: 'Set an html #id to the block'
-    html_styles: Apply extra (css) styles to this block
-    block_template: Pick a template to change how this block is displayed
-    container_sizing: Strategy to determine width at different viewports
-    extra_classes: Apply custom CSS classes to the block
-    column_spans: Width of columns at a maximum of 16 units
-    column_gutters: Width of spacing between columns (px)
-    levels: The amount of layers deep the data has to be fetched. `1` for only top-level content.
+title:
+    content: Content
+    block_shared: Shared blocks
+
+warning:
+    block_shared_edit: 'This is a shared block. <br /><span class="small">Shared blocks need publishing individually.</span>'
 
 # Content
 content:
     form:
-        description:
-            placeholder: Description for your page
-        active:
-            description:  Publish
-            label:  Active
-            help_text: Status of publication of the content item where inactive means the content is not public accessible
-        directory:
-            help_text: Directory this page will be stored in
         init:
             submit: continue
         locale:
             help_text: ""
-        slug:
-            placeholder: Unique permalink slug for this page
         submit: Save
         schema:
             help_text: 'Define the type of content you want to create'
-        title:
-            placeholder: Enter a title for your page
-            help_text: The title of the page is displayed in the browser tab and in searchengines
     new:
         title: Create new content
         nav: Create new
@@ -116,14 +123,3 @@ template:
         view:
             placeholder: 'Services/default.html.twig'
             help_text: 'Location of Twig template view file relative to app/Resources/views/ path'
-
-# Buttons
-button:
-    submit: Save
-    add: Add new
-    all: Show all
-    cancel: Cancel
-    delete: Delete
-    edit: Edit
-    publish: Publish
-    block_share: Share block

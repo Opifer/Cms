@@ -1,33 +1,28 @@
-
 <div class="container-fluid">
     <a href="#close" class="btn btn-link" id="btn-cancel"><i class="material-icons">close</i></a>
     <div class="row">
         <div class="col-xs-12 text-center">
-            <h3>{{ "heading.properties"|trans }}</h3>
+            <h3>{{ "title.content"|trans }}</h3>
         </div>
     </div>
 
-    <div class="row row-space-2">
-        <div class="col-xs-8 col-xs-offset-2">
-            <div class="btn-group btn-group-sm btn-group-justified">
-                <a class="btn btn-default active" href="#block-general" data-toggle="tab">{{ "label.general"|trans }}</a>
-            </div>
-        </div>
-    </div>
+    {#<div class="row row-space-2">#}
+        {#<div class="col-xs-8 col-xs-offset-2">#}
+            {#<div class="btn-group btn-group-sm btn-group-justified">#}
+                {#<a class="btn btn-default active" href="#block-general" data-toggle="tab">{{ "label.general"|trans }}</a>#}
+            {#</div>#}
+        {#</div>#}
+    {#</div>#}
     <div class="row">
         <div class="col-xs-12 clearfix">
-
             {{ form_start(form, {'action': path('opifer_content_content_details', {'id': content.id}), 'label_col': 3, 'widget_col': 9, 'attr' : {'novalidate': 'novalidate', 'class': 'prevent-enter-submit'}, 'style': 'horizontal'}) }}
-            {#{% set form_save_btn = form_widget(form.save) %}#}
+                {{ form_rest(form, {'label_col': 12, 'widget_col': 12}) }}
 
-
-            {{ form_rest(form, {'label_col': 12, 'widget_col': 12}) }}
-
-            <div class="form-group">
-                <div class="col-xs-12">
-                    <button type="submit" class="btn btn-primary">{{ 'button.submit'|trans }}</button>
+                <div class="form-group">
+                    <div class="col-xs-12">
+                        <button type="submit" class="btn btn-primary">{{ 'button.submit'|trans }}</button>
+                    </div>
                 </div>
-            </div>
             {{ form_end(form) }}
         </div>
     </div>
