@@ -31,9 +31,8 @@ angular.module('OpiferContent', ['angular-inview', 'ui.tree', 'ngCookies'])
 
             if ($scope.multiple) {
                 // When items have been passed to the init function, retrieve the related data.
-                if (angular.isDefined(content)) {
+                if (angular.isDefined(content) && content != '') {
                     content = JSON.parse(content);
-                    console.log('parsed', content);
                     if (content.length && typeof content[0] === 'object') {
                         angular.forEach(content, function (c, index) {
                             $scope.selecteditems.push(content[index]);
