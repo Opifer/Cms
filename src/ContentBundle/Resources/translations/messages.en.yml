@@ -22,7 +22,7 @@ help:
     html_id: 'Set an html #id to the block'
     html_styles: Apply extra (css) styles to this block
     levels: The amount of layers deep the data has to be fetched. `1` for only top-level content.
-    show_in_navigation: Allow this page in navigation
+    show_in_navigation: If checked this page will be visible in navigation blocks if the selected options and level allows
     slug: Use only letters and numbers, no spaces allowed a-z0-9_-
     template: Choose a template as your starting point to create content with
 
