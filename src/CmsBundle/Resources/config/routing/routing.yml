@@ -29,8 +29,6 @@ opifer_cms_exception_404:
 opifer_form:
     resource: "@OpiferFormBundle/Resources/config/routing.yml"
 
-# API routes
-
 opifer_cms_home:
     pattern:  /
     defaults: { _controller: OpiferCmsBundle:Frontend\Content:home }
