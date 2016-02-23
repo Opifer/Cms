@@ -72,7 +72,7 @@ class NavigationBlockService extends AbstractBlockService implements BlockServic
                         ->add('content', ContentListPickerType::class, [
                             'label' => 'label.custom',
                             'attr' => [
-                                'form-group' => [
+                                'form_group' => [
                                     'styles' => ($showContentPicker === false) ? 'display:none;' : ''
                                 ]
                             ]
