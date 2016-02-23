@@ -1,7 +1,5 @@
 <div ng-file-drop ng-file-change="onFileSelect($files)" ng-file-drag-over-class="file-drop-area-hover" ng-show="dropSupported" class="file-drop-area">
-    <div class="file-drop-area-overlay">
-        <h3>Drop files to upload</h3>
-    </div>
+    <div class="file-drop-area-overlay"></div>
     <div class="page-header clearfix">
         <h1>Media Manager</h1>
 
@@ -26,7 +24,7 @@
             </div>
         </div>
 
-        <div class="clearfix" ng-cloak>
+        <div class="image-section clearfix" ng-cloak>
             <div ng-repeat="item in mediaCollection.items" class="item {{ item.provider }} {{ item.file_type }}">
                 <img ng-src="{{ item.images.medialibrary }}" ng-if="item.provider == 'image'" class="visual" alt="{{ item.name }}">
                 <div class="image-wrapper">
@@ -45,6 +43,10 @@
         </div>
 
         <div class="panel-body text-center">
+            <div class="drag-drop">
+                <span class="fa fa-image"></span>
+                <h3>Drag and drop files to upload</h3>
+            </div>
             <div class="btn btn-primary" id="btnMediaPaginate" data-loading-text="Loading..."  in-view="mediaCollection.loadMore()" ng-click="mediaCollection.loadMore()" ng-if="(picker.pickerShown || !picker.name)" ng-hide="mediaCollection.end">
                 Load more
             </div>
