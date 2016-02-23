@@ -52,4 +52,20 @@ class ContentController extends Controller
 
         return $this->render($environment->getView(), $environment->getViewParameters());
     }
+
+    /**
+     * Render the home page.
+     *
+     * @return Response
+     */
+    public function homeAction()
+    {
+        /** @var BlockManager $manager */
+        $manager  = $this->get('opifer.content.content_manager');
+        $content = $manager->getRepository()->findOneBySlug('index');
+
+        return $this->forward('OpiferContentBundle:Frontend/Content:view', [
+            'content' => $content
+        ]);
+    }
 }
