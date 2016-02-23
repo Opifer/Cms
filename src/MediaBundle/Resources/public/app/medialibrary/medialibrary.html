@@ -1,7 +1,5 @@
 <div ng-file-drop ng-file-change="onFileSelect($files)" ng-file-drag-over-class="file-drop-area-hover" ng-show="dropSupported" class="file-drop-area">
-    <div class="file-drop-area-overlay">
-        <h3>Drop files to upload</h3>
-    </div>
+    <div class="file-drop-area-overlay"></div>
     <div class="container-fluid">
         <div class="row">
             <div class="col-xs-12">
@@ -31,7 +29,7 @@
                 </div>
             </div>
 
-            <div class="col-xs-12 clearfix" ng-cloak>
+            <div class="image-section col-xs-12 clearfix" ng-cloak>
                 <div ng-repeat="item in mediaCollection.items" class="item {{ item.provider }} {{ item.file_type }}">
                     <img ng-src="{{ item.images.medialibrary }}" ng-if="item.provider == 'image'" class="visual" alt="{{ item.name }}">
                     <div class="image-wrapper">
