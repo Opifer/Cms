@@ -68,10 +68,11 @@ class NavigationBlockService extends AbstractBlockService implements BlockServic
                     'attr' => ['class' => 'toggle-content-picker']
                 ])
                 ->add(
-                    $builder->create('properties', FormType::class)
+                    $builder->create('properties', FormType::class, ['label' => false, 'attr' => ['widget_col' => 12]])
                         ->add('content', ContentListPickerType::class, [
                             'label' => 'label.custom',
                             'attr' => [
+                                'widget_col' => 9,
                                 'form_group' => [
                                     'styles' => ($showContentPicker === false) ? 'display:none;' : ''
                                 ]
@@ -88,12 +89,15 @@ class NavigationBlockService extends AbstractBlockService implements BlockServic
                         ->add('levels', IntegerType::class, [
                             'label' => 'label.levels',
                             'empty_data' => 1,
-                            'attr' => ['help_text' => 'help.levels'],
+                            'attr' => [
+                                'help_text' => 'help.levels',
+                                'widget_col' => 9,
+                            ],
                         ])
                         ->add('template', ChoiceType::class, [
                             'label' => 'label.template',
                             'placeholder' => 'placeholder.choice_optional',
-                            'attr' => ['help_text' => 'help.block_template'],
+                            'attr' => ['help_text' => 'help.block_template', 'widget_col' => 9],
                             'choices' => $this->config['templates'],
                             'required' => false,
                         ])
