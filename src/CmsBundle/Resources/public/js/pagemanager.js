@@ -610,13 +610,13 @@ $(document).ready(function() {
                     if (reference.length) {
                         $(reference).replaceWith(data.view);
                     } else {
-                        var container = iFrame.contents().find('body *[data-pm-placeholder-id="' + parentId + '"]');
+                        var container = iFrame.contents().find('body *[data-pm-placeholder-id="' + parentId + '"][data-pm-placeholder-key="'+placeholder+'"]');
                         if (container.length) {
                             if (idx == 0) {
                                 container.prepend(data.view);
                             } else {
                                 var siblings = container.children();
-                                (idx >= siblings.length) ? siblings.eq(idx).before(data.view) : siblings.eq(idx - 1).after(data.view);
+                                (idx >= siblings.length) ? siblings.eq(idx - 1).after(data.view) : siblings.eq(idx).before(data.view);
                             }
                         }
                     }

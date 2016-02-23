@@ -41,7 +41,7 @@ class LoggableListener extends BaseLoggableListener
      */
     protected function prePersistLogEntry($logEntry, $object)
     {
-        if ($object instanceof BlockInterface && $object->getRootVersion()) {
+        if ($object instanceof BlockInterface && $object->getRootVersion() !== null) {
             $this->rootVersion = $object->getRootVersion();
         }
     }
