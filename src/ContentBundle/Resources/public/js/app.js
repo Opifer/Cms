@@ -39,6 +39,7 @@ function loadListTree() {
             $(this).parent('li').addClass('selected');
         } else {
             $('#' + inputId).val('');
+            $(this).parent('li').removeClass('selected');
         }
     });
 }
