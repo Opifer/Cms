@@ -713,9 +713,13 @@ class BlockManager
                 $superId = $block->getOwner()->getSuper()->getId();
                 // See if we need to position it below an inherited block
                 $pos = array_search($block->getId(), $levels[$block->getOwner()->getId()], false);
-                $prevBlockId = (isset($levels[$superId][$pos - 1])) ? $levels[$superId][$pos - 1] : null;
-                $prevBlockPos = array_search($prevBlockId, array_values($levels[$superId]));
-                $block->setSortParent(($prevBlockPos !== false) ? $prevBlockPos : -1);
+                $prevBlockId = (isset($levels[$superId]) && isset($levels[$superId][$pos - 1])) ? $levels[$superId][$pos - 1] : null;
+                if ($prevBlockId !== null) {
+                    $prevBlockPos = array_search($prevBlockId, array_values($levels[$superId]));
+                    $block->setSortParent(($prevBlockPos !== false) ? $prevBlockPos : -1);
+                } else {
+                    $block->setSortParent(-1);
+                }
             } else {
                 $block->setSortParent(-1);
             }

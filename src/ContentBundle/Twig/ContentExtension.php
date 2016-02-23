@@ -134,6 +134,7 @@ class ContentExtension extends \Twig_Extension
                     throw new \Exception('Tried to render placeholder in a block which is not a CompositeBlock');
                 }
             } else {
+                $container = $this->blockEnvironment->getMainBlock();
                 $blocks = $this->blockEnvironment->getRootBlocks();
             }
 
@@ -143,10 +144,10 @@ class ContentExtension extends \Twig_Extension
                     $content .= $this->renderBlock($block);
                 }
             }
-        }
 
-        if ($this->blockEnvironment && $this->blockEnvironment->getBlockMode() === 'manage') {
-            $content = $this->container->get('templating')->render('OpiferContentBundle:Block/Layout:placeholder.html.twig', ['content' => $content, 'key' => $key, 'manage_type' => 'placeholder']);
+            if ($this->blockEnvironment->getBlockMode() === 'manage') {
+                $content = $this->container->get('templating')->render('OpiferContentBundle:Block/Layout:placeholder.html.twig', ['content' => $content, 'key' => $key, 'id' => (isset($container)) ? $container->getId() : 0, 'manage_type' => 'placeholder']);
+            }
         }
 
         return $content;
@@ -166,7 +167,7 @@ class ContentExtension extends \Twig_Extension
 
             $tags .= sprintf(' data-pm-block-manage="true" data-pm-block-id="%d" data-pm-block-owner-id="%d" data-pm-block-type="%s"', $block->getId(), $block->getOwner()->getId(), $context['manage_type']);
         } else if ($context['manage_type'] == 'placeholder')  {
-            $tags .= sprintf(' data-pm-type="placeholder" data-pm-placeholder-key="%s"', $context['key']);
+            $tags .= sprintf(' data-pm-type="placeholder" data-pm-placeholder-key="%s" data-pm-placeholder-id="%s"', $context['key'], $context['id']);
         }
 
         if (isset($context['block_service'])) {

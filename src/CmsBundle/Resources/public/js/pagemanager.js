@@ -1,6 +1,190 @@
 var pagemanager;
 var CKEDITOR_BASEPATH = '/bundles/opifercms/components/ckeditor/';
 
+
+//
+// Override refreshPositions
+//
+$.widget( "ui.sortable", $.ui.sortable, {
+    refreshPositions: function (fast) {
+
+        this._super();
+
+        // Determine whether items are being displayed horizontally
+        this.floating = this.items.length ?
+        this.options.axis === "x" || this._isFloating(this.items[0].item) :
+            false;
+
+        //This has to be redone because due to the item being moved out/into the offsetParent, the offsetParent's position will change
+        if (this.offsetParent && this.helper) {
+            this.offset.parent = this._getParentOffset();
+        }
+
+        var i, item, t, p;
+
+        for (i = this.items.length - 1; i >= 0; i--) {
+            item = this.items[i];
+
+            //We ignore calculating positions of all connected containers when we're not over them
+            if (item.instance !== this.currentContainer && this.currentContainer && item.item[0] !== this.currentItem[0]) {
+                continue;
+            }
+
+            t = this.options.toleranceElement ? $(this.options.toleranceElement, item.item) : item.item;
+
+            if (!fast) {
+                item.width = t.outerWidth();
+                item.height = t.outerHeight();
+            }
+
+            p = t.offset();
+            // CHANGED
+            if (window.iFrameSortable) {
+                p.top -= $('#pm-iframe').contents().scrollTop();
+            }
+            // CHANGED (END)
+            item.left = p.left;
+            item.top = p.top; // Remove iFrame scroll position (only change)
+        }
+
+        if (this.options.custom && this.options.custom.refreshContainers) {
+            this.options.custom.refreshContainers.call(this);
+        } else {
+            for (i = this.containers.length - 1; i >= 0; i--) {
+                p = this.containers[i].element.offset();
+
+                // CHANGED
+                if (window.iFrameSortable) {
+                    p.top -= $('#pm-iframe').contents().scrollTop();
+                }
+                //console.log(p.top, $('#pm-iframe').contents().scrollTop());
+                // CHANGED (END)
+                this.containers[i].containerCache.left = p.left;
+                this.containers[i].containerCache.top = p.top;
+                this.containers[i].containerCache.width = this.containers[i].element.outerWidth();
+                this.containers[i].containerCache.height = this.containers[i].element.outerHeight();
+            }
+        }
+
+        return this;
+    },
+
+    _contactContainers: function (event) {
+        var i, j, dist, itemWithLeastDistance, posProperty, sizeProperty, cur, nearBottom, floating, axis,
+            innermostContainer = null,
+        // CHANGED
+            innermostZIndex = null,
+        // CHANGED (END)
+            innermostIndex = null;
+
+        // get innermost container that intersects with item
+        for (i = this.containers.length - 1; i >= 0; i--) {
+
+            // never consider a container that's located within the item itself
+            if ($.contains(this.currentItem[0], this.containers[i].element[0])) {
+                continue;
+            }
+
+            var zIndex = 0;
+            try {
+                zIndex = $(this.containers[i].element[0]).zIndex();
+            } catch (err) {
+                zIndex = 0;
+            }
+            //console.log(zIndex, this.containers[i].element[0]);
+
+            if (this._intersectsWith(this.containers[i].containerCache)) {
+                // if we've already found a container and it's more "inner" than this, then continue
+                // or if we've already found a container that has a z-index larger than this, then also continue
+                if (innermostContainer && ($.contains(this.containers[i].element[0], innermostContainer.element[0]) || zIndex < innermostZIndex)) {
+                    continue;
+                }
+
+                innermostContainer = this.containers[i];
+                // CHANGED
+                innermostZIndex = zIndex;
+                // CHANGED (END)
+                innermostIndex = i;
+
+            } else {
+                // container doesn't intersect. trigger "out" event if necessary
+                if (this.containers[i].containerCache.over) {
+                    this.containers[i]._trigger("out", event, this._uiHash(this));
+                    this.containers[i].containerCache.over = 0;
+                }
+            }
+
+        }
+
+        // if no intersecting containers found, return
+        if (!innermostContainer) {
+            return;
+        }
+
+        // move the item into the container if it's not there already
+        if (this.containers.length === 1) {
+            if (!this.containers[innermostIndex].containerCache.over) {
+                this.containers[innermostIndex]._trigger("over", event, this._uiHash(this));
+                this.containers[innermostIndex].containerCache.over = 1;
+            }
+        } else {
+
+            //When entering a new container, we will find the item with the least distance and append our item near it
+            dist = 10000;
+            itemWithLeastDistance = null;
+            floating = innermostContainer.floating || this._isFloating(this.currentItem);
+            posProperty = floating ? "left" : "top";
+            sizeProperty = floating ? "width" : "height";
+            axis = floating ? "clientX" : "clientY";
+
+            for (j = this.items.length - 1; j >= 0; j--) {
+                if (!$.contains(this.containers[innermostIndex].element[0], this.items[j].item[0])) {
+                    continue;
+                }
+                if (this.items[j].item[0] === this.currentItem[0]) {
+                    continue;
+                }
+
+                cur = this.items[j].item.offset()[posProperty];
+                nearBottom = false;
+                if (event[axis] - cur > this.items[j][sizeProperty] / 2) {
+                    nearBottom = true;
+                }
+
+                if (Math.abs(event[axis] - cur) < dist) {
+                    dist = Math.abs(event[axis] - cur);
+                    itemWithLeastDistance = this.items[j];
+                    this.direction = nearBottom ? "up" : "down";
+                }
+            }
+
+            //Check if dropOnEmpty is enabled
+            if (!itemWithLeastDistance && !this.options.dropOnEmpty) {
+                return;
+            }
+
+            if (this.currentContainer === this.containers[innermostIndex]) {
+                if (!this.currentContainer.containerCache.over) {
+                    this.containers[innermostIndex]._trigger("over", event, this._uiHash());
+                    this.currentContainer.containerCache.over = 1;
+                }
+                return;
+            }
+
+            itemWithLeastDistance ? this._rearrange(event, itemWithLeastDistance, null, true) : this._rearrange(event, null, this.containers[innermostIndex].element, true);
+            this._trigger("change", event, this._uiHash());
+            this.containers[innermostIndex]._trigger("change", event, this._uiHash(this));
+            this.currentContainer = this.containers[innermostIndex];
+
+            //Update the placeholder
+            this.options.placeholder.update(this.currentContainer, this.placeholder);
+
+            this.containers[innermostIndex]._trigger("over", event, this._uiHash(this));
+            this.containers[innermostIndex].containerCache.over = 1;
+        }
+    }
+});
+
 $(document).ready(function() {
     //
     // PageManager: general encapsulation, you know, to organise and stuff
@@ -185,10 +369,6 @@ $(document).ready(function() {
             };
         };
 
-        //var client = function () {
-        //    return document.getElementById('pm-iframe').contentWindow['pagemanagerClient'];
-        //};
-
         // Start loading indicator
         var isLoading = function () {
             mprogress.start();
@@ -301,6 +481,9 @@ $(document).ready(function() {
                 isLoadingEdit();
                 selectBlock(id);
 
+                $('.pm-toolset-body').animate({
+                    scrollTop: 0
+                }, 200);
                 $.get(Routing.generate('opifer_content_contenteditor_edit_block', {id: editId})).success(function (data) {
                     $('#pm-block-edit').html(data);
 
@@ -402,7 +585,7 @@ $(document).ready(function() {
                     getBlockElement(id).remove();
                     pagemanager.closeEditBlock(id);
                     updateVersionPicker();
-                    loadToC();
+                    loadToC(sortables);
                 }
             }).error(function(data){
                 showAPIError(data);
@@ -412,20 +595,36 @@ $(document).ready(function() {
         //
         // Call API to create a new block
         //
-        var createBlock = function (block, reference) {
+        var createBlock = function (block) {
+            var parentId = block.parent;
+            var idx = (block.sort.indexOf("") != -1) ? block.sort.indexOf("") : block.sort.indexOf("0");
+            var placeholder = block.placeholder;
             $.post(Routing.generate('opifer_content_api_contenteditor_create_block', {type: ownerType, typeId: typeId, ownerId: ownerId}), block).done(function (data, textStatus, request) {
                 var viewUrl = request.getResponseHeader('Location');
                 var id = data.id;
 
                 $.get(viewUrl).done(function (data) {
-                    reference.replaceWith(data.view);
-                    // unbind and rebind sortable to allow new layouts with placeholders.
+                    $('body').remove('.pm-block-insert');
+                    var reference = iFrame.contents().find('.pm-block-insert');
+
+                    if (reference.length) {
+                        $(reference).replaceWith(data.view);
+                    } else {
+                        var container = iFrame.contents().find('body *[data-pm-placeholder-id="' + parentId + '"]');
+                        if (container.length) {
+                            if (idx == 0) {
+                                container.prepend(data.view);
+                            } else {
+                                var siblings = container.children();
+                                (idx >= siblings.length) ? siblings.eq(idx).before(data.view) : siblings.eq(idx - 1).after(data.view);
+                            }
+                        }
+                    }
+
                     editBlock(id);
                     updateVersionPicker();
                     showToolbars();
-                    sortables();
-                    draggables;
-                    loadToC();
+                    loadToC(sortables);
                 }).fail(function(data){
                     reference.remove();
                     showAPIError(data);
@@ -509,11 +708,6 @@ $(document).ready(function() {
                 '</div>');
             toolbar = iFrame.contents().find('#pm-toolbar');
 
-
-            //iFrame.contents().find('*[data-pm-block-manage]').append('<div class="pm-handle" style="background: red; width: 50px; height: 50px;"></div>');
-            //destroySortables();
-            //sortables();
-
             // Position Toolbar on Block when hovered
             iFrame.contents().find('body').on('mouseover', '*[data-pm-block-manage]', function (e) {
                 e.stopPropagation();
@@ -537,8 +731,7 @@ $(document).ready(function() {
                 return false;
             });
 
-            sortables();
-            draggables();
+            loadToC(sortables);
 
             setViewMode(VIEWMODE_CONTENT);
 
@@ -546,7 +739,6 @@ $(document).ready(function() {
                 lockEditing();
             }
 
-            loadToC();
 
             isNotLoading();
         };
@@ -581,43 +773,55 @@ $(document).ready(function() {
             toolbar.addClass('hidden');
         };
 
-        var draggables = function () {
-            return $('.pm-block-item').draggable({
-                appendTo: '#pm-list-group-container',
-                helper: 'clone',
-                iframeFix: true,
-                scroll: false,
-                connectToSortable: sortables(),
-                start: function (event, ui) {
-                    window.iFrameSortable = true;
-                    isDragging = true;
-                    hideToolbar();
-
-                    ui.helper.animate({
-                        width: 350,
-                        height: 60
-                    });
-
-                    $('.pm-preview').addClass('pm-dragging');
-                },
-                stop: function () {
-                    isDragging = false;
-                    //$(document).scrollTop(0); // Fix for disappearing .navbar.
-                    //$('.pm-preview').removeClass('pm-dragging');
-                    //$('.pm-layout').removeClass('pm-layout-accept'); // cleaning up just to be sure
-                    window.iFrameSortable = false;
-                },
-                drag: function (event, ui) {
-                    //ui.position.top += $('#pm-iframe').contents().scrollTop();
-                }
-            });
-        };
-
         //
         // Create a block by dropping in a placeholder
         //
         var sortables = function () {
-            return iFrame.contents().find('.pm-placeholder').sortable({
+            destroySortables();
+
+            var sortStop = function (event, ui) {
+                isDragging = false;
+
+                if (!$(ui.item).hasClass('pm-block-item')) {
+                    //Push order of blocks to backend service
+                    var sortOrder = $(ui.item).closest('.pm-placeholder').sortable('toArray', {attribute: 'data-pm-block-id'});
+                    var blockId = $(ui.item).attr('data-pm-block-id');
+                    var parentId = $(ui.item).parent().closest('*[data-pm-block-id]').attr('data-pm-block-id');
+                    var placeholderKey = $(ui.item).closest('.pm-placeholder').attr('data-pm-placeholder-key');
+                    var isIframe = ($(ui.item).closest('body').hasClass('pm-body')) ? false : true;
+
+                    $.post(Routing.generate('opifer_content_api_contenteditor_move_block'), {sort: sortOrder, id: blockId, parent: parentId, placeholder: placeholderKey}).done(function (data, textStatus, request) {
+                        //console.log("Block moved", data);
+                        updateVersionPicker();
+                        if (! isIframe) {
+                            refreshAll();
+                        } else {
+                            loadToC(sortables);
+                        }
+                    }).error(function(data){
+                        showAPIError(data);
+                    });
+                }
+            };
+
+            var sortReceive = function (event, ui) {
+                // Create new block
+                if ($(ui.item).hasClass('pm-block-item')) {
+                    $(ui.item).addClass('pm-block-insert');
+                    $(this).find('.pm-block-item').addClass('pm-block-insert');
+                    var className = $(ui.item).attr('data-pm-block-type');
+                    var parent = $(this).closest('*[data-pm-placeholder-key]').closest('*[data-pm-block-id]').attr('data-pm-block-id');
+                    var placeholderKey = $(this).closest('*[data-pm-placeholder-key]').attr('data-pm-placeholder-key');
+                    var data = $(ui.item).attr('data-pm-block-data');
+
+                    $(ui.item).attr('data-pm-block-id', '0'); // Set default so toArray won't trip and fall below
+                    var sortOrder = $(this).closest('.pm-placeholder').sortable('toArray', {attribute: 'data-pm-block-id'});
+
+                    createBlock({className: className, parent: parent, placeholder: placeholderKey, sort: sortOrder, data: data});
+                }
+            };
+
+            var frame = iFrame.contents().find('.pm-placeholder').sortable({
                 handle: '.pm-handle',
                 revert: true,
                 iframeFix: true,
@@ -626,62 +830,61 @@ $(document).ready(function() {
                 tolerance: "pointer",
                 cursorAt: { top: 0, left: 0 },
                 placeholder: 'pm-drag-placeholder',
-                receive: function (event, ui) {
-                    // Create new block
-                    if ($(ui.item).hasClass('pm-block-item')) {
-                        var reference = $(this).find('.pm-block-item').addClass('pm-block-insert');
-                        var className = $(ui.item).attr('data-pm-block-type');
-                        var parent = $(this).parent().closest('*[data-pm-block-id]').attr('data-pm-block-id');
-                        var placeholderKey = $(this).closest('.pm-placeholder').attr('data-pm-placeholder-key');
-                        var data = $(ui.item).attr('data-pm-block-data');
-
-                        $(ui.item).attr('data-pm-block-id', '0'); // Set default so toArray won't trip and fall below
-                        var sortOrder = $(this).sortable('toArray', {attribute: 'data-pm-block-id'});
-
-                        createBlock({className: className, parent: parent, placeholder: placeholderKey, sort: sortOrder, data: data}, reference);
-                    }
-                },
-                over: function (event, ui) {
-                    //if ($.ui.ddmanager.current)
-                    //    $.ui.ddmanager.prepareOffsets($.ui.ddmanager.current, null);
-                    iFrame.contents().find('.pm-block, .pm-placeholder').removeClass('pm-accept');
-                    $(this).addClass('pm-accept').closest('.pm-layout').addClass('pm-accept');
-
-                    //var layoutId = $(this).addClass('pm-accept').closest('.pm-layout').attr('data-pm-block-id');
-                    //highlightPlaceholders(layoutId);
-                },
-                out: function (event, ui) {
-                    //if ($.ui.ddmanager.current)
-                    //    $.ui.ddmanager.prepareOffsets($.ui.ddmanager.current, null);
-                    iFrame.contents().find('.pm-block, .pm-placeholder').removeClass('pm-accept');
-                },
+                receive: sortReceive,
                 start: function (event, ui) {
-                    //$(this).addClass('pm-accept').closest('.pm-layout').addClass('pm-accept');
-                    //iFrame.contents().find('.pm-preview').addClass('pm-dragging');
-                    //console.log(event, ui);
                     isDragging = true;
                     hideToolbar();
                 },
-                stop: function (event, ui) {
-                    //$(document).scrollTop(0); // Fix for dissappearing .navbar.
+                stop: sortStop
+            });
 
-                    //iFrame.contents().find('.pm-preview').removeClass('pm-dragging');
-                    iFrame.contents().find('.pm-block, .pm-placeholder').removeClass('pm-accept');
+            var toc = $('.pm-placeholder').sortable({
+                handle: '.pm-btn-drag',
+                revert: true,
+                connectWith: '.pm-placeholder',
+                tolerance: "pointer",
+                cursorAt: { top: 0, left: 0 },
+                placeholder: 'pm-drag-placeholder',
+                receive: sortReceive,
+                start: function (event, ui) {
+                    isDragging = true;
+                    hideToolbar();
+                },
+                stop: sortStop
+            });
+
+            var sortinstances = $.merge(frame, toc);
+
+            $('.pm-block-item').draggable({
+                appendTo: '#pm-list-group-container',
+                helper: 'clone',
+                iframeFix: true,
+                scroll: false,
+                connectToSortable: sortinstances,
+                cursorAt: { top: 5, left: -5 },
+                start: function (event, ui) {
+                    isDragging = true;
+                    hideToolbar();
+
+                    ui.helper.animate({
+                        width: 350,
+                        height: 60
+                    });
+                },
+                stop: function () {
                     isDragging = false;
+                },
+                drag: function (event, ui) {
+                    var top = $('#pm-iframe').offset().top;
+                    var left = $('#pm-iframe').offset().left;
+                    var width = $('#pm-iframe').width();
+                    var height = $('#pm-iframe').height();
 
-                    if (!$(ui.item).hasClass('pm-block-item')) {
-                        //Push order of blocks to backend service
-                        var sortOrder = $(ui.item).closest('.pm-placeholder').sortable('toArray', {attribute: 'data-pm-block-id'});
-                        var blockId = $(ui.item).attr('data-pm-block-id');
-                        var parentId = $(ui.item).parent().closest('*[data-pm-block-id]').attr('data-pm-block-id');
-                        var placeholderKey = $(ui.item).closest('.pm-placeholder').attr('data-pm-placeholder-key');
-
-                        $.post(Routing.generate('opifer_content_api_contenteditor_move_block'), {sort: sortOrder, id: blockId, parent: parentId, placeholder: placeholderKey}).done(function (data, textStatus, request) {
-                            //console.log("Block moved", data);
-                            updateVersionPicker();
-                        }).error(function(data){
-                            showAPIError(data);
-                        });
+                    if (event.pageY > top && event.pageY < (top+height) &&
+                        event.pageX > left && event.pageX < (left+width)) {
+                        window.iFrameSortable = true;
+                    } else {
+                        window.iFrameSortable = false;
                     }
                 }
             });
@@ -689,18 +892,18 @@ $(document).ready(function() {
             return this;
         };
 
-        // Find placeholders for this layout specifically.
-        //var highlightPlaceholders = function(layoutId) {
-        //    iFrame.contents().find('.pm-placeholder').removeClass('highlight');
-        //    $(this).find('.pm-placeholder').each(function(index) {
-        //        if ($(this).closest('.pm-layout').attr('data-pm-block-id') == layoutId) {
-        //            $(this).addClass('highlight');
-        //        }
-        //    });
-        //};
-
         var destroySortables = function () {
-            sortables().sortable('destroy');
+            //if ($('.pm-placeholder').hasClass('ui-sortable') && $('.pm-placeholder').sortable("instance")) {
+            //    $('.pm-placeholder').sortable('destroy');
+            //}
+            //
+            //if (iFrame.contents().find('.pm-placeholder').hasClass('ui-sortable') && iFrame.contents().find('.pm-placeholder').sortable("instance")) {
+            //    iFrame.contents().find('.pm-placeholder').sortable('destroy');
+            //}
+            //
+            //if ($('.pm-block-item').hasClass('ui-draggable')) {
+            //    $('.pm-block-item').draggable('destroy');
+            //}
 
             return this;
         };
@@ -801,10 +1004,18 @@ $(document).ready(function() {
             version <= versionPublished ? lockEditing() : unlockEditing();
         };
 
-        var loadToC = function () {
-            $.get(Routing.generate('opifer_content_contenteditor_toc', {type: ownerType, id: typeId, version: version})).done(function (data) {
+        var loadToC = function (callback) {
+            $.ajax({
+                url: Routing.generate('opifer_content_contenteditor_toc', {type: ownerType, id: typeId, version: version}),
+                cache: false
+            }).done(function (data) {
                 $('#pm-toc').html(data);
+                if (callback) callback();
             });
+        };
+
+        var refreshAll = function () {
+          loadVersion(version);
         };
 
         return {
@@ -829,185 +1040,3 @@ $(document).ready(function() {
 });
 
 
-//
-// Override refreshPositions
-//
-$.widget( "ui.sortable", $.ui.sortable, {
-    refreshPositions: function (fast) {
-
-        this._super();
-
-        // Determine whether items are being displayed horizontally
-        this.floating = this.items.length ?
-        this.options.axis === "x" || this._isFloating(this.items[0].item) :
-            false;
-
-        //This has to be redone because due to the item being moved out/into the offsetParent, the offsetParent's position will change
-        if (this.offsetParent && this.helper) {
-            this.offset.parent = this._getParentOffset();
-        }
-
-        var i, item, t, p;
-
-        for (i = this.items.length - 1; i >= 0; i--) {
-            item = this.items[i];
-
-            //We ignore calculating positions of all connected containers when we're not over them
-            if (item.instance !== this.currentContainer && this.currentContainer && item.item[0] !== this.currentItem[0]) {
-                continue;
-            }
-
-            t = this.options.toleranceElement ? $(this.options.toleranceElement, item.item) : item.item;
-
-            if (!fast) {
-                item.width = t.outerWidth();
-                item.height = t.outerHeight();
-            }
-
-            p = t.offset();
-            // CHANGED
-            if (window.iFrameSortable) {
-                p.top -= $('#pm-iframe').contents().scrollTop();
-            }
-            // CHANGED (END)
-            item.left = p.left;
-            item.top = p.top; // Remove iFrame scroll position (only change)
-        }
-
-        if (this.options.custom && this.options.custom.refreshContainers) {
-            this.options.custom.refreshContainers.call(this);
-        } else {
-            for (i = this.containers.length - 1; i >= 0; i--) {
-                p = this.containers[i].element.offset();
-
-                // CHANGED
-                if (window.iFrameSortable) {
-                    p.top -= $('#pm-iframe').contents().scrollTop();
-                }
-                //console.log(p.top, $('#pm-iframe').contents().scrollTop());
-                // CHANGED (END)
-                this.containers[i].containerCache.left = p.left;
-                this.containers[i].containerCache.top = p.top;
-                this.containers[i].containerCache.width = this.containers[i].element.outerWidth();
-                this.containers[i].containerCache.height = this.containers[i].element.outerHeight();
-            }
-        }
-
-        return this;
-    },
-
-    _contactContainers: function (event) {
-        var i, j, dist, itemWithLeastDistance, posProperty, sizeProperty, cur, nearBottom, floating, axis,
-            innermostContainer = null,
-            // CHANGED
-            innermostZIndex = null,
-            // CHANGED (END)
-            innermostIndex = null;
-
-        // get innermost container that intersects with item
-        for (i = this.containers.length - 1; i >= 0; i--) {
-
-            // never consider a container that's located within the item itself
-            if ($.contains(this.currentItem[0], this.containers[i].element[0])) {
-                continue;
-            }
-
-            var zIndex = 0;
-            try {
-                zIndex = $(this.containers[i].element[0]).zIndex();
-            } catch (err) {
-                zIndex = 0;
-            }
-            //console.log(zIndex, this.containers[i].element[0]);
-
-            if (this._intersectsWith(this.containers[i].containerCache)) {
-                // if we've already found a container and it's more "inner" than this, then continue
-                // or if we've already found a container that has a z-index larger than this, then also continue
-                if (innermostContainer && ($.contains(this.containers[i].element[0], innermostContainer.element[0]) || zIndex < innermostZIndex)) {
-                    continue;
-                }
-
-                innermostContainer = this.containers[i];
-                // CHANGED
-                //innermostZIndex = zIndex;
-                // CHANGED (END)
-                innermostIndex = i;
-
-            } else {
-                // container doesn't intersect. trigger "out" event if necessary
-                if (this.containers[i].containerCache.over) {
-                    this.containers[i]._trigger("out", event, this._uiHash(this));
-                    this.containers[i].containerCache.over = 0;
-                }
-            }
-
-        }
-
-        // if no intersecting containers found, return
-        if (!innermostContainer) {
-            return;
-        }
-
-        // move the item into the container if it's not there already
-        if (this.containers.length === 1) {
-            if (!this.containers[innermostIndex].containerCache.over) {
-                this.containers[innermostIndex]._trigger("over", event, this._uiHash(this));
-                this.containers[innermostIndex].containerCache.over = 1;
-            }
-        } else {
-
-            //When entering a new container, we will find the item with the least distance and append our item near it
-            dist = 10000;
-            itemWithLeastDistance = null;
-            floating = innermostContainer.floating || this._isFloating(this.currentItem);
-            posProperty = floating ? "left" : "top";
-            sizeProperty = floating ? "width" : "height";
-            axis = floating ? "clientX" : "clientY";
-
-            for (j = this.items.length - 1; j >= 0; j--) {
-                if (!$.contains(this.containers[innermostIndex].element[0], this.items[j].item[0])) {
-                    continue;
-                }
-                if (this.items[j].item[0] === this.currentItem[0]) {
-                    continue;
-                }
-
-                cur = this.items[j].item.offset()[posProperty];
-                nearBottom = false;
-                if (event[axis] - cur > this.items[j][sizeProperty] / 2) {
-                    nearBottom = true;
-                }
-
-                if (Math.abs(event[axis] - cur) < dist) {
-                    dist = Math.abs(event[axis] - cur);
-                    itemWithLeastDistance = this.items[j];
-                    this.direction = nearBottom ? "up" : "down";
-                }
-            }
-
-            //Check if dropOnEmpty is enabled
-            if (!itemWithLeastDistance && !this.options.dropOnEmpty) {
-                return;
-            }
-
-            if (this.currentContainer === this.containers[innermostIndex]) {
-                if (!this.currentContainer.containerCache.over) {
-                    this.containers[innermostIndex]._trigger("over", event, this._uiHash());
-                    this.currentContainer.containerCache.over = 1;
-                }
-                return;
-            }
-
-            itemWithLeastDistance ? this._rearrange(event, itemWithLeastDistance, null, true) : this._rearrange(event, null, this.containers[innermostIndex].element, true);
-            this._trigger("change", event, this._uiHash());
-            this.containers[innermostIndex]._trigger("change", event, this._uiHash(this));
-            this.currentContainer = this.containers[innermostIndex];
-
-            //Update the placeholder
-            this.options.placeholder.update(this.currentContainer, this.placeholder);
-
-            this.containers[innermostIndex]._trigger("over", event, this._uiHash(this));
-            this.containers[innermostIndex].containerCache.over = 1;
-        }
-    }
-});
