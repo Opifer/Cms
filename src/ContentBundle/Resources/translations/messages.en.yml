@@ -1,3 +1,4 @@
+
 button:
     submit: Save
     add: Add new
@@ -62,6 +63,7 @@ placeholder:
 
 title:
     content: Content
+    properties: Properties
     block_shared: Shared blocks
 
 warning:

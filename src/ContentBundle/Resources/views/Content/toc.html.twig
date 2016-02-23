@@ -1,14 +1,20 @@
-{% macro node(block, environment, key = 0) %}
+{% macro node(children, environment, key = 0) %}
     {% import _self as toc %}
-    {% for node in environment.blockChildren(block) %}
+    {% for node in children %}
         {% if key == node.position %}
-        <li data-pm-block-id="{{ node.id }}"><span class="node-block"><i class="material-icons md-18">{{ environment.getTool(node).icon }}</i> {{ environment.getTool(node).name }} #{{ node.id }} <i data-pm-block-id="{{ node.id }}" class="pm-btn-node pm-btn-localize material-icons">location_searching</i><i data-pm-block-id="{{ node.id }}" class="pm-btn-node pm-btn-edit material-icons">edit</i></span>
+        <li data-pm-block-id="{{ node.id }}" data-pm-block-owner-id="{{ node.owner.id }}">
+            <span class="node-block">
+                <i class="material-icons md-18">{{ environment.getTool(node).icon }}</i> {{ environment.getTool(node).name }} #{{ node.id }}
+                <i data-pm-block-id="{{ node.id }}" class="pm-btn-node pm-btn-drag material-icons">drag_handle</i>
+                <i data-pm-block-id="{{ node.id }}" class="pm-btn-node pm-btn-localize material-icons">location_searching</i>
+                <i data-pm-block-id="{{ node.id }}" class="pm-btn-node pm-btn-edit material-icons">edit</i>
+            </span>
             {% if node is block_container %}
             <ul>
                 {% for placeholder in environment.getPlaceholders(node) %}
-                    <li class="node-placeholder"><span data-key="{{ placeholder.key }}" data-lineno="{{ placeholder.lineno }}">{{ placeholder.key }}</span>
-                        <ul>
-                            {{ toc.node(node, environment, placeholder.key) }}
+                    <li class="node-placeholder"><span data-lineno="{{ placeholder.lineno }}">{{ placeholder.key }}</span>
+                        <ul class="pm-placeholder" data-pm-placeholder-key="{{ placeholder.key }}" data-pm-placeholder-id="{{ node.id }}">
+                            {{ toc.node(environment.blockChildren(node), environment, placeholder.key) }}
                         </ul>
                     </li>
                 {% endfor %}
@@ -21,6 +27,12 @@
 
 {% import _self as toc %}
 
-<ul class="">
-    {{ toc.node(block, environment, 0) }}
+<ul data-pm-block-id="{{ block.id }}" data-pm-block-owner-id="{{ block.owner.id|default }}">
+    {% for placeholder in environment.getPlaceholders(block) %}
+        <li class="node-placeholder"><span data-lineno="{{ placeholder.lineno }}">{{ placeholder.key }}</span>
+            <ul class="pm-placeholder" data-pm-placeholder-key="{{ placeholder.key }}" data-pm-placeholder-id="{{ block.id }}">
+                {{ toc.node(environment.blockChildren(block), environment, placeholder.key) }}
+            </ul>
+        </li>
+    {% endfor %}
 </ul>

@@ -9,6 +9,7 @@ use Opifer\CmsBundle\EventListener\LoggableListener;
 use Opifer\ContentBundle\Block\Service\BlockServiceInterface;
 use Opifer\ContentBundle\Block\Tool\ContentTool;
 use Opifer\ContentBundle\Block\Tool\ToolsetMemberInterface;
+use Opifer\ContentBundle\Entity\Block;
 use Opifer\ContentBundle\Entity\PointerBlock;
 use Opifer\ContentBundle\Entity\Template;
 use Opifer\ContentBundle\Model\BlockInterface;
@@ -354,7 +355,7 @@ class BlockManager
         array_unshift($blocks, $block);
 
         // 1. Interate over all owned blocks and disconnect parents keeping ids
-        /** @var BlockInterface $original */
+        /** @var Block $descendant */
         foreach ($blocks as $descendant) {
             $descendant->originalId = $descendant->getId();
 
@@ -369,6 +370,7 @@ class BlockManager
             }
 
             $descendant->setOwner($block);
+            $descendant->setRootVersion(0);
 
             $this->em->detach($descendant);
             $this->em->persist($descendant);
@@ -711,9 +713,13 @@ class BlockManager
                 $superId = $block->getOwner()->getSuper()->getId();
                 // See if we need to position it below an inherited block
                 $pos = array_search($block->getId(), $levels[$block->getOwner()->getId()], false);
-                $prevBlockId = (isset($levels[$superId][$pos - 1])) ? $levels[$superId][$pos - 1] : null;
-                $prevBlockPos = array_search($prevBlockId, array_values($levels[$superId]));
-                $block->setSortParent(($prevBlockPos !== false) ? $prevBlockPos : -1);
+                $prevBlockId = (isset($levels[$superId]) && isset($levels[$superId][$pos - 1])) ? $levels[$superId][$pos - 1] : null;
+                if ($prevBlockId !== null) {
+                    $prevBlockPos = array_search($prevBlockId, array_values($levels[$superId]));
+                    $block->setSortParent(($prevBlockPos !== false) ? $prevBlockPos : -1);
+                } else {
+                    $block->setSortParent(-1);
+                }
             } else {
                 $block->setSortParent(-1);
             }
@@ -750,6 +756,7 @@ class BlockManager
             }
         }
         $ownerIds = array_flip($ownerIds); // Flip it for easier lookup by parentId as key.
+        asort($ownerIds);
 
         $sorted = array();
         $parentOwnerId = null;

@@ -288,26 +288,6 @@
         height: 100%;
     }
 
-    .list-group {
-        .col-visual {
-            position: absolute;
-//            background: #F5F7F9;
-            color: #ddd;
-            width: 36px;
-            height: 40px;
-            top: 8px;
-            text-align: center;
-
-            .material-icons {
-                font-size: 36px;
-            }
-        }
-
-        .col-text {
-            margin-left: 51px;
-        }
-    }
-
     .list-group-item {
         margin: 2px 0;
         border: 0;
@@ -317,6 +297,53 @@
 
         &:hover {
             background-color: #191919;
+        }
+
+        .col-visual {
+            position: absolute;
+            width: 36px;
+            top: 8px;
+            text-align: center;
+            color: #ddd;
+
+            .material-icons {
+                font-size: 36px;
+            }
+        }
+
+        .col-text {
+            margin-left: 51px;
+        }
+
+        &.ui-draggable-dragging {
+            z-index: 10000;
+            padding: 8px;
+            height: auto !important;
+            width: auto !important;
+            box-shadow: 0 8px 15px rgba(0,0,0,.1);
+
+            .col-text {
+                margin-left: 34px;
+
+                h4 {
+                    line-height: 24px !important;
+                    margin: 0;
+                }
+            }
+
+            .list-group-item-text {
+                display: none;
+            }
+
+            .col-visual {
+                width: 24px;
+
+                .material-icons {
+                    font-size: 24px;
+                    line-height: 24px !important;
+                    color: #ddd !important;
+                }
+            }
         }
     }
 
@@ -345,11 +372,39 @@
     }
 }
 
-.ui-draggable-dragging {
-    z-index: 10000;
 
-    &.list-group-item {
-        box-shadow: 0 8px 15px rgba(0,0,0,.1);
+
+.pm-drag-placeholder {
+    height: 2px !important;
+    padding: 0 !important;
+    margin: -2px 0 0 17px !important;
+    overflow: visible;
+    position: relative;
+    z-index: 99999;
+    color: rgba(0,0,0,.8);
+    font-size: 0;
+    line-height: 2px;
+    #gradient.horizontal(rgba(255,255,255,1); rgba(255,255,255,0); 0%; 70%);
+
+    &:before,
+    &:after {
+        position: absolute;
+        .material-icons;
+        font-size: 18px;
+        line-height: 18px;
+        color: white;
+    }
+
+    &:before {
+        top: -8px;
+        left: -17px;
+        content: "\E5C8";
+    }
+
+    &:after {
+        top: -16px;
+        right: -7px;
+        content: "";
     }
 }
 
@@ -504,10 +559,29 @@
 #pm-toc {
     ul {
         list-style: none;
-        padding-left: 5px;
+        padding-left: 0;
+        margin-left: 5px;
 
         ul {
-            padding-left: 23px;
+            margin-left: 32px;
+        }
+
+        li {
+            line-height: 32px;
+        }
+
+        .node-placeholder {
+            line-height: 24px;
+
+            > ul {
+                line-height: 32px;
+            }
+        }
+
+        .pm-placeholder {
+            min-height: 20px;
+            //outline: 1px dotted #555;
+            //outline-offset: -1px;
         }
 
         .node-block {
