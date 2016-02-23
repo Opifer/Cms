@@ -59,17 +59,6 @@ class ContentListPickerType extends AbstractType
     /**
      * {@inheritDoc}
      */
-    public function configureOptions(OptionsResolver $resolver)
-    {
-        $resolver->setDefaults([
-            'property' => 'title',
-            //'class'    => $this->contentManager->getClass(),
-        ]);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
     public function getParent()
     {
         return TextType::class;
