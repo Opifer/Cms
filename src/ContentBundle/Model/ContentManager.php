@@ -219,7 +219,9 @@ class ContentManager implements ContentManagerInterface
     {
         //duplicate content
         $duplicatedContent = clone $content;
+        $duplicatedContent->setTitle(sprintf("%s copy %s", $duplicatedContent->getTitle(), date('r')));
         $duplicatedContent->setSlug(null);
+        $duplicatedContent->setActive(false);
 
         //get valueset to clone
         if (null !== $valueset = $content->getValueSet()) {
