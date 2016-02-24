@@ -22,7 +22,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
  *
  * @package Opifer\ContentBundle\Block
  */
-class ColumnBlockService extends AbstractBlockService implements BlockServiceInterface, ToolsetMemberInterface
+class ColumnBlockService extends AbstractBlockService implements LayoutBlockServiceInterface, BlockServiceInterface, ToolsetMemberInterface
 {
     /** @var integer */
     protected $columnCount = 1;
@@ -212,5 +212,16 @@ class ColumnBlockService extends AbstractBlockService implements BlockServiceInt
         }
 
         return $gutterStyles;
+    }
+
+    public function getPlaceholders(BlockInterface $block = null)
+    {
+        $placeholders = [];
+
+        for($i=0;$i<$block->getColumnCount();$i++) {
+            $placeholders[$i] = sprintf('Column %d', $i+1);
+        }
+
+        return $placeholders;
     }
 }
