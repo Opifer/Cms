@@ -37,6 +37,7 @@ abstract class AbstractBlockService
 
     /**
      * @param EngineInterface $templating
+     * @param array $config
      */
     public function __construct(EngineInterface $templating, array $config)
     {

@@ -1,0 +1,9 @@
+<div class="row" {{ manage_tags() }}>
+    {% for item in block.gallery %}
+    <div class="col-xs-6 col-md-3">
+        <a href="#" class="thumbnail">
+            <img src="{{ item.reference|default('fallback.jpeg')|imagine_filter('medialibrary') }}" alt="{{ item.alt }}">
+        </a>
+    </div>
+    {% endfor %}
+</div>
