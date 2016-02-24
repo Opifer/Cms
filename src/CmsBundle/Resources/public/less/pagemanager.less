@@ -560,10 +560,9 @@
     ul {
         list-style: none;
         padding-left: 0;
-        margin-left: 5px;
 
         ul {
-            margin-left: 32px;
+            margin-left: 25px;
         }
 
         li {
@@ -588,20 +587,32 @@
             width: 100%;
             display: inline-block;
 
-            .pm-btn-node {
+            .pm-btn-group {
                 display: none;
                 cursor: pointer;
+                height: 28px;
+            }
+
+            .pm-btn {
+                font-size: 16px;
+                color: #999;
+                padding: 1px 6px;
+                width: 28px;
+                line-height: 26px;
+                height: 28px;
+                display: inline-block;
+                border-left: 1px solid #222;
+                background: #000;
+
+                &:hover {
+                    background: #111;
+                    color: white;
+                }
             }
 
             &:hover {
-                .pm-btn-node {
+                .pm-btn-group {
                     display: inline-block;
-                    font-size: 16px;
-                    color: #999;
-
-                    &:hover {
-                        color: white;
-                    }
                 }
             }
         }

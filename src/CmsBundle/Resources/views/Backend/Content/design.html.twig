@@ -95,7 +95,7 @@
                                 <div class="collapse in list-group" id="list-group-{{ group|lower|replace(' ', '-') }}">
                                     {% for tool in toolset.tools %}
                                         {% if tool.group == group %}
-                                            <div class="list-group-item pm-block-item" data-pm-block-type="{{ tool.service }}">
+                                            <div class="list-group-item pm-block-item" data-pm-block-type="{{ tool.service }}" data-pm-block-data='{{ tool.datajson }}'>
                                                 <div class="col-visual">
                                                     <i class="material-icons">{{ tool.icon }}</i>
                                                 </div>

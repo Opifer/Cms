@@ -839,6 +839,7 @@ $(document).ready(function() {
             var toc = $('.pm-placeholder').sortable({
                 handle: '.pm-btn-drag',
                 revert: true,
+                scroll: true,
                 connectWith: '.pm-placeholder',
                 tolerance: "pointer",
                 cursorAt: { top: 0, left: 0 },
