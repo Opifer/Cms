@@ -5,9 +5,13 @@
         <li data-pm-block-id="{{ node.id }}" data-pm-block-owner-id="{{ node.owner.id }}">
             <span class="node-block">
                 <i class="material-icons md-18">{{ environment.getTool(node).icon }}</i> {{ environment.getTool(node).name }}
-                <i data-pm-block-id="{{ node.id }}" class="pm-btn-node pm-btn-drag material-icons">drag_handle</i>
-                <i data-pm-block-id="{{ node.id }}" class="pm-btn-node pm-btn-localize material-icons">location_searching</i>
-                <i data-pm-block-id="{{ node.id }}" class="pm-btn-node pm-btn-edit material-icons">edit</i>
+                {% spaceless %}
+                <div class="pm-btn-group">
+                    <i data-pm-block-id="{{ node.id }}" class="pm-btn pm-btn-drag material-icons">drag_handle</i>
+                    <i data-pm-block-id="{{ node.id }}" class="pm-btn pm-btn-localize material-icons">location_searching</i>
+                    <i data-pm-block-id="{{ node.id }}" class="pm-btn pm-btn-edit material-icons">edit</i>
+                </div>
+                {% endspaceless %}
             </span>
             {% if node is block_container %}
             <ul>

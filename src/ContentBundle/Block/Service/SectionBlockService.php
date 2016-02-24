@@ -78,6 +78,7 @@ class SectionBlockService extends AbstractBlockService implements BlockServiceIn
 
         $tool
             ->setIcon('crop_din')
+            ->setGroup(Tool::GROUP_LAYOUT)
             ->setDescription('Section element to hold columns or content in');
 
         return $tool;
