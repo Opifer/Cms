@@ -7,9 +7,9 @@ opifer_cms_form_post_list:
     path: /forms/posts
     defaults: { _controller: OpiferCmsBundle:Backend/Post:list }
 
-opifer_cms_setting_index:
-    path: /setting
-    defaults: { _controller: OpiferCmsBundle:Backend/Setting:index }
+opifer_cms_config_index:
+    path: /config
+    defaults: { _controller: OpiferCmsBundle:Backend/Config:index }
 
 opifer_cms_template_index:
     path: /template
