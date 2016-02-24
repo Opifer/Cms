@@ -115,11 +115,11 @@
                         {# begin tools_layouts #}
                         <div id="pm-tools-layouts" class="pm-tools-blockset">
                             <div class="pm-col">
-                                <h4 class="title collapsed" data-toggle="collapse" data-target="#list-group-layouts" aria-expanded="false" aria-controls="list-group-layouts">Containers</h4>
+                                <h4 class="title collapsed" data-toggle="collapse" data-target="#list-group-layouts" aria-expanded="false" aria-controls="list-group-layouts">Layout</h4>
                                 <div class="collapse list-group" id="list-group-layouts">
 
                                     {% for tool in manager.tools %}
-                                        {% if tool.type == 'container' %}
+                                        {% if tool.type == 'layout' %}
                                             <div class="list-group-item pm-block-item" data-pm-block-type="{{ tool.service }}" data-pm-block-data='{{ tool.datajson }}'>
                                                 <div class="col-visual">
                                                     <i class="material-icons">{{ tool.icon }}</i>
@@ -131,26 +131,6 @@
                                             </div>
                                         {% endif %}
                                     {% endfor %}
-                                </div>
-                            </div>
-                            <div class="pm-col">
-                                <h4 class="title collapsed" data-toggle="collapse" data-target="#list-group-columns" aria-expanded="false" aria-controls="list-group-columns">Columns</h4>
-                                <div class="collapse list-group" id="list-group-columns">
-
-                                    {% for tool in manager.tools %}
-                                        {% if tool.type == 'column' %}
-                                            <div class="list-group-item pm-block-item" data-pm-block-type="{{ tool.service }}" data-pm-block-data='{{ tool.datajson }}'>
-                                                <div class="col-visual">
-                                                    <i class="material-icons">{{ tool.icon }}</i>
-                                                </div>
-                                                <div class="col-text">
-                                                    <h4 class="list-group-item-heading">{{ tool.name }}</h4>
-                                                    <p class="list-group-item-text">{{ tool.description }}</p>
-                                                </div>
-                                            </div>
-                                        {% endif %}
-                                    {% endfor %}
-                                    </div>
                                 </div>
                             </div>
                         </div>

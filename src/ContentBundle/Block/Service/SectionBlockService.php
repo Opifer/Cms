@@ -3,7 +3,7 @@
 namespace Opifer\ContentBundle\Block\Service;
 
 use Opifer\CmsBundle\Form\Type\CKEditorType;
-use Opifer\ContentBundle\Block\Tool\ContainerTool;
+use Opifer\ContentBundle\Block\Tool\LayoutTool;
 use Opifer\ContentBundle\Block\Tool\ToolsetMemberInterface;
 use Opifer\ContentBundle\Entity\SectionBlock;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
@@ -74,7 +74,7 @@ class SectionBlockService extends AbstractBlockService implements BlockServiceIn
      */
     public function getTool()
     {
-        $tool = new ContainerTool($this->getName(), 'OpiferContentBundle:SectionBlock');
+        $tool = new LayoutTool($this->getName(), 'OpiferContentBundle:SectionBlock');
 
         $tool
             ->setIcon('crop_din')

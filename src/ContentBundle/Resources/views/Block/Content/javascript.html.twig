@@ -1,0 +1,6 @@
+<script type="text/javascript">{{ block.value|raw }}</script>
+{% if manage|default %}
+    <div class="pm-block-transparent pm-block-javascript" {{ manage_tags() }}>
+        <p>JavaScript code</p>
+    </div>
+{% endif %}
