@@ -87,7 +87,7 @@ class TemplateController extends Controller
             return $this->redirectToRoute('opifer_cms_template_edit', ['id' => $template->getId()]);
         }
 
-        return $this->render('OpiferCmsBundle:Backend/Template:edit.html.twig', [
+        return $this->render('OpiferCmsBundle:Backend/Template:design.html.twig', [
             'form' => $form->createView(),
             'template' => $template,
         ]);

@@ -41,7 +41,7 @@ class Configuration implements ConfigurationInterface
                                     ->defaultValue('OpiferRedirectBundle:Redirect:create.html.twig')
                                 ->end()
                                 ->scalarNode('edit')
-                                    ->defaultValue('OpiferRedirectBundle:Redirect:edit.html.twig')
+                                    ->defaultValue('OpiferRedirectBundle:Redirect:design.html.twig')
                                 ->end()
                             ->end()
                         ->end()

@@ -93,7 +93,7 @@ class UserController extends Controller
             return $this->redirectToRoute('opifer_cms_user_index');
         }
 
-        return $this->render('OpiferCmsBundle:Backend/User:edit.html.twig', [
+        return $this->render('OpiferCmsBundle:Backend/User:design.html.twig', [
             'form' => $form->createView(),
             'user' => $user,
         ]);

@@ -173,7 +173,7 @@ opifer_media:
         views:
             index: 'OpiferCmsBundle:Backend\Media:index.html.twig'
             create: 'OpiferCmsBundle:Backend\Media:create.html.twig'
-            edit: 'OpiferCmsBundle:Backend\Media:edit.html.twig'
+            edit: 'OpiferCmsBundle:Backend\Media:design.html.twig'
     default_storage: '%storage_adapter%'
     providers:
         youtube:
@@ -211,7 +211,7 @@ opifer_content:
             index: 'OpiferCmsBundle:Backend/Content:index.html.twig'
             type: 'OpiferCmsBundle:Backend/Content:type.html.twig'
             new: 'OpiferCmsBundle:Backend/Content:new.html.twig'
-            edit: 'OpiferCmsBundle:Backend/Content:edit.html.twig'
+            design: 'OpiferCmsBundle:Backend/Content:design.html.twig'
             details: 'OpiferCmsBundle:Backend/Content:details.html.twig'
             history: 'OpiferCmsBundle:Backend/Content:history.html.twig'
     content_type:
@@ -219,7 +219,7 @@ opifer_content:
         views:
             index: 'OpiferCmsBundle:Backend/ContentType:index.html.twig'
             create: 'OpiferCmsBundle:Backend/ContentType:create.html.twig'
-            edit: 'OpiferCmsBundle:Backend/ContentType:edit.html.twig'
+            edit: 'OpiferCmsBundle:Backend/ContentType:design.html.twig'
     block:
         views:
             shared: 'OpiferCmsBundle:Backend/Block:shared.html.twig'
@@ -241,7 +241,7 @@ opifer_form:
         views:
             index: 'OpiferCmsBundle:Backend/Form:index.html.twig'
             create: 'OpiferCmsBundle:Backend/Form:create.html.twig'
-            edit: 'OpiferCmsBundle:Backend/Form:edit.html.twig'
+            edit: 'OpiferCmsBundle:Backend/Form:design.html.twig'
     post:
         class: 'Opifer\CmsBundle\Entity\Post'
         views:
@@ -254,7 +254,7 @@ opifer_redirect:
         views:
             index: 'OpiferCmsBundle:Backend/Redirect:index.html.twig'
             create: 'OpiferCmsBundle:Backend/Redirect:create.html.twig'
-            edit: 'OpiferCmsBundle:Backend/Redirect:edit.html.twig'
+            edit: 'OpiferCmsBundle:Backend/Redirect:design.html.twig'
 
 opifer_cms:
     ckeditor:
