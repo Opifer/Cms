@@ -62,6 +62,7 @@ placeholder:
     content_description: Description for your page
     content_title: Enter a title for your page
     slug: Unique permalink slug for this page
+    default: Default
 
 title:
     content: Content

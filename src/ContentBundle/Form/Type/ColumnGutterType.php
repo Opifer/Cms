@@ -27,8 +27,9 @@ class ColumnGutterType extends AbstractType
             for ($i = 0; $i < $columnCount; $i++) {
                 $form->add($i, ChoiceType::class, [
                     'label' => 'label.gutter_sizing',
+                    'placeholder' => 'placeholder.default',
                     'choices' => ['md' => 'md', '0' => '0', 'sm' => 'sm', 'lg' => 'lg'],
-                    'required' => true,
+                    'required' => false,
                 ]);
             }
 
