@@ -88,13 +88,13 @@
                 </div>
                 <div class="pm-toolset-card pm-dark">
 
-                        {# begin tools_blocks #}
-                        <div id="pm-tools-blocks" class="pm-tools-blockset">
+                        {% for group in toolset.groups %}
+                        <div id="pm-tools-{{ group|lower|replace(' ', '-') }}" class="pm-tools-blockset">
                             <div class="pm-col">
-                                <h4 class="title" data-toggle="collapse" data-target="#list-group-blocks" aria-expanded="true" aria-controls="list-group-blocks">Blocks</h4>
-                                <div class="collapse in list-group" id="list-group-blocks">
-                                    {% for tool in manager.tools %}
-                                        {% if tool.type == 'content' %}
+                                <h4 class="title" data-toggle="collapse" data-target="#list-group-{{ group|lower|replace(' ', '-') }}" aria-expanded="true" aria-controls="list-group-{{ group|lower|replace(' ', '-') }}">{{ group }}</h4>
+                                <div class="collapse in list-group" id="list-group-{{ group|lower|replace(' ', '-') }}">
+                                    {% for tool in toolset.tools %}
+                                        {% if tool.group == group %}
                                             <div class="list-group-item pm-block-item" data-pm-block-type="{{ tool.service }}">
                                                 <div class="col-visual">
                                                     <i class="material-icons">{{ tool.icon }}</i>
@@ -110,31 +110,7 @@
                                 </div>
                             </div>
                         </div>
-                        {# end tools_blocks #}
-
-                        {# begin tools_layouts #}
-                        <div id="pm-tools-layouts" class="pm-tools-blockset">
-                            <div class="pm-col">
-                                <h4 class="title collapsed" data-toggle="collapse" data-target="#list-group-layouts" aria-expanded="false" aria-controls="list-group-layouts">Layout</h4>
-                                <div class="collapse list-group" id="list-group-layouts">
-
-                                    {% for tool in manager.tools %}
-                                        {% if tool.type == 'layout' %}
-                                            <div class="list-group-item pm-block-item" data-pm-block-type="{{ tool.service }}" data-pm-block-data='{{ tool.datajson }}'>
-                                                <div class="col-visual">
-                                                    <i class="material-icons">{{ tool.icon }}</i>
-                                                </div>
-                                                <div class="col-text">
-                                                    <h4 class="list-group-item-heading">{{ tool.name }}</h4>
-                                                    <p class="list-group-item-text">{{ tool.description }}</p>
-                                                </div>
-                                            </div>
-                                        {% endif %}
-                                    {% endfor %}
-                                </div>
-                            </div>
-                        </div>
-                        {# begin tools_layouts #}
+                        {% endfor %}
 
                     </div>
                 </div>

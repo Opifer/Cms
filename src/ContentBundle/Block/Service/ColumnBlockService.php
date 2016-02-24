@@ -2,7 +2,7 @@
 
 namespace Opifer\ContentBundle\Block\Service;
 
-use Opifer\ContentBundle\Block\Tool\LayoutTool;
+use Opifer\ContentBundle\Block\Tool\Tool;
 use Opifer\ContentBundle\Block\Tool\ToolsetMemberInterface;
 use Opifer\ContentBundle\Entity\ColumnBlock;
 use Opifer\ContentBundle\Form\Type\GutterCollectionType;
@@ -131,9 +131,10 @@ class ColumnBlockService extends AbstractBlockService implements BlockServiceInt
      */
     public function getTool()
     {
-        $tool = new LayoutTool($this->getName(), 'OpiferContentBundle:ColumnBlock');
+        $tool = new Tool($this->getName(), 'OpiferContentBundle:ColumnBlock');
 
         $tool->setData(['columnCount' => $this->columnCount])
+            ->setGroup(Tool::GROUP_LAYOUT)
             ->setIcon('view_column')
             ->setDescription('Inserts ' . $this->columnCount . ' columns equal in width');
 

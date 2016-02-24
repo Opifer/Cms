@@ -3,7 +3,7 @@
 namespace Opifer\ContentBundle\Block\Service;
 
 use Opifer\CmsBundle\Form\Type\CKEditorType;
-use Opifer\ContentBundle\Block\Tool\ContentTool;
+use Opifer\ContentBundle\Block\Tool\Tool;
 use Opifer\ContentBundle\Block\Tool\ToolsetMemberInterface;
 use Opifer\ContentBundle\Entity\CarouselSlideBlock;
 use Opifer\ContentBundle\Model\BlockInterface;
@@ -83,7 +83,7 @@ class CarouselSlideBlockService extends AbstractBlockService implements BlockSer
      */
     public function getTool()
     {
-        $tool = new ContentTool('Carousel slide', 'OpiferContentBundle:CarouselSlideBlock');
+        $tool = new Tool('Carousel slide', 'OpiferContentBundle:CarouselSlideBlock');
 
         $tool->setIcon('filter')
             ->setDescription('A basic carousel slide');

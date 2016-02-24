@@ -4,7 +4,7 @@ namespace Opifer\ContentBundle\Block\Service;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\EntityManager;
-use Opifer\ContentBundle\Block\Tool\ContentTool;
+use Opifer\ContentBundle\Block\Tool\Tool;
 use Opifer\ContentBundle\Block\Tool\ToolsetMemberInterface;
 use Opifer\ContentBundle\Entity\NavigationBlock;
 use Opifer\ContentBundle\Form\Type\ContentListPickerType;
@@ -224,7 +224,7 @@ class NavigationBlockService extends AbstractBlockService implements BlockServic
      */
     public function getTool()
     {
-        $tool = new ContentTool('Navigation', 'OpiferContentBundle:NavigationBlock');
+        $tool = new Tool('Navigation', 'OpiferContentBundle:NavigationBlock');
 
         $tool->setIcon('menu')
             ->setDescription('Generates a simple page navigation');

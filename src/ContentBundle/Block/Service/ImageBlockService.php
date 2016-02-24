@@ -2,7 +2,7 @@
 
 namespace Opifer\ContentBundle\Block\Service;
 
-use Opifer\ContentBundle\Block\Tool\ContentTool;
+use Opifer\ContentBundle\Block\Tool\Tool;
 use Opifer\ContentBundle\Block\Tool\ToolsetMemberInterface;
 use Opifer\ContentBundle\Entity\ImageBlock;
 use Opifer\ContentBundle\Model\BlockInterface;
@@ -135,7 +135,7 @@ class ImageBlockService extends AbstractBlockService implements BlockServiceInte
      */
     public function getTool()
     {
-        $tool = new ContentTool('Image', 'OpiferContentBundle:ImageBlock');
+        $tool = new Tool('Image', 'OpiferContentBundle:ImageBlock');
 
         $tool->setIcon('image')
             ->setDescription('Provides an image from the library in the right size.');

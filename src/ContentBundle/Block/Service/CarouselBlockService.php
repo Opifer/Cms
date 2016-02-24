@@ -2,11 +2,9 @@
 
 namespace Opifer\ContentBundle\Block\Service;
 
-use Opifer\ContentBundle\Block\Tool\ContentTool;
+use Opifer\ContentBundle\Block\Tool\Tool;
 use Opifer\ContentBundle\Block\Tool\ToolsetMemberInterface;
 use Opifer\ContentBundle\Entity\CarouselBlock;
-use Opifer\ContentBundle\Model\BlockInterface;
-use Symfony\Bundle\FrameworkBundle\Templating\EngineInterface;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\FormType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -61,7 +59,7 @@ class CarouselBlockService extends AbstractBlockService implements BlockServiceI
      */
     public function getTool()
     {
-        $tool = new ContentTool('Carousel', 'OpiferContentBundle:CarouselBlock');
+        $tool = new Tool('Carousel', 'OpiferContentBundle:CarouselBlock');
 
         $tool->setIcon('view_carousel')
             ->setDescription('Create a carousel of two or more slides');
