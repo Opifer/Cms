@@ -221,24 +221,6 @@ function adjustCkeditorConfig() {
     CKEDITOR.dtd.$removeEmpty['i'] = 0;
     CKEDITOR.dtd.$removeEmpty['span'] = 0;
     CKEDITOR.config.allowedContent = true;
-
-    CKEDITOR.editorConfig = function( config ) {
-        config.toolbarGroups = [
-            { name: 'document', groups: [ 'mode', 'document', 'doctools' ] },
-            { name: 'clipboard', groups: [ 'clipboard', 'undo' ] },
-            { name: 'editing', groups: [ 'find', 'selection', 'spellchecker', 'editing' ] },
-            { name: 'forms', groups: [ 'forms' ] },
-            { name: 'basicstyles', groups: [ 'basicstyles', 'cleanup' ] },
-            { name: 'paragraph', groups: [ 'list', 'indent', 'blocks', 'align', 'bidi', 'paragraph' ] },
-            { name: 'links', groups: [ 'links' ] },
-            { name: 'insert', groups: [ 'insert' ] },
-            { name: 'styles', groups: [ 'styles' ] },
-            { name: 'colors', groups: [ 'colors' ] },
-            { name: 'tools', groups: [ 'tools' ] },
-            { name: 'others', groups: [ 'others' ] },
-            { name: 'about', groups: [ 'about' ] }
-        ];
-
-        config.removeButtons = 'Print,Preview,Save,NewPage,Templates,Form,Checkbox,Radio,TextField,Textarea,Select,Button,ImageButton,HiddenField,Font,FontSize,TextColor,BGColor,Language,Flash,HorizontalRule,Smiley,PageBreak';
-    };
+    CKEDITOR.config.stylesSet = 'cms_styles:'+Routing.generate('opifer_ckeditor_styles');
+    CKEDITOR.config.customConfig = Routing.generate('opifer_ckeditor_config');
 }

@@ -61,6 +61,7 @@ class OpiferCmsExtension extends Extension implements PrependExtensionInterface
             'opifer_cms.database_password' => $config['database']['password'],
             'opifer_cms.database_table_prefix' => $config['database']['table_prefix'],
             'opifer_cms.autocomplete' => $config['autocomplete'],
+            'opifer_cms.ckeditor_css_path' => $config['ckeditor']['css_path'],
 
             // Deprecated
             'opifer_cms.allowed_locales' => ['en'],

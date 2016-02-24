@@ -42,4 +42,30 @@ class CKEditorController extends Controller
             'type' => $request->get('type'),
         ]);
     }
+
+    /**
+     * Styles set for CKEditor.
+     *
+     * @param Request $request
+     *
+     * @return Response
+     */
+    public function stylesAction(Request $request)
+    {
+        return $this->render('OpiferCmsBundle:CKEditor:styles.js.twig');
+    }
+
+    /**
+     * Config JS for CKEditor.
+     *
+     * @param Request $request
+     *
+     * @return Response
+     */
+    public function configAction(Request $request)
+    {
+        return $this->render('OpiferCmsBundle:CKEditor:config.js.twig', [
+            'css_path' => $this->getParameter('opifer_cms.ckeditor_css_path'),
+        ]);
+    }
 }

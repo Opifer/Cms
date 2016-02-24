@@ -71,6 +71,13 @@ class Configuration implements ConfigurationInterface
                     ->end()
                 ->end()
 
+                ->arrayNode('ckeditor')
+                    ->addDefaultsIfNotSet()
+                    ->children()
+                        ->scalarNode('css_path')->defaultValue('/bundles/opifercms/css/app.css')->end()
+                    ->end()
+                ->end()
+
                 ->scalarNode('google_captcha_site_key')->defaultNull()->end()
                 ->scalarNode('google_captcha_secret')->defaultNull()->end()
 

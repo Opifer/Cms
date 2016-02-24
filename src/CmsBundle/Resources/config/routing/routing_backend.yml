@@ -101,6 +101,18 @@ opifer_ckeditor_media:
     options:
         expose: true
 
+opifer_ckeditor_styles:
+    path: /ckeditor/styles
+    defaults: { _controller: OpiferCmsBundle:CKEditor:styles }
+    options:
+        expose: true
+
+opifer_ckeditor_config:
+    path: /ckeditor/config
+    defaults: { _controller: OpiferCmsBundle:CKEditor:config }
+    options:
+        expose: true
+
 # Bundle routes
 
 opifer_redirect_admin:
