@@ -58,6 +58,7 @@ class ContentEditorController extends Controller
 
         $parameters = [
             'manager' => $blockManager,
+            'toolset' => $blockManager->getToolset(),
             'block' => $suite->getBlock(),
             'id' => $suite->getSubject()->getId(),
             'type' => $type,

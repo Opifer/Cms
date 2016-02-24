@@ -2,7 +2,7 @@
 
 namespace Opifer\ContentBundle\Block\Service;
 
-use Opifer\ContentBundle\Block\Tool\ContentTool;
+use Opifer\ContentBundle\Block\Tool\Tool;
 use Opifer\ContentBundle\Block\Tool\ToolsetMemberInterface;
 use Opifer\ContentBundle\Entity\IFrameBlock;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
@@ -60,7 +60,7 @@ class IFrameBlockService extends AbstractBlockService implements BlockServiceInt
      */
     public function getTool()
     {
-        $tool = new ContentTool('iFrame', 'OpiferContentBundle:IFrameBlock');
+        $tool = new Tool('iFrame', 'OpiferContentBundle:IFrameBlock');
 
         $tool->setIcon('web_asset')
             ->setDescription('Include a iframe with url of choice');

@@ -2,7 +2,7 @@
 
 namespace Opifer\ContentBundle\Block\Service;
 
-use Opifer\ContentBundle\Block\Tool\ContentTool;
+use Opifer\ContentBundle\Block\Tool\Tool;
 use Opifer\ContentBundle\Block\Tool\ToolsetMemberInterface;
 use Symfony\Component\Form\Extension\Core\Type\FormType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
@@ -40,7 +40,7 @@ class CssBlockService extends AbstractBlockService implements BlockServiceInterf
      */
     public function getTool()
     {
-        $tool = new ContentTool('CSS', 'OpiferContentBundle:CssBlock');
+        $tool = new Tool('CSS', 'OpiferContentBundle:CssBlock');
 
         $tool->setIcon('style')
             ->setDescription('Implement custom CSS styles to use');

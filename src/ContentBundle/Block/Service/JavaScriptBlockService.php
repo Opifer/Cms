@@ -2,7 +2,7 @@
 
 namespace Opifer\ContentBundle\Block\Service;
 
-use Opifer\ContentBundle\Block\Tool\ContentTool;
+use Opifer\ContentBundle\Block\Tool\Tool;
 use Opifer\ContentBundle\Block\Tool\ToolsetMemberInterface;
 use Symfony\Component\Form\Extension\Core\Type\FormType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
@@ -40,7 +40,7 @@ class JavaScriptBlockService extends AbstractBlockService implements BlockServic
      */
     public function getTool()
     {
-        $tool = new ContentTool('JavaScript', 'OpiferContentBundle:JavaScriptBlock');
+        $tool = new Tool('JavaScript', 'OpiferContentBundle:JavaScriptBlock');
 
         $tool->setIcon('code')
             ->setDescription('Include custom JavaScript code block');

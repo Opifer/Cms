@@ -7,15 +7,12 @@ use Doctrine\ORM\EntityManagerInterface;
 use Gedmo\SoftDeleteable\SoftDeleteableListener;
 use Opifer\CmsBundle\EventListener\LoggableListener;
 use Opifer\ContentBundle\Block\Service\BlockServiceInterface;
-use Opifer\ContentBundle\Block\Tool\ContentTool;
+use Opifer\ContentBundle\Block\Tool\Toolset;
 use Opifer\ContentBundle\Block\Tool\ToolsetMemberInterface;
 use Opifer\ContentBundle\Entity\Block;
 use Opifer\ContentBundle\Entity\PointerBlock;
-use Opifer\ContentBundle\Entity\Template;
 use Opifer\ContentBundle\Model\BlockInterface;
-use Opifer\ContentBundle\Model\ContentInterface;
 use Opifer\ContentBundle\Repository\BlockLogEntryRepository;
-use Symfony\Bundle\FrameworkBundle\Templating\EngineInterface;
 
 /**
  * Class BlockManager
@@ -79,19 +76,19 @@ class BlockManager
     }
 
     /**
-     * @return array
+     * @return Toolset
      */
-    public function getTools()
+    public function getToolset()
     {
-        $tools = array();
+        $toolbelt = new Toolset;
 
         foreach ($this->services as $service) {
             if ($service instanceof ToolsetMemberInterface) {
-                $tools[] = $service->getTool();
+                $toolbelt->addTool($service->getTool());
             }
         }
 
-        return $tools;
+        return $toolbelt;
     }
 
     /**

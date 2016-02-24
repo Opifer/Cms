@@ -7,9 +7,13 @@ namespace Opifer\ContentBundle\Block\Tool;
  *
  * @package Opifer\ContentBundle\Block\Tool
  */
-abstract class Tool
+class Tool
 {
-    const TYPE = '';
+    const GROUP_CONTENT = 'Content';
+    const GROUP_LAYOUT = 'Layouts';
+
+    /** @var string */
+    protected $group = self::GROUP_CONTENT;
 
     /** @var string */
     protected $name;
@@ -43,6 +47,25 @@ abstract class Tool
     public function getDataJson()
     {
         return json_encode($this->getData());
+    }
+
+    /**
+     * @return string
+     */
+    public function getGroup()
+    {
+        return $this->group;
+    }
+
+    /**
+     * @param string $group
+     * @return Tool
+     */
+    public function setGroup($group)
+    {
+        $this->group = $group;
+
+        return $this;
     }
 
     /**
@@ -163,13 +186,5 @@ abstract class Tool
         $this->sort = $sort;
 
         return $this;
-    }
-
-    /**
-     * @return string
-     */
-    static public function getType()
-    {
-        return static::TYPE;
     }
 }

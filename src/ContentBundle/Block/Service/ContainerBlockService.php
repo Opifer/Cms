@@ -2,7 +2,7 @@
 
 namespace Opifer\ContentBundle\Block\Service;
 
-use Opifer\ContentBundle\Block\Tool\LayoutTool;
+use Opifer\ContentBundle\Block\Tool\Tool;
 use Opifer\ContentBundle\Block\Tool\ToolsetMemberInterface;
 use Opifer\ContentBundle\Entity\ContainerBlock;
 use Opifer\ContentBundle\Model\BlockInterface;
@@ -79,10 +79,11 @@ class ContainerBlockService extends AbstractBlockService implements LayoutBlockS
      */
     public function getTool()
     {
-        $tool = new LayoutTool($this->getName(), 'OpiferContentBundle:ContainerBlock');
+        $tool = new Tool($this->getName(), 'OpiferContentBundle:ContainerBlock');
 
         $tool
             ->setIcon('crop_free')
+            ->setGroup(Tool::GROUP_LAYOUT)
             ->setDescription('Container element to hold columns or other blocks in');
 
         return $tool;

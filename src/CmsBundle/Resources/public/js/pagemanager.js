@@ -451,9 +451,7 @@ $(document).ready(function() {
 
         var setViewMode = function(mode) {
             if (mode == VIEWMODE_CONTENT) {
-                $('.pm-tools-blockset').addClass('hidden');
-                $('#pm-tools-blocks').removeClass('hidden');
-                $('#pm-tools-layouts').removeClass('hidden');
+                $('.pm-tools-blockset').removeClass('hidden');
             //} else if (mode == VIEWMODE_LAYOUT) {
             //    $('.pm-tools-blockset').addClass('hidden');
             //    $('#pm-tools-layouts').removeClass('hidden');
