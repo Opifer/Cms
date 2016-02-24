@@ -79,7 +79,7 @@ class ColumnBlockService extends AbstractBlockService implements LayoutBlockServ
             $properties = $block->getProperties();
             if (!count($properties) ) {
                 $properties['styles'] = array();
-                $cols = array_fill(0, 4, array_fill(0, $block->getColumnCount(), 12/$block->getColumnCount()));
+                $cols = array_merge(array(array_fill(0, $block->getColumnCount(), 12/$block->getColumnCount())), array_fill(0, 3, array_fill(0, $block->getColumnCount(), null)));
                 $keys = array('xs', 'sm', 'md', 'lg');
                 $properties['spans'] = array_combine($keys, $cols);
                 $properties['gutters'] = array_combine($keys, $cols);
@@ -179,6 +179,9 @@ class ColumnBlockService extends AbstractBlockService implements LayoutBlockServ
             if (isset($properties['spans']) && count($properties['spans']) > 0) {
                 foreach ($properties['spans'] as $screen => $cols) {
                     foreach ($cols as $col => $span) {
+                        if (empty($span)) {
+                            continue;
+                        }
                         $spanStyles[$col][] = "col-$screen-$span";
                     }
                 }
