@@ -31,9 +31,7 @@ class JumbotronBlockService extends AbstractBlockService implements BlockService
             ->add('id', TextType::class, ['attr' => ['help_text' => 'help.html_id']])
             ->add('extra_classes', TextType::class, ['attr' => ['help_text' => 'help.extra_classes']]);
 
-
         if ($this->config['styles']) {
-
             $propertiesForm
                 ->add('styles', ChoiceType::class, [
                     'label' => 'label.styling',
@@ -43,6 +41,16 @@ class JumbotronBlockService extends AbstractBlockService implements BlockService
                     'multiple' => true,
                     'attr' => ['help_text' => 'help.html_styles'],
                 ]);
+        }
+
+        if (isset($this->config['templates'])) {
+            $propertiesForm->add('template', ChoiceType::class, [
+                'label'       => 'label.template',
+                'placeholder' => 'placeholder.choice_optional',
+                'attr'        => ['help_text' => 'help.block_template'],
+                'choices'     => $this->config['templates'],
+                'required'    => false,
+            ]);
         }
 
         $builder->add(

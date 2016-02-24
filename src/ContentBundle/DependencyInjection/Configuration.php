@@ -213,6 +213,14 @@ class Configuration implements ConfigurationInterface
                                         'text-contrast' => 'Text-color contrast',
                                     ])
                                 ->end()
+                                ->arrayNode('templates')
+                                    ->prototype('scalar')->end()
+                                    ->normalizeKeys(false)
+                                    ->useAttributeAsKey('name')
+                                    ->defaultValue([
+                                        'default' => 'Default',
+                                    ])
+                                ->end()
                             ->end()
                         ->end()
                         ->arrayNode('list')
