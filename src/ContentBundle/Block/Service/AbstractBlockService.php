@@ -148,7 +148,7 @@ abstract class AbstractBlockService
      */
     public function getManageView(BlockInterface $block)
     {
-        return $this->config['view'];
+        return $this->getView($block);
     }
 
     /**
