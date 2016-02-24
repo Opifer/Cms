@@ -41,7 +41,7 @@ class Configuration implements ConfigurationInterface
                                     ->defaultValue('OpiferFormBundle:Form:create.html.twig')
                                 ->end()
                                 ->scalarNode('edit')
-                                    ->defaultValue('OpiferFormBundle:Form:edit.html.twig')
+                                    ->defaultValue('OpiferFormBundle:Form:design.html.twig')
                                 ->end()
                             ->end()
                         ->end()

@@ -250,6 +250,10 @@ angular.module('OpiferContent', ['angular-inview', 'ui.tree', 'ngCookies'])
                 };
 
                 $scope.editUrl = function (id) {
+                    return Routing.generate('opifer_content_content_edit', {'type': 'content', 'id': id});
+                };
+
+                $scope.designUrl = function (id) {
                     return Routing.generate('opifer_content_contenteditor_design', {'type': 'content', 'id': id});
                 };
 

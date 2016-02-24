@@ -103,7 +103,7 @@ class CronjobController extends Controller
             return $this->redirectToRoute('opifer_cms_cronjob_edit', ['id' => $cron->getId()]);
         }
 
-        return $this->render('OpiferCmsBundle:Backend/Cronjob:edit.html.twig', [
+        return $this->render('OpiferCmsBundle:Backend/Cronjob:design.html.twig', [
             'form' => $form->createView(),
             'cron' => $cron,
         ]);
