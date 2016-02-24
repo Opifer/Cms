@@ -12,10 +12,11 @@ use Opifer\ContentBundle\Model\ContentManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Templating\EngineInterface;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\FormType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 
 /**
- * Content Collection Block Service
+ * List Block Service
  */
 class ListBlockService extends AbstractBlockService implements BlockServiceInterface, ToolsetMemberInterface
 {

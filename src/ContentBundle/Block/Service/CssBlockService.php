@@ -4,6 +4,7 @@ namespace Opifer\ContentBundle\Block\Service;
 
 use Opifer\ContentBundle\Block\Tool\Tool;
 use Opifer\ContentBundle\Block\Tool\ToolsetMemberInterface;
+use Opifer\ContentBundle\Entity\CssBlock;
 use Symfony\Component\Form\Extension\Core\Type\FormType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -32,7 +33,7 @@ class CssBlockService extends AbstractBlockService implements BlockServiceInterf
      */
     public function createBlock()
     {
-        return new CssBlock;
+        return new CssBlock();
     }
 
     /**

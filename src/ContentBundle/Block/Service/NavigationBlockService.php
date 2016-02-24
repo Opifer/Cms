@@ -2,21 +2,15 @@
 
 namespace Opifer\ContentBundle\Block\Service;
 
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\ORM\EntityManager;
 use Opifer\ContentBundle\Block\Tool\Tool;
 use Opifer\ContentBundle\Block\Tool\ToolsetMemberInterface;
 use Opifer\ContentBundle\Entity\NavigationBlock;
 use Opifer\ContentBundle\Form\Type\ContentListPickerType;
-use Opifer\ContentBundle\Form\Type\ContentPickerType;
-use Opifer\ContentBundle\Form\Type\ContentTreePickerType;
 use Opifer\ContentBundle\Model\BlockInterface;
 use Opifer\ContentBundle\Model\ContentManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Templating\EngineInterface;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\FormType;
-use Symfony\Component\Form\Extension\Core\Type\IntegerType;
-use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\FormBuilderInterface;
 
 /**
@@ -86,9 +80,9 @@ class NavigationBlockService extends AbstractBlockService implements BlockServic
                         //        ]
                         //    ]
                         //])
-                        ->add('levels', IntegerType::class, [
+                        ->add('levels', ChoiceType::class, [
                             'label' => 'label.levels',
-                            'empty_data' => 1,
+                            'choices' => [1 => 1, 2 => 2, 3 => 3, 4 => 4, 5 => 5],
                             'attr' => [
                                 'help_text' => 'help.levels',
                                 'widget_col' => 9,
