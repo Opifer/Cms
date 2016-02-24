@@ -42,24 +42,6 @@ class ConfigManager
     }
 
     /**
-     * @param string      $name  Name of the config to update.
-     * @param string|null $value New value for the config.
-     *
-     * @throws \RuntimeException If the config is not defined.
-     */
-    public function set($name, $value)
-    {
-        $config = $this->getRepository()->findOneBy(array('name' => $name));
-
-        if ($config === null) {
-            //throw $this->createNotFoundException($name);
-        }
-
-        $config->setValue($value);
-        $this->em->flush($config);
-    }
-
-    /**
      * @param string $key
      *
      * @return mixed
@@ -70,9 +52,9 @@ class ConfigManager
             $this->loadConfigs();
         }
 
-        if (!array_key_exists($key, $this->configs)) {
+        if (false == array_key_exists($key, $this->configs)) {
             $availableKeys = implode(', ', array_keys($this->configs));
-            new \RuntimeException(sprintf('Config "%s" could not be found. Use on of: %s', $key, $availableKeys));
+            throw new \RuntimeException(sprintf('Config "%s" could not be found. Found: %s', $key, $availableKeys));
         }
 
         $config = $this->configs[$key];
@@ -158,7 +140,7 @@ class ConfigManager
      */
     public function loadConfigs()
     {
-        $configs = array();
+        $configs = [];
         foreach ($this->getRepository()->findAll() as $config) {
             $configs[$config->getName()] = $config;
         }

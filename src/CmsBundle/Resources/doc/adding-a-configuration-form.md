@@ -17,9 +17,6 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\FormBuilderInterface;
 
-/**
- * Settings Type
- */
 class SettingsType extends AbstractType implements ConfigurationFormTypeInterface
 {
     /**
