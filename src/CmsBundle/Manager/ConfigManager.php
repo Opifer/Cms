@@ -75,7 +75,13 @@ class ConfigManager
             new \RuntimeException(sprintf('Config "%s" could not be found. Use on of: %s', $key, $availableKeys));
         }
 
-        return $this->configs[$key];
+        $config = $this->configs[$key];
+
+        if (!$config->getValue() instanceof \stdClass || !isset($config->getValue()->Value)) {
+            new \Exception(sprintf('Config "%s" should be stored as \stdClass with a Value property', $key));
+        }
+
+        return $this->configs[$key]->getValue()->Value;
     }
 
     /**
@@ -108,6 +114,11 @@ class ConfigManager
         return array_key_exists($key, $this->configs);
     }
 
+    /**
+     * Returns a key-value array of the settings
+     *
+     * @return array
+     */
     public function keyValues()
     {
         if (null === $this->configs) {

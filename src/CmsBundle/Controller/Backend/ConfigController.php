@@ -2,7 +2,6 @@
 
 namespace Opifer\CmsBundle\Controller\Backend;
 
-use Opifer\CmsBundle\Entity\Config;
 use Opifer\CmsBundle\Form\Type\ConfigType;
 use Opifer\CmsBundle\Manager\ConfigManager;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -21,9 +20,7 @@ class ConfigController extends Controller
         /** @var ConfigManager $configManager */
         $configManager = $this->get('opifer.cms.config_manager');
 
-        $configs = $configManager->getRepository()->findAll();
-
-        $form = $this->createForm(ConfigType::class, $configs);
+        $form = $this->createForm(ConfigType::class, []);
         $form->handleRequest($request);
 
         if ($form->isValid()) {
@@ -43,7 +40,7 @@ class ConfigController extends Controller
 
             $em->flush();
 
-            $this->addFlash('success', $this->get('translator')->trans('configs.edit.success'));
+            $this->addFlash('success', 'flash.config_saved');
 
             return $this->redirectToRoute('opifer_cms_config_index');
         }

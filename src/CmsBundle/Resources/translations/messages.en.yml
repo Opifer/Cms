@@ -1,3 +1,6 @@
+flash:
+    config_saved: Your configurations have been saved
+
 title:
     config: Configuration
 
@@ -126,13 +129,6 @@ security:
         password: "Password:"
         remember_me: Stay signed in
         submit: Login
-
-# Settings
-setting:
-    index:
-        title: settings
-    edit:
-        success: 'Your settings have been saved!'
 
 # Sites
 site:
