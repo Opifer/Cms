@@ -1,3 +1,9 @@
+flash:
+    config_saved: Your configurations have been saved
+
+title:
+    config: Configuration
+
 # Base
 base:
     cronjobs: cron jobs
@@ -58,23 +64,6 @@ dashboard:
     title: dashboard
     user:
         latest: Newest users
-
-# Directory
-directory:
-    index:
-        title: directories
-    edit:
-        title: edit directory
-    parent:
-        label: Parent directory
-        empty: "(no parent directory)"
-        help_text: choose a parent for this directory if applicable
-    name:
-        help_text: enter a name for this directory
-    menu:
-        default:
-            label: default
-    submit: Save directory
 
 # Menu
 menu:
@@ -141,13 +130,6 @@ security:
         remember_me: Stay signed in
         submit: Login
 
-# Settings
-setting:
-    index:
-        title: settings
-    edit:
-        success: 'Your settings have been saved!'
-
 # Sites
 site:
     new: add site
@@ -194,11 +176,12 @@ button:
     all: Show All
     cancel: Cancel
     delete: Delete
+    design: Design
     edit: Edit
     publish: Publish
     reset: Reset
+    submit: Save
     quit: Quit
-    design: Design
 
 # Labels
 label:
@@ -222,6 +205,5 @@ confirmation:
         description: "Are you sure you want to delete"
 
 schema:
-    post_notify: Email notification
     delete:
         warning: "We're unable to remove this template. It might still be in use by content items."

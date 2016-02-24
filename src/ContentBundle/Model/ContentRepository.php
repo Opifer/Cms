@@ -3,6 +3,7 @@
 namespace Opifer\ContentBundle\Model;
 
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\ORM\Query\Expr\Join;
 use Gedmo\Tree\Entity\Repository\NestedTreeRepository;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -251,7 +252,7 @@ class ContentRepository extends NestedTreeRepository
 
             for ($i = 1; $i <= $levels; $i++) {
                 $previous = ($i-1 == 0) ? '' : ($i-1);
-                $query->leftJoin('c'.$previous.'.children', 'c'.$i);
+                $query->leftJoin('c'.$previous.'.children', 'c'.$i, 'WITH', 'c'.$i.'.active = :active AND c'.$i.'.showInNavigation = :show');
             }
         }
 
@@ -261,6 +262,7 @@ class ContentRepository extends NestedTreeRepository
             $query->andWhere('c.parent IS NULL');
         }
 
+        $query->andWhere('c.active = :active')->setParameter('active', true);
         $query->andWhere('c.showInNavigation = :show')->setParameter('show', true);
 
         return $query->getQuery()->getArrayResult();

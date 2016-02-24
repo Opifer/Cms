@@ -34,7 +34,6 @@ framework:
 # Templating
 braincrafted_bootstrap:
     output_dir:
-#    less_filter: less # "less", "lessphp" or "none"
     auto_configure:
         assetic:       false
         twig:          true
@@ -76,9 +75,6 @@ doctrine:
         user:     '%opifer_cms.database_user%'
         password: '%opifer_cms.database_password%'
         charset:  UTF8
-        # if using pdo_sqlite as your database driver, add the path in parameters.yml
-        # e.g. database_path: %kernel.root_dir%/data/data.db3
-        # path:     %database_path%
     orm:
         auto_generate_proxy_classes: '%kernel.debug%'
         auto_mapping:                true
@@ -158,8 +154,8 @@ presta_sitemap:
 
 # Twig Configuration
 twig:
-    debug:                '%kernel.debug%'
-    strict_variables:     '%kernel.debug%'
+    debug:            '%kernel.debug%'
+    strict_variables: '%kernel.debug%'
     form:
         resources:
             - 'OpiferEavBundle:Form:fields.html.twig'
@@ -167,7 +163,7 @@ twig:
             - 'OpiferContentBundle:Form:fields.html.twig'
             - 'OpiferCmsBundle:Form:fields.html.twig' # At the bottom to make sure form action are being set to '#' when empty
     globals:
-        settings: '@opifer.cms.settings'
+        config: '@opifer.cms.config_manager'
         content_type_manager: '@opifer.content.content_type_manager'
 
 # Media
