@@ -2,7 +2,7 @@
 
 namespace Opifer\ContentBundle\Block\Service;
 
-use Opifer\ContentBundle\Block\Tool\ContentTool;
+use Opifer\ContentBundle\Block\Tool\Tool;
 use Opifer\ContentBundle\Block\Tool\ToolsetMemberInterface;
 use Opifer\ContentBundle\Entity\GalleryBlock;
 use Opifer\ContentBundle\Model\BlockInterface;
@@ -76,7 +76,7 @@ class GalleryBlockService extends AbstractBlockService implements BlockServiceIn
      */
     public function getTool()
     {
-        $tool = new ContentTool('Gallery', 'OpiferContentBundle:GalleryBlock');
+        $tool = new Tool('Gallery', 'OpiferContentBundle:GalleryBlock');
 
         $tool->setIcon('view_module')
             ->setDescription('A collection of media thumbnails');
