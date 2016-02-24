@@ -261,6 +261,8 @@ opifer_redirect:
             edit: 'OpiferCmsBundle:Backend/Redirect:edit.html.twig'
 
 opifer_cms:
+    ckeditor:
+        css_path: '/bundles/opifercms/css/app.css'
     autocomplete:
         user:
             class: 'Opifer\CmsBundle\Entity\User'
