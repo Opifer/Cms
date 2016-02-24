@@ -11,6 +11,7 @@ namespace Opifer\ContentBundle\Environment;
 use Doctrine\ORM\EntityManagerInterface;
 use Opifer\ContentBundle\Block\BlockManager;
 use Opifer\ContentBundle\Block\BlockOwnerInterface;
+use Opifer\ContentBundle\Block\Service\LayoutBlockServiceInterface;
 use Opifer\ContentBundle\Entity\Block;
 use Opifer\ContentBundle\Entity\DocumentBlock;
 use Opifer\ContentBundle\Model\BlockInterface;
@@ -266,6 +267,11 @@ abstract class Environment
             $view = $this->getView();
         } else {
             $service = $this->blockManager->getService($block);
+
+            if ($service instanceof LayoutBlockServiceInterface) {
+                return $service->getPlaceholders($block);
+            }
+
             $view = $service->getView($block);
         }
 

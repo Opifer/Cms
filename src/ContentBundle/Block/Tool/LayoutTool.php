@@ -3,12 +3,12 @@
 namespace Opifer\ContentBundle\Block\Tool;
 
 /**
- * Class ContainerTool
+ * Class LayoutTool
  *
  * @package Opifer\ContentBundle\Block\Tool
  */
-class ContainerTool extends Tool
+class LayoutTool extends Tool
 {
-    const TYPE = 'container';
+    const TYPE = 'layout';
 
 }

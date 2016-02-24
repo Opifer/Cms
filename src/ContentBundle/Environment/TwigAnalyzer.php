@@ -21,18 +21,29 @@ class TwigAnalyzer extends TwigEngine
                 continue;
             }
 
-            if ($function->getNode('arguments')->count() && $function->getNode('arguments')->getNode('0')->hasAttribute('value')) {
-                $key = (int) $function->getNode('arguments')->getNode('0')->getAttribute('value');
+            if ($function->getNode('arguments')->count()) {
+                $arguments = $function->getNode('arguments');
+
+                if ($arguments->getNode('0')->hasAttribute('value')) {
+                    $key = (int)$arguments->getNode('0')->getAttribute('value');
+                } else {
+                    $key++;
+                }
+
+                if ($arguments->getNode('1')->hasAttribute('value')) {
+                    $label = $arguments->getNode('1')->getAttribute('value');
+                } else {
+                    $label = $key;
+                }
             } else {
                 $key++;
+                $label = $key;
             }
 
-            $placeholders[] = array('key' => $key, 'lineno' => $function->getLine());
+            $placeholders[$key] = $label;
         }
 
-        uasort($placeholders, function($a, $b) {
-            return ($a['lineno'] > $b['lineno']);
-        });
+        ksort($placeholders);
 
         return $placeholders;
     }

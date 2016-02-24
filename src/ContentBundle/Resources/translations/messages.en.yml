@@ -54,6 +54,8 @@ label:
     styling: Styles
     spans: Column width
     title: Title
+    code: Code
+    tabs: Tabs
 
 placeholder:
     choice_optional: Choose (optional)
