@@ -82,7 +82,7 @@ class NavigationBlockService extends AbstractBlockService implements BlockServic
                         //])
                         ->add('levels', ChoiceType::class, [
                             'label' => 'label.levels',
-                            'choices' => [1, 2, 3, 4, 5],
+                            'choices' => [1 => 1, 2 => 2, 3 => 3, 4 => 4, 5 => 5],
                             'attr' => [
                                 'help_text' => 'help.levels',
                                 'widget_col' => 9,
