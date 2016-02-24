@@ -48,6 +48,10 @@
             </div>
 
             <div class="panel-body text-center">
+                <div class="drag-drop">
+                    <span class="fa fa-image"></span>
+                    <h3>Drag and drop files to upload</h3>
+                </div>
                 <div class="btn btn-primary" id="btnMediaPaginate" data-loading-text="Loading..."  in-view="mediaCollection.loadMore()" ng-click="mediaCollection.loadMore()" ng-if="(picker.pickerShown || !picker.name)" ng-hide="mediaCollection.end">
                     Load more
                 </div>
