@@ -2,9 +2,10 @@
 
 namespace Opifer\ContentBundle\Block\Service;
 
-use Opifer\ContentBundle\Block\Tool\ContainerTool;
+use Opifer\ContentBundle\Block\Tool\LayoutTool;
 use Opifer\ContentBundle\Block\Tool\ToolsetMemberInterface;
 use Opifer\ContentBundle\Entity\ContainerBlock;
+use Opifer\ContentBundle\Model\BlockInterface;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\FormType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -17,7 +18,7 @@ use Symfony\Component\Form\FormEvents;
  *
  * @package Opifer\ContentBundle\Block
  */
-class ContainerBlockService extends AbstractBlockService implements BlockServiceInterface, ToolsetMemberInterface
+class ContainerBlockService extends AbstractBlockService implements LayoutBlockServiceInterface, BlockServiceInterface, ToolsetMemberInterface
 {
 
     /**
@@ -78,12 +79,20 @@ class ContainerBlockService extends AbstractBlockService implements BlockService
      */
     public function getTool()
     {
-        $tool = new ContainerTool($this->getName(), 'OpiferContentBundle:ContainerBlock');
+        $tool = new LayoutTool($this->getName(), 'OpiferContentBundle:ContainerBlock');
 
         $tool
             ->setIcon('crop_free')
             ->setDescription('Container element to hold columns or other blocks in');
 
         return $tool;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getPlaceholders(BlockInterface $block = null)
+    {
+        return [0 => 'container'];
     }
 }

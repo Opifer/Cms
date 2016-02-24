@@ -11,10 +11,10 @@
             </span>
             {% if node is block_container %}
             <ul>
-                {% for placeholder in environment.getPlaceholders(node) %}
-                    <li class="node-placeholder"><span data-lineno="{{ placeholder.lineno }}">{{ placeholder.key }}</span>
-                        <ul class="pm-placeholder" data-pm-placeholder-key="{{ placeholder.key }}" data-pm-placeholder-id="{{ node.id }}">
-                            {{ toc.node(environment.blockChildren(node), environment, placeholder.key) }}
+                {% for placeholder_key, placeholder_name in environment.getPlaceholders(node) %}
+                    <li class="node-placeholder"><span>{{ placeholder_name }}</span>
+                        <ul class="pm-placeholder" data-pm-placeholder-key="{{ placeholder_key }}" data-pm-placeholder-id="{{ node.id }}">
+                            {{ toc.node(environment.blockChildren(node), environment, placeholder_key) }}
                         </ul>
                     </li>
                 {% endfor %}
@@ -28,10 +28,10 @@
 {% import _self as toc %}
 
 <ul data-pm-block-id="{{ block.id }}" data-pm-block-owner-id="{{ block.owner.id|default }}">
-    {% for placeholder in environment.getPlaceholders(block) %}
-        <li class="node-placeholder"><span data-lineno="{{ placeholder.lineno }}">{{ placeholder.key }}</span>
-            <ul class="pm-placeholder" data-pm-placeholder-key="{{ placeholder.key }}" data-pm-placeholder-id="{{ block.id }}">
-                {{ toc.node(environment.blockChildren(block), environment, placeholder.key) }}
+    {% for placeholder_key, placeholder_name in environment.getPlaceholders(block) %}
+        <li class="node-placeholder"><span>{{ placeholder_name }}</span>
+            <ul class="pm-placeholder" data-pm-placeholder-key="{{ placeholder_key }}" data-pm-placeholder-id="{{ block.id }}">
+                {{ toc.node(environment.blockChildren(block), environment, placeholder_key) }}
             </ul>
         </li>
     {% endfor %}

@@ -85,6 +85,7 @@ class ContentExtension extends \Twig_Extension
         ];
     }
 
+
     /**
      * @param BlockInterface $block
      * @param array          $arguments
@@ -115,7 +116,7 @@ class ContentExtension extends \Twig_Extension
      *
      * @return mixed
      */
-    public function renderPlaceholder($context, $key = 0)
+    public function renderPlaceholder($context, $key = 0, $label = false)
     {
         if (isset($context['environment'])) {
             $this->blockEnvironment = $context['environment'];

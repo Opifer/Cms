@@ -96,10 +96,9 @@ class NavigationBlockService extends AbstractBlockService implements BlockServic
                         ])
                         ->add('template', ChoiceType::class, [
                             'label' => 'label.template',
-                            'placeholder' => 'placeholder.choice_optional',
                             'attr' => ['help_text' => 'help.block_template', 'widget_col' => 9],
                             'choices' => $this->config['templates'],
-                            'required' => false,
+                            'required' => true,
                         ])
                 )
         );

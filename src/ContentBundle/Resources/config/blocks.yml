@@ -3,6 +3,7 @@ parameters:
     opifer.content.carousel_block.class: Opifer\ContentBundle\Block\Service\CarouselBlockService
     opifer.content.carousel_slide_block.class: Opifer\ContentBundle\Block\Service\CarouselSlideBlockService
     opifer.content.collection_block.class: Opifer\ContentBundle\Block\Service\CollectionBlockService
+    opifer.content.iframe_block.class: Opifer\ContentBundle\Block\Service\IFrameBlockService
     opifer.content.column_block.class: Opifer\ContentBundle\Block\Service\ColumnBlockService
     opifer.content.container_block.class: Opifer\ContentBundle\Block\Service\ContainerBlockService
     opifer.content.section_block.class: Opifer\ContentBundle\Block\Service\SectionBlockService
@@ -12,6 +13,9 @@ parameters:
     opifer.content.pointer_block.class: Opifer\ContentBundle\Block\Service\PointerBlockService
     opifer.content.list_block.class: Opifer\ContentBundle\Block\Service\ListBlockService
     opifer.content.navigation_block.class: Opifer\ContentBundle\Block\Service\NavigationBlockService
+    opifer.content.tabnav_block.class: Opifer\ContentBundle\Block\Service\TabNavBlockService
+    opifer.content.css_block.class: Opifer\ContentBundle\Block\Service\CssBlockService
+    opifer.content.javascript_block.class: Opifer\ContentBundle\Block\Service\JavaScriptBlockService
     opifer.content.pointer_block.class: Opifer\ContentBundle\Block\Service\PointerBlockService
 
 services:
@@ -68,6 +72,26 @@ services:
         arguments: ['@templating', '%opifer_content.button_block_configuration%']
         tags:
             - { name: opifer.content.block_service, alias: button }
+        tags:
+            - { name: opifer.content.block_service, alias: css }
+
+    opifer.content_iframe_block:
+        class: '%opifer.content.iframe_block.class%'
+        arguments: ['@templating', '%opifer_content.iframe_block_configuration%']
+        tags:
+            - { name: opifer.content.block_service, alias: iframe }
+
+    opifer.content.css_block:
+        class: '%opifer.content.css_block.class%'
+        arguments: ['@templating', '%opifer_content.css_block_configuration%']
+        tags:
+            - { name: opifer.content.block_service, alias: css }
+
+    opifer.content.javascript_block:
+        class: '%opifer.content.javascript_block.class%'
+        arguments: ['@templating', '%opifer_content.javascript_block_configuration%']
+        tags:
+            - { name: opifer.content.block_service, alias: javascript }
 
     opifer.content.pointer_block:
         class: '%opifer.content.pointer_block.class%'
@@ -118,3 +142,9 @@ services:
             - { name: opifer.content.block_service, alias: column_four }
         calls:
             - [setColumnCount, [4]]
+
+    opifer.content.tabnav_block:
+        class: '%opifer.content.tabnav_block.class%'
+        arguments: ['@templating', '%opifer_content.tabnav_block_configuration%']
+        tags:
+            - { name: opifer.content.block_service, alias: tabnav }
