@@ -86,7 +86,7 @@ class MenuController extends Controller
             return $this->redirectToRoute('opifer_cms_menu_index');
         }
 
-        return $this->render('OpiferCmsBundle:Backend/Menu:edit.html.twig', [
+        return $this->render('OpiferCmsBundle:Backend/Menu:design.html.twig', [
             'menu' => $menu,
             'localeMenu' => '',
             'form' => $form->createView(),
@@ -120,7 +120,7 @@ class MenuController extends Controller
             return $this->redirectToRoute('opifer_cms_menu_index');
         }
 
-        return $this->render('OpiferCmsBundle:Backend/Menu:edit.html.twig', [
+        return $this->render('OpiferCmsBundle:Backend/Menu:design.html.twig', [
             'menu' => $menu,
             'form' => $form->createView(),
         ]);

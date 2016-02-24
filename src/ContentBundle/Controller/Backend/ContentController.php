@@ -88,8 +88,38 @@ class ContentController extends Controller
         ]);
     }
 
+
     /**
-     * Details action.
+     * Edit the details of Content
+     *
+     * @param Request $request
+     * @param integer $type
+     *
+     * @return Response
+     */
+    public function editAction(Request $request, $id)
+    {
+        /** @var ContentManager $manager */
+        $manager = $this->get('opifer.content.content_manager');
+        $content = $manager->getRepository()->find($id);
+
+        $form = $this->createForm(ContentType::class, $content);
+        $form->handleRequest($request);
+
+        if ($form->isValid()) {
+            $manager->save($content);
+
+            return $this->redirectToRoute('opifer_content_content_index');
+        }
+
+        return $this->render($this->getParameter('opifer_content.content_edit_view'), [
+            'content' => $content,
+            'form' => $form->createView(),
+        ]);
+    }
+
+    /**
+     * Details action for an inline form in the Content Designer.
      *
      * @param Request $request
      * @param integer $directoryId

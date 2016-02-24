@@ -71,7 +71,7 @@ class ContentEditorController extends Controller
             'url' => $suite->getCanvasUrl($version),
         ];
 
-        return $this->render($this->getParameter('opifer_content.content_edit_view'), $parameters);
+        return $this->render($this->getParameter('opifer_content.content_design_view'), $parameters);
     }
 
 
