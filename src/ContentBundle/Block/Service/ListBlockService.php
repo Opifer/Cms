@@ -3,7 +3,7 @@
 namespace Opifer\ContentBundle\Block\Service;
 
 use Doctrine\ORM\EntityManager;
-use Opifer\ContentBundle\Block\Tool\ContentTool;
+use Opifer\ContentBundle\Block\Tool\Tool;
 use Opifer\ContentBundle\Block\Tool\ToolsetMemberInterface;
 use Opifer\ContentBundle\Entity\ListBlock;
 use Opifer\ContentBundle\Form\Type\ContentListPickerType;
@@ -104,7 +104,7 @@ class ListBlockService extends AbstractBlockService implements BlockServiceInter
      */
     public function getTool()
     {
-        $tool = new ContentTool('List', 'OpiferContentBundle:ListBlock');
+        $tool = new Tool('List', 'OpiferContentBundle:ListBlock');
 
         $tool->setIcon('list')
             ->setDescription('Adds references to a collection of content items');

@@ -4,7 +4,7 @@ namespace Opifer\ContentBundle\Block\Service;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\EntityManager;
-use Opifer\ContentBundle\Block\Tool\ContentTool;
+use Opifer\ContentBundle\Block\Tool\Tool;
 use Opifer\ContentBundle\Block\Tool\ToolsetMemberInterface;
 use Opifer\ContentBundle\Entity\CollectionBlock;
 use Opifer\ContentBundle\Model\BlockInterface;
@@ -108,7 +108,7 @@ class CollectionBlockService extends AbstractBlockService implements BlockServic
      */
     public function getTool()
     {
-        $tool = new ContentTool('Collection', 'OpiferContentBundle:CollectionBlock');
+        $tool = new Tool('Collection', 'OpiferContentBundle:CollectionBlock');
 
         $tool->setIcon('query_builder')
             ->setDescription('Adds references to a collection of content items');

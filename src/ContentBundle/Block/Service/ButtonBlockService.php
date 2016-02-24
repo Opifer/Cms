@@ -2,7 +2,7 @@
 
 namespace Opifer\ContentBundle\Block\Service;
 
-use Opifer\ContentBundle\Block\Tool\ContentTool;
+use Opifer\ContentBundle\Block\Tool\Tool;
 use Opifer\ContentBundle\Block\Tool\ToolsetMemberInterface;
 use Opifer\ContentBundle\Entity\ButtonBlock;
 use Opifer\ContentBundle\Model\BlockInterface;
@@ -73,7 +73,7 @@ class ButtonBlockService extends AbstractBlockService implements BlockServiceInt
      */
     public function getTool()
     {
-        $tool = new ContentTool('Button link', 'OpiferContentBundle:ButtonBlock');
+        $tool = new Tool('Button link', 'OpiferContentBundle:ButtonBlock');
 
         $tool->setIcon('link')
             ->setDescription('Creates a link to a (external) page or content');

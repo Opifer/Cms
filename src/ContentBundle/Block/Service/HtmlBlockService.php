@@ -3,7 +3,7 @@
 namespace Opifer\ContentBundle\Block\Service;
 
 use Opifer\CmsBundle\Form\Type\CKEditorType;
-use Opifer\ContentBundle\Block\Tool\ContentTool;
+use Opifer\ContentBundle\Block\Tool\Tool;
 use Opifer\ContentBundle\Block\Tool\ToolsetMemberInterface;
 use Opifer\ContentBundle\Entity\HtmlBlock;
 use Opifer\ContentBundle\Model\BlockInterface;
@@ -47,7 +47,7 @@ class HtmlBlockService extends AbstractBlockService implements BlockServiceInter
      */
     public function getTool()
     {
-        $tool = new ContentTool('Rich text', 'OpiferContentBundle:HtmlBlock');
+        $tool = new Tool('Rich text', 'OpiferContentBundle:HtmlBlock');
 
         $tool->setIcon('text_fields')
             ->setDescription('Rich content editable through WYSIWYG editor.');

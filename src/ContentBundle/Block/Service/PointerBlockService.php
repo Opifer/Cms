@@ -4,7 +4,7 @@ namespace Opifer\ContentBundle\Block\Service;
 
 use Doctrine\ORM\EntityRepository;
 use Opifer\ContentBundle\Block\BlockManager;
-use Opifer\ContentBundle\Block\Tool\ContentTool;
+use Opifer\ContentBundle\Block\Tool\Tool;
 use Opifer\ContentBundle\Block\Tool\ToolsetMemberInterface;
 use Opifer\ContentBundle\Entity\Block;
 use Opifer\ContentBundle\Entity\PointerBlock;
@@ -145,7 +145,7 @@ class PointerBlockService extends AbstractBlockService implements BlockServiceIn
      */
     public function getTool()
     {
-        $tool = new ContentTool('Shared block', 'OpiferContentBundle:PointerBlock');
+        $tool = new Tool('Shared block', 'OpiferContentBundle:PointerBlock');
 
         $tool->setIcon('all_inclusive')
             ->setDescription('This block will load a shared block');

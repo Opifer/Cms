@@ -4,7 +4,7 @@
         {% if key == node.position %}
         <li data-pm-block-id="{{ node.id }}" data-pm-block-owner-id="{{ node.owner.id }}">
             <span class="node-block">
-                <i class="material-icons md-18">{{ environment.getTool(node).icon }}</i> {{ environment.getTool(node).name }} #{{ node.id }}
+                <i class="material-icons md-18">{{ environment.getTool(node).icon }}</i> {{ environment.getTool(node).name }}
                 <i data-pm-block-id="{{ node.id }}" class="pm-btn-node pm-btn-drag material-icons">drag_handle</i>
                 <i data-pm-block-id="{{ node.id }}" class="pm-btn-node pm-btn-localize material-icons">location_searching</i>
                 <i data-pm-block-id="{{ node.id }}" class="pm-btn-node pm-btn-edit material-icons">edit</i>
