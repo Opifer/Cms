@@ -82,10 +82,10 @@ class MediaRepository extends EntityRepository
         $query = $this->createQueryBuilder('m')
             ->where('m.id IN (:ids)')
             ->andWhere('m.status = :status')
-            ->setParameters(array(
+            ->setParameters([
                 'ids' => $ids,
                 'status' => 1,
-            ))
+            ])
             ->getQuery()
         ;
 
