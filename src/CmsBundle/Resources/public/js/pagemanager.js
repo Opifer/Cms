@@ -6,68 +6,91 @@ var CKEDITOR_BASEPATH = '/bundles/opifercms/components/ckeditor/';
 // Override refreshPositions
 //
 $.widget( "ui.sortable", $.ui.sortable, {
-    refreshPositions: function (fast) {
 
-        this._super();
+    _generatePosition: function(event) {
+        var c = this._super(event);
 
-        // Determine whether items are being displayed horizontally
-        this.floating = this.items.length ?
-        this.options.axis === "x" || this._isFloating(this.items[0].item) :
-            false;
-
-        //This has to be redone because due to the item being moved out/into the offsetParent, the offsetParent's position will change
-        if (this.offsetParent && this.helper) {
-            this.offset.parent = this._getParentOffset();
+        if (window.iFrameTopScrolled) {
+            c.top += (window.iFrameTopScrolled-40);
         }
 
-        var i, item, t, p;
+        return c;
 
-        for (i = this.items.length - 1; i >= 0; i--) {
-            item = this.items[i];
-
-            //We ignore calculating positions of all connected containers when we're not over them
-            if (item.instance !== this.currentContainer && this.currentContainer && item.item[0] !== this.currentItem[0]) {
-                continue;
-            }
-
-            t = this.options.toleranceElement ? $(this.options.toleranceElement, item.item) : item.item;
-
-            if (!fast) {
-                item.width = t.outerWidth();
-                item.height = t.outerHeight();
-            }
-
-            p = t.offset();
-            // CHANGED
-            if (window.iFrameSortable) {
-                p.top -= $('#pm-iframe').contents().scrollTop();
-            }
-            // CHANGED (END)
-            item.left = p.left;
-            item.top = p.top; // Remove iFrame scroll position (only change)
-        }
-
-        if (this.options.custom && this.options.custom.refreshContainers) {
-            this.options.custom.refreshContainers.call(this);
-        } else {
-            for (i = this.containers.length - 1; i >= 0; i--) {
-                p = this.containers[i].element.offset();
-
-                // CHANGED
-                if (window.iFrameSortable) {
-                    p.top -= $('#pm-iframe').contents().scrollTop();
-                }
-                //console.log(p.top, $('#pm-iframe').contents().scrollTop());
-                // CHANGED (END)
-                this.containers[i].containerCache.left = p.left;
-                this.containers[i].containerCache.top = p.top;
-                this.containers[i].containerCache.width = this.containers[i].element.outerWidth();
-                this.containers[i].containerCache.height = this.containers[i].element.outerHeight();
-            }
-        }
-
-        return this;
     },
+    //_convertPositionTo: function(d, pos) {
+    //
+    //    var c = this._super(d, pos);
+    //
+    //    if (window.iFrameTopScrolled) {
+    //        c.top += (window.iFrameTopScrolled-40);
+    //    }
+    //    console.log(window.iFrameTopScrolled, c);
+    //
+    //    return c;
+    //
+    //},
+    //refreshPositions: function (fast) {
+    //
+    //    this._super();
+    //
+    //    // Determine whether items are being displayed horizontally
+    //    this.floating = this.items.length ?
+    //    this.options.axis === "x" || this._isFloating(this.items[0].item) :
+    //        false;
+    //
+    //    //This has to be redone because due to the item being moved out/into the offsetParent, the offsetParent's position will change
+    //    if (this.offsetParent && this.helper) {
+    //        this.offset.parent = this._getParentOffset();
+    //    }
+    //
+    //    var i, item, t, p;
+    //
+    //    for (i = this.items.length - 1; i >= 0; i--) {
+    //        item = this.items[i];
+    //
+    //        //We ignore calculating positions of all connected containers when we're not over them
+    //        if (item.instance !== this.currentContainer && this.currentContainer && item.item[0] !== this.currentItem[0]) {
+    //            continue;
+    //        }
+    //
+    //        t = this.options.toleranceElement ? $(this.options.toleranceElement, item.item) : item.item;
+    //
+    //        if (!fast) {
+    //            item.width = t.outerWidth();
+    //            item.height = t.outerHeight();
+    //        }
+    //
+    //        p = t.offset();
+    //        // CHANGED
+    //        if (window.iFrameSortable) {
+    //            p.top -= $('#pm-iframe').contents().scrollTop();
+    //        }
+    //        // CHANGED (END)
+    //        item.left = p.left;
+    //        item.top = p.top; // Remove iFrame scroll position (only change)
+    //    }
+    //
+    //    if (this.options.custom && this.options.custom.refreshContainers) {
+    //        this.options.custom.refreshContainers.call(this);
+    //    } else {
+    //        for (i = this.containers.length - 1; i >= 0; i--) {
+    //            p = this.containers[i].element.offset();
+    //
+    //            // CHANGED
+    //            if (window.iFrameSortable) {
+    //                p.top -= $('#pm-iframe').contents().scrollTop();
+    //            }
+    //            //console.log(p.top, $('#pm-iframe').contents().scrollTop());
+    //            // CHANGED (END)
+    //            this.containers[i].containerCache.left = p.left;
+    //            this.containers[i].containerCache.top = p.top;
+    //            this.containers[i].containerCache.width = this.containers[i].element.outerWidth();
+    //            this.containers[i].containerCache.height = this.containers[i].element.outerHeight();
+    //        }
+    //    }
+    //
+    //    return this;
+    //},
 
     _contactContainers: function (event) {
         var i, j, dist, itemWithLeastDistance, posProperty, sizeProperty, cur, nearBottom, floating, axis,
@@ -855,7 +878,7 @@ $(document).ready(function() {
             var sortinstances = $.merge(frame, toc);
 
             $('.pm-block-item').draggable({
-                appendTo: '#pm-list-group-container',
+                appendTo: "body",
                 helper: 'clone',
                 iframeFix: true,
                 scroll: false,
@@ -881,11 +904,15 @@ $(document).ready(function() {
 
                     if (event.pageY > top && event.pageY < (top+height) &&
                         event.pageX > left && event.pageX < (left+width)) {
-                        window.iFrameSortable = true;
+                        window.iFrameTopScrolled = $('#pm-iframe').contents().scrollTop();
                     } else {
-                        window.iFrameSortable = false;
+                        window.iFrameTopScrolled = false;
                     }
                 }
+            });
+
+            $('.pm-toolset-body').scroll(function(e) {
+                $('.pm-placeholder').sortable( "refreshPositions" );
             });
 
             return this;
@@ -903,6 +930,7 @@ $(document).ready(function() {
             //if ($('.pm-block-item').hasClass('ui-draggable')) {
             //    $('.pm-block-item').draggable('destroy');
             //}
+            window.iFrameSortable = false;
 
             return this;
         };
