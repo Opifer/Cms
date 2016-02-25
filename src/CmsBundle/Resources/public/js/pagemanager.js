@@ -6,7 +6,6 @@ var CKEDITOR_BASEPATH = '/bundles/opifercms/components/ckeditor/';
 // Override refreshPositions
 //
 $.widget( "ui.sortable", $.ui.sortable, {
-
     _generatePosition: function(event) {
         var c = this._super(event);
 
@@ -17,81 +16,6 @@ $.widget( "ui.sortable", $.ui.sortable, {
         return c;
 
     },
-    //_convertPositionTo: function(d, pos) {
-    //
-    //    var c = this._super(d, pos);
-    //
-    //    if (window.iFrameTopScrolled) {
-    //        c.top += (window.iFrameTopScrolled-40);
-    //    }
-    //    console.log(window.iFrameTopScrolled, c);
-    //
-    //    return c;
-    //
-    //},
-    //refreshPositions: function (fast) {
-    //
-    //    this._super();
-    //
-    //    // Determine whether items are being displayed horizontally
-    //    this.floating = this.items.length ?
-    //    this.options.axis === "x" || this._isFloating(this.items[0].item) :
-    //        false;
-    //
-    //    //This has to be redone because due to the item being moved out/into the offsetParent, the offsetParent's position will change
-    //    if (this.offsetParent && this.helper) {
-    //        this.offset.parent = this._getParentOffset();
-    //    }
-    //
-    //    var i, item, t, p;
-    //
-    //    for (i = this.items.length - 1; i >= 0; i--) {
-    //        item = this.items[i];
-    //
-    //        //We ignore calculating positions of all connected containers when we're not over them
-    //        if (item.instance !== this.currentContainer && this.currentContainer && item.item[0] !== this.currentItem[0]) {
-    //            continue;
-    //        }
-    //
-    //        t = this.options.toleranceElement ? $(this.options.toleranceElement, item.item) : item.item;
-    //
-    //        if (!fast) {
-    //            item.width = t.outerWidth();
-    //            item.height = t.outerHeight();
-    //        }
-    //
-    //        p = t.offset();
-    //        // CHANGED
-    //        if (window.iFrameSortable) {
-    //            p.top -= $('#pm-iframe').contents().scrollTop();
-    //        }
-    //        // CHANGED (END)
-    //        item.left = p.left;
-    //        item.top = p.top; // Remove iFrame scroll position (only change)
-    //    }
-    //
-    //    if (this.options.custom && this.options.custom.refreshContainers) {
-    //        this.options.custom.refreshContainers.call(this);
-    //    } else {
-    //        for (i = this.containers.length - 1; i >= 0; i--) {
-    //            p = this.containers[i].element.offset();
-    //
-    //            // CHANGED
-    //            if (window.iFrameSortable) {
-    //                p.top -= $('#pm-iframe').contents().scrollTop();
-    //            }
-    //            //console.log(p.top, $('#pm-iframe').contents().scrollTop());
-    //            // CHANGED (END)
-    //            this.containers[i].containerCache.left = p.left;
-    //            this.containers[i].containerCache.top = p.top;
-    //            this.containers[i].containerCache.width = this.containers[i].element.outerWidth();
-    //            this.containers[i].containerCache.height = this.containers[i].element.outerHeight();
-    //        }
-    //    }
-    //
-    //    return this;
-    //},
-
     _contactContainers: function (event) {
         var i, j, dist, itemWithLeastDistance, posProperty, sizeProperty, cur, nearBottom, floating, axis,
             innermostContainer = null,
@@ -801,6 +725,7 @@ $(document).ready(function() {
             destroySortables();
 
             var sortStop = function (event, ui) {
+                iFrame.contents().find('.pm-placeholder').removeClass('pm-accept');
                 isDragging = false;
 
                 if (!$(ui.item).hasClass('pm-block-item')) {
@@ -852,6 +777,13 @@ $(document).ready(function() {
                 cursorAt: { top: 0, left: 0 },
                 placeholder: 'pm-drag-placeholder',
                 receive: sortReceive,
+                over: function (event, ui) {
+                    iFrame.contents().find('.pm-placeholder').removeClass('pm-accept');
+                    $(ui.placeholder).closest('.pm-placeholder').addClass('pm-accept');
+                },
+                out: function (event, ui) {
+                    $(ui.placeholder).closest('.pm-placeholder').removeClass('pm-accept');
+                },
                 start: function (event, ui) {
                     isDragging = true;
                     hideToolbar();
