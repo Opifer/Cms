@@ -219,7 +219,7 @@ opifer_content:
         views:
             index: 'OpiferCmsBundle:Backend/ContentType:index.html.twig'
             create: 'OpiferCmsBundle:Backend/ContentType:create.html.twig'
-            edit: 'OpiferCmsBundle:Backend/ContentType:design.html.twig'
+            edit: 'OpiferCmsBundle:Backend/ContentType:edit.html.twig'
     block:
         views:
             shared: 'OpiferCmsBundle:Backend/Block:shared.html.twig'
@@ -241,7 +241,7 @@ opifer_form:
         views:
             index: 'OpiferCmsBundle:Backend/Form:index.html.twig'
             create: 'OpiferCmsBundle:Backend/Form:create.html.twig'
-            edit: 'OpiferCmsBundle:Backend/Form:design.html.twig'
+            edit: 'OpiferCmsBundle:Backend/Form:edit.html.twig'
     post:
         class: 'Opifer\CmsBundle\Entity\Post'
         views:
@@ -254,7 +254,7 @@ opifer_redirect:
         views:
             index: 'OpiferCmsBundle:Backend/Redirect:index.html.twig'
             create: 'OpiferCmsBundle:Backend/Redirect:create.html.twig'
-            edit: 'OpiferCmsBundle:Backend/Redirect:design.html.twig'
+            edit: 'OpiferCmsBundle:Backend/Redirect:edit.html.twig'
 
 opifer_cms:
     ckeditor:
