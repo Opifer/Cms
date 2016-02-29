@@ -55,7 +55,7 @@ class Configuration implements ConfigurationInterface
                             ->children()
                                 ->scalarNode('index')->defaultValue('OpiferContentBundle:ContentType:index.html.twig')->end()
                                 ->scalarNode('create')->defaultValue('OpiferContentBundle:ContentType:create.html.twig')->end()
-                                ->scalarNode('edit')->defaultValue('OpiferContentBundle:ContentType:design.html.twig')->end()
+                                ->scalarNode('edit')->defaultValue('OpiferContentBundle:ContentType:edit.html.twig')->end()
                             ->end()
                         ->end()
                     ->end()

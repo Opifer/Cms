@@ -649,6 +649,7 @@ $(document).ready(function() {
                 '<a href="#" class="pm-btn pm-btn-icon pm-btn-edit" title="Edit contents of this block"><i class="material-icons">create</i></a>' +
                 '<a href="#" class="pm-btn pm-btn-icon pm-btn-properties" title="Make changes to properties of this block"><i class="material-icons">settings</i></a>' +
                 '<a href="#" class="pm-btn pm-btn-icon pm-btn-delete" title="Delete this block"><i class="material-icons">delete</i></a>' +
+                '<a href="#" class="pm-btn pm-btn-icon pm-btn-clipboard" title="Copy to clipboard"><i class="material-icons">content_copy</i></a>' +
                 '</div>' +
                 '</div>');
             toolbar = iFrame.contents().find('#pm-toolbar');
@@ -702,8 +703,8 @@ $(document).ready(function() {
             var pos = (iFrame.contents().find('body').scrollTop() > offset.top) ? 'fixed' : 'absolute';
             var dir = ($(element).attr('data-pm-block-type') == 'layout') ? 'right' : 'left';
 
-            var side = (dir == 'right') ? (iFrame.contents().width() - (offset.left+width-1)) : offset.left+1;
-            var top = (pos == 'fixed') ? 1 : offset.top + 1;
+            var side = (dir == 'right') ? (iFrame.contents().width() - (offset.left+width)) : offset.left;
+            var top = (pos == 'fixed') ? 0 : offset.top;
             toolbar.attr('data-pm-control-id', $(element).attr('data-pm-block-id')).css('position', pos).css('left', 'auto').css('right', 'auto').css('top', top).css(dir, side).removeClass('hidden');
             iFrame.contents().find('body').find('.remove').remove();
             $(element).find('.pm-handle').remove();
