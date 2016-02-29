@@ -38,6 +38,10 @@ opifer_content_content_type:
     requirements:
         type:  \d+
 
+opifer_content_content_select_type:
+    path: /content/selecttype
+    defaults: { _controller: OpiferContentBundle:Backend/Content:selectType }
+
 opifer_content_content_history:
     path: /content/history/{type}/{id}/{version}
     defaults: { _controller: OpiferContentBundle:Backend/Content:history, version: 0 }

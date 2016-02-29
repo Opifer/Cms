@@ -57,6 +57,9 @@ label:
     code: Code
     tabs: Tabs
 
+link:
+    default: Default
+
 placeholder:
     choice_optional: Choose (optional)
     content_description: Description for your page
@@ -68,6 +71,8 @@ title:
     content: Content
     properties: Properties
     block_shared: Shared blocks
+    select_content_type: Choose a content type
+    new_content: New content
 
 warning:
     block_shared_edit: 'This is a shared block. <br /><span class="small">Shared blocks need publishing individually.</span>'

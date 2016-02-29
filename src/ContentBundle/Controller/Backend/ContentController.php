@@ -41,8 +41,28 @@ class ContentController extends Controller
     }
 
     /**
-     * Select the type of content, the site and the language before actually
-     * creating a new content item.
+     * Select the type of content before actually creating a new content item.
+     *
+     * @param Request $request
+     * @param integer $type
+     *
+     * @return Response
+     */
+    public function selectTypeAction()
+    {
+        $contentTypes = $this->get('opifer.content.content_type_manager')->getRepository()->findAll();
+
+        if (! $contentTypes) {
+            return $this->redirectToRoute('opifer_content_content_create');
+        }
+
+        return $this->render($this->getParameter('opifer_content.content_select_type'), [
+            'content_types' => $contentTypes
+        ]);
+    }
+
+    /**
+     * Create a new content item.
      *
      * @param Request $request
      * @param integer $type

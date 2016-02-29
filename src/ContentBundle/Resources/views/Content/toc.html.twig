@@ -3,13 +3,13 @@
     {% for node in children %}
         {% if key == node.position %}
         <li data-pm-block-id="{{ node.id }}" data-pm-block-owner-id="{{ node.owner.id }}">
-            <span class="node-block">
+            <span class="node-block {% if environment.mainblock.id != node.owner.id %}node-inherited{% endif %}">
                 <i class="material-icons md-18">{{ environment.getTool(node).icon }}</i> {{ environment.getTool(node).name }}
                 {% spaceless %}
                 <div class="pm-btn-group">
-                    <i data-pm-block-id="{{ node.id }}" class="pm-btn pm-btn-drag material-icons">drag_handle</i>
+                    {% if  environment.mainblock.id == node.owner.id %}<i data-pm-block-id="{{ node.id }}" class="pm-btn pm-btn-drag material-icons">drag_handle</i>{% endif %}
                     <i data-pm-block-id="{{ node.id }}" class="pm-btn pm-btn-localize material-icons">location_searching</i>
-                    <i data-pm-block-id="{{ node.id }}" class="pm-btn pm-btn-edit material-icons">edit</i>
+                    {% if  environment.mainblock.id == node.owner.id %}<i data-pm-block-id="{{ node.id }}" class="pm-btn pm-btn-edit material-icons">edit</i>{% endif %}
                 </div>
                 {% endspaceless %}
             </span>
