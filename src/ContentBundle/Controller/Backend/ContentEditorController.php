@@ -41,32 +41,24 @@ class ContentEditorController extends Controller
         $suite = $this->get(sprintf('opifer.content.%s_design_suite', $type));
         $suite->load($id, $version);
 
-        if (!$suite->getBlock()) {
-            // Create a new document
-            $version = 1;
-            $document = new DocumentBlock();
-            $document->setRootVersion(1);
-
-            $suite->setBlock($document);
-            $suite->saveSubject();
-        }
-
         if (!$version) {
-            $version = $blockManager->getNewVersion($suite->getBlock());
-            $suite->getSubject()->getBlock()->setRootVersion($version);
+            $version = $suite->getSubject()->getVersion() + 1;
+
+            foreach ($suite->getBlocks() as $block) {
+                $block->setVersion($version);
+            }
         }
 
         $parameters = [
             'manager' => $blockManager,
             'toolset' => $blockManager->getToolset(),
-            'block' => $suite->getBlock(),
             'id' => $suite->getSubject()->getId(),
             'type' => $type,
             'title' => $suite->getTitle(),
             'caption' => $suite->getCaption(),
             'permalink' => $suite->getPermalink(),
             'version_current' => $version,
-            'version_published' => $suite->getBlock()->getVersion(),
+            'version_published' => $suite->getSubject()->getVersion(),
             'url_properties' => $suite->getPropertiesUrl(),
             'url_cancel' => $suite->getCancelUrl(),
             'url' => $suite->getCanvasUrl($version),
@@ -176,24 +168,29 @@ class ContentEditorController extends Controller
     }
 
     /**
+     * @param string  $type
      * @param integer $id
-     * @param integer $current
+     * @param integer $version
      * @param integer $published
      *
      * @return Response
      */
-    public function versionPickerAction($id, $current, $published = 0)
+    public function versionPickerAction($type, $id, $version, $published = 0)
     {
-        if ($this->getDoctrine()->getManager()->getFilters()->isEnabled('draftversion')) {
-            $this->getDoctrine()->getManager()->getFilters()->disable('draftversion');
-        }
+//        if ($this->getDoctrine()->getManager()->getFilters()->isEnabled('draftversion')) {
+//            $this->getDoctrine()->getManager()->getFilters()->disable('draftversion');
+//        }
+//
+//        /** @var Environment $environment */
+//        $environment = $this->get(sprintf('opifer.content.block_%s_environment', $type));
+//        $environment->load($id)->setVersion((int) $version);
+//
+//        /** @var BlockManager $manager */
+//        $manager = $this->get('opifer.content.block_manager');
+//        $block   = $manager->find($id);
+//
+//        $logEntries = $manager->getRootVersions($block);
 
-        /** @var BlockManager $manager */
-        $manager = $this->get('opifer.content.block_manager');
-        $block   = $manager->find($id);
-
-        $logEntries = $manager->getRootVersions($block);
-
-        return $this->render('OpiferContentBundle:Editor:version_picker.html.twig', ['logentries' => $logEntries, 'current' => $current, 'published' => $published]);
+        return $this->render('OpiferContentBundle:Editor:version_picker.html.twig', ['logentries' => [], 'current' => $version, 'published' => $published]);
     }
 }

@@ -8,6 +8,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
 use Opifer\ContentBundle\Model\BlockInterface;
+use Opifer\ContentBundle\Model\ContentInterface;
 
 /**
  * Template
@@ -17,7 +18,7 @@ use Opifer\ContentBundle\Model\BlockInterface;
  *
  * @GRID\Source(columns="id, name, displayName")
  */
-class Template
+class Template implements ContentInterface
 {
     /**
      * @var integer
@@ -64,12 +65,19 @@ class Template
     protected $parent;
 
     /**
-     * @var BlockInterface
+     * @var ArrayCollection
      *
-     * @ORM\OneToOne(targetEntity="Opifer\ContentBundle\Entity\Block", cascade={"persist", "remove"}, orphanRemoval=true)
-     * @ORM\JoinColumn(name="block_id", referencedColumnName="id")
+     * @ORM\OneToMany(targetEntity="Opifer\ContentBundle\Entity\Block", mappedBy="template", cascade={"detach", "persist", "remove"})
+     * @ORM\OrderBy({"sort" = "ASC"})
      **/
-    protected $block;
+    protected $blocks;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="version", type="integer")
+     */
+    protected $version = 0;
 
 
     /**
@@ -112,14 +120,6 @@ class Template
     }
 
     /**
-     * @return string
-     */
-    public function getBlockType()
-    {
-        return 'root';
-    }
-
-    /**
      * @return int
      */
     public function getId()
@@ -152,19 +152,57 @@ class Template
     }
 
     /**
-     * @return BlockInterface
+     * Get all blocks
+     *
+     * @return ArrayCollection
      */
-    public function getBlock()
+    public function getBlocks()
     {
-        return $this->block;
+        return $this->blocks;
     }
 
     /**
+     * Set blocks
+     *
+     * @param mixed $blocks
+     */
+    public function setBlocks($blocks)
+    {
+        $this->blocks = $blocks;
+    }
+
+    /**
+     * Add block
+     *
+     * @param BlockInterface $block
+     *
+     * @return BlockInterface
+     */
+    public function addBlock(BlockInterface $block)
+    {
+        $this->blocks[] = $block;
+
+        return $this;
+    }
+
+    /**
+     * Remove block
+     *
      * @param BlockInterface $block
      */
-    public function setBlock($block)
+    public function removeBlock(BlockInterface $block)
     {
-        $this->block = $block;
+        $this->blocks->removeElement($block);
+    }
+
+    /**
+     * Check if any blocks are set
+     *
+     * @return boolean
+     */
+    public function hasBlocks()
+    {
+        return (count($this->getBlocks())) ? true : false;
     }
 
     /**
@@ -181,5 +219,23 @@ class Template
     public function setView($view)
     {
         $this->view = $view;
+    }
+
+    /**
+     * @return int
+     */
+    public function getVersion()
+    {
+        return $this->version;
+    }
+
+    /**
+     * @param int $version
+     * @return Content
+     */
+    public function setVersion($version)
+    {
+        $this->version = $version;
+        return $this;
     }
 }

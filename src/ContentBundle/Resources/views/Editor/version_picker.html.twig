@@ -1,35 +1,36 @@
 <div class="btn-group navbar-btn" role="group" id="pm-version-picker" aria-label="Browse versions">
     {#<button type="button" class="btn btn-icon btn-default disabled"><i class="material-icons">undo</i></button>#}
-    <div class="btn-group" role="group">
-        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            {% set match = false %}
-            {% for logentry in logentries %}
-                {% if current == logentry.rootVersion %}
-                    {% set match = true %}
-                    <span class="selected">
-                        <span class="text-muted version">v{{ current }}</span>&nbsp;&nbsp; {{ logentry.loggedAt|localizeddate }}
-                    </span>
-                {% endif %}
-            {% endfor %}
-            {% if not match %}
-                <span class="selected">
-                    <span class="text-muted version">v{{ current }}</span>&nbsp;&nbsp; {{ "label.version_new"|trans }}
-                </span>
-            {% endif %}
-            <span class="caret"></span>
-        </button>
-        <ul class="dropdown-menu">
-            {% for logentry in logentries %}
-                <li>
-                    <a href="#" data-pm-version="{{ logentry.rootVersion }}" class="pm-version-link  {% if logentry.rootVersion == published %}text-success{% endif %}"
-                       {% if logentry.rootVersion == published %}title="This version is published"{% endif %}>
-                        <span class="version {% if logentry.rootVersion == published %}text-success{% else %}text-muted{% endif %}">v{{ logentry.rootVersion }}</span>
-                        &nbsp;&nbsp; <span class="date {% if logentry.rootVersion == published %}text-success{% else %}{% endif %}">{{ logentry.loggedAt|localizeddate('medium') }} {% if logentry.rootVersion == published %}•{% endif %}</span> <br/>
-                        <small class="author {% if logentry.rootVersion == published %}text-success{% else %}text-muted{% endif %}">{{ logentry.username }}</small>
-                    </a>
-                </li>
-            {% endfor %}
-        </ul>
-    </div>
+    {{ current }}
+    {#<div class="btn-group" role="group">#}
+        {#<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">#}
+            {#{% set match = false %}#}
+            {#{% for logentry in logentries %}#}
+                {#{% if current == logentry.rootVersion %}#}
+                    {#{% set match = true %}#}
+                    {#<span class="selected">#}
+                        {#<span class="text-muted version">v{{ current }}</span>&nbsp;&nbsp; {{ logentry.loggedAt|localizeddate }}#}
+                    {#</span>#}
+                {#{% endif %}#}
+            {#{% endfor %}#}
+            {#{% if not match %}#}
+                {#<span class="selected">#}
+                    {#<span class="text-muted version">v{{ current }}</span>&nbsp;&nbsp; {{ "label.version_new"|trans }}#}
+                {#</span>#}
+            {#{% endif %}#}
+            {#<span class="caret"></span>#}
+        {#</button>#}
+        {#<ul class="dropdown-menu">#}
+            {#{% for logentry in logentries %}#}
+                {#<li>#}
+                    {#<a href="#" data-pm-version="{{ logentry.rootVersion }}" class="pm-version-link  {% if logentry.rootVersion == published %}text-success{% endif %}"#}
+                       {#{% if logentry.rootVersion == published %}title="This version is published"{% endif %}>#}
+                        {#<span class="version {% if logentry.rootVersion == published %}text-success{% else %}text-muted{% endif %}">v{{ logentry.rootVersion }}</span>#}
+                        {#&nbsp;&nbsp; <span class="date {% if logentry.rootVersion == published %}text-success{% else %}{% endif %}">{{ logentry.loggedAt|localizeddate('medium') }} {% if logentry.rootVersion == published %}•{% endif %}</span> <br/>#}
+                        {#<small class="author {% if logentry.rootVersion == published %}text-success{% else %}text-muted{% endif %}">{{ logentry.username }}</small>#}
+                    {#</a>#}
+                {#</li>#}
+            {#{% endfor %}#}
+        {#</ul>#}
+    {#</div>#}
     {#<button type="button" class="btn btn-icon btn-default disabled"><i class="material-icons">redo</i></button>#}
 </div>
