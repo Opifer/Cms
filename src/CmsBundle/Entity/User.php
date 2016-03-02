@@ -15,12 +15,9 @@ use Symfony\Component\Validator\Constraints as Assert;
 /**
  * @ORM\MappedSuperclass
  *
- * @ORM\Table("users")
- *
  * @UniqueEntity("username")
  * @UniqueEntity("email")
  *
- * @ORM\Entity
  * @ORM\Table(name="users")
  * @GRID\Source(columns="id, username, email")
  */
