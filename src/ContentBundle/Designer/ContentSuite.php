@@ -22,10 +22,9 @@ class ContentSuite extends AbstractDesignSuite
     /**
      * {@inheritDoc}
      */
-    public function load($id = 0, $version = 1)
+    public function load($id = 0)
     {
         $this->subject = $this->contentManager->getRepository()->find($id);
-        $this->version = $version;
 
         if (!$this->subject) {
             throw $this->createNotFoundException('No content found for id ' . $id);
@@ -77,9 +76,9 @@ class ContentSuite extends AbstractDesignSuite
     /**
      * {@inheritDoc}
      */
-    public function getCanvasUrl($version)
+    public function getCanvasUrl()
     {
-        return $this->router->generate('opifer_content_contenteditor_view', ['type' => 'content', 'id' => $this->subject->getId(), 'version' => $version]);
+        return $this->router->generate('opifer_content_contenteditor_view', ['type' => 'content', 'id' => $this->subject->getId()]);
     }
 
 

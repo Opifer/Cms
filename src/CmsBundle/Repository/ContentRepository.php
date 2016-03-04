@@ -154,9 +154,9 @@ class ContentRepository extends BaseContentRepository
         $query = $this->createQueryBuilder('c')
             ->innerJoin('c.block', 'block')
             ->leftJoin('block.owning', 'owning')
-            ->leftJoin('OpiferContentBundle:BlockLogEntry', 'logentry', Join::WITH, 'logentry.objectId = owning.id')
+//            ->leftJoin('OpiferContentBundle:BlockLogEntry', 'logentry', Join::WITH, 'logentry.objectId = owning.id')
             ->orderBy('c.createdAt', 'DESC')
-            ->where('block.version < logentry.rootVersion')
+//            ->where('block.version < logentry.rootVersion')
             ->setMaxResults($limit)
             ->getQuery();
 

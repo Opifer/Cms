@@ -27,7 +27,7 @@ abstract class AbstractDesignSuite implements DesignSuiteInterface
     /**
      * @return AbstractDesignSuite
      */
-    public function load($id = 0, $version = 1)
+    public function load($id = 0)
     {
         throw new NotImplementedException('Design Context must implement load method');
     }
@@ -82,7 +82,7 @@ abstract class AbstractDesignSuite implements DesignSuiteInterface
     /**
      * @return string
      */
-    public function getCanvasUrl($version)
+    public function getCanvasUrl()
     {
         throw new NotImplementedException('Design Context must implement getCanvasUrl method');
     }

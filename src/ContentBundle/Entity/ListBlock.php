@@ -5,7 +5,7 @@ namespace Opifer\ContentBundle\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use Gedmo\Mapping\Annotation as Gedmo;
+use Opifer\Revisions\Mapping\Annotation as Revisions;
 use Opifer\ContentBundle\Model\ContentInterface;
 
 /**
@@ -18,7 +18,7 @@ class ListBlock extends Block
     /**
      * @var string
      *
-     * @Gedmo\Versioned
+     * @Revisions\Revised
      * @ORM\Column(type="string", nullable=true)
      */
     protected $title;
@@ -26,7 +26,7 @@ class ListBlock extends Block
     /**
      * @var string
      *
-     * @Gedmo\Versioned
+     * @Revisions\Revised
      * @ORM\Column(type="text", nullable=true)
      */
     protected $value;

@@ -5,9 +5,9 @@ namespace Opifer\ContentBundle\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
+use Opifer\Revisions\Mapping\Annotation as Revisions;
 
 use JMS\Serializer\Annotation as JMS;
-use Opifer\ContentBundle\Block\BlockContainerInterface;
 use Opifer\ContentBundle\Block\DraftVersionInterface;
 use Opifer\ContentBundle\Block\VisitorInterface;
 use Opifer\ContentBundle\Model\BlockInterface;
@@ -26,7 +26,7 @@ use Opifer\ContentBundle\Model\ContentInterface;
  * map.
  * @see Opifer\CmsBundle\EventListener\BlockDiscriminatorListener
  *
- * @Gedmo\Loggable(logEntryClass="Opifer\ContentBundle\Entity\BlockLogEntry")
+ * @Revisions\Revision
  * @Gedmo\SoftDeleteable(fieldName="deletedAt")
  *
  * @JMS\ExclusionPolicy("all")
@@ -77,7 +77,7 @@ abstract class Block implements BlockInterface, DraftVersionInterface
     /**
      * @var BlockInterface
      *
-     * @Gedmo\Versioned
+     * @Revisions\Revised
      * @ORM\ManyToOne(targetEntity="Opifer\ContentBundle\Entity\Block", cascade={}, inversedBy="children")
      * @ORM\JoinColumn(name="parent_id", referencedColumnName="id", onDelete="SET NULL")
      */
@@ -94,7 +94,7 @@ abstract class Block implements BlockInterface, DraftVersionInterface
     /**
      * @var integer
      *
-     * @Gedmo\Versioned
+     * @Revisions\Revised
      * @ORM\Column(type="integer")
      */
     protected $position = 0;
@@ -102,7 +102,7 @@ abstract class Block implements BlockInterface, DraftVersionInterface
     /**
      * @var integer
      *
-     * @Gedmo\Versioned
+     * @Revisions\Revised
      * @ORM\Column(type="integer")
      */
     protected $sort = 0;
@@ -110,7 +110,7 @@ abstract class Block implements BlockInterface, DraftVersionInterface
     /**
      * @var null|integer
      *
-     * @Gedmo\Versioned
+     * @Revisions\Revised
      * @ORM\Column(type="integer", nullable=true, options={"default":null})
      */
     protected $sortParent = null;
@@ -118,7 +118,7 @@ abstract class Block implements BlockInterface, DraftVersionInterface
     /**
      * @var array
      *
-     * @Gedmo\Versioned
+     * @Revisions\Revised
      * @ORM\Column(type="json_array", nullable=true)
      */
     protected $properties;
@@ -167,7 +167,7 @@ abstract class Block implements BlockInterface, DraftVersionInterface
     /**
      * @var \DateTime
      *
-     * @Gedmo\Versioned
+     * @Revisions\Revised
      * @ORM\Column(name="deleted_at", type="datetime", nullable=true)
      */
     protected $deletedAt;
@@ -175,20 +175,10 @@ abstract class Block implements BlockInterface, DraftVersionInterface
     /**
      * @var integer
      *
-     * @Gedmo\Versioned
+     * @Revisions\Revised
      * @ORM\Column(name="version", type="integer")
      */
     protected $version = 0;
-
-    /** @var integer */
-    protected $rootVersion;
-
-    /**
-     * Flag to determine if we only create a logentry or not.
-     *
-     * @var bool
-     */
-    protected $publish = false;
 
     /**
      * Constructor

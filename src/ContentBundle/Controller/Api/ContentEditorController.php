@@ -37,9 +37,8 @@ class ContentEditorController extends Controller
 
         /** @var Environment $environment */
         $environment = $this->get(sprintf('opifer.content.block_%s_environment', $type));
-        $version = $manager->getNewVersion($id);
 
-        $environment->load($typeId)->setVersion($version);
+        $environment->load($typeId);
 
         $block = $environment->getBlock($id);
 
@@ -104,6 +103,7 @@ class ContentEditorController extends Controller
     public function removeBlockAction($id)
     {
         $this->getDoctrine()->getManager()->getFilters()->disable('draftversion');
+
         /** @var BlockManager $manager */
         $manager  = $this->get('opifer.content.block_manager');
         $response = new JsonResponse;
