@@ -58,12 +58,12 @@
                 <li role="presentation" data-toggle="tooltip" data-placement="right" title="Developer tools"><a href="#tab-developer" role="tab" data-toggle="tab"><i class="material-icons">developer_board</i></a></li>
             </ul>
         </aside>
-        <div class="split-pane-component pm-preview pm-viewmode-content tab-content" id="pm-document" data-pm-id="{{ block.id }}" data-pm-type="{{ type }}" data-pm-type-id="{{ id }}" data-pm-permalink="{{ permalink|default }}">
+        <div class="split-pane-component pm-preview pm-viewmode-content tab-content" id="pm-document" data-pm-owner="{{ owner }}" data-pm-owner-id="{{ id }}" data-pm-permalink="{{ permalink|default }}">
             <div role="tabpanel" class="tab-pane active" id="tab-design">
                 <iframe data-url="{{ url }}" frameborder="no" id="pm-iframe" class="pm-tab-iframe"></iframe>
             </div>
             <div role="tabpanel" class="tab-pane" id="tab-history">
-                <iframe src="{{ path('opifer_content_content_history', {'type': type, 'id': id}) }}" frameborder="no" id="pm-iframe-history" class="pm-tab-iframe"></iframe>
+                <iframe src="{{ path('opifer_content_content_history', {'owner': owner, 'id': id}) }}" frameborder="no" id="pm-iframe-history" class="pm-tab-iframe"></iframe>
             </div>
             <div role="tabpanel" class="tab-pane" id="tab-developer">
                 <iframe frameborder="no" id="pm-iframe-developer" class="pm-tab-iframe"></iframe>

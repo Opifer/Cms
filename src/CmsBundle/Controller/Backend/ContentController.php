@@ -70,22 +70,21 @@ class ContentController extends BaseContentController
     /**
      * @param Request $request
      * @param string $type
-     * @param int $id
-     * @param int $version
+     * @param int $owner
      * @return Response
      */
-    public function historyAction(Request $request, $type, $id, $version = 0)
+    public function historyAction(Request $request, $owner, $id)
     {
         $this->getDoctrine()->getManager()->getFilters()->disable('draftversion');
 
         /** @var Environment $environment */
-        $environment = $this->get(sprintf('opifer.content.block_%s_environment', $type));
-        $environment->load($id, $version);
+        $environment = $this->get('opifer.content.block_environment');
+        $environment->load($owner, $id);
         $environment->setBlockMode('manage');
 
         /** @var AbstractDesignSuite $suite */
-        $suite = $this->get(sprintf('opifer.content.%s_design_suite', $type));
-        $suite->load($id, $version);
+        $suite = $this->get(sprintf('opifer.content.%s_design_suite', $owner));
+        $suite->load($id);
 
         return $this->render($this->getParameter('opifer_content.content_history_view'), [
             'environment' => $environment,

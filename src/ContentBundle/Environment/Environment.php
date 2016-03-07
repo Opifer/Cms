@@ -9,21 +9,29 @@
 namespace Opifer\ContentBundle\Environment;
 
 use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ORM\PersistentCollection;
 use Opifer\ContentBundle\Block\BlockManager;
 use Opifer\ContentBundle\Block\BlockOwnerInterface;
 use Opifer\ContentBundle\Block\Service\LayoutBlockServiceInterface;
 use Opifer\ContentBundle\Entity\Block;
 use Opifer\ContentBundle\Entity\DocumentBlock;
+use Opifer\ContentBundle\Entity\Template;
 use Opifer\ContentBundle\Model\BlockInterface;
+use Opifer\ContentBundle\Model\Content;
+use Opifer\ContentBundle\Model\TemplatedInterface;
+use Opifer\ContentBundle\Provider\BlockProviderPool;
 
-abstract class Environment
+class Environment
 {
     protected $isLoaded = false;
 
     /**
-     * @var array
+     * @var object
      */
-    protected $versionMap;
+    protected $object;
+
+
+    protected $type;
 
     /**
      * @var EntityManager
@@ -41,66 +49,37 @@ abstract class Environment
     protected $blockManager;
 
     /**
+     * @var BlockProviderPool
+     */
+    protected $providerPool;
+
+    /**
      * @var TwigAnalyzer
      */
     protected $twigAnalyzer;
 
     protected $blockCache;
 
-    public function __construct(EntityManagerInterface $em, BlockManager $blockManager, TwigAnalyzer $twigAnalyzer)
+    public function __construct(EntityManagerInterface $em, BlockManager $blockManager, BlockProviderPool $providerPool, TwigAnalyzer $twigAnalyzer)
     {
         $this->em = $em;
         $this->blockManager = $blockManager;
+        $this->providerPool = $providerPool;
         $this->twigAnalyzer = $twigAnalyzer;
     }
 
-    /**
-     * Loads main entity
-     *
-     * @return array
-     */
-    abstract public function load($id);
-
-    /**
-     * Return all block owners to assist block loading.
-     *
-     * @return array
-     */
-    abstract protected function getBlockOwners();
-
-    /**
-     * Return the main block of the environment
-     *
-     * @return BlockOwnerInterface
-     */
-    abstract public function getMainBlock();
 
     /**
      * Returns view parameters array that can be passed to any Response
      *
      * @return array
      */
-    public function getViewParameters() {
+    public function getViewParameters()
+    {
         return array(
             'environment' => $this,
             'block_mode' => $this->getBlockMode(),
         );
-    }
-
-    /**
-     * @return array
-     */
-    public function getVersionMap()
-    {
-        return $this->versionMap;
-    }
-
-    /**
-     * @param array $versionMap
-     */
-    public function setVersionMap($versionMap)
-    {
-        $this->versionMap = $versionMap;
     }
 
     /**
@@ -124,14 +103,17 @@ abstract class Environment
      */
     public function getView()
     {
+        if (method_exists($this->object, 'getView')) {
+            return $this->object->getView();
+        } elseif ($this->object instanceof TemplatedInterface) {
+            return $this->object->getTemplate()->getView();
+        }
+
         return 'base.html.twig';
     }
 
-
     public function getBlock($id)
     {
-        $this->loadBlocks();
-
         $cacheKey = $this->getCacheKey();
 
         foreach ($this->blockCache[$cacheKey] as $member) {
@@ -145,18 +127,14 @@ abstract class Environment
 
     public function getRootBlocks()
     {
-        $this->loadBlocks();
-
         $cacheKey = $this->getCacheKey();
 
         $blocks = array();
-        $blockOwners = $this->getBlockOwners();
 
-        foreach ($this->blockCache[$cacheKey] as $member) {
-            foreach ($blockOwners as $blockOwner) {
-                if ($member->getParent() && $member->getParent()->getId() == $blockOwner->getId()) {
-                    array_push($blocks, $member);
-                }
+        /** @var BlockInterface $block */
+        foreach ($this->blockCache[$cacheKey] as $block) {
+            if ($block->getParent() === null) {
+                array_push($blocks, $block);
             }
         }
 
@@ -171,8 +149,6 @@ abstract class Environment
      */
     public function getBlockChildren(BlockInterface $block)
     {
-        $this->loadBlocks();
-
         $children = array();
         $cacheKey = $this->getCacheKey();
 
@@ -196,61 +172,49 @@ abstract class Environment
      *
      * @return Environment
      */
-    protected function loadBlocks()
+    public function load($type, $id)
     {
         if ($this->isLoaded)
             return;
 
-        $blockOwners = $this->getBlockOwners();
-        $blocks = array();
+        $this->object = $this->providerPool->getProvider($type)->getBlockOwner($id);
 
-        foreach ($blockOwners as $blockOwner) {
-            $version = $this->getVersion($blockOwner->getId());
+        $blocks = $this->getBlocksRecursive($this->object);
 
-            $owned = $this->blockManager->findByOwner($blockOwner, $version);
-
-            $blocks = array_merge($blocks, $owned);
-        }
-
-        $blocks = $this->blockManager->sortBlocks(array_merge($blocks, $blockOwners));
+        $blocks = $this->blockManager->sortBlocks($blocks);
         $cacheKey = $this->getCacheKey();
 
-        $this->blockCache[$cacheKey] = array_filter($blocks, function($item) {
-            return ($item instanceof DocumentBlock) ? false : true;
-        });
+        $this->blockCache[$cacheKey] = $blocks;
 
         $this->isLoaded = true;
 
         return $this;
     }
 
-    protected function getCacheKey()
+    protected function getBlocksRecursive($owner = null, $blocks = array())
     {
-        $id = $this->getMainBlock()->getId();
-        $version = $this->getVersion($id);
-        $cacheKey = ($version) ? sprintf('%d-%d', $id, $version) : $id;
+        $owned = ($owner->getBlocks() instanceof PersistentCollection) ? $owner->getBlocks()->getValues() : $owner->getBlocks();
 
-        return $cacheKey;
-    }
+        $blocks = array_merge($blocks, $owned);
 
-    /**
-     * @param integer $id
-     * @param integer $version
-     *
-     * return integer
-     */
-    public function setVersion($version, $id = false)
-    {
-        if ($id === false) {
-            $id = $this->getMainBlock()->getId();
+        if ($owner instanceof TemplatedInterface && $owner->getTemplate()) {
+            $blocks = $this->getBlocksRecursive($owner->getTemplate(), $blocks);
         }
 
-        $this->versionMap[$id] = $version;
+        return $blocks;
     }
 
-    public function getVersion($id)
+
+    protected function isTemplated($object)
     {
-        return ($this->versionMap && isset($this->versionMap[$id])) ? $this->versionMap[$id] : BlockManager::VERSION_PUBLISHED;
+        return ($object instanceof TemplatedInterface);
+    }
+
+    protected function getCacheKey()
+    {
+        $cacheKey = sprintf('%s-%d', get_class($this->object), $this->object->getId());
+
+        return $cacheKey;
     }
 
     public function getTool(BlockInterface $block) {
@@ -261,20 +225,42 @@ abstract class Environment
         return $this->blockManager->getService($block);
     }
 
-    public function getPlaceholders(BlockInterface $block)
+    public function getPlaceholders($object)
     {
-        if ($block instanceof DocumentBlock) {
+        if ($object instanceof Content || $object instanceof Template) {
             $view = $this->getView();
         } else {
-            $service = $this->blockManager->getService($block);
+            $service = $this->blockManager->getService($object);
 
             if ($service instanceof LayoutBlockServiceInterface) {
-                return $service->getPlaceholders($block);
+                return $service->getPlaceholders($object);
             }
 
-            $view = $service->getView($block);
+            $view = $service->getView($object);
         }
 
         return $this->twigAnalyzer->findPlaceholders($view);
     }
+
+    /**
+     * @return object
+     */
+    public function getObject()
+    {
+        return $this->object;
+    }
+
+    /**
+     * @param object $object
+     *
+     * @return Environment
+     */
+    public function setObject($object)
+    {
+        $this->object = $object;
+
+        return $this;
+    }
+
+
 }

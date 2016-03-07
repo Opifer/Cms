@@ -39,15 +39,15 @@ class ContentController extends Controller
         $response = new Response();
 
         /** @var ContentEnvironment $environment */
-        $environment = $this->get('opifer.content.block_content_environment');
+        $environment = $this->get('opifer.content.block_environment');
 
         $response->setStatusCode($statusCode);
 
         if (null !== $version && $this->isGranted('ROLE_ADMIN')) {
             $this->getDoctrine()->getManager()->getFilters()->disable('draftversion');
-            $environment->load($content->getId(), $version);
+            $environment->load('content', $content->getId());
         } else {
-            $environment->load($content->getId());
+            $environment->load('content', $content->getId());
         }
 
         return $this->render($environment->getView(), $environment->getViewParameters());

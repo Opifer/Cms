@@ -6,6 +6,7 @@ use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Opifer\ContentBundle\Block\BlockManager;
 use Opifer\ContentBundle\Exception\NestedContentFormException;
+use Opifer\ContentBundle\Provider\BlockProviderInterface;
 use Opifer\EavBundle\Entity\NestedValue;
 use Opifer\EavBundle\Form\Type\NestedType;
 use Opifer\EavBundle\Manager\EavManager;
@@ -15,7 +16,7 @@ use Pagerfanta\Pagerfanta;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\HttpFoundation\Request;
 
-class ContentManager implements ContentManagerInterface
+class ContentManager implements ContentManagerInterface, BlockProviderInterface
 {
     /** @var EntityManager */
     protected $em;
@@ -262,5 +263,13 @@ class ContentManager implements ContentManagerInterface
     {
         $this->em->detach($entity);
         $this->em->persist($entity);
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getBlockOwner($id)
+    {
+        return $this->getRepository()->find($id);
     }
 }

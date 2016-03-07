@@ -138,8 +138,7 @@ $(document).ready(function() {
     //
     pagemanager = (function () {
         var client = null;
-        var ownerType = 'template';
-        var typeId = 0;
+        var owner = 'template';
         var ownerId = 0;
         var mprogress = null;
         var hasUnsavedChanges = false;
@@ -194,9 +193,8 @@ $(document).ready(function() {
             });
 
 
-            ownerType = $('#pm-document').attr('data-pm-type');
-            typeId = $('#pm-document').attr('data-pm-type-id');
-            ownerId = $('#pm-document').attr('data-pm-id');
+            owner = $('#pm-document').attr('data-pm-owner');
+            ownerId = $('#pm-document').attr('data-pm-owner-id');
             permalink = $('#pm-document').attr('data-pm-permalink');
 
             // Split page library
@@ -334,7 +332,7 @@ $(document).ready(function() {
         };
 
         var refreshBlock = function (id) {
-            $.get(Routing.generate('opifer_content_api_contenteditor_view_block', {type: ownerType, typeId: typeId, id: id})).done(function (data) {
+            $.get(Routing.generate('opifer_content_api_contenteditor_view_block', {owner: owner, ownerId: ownerId, id: id})).done(function (data) {
                 getBlockElement(id).replaceWith(data.view);
                 showToolbars();
             });
@@ -468,7 +466,7 @@ $(document).ready(function() {
                         className: 'btn-primary',
                         callback: function() {
 
-                            $.post(Routing.generate('opifer_content_api_contenteditor_make_shared', {type: ownerType, typeId: typeId, ownerId: ownerId}), {id: id}).done(function (data, textStatus, request) {
+                            $.post(Routing.generate('opifer_content_api_contenteditor_make_shared', {$owner: owner, ownerId: ownerId}), {id: id}).done(function (data, textStatus, request) {
                                 var viewUrl = request.getResponseHeader('Location');
                                 var newId = data.id;
                                 var reference = getBlockElement(id);
@@ -480,11 +478,10 @@ $(document).ready(function() {
                                     showToolbars();
                                     sortables();
                                 }).fail(function(data){
-                                    reference.remove();
+                                    iFrame.contents().find('.pm-block-insert').remove();
                                     showAPIError(data);
                                 });
                             }).fail(function(data){
-                                reference.remove();
                                 showAPIError(data);
                             });
                         }
@@ -517,7 +514,7 @@ $(document).ready(function() {
             var parentId = block.parent;
             var idx = (block.sort.indexOf("") != -1) ? block.sort.indexOf("") : block.sort.indexOf("0");
             var placeholder = block.placeholder;
-            $.post(Routing.generate('opifer_content_api_contenteditor_create_block', {type: ownerType, typeId: typeId, ownerId: ownerId}), block).done(function (data, textStatus, request) {
+            $.post(Routing.generate('opifer_content_api_contenteditor_create_block', {owner: owner, ownerId: ownerId}), block).done(function (data, textStatus, request) {
                 var viewUrl = request.getResponseHeader('Location');
                 var id = data.id;
 
@@ -543,11 +540,11 @@ $(document).ready(function() {
                     showToolbars();
                     loadToC(sortables);
                 }).fail(function(data){
-                    reference.remove();
+                    iFrame.contents().find('.pm-block-insert').remove();
                     showAPIError(data);
                 });
             }).fail(function(data){
-                reference.remove();
+                iFrame.contents().find('.pm-block-insert').remove();
                 showAPIError(data);
             });
         };
@@ -888,7 +885,7 @@ $(document).ready(function() {
                         label: 'Publish',
                         className: 'btn-primary',
                         callback: function() {
-                            $.post(Routing.generate('opifer_content_api_contenteditor_publish'), {id: ownerId, type: ownerType, typeId: typeId}).done(function (data, textStatus, request) {
+                            $.post(Routing.generate('opifer_content_api_contenteditor_publish'), {owner: owner, ownerId: ownerId}).done(function (data, textStatus, request) {
                                 reload();
                                 bootbox.alert("Published.", function() {
 
@@ -912,7 +909,7 @@ $(document).ready(function() {
 
         var loadToC = function (callback) {
             $.ajax({
-                url: Routing.generate('opifer_content_contenteditor_toc', {type: ownerType, id: typeId}),
+                url: Routing.generate('opifer_content_contenteditor_toc', {owner: owner, ownerId: ownerId}),
                 cache: false
             }).done(function (data) {
                 $('#pm-toc').html(data);
@@ -922,7 +919,7 @@ $(document).ready(function() {
 
         var reload = function () {
             isLoading();
-            iFrame.attr('src', Routing.generate('opifer_content_contenteditor_view', {type: ownerType, id: typeId}));
+            iFrame.attr('src', Routing.generate('opifer_content_contenteditor_view', {owner: owner, ownerId: ownerId}));
             clearEditBlock();
         };
 

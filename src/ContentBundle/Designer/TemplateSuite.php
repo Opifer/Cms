@@ -71,9 +71,9 @@ class TemplateSuite extends AbstractDesignSuite
     /**
      * {@inheritDoc}
      */
-    public function getCanvasUrl($version)
+    public function getCanvasUrl()
     {
-        return $this->router->generate('opifer_content_contenteditor_view', ['type' => 'template', 'id' => $this->subject->getId(), 'version' => $version]);
+        return $this->router->generate('opifer_content_contenteditor_view', ['owner' => 'template', 'ownerId' => $this->subject->getId()]);
     }
 
 

@@ -297,6 +297,8 @@ class BlockManager
     public function remove(BlockInterface $block)
     {
         $this->em->remove($block);
+
+        $this->em->flush($block);
     }
 
     /**
@@ -385,24 +387,22 @@ class BlockManager
     /**
      * TODO: refactor this
      *
-     * @param integer      $ownerId
-     * @param string       $type
-     * @param integer      $parentId
-     * @param integer      $placeholder
-     * @param array        $sort
-     * @param null|array   $data
+     * @param BlockOwnerInterface $owner
+     * @param string              $type
+     * @param integer             $parentId
+     * @param integer             $placeholder
+     * @param array               $sort
+     * @param null|array          $data
      *
      * @throws \Exception
      *
      * @return BlockInterface
      */
-    public function createBlock($ownerId, $type, $parentId, $placeholder, $sort, $data = null)
+    public function createBlock($owner, $type, $parentId, $placeholder, $sort, $data = null)
     {
-        $owner = $this->find($ownerId);
-        $version = 0;
         $className = $this->em->getClassMetadata($type)->getName();
         $block = new $className();
-        $parent = $this->find($parentId ?: $ownerId);
+        $parent = $parentId ? $this->find($parentId) : null;
 
         $block->setPosition($placeholder);
         $block->setSort(0); // < default, gets recalculated later for entire level
@@ -410,7 +410,6 @@ class BlockManager
 
         // Set owner
         $block->setOwner($owner);
-        $owner->addOwning($block);
 
         // This should replaced with a more hardened function
         if ($data) {
@@ -438,7 +437,7 @@ class BlockManager
 
 
             array_walk($sort, function (&$id) { $id = (int) $id; });
-            $contained = $this->findById($sort, $version);
+            $contained = $this->findById($sort);
 
             if ($contained) {
                 $contained = $this->setSortsByDirective($contained, $sort);
@@ -644,13 +643,11 @@ class BlockManager
         // Determine hierarchy of ownership first
         $ownerIds = array();
         foreach ($blocks as $block) {
-            if ($block instanceof BlockOwnerInterface) {
-                $superKey = ($block->getSuper()) ? array_search($block->getSuper()->getId(), $ownerIds) : false;
-                if ($superKey === false) {
-                    array_unshift($ownerIds, $block->getId());
-                } else {
-                    $ownerIds = array_merge(array_slice($ownerIds, 0, $superKey+1), array($block->getId()), array_slice($ownerIds, $superKey+1));
-                }
+            $superKey = ($block->getOwner()->getSuper()) ? array_search($block->getOwner()->getSuper()->getId(), $ownerIds) : false;
+            if ($superKey === false) {
+                array_unshift($ownerIds, $block->getOwner()->getId());
+            } else {
+                $ownerIds = array_merge(array_slice($ownerIds, 0, $superKey+1), array($block->getOwner()->getId()), array_slice($ownerIds, $superKey+1));
             }
         }
         $ownerIds = array_flip($ownerIds); // Flip it for easier lookup by parentId as key.
@@ -728,7 +725,6 @@ class BlockManager
 
         return $version + 1;
     }
-
 
     /**
      * Fixes nested tree hierarchy between parent and children by examining child's parent.

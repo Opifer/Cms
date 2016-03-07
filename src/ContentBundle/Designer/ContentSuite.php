@@ -78,7 +78,7 @@ class ContentSuite extends AbstractDesignSuite
      */
     public function getCanvasUrl()
     {
-        return $this->router->generate('opifer_content_contenteditor_view', ['type' => 'content', 'id' => $this->subject->getId()]);
+        return $this->router->generate('opifer_content_contenteditor_view', ['owner' => 'content', 'ownerId' => $this->subject->getId()]);
     }
 
 

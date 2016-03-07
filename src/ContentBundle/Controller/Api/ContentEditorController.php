@@ -22,13 +22,13 @@ class ContentEditorController extends Controller
     /**
      * Retrieve the manage view for a block
      *
-     * @param string  $type
-     * @param integer $typeId
+     * @param string  $owner
+     * @param integer $ownerId
      * @param integer $id
      *
      * @return JsonResponse
      */
-    public function viewBlockAction($type, $typeId, $id)
+    public function viewBlockAction($owner, $ownerId, $id)
     {
         $this->getDoctrine()->getManager()->getFilters()->disable('draftversion');
 
@@ -36,9 +36,8 @@ class ContentEditorController extends Controller
         $manager = $this->get('opifer.content.block_manager');
 
         /** @var Environment $environment */
-        $environment = $this->get(sprintf('opifer.content.block_%s_environment', $type));
-
-        $environment->load($typeId);
+        $environment = $this->get('opifer.content.block_environment');
+        $environment->load($owner, $ownerId);
 
         $block = $environment->getBlock($id);
 
@@ -56,19 +55,20 @@ class ContentEditorController extends Controller
      * Creates a new block
      *
      * @param Request $request
-     * @param string  $type
-     * @param integer $typeId
+     * @param string  $owner
      * @param integer $ownerId
      *
      * @return JsonResponse
      */
-    public function createBlockAction(Request $request, $type, $typeId, $ownerId)
+    public function createBlockAction(Request $request, $owner, $ownerId)
     {
         $this->getDoctrine()->getManager()->getFilters()->disable('draftversion');
 
         /** @var BlockManager $manager */
         $manager  = $this->get('opifer.content.block_manager');
         $response = new JsonResponse;
+
+        $object = $this->get('opifer.content.block_provider_pool')->getProvider($owner)->getBlockOwner($ownerId);
 
         $sort        = $request->request->get('sort');
         $parentId    = $request->request->get('parent');
@@ -78,11 +78,11 @@ class ContentEditorController extends Controller
         $data        = json_decode($data, true);
 
         try {
-            $block = $manager->createBlock($ownerId, $className, $parentId, $placeholder, $sort, $data);
+            $block = $manager->createBlock($object, $className, $parentId, $placeholder, $sort, $data);
 
             $response = new JsonResponse(['state' => 'created', 'id' => $block->getId()]);
             $response->setStatusCode(201);
-            $response->headers->add(['Location' => $this->generateUrl('opifer_content_api_contenteditor_view_block', ['type' => $type, 'typeId' => $typeId, 'id' => $block->getId()])]);
+            $response->headers->add(['Location' => $this->generateUrl('opifer_content_api_contenteditor_view_block', ['owner' => $owner, 'ownerId' => $ownerId, 'id' => $block->getId()])]);
 
         } catch (\Exception $e) {
             $response->setStatusCode(500);

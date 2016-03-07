@@ -23,13 +23,12 @@ class ContentEditorController extends Controller
     /**
      * Graphical Content editor
      *
-     * @param Request $request
-     * @param string  $type
-     * @param integer $id
+     * @param string  $owner
+     * @param integer $ownerId
      *
      * @return Response
      */
-    public function designAction(Request $request, $type, $id)
+    public function designAction($owner, $ownerId)
     {
         $this->getDoctrine()->getManager()->getFilters()->disable('draftversion');
 
@@ -37,15 +36,14 @@ class ContentEditorController extends Controller
         $blockManager = $this->get('opifer.content.block_manager');
 
         /** @var AbstractDesignSuite $suite */
-        $suite = $this->get(sprintf('opifer.content.%s_design_suite', $type));
-        $suite->load($id);
+        $suite = $this->get(sprintf('opifer.content.%s_design_suite', $owner));
+        $suite->load($ownerId);
 
         $parameters = [
             'manager' => $blockManager,
             'toolset' => $blockManager->getToolset(),
-            'block' => $suite->getBlock(),
             'id' => $suite->getSubject()->getId(),
-            'type' => $type,
+            'owner' => $owner,
             'title' => $suite->getTitle(),
             'caption' => $suite->getCaption(),
             'permalink' => $suite->getPermalink(),
@@ -61,45 +59,43 @@ class ContentEditorController extends Controller
     /**
      * Table of Contents tree
      *
-     * @param Request $request
-     * @param string  $type
-     * @param integer $id
+     * @param string  $owner
+     * @param integer $ownerId
      *
      * @return Response
      */
-    public function tocAction(Request $request, $type, $id)
+    public function tocAction($owner, $ownerId)
     {
         $this->getDoctrine()->getManager()->getFilters()->disable('draftversion');
 
         /** @var Environment $environment */
-        $environment = $this->get(sprintf('opifer.content.block_%s_environment', $type));
-        $environment->load($id);
+        $environment = $this->get('opifer.content.block_environment');
+        $environment->load($owner, $ownerId);
 
         $twigAnalyzer = $this->get('opifer.content.twig_analyzer');
 
         $parameters = [
             'environment' => $environment,
             'analyzer' => $twigAnalyzer,
-            'block' => $environment->getMainBlock(),
+            'object' => $environment->getObject(),
         ];
 
         return $this->render('OpiferContentBundle:Content:toc.html.twig', $parameters);
     }
 
     /**
-     * @param Request $request
-     * @param string  $type
-     * @param integer $id
+     * @param string  $owner
+     * @param integer $ownerId
      *
      * @return mixed
      */
-    public function viewAction(Request $request, $type, $id)
+    public function viewAction($owner, $ownerId)
     {
         $this->getDoctrine()->getManager()->getFilters()->disable('draftversion');
 
         /** @var Environment $environment */
-        $environment = $this->get(sprintf('opifer.content.block_%s_environment', $type));
-        $environment->load($id);
+        $environment = $this->get('opifer.content.block_environment');
+        $environment->load($owner, $ownerId);
         $environment->setBlockMode('manage');
 
         return $this->render($environment->getView(), $environment->getViewParameters());

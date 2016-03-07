@@ -1,12 +1,7 @@
 .label {
-    border-width: 1px;
-    border-style: solid;
-    font-size: 11px;
+    font-size: @font-size-base;
     font-weight: normal;
-    font-family: "Gotham Medium", "Helvetica Neue", Arial, sans-serif;
-    text-transform: uppercase;
-    padding: .3em .5em;
-    border-radius: 3px;
+    padding: .3em .9em;
 }
 
 .label-default {
@@ -15,7 +10,7 @@
 }
 
 .label-info {
-    background-color: transparent;
-    color: lighten(@gray-base, 60%);
-    border-color: lighten(@gray-base, 60%);
+    background-color: #ddd;
+    color: @gray;
+    border-radius: 20px;
 }

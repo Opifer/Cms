@@ -9,5 +9,8 @@ namespace Opifer\ContentBundle\Block;
  */
 interface BlockOwnerInterface
 {
-
+    /**
+     * @return BlockOwnerInterface|false
+     */
+    public function getSuper();
 }

@@ -139,7 +139,7 @@ class ContentController extends Controller
     }
 
     /**
-     * Details action for an inline form in the Content Designer.
+     * Details action for an inline form in the Content Design
      *
      * @param Request $request
      * @param integer $directoryId
@@ -165,7 +165,7 @@ class ContentController extends Controller
     }
 
 
-    public function historyAction(Request $request, $type, $id, $version = 0)
+    public function historyAction(Request $request, $owner, $ownerId)
     {
         return $this->render($this->getParameter('opifer_content.content_history_view'), array());
     }

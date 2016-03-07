@@ -135,7 +135,6 @@ class ContentExtension extends \Twig_Extension
                     throw new \Exception('Tried to render placeholder in a block which is not a CompositeBlock');
                 }
             } else {
-                $container = $this->blockEnvironment->getMainBlock();
                 $blocks = $this->blockEnvironment->getRootBlocks();
             }
 

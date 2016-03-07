@@ -6,6 +6,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use JMS\Serializer\Annotation as JMS;
+use Opifer\ContentBundle\Block\BlockOwnerInterface;
 use Opifer\ContentBundle\Entity\Template;
 
 use Opifer\EavBundle\Entity\Value;
@@ -24,7 +25,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @Gedmo\SoftDeleteable(fieldName="deletedAt", timeAware=false)
  * @Gedmo\Tree(type="nested")
  */
-class Content implements ContentInterface, EntityInterface
+class Content implements ContentInterface, EntityInterface, TemplatedInterface, BlockOwnerInterface
 {
     /**
      * @var integer
@@ -187,12 +188,12 @@ class Content implements ContentInterface, EntityInterface
     protected $template;
 
     /**
-     * @var BlockInterface
+     * @var ArrayCollection
      *
-     * @ORM\OneToOne(targetEntity="Opifer\ContentBundle\Entity\Block", cascade={"persist", "remove"}, orphanRemoval=true)
-     * @ORM\JoinColumn(name="block_id", referencedColumnName="id")
+     * @ORM\OneToMany(targetEntity="Opifer\ContentBundle\Entity\Block", mappedBy="content", cascade={"detach", "persist", "remove"})
+     * @ORM\OrderBy({"sort" = "ASC"})
      **/
-    protected $block;
+    protected $blocks;
 
     /**
      * @var bool
@@ -210,6 +211,13 @@ class Content implements ContentInterface, EntityInterface
      * @var ArrayCollection
      */
     protected $attributeValues;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="version", type="integer")
+     */
+    protected $version = 0;
 
 
     /**
@@ -626,6 +634,60 @@ class Content implements ContentInterface, EntityInterface
     }
 
     /**
+     * Get all blocks
+     *
+     * @return ArrayCollection
+     */
+    public function getBlocks()
+    {
+        return $this->blocks;
+    }
+
+    /**
+     * Set blocks
+     *
+     * @param mixed $blocks
+     */
+    public function setBlocks($blocks)
+    {
+        $this->blocks = $blocks;
+    }
+
+    /**
+     * Add block
+     *
+     * @param BlockInterface $block
+     *
+     * @return BlockInterface
+     */
+    public function addBlock(BlockInterface $block)
+    {
+        $this->blocks[] = $block;
+
+        return $this;
+    }
+
+    /**
+     * Remove block
+     *
+     * @param BlockInterface $block
+     */
+    public function removeBlock(BlockInterface $block)
+    {
+        $this->blocks->removeElement($block);
+    }
+
+    /**
+     * Check if any blocks are set
+     *
+     * @return boolean
+     */
+    public function hasBlocks()
+    {
+        return (count($this->getBlocks())) ? true : false;
+    }
+
+    /**
      * Set schema
      *
      * @param SchemaInterface $schema
@@ -728,6 +790,26 @@ class Content implements ContentInterface, EntityInterface
 
         return $array;
     }
+
+    /**
+     * @return int
+     */
+    public function getVersion()
+    {
+        return $this->version;
+    }
+
+    /**
+     * @param int $version
+     * @return Content
+     */
+    public function setVersion($version)
+    {
+        $this->version = $version;
+        return $this;
+    }
+
+
 
     /**
      * Creates fake values for non-persisted attributes
@@ -854,11 +936,7 @@ class Content implements ContentInterface, EntityInterface
             }
         }
 
-        if ($this->getBlock() === null) {
-            return false;
-        }
-
-        foreach ($this->getBlock()->getOwning() as $block) {
+        foreach ($this->getBlocks() as $block) {
             $reflect = new \ReflectionClass($block);
 
             if ($reflect->hasProperty('media') && $block->getMedia()) {
@@ -867,6 +945,14 @@ class Content implements ContentInterface, EntityInterface
         }
 
         return false;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getSuper()
+    {
+        return $this->getTemplate();
     }
 
 }
