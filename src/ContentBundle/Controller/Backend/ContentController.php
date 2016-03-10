@@ -86,19 +86,11 @@ class ContentController extends Controller
         $form->handleRequest($request);
 
         if ($form->isValid()) {
-            // Create a new document
-            $blockManager = $this->get('opifer.content.block_manager');
-            $document = new DocumentBlock();
-            $document->setPublish(true);
-            $document->setSuper($content->getTemplate()->getBlock());
-            $blockManager->save($document);
-
-            $content->setBlock($document);
             $manager->save($content);
 
             return $this->redirectToRoute('opifer_content_contenteditor_design', [
-                'type'    => 'content',
-                'id'      => $content->getId(),
+                'owner'    => 'content',
+                'ownerId'      => $content->getId(),
                 'rootVersion' => 0,
             ]);
         }
