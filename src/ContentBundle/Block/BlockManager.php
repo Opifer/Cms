@@ -8,7 +8,6 @@ use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\PersistentCollection;
 use Gedmo\SoftDeleteable\SoftDeleteableListener;
 use Gedmo\Timestampable\TimestampableListener;
-use Opifer\CmsBundle\EventListener\LoggableListener;
 use Opifer\ContentBundle\Block\Service\BlockServiceInterface;
 use Opifer\ContentBundle\Block\Tool\Toolset;
 use Opifer\ContentBundle\Block\Tool\ToolsetMemberInterface;
@@ -295,9 +294,7 @@ class BlockManager
             $block->revision = $revision;
         }
 
-        if (! $this->em->contains($block)) {
-            $this->em->persist($block);
-        }
+        $this->em->persist($block);
         $this->em->flush($block);
 
         return $this;
@@ -464,7 +461,7 @@ class BlockManager
 
         // Set owner
         $block->setOwner($owner);
-        $owner->addBlock($block);
+//        $owner->addBlock($block);
 
         // This should replaced with a more hardened function
         if ($data) {
