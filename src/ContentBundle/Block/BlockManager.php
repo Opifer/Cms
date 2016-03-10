@@ -317,55 +317,56 @@ class BlockManager
     }
 
     /**
-     * Clones an entire tree and persists to database
+     * Clones blocks and persists to database
      *
      * @param BlockOwnerInterface $block
      *
      * @return BlockOwnerInterface
      */
-    public function duplicate(BlockOwnerInterface $block)
+    public function duplicate($blocks)
     {
-        $this->setDraftVersionFilter(false);
-
-        $blocks = $this->findByOwner($block);
-        array_unshift($blocks, $block);
+        if (! is_array($blocks) && ! $blocks instanceof PersistentCollection) {
+            $blocks = array($blocks);
+        }
 
         // 1. Interate over all owned blocks and disconnect parents keeping ids
         /** @var Block $descendant */
-        foreach ($blocks as $descendant) {
-            $descendant->originalId = $descendant->getId();
+        foreach ($blocks as $block) {
+            $block->originalId = $block->getId();
 
             // if it has a parent we need to put it somewhere
-            if ($descendant->getParent()) {
-                $descendant->originalParentId = $descendant->getParent()->getId();
-                $descendant->setParent(null);
+            if ($block->getParent()) {
+                $block->originalParentId = $block->getParent()->getId();
+                $block->setParent(null);
             }
 
-            if ($descendant instanceof BlockContainerInterface) {
-                $descendant->setChildren(null);
+            if ($block instanceof BlockContainerInterface) {
+                $block->setChildren(null);
             }
 
-            $descendant->setOwner($block);
+            $block->setOwner(null);
 
-            $this->em->detach($descendant);
-            $this->em->persist($descendant);
+            $this->em->detach($block);
+            $this->em->persist($block);
         }
+
         $this->em->flush();
 
         // 2. Iterate over all new blocks and reset their parents
-        foreach ($blocks as $descendant) {
-            if (isset($descendant->originalParentId)) {
+        foreach ($blocks as $block) {
+            if (isset($block->originalParentId)) {
                 foreach ($blocks as $parent) {
-                    if ($descendant->originalParentId === $parent->originalId) {
-                        $descendant->setParent($parent);
-                        $parent->addChild($descendant);
+                    if ($block->originalParentId === $parent->originalId) {
+                        $block->setParent($parent);
+                        $parent->addChild($block);
                     }
                 }
             }
         }
+
         $this->em->flush();
 
-        return $block;
+        return $blocks;
     }
 
     /**
