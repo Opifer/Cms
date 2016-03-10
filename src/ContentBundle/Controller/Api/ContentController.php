@@ -124,16 +124,20 @@ class ContentController extends Controller
 
         try {
             if ( ! $content) {
-                throw $this->createNotFoundException('No content found for id ' . $id);
+                throw $this->createNotFoundException('No content found for id ' . $params['id']);
             }
 
             /** @var BlockManager $blockManager */
             $blockManager = $this->container->get('opifer.content.block_manager');
-            $duplicatedBlock = $blockManager->duplicate($content->getBlock());
+            $duplicatedBlocks = $blockManager->duplicate($content->getBlocks());
 
-            $duplicateContent = $contentManager->duplicate($content);
+            $duplicatedContent = $contentManager->duplicate($content);
 
-            $duplicateContent->setBlock($duplicatedBlock);
+            foreach ($duplicatedBlocks as $block) {
+                $block->setOwner($duplicatedContent);
+            }
+
+            $duplicatedContent->setBlocks($duplicatedBlocks);
 
             $this->getDoctrine()->getManager()->flush();
 
