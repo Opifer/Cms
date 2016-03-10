@@ -36,7 +36,8 @@ class ContentController extends BaseContentController
         });
 
         $editAction = new RowAction('button.edit', 'opifer_content_contenteditor_design');
-        $editAction->setRouteParameters(['id', 'type' => 'content']);
+        $editAction->setRouteParameters(['id', 'owner' => 'content']);
+        $editAction->setRouteParametersMapping(['id' => 'ownerId']);
 
         //$deleteAction = new RowAction('button.delete', 'opifer_content_content_delete');
         //$deleteAction->setRouteParameters(['id']);
