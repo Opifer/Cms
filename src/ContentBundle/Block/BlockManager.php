@@ -5,6 +5,7 @@ namespace Opifer\ContentBundle\Block;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Events;
 use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ORM\PersistentCollection;
 use Gedmo\SoftDeleteable\SoftDeleteableListener;
 use Gedmo\Timestampable\TimestampableListener;
 use Opifer\CmsBundle\EventListener\LoggableListener;
@@ -233,7 +234,16 @@ class BlockManager
      */
     public function publish($blocks)
     {
-        if (is_array($blocks)) {
+        if ($blocks instanceof PersistentCollection) {
+            $blocks = $blocks->getValues();
+        }
+
+        if (!$blocks ||
+            (is_array($blocks) && !count($blocks))) {
+            return;
+        }
+
+        if (! is_array($blocks)) {
             $blocks = array($blocks);
         }
 
