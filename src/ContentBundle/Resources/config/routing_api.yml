@@ -77,7 +77,7 @@ opifer_content_api_contenteditor_publish_shared:
 
 opifer_content_api_contenteditor_publish:
     path: /contenteditor/publish
-    defaults: { _controller: OpiferContentBundle:Api/ContentEditor:publishBlock }
+    defaults: { _controller: OpiferContentBundle:Api/ContentEditor:publish }
     methods: [POST]
     options:
         expose: true

@@ -19,7 +19,6 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @JMS\ExclusionPolicy("all")
  * @Gedmo\Tree(type="nested")
  * @GRID\Source(columns="id, title, slug")
- * @Revisions\Revision
  */
 class Content extends BaseContent
 {
@@ -148,7 +147,8 @@ class Content extends BaseContent
      * @JMS\Expose
      * @JMS\Groups({"detail", "list"})
      * @Gedmo\Timestampable(on="create")
-     * @ORM\Column(name="created_at", type="datetime")
+     * @ORM\Column(name="created_at", type="datetime", nullable=true)
+     * @Revisions\Revised
      */
     protected $createdAt;
 

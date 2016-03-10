@@ -14,6 +14,7 @@ use Opifer\EavBundle\Entity\MediaValue;
 use Opifer\EavBundle\Model\EntityInterface;
 use Opifer\EavBundle\Model\SchemaInterface;
 use Opifer\EavBundle\Model\ValueSetInterface;
+use Opifer\Revisions\Mapping\Annotation as Revisions;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -24,6 +25,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @JMS\ExclusionPolicy("all")
  * @Gedmo\SoftDeleteable(fieldName="deletedAt", timeAware=false)
  * @Gedmo\Tree(type="nested")
+ * @Revisions\Revision
  */
 class Content implements ContentInterface, EntityInterface, TemplatedInterface, BlockOwnerInterface
 {
@@ -71,6 +73,7 @@ class Content implements ContentInterface, EntityInterface, TemplatedInterface, 
      * @JMS\Groups({"detail", "list"})
      * @ORM\Column(name="title", type="string", length=255)
      * @Assert\NotBlank()
+     * @Revisions\Revised
      */
     protected $title;
 
@@ -80,6 +83,7 @@ class Content implements ContentInterface, EntityInterface, TemplatedInterface, 
      * @JMS\Expose
      * @JMS\Groups({"detail", "list"})
      * @ORM\Column(name="description", type="text", nullable=true)
+     * @Revisions\Revised
      */
     protected $description;
 
@@ -158,7 +162,8 @@ class Content implements ContentInterface, EntityInterface, TemplatedInterface, 
      * @JMS\Expose
      * @JMS\Groups({"detail", "list"})
      * @Gedmo\Timestampable(on="create")
-     * @ORM\Column(name="created_at", type="datetime")
+     * @ORM\Column(name="created_at", type="datetime", nullable=true)
+     * @Revisions\Revised
      */
     protected $createdAt;
 
@@ -211,13 +216,6 @@ class Content implements ContentInterface, EntityInterface, TemplatedInterface, 
      * @var ArrayCollection
      */
     protected $attributeValues;
-
-    /**
-     * @var integer
-     *
-     * @ORM\Column(name="version", type="integer")
-     */
-    protected $version = 0;
 
 
     /**

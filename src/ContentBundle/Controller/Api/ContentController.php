@@ -111,7 +111,7 @@ class ContentController extends Controller
      */
     public function duplicateAction(Request $request)
     {
-        $this->getDoctrine()->getManager()->getFilters()->disable('draftversion');
+        $this->getDoctrine()->getManager()->getFilters()->disable('draft');
 
         $content        = $this->get('request')->getContent();
         if (!empty($content)) {

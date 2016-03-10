@@ -52,22 +52,22 @@
         <aside class="pm-tabs">
             <ul class="nav nav-inverse nav-tabs nav-stacked nav-tabs-sidebar" role="tablist">
                 <li role="presentation" class="active" data-toggle="tooltip" data-placement="right" title="Designer"><a href="#tab-design" role="tab" data-toggle="tab"><i class="material-icons">layers</i></a></li>
-                <li role="presentation" data-toggle="tooltip" data-placement="right" title="Change history"><a href="#tab-history" role="tab" data-toggle="tab"><i class="material-icons">change_history</i></a></li>
-                <li role="presentation" data-toggle="tooltip" data-placement="right" title="SEO tools"><a href="#tab-seo" role="tab" data-toggle="tab"><i class="material-icons">pageview</i></a></li>
-                <li role="presentation" data-toggle="tooltip" data-placement="right" title="Extensions"><a href="#tab-extensions" role="tab" data-toggle="tab"><i class="material-icons">extension</i></a></li>
-                <li role="presentation" data-toggle="tooltip" data-placement="right" title="Developer tools"><a href="#tab-developer" role="tab" data-toggle="tab"><i class="material-icons">developer_board</i></a></li>
+                {#<li role="presentation" data-toggle="tooltip" data-placement="right" title="Change history"><a href="#tab-history" role="tab" data-toggle="tab"><i class="material-icons">change_history</i></a></li>#}
+                {#<li role="presentation" data-toggle="tooltip" data-placement="right" title="SEO tools"><a href="#tab-seo" role="tab" data-toggle="tab"><i class="material-icons">pageview</i></a></li>#}
+                {#<li role="presentation" data-toggle="tooltip" data-placement="right" title="Extensions"><a href="#tab-extensions" role="tab" data-toggle="tab"><i class="material-icons">extension</i></a></li>#}
+                {#<li role="presentation" data-toggle="tooltip" data-placement="right" title="Developer tools"><a href="#tab-developer" role="tab" data-toggle="tab"><i class="material-icons">developer_board</i></a></li>#}
             </ul>
         </aside>
         <div class="split-pane-component pm-preview pm-viewmode-content tab-content" id="pm-document" data-pm-owner="{{ owner }}" data-pm-owner-id="{{ id }}" data-pm-permalink="{{ permalink|default }}">
             <div role="tabpanel" class="tab-pane active" id="tab-design">
                 <iframe data-url="{{ url }}" frameborder="no" id="pm-iframe" class="pm-tab-iframe"></iframe>
             </div>
-            <div role="tabpanel" class="tab-pane" id="tab-history">
-                <iframe src="{{ path('opifer_content_content_history', {'owner': owner, 'id': id}) }}" frameborder="no" id="pm-iframe-history" class="pm-tab-iframe"></iframe>
-            </div>
-            <div role="tabpanel" class="tab-pane" id="tab-developer">
-                <iframe frameborder="no" id="pm-iframe-developer" class="pm-tab-iframe"></iframe>
-            </div>
+            {#<div role="tabpanel" class="tab-pane" id="tab-history">#}
+                {#<iframe src="{{ path('opifer_content_content_history', {'owner': owner, 'id': id}) }}" frameborder="no" id="pm-iframe-history" class="pm-tab-iframe"></iframe>#}
+            {#</div>#}
+            {#<div role="tabpanel" class="tab-pane" id="tab-developer">#}
+                {#<iframe frameborder="no" id="pm-iframe-developer" class="pm-tab-iframe"></iframe>#}
+            {#</div>#}
         </div>
         <div class="split-pane-divider" id="my-divider"></div>
         <div class="split-pane-component pm-toolset" id="right-component">

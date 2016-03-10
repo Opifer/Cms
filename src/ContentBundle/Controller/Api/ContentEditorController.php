@@ -8,6 +8,7 @@ use Opifer\ContentBundle\Block\ContentBlockAdapter;
 use Opifer\ContentBundle\Designer\AbstractDesignSuite;
 use Opifer\ContentBundle\Entity\PointerBlock;
 use Opifer\ContentBundle\Environment\Environment;
+use Opifer\ContentBundle\Provider\BlockProviderInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -30,14 +31,14 @@ class ContentEditorController extends Controller
      */
     public function viewBlockAction($owner, $ownerId, $id)
     {
-        $this->getDoctrine()->getManager()->getFilters()->disable('draftversion');
-
         /** @var BlockManager $manager */
         $manager = $this->get('opifer.content.block_manager');
 
+        $object = $this->get('opifer.content.block_provider_pool')->getProvider($owner)->getBlockOwner($ownerId);
+
         /** @var Environment $environment */
         $environment = $this->get('opifer.content.block_environment');
-        $environment->load($owner, $ownerId);
+        $environment->setDraft(true)->setObject($object);
 
         $block = $environment->getBlock($id);
 
@@ -62,7 +63,7 @@ class ContentEditorController extends Controller
      */
     public function createBlockAction(Request $request, $owner, $ownerId)
     {
-        $this->getDoctrine()->getManager()->getFilters()->disable('draftversion');
+        $this->getDoctrine()->getManager()->getFilters()->disable('draft');
 
         /** @var BlockManager $manager */
         $manager  = $this->get('opifer.content.block_manager');
@@ -102,7 +103,7 @@ class ContentEditorController extends Controller
      */
     public function removeBlockAction($id)
     {
-        $this->getDoctrine()->getManager()->getFilters()->disable('draftversion');
+        $this->getDoctrine()->getManager()->getFilters()->disable('draft');
 
         /** @var BlockManager $manager */
         $manager  = $this->get('opifer.content.block_manager');
@@ -130,7 +131,7 @@ class ContentEditorController extends Controller
      */
     public function moveBlockAction(Request $request)
     {
-        $this->getDoctrine()->getManager()->getFilters()->disable('draftversion');
+        $this->getDoctrine()->getManager()->getFilters()->disable('draft');
 
         /** @var BlockManager $manager */
         $manager  = $this->get('opifer.content.block_manager');
@@ -163,7 +164,7 @@ class ContentEditorController extends Controller
      */
     public function makeSharedAction(Request $request, $type, $typeId, $ownerId)
     {
-        $this->getDoctrine()->getManager()->getFilters()->disable('draftversion');
+        $this->getDoctrine()->getManager()->getFilters()->disable('draft');
 
         /** @var BlockManager $manager */
         $manager = $this->get('opifer.content.block_manager');
@@ -195,7 +196,7 @@ class ContentEditorController extends Controller
      */
     public function publishSharedAction(Request $request)
     {
-        $this->getDoctrine()->getManager()->getFilters()->disable('draftversion');
+        $this->getDoctrine()->getManager()->getFilters()->disable('draft');
 
         /** @var BlockManager $manager */
         $manager  = $this->get('opifer.content.block_manager');
@@ -223,24 +224,23 @@ class ContentEditorController extends Controller
      *
      * @return JsonResponse
      */
-    public function publishBlockAction(Request $request)
+    public function publishAction(Request $request)
     {
-        $this->getDoctrine()->getManager()->getFilters()->disable('draftversion');
+        $this->getDoctrine()->getManager()->getFilters()->disable('draft');
+
+        $owner        = $request->request->get('owner');
+        $ownerId      = (int) $request->request->get('ownerId');
+
         /** @var BlockManager $manager */
         $manager  = $this->get('opifer.content.block_manager');
+        /** @var BlockProviderInterface $provider */
+        $provider = $this->get('opifer.content.block_provider_pool')->getProvider($owner);
         $response = new JsonResponse;
-        $id          = (int) $request->request->get('id');
-        $version     = (int) $request->request->get('version');
-        $type        = $request->request->get('type');
-        $typeId      = (int) $request->request->get('typeId');
+
+        $object = $provider->getBlockOwner($ownerId);
 
         try {
-            $block = $manager->find($id);
-            $manager->publish($block);
-
-            /** @var AbstractDesignSuite $suite */
-            $suite = $this->get(sprintf('opifer.content.%s_design_suite', $type));
-            $suite->load($typeId, $manager->getNewVersion($block))->postPublish();
+            $manager->publish($object->getBlocks());
 
             $response->setStatusCode(200);
             $response->setData(['state' => 'published']);
@@ -262,7 +262,7 @@ class ContentEditorController extends Controller
      */
     public function discardBlockAction(Request $request)
     {
-        $this->getDoctrine()->getManager()->getFilters()->disable('draftversion');
+        $this->getDoctrine()->getManager()->getFilters()->disable('draft');
 
         /** @var BlockManager $manager */
         $manager = $this->get('opifer.content.block_manager');

@@ -8,18 +8,19 @@
 
 namespace Opifer\ContentBundle\Environment;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\PersistentCollection;
 use Opifer\ContentBundle\Block\BlockManager;
 use Opifer\ContentBundle\Block\BlockOwnerInterface;
 use Opifer\ContentBundle\Block\Service\LayoutBlockServiceInterface;
-use Opifer\ContentBundle\Entity\Block;
-use Opifer\ContentBundle\Entity\DocumentBlock;
 use Opifer\ContentBundle\Entity\Template;
 use Opifer\ContentBundle\Model\BlockInterface;
 use Opifer\ContentBundle\Model\Content;
 use Opifer\ContentBundle\Model\TemplatedInterface;
 use Opifer\ContentBundle\Provider\BlockProviderPool;
+use Opifer\Revisions\Exception\DeletedException;
+use Opifer\Revisions\RevisionManager;
 
 class Environment
 {
@@ -49,9 +50,9 @@ class Environment
     protected $blockManager;
 
     /**
-     * @var BlockProviderPool
+     * @var RevisionManager
      */
-    protected $providerPool;
+    protected $revisionManager;
 
     /**
      * @var TwigAnalyzer
@@ -60,11 +61,14 @@ class Environment
 
     protected $blockCache;
 
-    public function __construct(EntityManagerInterface $em, BlockManager $blockManager, BlockProviderPool $providerPool, TwigAnalyzer $twigAnalyzer)
+    /** @var bool */
+    protected $draft = false;
+
+    public function __construct(EntityManagerInterface $em, BlockManager $blockManager, RevisionManager $revisionManager, TwigAnalyzer $twigAnalyzer)
     {
         $this->em = $em;
         $this->blockManager = $blockManager;
-        $this->providerPool = $providerPool;
+        $this->revisionManager = $revisionManager;
         $this->twigAnalyzer = $twigAnalyzer;
     }
 
@@ -114,6 +118,8 @@ class Environment
 
     public function getBlock($id)
     {
+        $this->load();
+
         $cacheKey = $this->getCacheKey();
 
         foreach ($this->blockCache[$cacheKey] as $member) {
@@ -127,6 +133,8 @@ class Environment
 
     public function getRootBlocks()
     {
+        $this->load();
+
         $cacheKey = $this->getCacheKey();
 
         $blocks = array();
@@ -149,6 +157,8 @@ class Environment
      */
     public function getBlockChildren(BlockInterface $block)
     {
+        $this->load();
+
         $children = array();
         $cacheKey = $this->getCacheKey();
 
@@ -172,12 +182,10 @@ class Environment
      *
      * @return Environment
      */
-    public function load($type, $id)
+    public function load()
     {
         if ($this->isLoaded)
             return;
-
-        $this->object = $this->providerPool->getProvider($type)->getBlockOwner($id);
 
         $blocks = $this->getBlocksRecursive($this->object);
 
@@ -193,7 +201,13 @@ class Environment
 
     protected function getBlocksRecursive($owner = null, $blocks = array())
     {
-        $owned = ($owner->getBlocks() instanceof PersistentCollection) ? $owner->getBlocks()->getValues() : $owner->getBlocks();
+        $draft = ($this->draft && $owner === $this->object) ? true : false;
+
+        $owned = $this->blockManager->findByOwner($owner, $draft);
+
+        if ($owned instanceof PersistentCollection) {
+            $owned = $owned->getValues();
+        }
 
         $blocks = array_merge($blocks, $owned);
 
@@ -204,7 +218,6 @@ class Environment
         return $blocks;
     }
 
-
     protected function isTemplated($object)
     {
         return ($object instanceof TemplatedInterface);
@@ -212,7 +225,7 @@ class Environment
 
     protected function getCacheKey()
     {
-        $cacheKey = sprintf('%s-%d', get_class($this->object), $this->object->getId());
+        $cacheKey = sprintf('%s-%d-%s', get_class($this->object), $this->object->getId(), $this->draft ? 'D' : 'L');
 
         return $cacheKey;
     }
@@ -258,6 +271,25 @@ class Environment
     public function setObject($object)
     {
         $this->object = $object;
+
+        return $this;
+    }
+
+    /**
+     * @return boolean
+     */
+    public function isDraft()
+    {
+        return $this->draft;
+    }
+
+    /**
+     * @param boolean $draft
+     * @return Environment
+     */
+    public function setDraft($draft)
+    {
+        $this->draft = $draft;
 
         return $this;
     }

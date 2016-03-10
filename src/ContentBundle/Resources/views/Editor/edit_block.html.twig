@@ -1,8 +1,5 @@
-
     <div class="container-fluid">
-
-        {{ form_start(form, {'action': path('opifer_content_contenteditor_edit_block', {'id': block.id, 'rootVersion': block.rootVersion}), 'label_col': 3, 'widget_col': 9, 'attr' : {'data-pm-block-id': block.id, 'novalidate': 'novalidate', 'class': 'prevent-enter-submit'}, 'style': 'horizontal'}) }}
-
+        {{ form_start(form, {'action': path('opifer_content_contenteditor_edit_block', {'id': block.id}), 'label_col': 3, 'widget_col': 9, 'attr' : {'data-pm-block-id': block.id, 'novalidate': 'novalidate', 'class': 'prevent-enter-submit'}, 'style': 'horizontal'}) }}
 
         <a href="#close" class="btn btn-close" id="btn-cancel"><i class="material-icons">close</i></a>
         <div class="row row-space-2">

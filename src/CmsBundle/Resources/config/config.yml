@@ -82,8 +82,8 @@ doctrine:
             softdeleteable:
                 class:   'Gedmo\SoftDeleteable\Filter\SoftDeleteableFilter'
                 enabled: true
-            draftversion:
-                class:   Opifer\ContentBundle\Filter\DraftVersionFilter
+            draft:
+                class:   Opifer\Revisions\Filter\DraftFilter
                 enabled: true
         resolve_target_entities:
             FOS\UserBundle\Model\UserInterface: '%opifer_cms.user_model%'

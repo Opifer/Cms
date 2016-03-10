@@ -123,7 +123,7 @@ services:
 
     opifer.content.block_manager:
         class: '%opifer.content.block_manager.class%'
-        arguments: ['@doctrine.orm.default_entity_manager']
+        arguments: ['@doctrine.orm.default_entity_manager', '@opifer.revisions.revision_manager']
 
     opifer.content.content_design_suite:
         class: '%opifer.content.content_design_suite.class%'
@@ -135,7 +135,7 @@ services:
 
     opifer.content.block_environment:
         class: '%opifer.content.block_environment.class%'
-        arguments: ['@doctrine.orm.default_entity_manager', '@opifer.content.block_manager', '@opifer.content.block_provider_pool', '@opifer.content.twig_analyzer']
+        arguments: ['@doctrine.orm.default_entity_manager', '@opifer.content.block_manager', '@opifer.revisions.revision_manager', '@opifer.content.twig_analyzer']
 
     opifer.content.block_listener:
         class: '%opifer.content.block_listener.class%'

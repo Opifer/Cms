@@ -6,6 +6,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Opifer\Revisions\Mapping\Annotation as Revisions;
+use Opifer\Revisions\DraftInterface;
 
 use JMS\Serializer\Annotation as JMS;
 use Opifer\ContentBundle\Block\DraftVersionInterface;
@@ -27,12 +28,12 @@ use Opifer\ContentBundle\Model\ContentInterface;
  * map.
  * @see Opifer\CmsBundle\EventListener\BlockDiscriminatorListener
  *
- * @Revisions\Revision
+ * @Revisions\Revision(draft=true)
  * @Gedmo\SoftDeleteable(fieldName="deletedAt")
  *
  * @JMS\ExclusionPolicy("all")
  */
-abstract class Block implements BlockInterface, DraftVersionInterface
+abstract class Block implements BlockInterface, DraftInterface
 {
     /**
      * @var integer
@@ -80,7 +81,7 @@ abstract class Block implements BlockInterface, DraftVersionInterface
      * @var integer
      *
      * @Revisions\Revised
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="integer", nullable=true)
      */
     protected $position = 0;
 
@@ -88,7 +89,7 @@ abstract class Block implements BlockInterface, DraftVersionInterface
      * @var integer
      *
      * @Revisions\Revised
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="integer", nullable=true)
      */
     protected $sort = 0;
 
@@ -135,7 +136,8 @@ abstract class Block implements BlockInterface, DraftVersionInterface
      * @JMS\Expose
      * @JMS\Groups({"detail", "list"})
      * @Gedmo\Timestampable(on="create")
-     * @ORM\Column(name="created_at", type="datetime")
+     * @Revisions\Revised
+     * @ORM\Column(name="created_at", type="datetime", nullable=true)
      */
     protected $createdAt;
 
@@ -145,7 +147,8 @@ abstract class Block implements BlockInterface, DraftVersionInterface
      * @JMS\Expose
      * @JMS\Groups({"detail", "list"})
      * @Gedmo\Timestampable(on="update")
-     * @ORM\Column(name="updated_at", type="datetime")
+     * @Revisions\Revised
+     * @ORM\Column(name="updated_at", type="datetime", nullable=true)
      */
     protected $updatedAt;
 
@@ -158,12 +161,9 @@ abstract class Block implements BlockInterface, DraftVersionInterface
     protected $deletedAt;
 
     /**
-     * @var integer
-     *
-     * @Revisions\Revised
-     * @ORM\Column(name="version", type="integer")
+     * @var boolean
      */
-    protected $version = 0;
+    protected $draft = true;
 
     /**
      * Constructor
@@ -397,54 +397,6 @@ abstract class Block implements BlockInterface, DraftVersionInterface
     }
 
     /**
-     * @return int
-     */
-    public function getVersion()
-    {
-        return $this->version;
-    }
-
-    /**
-     * @param int $version
-     */
-    public function setVersion($version)
-    {
-        $this->version = $version;
-    }
-
-    /**
-     * @return int
-     */
-    public function getRootVersion()
-    {
-        return $this->rootVersion;
-    }
-
-    /**
-     * @param int $rootVersion
-     */
-    public function setRootVersion($rootVersion)
-    {
-        $this->rootVersion = $rootVersion;
-    }
-
-    /**
-     * @return boolean
-     */
-    public function isPublish()
-    {
-        return $this->publish;
-    }
-
-    /**
-     * @param boolean $publish
-     */
-    public function setPublish($publish)
-    {
-        $this->publish = $publish;
-    }
-
-    /**
      * @return string
      */
     public function getSharedDisplayName()
@@ -538,4 +490,25 @@ abstract class Block implements BlockInterface, DraftVersionInterface
 
         return $this;
     }
+
+    /**
+     * @return boolean
+     */
+    public function isDraft()
+    {
+        return $this->draft;
+    }
+
+    /**
+     * @param boolean $draft
+     *
+     * @return Block
+     */
+    public function setDraft($draft)
+    {
+        $this->draft = $draft;
+
+        return $this;
+    }
+
 }

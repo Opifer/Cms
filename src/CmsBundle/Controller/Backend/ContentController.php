@@ -75,7 +75,7 @@ class ContentController extends BaseContentController
      */
     public function historyAction(Request $request, $owner, $id)
     {
-        $this->getDoctrine()->getManager()->getFilters()->disable('draftversion');
+        $this->getDoctrine()->getManager()->getFilters()->disable('draft');
 
         /** @var Environment $environment */
         $environment = $this->get('opifer.content.block_environment');

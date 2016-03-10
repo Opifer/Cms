@@ -149,7 +149,7 @@ class ContentRepository extends BaseContentRepository
      */
     public function findUnpublished($limit = 5)
     {
-        $this->getEntityManager()->getFilters()->disable('draftversion');
+        $this->getEntityManager()->getFilters()->disable('draft');
 
         $query = $this->createQueryBuilder('c')
             ->innerJoin('c.block', 'block')

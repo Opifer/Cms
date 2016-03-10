@@ -8,6 +8,7 @@ use Opifer\ContentBundle\Entity\DocumentBlock;
 use Opifer\ContentBundle\Environment\ContentEnvironment;
 use Opifer\ContentBundle\Environment\Environment;
 use Opifer\ContentBundle\Form\Type\BlockAdapterFormType;
+use Opifer\ContentBundle\Provider\BlockProviderInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -30,8 +31,6 @@ class ContentEditorController extends Controller
      */
     public function designAction($owner, $ownerId)
     {
-        $this->getDoctrine()->getManager()->getFilters()->disable('draftversion');
-
         /** @var BlockManager $blockManager */
         $blockManager = $this->get('opifer.content.block_manager');
 
@@ -66,11 +65,14 @@ class ContentEditorController extends Controller
      */
     public function tocAction($owner, $ownerId)
     {
-        $this->getDoctrine()->getManager()->getFilters()->disable('draftversion');
+        /** @var BlockProviderInterface $provider */
+        $provider = $this->get('opifer.content.block_provider_pool')->getProvider($owner);
+        $object = $provider->getBlockOwner($ownerId);
 
         /** @var Environment $environment */
         $environment = $this->get('opifer.content.block_environment');
-        $environment->load($owner, $ownerId);
+        $environment->setDraft(true)->setObject($object);
+        $environment->setBlockMode('manage');
 
         $twigAnalyzer = $this->get('opifer.content.twig_analyzer');
 
@@ -91,11 +93,13 @@ class ContentEditorController extends Controller
      */
     public function viewAction($owner, $ownerId)
     {
-        $this->getDoctrine()->getManager()->getFilters()->disable('draftversion');
+        /** @var BlockProviderInterface $provider */
+        $provider = $this->get('opifer.content.block_provider_pool')->getProvider($owner);
+        $object = $provider->getBlockOwner($ownerId);
 
         /** @var Environment $environment */
         $environment = $this->get('opifer.content.block_environment');
-        $environment->load($owner, $ownerId);
+        $environment->setDraft(true)->setObject($object);
         $environment->setBlockMode('manage');
 
         return $this->render($environment->getView(), $environment->getViewParameters());
@@ -111,22 +115,12 @@ class ContentEditorController extends Controller
      */
     public function editBlockAction(Request $request, $id)
     {
-        $this->getDoctrine()->getManager()->getFilters()->disable('draftversion');
-
         /** @var BlockManager $manager */
         $manager = $this->get('opifer.content.block_manager');
-        $version = $manager->getNewVersion($manager->find($id));
-
-//        if ((int) $rootVersion !== $newVersion) {
-//            throw new \Exception("Only new versions can be editted. New version is {$newVersion} while you requested {$rootVersion}");
-//        }
-
-        $block = $manager->find($id);
+        $block = $manager->find($id, true);
 
         /** @var BlockServiceInterface $service */
         $service = $manager->getService($block);
-        $block->setRootVersion($version);
-
         $updatePreview = false; // signals parent window preview from iframe to update preview
 
         $service->preFormSubmit($block);
@@ -138,7 +132,7 @@ class ContentEditorController extends Controller
 
             $service->postFormSubmit($form, $block);
 
-            $manager->save($block);
+            $manager->save($block, true);
             $updatePreview = true;
         }
 
@@ -149,26 +143,4 @@ class ContentEditorController extends Controller
             'update_preview' => $updatePreview
         ]);
     }
-
-//    /**
-//     * @param integer $id
-//     * @param integer $current
-//     * @param integer $published
-//     *
-//     * @return Response
-//     */
-//    public function versionPickerAction($id, $current, $published = 0)
-//    {
-//        if ($this->getDoctrine()->getManager()->getFilters()->isEnabled('draftversion')) {
-//            $this->getDoctrine()->getManager()->getFilters()->disable('draftversion');
-//        }
-//
-//        /** @var BlockManager $manager */
-//        $manager = $this->get('opifer.content.block_manager');
-//        $block   = $manager->find($id);
-//
-//        $logEntries = $manager->getRootVersions($block);
-//
-//        return $this->render('OpiferContentBundle:Editor:version_picker.html.twig', ['logentries' => $logEntries, 'current' => $current, 'published' => $published]);
-//    }
 }
