@@ -514,12 +514,15 @@ class BlockManager
     {
         $block = $this->find($id, $draft);
 
-        $parent = ($parentId) ? $this->find($parentId) : $block->getOwner();
+        $parent = ($parentId) ? $this->find($parentId) : null;
 
         $block->setPosition($placeholder);
 
         $block->setParent($parent);
-        $parent->addChild($block);
+
+        if ($parent) {
+            $parent->addChild($block);
+        }
 
         $this->save($block);
 
