@@ -9,7 +9,6 @@ use JMS\Serializer\Annotation as JMS;
 use Opifer\CmsBundle\Entity\Media;
 use Opifer\ContentBundle\Block\BlockOwnerInterface;
 use Opifer\ContentBundle\Entity\Template;
-
 use Opifer\EavBundle\Entity\Value;
 use Opifer\EavBundle\Entity\MediaValue;
 use Opifer\EavBundle\Model\EntityInterface;
@@ -19,7 +18,7 @@ use Opifer\Revisions\Mapping\Annotation as Revisions;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * Content
+ * Content.
  *
  * @ORM\MappedSuperclass
  *
@@ -31,7 +30,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 class Content implements ContentInterface, EntityInterface, TemplatedInterface, BlockOwnerInterface
 {
     /**
-     * @var integer
+     * @var int
      *
      * @ORM\Id
      * @ORM\Column(name="id", type="integer")
@@ -59,7 +58,7 @@ class Content implements ContentInterface, EntityInterface, TemplatedInterface, 
     protected $contentType;
 
     /**
-     * @var boolean
+     * @var bool
      *
      * @JMS\Expose
      * @JMS\Groups({"detail", "list"})
@@ -83,6 +82,16 @@ class Content implements ContentInterface, EntityInterface, TemplatedInterface, 
      *
      * @JMS\Expose
      * @JMS\Groups({"detail", "list"})
+     * @ORM\Column(name="nav_title", type="string", length=255, nullable=true)
+     * @Revisions\Revised
+     */
+    protected $navTitle;
+
+    /**
+     * @var string
+     *
+     * @JMS\Expose
+     * @JMS\Groups({"detail", "list"})
      * @ORM\Column(name="description", type="text", nullable=true)
      * @Revisions\Revised
      */
@@ -99,7 +108,6 @@ class Content implements ContentInterface, EntityInterface, TemplatedInterface, 
      *      })
      * }, fields={"alias"}, unique_base="deletedAt")
      * @ORM\Column(name="alias", type="string", length=255, nullable=true)
-     *
      */
     protected $alias;
 
@@ -218,9 +226,8 @@ class Content implements ContentInterface, EntityInterface, TemplatedInterface, 
      */
     protected $attributeValues;
 
-
     /**
-     * Constructor
+     * Constructor.
      */
     public function __construct()
     {
@@ -228,9 +235,9 @@ class Content implements ContentInterface, EntityInterface, TemplatedInterface, 
     }
 
     /**
-     * Get id
+     * Get id.
      *
-     * @return integer
+     * @return int
      */
     public function getId()
     {
@@ -238,9 +245,10 @@ class Content implements ContentInterface, EntityInterface, TemplatedInterface, 
     }
 
     /**
-     * Set title
+     * Set title.
      *
      * @param string $title
+     *
      * @return Content
      */
     public function setTitle($title)
@@ -251,7 +259,7 @@ class Content implements ContentInterface, EntityInterface, TemplatedInterface, 
     }
 
     /**
-     * Get title
+     * Get title.
      *
      * @return string
      */
@@ -261,9 +269,34 @@ class Content implements ContentInterface, EntityInterface, TemplatedInterface, 
     }
 
     /**
-     * Set description
+     * @return string
+     */
+    public function getNavTitle()
+    {
+        if (!$this->navTitle) {
+            return $this->getTitle();
+        }
+
+        return $this->navTitle;
+    }
+
+    /**
+     * @param string $navTitle
+     *
+     * @return Content
+     */
+    public function setNavTitle($navTitle)
+    {
+        $this->navTitle = $navTitle;
+
+        return $this;
+    }
+
+    /**
+     * Set description.
      *
      * @param string $description
+     *
      * @return Content
      */
     public function setDescription($description)
@@ -274,7 +307,7 @@ class Content implements ContentInterface, EntityInterface, TemplatedInterface, 
     }
 
     /**
-     * Get description
+     * Get description.
      *
      * @return string
      */
@@ -284,9 +317,10 @@ class Content implements ContentInterface, EntityInterface, TemplatedInterface, 
     }
 
     /**
-     * Set slug
+     * Set slug.
      *
-     * @param  string $slug
+     * @param string $slug
+     *
      * @return Content
      */
     public function setSlug($slug)
@@ -297,7 +331,7 @@ class Content implements ContentInterface, EntityInterface, TemplatedInterface, 
     }
 
     /**
-     * Get slug
+     * Get slug.
      *
      * @return string
      */
@@ -307,7 +341,7 @@ class Content implements ContentInterface, EntityInterface, TemplatedInterface, 
     }
 
     /**
-     * Get slug without index appended
+     * Get slug without index appended.
      *
      * @return string
      */
@@ -323,9 +357,9 @@ class Content implements ContentInterface, EntityInterface, TemplatedInterface, 
     }
 
     /**
-     * Set active
+     * Set active.
      *
-     * @param boolean $active
+     * @param bool $active
      *
      * @return Content
      */
@@ -337,9 +371,9 @@ class Content implements ContentInterface, EntityInterface, TemplatedInterface, 
     }
 
     /**
-     * Get active
+     * Get active.
      *
-     * @return boolean
+     * @return bool
      */
     public function getActive()
     {
@@ -347,7 +381,7 @@ class Content implements ContentInterface, EntityInterface, TemplatedInterface, 
     }
 
     /**
-     * Set alias
+     * Set alias.
      *
      * @param string $alias
      *
@@ -361,7 +395,7 @@ class Content implements ContentInterface, EntityInterface, TemplatedInterface, 
     }
 
     /**
-     * Get alias
+     * Get alias.
      *
      * @return string
      */
@@ -380,6 +414,7 @@ class Content implements ContentInterface, EntityInterface, TemplatedInterface, 
 
     /**
      * @param ContentTypeInterface $contentType
+     *
      * @return Content
      */
     public function setContentType(ContentTypeInterface $contentType)
@@ -390,9 +425,10 @@ class Content implements ContentInterface, EntityInterface, TemplatedInterface, 
     }
 
     /**
-     * Set lft
+     * Set lft.
      *
-     * @param  integer   $lft
+     * @param int $lft
+     *
      * @return Content
      */
     public function setLft($lft)
@@ -403,9 +439,9 @@ class Content implements ContentInterface, EntityInterface, TemplatedInterface, 
     }
 
     /**
-     * Get lft
+     * Get lft.
      *
-     * @return integer
+     * @return int
      */
     public function getLft()
     {
@@ -413,9 +449,10 @@ class Content implements ContentInterface, EntityInterface, TemplatedInterface, 
     }
 
     /**
-     * Set lvl
+     * Set lvl.
      *
-     * @param  integer   $lvl
+     * @param int $lvl
+     *
      * @return Content
      */
     public function setLvl($lvl)
@@ -426,9 +463,9 @@ class Content implements ContentInterface, EntityInterface, TemplatedInterface, 
     }
 
     /**
-     * Get lvl
+     * Get lvl.
      *
-     * @return integer
+     * @return int
      */
     public function getLvl()
     {
@@ -436,9 +473,10 @@ class Content implements ContentInterface, EntityInterface, TemplatedInterface, 
     }
 
     /**
-     * Set rgt
+     * Set rgt.
      *
-     * @param  integer   $rgt
+     * @param int $rgt
+     *
      * @return Content
      */
     public function setRgt($rgt)
@@ -449,9 +487,9 @@ class Content implements ContentInterface, EntityInterface, TemplatedInterface, 
     }
 
     /**
-     * Get rgt
+     * Get rgt.
      *
-     * @return integer
+     * @return int
      */
     public function getRgt()
     {
@@ -459,9 +497,10 @@ class Content implements ContentInterface, EntityInterface, TemplatedInterface, 
     }
 
     /**
-     * Set root
+     * Set root.
      *
-     * @param  integer   $root
+     * @param int $root
+     *
      * @return Content
      */
     public function setRoot($root)
@@ -472,9 +511,9 @@ class Content implements ContentInterface, EntityInterface, TemplatedInterface, 
     }
 
     /**
-     * Get root
+     * Get root.
      *
-     * @return integer
+     * @return int
      */
     public function getRoot()
     {
@@ -482,9 +521,10 @@ class Content implements ContentInterface, EntityInterface, TemplatedInterface, 
     }
 
     /**
-     * Set parent
+     * Set parent.
      *
-     * @param  ContentInterface $parent
+     * @param ContentInterface $parent
+     *
      * @return ContentInterface
      */
     public function setParent(ContentInterface $parent = null)
@@ -495,7 +535,7 @@ class Content implements ContentInterface, EntityInterface, TemplatedInterface, 
     }
 
     /**
-     * Get parent
+     * Get parent.
      *
      * @return ContentInterface
      */
@@ -505,9 +545,10 @@ class Content implements ContentInterface, EntityInterface, TemplatedInterface, 
     }
 
     /**
-     * Add children
+     * Add children.
      *
-     * @param  ContentInterface $children
+     * @param ContentInterface $children
+     *
      * @return ContentInterface
      */
     public function addChild(ContentInterface $child)
@@ -518,9 +559,10 @@ class Content implements ContentInterface, EntityInterface, TemplatedInterface, 
     }
 
     /**
-     * Remove children
+     * Remove children.
      *
-     * @param  ContentInterface $children
+     * @param ContentInterface $children
+     *
      * @return ContentInterface
      */
     public function removeChild(ContentInterface $child)
@@ -531,7 +573,7 @@ class Content implements ContentInterface, EntityInterface, TemplatedInterface, 
     }
 
     /**
-     * Get children
+     * Get children.
      *
      * @return ContentInterface[]|\Doctrine\Common\Collections\Collection
      */
@@ -541,7 +583,7 @@ class Content implements ContentInterface, EntityInterface, TemplatedInterface, 
     }
 
     /**
-     * @return boolean
+     * @return bool
      */
     public function isShowInNavigation()
     {
@@ -549,7 +591,7 @@ class Content implements ContentInterface, EntityInterface, TemplatedInterface, 
     }
 
     /**
-     * @param  boolean $showInNavigation
+     * @param bool $showInNavigation
      *
      * @return Content
      */
@@ -561,9 +603,9 @@ class Content implements ContentInterface, EntityInterface, TemplatedInterface, 
     }
 
     /**
-     * Set created at
+     * Set created at.
      *
-     * @param  \DateTime $date
+     * @param \DateTime $date
      *
      * @return $this
      */
@@ -575,7 +617,7 @@ class Content implements ContentInterface, EntityInterface, TemplatedInterface, 
     }
 
     /**
-     * Get created at
+     * Get created at.
      *
      * @return \DateTime
      */
@@ -585,7 +627,7 @@ class Content implements ContentInterface, EntityInterface, TemplatedInterface, 
     }
 
     /**
-     * Get updated at
+     * Get updated at.
      *
      * @return \DateTime
      */
@@ -595,9 +637,9 @@ class Content implements ContentInterface, EntityInterface, TemplatedInterface, 
     }
 
     /**
-     * Set updated at
+     * Set updated at.
      *
-     * @param  \DateTime $updatedAt
+     * @param \DateTime $updatedAt
      *
      * @return $this
      */
@@ -609,9 +651,9 @@ class Content implements ContentInterface, EntityInterface, TemplatedInterface, 
     }
 
     /**
-     * Set deletedAt
+     * Set deletedAt.
      *
-     * @param  \DateTime $deletedAt
+     * @param \DateTime $deletedAt
      *
      * @return $this
      */
@@ -623,7 +665,7 @@ class Content implements ContentInterface, EntityInterface, TemplatedInterface, 
     }
 
     /**
-     * Get deletedAt
+     * Get deletedAt.
      *
      * @return \DateTime
      */
@@ -633,7 +675,7 @@ class Content implements ContentInterface, EntityInterface, TemplatedInterface, 
     }
 
     /**
-     * Get all blocks
+     * Get all blocks.
      *
      * @return ArrayCollection
      */
@@ -643,7 +685,7 @@ class Content implements ContentInterface, EntityInterface, TemplatedInterface, 
     }
 
     /**
-     * Set blocks
+     * Set blocks.
      *
      * @param mixed $blocks
      */
@@ -653,7 +695,7 @@ class Content implements ContentInterface, EntityInterface, TemplatedInterface, 
     }
 
     /**
-     * Add block
+     * Add block.
      *
      * @param BlockInterface $block
      *
@@ -667,7 +709,7 @@ class Content implements ContentInterface, EntityInterface, TemplatedInterface, 
     }
 
     /**
-     * Remove block
+     * Remove block.
      *
      * @param BlockInterface $block
      */
@@ -677,9 +719,9 @@ class Content implements ContentInterface, EntityInterface, TemplatedInterface, 
     }
 
     /**
-     * Check if any blocks are set
+     * Check if any blocks are set.
      *
-     * @return boolean
+     * @return bool
      */
     public function hasBlocks()
     {
@@ -687,7 +729,7 @@ class Content implements ContentInterface, EntityInterface, TemplatedInterface, 
     }
 
     /**
-     * Set schema
+     * Set schema.
      *
      * @param SchemaInterface $schema
      *
@@ -701,7 +743,7 @@ class Content implements ContentInterface, EntityInterface, TemplatedInterface, 
     }
 
     /**
-     * Get schema
+     * Get schema.
      *
      * @return SchemaInterface
      */
@@ -711,7 +753,7 @@ class Content implements ContentInterface, EntityInterface, TemplatedInterface, 
     }
 
     /**
-     * Add attributeValues
+     * Add attributeValues.
      *
      * @param Value $attributeValue
      *
@@ -725,7 +767,7 @@ class Content implements ContentInterface, EntityInterface, TemplatedInterface, 
     }
 
     /**
-     * Remove attributeValues
+     * Remove attributeValues.
      *
      * @param Value $attributeValue
      */
@@ -735,7 +777,7 @@ class Content implements ContentInterface, EntityInterface, TemplatedInterface, 
     }
 
     /**
-     * Get attributeValues
+     * Get attributeValues.
      *
      * @return ArrayCollection
      */
@@ -745,7 +787,7 @@ class Content implements ContentInterface, EntityInterface, TemplatedInterface, 
     }
 
     /**
-     * Set valueSet
+     * Set valueSet.
      *
      * @param ValueSetInterface $valueSet
      *
@@ -759,7 +801,7 @@ class Content implements ContentInterface, EntityInterface, TemplatedInterface, 
     }
 
     /**
-     * Get valueSet
+     * Get valueSet.
      *
      * @return ValueSetInterface
      *
@@ -771,7 +813,7 @@ class Content implements ContentInterface, EntityInterface, TemplatedInterface, 
     }
 
     /**
-     * Gets the attributes and places them in an (by Twig) easily accessible array
+     * Gets the attributes and places them in an (by Twig) easily accessible array.
      *
      * @return array
      */
@@ -800,18 +842,18 @@ class Content implements ContentInterface, EntityInterface, TemplatedInterface, 
 
     /**
      * @param int $version
+     *
      * @return Content
      */
     public function setVersion($version)
     {
         $this->version = $version;
+
         return $this;
     }
 
-
-
     /**
-     * Creates fake values for non-persisted attributes
+     * Creates fake values for non-persisted attributes.
      *
      * @return array new Values which can be persisted through an EntityManager
      */
@@ -841,7 +883,7 @@ class Content implements ContentInterface, EntityInterface, TemplatedInterface, 
     }
 
     /**
-     * Returns name of the Schema for the ValueSet
+     * Returns name of the Schema for the ValueSet.
      *
      * @JMS\VirtualProperty
      * @JMS\SerializedName("schemaName")
@@ -855,7 +897,7 @@ class Content implements ContentInterface, EntityInterface, TemplatedInterface, 
     }
 
     /**
-     * Get breadcrumbs
+     * Get breadcrumbs.
      *
      * Loops through all parents to determine the breadcrumbs and stores them in
      * an associative array like [slug => label]
@@ -908,12 +950,11 @@ class Content implements ContentInterface, EntityInterface, TemplatedInterface, 
     }
 
     /**
-     *
      * @JMS\VirtualProperty
      * @JMS\SerializedName("parent_id")
      * @JMS\Groups({"detail", "list"})
      *
-     * @return integer
+     * @return int
      */
     public function getParentId()
     {
@@ -921,7 +962,7 @@ class Content implements ContentInterface, EntityInterface, TemplatedInterface, 
     }
 
     /**
-     * Finds first available image for listing purposes
+     * Finds first available image for listing purposes.
      *
      * @return bool
      */
@@ -948,11 +989,10 @@ class Content implements ContentInterface, EntityInterface, TemplatedInterface, 
     }
 
     /**
-     * @inheritDoc
+     * {@inheritdoc}
      */
     public function getSuper()
     {
         return $this->getTemplate();
     }
-
 }
