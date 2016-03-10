@@ -686,7 +686,7 @@ $(document).ready(function() {
             iFrame.contents().find('*[data-pm-block-manage]').removeClass('pm-hovered');
             toolbar.addClass('hidden');
         };
-        
+
         //
         // Create a block by dropping in a placeholder
         //
