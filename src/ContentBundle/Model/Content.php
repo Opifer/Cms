@@ -6,6 +6,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use JMS\Serializer\Annotation as JMS;
+use Opifer\CmsBundle\Entity\Media;
 use Opifer\ContentBundle\Block\BlockOwnerInterface;
 use Opifer\ContentBundle\Entity\Template;
 
@@ -928,7 +929,8 @@ class Content implements ContentInterface, EntityInterface, TemplatedInterface, 
     {
         if ($this->getValueSet() !== null) {
             foreach ($this->getValueSet()->getValues() as $value) {
-                if ($value instanceof MediaValue && null !== $media = $value->getMedias()->first()) {
+                if ($value instanceof MediaValue &&
+                    false !== $media = $value->getMedias()->first()) {
                     return $media->getReference();
                 }
             }

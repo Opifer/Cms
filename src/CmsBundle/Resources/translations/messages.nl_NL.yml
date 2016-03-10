@@ -214,11 +214,11 @@ form:
 
 # Buttons
 button:
-    add: nieuwe toevoegen
-    all: toon alles
-    cancel: annuleren
-    delete: verwijderen
-    edit: bewerken
+    add: Toevoegen
+    all: Alles
+    cancel: Annuleren
+    delete: Verwijderen
+    edit: Bewerken
     publish: Publiceren
 
 # Links
