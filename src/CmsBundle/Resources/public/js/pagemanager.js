@@ -538,7 +538,6 @@ $(document).ready(function() {
 
                     editBlock(id);
                     showToolbars();
-                    sortables();
                     loadToC(sortables);
                 }).fail(function(data){
                     iFrame.contents().find('.pm-block-insert').remove();
@@ -665,6 +664,10 @@ $(document).ready(function() {
 
             var offset = $(element).offset();
             var width = $(element).width();
+            if (typeof offset == 'undefined') {
+                console.log('Could not find element to show toolbar');
+                return;
+            }
             var pos = (iFrame.contents().find('body').scrollTop() > offset.top) ? 'fixed' : 'absolute';
             var dir = ($(element).attr('data-pm-block-type') == 'layout') ? 'right' : 'left';
 
@@ -683,7 +686,7 @@ $(document).ready(function() {
             iFrame.contents().find('*[data-pm-block-manage]').removeClass('pm-hovered');
             toolbar.addClass('hidden');
         };
-
+        
         //
         // Create a block by dropping in a placeholder
         //
@@ -716,7 +719,8 @@ $(document).ready(function() {
 
             var sortReceive = function (event, ui) {
                 // Create new block
-                if ($(ui.item).hasClass('pm-block-item')) {
+                if ($(ui.item).hasClass('pm-block-item') && $(this).hasClass('pm-accept')) {
+                    event.stopPropagation();
                     $(ui.item).addClass('pm-block-insert');
                     $(this).find('.pm-block-item').addClass('pm-block-insert');
                     var className = $(ui.item).attr('data-pm-block-type');
@@ -764,6 +768,10 @@ $(document).ready(function() {
                 cursorAt: { top: 0, left: 0 },
                 placeholder: 'pm-drag-placeholder',
                 receive: sortReceive,
+                over: function (event, ui) {
+                    $('.pm-placeholder').removeClass('pm-accept');
+                    $(ui.placeholder).closest('.pm-placeholder').addClass('pm-accept');
+                },
                 start: function (event, ui) {
                     isDragging = true;
                     hideToolbar();
