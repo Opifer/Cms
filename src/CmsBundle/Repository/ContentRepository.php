@@ -141,29 +141,6 @@ class ContentRepository extends BaseContentRepository
     }
 
     /**
-     * Find the latest unpublished content items.
-     *
-     * @param int $limit
-     *
-     * @return ArrayCollection
-     */
-    public function findUnpublished($limit = 5)
-    {
-        $this->getEntityManager()->getFilters()->disable('draft');
-
-        $query = $this->createQueryBuilder('c')
-            ->innerJoin('c.block', 'block')
-            ->leftJoin('block.owning', 'owning')
-//            ->leftJoin('OpiferContentBundle:BlockLogEntry', 'logentry', Join::WITH, 'logentry.objectId = owning.id')
-            ->orderBy('c.createdAt', 'DESC')
-//            ->where('block.version < logentry.rootVersion')
-            ->setMaxResults($limit)
-            ->getQuery();
-
-        return $query->getResult();
-    }
-
-    /**
      * Find all active and addressable content items.
      *
      * @return ArrayCollection

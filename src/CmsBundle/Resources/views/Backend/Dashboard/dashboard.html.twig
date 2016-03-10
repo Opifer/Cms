@@ -21,7 +21,7 @@
                             <article class="tile-img col-md-6 col-lg-4 {% if not item.coverImage %}tile-noimg{% endif %}">
                                 <div class="tile-body"  {% if item.coverImage %}style="background-image: url({{ item.coverImage|imagine_filter('dashboard_content') }})" {% endif %}>
                                     <div class="text">
-                                        <a href="{{ path('opifer_content_contenteditor_design', {'type': 'content', 'id' : item.id }) }}" class="title">{{ item.title }}</a>
+                                        <a href="{{ path('opifer_content_contenteditor_design', {'owner': 'content', 'ownerId' : item.id }) }}" class="title">{{ item.title }}</a>
                                         <a href="{{ path('_content', {'slug': item.slug}) }}" class="permalink small" target="_blank">{{ path('_content', {'slug': item.slug}) }}</a>
                                     </div>
                                     <div class="author">
@@ -40,20 +40,6 @@
                         {% if latest_content|length == 0 %}
                             <div class="col-xs-12"><div class="well"><span class="text-muted">{{ "message.no_items_found"|trans }}</span></div></div>
                         {% endif %}
-                    </div>
-                </section>
-
-                <section class="dashboard-section">
-                    <h2>Content currently worked on </h2>
-                    <div class="row">
-
-                        {% for item in unpublished_content %}
-                            {{ block('content_tile') }}
-                        {% endfor %}
-                        {% if unpublished_content|length == 0 %}
-                        <div class="col-xs-12"><div class="well"><span class="text-muted">{{ "message.no_items_found"|trans }}</span></div></div>
-                        {% endif %}
-
                     </div>
                 </section>
 
