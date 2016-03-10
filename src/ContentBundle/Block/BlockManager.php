@@ -5,9 +5,9 @@ namespace Opifer\ContentBundle\Block;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Events;
 use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ORM\PersistentCollection;
 use Gedmo\SoftDeleteable\SoftDeleteableListener;
 use Gedmo\Timestampable\TimestampableListener;
-use Opifer\CmsBundle\EventListener\LoggableListener;
 use Opifer\ContentBundle\Block\Service\BlockServiceInterface;
 use Opifer\ContentBundle\Block\Tool\Toolset;
 use Opifer\ContentBundle\Block\Tool\ToolsetMemberInterface;
@@ -233,7 +233,16 @@ class BlockManager
      */
     public function publish($blocks)
     {
-        if (is_array($blocks)) {
+        if ($blocks instanceof PersistentCollection) {
+            $blocks = $blocks->getValues();
+        }
+
+        if (!$blocks ||
+            (is_array($blocks) && !count($blocks))) {
+            return;
+        }
+
+        if (! is_array($blocks)) {
             $blocks = array($blocks);
         }
 
@@ -285,9 +294,7 @@ class BlockManager
             $block->revision = $revision;
         }
 
-        if (! $this->em->contains($block)) {
-            $this->em->persist($block);
-        }
+        $this->em->persist($block);
         $this->em->flush($block);
 
         return $this;
@@ -454,7 +461,7 @@ class BlockManager
 
         // Set owner
         $block->setOwner($owner);
-        $owner->addBlock($block);
+//        $owner->addBlock($block);
 
         // This should replaced with a more hardened function
         if ($data) {

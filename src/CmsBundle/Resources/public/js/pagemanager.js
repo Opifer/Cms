@@ -538,6 +538,7 @@ $(document).ready(function() {
 
                     editBlock(id);
                     showToolbars();
+                    sortables();
                     loadToC(sortables);
                 }).fail(function(data){
                     iFrame.contents().find('.pm-block-insert').remove();

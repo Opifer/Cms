@@ -56,3 +56,15 @@ services:
             - { name: doctrine.event_subscriber, connection: default }
         calls:
             - [ setAnnotationReader, [ '@annotation_reader' ] ]
+
+    opifer.revisions.schema_listener:
+        class: Opifer\Revisions\EventListener\SchemaListener
+        arguments: ['@service_container', '@opifer.revisions.annotation_reader']
+        tags:
+            - { name: 'doctrine.event_subscriber' }
+
+#    opifer.revisions.revision_listener:
+#        class: Opifer\Revisions\EventListener\RevisionListener
+#        arguments: ['@service_container', '@opifer.revisions.annotation_reader']
+#        tags:
+#            - { name: 'doctrine.event_subscriber', priority: 1000 }
