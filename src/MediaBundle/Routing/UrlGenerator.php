@@ -45,7 +45,9 @@ class UrlGenerator
         } elseif ($adapter instanceof Local) {
             $request = $this->getRequest();
 
-            return $request->getSchemeAndHttpHost().'/'.$this->getLocalUploadDirectory().'/'.$reference;
+            $host = ($request) ? $request->getSchemeAndHttpHost() : '';
+
+            return $host.'/'.$this->getLocalUploadDirectory().'/'.$reference;
         }
 
         return $reference;
