@@ -27,7 +27,8 @@ class TemplateController extends Controller
         $deleteAction->setRouteParameters(['id']);
 
         $designAction = new RowAction('button.design', 'opifer_content_contenteditor_design');
-        $designAction->setRouteParameters(['type' => 'template', 'id']);
+        $designAction->setRouteParameters(['owner' => 'template', 'id']);
+        $designAction->setRouteParametersMapping(['id' => 'ownerId']);
 
         $grid = $this->get('grid');
 

@@ -16,7 +16,7 @@ class BlockController extends BaseBlockController
      */
     public function sharedAction()
     {
-        $this->getDoctrine()->getManager()->getFilters()->disable('draftversion');
+        $this->getDoctrine()->getManager()->getFilters()->disable('draft');
 
         $source = new Entity('OpiferContentBundle:Block');
         $tableAlias = $source->getTableAlias();

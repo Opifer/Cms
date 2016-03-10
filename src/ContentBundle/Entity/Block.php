@@ -5,12 +5,14 @@ namespace Opifer\ContentBundle\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
+use Opifer\Revisions\Mapping\Annotation as Revisions;
+use Opifer\Revisions\DraftInterface;
 
 use JMS\Serializer\Annotation as JMS;
-use Opifer\ContentBundle\Block\BlockContainerInterface;
 use Opifer\ContentBundle\Block\DraftVersionInterface;
 use Opifer\ContentBundle\Block\VisitorInterface;
 use Opifer\ContentBundle\Model\BlockInterface;
+use Opifer\ContentBundle\Model\Content;
 use Opifer\ContentBundle\Model\ContentInterface;
 
 /**
@@ -26,12 +28,12 @@ use Opifer\ContentBundle\Model\ContentInterface;
  * map.
  * @see Opifer\CmsBundle\EventListener\BlockDiscriminatorListener
  *
- * @Gedmo\Loggable(logEntryClass="Opifer\ContentBundle\Entity\BlockLogEntry")
+ * @Revisions\Revision(draft=true)
  * @Gedmo\SoftDeleteable(fieldName="deletedAt")
  *
  * @JMS\ExclusionPolicy("all")
  */
-abstract class Block implements BlockInterface, DraftVersionInterface
+abstract class Block implements BlockInterface, DraftInterface
 {
     /**
      * @var integer
@@ -45,39 +47,23 @@ abstract class Block implements BlockInterface, DraftVersionInterface
     /**
      * @var BlockInterface
      *
-     * @ORM\ManyToOne(targetEntity="Opifer\ContentBundle\Entity\Block", cascade={}, inversedBy="inheritedBy")
-     * @ORM\JoinColumn(name="super_id", referencedColumnName="id", onDelete="SET NULL")
+     * @ORM\ManyToOne(targetEntity="Opifer\ContentBundle\Model\ContentInterface", cascade={}, inversedBy="blocks")
+     * @ORM\JoinColumn(name="content_id", referencedColumnName="id", onDelete="SET NULL")
      */
-    protected $super;
-
-    /**
-     * @var ArrayCollection
-     *
-     * @ORM\OneToMany(targetEntity="Opifer\ContentBundle\Entity\Block", mappedBy="super")
-     * @ORM\OrderBy({"sort" = "ASC"})
-     **/
-    protected $inheritedBy;
+    protected $content;
 
     /**
      * @var BlockInterface
      *
-     * @ORM\ManyToOne(targetEntity="Opifer\ContentBundle\Entity\Block", cascade={}, inversedBy="owning")
-     * @ORM\JoinColumn(name="owner_id", referencedColumnName="id", onDelete="SET NULL")
+     * @ORM\ManyToOne(targetEntity="Opifer\ContentBundle\Entity\Template", cascade={}, inversedBy="blocks")
+     * @ORM\JoinColumn(name="template_id", referencedColumnName="id", onDelete="SET NULL")
      */
-    protected $owner;
-
-    /**
-     * @var ArrayCollection
-     *
-     * @ORM\OneToMany(targetEntity="Opifer\ContentBundle\Entity\Block", cascade={"detach", "persist", "remove"}, mappedBy="owner")
-     * @ORM\OrderBy({"sort" = "ASC"})
-     **/
-    protected $owning;
+    protected $template;
 
     /**
      * @var BlockInterface
      *
-     * @Gedmo\Versioned
+     * @Revisions\Revised
      * @ORM\ManyToOne(targetEntity="Opifer\ContentBundle\Entity\Block", cascade={}, inversedBy="children")
      * @ORM\JoinColumn(name="parent_id", referencedColumnName="id", onDelete="SET NULL")
      */
@@ -94,23 +80,23 @@ abstract class Block implements BlockInterface, DraftVersionInterface
     /**
      * @var integer
      *
-     * @Gedmo\Versioned
-     * @ORM\Column(type="integer")
+     * @Revisions\Revised
+     * @ORM\Column(type="integer", nullable=true)
      */
     protected $position = 0;
 
     /**
      * @var integer
      *
-     * @Gedmo\Versioned
-     * @ORM\Column(type="integer")
+     * @Revisions\Revised
+     * @ORM\Column(type="integer", nullable=true)
      */
     protected $sort = 0;
 
     /**
      * @var null|integer
      *
-     * @Gedmo\Versioned
+     * @Revisions\Revised
      * @ORM\Column(type="integer", nullable=true, options={"default":null})
      */
     protected $sortParent = null;
@@ -118,7 +104,7 @@ abstract class Block implements BlockInterface, DraftVersionInterface
     /**
      * @var array
      *
-     * @Gedmo\Versioned
+     * @Revisions\Revised
      * @ORM\Column(type="json_array", nullable=true)
      */
     protected $properties;
@@ -150,7 +136,8 @@ abstract class Block implements BlockInterface, DraftVersionInterface
      * @JMS\Expose
      * @JMS\Groups({"detail", "list"})
      * @Gedmo\Timestampable(on="create")
-     * @ORM\Column(name="created_at", type="datetime")
+     * @Revisions\Revised
+     * @ORM\Column(name="created_at", type="datetime", nullable=true)
      */
     protected $createdAt;
 
@@ -160,35 +147,23 @@ abstract class Block implements BlockInterface, DraftVersionInterface
      * @JMS\Expose
      * @JMS\Groups({"detail", "list"})
      * @Gedmo\Timestampable(on="update")
-     * @ORM\Column(name="updated_at", type="datetime")
+     * @Revisions\Revised
+     * @ORM\Column(name="updated_at", type="datetime", nullable=true)
      */
     protected $updatedAt;
 
     /**
      * @var \DateTime
      *
-     * @Gedmo\Versioned
+     * @Revisions\Revised
      * @ORM\Column(name="deleted_at", type="datetime", nullable=true)
      */
     protected $deletedAt;
 
     /**
-     * @var integer
-     *
-     * @Gedmo\Versioned
-     * @ORM\Column(name="version", type="integer")
+     * @var boolean
      */
-    protected $version = 0;
-
-    /** @var integer */
-    protected $rootVersion;
-
-    /**
-     * Flag to determine if we only create a logentry or not.
-     *
-     * @var bool
-     */
-    protected $publish = false;
+    protected $draft = true;
 
     /**
      * Constructor
@@ -235,35 +210,32 @@ abstract class Block implements BlockInterface, DraftVersionInterface
     }
 
     /**
-     * @return BlockInterface
-     */
-    public function getSuper()
-    {
-        return $this->super;
-    }
-
-    /**
-     * @param BlockInterface $parent
-     */
-    public function setSuper($super)
-    {
-        $this->super = $super;
-    }
-
-    /**
-     * @return BlockInterface
+     * @return ContentInterface
      */
     public function getOwner()
     {
-        return $this->owner;
+        return ($this->getContent()) ? $this->content : $this->template;
     }
 
     /**
-     * @param BlockInterface $owner
+     * @param ContentInterface $owner
+     *
+     * @return BlockInterface
      */
-    public function setOwner($owner)
+    public function setOwner(ContentInterface $owner = null)
     {
-        $this->owner = $owner;
+        if ($owner instanceof Content) {
+            $this->content = $owner;
+        } else if ($owner instanceof Template) {
+            $this->template = $owner;
+        } else if ($owner === null) {
+            $this->template = null;
+            $this->content = null;
+        } else {
+            throw new \Exception(sprintf('BlockInterface owner can only be of type Content or Template, not the provided %s type.', get_class($owner)));
+        }
+
+        return $this;
     }
 
 
@@ -348,38 +320,6 @@ abstract class Block implements BlockInterface, DraftVersionInterface
     }
 
     /**
-     * @return ContentInterface
-     */
-    public function getOwnerContent()
-    {
-        return $this->ownerContent;
-    }
-
-    /**
-     * @param ContentInterface $content
-     */
-    public function setOwnerContent($content)
-    {
-        $this->ownerContent = $content;
-    }
-
-    /**
-     * @return Template
-     */
-    public function getOwnerTemplate()
-    {
-        return $this->ownerTemplate;
-    }
-
-    /**
-     * @param Template $ownerTemplate
-     */
-    public function setOwnerTemplate($ownerTemplate)
-    {
-        $this->ownerTemplate = $ownerTemplate;
-    }
-
-    /**
      * Set created at
      *
      * @param  \DateTime $date
@@ -457,85 +397,6 @@ abstract class Block implements BlockInterface, DraftVersionInterface
     }
 
     /**
-     * @return ArrayCollection
-     */
-    public function getOwning()
-    {
-        return $this->owning;
-    }
-
-    /**
-     * @param ArrayCollection $owning
-     */
-    public function setOwning($owning)
-    {
-        $this->owning = $owning;
-    }
-
-    /**
-     * Add owning
-     *
-     * @param BlockInterface $block
-     *
-     * @return BlockInterface
-     */
-    public function addOwning(BlockInterface $block)
-    {
-        $this->owning[] = $block;
-
-        return $this;
-    }
-
-    /**
-     * @return int
-     */
-    public function getVersion()
-    {
-        return $this->version;
-    }
-
-    /**
-     * @param int $version
-     */
-    public function setVersion($version)
-    {
-        $this->version = $version;
-    }
-
-
-    /**
-     * @return int
-     */
-    public function getRootVersion()
-    {
-        return $this->rootVersion;
-    }
-
-    /**
-     * @param int $rootVersion
-     */
-    public function setRootVersion($rootVersion)
-    {
-        $this->rootVersion = $rootVersion;
-    }
-
-    /**
-     * @return boolean
-     */
-    public function isPublish()
-    {
-        return $this->publish;
-    }
-
-    /**
-     * @param boolean $publish
-     */
-    public function setPublish($publish)
-    {
-        $this->publish = $publish;
-    }
-
-    /**
      * @return string
      */
     public function getSharedDisplayName()
@@ -590,4 +451,64 @@ abstract class Block implements BlockInterface, DraftVersionInterface
     {
         $visitor->visit($this);
     }
+
+    /**
+     * @return BlockInterface
+     */
+    protected function getTemplate()
+    {
+        return $this->template;
+    }
+
+    /**
+     * @param ContentInterface $template
+     *
+     * @return Block
+     */
+    protected function setTemplate($template)
+    {
+        $this->template = $template;
+        return $this;
+    }
+
+    /**
+     * @return BlockInterface
+     */
+    protected function getContent()
+    {
+        return $this->content;
+    }
+
+    /**
+     * @param ContentInterface $content
+     *
+     * @return Block
+     */
+    protected function setContent($content)
+    {
+        $this->content = $content;
+
+        return $this;
+    }
+
+    /**
+     * @return boolean
+     */
+    public function isDraft()
+    {
+        return $this->draft;
+    }
+
+    /**
+     * @param boolean $draft
+     *
+     * @return Block
+     */
+    public function setDraft($draft)
+    {
+        $this->draft = $draft;
+
+        return $this;
+    }
+
 }

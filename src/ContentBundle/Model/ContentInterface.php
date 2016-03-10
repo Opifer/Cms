@@ -4,5 +4,8 @@ namespace Opifer\ContentBundle\Model;
 
 interface ContentInterface
 {
-    public function setBlock(BlockInterface $block = null);
+    public function getBlocks();
+    public function setBlocks($blocks);
+    public function getVersion();
+
 }

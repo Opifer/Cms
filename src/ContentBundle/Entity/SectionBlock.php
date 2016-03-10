@@ -3,7 +3,7 @@
 namespace Opifer\ContentBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use Gedmo\Mapping\Annotation as Gedmo;
+use Opifer\Revisions\Mapping\Annotation as Revisions;
 use Opifer\ContentBundle\Block\BlockContainerInterface;
 
 /**
@@ -17,7 +17,7 @@ class SectionBlock extends CompositeBlock implements BlockContainerInterface
     /**
      * @var string
      *
-     * @Gedmo\Versioned
+     * @Revisions\Revised
      * @ORM\Column(type="text", name="header", nullable=true)
      */
     protected $header;
@@ -25,7 +25,7 @@ class SectionBlock extends CompositeBlock implements BlockContainerInterface
     /**
      * @var string
      *
-     * @Gedmo\Versioned
+     * @Revisions\Revised
      * @ORM\Column(type="text", name="footer", nullable=true)
      */
     protected $footer;

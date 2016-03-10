@@ -7,6 +7,9 @@ _liip_imagine:
 fos_js_routing:
     resource: "@FOSJsRoutingBundle/Resources/config/routing/routing.xml"
 
+opifer_revision:
+    resource: '@OpiferRevisionsBundle/Resources/config/routing.yml'
+
 fos_user_security_check:
     pattern: /login_check
     defaults: { _controller: FOSUserBundle:Security:check }

@@ -23,7 +23,6 @@ abstract class CompositeBlock extends Block implements BlockContainerInterface, 
     {
         parent::__construct();
 
-        $this->owning = new ArrayCollection();
         $this->children = new ArrayCollection();
     }
 

@@ -6,6 +6,7 @@ use APY\DataGridBundle\Grid\Mapping as GRID;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use JMS\Serializer\Annotation as JMS;
+use Opifer\Revisions\Mapping\Annotation as Revisions;
 use Opifer\ContentBundle\Model\Content as BaseContent;
 use Opifer\ContentBundle\Model\ContentTypeInterface;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -81,6 +82,7 @@ class Content extends BaseContent
      * @JMS\Groups({"detail", "list"})
      * @ORM\Column(name="title", type="string", length=255)
      * @Assert\NotBlank()
+     * @Revisions\Revised
      */
     protected $title;
 
@@ -90,6 +92,7 @@ class Content extends BaseContent
      * @JMS\Expose
      * @JMS\Groups({"detail", "list"})
      * @ORM\Column(name="description", type="text", nullable=true)
+     * @Revisions\Revised
      */
     protected $description;
 
@@ -144,7 +147,8 @@ class Content extends BaseContent
      * @JMS\Expose
      * @JMS\Groups({"detail", "list"})
      * @Gedmo\Timestampable(on="create")
-     * @ORM\Column(name="created_at", type="datetime")
+     * @ORM\Column(name="created_at", type="datetime", nullable=true)
+     * @Revisions\Revised
      */
     protected $createdAt;
 

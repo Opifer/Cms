@@ -36,7 +36,8 @@
         "pagerfanta/pagerfanta": "^1.0.3",
         "presta/sitemap-bundle": "^1.3",
         "symfony-cmf/routing-bundle": "~1.3",
-        "willdurand/js-translation-bundle": "~2.2"
+        "willdurand/js-translation-bundle": "~2.2",
+        "opifer/revisions": "@dev"
     },
     "require-dev": {
         "phpunit/phpunit": "~4.1",

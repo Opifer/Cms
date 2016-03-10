@@ -43,40 +43,34 @@ opifer_content_content_select_type:
     defaults: { _controller: OpiferContentBundle:Backend/Content:selectType }
 
 opifer_content_content_history:
-    path: /content/history/{type}/{id}/{version}
-    defaults: { _controller: OpiferContentBundle:Backend/Content:history, version: 0 }
+    path: /content/history/{owner}/{id}
+    defaults: { _controller: OpiferContentBundle:Backend/Content:history }
     options:
         expose: true
 
 # Contenteditor
 
 opifer_content_contenteditor_design:
-    path: /designer/{type}/{id}/{rootVersion}
-    defaults: { _controller: OpiferContentBundle:Backend/ContentEditor:design, rootVersion: 0 }
+    path: /designer/{owner}/{ownerId}
+    defaults: { _controller: OpiferContentBundle:Backend/ContentEditor:design }
     options:
         expose: true
 
 opifer_content_contenteditor_edit_block:
-    path: /contenteditor/editblock/{id}/{rootVersion}
-    defaults: { _controller: OpiferContentBundle:Backend/ContentEditor:editBlock, rootVersion: 0 }
-    options:
-        expose: true
-
-opifer_content_contenteditor_version_picker:
-    path: /contenteditor/versionpicker/{id}/{current}/{published}
-    defaults: { _controller: OpiferContentBundle:Backend/ContentEditor:versionPicker, current: 0, published: 0 }
+    path: /contenteditor/editblock/{id}
+    defaults: { _controller: OpiferContentBundle:Backend/ContentEditor:editBlock }
     options:
         expose: true
 
 opifer_content_contenteditor_view:
-    path: /contenteditor/view/{type}/{id}/{version}
-    defaults: { _controller: OpiferContentBundle:Backend/ContentEditor:view, version: 0 }
+    path: /contenteditor/view/{owner}/{ownerId}
+    defaults: { _controller: OpiferContentBundle:Backend/ContentEditor:view }
     options:
         expose: true
 
 opifer_content_contenteditor_toc:
-    path: /designer/toc/{type}/{id}/{version}
-    defaults: { _controller: OpiferContentBundle:Backend/ContentEditor:toc, version: 0 }
+    path: /designer/toc/{owner}/{ownerId}
+    defaults: { _controller: OpiferContentBundle:Backend/ContentEditor:toc }
     options:
         expose: true
 

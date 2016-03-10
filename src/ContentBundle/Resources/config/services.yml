@@ -14,10 +14,12 @@ parameters:
     opifer.content.block_manager.class: Opifer\ContentBundle\Block\BlockManager
     opifer.content.content_design_suite.class: Opifer\ContentBundle\Designer\ContentSuite
     opifer.content.template_design_suite.class: Opifer\ContentBundle\Designer\TemplateSuite
-    opifer.content.block_content_environment.class: Opifer\ContentBundle\Environment\ContentEnvironment
-    opifer.content.block_template_environment.class: Opifer\ContentBundle\Environment\TemplateEnvironment
+    opifer.content.block_environment.class: Opifer\ContentBundle\Environment\Environment
 
 services:
+    opifer.content.block_provider_pool:
+        class: Opifer\ContentBundle\Provider\BlockProviderPool
+
     opifer.content.content_manager.default:
         class: '%opifer.content.content_manager.default.class%'
         arguments:
@@ -26,6 +28,15 @@ services:
             - '@opifer.eav.eav_manager'
             - '%opifer_content.content_class%'
             - '%opifer_eav.schema_class%'
+        tags:
+            - { name: opifer.content.block_provider_pool, alias: 'content' }
+
+    opifer.content.template_block_provider:
+        class: Opifer\ContentBundle\Provider\TemplateBlockProvider
+        arguments:
+            - '@doctrine.orm.default_entity_manager'
+        tags:
+            - { name: opifer.content.block_provider_pool, alias: 'template' }
 
     opifer.content.twig_analyzer:
         class: Opifer\ContentBundle\Environment\TwigAnalyzer
@@ -112,7 +123,7 @@ services:
 
     opifer.content.block_manager:
         class: '%opifer.content.block_manager.class%'
-        arguments: ['@doctrine.orm.default_entity_manager']
+        arguments: ['@doctrine.orm.default_entity_manager', '@opifer.revisions.revision_manager']
 
     opifer.content.content_design_suite:
         class: '%opifer.content.content_design_suite.class%'
@@ -122,15 +133,9 @@ services:
         class: '%opifer.content.template_design_suite.class%'
         arguments: ['@router', '@doctrine.orm.default_entity_manager']
 
-    opifer.content.block_content_environment:
-        class: '%opifer.content.block_content_environment.class%'
-        arguments: ['@doctrine.orm.default_entity_manager', '@opifer.content.block_manager', '@opifer.content.twig_analyzer']
-        calls:
-            - [setContentManager, ['@opifer.content.content_manager']]
-
-    opifer.content.block_template_environment:
-        class: '%opifer.content.block_template_environment.class%'
-        arguments: ['@doctrine.orm.default_entity_manager', '@opifer.content.block_manager', '@opifer.content.twig_analyzer']
+    opifer.content.block_environment:
+        class: '%opifer.content.block_environment.class%'
+        arguments: ['@doctrine.orm.default_entity_manager', '@opifer.content.block_manager', '@opifer.revisions.revision_manager', '@opifer.content.twig_analyzer']
 
     opifer.content.block_listener:
         class: '%opifer.content.block_listener.class%'

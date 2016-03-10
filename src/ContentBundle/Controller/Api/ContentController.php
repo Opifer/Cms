@@ -4,6 +4,7 @@ namespace Opifer\ContentBundle\Controller\Api;
 
 use JMS\Serializer\SerializationContext;
 use Opifer\ContentBundle\Block\BlockManager;
+use Opifer\ContentBundle\Model\ContentManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -87,14 +88,12 @@ class ContentController extends Controller
      */
     public function deleteAction(Request $request, $id)
     {
-        /** @var BlockManager $blockManager */
-        $blockManager = $this->get('opifer.content.block_manager');
-        $blockManager->killLoggableListener();
-
+        /** @var ContentManager $manager */
         $manager = $this->get('opifer.content.content_manager');
         $content = $manager->getRepository()->find($id);
 
         $em = $this->get('doctrine')->getManager();
+
         $em->remove($content);
         $em->flush();
 
@@ -112,13 +111,13 @@ class ContentController extends Controller
      */
     public function duplicateAction(Request $request)
     {
-        $this->getDoctrine()->getManager()->getFilters()->disable('draftversion');
+        $this->getDoctrine()->getManager()->getFilters()->disable('draft');
 
         $content        = $this->get('request')->getContent();
         if (!empty($content)) {
             $params = json_decode($content, true);
         }
-        /** @var ContentManager $contentManager */
+        /** @var ContentManagerInterface $contentManager */
         $contentManager = $this->get('opifer.content.content_manager');
         $content        = $contentManager->getRepository()->find($params['id']);
         $response       = new JsonResponse;

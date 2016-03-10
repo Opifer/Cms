@@ -39,5 +39,18 @@ class BlockCompilerPass implements CompilerPassInterface
                 );
             }
         }
+
+        // Find BlockProviders and add them to ProviderPool
+        $definition = $container->getDefinition('opifer.content.block_provider_pool');
+        $taggedServices = $container->findTaggedServiceIds('opifer.content.block_provider_pool');
+
+        foreach ($taggedServices as $id => $tagAttributes) {
+            foreach ($tagAttributes as $attributes) {
+                $definition->addMethodCall(
+                    'addProvider',
+                    array(new Reference($id), $attributes['alias'])
+                );
+            }
+        }
     }
 }

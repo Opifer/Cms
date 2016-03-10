@@ -152,8 +152,8 @@ opifer_content_content_type:
         type:  \d+
 
 opifer_content_content_history:
-    path: /content/history/{type}/{id}/{version}
-    defaults: { _controller: OpiferCmsBundle:Backend/Content:history, version: 0 }
+    path: /content/history/{owner}/{id}
+    defaults: { _controller: OpiferCmsBundle:Backend/Content:history }
     options:
         expose: true
 

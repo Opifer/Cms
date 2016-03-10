@@ -4,7 +4,7 @@ namespace Opifer\ContentBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
-use Gedmo\Mapping\Annotation as Gedmo;
+use Opifer\Revisions\Mapping\Annotation as Revisions;
 use Opifer\MediaBundle\Model\MediaInterface;
 
 /**
@@ -17,7 +17,7 @@ class GalleryBlock extends Block
     /**
      * @var string
      *
-     * @Gedmo\Versioned
+     * @Revisions\Revised
      * @ORM\Column(type="text", nullable=true)
      */
     protected $value;

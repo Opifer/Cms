@@ -29,6 +29,7 @@ class Configuration implements ConfigurationInterface
                     ->defaultValue('opifer.content.content_manager.default')
                 ->end()
                 ->arrayNode('content')
+                    ->addDefaultsIfNotSet()
                     ->children()
                         ->scalarNode('class')
                             ->isRequired()
