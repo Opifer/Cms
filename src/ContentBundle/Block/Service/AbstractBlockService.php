@@ -103,7 +103,7 @@ abstract class AbstractBlockService
      */
     public function getName(BlockInterface $block = null)
     {
-        $class = str_replace(__NAMESPACE__ . '\\', '', get_class($this));
+        $class = substr(get_class($this), strrpos(get_class($this), '\\')+1);
         $shortName = str_replace('BlockService', '', $class);
 
         return $shortName;
