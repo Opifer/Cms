@@ -83,7 +83,7 @@ class CarouselSlideBlockService extends AbstractBlockService implements BlockSer
      */
     public function getTool()
     {
-        $tool = new Tool('Carousel slide', 'carousel_slides');
+        $tool = new Tool('Carousel slide', 'carousel_slide');
 
         $tool->setIcon('filter')
             ->setDescription('A basic carousel slide');
