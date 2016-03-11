@@ -41,8 +41,8 @@ class LoadORMMetadataSubscriber implements EventSubscriber
         $metadata = $eventArgs->getClassMetadata();
 
         // Avoid unrelated entities
-        if (!in_array($metadata->getName(), $this->getSimpleModelArray()) &&
-            strpos($metadata->getName(), 'Opifer\CmsBundle\Entity') === false) {
+        if (!in_array(strtolower($metadata->getName()), $this->getOverriddenClassesArray()) &&
+            !in_array($metadata->getName(), $this->getSimpleModelArray())) {
             return;
         }
 
@@ -79,6 +79,17 @@ class LoadORMMetadataSubscriber implements EventSubscriber
 
         foreach ($this->entities as $resourceMetadata) {
             $models[] = $resourceMetadata['model'];
+        }
+
+        return $models;
+    }
+
+    public function getOverriddenClassesArray()
+    {
+        $models = [];
+
+        foreach ($this->entities as $shortClassName => $resourceMetadata) {
+            $models[] = strtolower('Opifer\\CmsBundle\\Entity\\'.$shortClassName);
         }
 
         return $models;

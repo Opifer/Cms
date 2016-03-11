@@ -16,7 +16,6 @@
     {% if is_granted("IS_AUTHENTICATED_REMEMBERED") and hide_nav|default != true %}
         {% block header %}
             <header class="mainnav">
-
                 <nav class="navbar navbar-inverse navbar-static-top" role="navigation">
                     <div class="container-fluid">
                         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
@@ -45,6 +44,7 @@
                                         <li><a href="{{ path('opifer_cms_form_post_list') }}">{{ 'base.posts'|trans|capitalize }}</a></li>
                                     </ul>
                                 </li>
+                                {% block navigation_left %}{% endblock %}
                             </ul>
 
                             <ul class="nav navbar-nav navbar-right">

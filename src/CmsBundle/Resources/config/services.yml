@@ -23,11 +23,11 @@ parameters:
     opifer.cms.event_subscriber.load_orm_metadata.class: Opifer\CmsBundle\EventListener\LoadORMMetadataSubscriber
 
 services:
-#    opifer.cms.event_subscriber.load_orm_metadata:
-#        class: %opifer.cms.event_subscriber.load_orm_metadata.class%
-#        arguments: [%opifer_cms.classes%]
-#        tags:
-#            - { name: doctrine.event_subscriber }
+    opifer.cms.event_subscriber.load_orm_metadata:
+        class: %opifer.cms.event_subscriber.load_orm_metadata.class%
+        arguments: [%opifer_cms.classes%]
+        tags:
+            - { name: doctrine.event_subscriber }
 
     # Authenticators
 
