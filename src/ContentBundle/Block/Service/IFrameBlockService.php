@@ -60,7 +60,7 @@ class IFrameBlockService extends AbstractBlockService implements BlockServiceInt
      */
     public function getTool()
     {
-        $tool = new Tool('iFrame', 'OpiferContentBundle:IFrameBlock');
+        $tool = new Tool('iFrame', 'iframe');
 
         $tool->setIcon('web_asset')
             ->setDescription('Include a iframe with url of choice');

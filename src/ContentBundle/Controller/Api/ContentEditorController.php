@@ -5,6 +5,7 @@ namespace Opifer\ContentBundle\Controller\Api;
 use Imagine\Image\Point;
 use Opifer\ContentBundle\Block\BlockManager;
 use Opifer\ContentBundle\Block\ContentBlockAdapter;
+use Opifer\ContentBundle\Block\Service\ClipboardBlockService;
 use Opifer\ContentBundle\Designer\AbstractDesignSuite;
 use Opifer\ContentBundle\Entity\PointerBlock;
 use Opifer\ContentBundle\Environment\Environment;
@@ -97,22 +98,49 @@ class ContentEditorController extends Controller
      * Removes a block
      *
      * @param integer $id
-     * @param integer $rootVersion
      *
      * @return JsonResponse
      */
     public function removeBlockAction($id)
     {
-        $this->getDoctrine()->getManager()->getFilters()->disable('draft');
-
         /** @var BlockManager $manager */
         $manager  = $this->get('opifer.content.block_manager');
         $response = new JsonResponse;
 
         try {
             $block = $manager->find($id);
-            $manager->remove($block);
+            $manager->remove($block, true);
             $response->setData(['state' => 'removed']);
+        } catch (\Exception $e) {
+            $response->setStatusCode(500);
+            $response->setData(['error' => $e->getMessage()]);
+        }
+
+        return $response;
+    }
+
+    /**
+     * Copies a reference of a block to the clipboard
+     *
+     * @param integer $id
+     *
+     * @return JsonResponse
+     */
+    public function clipboardBlockAction($id)
+    {
+        /** @var BlockManager $manager */
+        $manager  = $this->get('opifer.content.block_manager');
+
+        /** @var ClipboardBlockService $clipboardService */
+        $clipboardService  = $this->get('opifer.content.clipboard_block');
+        $response = new JsonResponse;
+
+        try {
+            $block = $manager->find($id);
+            $clipboardService->addToClipboard($block);
+            $blockService = $manager->getService($block);
+
+            $response->setData(['message' => sprintf('%s copied to clipboard', $blockService->getName())]);
         } catch (\Exception $e) {
             $response->setStatusCode(500);
             $response->setData(['error' => $e->getMessage()]);
@@ -131,8 +159,6 @@ class ContentEditorController extends Controller
      */
     public function moveBlockAction(Request $request)
     {
-        $this->getDoctrine()->getManager()->getFilters()->disable('draft');
-
         /** @var BlockManager $manager */
         $manager  = $this->get('opifer.content.block_manager');
         $response = new JsonResponse;
@@ -143,7 +169,7 @@ class ContentEditorController extends Controller
         $placeholder = (int) $request->request->get('placeholder');
 
         try {
-            $manager->moveBlock($id, $parentId, $placeholder, $sort);
+            $manager->moveBlock($id, $parentId, $placeholder, $sort, true);
 
             $response->setStatusCode(200);
             $response->setData(['state' => 'moved']);
@@ -164,8 +190,6 @@ class ContentEditorController extends Controller
      */
     public function makeSharedAction(Request $request, $type, $typeId, $ownerId)
     {
-        $this->getDoctrine()->getManager()->getFilters()->disable('draft');
-
         /** @var BlockManager $manager */
         $manager = $this->get('opifer.content.block_manager');
 

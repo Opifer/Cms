@@ -99,12 +99,11 @@
                                                 </div>
                                                 <div class="col-text">
                                                     <h4 class="list-group-item-heading">{{ tool.name }}</h4>
-                                                    <p class="list-group-item-text">{{ tool.description }}</p>
+                                                    <p class="list-group-item-text">{{ tool.description|raw }}</p>
                                                 </div>
                                             </div>
                                         {% endif %}
                                     {% endfor %}
-
                                 </div>
                             </div>
                         </div>

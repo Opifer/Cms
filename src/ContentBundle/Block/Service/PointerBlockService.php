@@ -145,7 +145,7 @@ class PointerBlockService extends AbstractBlockService implements BlockServiceIn
      */
     public function getTool()
     {
-        $tool = new Tool('Shared block', 'OpiferContentBundle:PointerBlock');
+        $tool = new Tool('Shared block', 'pointer');
 
         $tool->setIcon('all_inclusive')
             ->setDescription('This block will load a shared block');

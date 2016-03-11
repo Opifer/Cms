@@ -105,7 +105,7 @@ class ListBlockService extends AbstractBlockService implements BlockServiceInter
      */
     public function getTool()
     {
-        $tool = new Tool('List', 'OpiferContentBundle:ListBlock');
+        $tool = new Tool('List', 'list');
 
         $tool->setIcon('list')
             ->setDescription('Adds references to a collection of content items');

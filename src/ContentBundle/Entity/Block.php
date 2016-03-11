@@ -511,4 +511,10 @@ abstract class Block implements BlockInterface, DraftInterface
         return $this;
     }
 
+
+    public function hasChildren()
+    {
+        return false;
+    }
+
 }

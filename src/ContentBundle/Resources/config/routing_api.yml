@@ -61,6 +61,13 @@ opifer_content_api_contenteditor_remove_block:
     options:
         expose: true
 
+opifer_content_api_contenteditor_clipboard_block:
+    path: /contenteditor/clipboardblock/{id}
+    defaults: { _controller: OpiferContentBundle:Api/ContentEditor:clipboardBlock }
+    methods: [POST]
+    options:
+        expose: true
+
 opifer_content_api_contenteditor_make_shared:
     path: /contenteditor/makeshared/{owner}/{ownerId}
     defaults: { _controller: OpiferContentBundle:Api/ContentEditor:makeShared }

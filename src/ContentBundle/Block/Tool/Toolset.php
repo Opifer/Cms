@@ -39,6 +39,14 @@ class Toolset
         return $this;
     }
 
+    public function addTools(array $tools) {
+        foreach ($tools as $tool) {
+            $this->addTool($tool);
+        }
+
+        return $this;
+    }
+
     public function getGroups()
     {
         $groups = [];

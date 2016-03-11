@@ -79,7 +79,7 @@ class ContainerBlockService extends AbstractBlockService implements LayoutBlockS
      */
     public function getTool()
     {
-        $tool = new Tool($this->getName(), 'OpiferContentBundle:ContainerBlock');
+        $tool = new Tool($this->getName(), 'container');
 
         $tool
             ->setIcon('crop_free')

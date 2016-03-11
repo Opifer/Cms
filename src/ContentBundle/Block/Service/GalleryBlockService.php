@@ -76,7 +76,7 @@ class GalleryBlockService extends AbstractBlockService implements BlockServiceIn
      */
     public function getTool()
     {
-        $tool = new Tool('Gallery', 'OpiferContentBundle:GalleryBlock');
+        $tool = new Tool('Gallery', 'gallery');
 
         $tool->setIcon('view_module')
             ->setDescription('A collection of media thumbnails');

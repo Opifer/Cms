@@ -41,7 +41,7 @@ class CssBlockService extends AbstractBlockService implements BlockServiceInterf
      */
     public function getTool()
     {
-        $tool = new Tool('CSS', 'OpiferContentBundle:CssBlock');
+        $tool = new Tool('CSS', 'css');
 
         $tool->setIcon('style')
             ->setDescription('Implement custom CSS styles to use');

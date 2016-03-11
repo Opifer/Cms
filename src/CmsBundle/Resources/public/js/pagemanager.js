@@ -507,6 +507,29 @@ $(document).ready(function() {
             });
         };
 
+        // Clipboard block
+        var clipboardBlock = function (id) {
+            $.ajax({
+                url: Routing.generate('opifer_content_api_contenteditor_clipboard_block', {id: id}),
+                type: 'POST',
+                dataType: 'json', // Choosing a JSON datatype
+                success: function (data) {
+                    bootbox.dialog({
+                        title: 'Clipboard',
+                        message: data.message,
+                        buttons: {
+                            ok: {
+                                label: 'Ok',
+                                className: 'btn-primary'
+                            }
+                        }
+                    });
+                }
+            }).error(function(data){
+                showAPIError(data);
+            });
+        };
+
         //
         // Call API to create a new block
         //
@@ -606,6 +629,13 @@ $(document).ready(function() {
                 e.preventDefault();
                 var id = $(this).closest('.pm-toolbar').attr('data-pm-control-id');
                 deleteBlock(id);
+            });
+
+            // Block to clipboard
+            iFrame.contents().find('body').on('click', '.pm-btn-clipboard', function(e) {
+                e.preventDefault();
+                var id = $(this).closest('.pm-toolbar').attr('data-pm-control-id');
+                clipboardBlock(id);
             });
 
 
