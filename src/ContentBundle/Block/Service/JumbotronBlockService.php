@@ -87,7 +87,7 @@ class JumbotronBlockService extends AbstractBlockService implements BlockService
      */
     public function getTool()
     {
-        $tool = new Tool('Jumbotron', 'OpiferContentBundle:JumbotronBlock');
+        $tool = new Tool('Jumbotron', 'jumbotron');
 
         $tool->setIcon('settings_overscan')
             ->setDescription('Large piece of content with bigger font and optional background image.');

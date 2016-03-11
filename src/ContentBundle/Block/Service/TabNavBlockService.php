@@ -5,6 +5,7 @@ namespace Opifer\ContentBundle\Block\Service;
 use Braincrafted\Bundle\BootstrapBundle\Form\Type\BootstrapCollectionType;
 use Opifer\ContentBundle\Block\Tool\Tool;
 use Opifer\ContentBundle\Block\Tool\ToolsetMemberInterface;
+use Opifer\ContentBundle\Entity\TabNavBlock;
 use Opifer\ContentBundle\Entity\TabsBlock;
 use Opifer\ContentBundle\Model\BlockInterface;
 
@@ -113,7 +114,7 @@ class TabNavBlockService extends AbstractBlockService implements LayoutBlockServ
      */
     public function getTool()
     {
-        $tool = new Tool($this->getName(), 'OpiferContentBundle:TabNavBlock');
+        $tool = new Tool($this->getName(), 'tabnav');
 
         $tool->setIcon('tab')
             ->setGroup(Tool::GROUP_LAYOUT)

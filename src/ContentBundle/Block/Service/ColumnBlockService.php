@@ -121,9 +121,17 @@ class ColumnBlockService extends AbstractBlockService implements LayoutBlockServ
     /**
      * {@inheritDoc}
      */
-    public function createBlock()
+    public function createBlock($args)
     {
-        return new ColumnBlock();
+        $block = new ColumnBlock();
+
+        foreach ($args as $attribute => $value) {
+            $reflProp = new \ReflectionProperty($block, $attribute);
+            $reflProp->setAccessible(true);
+            $reflProp->setValue($block, $value);
+        }
+
+        return $block;
     }
 
     /**
@@ -131,7 +139,14 @@ class ColumnBlockService extends AbstractBlockService implements LayoutBlockServ
      */
     public function getTool()
     {
-        $tool = new Tool($this->getName(), 'OpiferContentBundle:ColumnBlock');
+        switch ($this->columnCount) {
+            case 1: $type = 'one'; break;
+            case 2: $type = 'two'; break;
+            case 3: $type = 'three'; break;
+            case 4: $type = 'four'; break;
+        }
+
+        $tool = new Tool($this->getName(), 'column_'.$type);
 
         $tool->setData(['columnCount' => $this->columnCount])
             ->setGroup(Tool::GROUP_LAYOUT)

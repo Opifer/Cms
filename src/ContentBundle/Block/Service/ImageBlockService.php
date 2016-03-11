@@ -135,7 +135,7 @@ class ImageBlockService extends AbstractBlockService implements BlockServiceInte
      */
     public function getTool()
     {
-        $tool = new Tool('Image', 'OpiferContentBundle:ImageBlock');
+        $tool = new Tool('Image', 'image');
 
         $tool->setIcon('image')
             ->setDescription('Provides an image from the library in the right size.');

@@ -40,7 +40,7 @@ class JavaScriptBlockService extends AbstractBlockService implements BlockServic
      */
     public function getTool()
     {
-        $tool = new Tool('JavaScript', 'OpiferContentBundle:JavaScriptBlock');
+        $tool = new Tool('JavaScript', 'javascript');
 
         $tool->setIcon('code')
             ->setDescription('Include custom JavaScript code block');

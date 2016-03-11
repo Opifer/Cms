@@ -8,6 +8,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\PersistentCollection;
 use Gedmo\SoftDeleteable\SoftDeleteableListener;
 use Gedmo\Timestampable\TimestampableListener;
+use Opifer\ContentBundle\Block\Service\AbstractBlockService;
 use Opifer\ContentBundle\Block\Service\BlockServiceInterface;
 use Opifer\ContentBundle\Block\Tool\Toolset;
 use Opifer\ContentBundle\Block\Tool\ToolsetMemberInterface;
@@ -90,7 +91,12 @@ class BlockManager
 
         foreach ($this->services as $service) {
             if ($service instanceof ToolsetMemberInterface) {
-                $toolbelt->addTool($service->getTool());
+                $tool = $service->getTool();
+                if (is_array($tool)) {
+                    $toolbelt->addTools($tool);
+                } else {
+                    $toolbelt->addTool($tool);
+                }
             }
         }
 
@@ -319,24 +325,33 @@ class BlockManager
     /**
      * Clones blocks and persists to database
      *
-     * @param BlockOwnerInterface $block
+     * @param BlockInterface $block
      *
-     * @return BlockOwnerInterface
+     * @return BlockInterface
      */
     public function duplicate($blocks)
     {
-        if (! is_array($blocks) && ! $blocks instanceof PersistentCollection) {
+
+        if ($blocks instanceof BlockInterface) {
             $blocks = array($blocks);
         }
 
-        // 1. Interate over all owned blocks and disconnect parents keeping ids
-        /** @var Block $descendant */
-        foreach ($blocks as $block) {
-            $block->originalId = $block->getId();
+        $iterator = new \RecursiveIteratorIterator(
+            new RecursiveBlockIterator($blocks)
+        );
 
-            // if it has a parent we need to put it somewhere
+        $originalIdMap = array();
+        $originalParentMap = array();
+
+        // iterate over all owned blocks and disconnect parents keeping ids
+        /** @var Block $block */
+        foreach ($iterator as $block) {
+            $blockId = $block->getId();
+            $parentId = false;
+
+            // if it has a parent we need to keep the id as reference for later
             if ($block->getParent()) {
-                $block->originalParentId = $block->getParent()->getId();
+                $parentId = $block->getParent()->getId();
                 $block->setParent(null);
             }
 
@@ -347,16 +362,22 @@ class BlockManager
             $block->setOwner(null);
 
             $this->em->detach($block);
+            $block->setId(null);
             $this->em->persist($block);
+            $this->em->flush(); // the block gets a new id
+
+            $originalIdMap[$block->getId()] = $blockId;
+            if ($parentId) {
+                $originalParentMap[$block->getId()] = $parentId;
+            }
         }
 
-        $this->em->flush();
-
-        // 2. Iterate over all new blocks and reset their parents
-        foreach ($blocks as $block) {
-            if (isset($block->originalParentId)) {
+        // iterate over all new blocks and reset their parents
+        foreach ($iterator as $block) {
+            if (isset($originalParentMap[$block->getId()])) {
                 foreach ($blocks as $parent) {
-                    if ($block->originalParentId === $parent->originalId) {
+                    if (isset($originalParentMap[$parent->getId()]) &&
+                        $originalParentMap[$parent->getId()] === $originalIdMap[$block->getId()]) {
                         $block->setParent($parent);
                         $parent->addChild($block);
                     }
@@ -452,8 +473,16 @@ class BlockManager
      */
     public function createBlock($owner, $type, $parentId, $placeholder, $sort, $data = null, $draft = true)
     {
-        $className = $this->em->getClassMetadata($type)->getName();
-        $block = new $className();
+        /** @var AbstractBlockService $service */
+        $service = $this->getService($type);
+
+        // This should replaced with a more hardened function
+        if ($data) {
+            $block = $service->createBlock($data);
+        } else {
+            $block = $service->createBlock();
+        }
+
         $parent = $parentId ? $this->find($parentId, $draft) : null;
 
         $block->setPosition($placeholder);
@@ -463,16 +492,6 @@ class BlockManager
         // Set owner
         $block->setOwner($owner);
 //        $owner->addBlock($block);
-
-        // This should replaced with a more hardened function
-        if ($data) {
-            foreach ($data as $attribute => $value) {
-                $reflProp = new \ReflectionProperty($block, $attribute);
-                $reflProp->setAccessible(true);
-                $reflProp->setValue($block, $value);
-            }
-        }
-
         $block->setParent($parent);
 
         // Save now, rest will be in changeset. All we do is a create a stub entry anyway.

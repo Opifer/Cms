@@ -74,7 +74,7 @@ class SectionBlockService extends AbstractBlockService implements BlockServiceIn
      */
     public function getTool()
     {
-        $tool = new Tool($this->getName(), 'OpiferContentBundle:SectionBlock');
+        $tool = new Tool($this->getName(), 'section');
 
         $tool
             ->setIcon('crop_din')
