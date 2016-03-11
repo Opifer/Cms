@@ -14,11 +14,6 @@ use Opifer\ContentBundle\Model\BlockInterface;
  */
 class RecursiveBlockIterator extends \RecursiveArrayIterator implements \RecursiveIterator
 {
-//    /**
-//     * @var ArrayCollection | BlockInterface[]
-//     */
-//    private $_data;
-
     public function __construct($array)
     {
         if (is_object($array)) {

@@ -129,17 +129,15 @@ class ContentController extends Controller
 
             /** @var BlockManager $blockManager */
             $blockManager = $this->container->get('opifer.content.block_manager');
-            $duplicatedBlocks = $blockManager->duplicate($content->getBlocks());
 
             $duplicatedContent = $contentManager->duplicate($content);
+            $duplicatedContent->setBlocks(null);
+            $this->getDoctrine()->getManager()->flush($duplicatedContent);
 
-            foreach ($duplicatedBlocks as $block) {
-                $block->setOwner($duplicatedContent);
-            }
+            $duplicatedBlocks = $blockManager->duplicate($content->getBlocks(), $duplicatedContent);
 
             $duplicatedContent->setBlocks($duplicatedBlocks);
-
-            $this->getDoctrine()->getManager()->flush();
+            $this->getDoctrine()->getManager()->flush($duplicatedContent);
 
             $response->setData(['success' => true]);
         } catch (\Exception $e) {

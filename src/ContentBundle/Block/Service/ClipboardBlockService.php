@@ -3,6 +3,7 @@
 namespace Opifer\ContentBundle\Block\Service;
 
 use Opifer\ContentBundle\Block\BlockManager;
+use Opifer\ContentBundle\Block\RecursiveBlockIterator;
 use Opifer\ContentBundle\Block\Tool\Tool;
 use Opifer\ContentBundle\Block\Tool\ToolsetMemberInterface;
 use Opifer\ContentBundle\Model\BlockInterface;
@@ -41,7 +42,11 @@ class ClipboardBlockService implements BlockServiceInterface, ToolsetMemberInter
     public function createBlock($args)
     {
         $block = $this->blockManager->find($args['id']);
-        $block = $this->blockManager->duplicate($block);
+
+        // Duplicate function likes to have arrays
+        $blocks = $this->blockManager->duplicate(array($block), $args['owner']);
+
+        $block = array_shift($blocks);
 
         return $block;
     }

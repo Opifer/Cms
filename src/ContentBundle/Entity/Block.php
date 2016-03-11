@@ -47,7 +47,7 @@ abstract class Block implements BlockInterface, DraftInterface
     /**
      * @var BlockInterface
      *
-     * @ORM\ManyToOne(targetEntity="Opifer\ContentBundle\Model\ContentInterface", cascade={}, inversedBy="blocks")
+     * @ORM\ManyToOne(targetEntity="Opifer\ContentBundle\Model\ContentInterface", cascade={"detach"}, inversedBy="blocks")
      * @ORM\JoinColumn(name="content_id", referencedColumnName="id", onDelete="SET NULL")
      */
     protected $content;
@@ -55,7 +55,7 @@ abstract class Block implements BlockInterface, DraftInterface
     /**
      * @var BlockInterface
      *
-     * @ORM\ManyToOne(targetEntity="Opifer\ContentBundle\Entity\Template", cascade={}, inversedBy="blocks")
+     * @ORM\ManyToOne(targetEntity="Opifer\ContentBundle\Entity\Template", cascade={"detach"}, inversedBy="blocks")
      * @ORM\JoinColumn(name="template_id", referencedColumnName="id", onDelete="SET NULL")
      */
     protected $template;
@@ -64,7 +64,7 @@ abstract class Block implements BlockInterface, DraftInterface
      * @var BlockInterface
      *
      * @Revisions\Revised
-     * @ORM\ManyToOne(targetEntity="Opifer\ContentBundle\Entity\Block", cascade={}, inversedBy="children")
+     * @ORM\ManyToOne(targetEntity="Opifer\ContentBundle\Entity\Block", cascade={"detach"}, inversedBy="children")
      * @ORM\JoinColumn(name="parent_id", referencedColumnName="id", onDelete="SET NULL")
      */
     protected $parent;
