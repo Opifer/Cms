@@ -125,6 +125,8 @@ class ColumnBlockService extends AbstractBlockService implements LayoutBlockServ
     {
         $block = new ColumnBlock();
 
+        unset($args['owner']);
+
         foreach ($args as $attribute => $value) {
             $reflProp = new \ReflectionProperty($block, $attribute);
             $reflProp->setAccessible(true);
