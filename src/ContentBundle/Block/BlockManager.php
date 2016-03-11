@@ -325,23 +325,26 @@ class BlockManager
     /**
      * Clones blocks and persists to database
      *
-     * @param BlockInterface $block
+     * @param BlockInterface      $block
+     * @param BlockOwnerInterface $owner
      *
      * @return BlockInterface
      */
-    public function duplicate($blocks)
+    public function duplicate($blocks, $owner = null)
     {
-
         if ($blocks instanceof BlockInterface) {
             $blocks = array($blocks);
         }
 
         $iterator = new \RecursiveIteratorIterator(
-            new RecursiveBlockIterator($blocks)
+            new RecursiveBlockIterator($blocks),
+            \RecursiveIteratorIterator::SELF_FIRST
         );
 
         $originalIdMap = array();
         $originalParentMap = array();
+
+        $clones = array();
 
         // iterate over all owned blocks and disconnect parents keeping ids
         /** @var Block $block */
@@ -349,45 +352,54 @@ class BlockManager
             $blockId = $block->getId();
             $parentId = false;
 
+            if (in_array($block->getId(), $originalIdMap)) {
+                continue;
+            }
+
+            $clone = clone $block;
+            $clone->setId(null);
+            $this->em->detach($clone);
+
+            $clone->setParent(null);
+            $clone->setOwner($owner);
+
             // if it has a parent we need to keep the id as reference for later
             if ($block->getParent()) {
                 $parentId = $block->getParent()->getId();
-                $block->setParent(null);
             }
 
-            if ($block instanceof BlockContainerInterface) {
-                $block->setChildren(null);
+            if ($clone instanceof BlockContainerInterface) {
+                $clone->setChildren(null);
             }
 
-            $block->setOwner(null);
+            $this->em->persist($clone);
+            $this->em->flush($clone); // the block gets a new id
 
-            $this->em->detach($block);
-            $block->setId(null);
-            $this->em->persist($block);
-            $this->em->flush(); // the block gets a new id
-
-            $originalIdMap[$block->getId()] = $blockId;
+            $originalIdMap[$clone->getId()] = $blockId;
             if ($parentId) {
-                $originalParentMap[$block->getId()] = $parentId;
+                $originalParentMap[$clone->getId()] = $parentId;
             }
+
+            $clones[] = $clone;
         }
 
         // iterate over all new blocks and reset their parents
-        foreach ($iterator as $block) {
-            if (isset($originalParentMap[$block->getId()])) {
-                foreach ($blocks as $parent) {
-                    if (isset($originalParentMap[$parent->getId()]) &&
-                        $originalParentMap[$parent->getId()] === $originalIdMap[$block->getId()]) {
-                        $block->setParent($parent);
-                        $parent->addChild($block);
+        foreach ($clones as $clone) {
+            if (isset($originalParentMap[$clone->getId()])) {
+                foreach ($clones as $parent) {
+                    if (isset($originalParentMap[$clone->getId()]) &&
+                        $originalParentMap[$clone->getId()] === $originalIdMap[$parent->getId()]) {
+                        $clone->setParent($parent);
+                        $parent->addChild($clone);
+
+                        $this->em->flush($clone);
+                        $this->em->flush($parent);
                     }
                 }
             }
         }
 
-        $this->em->flush();
-
-        return $blocks;
+        return $clones;
     }
 
     /**
@@ -477,11 +489,12 @@ class BlockManager
         $service = $this->getService($type);
 
         // This should replaced with a more hardened function
-        if ($data) {
-            $block = $service->createBlock($data);
-        } else {
-            $block = $service->createBlock();
+        if (is_null($data)) {
+            $data = array();
         }
+        $data['owner'] = $owner;
+
+        $block = $service->createBlock($data);
 
         $parent = $parentId ? $this->find($parentId, $draft) : null;
 
