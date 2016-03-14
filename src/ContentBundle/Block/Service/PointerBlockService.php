@@ -58,10 +58,17 @@ class PointerBlockService extends AbstractBlockService implements BlockServiceIn
     {
         $this->load($block);
 
+        if ($block->getReference()) {
+            $reference = $block->getReference();
+//            $reference->setOwner($block->getOwner()); // needed when managing (manage_tags uses this)
+        } else {
+            $reference = $block;
+        }
+
         $parameters = array(
             'block_service'  => $this,
             'pointer'        => $block,
-            'block'          => $block->getReference() ? $block->getReference() : $block,
+            'block'          => $reference,
             'block_view'     => $this->getView($block),
             'manage_type'    => $this->getManageFormTypeName(),
         );
@@ -98,6 +105,11 @@ class PointerBlockService extends AbstractBlockService implements BlockServiceIn
         return sprintf('%s (shared)', $this->getReferenceService($block)->getName($block->getReference()));
     }
 
+    public function allowShare(BlockInterface $block)
+    {
+        return false;
+    }
+
     /**
      * {@inheritdoc}
      */
@@ -117,7 +129,8 @@ class PointerBlockService extends AbstractBlockService implements BlockServiceIn
                         return $blockRepository->createQueryBuilder('b')
                             ->add('orderBy', 'b.sharedDisplayName ASC')
                             ->andWhere("b.shared = 1")
-                            ->andWhere("b.owner IS NULL");
+                            ->andWhere("b.content IS NULL")
+                            ->andWhere("b.template IS NULL");
                         ;
                     },
                 ])
@@ -151,5 +164,10 @@ class PointerBlockService extends AbstractBlockService implements BlockServiceIn
             ->setDescription('This block will load a shared block');
 
         return $tool;
+    }
+
+    public function getPlaceholders(BlockInterface $block = null)
+    {
+        return [0 => 'Reference'];
     }
 }

@@ -290,11 +290,16 @@ class BlockManager
             $block->setDraft($draft);
 
             $revision = null;
-            $family = $block->getOwner()->getBlocks();
-            foreach ($family as $member) {
-                if (null !== $revision = $this->revisionManager->getDraftRevision($member)) {
-                    break;
+
+            if ($block->getOwner()) {
+                $family = $block->getOwner()->getBlocks();
+                foreach ($family as $member) {
+                    if (null !== $revision = $this->revisionManager->getDraftRevision($member)) {
+                        break;
+                    }
                 }
+            } else {
+                $revision = $this->revisionManager->getDraftRevision($block);
             }
 
             $block->revision = $revision;
@@ -604,8 +609,8 @@ class BlockManager
         $block->setShared(true);
         $block->setParent(null);
         $block->setOwner(null);
-        $block->setPosition(0);
-        $block->setSort(0);
+        $block->setPosition(null);
+        $block->setSort(null);
 
         $this->save($block)->save($pointer);
 

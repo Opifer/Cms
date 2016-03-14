@@ -466,7 +466,7 @@ $(document).ready(function() {
                         className: 'btn-primary',
                         callback: function() {
 
-                            $.post(Routing.generate('opifer_content_api_contenteditor_make_shared', {$owner: owner, ownerId: ownerId}), {id: id}).done(function (data, textStatus, request) {
+                            $.post(Routing.generate('opifer_content_api_contenteditor_make_shared', {owner: owner, ownerId: ownerId}), {id: id}).done(function (data, textStatus, request) {
                                 var viewUrl = request.getResponseHeader('Location');
                                 var newId = data.id;
                                 var reference = getBlockElement(id);

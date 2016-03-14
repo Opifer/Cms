@@ -185,10 +185,13 @@ class ContentEditorController extends Controller
      * Makes a block shared and created a PointerBlock in its place
      *
      * @param Request $request
+     * @param         $owner
+     * @param         $ownerId
      *
      * @return JsonResponse
+     * @throws \Exception
      */
-    public function makeSharedAction(Request $request, $type, $typeId, $ownerId)
+    public function makeSharedAction(Request $request, $owner, $ownerId)
     {
         /** @var BlockManager $manager */
         $manager = $this->get('opifer.content.block_manager');
@@ -202,7 +205,7 @@ class ContentEditorController extends Controller
 
             $response->setStatusCode(200);
             $response->setData(['state' => 'created', 'id' => $pointerBlock->getId()]);
-            $response->headers->add(['Location' => $this->generateUrl('opifer_content_api_contenteditor_view_block', ['type' => $type, 'typeId' => $typeId, 'id' => $pointerBlock->getId()])]);
+            $response->headers->add(['Location' => $this->generateUrl('opifer_content_api_contenteditor_view_block', ['owner' => $owner, 'ownerId' => $ownerId, 'id' => $pointerBlock->getId()])]);
         } catch (\Exception $e) {
             $response->setStatusCode(500, 'Exception');
             $response->setData(['error' => $e->getMessage()]);

@@ -224,6 +224,11 @@ abstract class AbstractBlockService
     {
     }
 
+    public function allowShare(BlockInterface $block)
+    {
+        return ! $block->isShared();
+    }
+
     /**
      * {@inheritdoc}
      */
