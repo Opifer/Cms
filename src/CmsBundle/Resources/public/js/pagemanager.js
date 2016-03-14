@@ -534,7 +534,7 @@ $(document).ready(function() {
         // Call API to create a new block
         //
         var createBlock = function (block) {
-            var parentId = block.parent;
+            var parentId = (typeof block.parent == 'undefined') ? 0 : block.parent;
             var idx = (block.sort.indexOf("") != -1) ? block.sort.indexOf("") : block.sort.indexOf("0");
             var placeholder = block.placeholder;
             $.post(Routing.generate('opifer_content_api_contenteditor_create_block', {owner: owner, ownerId: ownerId}), block).done(function (data, textStatus, request) {
