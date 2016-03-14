@@ -25,7 +25,8 @@ class BlockController extends BaseBlockController
             function ($query) use ($tableAlias)
             {
                 $query->andWhere("{$tableAlias}.shared = 1")
-                        ->andWhere("{$tableAlias}.owner IS NULL");
+                        ->andWhere("{$tableAlias}.content IS NULL")
+                        ->andWhere("{$tableAlias}.template IS NULL");
             }
         );
 //

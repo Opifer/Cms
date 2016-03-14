@@ -14,6 +14,7 @@ use Doctrine\ORM\PersistentCollection;
 use Opifer\ContentBundle\Block\BlockManager;
 use Opifer\ContentBundle\Block\BlockOwnerInterface;
 use Opifer\ContentBundle\Block\Service\LayoutBlockServiceInterface;
+use Opifer\ContentBundle\Block\Service\PointerBlockService;
 use Opifer\ContentBundle\Entity\Template;
 use Opifer\ContentBundle\Model\BlockInterface;
 use Opifer\ContentBundle\Model\Content;
@@ -245,7 +246,7 @@ class Environment
         } else {
             $service = $this->blockManager->getService($object);
 
-            if ($service instanceof LayoutBlockServiceInterface) {
+            if ($service instanceof LayoutBlockServiceInterface || $service instanceof PointerBlockService) {
                 return $service->getPlaceholders($object);
             }
 

@@ -24,7 +24,7 @@
                         <i class="material-icons md-18">menu</i>
                     </a>
                     <ul class="dropdown-menu" aria-labelledby="blockEditContextMenu">
-                        {% if not block.isShared %}
+                        {% if block_service.allowShare(block) %}
                             <li><a href="#" class="pm-btn-make-shared"><i class="material-icons md-18">all_inclusive</i> {{ "button.block_share"|trans }}</a></li>
                         {% endif %}
                         {% if block.isShared %}

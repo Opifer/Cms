@@ -3,6 +3,8 @@
 namespace Opifer\ContentBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
+
+use APY\DataGridBundle\Grid\Mapping as GRID;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Opifer\Revisions\Mapping\Annotation as Revisions;
@@ -30,6 +32,7 @@ use Opifer\ContentBundle\Model\ContentInterface;
  *
  * @Revisions\Revision(draft=true)
  * @Gedmo\SoftDeleteable(fieldName="deletedAt")
+ * @GRID\Source(columns="id, name, displayName")
  *
  * @JMS\ExclusionPolicy("all")
  */
@@ -117,9 +120,10 @@ abstract class Block implements BlockInterface, DraftInterface
     protected $shared = false;
 
     /**
-     * @var integer
+     * @var string
      *
      * @ORM\Column(type="string", nullable=true)
+     * @GRID\Column(title="label.shared_name")
      */
     protected $sharedName;
 
@@ -127,6 +131,7 @@ abstract class Block implements BlockInterface, DraftInterface
      * @var string
      *
      * @ORM\Column(type="string", nullable=true)
+     * @GRID\Column(title="label.shared_display_name")
      */
     protected $sharedDisplayName;
 
