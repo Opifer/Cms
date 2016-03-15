@@ -10,6 +10,7 @@ use Opifer\ContentBundle\Entity\Template;
 
 use Opifer\EavBundle\Entity\Value;
 use Opifer\EavBundle\Entity\MediaValue;
+use Opifer\MediaBundle\Model\MediaInterface;
 use Opifer\EavBundle\Model\EntityInterface;
 use Opifer\EavBundle\Model\SchemaInterface;
 use Opifer\EavBundle\Model\ValueSetInterface;
@@ -849,7 +850,9 @@ class Content implements ContentInterface, EntityInterface
         if ($this->getValueSet() !== null) {
             foreach ($this->getValueSet()->getValues() as $value) {
                 if ($value instanceof MediaValue && null !== $media = $value->getMedias()->first()) {
-                    return $media->getReference();
+                    if ($media instanceof MediaInterface) {
+                        return $media->getReference();
+                    }
                 }
             }
         }
