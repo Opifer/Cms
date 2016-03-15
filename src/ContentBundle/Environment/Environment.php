@@ -65,6 +65,8 @@ class Environment
     /** @var bool */
     protected $draft = false;
 
+    const MODE_MANAGE = 'manage';
+
     public function __construct(EntityManagerInterface $em, BlockManager $blockManager, RevisionManager $revisionManager, TwigAnalyzer $twigAnalyzer)
     {
         $this->em = $em;
