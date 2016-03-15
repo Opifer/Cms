@@ -1,0 +1,9 @@
+<div class="sharer btn-group" role="group" {{ manage_tags() }}>
+    {# Current url: {{ request_url }} #}
+    <a href="{{ facebook_url }}" class="btn btn-default"><span class="icon icon-facebook">Facebook</span><span class="count">{{ facebook_url }}</span></a>
+    <a href="{{ twitter_url }}" class="btn btn-default"><span class="icon icon-twitter">Twitter</span><span class="count">{{ twitter_count }}</span></a>
+    <a href="{{ linkedin_url }}" class="btn btn-default"><span class="icon icon-linkedin">LinkedIn</span><span class="count">{{ linkedin_count }}</span></a>
+    <a href="{{ google_url }}" class="btn btn-default"><span class="icon icon-google">Google+</span><span class="count">{{ google_count }}</span></a>
+    <a href="{{ whatsapp_url }}" class="btn btn-default visible-xs-block visible-sm-block" data-action="share/whatsapp/share"><span class="icon icon-whatsapp">Whatsapp</span></a>
+    <a href="{{ email_url }}" class="btn btn-default"><span class="icon icon-email">Email</span></a>
+</div>

@@ -26,6 +26,9 @@ abstract class AbstractBlockService
     /** @var EngineInterface */
     protected $templating;
 
+    /** @var Environment */
+    protected $environment;
+
     /**
      * The block configuration
      *
@@ -52,12 +55,34 @@ abstract class AbstractBlockService
     {
         $this->load($block);
 
+        $parameters = $this->getViewParameters($block);
+
+        if ($this->getEnvironment() !== null && $this->getEnvironment()->getBlockMode() === Environment::MODE_MANAGE) {
+            $parameters = array_merge($parameters, $this->getManageViewParameters($block));
+        }
+
+        return $this->renderResponse($this->getView($block), $parameters,  $response);
+    }
+
+    public function getViewParameters(BlockInterface $block)
+    {
         $parameters = [
             'block_service' => $this,
             'block'         => $block,
         ];
 
-        return $this->renderResponse($this->getView($block), $parameters,  $response);
+        return $parameters;
+    }
+
+    public function getManageViewParameters(BlockInterface $block)
+    {
+        $parameters = [
+            'block_view'     => $this->getView($block),
+            'manage'         => true,
+            'manage_type'    => $this->getManageFormTypeName(),
+        ];
+
+        return $parameters;
     }
 
     /**
@@ -65,17 +90,7 @@ abstract class AbstractBlockService
      */
     public function manage(BlockInterface $block, Response $response = null)
     {
-        $this->load($block);
-
-        $parameters = [
-            'block_service'  => $this,
-            'block'          => $block,
-            'block_view'     => $this->getView($block),
-            'manage'         => true,
-            'manage_type'    => $this->getManageFormTypeName(),
-        ];
-
-        return $this->renderResponse($this->getManageView($block), $parameters, $response);
+        return $this->execute($block, $response);
     }
 
     /**
@@ -145,6 +160,8 @@ abstract class AbstractBlockService
     }
 
     /**
+     * @deprecated There should only be one view from getView
+     *
      * {@inheritdoc}
      */
     public function getManageView(BlockInterface $block)
