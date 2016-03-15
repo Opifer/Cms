@@ -10,6 +10,7 @@ use Opifer\ContentBundle\Entity\Template;
 
 use Opifer\EavBundle\Entity\Value;
 use Opifer\EavBundle\Entity\MediaValue;
+use Opifer\MediaBundle\Model\MediaInterface;
 use Opifer\EavBundle\Model\EntityInterface;
 use Opifer\EavBundle\Model\SchemaInterface;
 use Opifer\EavBundle\Model\ValueSetInterface;
