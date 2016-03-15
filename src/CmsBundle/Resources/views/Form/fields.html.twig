@@ -149,3 +149,7 @@
         </div>
     {% endspaceless %}
 {% endblock collapsible_collection_widget %}
+
+{% block opifer_cms_icon_widget %}
+    <button class="btn btn-default icon-picker" role="iconpicker" data-icon="{{ form.vars.value }}" name="{{ form.vars.full_name }}" data-iconset="materialdesign_2" data-target="{{ form.vars.id }}"></button>
+{% endblock opifer_cms_icon_widget %}
