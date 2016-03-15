@@ -849,7 +849,9 @@ class Content implements ContentInterface, EntityInterface
         if ($this->getValueSet() !== null) {
             foreach ($this->getValueSet()->getValues() as $value) {
                 if ($value instanceof MediaValue && null !== $media = $value->getMedias()->first()) {
-                    return $media->getReference();
+                    if(is_object($media)) {
+                        return $media->getReference();
+                    }
                 }
             }
         }
