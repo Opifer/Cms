@@ -254,18 +254,10 @@ class BlockManager
             $blocks = array($blocks);
         }
 
-        $revision = null;
-        $family = $blocks[0]->getOwner()->getBlocks();
-        foreach ($family as $member) {
-            if (null !== $revision = $this->revisionManager->getDraftRevision($member)) {
-                break;
-            }
-        }
+        $this->killRevisionListener();
 
-        if ($revision) {
-            $this->killRevisionListener();
-
-            foreach ($blocks as $block) {
+        foreach ($blocks as $block) {
+            if (null !== $revision = $this->revisionManager->getDraftRevision($block)) {
                 try {
                     $this->revisionManager->revert($block, $revision);
                 } catch (DeletedException $e) {
@@ -274,8 +266,6 @@ class BlockManager
 
                 $this->em->flush($block);
             }
-
-            $this->revisionManager->setRevisionDraft($revision, false);
         }
     }
 
