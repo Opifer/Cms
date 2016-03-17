@@ -5,6 +5,7 @@ namespace Opifer\ContentBundle\Controller\Api;
 use Imagine\Image\Point;
 use Opifer\ContentBundle\Block\BlockManager;
 use Opifer\ContentBundle\Block\ContentBlockAdapter;
+use Opifer\ContentBundle\Block\Service\AbstractBlockService;
 use Opifer\ContentBundle\Block\Service\ClipboardBlockService;
 use Opifer\ContentBundle\Designer\AbstractDesignSuite;
 use Opifer\ContentBundle\Entity\PointerBlock;
@@ -43,9 +44,11 @@ class ContentEditorController extends Controller
 
         $block = $environment->getBlock($id);
 
-        $environment->setBlockMode('manage');
+        $environment->setBlockMode(Environment::MODE_MANAGE);
 
+        /** @var AbstractBlockService $service */
         $service = $manager->getService($block);
+        $service->setEnvironment($environment);
 
         $this->get('opifer.content.twig.content_extension')->setBlockEnvironment($environment);
 

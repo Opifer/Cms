@@ -327,11 +327,11 @@ abstract class Block implements BlockInterface, DraftInterface
     /**
      * Set created at
      *
-     * @param  \DateTime $date
+     * @param  \DateTime|null $date
      *
      * @return $this
      */
-    public function setCreatedAt(\DateTime $date)
+    public function setCreatedAt(\DateTime $date = null)
     {
         $this->createdAt = $date;
 

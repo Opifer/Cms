@@ -29,32 +29,6 @@ class TabNavBlockService extends AbstractBlockService implements LayoutBlockServ
     /**
      * {@inheritdoc}
      */
-    public function execute(BlockInterface $block, Response $response = null)
-    {
-        $parameters = array(
-            'block_service'  => $this,
-            'block'          => $block,
-        );
-
-        return $this->renderResponse($this->getView($block), $parameters, $response);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function manage(BlockInterface $block, Response $response = null)
-    {
-        return $this->renderResponse($this->getManageView($block), array(
-            'block_service'  => $this,
-            'block'          => $block,
-            'block_view'     => $this->getView($block),
-            'manage_type'    => $this->getManageFormTypeName(),
-        ), $response);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
     public function buildManageForm(FormBuilderInterface $builder, array $options)
     {
         parent::buildManageForm($builder, $options);

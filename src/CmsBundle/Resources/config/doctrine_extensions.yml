@@ -28,7 +28,7 @@ services:
     gedmo.listener.timestampable:
         class: Gedmo\Timestampable\TimestampableListener
         tags:
-            - { name: doctrine.event_subscriber, connection: default, priority: 100 }
+            - { name: doctrine.event_subscriber, connection: default, priority: 100 } # should handle events before revisionslistener does
         calls:
             - [ setAnnotationReader, [ '@annotation_reader' ] ]
 
