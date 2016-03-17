@@ -111,7 +111,7 @@ class ContentEditorController extends Controller
         $response = new JsonResponse;
 
         try {
-            $block = $manager->find($id);
+            $block = $manager->find($id, true);
             $manager->remove($block, true);
             $response->setData(['state' => 'removed']);
         } catch (\Exception $e) {
