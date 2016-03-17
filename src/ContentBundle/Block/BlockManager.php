@@ -205,9 +205,11 @@ class BlockManager
         }
 
         foreach ($blocks as $key => $block) {
-            if (null !== $revision = $this->revisionManager->getDraftRevision($block)) {
+            $currentRevision = $this->revisionManager->getCurrentRevision($block);
+            $latestRevision = $this->revisionManager->getLatestRevision($block);
+            if ($latestRevision !== false && $currentRevision <= $latestRevision) {
                 try {
-                    $this->revisionManager->revert($block, $revision);
+                    $this->revisionManager->revert($block, $latestRevision);
                 } catch (DeletedException $e) {
                     unset($blocks[$key]);
                 }
@@ -286,23 +288,7 @@ class BlockManager
     {
         if ($draft) {
             $this->setDraftVersionFilter(! $draft);
-            $this->killTimestampableListener();
             $block->setDraft($draft);
-
-            $revision = null;
-
-            if ($block->getOwner()) {
-                $family = $block->getOwner()->getBlocks();
-                foreach ($family as $member) {
-                    if (null !== $revision = $this->revisionManager->getDraftRevision($member)) {
-                        break;
-                    }
-                }
-            } else {
-                $revision = $this->revisionManager->getDraftRevision($block);
-            }
-
-            $block->revision = $revision;
         }
 
         $this->em->persist($block);
@@ -318,10 +304,6 @@ class BlockManager
     public function remove(BlockInterface $block, $draft = true)
     {
         $block->setDraft($draft);
-
-        if ($draft) {
-            $block->revision = $this->findGroupDraftRevision($block);
-        }
 
         $this->em->remove($block);
         $this->em->flush($block);
@@ -438,23 +420,6 @@ class BlockManager
         } else if (! $this->em->getFilters()->isEnabled('draft') && $enabled) {
             $this->em->getFilters()->enable('draft');
         }
-    }
-
-
-    /**
-     * Removes the TimestampableListener from the EventManager
-     */
-    public function killTimestampableListener()
-    {
-        foreach ($this->em->getEventManager()->getListeners() as $event => $listeners) {
-            foreach ($listeners as $hash => $listener) {
-                if ($listener instanceof TimestampableListener) {
-                    $listenerInst = $listener;
-                    break 2;
-                }
-            }
-        }
-        $this->em->getEventManager()->removeEventListener(array('onFlush'), $listenerInst);
     }
 
     /**
