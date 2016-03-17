@@ -425,7 +425,7 @@ class BlockManager
                 }
             }
         }
-        $this->em->getEventManager()->removeEventListener(array(Events::onFlush, Events::postPersist, Events::postUpdate, Events::postFlush, SoftDeleteableListener::POST_SOFT_DELETE), $listenerInst);
+        $this->em->getEventManager()->removeEventListener(array(Events::onFlush, Events::postPersist, Events::postUpdate, Events::postFlush, SoftDeleteableListener::PRE_SOFT_DELETE, SoftDeleteableListener::POST_SOFT_DELETE), $listenerInst);
     }
 
 

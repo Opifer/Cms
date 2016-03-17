@@ -50,7 +50,7 @@ services:
     gedmo.listener.softdeleteable:
         class: Gedmo\SoftDeleteable\SoftDeleteableListener
         tags:
-            - { name: doctrine.event_subscriber, connection: default }
+            - { name: doctrine.event_subscriber, connection: default, priority: 101 } # should handle events before revisionslistener does
         calls:
             - [ setAnnotationReader, [ '@annotation_reader' ] ]
 
