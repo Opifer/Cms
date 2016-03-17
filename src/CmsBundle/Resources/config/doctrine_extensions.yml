@@ -7,9 +7,6 @@ services:
         tags:
             # translatable sets locale after router processing
             - { name: kernel.event_listener, event: kernel.request, method: onLateKernelRequest, priority: -10 }
-            # loggable hooks user username if one is in security context
-            - { name: kernel.event_listener, event: kernel.request, method: onKernelRequest }
-
 
     # Doctrine Extension listeners to handle behaviors
     gedmo.listener.tree:
@@ -31,7 +28,7 @@ services:
     gedmo.listener.timestampable:
         class: Gedmo\Timestampable\TimestampableListener
         tags:
-            - { name: doctrine.event_subscriber, connection: default }
+            - { name: doctrine.event_subscriber, connection: default, priority: 100 }
         calls:
             - [ setAnnotationReader, [ '@annotation_reader' ] ]
 
