@@ -411,6 +411,7 @@ $(document).ready(function() {
                     if (tab) {
                         $('#pm-block-edit .nav-tabs a[href="#block-'+tab+'"]').tab('show');
                     }
+                    sortables();
                 }).fail(function(data){
                     showAPIError(data);
                 });
@@ -847,6 +848,17 @@ $(document).ready(function() {
 
             $('.pm-toolset-body').scroll(function(e) {
                 $('.pm-placeholder').sortable( "refreshPositions" );
+            });
+
+            // tabnavblock
+            $('.sortable-tabnav .bc-collection').sortable({
+                stop: function () {
+                    var inputs = $('.sortable-tabnav .bc-collection input.sort-input')
+                    var nbElems = inputs.length;
+                    $('.sortable-tabnav .bc-collection input.sort-input').each(function(idx) {
+                        $(this).val(nbElems - idx);
+                    });
+                }
             });
 
             return this;
