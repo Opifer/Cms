@@ -44,6 +44,11 @@ class TabNavBlockService extends AbstractBlockService implements LayoutBlockServ
 
         $builder->addEventListener(
             FormEvents::SUBMIT,
+            array($this, 'onSubmit')
+        );
+
+        $builder->addEventListener(
+            FormEvents::POST_SET_DATA,
             array($this, 'onPostSetData')
         );
 
@@ -59,6 +64,8 @@ class TabNavBlockService extends AbstractBlockService implements LayoutBlockServ
                 'allow_add'     => true,
                 'allow_delete'  => true,
                 'entry_type'    => TabType::class,
+                'sub_widget_col'=> 8,
+                'button_col'    => 4,
                 'attr'          => ['class' => 'sortable-tabnav'],
                 'options'       => ['attr' => ['style' => 'inline']],
             ])
@@ -93,6 +100,14 @@ class TabNavBlockService extends AbstractBlockService implements LayoutBlockServ
     }
 
     public function onPostSetData(FormEvent $event)
+    {
+        $block = $event->getData();
+        $this->normalizeTabs($block);
+
+        $event->setData($block);
+    }
+
+    public function onSubmit(FormEvent $event)
     {
         $block = $event->getData();
         $this->normalizeTabs($block);

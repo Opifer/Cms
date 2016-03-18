@@ -204,3 +204,11 @@ services:
         arguments: ['@twig.form.renderer']
         tags:
             - { name: 'twig.extension' }
+
+    # Block Services
+
+    opifer.mailing_list.subscribe_block:
+        class: Opifer\MailingListBundle\Block\Service\SubscribeBlockService
+        arguments: ['@templating', '%opifer_mailing_list.subscribe_block_configuration%', '@doctrine.orm.default_entity_manager', '@opifer.content.content_manager']
+        tags:
+            - { name: opifer.content.block_service, alias: subscribe }
