@@ -27,7 +27,8 @@
     "typeahead.js": "~0.11",
     "js-cookie": "~2.1.0",
     "nestedSortable": "https://github.com/ilikenwf/nestedSortable.git#747d42c6c4303a60174158691c0c90e80fd83254",
-    "angular-ui-tree": "~2.1.3"
+    "angular-ui-tree": "~2.1.3",
+    "codemirror": "~5.12"
   },
   "resolutions": {
     "angular": "1.4.9",
