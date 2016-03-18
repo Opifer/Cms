@@ -87,7 +87,7 @@ class TabNavBlockService extends AbstractBlockService implements LayoutBlockServ
     {
         // block
         $block = $event->getData();
-        $block = $this->normalizeTabs($block);
+        $this->normalizeTabs($block);
 
         $event->setData($block);
     }
@@ -95,7 +95,7 @@ class TabNavBlockService extends AbstractBlockService implements LayoutBlockServ
     public function onPostSetData(FormEvent $event)
     {
         $block = $event->getData();
-        $block = $this->normalizeTabs($block);
+        $this->normalizeTabs($block);
 
         $event->setData($block);
     }
@@ -197,6 +197,7 @@ class TabNavBlockService extends AbstractBlockService implements LayoutBlockServ
      */
     public function getPlaceholders(BlockInterface $block = null)
     {
+        $this->normalizeTabs($block);
         $tabs = $block->getTabs();
 
         $placeholders = array();

@@ -82,17 +82,17 @@ class ContentEditorController extends Controller
         $data        = $request->request->get('data');
         $data        = json_decode($data, true);
 
-        try {
+//        try {
             $block = $manager->createBlock($object, $className, $parentId, $placeholder, $sort, $data);
 
             $response = new JsonResponse(['state' => 'created', 'id' => $block->getId()]);
             $response->setStatusCode(201);
             $response->headers->add(['Location' => $this->generateUrl('opifer_content_api_contenteditor_view_block', ['owner' => $owner, 'ownerId' => $ownerId, 'id' => $block->getId()])]);
 
-        } catch (\Exception $e) {
-            $response->setStatusCode(500);
-            $response->setData(['error' => $e->getMessage()]);
-        }
+//        } catch (\Exception $e) {
+//            $response->setStatusCode(500);
+//            $response->setData(['error' => $e->getMessage()]);
+//        }
 
         return $response;
     }
@@ -139,7 +139,7 @@ class ContentEditorController extends Controller
         $response = new JsonResponse;
 
         try {
-            $block = $manager->find($id);
+            $block = $manager->find($id, true);
             $clipboardService->addToClipboard($block);
             $blockService = $manager->getService($block);
 
