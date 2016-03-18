@@ -41,7 +41,7 @@ class ClipboardBlockService implements BlockServiceInterface, ToolsetMemberInter
 
     public function createBlock($args)
     {
-        $block = $this->blockManager->find($args['id']);
+        $block = $this->blockManager->find($args['id'], true);
 
         // Duplicate function likes to have arrays
         $blocks = $this->blockManager->duplicate(array($block), $args['owner']);
@@ -105,7 +105,7 @@ class ClipboardBlockService implements BlockServiceInterface, ToolsetMemberInter
     protected function getClipboardBlocks()
     {
         if (is_array($this->blockIds) && count($this->blockIds)) {
-            return $this->blockManager->findById($this->blockIds);
+            return $this->blockManager->findById($this->blockIds, true);
         }
 
         return [];

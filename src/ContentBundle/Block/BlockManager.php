@@ -171,6 +171,10 @@ class BlockManager
      */
     public function findById($id, $draft = true)
     {
+        if ($draft) {
+            $this->setDraftVersionFilter(! $draft);
+        }
+
         $blocks = $this->getRepository()->findById($id);
 
         if ($draft) {
@@ -335,8 +339,6 @@ class BlockManager
 
             $clone = clone $block;
             $clone->setId(null);
-            $this->em->detach($clone);
-
             $clone->setParent(null);
             $clone->setOwner($owner);
 
