@@ -233,7 +233,7 @@ class ContentManager implements ContentManagerInterface, BlockProviderInterface
             $duplicatedContent->setValueSet($duplicatedValueset);
         }
 
-        $duplicatedContent->setBlock(null);
+        $duplicatedContent->setBlocks(null);
         $this->detachAndPersist($duplicatedContent);
 
         if ($valueset) {
