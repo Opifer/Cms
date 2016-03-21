@@ -120,7 +120,7 @@ class TabNavBlockService extends AbstractBlockService implements LayoutBlockServ
         $properties = $block->getProperties();
 
         if (isset($properties['tabs']) && count($properties['tabs'])) {
-            if (!isset($properties['tabs'][0]['sort'])) {
+            if (isset($properties['tabs'][0]) && !is_array($properties['tabs'][0])) {
                 $converted = array();
                 $sort = count($properties['tabs']);
                 foreach ($properties['tabs'] as $key => $value) {
