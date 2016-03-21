@@ -110,13 +110,44 @@ class NavigationBlockService extends AbstractBlockService implements BlockServic
             $ids = json_decode($block->getProperties()['content'], true);
 
             $collection = $this->contentManager->getRepository()->findByLevels($levels, $ids);
+            
+            $ordered_collection = $this->getOrdered($collection, $ids);
 
-            $block->setTree($collection);
+            $block->setTree($ordered_collection);
+
         } elseif ($block->getValue() == NavigationBlock::CHOICE_TOP_LEVEL) {
             $collection = $this->contentManager->getRepository()->findByLevels($levels);
 
             $block->setTree($collection);
         }
+    }
+
+    /**
+    * @param array collection
+    * @param array sort
+    *
+    * @return array
+    */
+    public function getOrdered($collection, $sort = null)
+    {
+        if (!$sort) {
+            return $collection;
+        }
+
+        $unordered = [];
+        foreach ($collection as $content) {
+            $unordered[$content['id']] = $content;
+        }
+
+        $ordered = [];
+
+        foreach ($sort as $id) {
+            if (isset($unordered[$id])) {
+                $ordered[] = $unordered[$id];
+            }
+        }
+
+        return $ordered;
     }
 
     /**
