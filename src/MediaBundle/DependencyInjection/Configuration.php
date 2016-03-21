@@ -42,7 +42,7 @@ class Configuration implements ConfigurationInterface
                                     ->defaultValue('OpiferMediaBundle:Media:create.html.twig')
                                 ->end()
                                 ->scalarNode('edit')
-                                    ->defaultValue('OpiferMediaBundle:Media:design.html.twig')
+                                    ->defaultValue('OpiferMediaBundle:Media:edit.html.twig')
                                 ->end()
                             ->end()
                         ->end()
