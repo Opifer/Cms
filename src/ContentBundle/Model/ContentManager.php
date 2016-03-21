@@ -193,11 +193,14 @@ class ContentManager implements ContentManagerInterface, BlockProviderInterface
      */
     public function remove($content)
     {
-        if (!is_array($content)) {
+        if (! is_array($content)) {
             $content = [$content];
         }
 
-        $content = $this->getRepository()->findByIds($content);
+        if (! is_object($content[0])) {
+            $content = $this->getRepository()->findByIds($content);
+        }
+
         foreach ($content as $item) {
             $this->em->remove($item);
         }

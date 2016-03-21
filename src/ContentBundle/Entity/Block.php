@@ -51,7 +51,7 @@ abstract class Block implements BlockInterface, DraftInterface
      * @var BlockInterface
      *
      * @ORM\ManyToOne(targetEntity="Opifer\ContentBundle\Model\ContentInterface", inversedBy="blocks")
-     * @ORM\JoinColumn(name="content_id", referencedColumnName="id", onDelete="SET NULL")
+     * @ORM\JoinColumn(name="content_id", referencedColumnName="id", onDelete="CASCADE")
      */
     protected $content;
 
@@ -59,7 +59,7 @@ abstract class Block implements BlockInterface, DraftInterface
      * @var BlockInterface
      *
      * @ORM\ManyToOne(targetEntity="Opifer\ContentBundle\Entity\Template", inversedBy="blocks")
-     * @ORM\JoinColumn(name="template_id", referencedColumnName="id", onDelete="SET NULL")
+     * @ORM\JoinColumn(name="template_id", referencedColumnName="id", onDelete="CASCADE")
      */
     protected $template;
 
@@ -168,7 +168,7 @@ abstract class Block implements BlockInterface, DraftInterface
     /**
      * @var boolean
      */
-    protected $draft = true;
+    protected $draft = false;
 
     /**
      * Constructor
