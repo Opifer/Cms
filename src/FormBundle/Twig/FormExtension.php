@@ -5,6 +5,7 @@ namespace Opifer\FormBundle\Twig;
 use Opifer\EavBundle\Manager\EavManager;
 use Opifer\FormBundle\Model\FormInterface;
 use Symfony\Component\Form\FormFactoryInterface;
+use Opifer\FormBundle\Form\Type\PostType;
 
 class FormExtension extends \Twig_Extension
 {
@@ -48,7 +49,7 @@ class FormExtension extends \Twig_Extension
     {
         $post = $this->eavManager->initializeEntity($form->getSchema());
 
-        $form = $this->formFactory->create('opifer_form_post', $post, ['form_id' => $form->getId()]);
+        $form = $this->formFactory->create(PostType::class, $post, ['form_id' => $form->getId()]);
 
         return $form->createView();
     }
