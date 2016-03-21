@@ -60,13 +60,17 @@ angular.module('mediaLibrary', ['infinite-scroll', 'ngModal', 'angularFileUpload
             // When items have been passed to the init function, retrieve the related data.
             if (angular.isDefined(items) && items.length) {
                 items = JSON.parse(items);
-                items = items.toString();
-                if (items) {
-                    MediaService.index({ids: items}, function(response, headers) {
+                strItems = items.toString();
+                if (strItems) {
+                    MediaService.index({ids: strItems}, function(response, headers) {
                         var results = response.results;
 
-                        for (var i = 0; i < results.length; i++) {
-                            $scope.selecteditems.push(results[i]);
+                        for (var j = 0; j < items.length; j++) {
+                            for (var i = 0; i < results.length; i++) {
+                                if (results[i].id == items[j]) {
+                                    $scope.selecteditems.push(results[i]);
+                                }
+                            }
                         }
                     });
                 }

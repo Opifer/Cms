@@ -6,6 +6,8 @@ use Doctrine\ORM\EntityRepository;
 use Opifer\MediaBundle\Model\MediaManager;
 use Opifer\MediaBundle\Provider\Pool;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Symfony\Component\Form\FormEvent;
+use Symfony\Component\Form\FormEvents;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\CallbackTransformer;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -26,6 +28,9 @@ class MediaPickerType extends AbstractType
     /** @var MediaManager */
     protected $mediaManager;
 
+    /** @var array */
+    protected $sortedIds;
+
     /**
      * Constructor.
      *
@@ -44,7 +49,15 @@ class MediaPickerType extends AbstractType
             $builder->addModelTransformer(new CallbackTransformer(
                 function ($original) {
                     $ids = json_decode($original, true);
-                    return $this->mediaManager->getRepository()->findByIds($ids);
+                    $items = $this->mediaManager->getRepository()->findByIds($ids);
+
+                    if (is_array($items)) {
+                        uasort($items, function ($a, $b) use ($ids) {
+                            return (array_search($a->getId(), $ids) > array_search($b->getId(), $ids));
+                        });
+                    }
+
+                    return $items;
                 },
                 function ($submitted) {
                     $ids = [];
@@ -56,6 +69,25 @@ class MediaPickerType extends AbstractType
                 }
             ));
         }
+
+        $builder->addEventListener(FormEvents::PRE_SUBMIT, function (FormEvent $event) {
+            if ($event->getData() && count($event->getData())) {
+                $this->sortedData = $event->getData();
+            }
+        });
+
+        $builder->addEventListener(FormEvents::SUBMIT, function (FormEvent $event) {
+            $data = $event->getData();
+
+            if (count($this->sortedData) && is_array($data) && count($data)) {
+                $ids = $this->sortedData;
+                uasort($data, function ($a, $b) use ($ids) {
+                    return (array_search($a->getId(), $ids) > array_search($b->getId(), $ids));
+                });
+
+                $event->setData(array_values($data));
+            }
+        });
     }
 
     /**
