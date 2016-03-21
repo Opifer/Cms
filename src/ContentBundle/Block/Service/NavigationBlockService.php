@@ -140,7 +140,6 @@ class NavigationBlockService extends AbstractBlockService implements BlockServic
         }
 
         $ordered = [];
-
         foreach ($sort as $id) {
             if (isset($unordered[$id])) {
                 $ordered[] = $unordered[$id];

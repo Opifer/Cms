@@ -2,6 +2,7 @@
 
 namespace Opifer\ContentBundle\Block\Service;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Opifer\ContentBundle\Block\Tool\Tool;
 use Opifer\ContentBundle\Block\Tool\ToolsetMemberInterface;
 use Opifer\ContentBundle\Entity\GalleryBlock;
@@ -57,9 +58,20 @@ class GalleryBlockService extends AbstractBlockService implements BlockServiceIn
      */
     public function load(BlockInterface $block)
     {
-        $gallery = $this->mediaManager->getRepository()->findByIds(json_decode($block->getValue()));
+        $ids = json_decode($block->getValue());
+
+        if (empty($ids) || ! count($ids)) {
+            return;
+        }
+
+        $gallery = $this->mediaManager->getRepository()->findByIds($ids);
+
+        uasort($gallery, function ($a, $b) use ($ids) {
+            return (array_search($a->getId(), $ids) > array_search($b->getId(), $ids));
+        });
+
         if ($gallery) {
-            $block->setGallery($gallery);
+            $block->setGallery(new ArrayCollection($gallery));
         }
     }
 
