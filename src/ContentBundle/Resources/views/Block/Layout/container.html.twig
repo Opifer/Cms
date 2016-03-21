@@ -1,0 +1,4 @@
+<div class="container{{ (block.properties.container_size|default) ? '-'~block.properties.container_size: '' }} {{ block.properties.styles|default|join(' ') }} {{ block.properties.extra_classes|default }}" {{ manage_tags() }}>
+    {{ render_placeholder() }}
+</div>
+

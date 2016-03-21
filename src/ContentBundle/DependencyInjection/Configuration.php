@@ -147,13 +147,24 @@ class Configuration implements ConfigurationInterface
                         ->arrayNode('column')
                             ->addDefaultsIfNotSet()
                             ->children()
-                                ->scalarNode('view')->defaultValue('OpiferContentBundle:Block:Layout/layout.html.twig')->end()
+                                ->scalarNode('view')->defaultValue('OpiferContentBundle:Block:Layout/column.html.twig')->end()
+                                ->arrayNode('styles')
+                                    ->prototype('scalar')->end()
+                                    ->normalizeKeys(false)
+                                    ->defaultValue([
+                                        'm-t-md' => 'label.column_m_t_md',
+                                        'm-b-md' => 'label.column_m_b_md',
+                                        'm-t-lg' => 'label.column_m_t_lg',
+                                        'm-b-lg' => 'label.column_m_b_lg',
+                                    ])
+                                ->end()
                             ->end()
                         ->end()
+
                         ->arrayNode('container')
                             ->addDefaultsIfNotSet()
                             ->children()
-                                ->scalarNode('view')->defaultValue('OpiferContentBundle:Block:Layout/layout.html.twig')->end()
+                                ->scalarNode('view')->defaultValue('OpiferContentBundle:Block:Layout/container.html.twig')->end()
                                 ->arrayNode('styles')
                                     ->prototype('scalar')->end()
                                     ->normalizeKeys(false)
