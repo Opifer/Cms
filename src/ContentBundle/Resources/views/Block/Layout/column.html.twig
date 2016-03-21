@@ -1,0 +1,8 @@
+{% set col_count = block.columnCount|default(1) %}
+<div class="row {{ block.properties.styles|default|join(' ') }} {{ block.properties.extra_classes|default }}" {{ manage_tags() }}>
+    {% for i in 0..col_count-1 %}
+        <div class="{{ column_classes[i]|default(['col-xs-12'])|join(' ') }} {{ gutter_classes[i]|default|join(' ') }} {{ offset_classes[i]|default|join(' ') }}">
+            {{ render_placeholder(i) }}
+        </div>
+    {% endfor %}
+</div>

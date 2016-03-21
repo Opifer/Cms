@@ -27,34 +27,17 @@ class ColumnBlockService extends AbstractBlockService implements LayoutBlockServ
     /** @var integer */
     protected $columnCount = 1;
 
-    /**
-     * {@inheritdoc}
-     */
-    public function execute(BlockInterface $block, Response $response = null)
+    public function getViewParameters(BlockInterface $block)
     {
-        $parameters = array(
-            'block_service'  => $this,
-            'block'          => $block,
-            'span_styles'    => $this->getSpanStyles($block),
-            'gutter_styles'    => $this->getGutterStyles($block),
+        $parameters = parent::getViewParameters($block);
+
+        $classes = array(
+            'column_classes'    => $this->getColumnClasses($block),
+            'offset_classes'    => $this->getOffsetClasses($block),
+            'gutter_classes'    => $this->getGutterClasses($block),
         );
 
-        return $this->renderResponse($this->getView($block), $parameters, $response);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function manage(BlockInterface $block, Response $response = null)
-    {
-        return $this->renderResponse($this->getManageView($block), array(
-            'block_service'  => $this,
-            'block'          => $block,
-            'block_view'     => $this->getView($block),
-            'span_styles'    => $this->getSpanStyles($block),
-            'gutter_styles'  => $this->getGutterStyles($block),
-            'manage_type'    => $this->getManageFormTypeName(),
-        ), $response);
+        return array_merge($parameters, $classes);
     }
 
     /**
@@ -82,22 +65,23 @@ class ColumnBlockService extends AbstractBlockService implements LayoutBlockServ
                 $cols = array_merge(array(array_fill(0, $block->getColumnCount(), 12/$block->getColumnCount())), array_fill(0, 3, array_fill(0, $block->getColumnCount(), null)));
                 $keys = array('xs', 'sm', 'md', 'lg');
                 $properties['spans'] = array_combine($keys, $cols);
+                $properties['offsets'] = array_combine($keys, array_fill(0, 4, array_fill(0, $block->getColumnCount(), null)));
                 $properties['gutters'] = array_combine($keys, $cols);
                 $block->setProperties($properties);
             }
 
-            $styles = ['row-space-top-2', 'row-space-top-4', 'row-space-top-8', 'row-space-2', 'row-space-4', 'row-space-8'];
             $form->get('properties')->add('styles', ChoiceType::class, [
                 'label' => 'label.styling',
-                'choices'  => $styles,
+                'choices'  => $this->config['styles'],
                 'required' => false,
                 'expanded' => true,
                 'multiple' => true,
-                'attr'     => ['help_text' => 'help.html_styles'],
+                'attr' => ['help_text' => 'help.html_styles'],
             ]);
 
 
             $form->get('properties')->add('spans', SpanCollectionType::class, ['column_count' => $block->getColumnCount(), 'label' => 'label.spans', 'attr' => ['help_text' => 'help.column_spans']]);
+            $form->get('properties')->add('offsets', SpanCollectionType::class, ['column_count' => $block->getColumnCount(), 'label' => 'label.offsets', 'attr' => ['help_text' => 'help.column_offsets']]);
             $form->get('properties')->add('gutters', GutterCollectionType::class, ['column_count' => $block->getColumnCount(), 'label' => 'label.gutters', 'attr' => ['help_text' => 'help.column_gutters']]);
 
         });
@@ -187,7 +171,7 @@ class ColumnBlockService extends AbstractBlockService implements LayoutBlockServ
      *
      * @return array
      */
-    public function getSpanStyles(BlockInterface $block)
+    public function getColumnClasses(BlockInterface $block)
     {
         $spanStyles = array();
 
@@ -216,7 +200,33 @@ class ColumnBlockService extends AbstractBlockService implements LayoutBlockServ
      *
      * @return array
      */
-    public function getGutterStyles(BlockInterface $block)
+    public function getOffsetClasses(BlockInterface $block)
+    {
+        $classes = array();
+
+        if ($block->getColumnCount()) {
+            $properties = $block->getProperties();
+            if (isset($properties['offsets']) && count($properties['offsets']) > 0) {
+                foreach ($properties['offsets'] as $screen => $cols) {
+                    foreach ($cols as $col => $span) {
+                        if (empty($span)) {
+                            continue;
+                        }
+                        $classes[$col][] = "col-$screen-offset-$span";
+                    }
+                }
+            }
+        }
+
+        return $classes;
+    }
+
+    /**
+     * @param BlockInterface $block
+     *
+     * @return array
+     */
+    public function getGutterClasses(BlockInterface $block)
     {
         $gutterStyles = array();
 
@@ -225,6 +235,9 @@ class ColumnBlockService extends AbstractBlockService implements LayoutBlockServ
             if (isset($properties['gutters']) && count($properties['gutters']) > 0) {
                 foreach ($properties['gutters'] as $screen => $cols) {
                     foreach ($cols as $col => $span) {
+                        if (empty($span)) {
+                            continue;
+                        }
                         $gutterStyles[$col][] = "p-$screen-$span";
                     }
                 }
