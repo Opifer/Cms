@@ -11,9 +11,9 @@ if ($('.dropzone').length) {
         addRemoveLinks: true,
         dictDefaultMessage: 'Sleep uw afbeeldingen naar dit vak, of klik om ze handmatig toe te voegen.',
 
-        maxFilesize: 11, // MB
+        maxFilesize: 250, // MB
         maxFiles: 10,
-        acceptedFiles: 'image/jpeg,image/png,image/gif,application/pdf',
+        acceptedFiles: 'image/*,application/pdf,image/svg+xml,.svg,.docx,.doc,.xlsx,.xlsx,.xml,application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/docx,text/plain,application/msword,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
 
         // Listen to all dropzone events
         init: function() {

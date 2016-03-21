@@ -77,7 +77,11 @@ class MediaEventSubscriber implements EventSubscriberInterface
 
             $variants = [];
             foreach ($filters as $filter) {
-                $variants[$filter] = $this->cacheManager->getBrowserPath($reference, $filter);
+                if ($event->getObject()->getContentType() == 'image/svg+xml') {
+                    $variants[$filter] = $provider->getUrl($event->getObject());
+                } else {
+                    $variants[$filter] = $this->cacheManager->getBrowserPath($reference, $filter);
+                }
             }
 
             $event->getVisitor()->addData('images', $variants);
