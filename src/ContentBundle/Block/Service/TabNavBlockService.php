@@ -195,7 +195,7 @@ class TabNavBlockService extends AbstractBlockService implements LayoutBlockServ
 
         $tool->setIcon('tab')
             ->setGroup(Tool::GROUP_LAYOUT)
-            ->setDescription('Inserts tab navigation to control tabbed content.');
+            ->setDescription('Inserts tab navigation to control tabbed content');
 
         return $tool;
     }
