@@ -2,19 +2,16 @@
 
 namespace Opifer\MailingListBundle\Entity;
 
-use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
-use APY\DataGridBundle\Grid\Mapping as GRID;
 
 /**
- * MailingList
+ * Subscription
  *
- * @ORM\Table(name="mailing_list")
- * @ORM\Entity(repositoryClass="Opifer\MailingListBundle\Repository\MailingListRepository")
- * @GRID\Source(columns="id, name, displayName")
+ * @ORM\Table(name="subscription")
+ * @ORM\Entity(repositoryClass="Opifer\MailingListBundle\Repository\SubscriptionRepository")
  */
-class MailingList
+class Subscription
 {
     /**
      * @var int
@@ -22,41 +19,29 @@ class MailingList
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
-     *
-     * @GRID\Column(title="label.id", size="10", type="number")
      */
     protected $id;
 
     /**
-     * @var string
+     * @var MailingList
      *
-     * @ORM\Column(name="name", type="string", length=255, unique=true)
-     *
-     * @GRID\Column(title="label.name")
+     * @ORM\ManyToOne(targetEntity="Opifer\MailingListBundle\Entity\MailingList", inversedBy="subscriptions")
+     * @ORM\JoinColumn(name="mailinglist_id", referencedColumnName="id", onDelete="CASCADE")
      */
-    protected $name;
+    protected $mailingList;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="displayName", type="string", length=255, nullable=true)
-     *
-     * @GRID\Column(title="label.display_name")
+     * @ORM\Column(name="name", type="string", length=255)
      */
-    protected $displayName;
-
-    /**
-     * @var ArrayCollection
-     *
-     * @ORM\OneToMany(targetEntity="Opifer\MailingListBundle\Entity\Subscription", mappedBy="mailingList", cascade={"remove"})
-     * @ORM\OrderBy({"createdAt" = "DESC"})
-     **/
-    protected $subscriptions;
+    protected $email;
 
     /**
      * @var \DateTime
      *
      * @ORM\Column(name="createdAt", type="datetime", nullable=true)
+     * @Gedmo\Timestampable(on="create")
      */
     protected $createdAt;
 
@@ -64,6 +49,7 @@ class MailingList
      * @var \DateTime
      *
      * @ORM\Column(name="updatedAt", type="datetime")
+     * @Gedmo\Timestampable(on="update")
      */
     protected $updatedAt;
 
@@ -86,11 +72,25 @@ class MailingList
     }
 
     /**
+     * Set id
+     *
+     * @param int $id
+     *
+     * @return Subscription
+     */
+    public function setId($id)
+    {
+        $this->id = $id;
+
+        return $this;
+    }
+
+    /**
      * Set name
      *
      * @param string $name
      *
-     * @return MailingList
+     * @return Subscription
      */
     public function setName($name)
     {
@@ -110,27 +110,35 @@ class MailingList
     }
 
     /**
-     * Set displayName
-     *
-     * @param string $displayName
-     *
      * @return MailingList
      */
-    public function setDisplayName($displayName)
+    public function getMailingList()
     {
-        $this->displayName = $displayName;
-
-        return $this;
+        return $this->mailingList;
     }
 
     /**
-     * Get displayName
-     *
+     * @param MailingList $mailingList
+     */
+    public function setMailingList($mailingList)
+    {
+        $this->mailingList = $mailingList;
+    }
+
+    /**
      * @return string
      */
-    public function getDisplayName()
+    public function getEmail()
     {
-        return $this->displayName;
+        return $this->email;
+    }
+
+    /**
+     * @param string $email
+     */
+    public function setEmail($email)
+    {
+        $this->email = $email;
     }
 
     /**
@@ -138,7 +146,7 @@ class MailingList
      *
      * @param \DateTime $createdAt
      *
-     * @return MailingList
+     * @return Subscription
      */
     public function setCreatedAt($createdAt)
     {
@@ -162,7 +170,7 @@ class MailingList
      *
      * @param \DateTime $updatedAt
      *
-     * @return MailingList
+     * @return Subscription
      */
     public function setUpdatedAt($updatedAt)
     {
@@ -186,7 +194,7 @@ class MailingList
      *
      * @param \DateTime $deletedAt
      *
-     * @return MailingList
+     * @return Subscription
      */
     public function setDeletedAt($deletedAt)
     {

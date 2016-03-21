@@ -1,10 +1,10 @@
-<form action="" method="post" {{ manage_tags() }}>
-    <div class="form-group">
-        <div class="input-group">
-            <input type="text" class="form-control" placeholder="E-mailadres">
-            <span class="input-group-btn">
-                <button class="btn btn-primary btn-submit" type="button"></button>
-            </span>
-        </div>
+<div {{ manage_tags() }}>
+    {{ form_start(form, {'style': 'inline'}) }}
+    <div class="input-group">
+        {{ form_widget(form.email) }}
+        <span class="input-group-btn">
+            <button class="btn btn-primary btn-submit" type="submit"></button>
+        </span>
     </div>
-</form>
+    {{ form_end(form) }}
+</div>
