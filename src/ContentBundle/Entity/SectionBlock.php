@@ -3,7 +3,8 @@
 namespace Opifer\ContentBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use Gedmo\Mapping\Annotation as Gedmo;
+use Opifer\MediaBundle\Model\MediaInterface;
+use Opifer\Revisions\Mapping\Annotation as Revisions;
 use Opifer\ContentBundle\Block\BlockContainerInterface;
 
 /**
@@ -17,7 +18,7 @@ class SectionBlock extends CompositeBlock implements BlockContainerInterface
     /**
      * @var string
      *
-     * @Gedmo\Versioned
+     * @Revisions\Revised
      * @ORM\Column(type="text", name="header", nullable=true)
      */
     protected $header;
@@ -25,10 +26,19 @@ class SectionBlock extends CompositeBlock implements BlockContainerInterface
     /**
      * @var string
      *
-     * @Gedmo\Versioned
+     * @Revisions\Revised
      * @ORM\Column(type="text", name="footer", nullable=true)
      */
     protected $footer;
+
+    /**
+     * @var MediaInterface
+     *
+     * @Revisions\Revised
+     * @ORM\ManyToOne(targetEntity="Opifer\MediaBundle\Model\MediaInterface", fetch="EAGER")
+     * @ORM\JoinColumn(name="media_id", referencedColumnName="id", onDelete="SET NULL")
+     */
+    protected $media;
 
 
     /**
@@ -69,5 +79,25 @@ class SectionBlock extends CompositeBlock implements BlockContainerInterface
     public function setFooter($footer)
     {
         $this->footer = $footer;
+    }
+
+    /**
+     * @return MediaInterface
+     */
+    public function getMedia()
+    {
+        return $this->media;
+    }
+
+    /**
+     * @param MediaInterface $media
+     *
+     * @return $this
+     */
+    public function setMedia($media)
+    {
+        $this->media = $media;
+
+        return $this;
     }
 }

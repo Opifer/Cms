@@ -2,10 +2,12 @@
 
 namespace Opifer\MediaBundle\DependencyInjection;
 
+use Opifer\MediaBundle\File\ImageTypeGuesser;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Extension\PrependExtensionInterface;
 use Symfony\Component\DependencyInjection\Loader;
+use Symfony\Component\HttpFoundation\File\MimeType\MimeTypeGuesser;
 use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 
 /**
@@ -22,6 +24,9 @@ class OpiferMediaExtension extends Extension implements PrependExtensionInterfac
     {
         $loader = new Loader\YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         $loader->load('services.yml');
+
+        $mimeTypeGuesser = MimeTypeGuesser::getInstance();
+        $mimeTypeGuesser->register(new ImageTypeGuesser());
     }
 
     /**

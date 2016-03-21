@@ -63,7 +63,7 @@ class ConfigManager
             new \Exception(sprintf('Config "%s" should be stored as \stdClass with a Value property', $key));
         }
 
-        return $this->configs[$key]->getValue()->Value;
+        return $this->configs[$key];
     }
 
     /**

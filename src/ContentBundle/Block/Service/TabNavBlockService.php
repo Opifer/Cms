@@ -5,7 +5,10 @@ namespace Opifer\ContentBundle\Block\Service;
 use Braincrafted\Bundle\BootstrapBundle\Form\Type\BootstrapCollectionType;
 use Opifer\ContentBundle\Block\Tool\Tool;
 use Opifer\ContentBundle\Block\Tool\ToolsetMemberInterface;
+use Opifer\ContentBundle\Entity\Block;
+use Opifer\ContentBundle\Entity\TabNavBlock;
 use Opifer\ContentBundle\Entity\TabsBlock;
+use Opifer\ContentBundle\Form\Type\TabType;
 use Opifer\ContentBundle\Model\BlockInterface;
 
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
@@ -13,6 +16,8 @@ use Symfony\Component\Form\Extension\Core\Type\FormType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 
+use Symfony\Component\Form\FormEvent;
+use Symfony\Component\Form\FormEvents;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
@@ -28,35 +33,24 @@ class TabNavBlockService extends AbstractBlockService implements LayoutBlockServ
     /**
      * {@inheritdoc}
      */
-    public function execute(BlockInterface $block, Response $response = null)
-    {
-        $parameters = array(
-            'block_service'  => $this,
-            'block'          => $block,
-        );
-
-        return $this->renderResponse($this->getView($block), $parameters, $response);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function manage(BlockInterface $block, Response $response = null)
-    {
-        return $this->renderResponse($this->getManageView($block), array(
-            'block_service'  => $this,
-            'block'          => $block,
-            'block_view'     => $this->getView($block),
-            'manage_type'    => $this->getManageFormTypeName(),
-        ), $response);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
     public function buildManageForm(FormBuilderInterface $builder, array $options)
     {
         parent::buildManageForm($builder, $options);
+
+        $builder->addEventListener(
+            FormEvents::PRE_SET_DATA,
+            array($this, 'onPreSetData')
+        );
+
+        $builder->addEventListener(
+            FormEvents::SUBMIT,
+            array($this, 'onSubmit')
+        );
+
+        $builder->addEventListener(
+            FormEvents::POST_SET_DATA,
+            array($this, 'onPostSetData')
+        );
 
         $propertiesForm = $builder->create('properties', FormType::class)
             ->add('template', ChoiceType::class, [
@@ -69,7 +63,11 @@ class TabNavBlockService extends AbstractBlockService implements LayoutBlockServ
                 'label'         => 'label.tabs',
                 'allow_add'     => true,
                 'allow_delete'  => true,
-                'entry_type'    => TextType::class
+                'entry_type'    => TabType::class,
+                'sub_widget_col'=> 8,
+                'button_col'    => 4,
+                'attr'          => ['class' => 'sortable-tabnav'],
+                'options'       => ['attr' => ['style' => 'inline']],
             ])
             ->add('id', TextType::class, ['attr' => ['help_text' => 'help.html_id']])
             ->add('extra_classes', TextType::class, ['attr' => ['help_text' => 'help.extra_classes']]);
@@ -90,6 +88,86 @@ class TabNavBlockService extends AbstractBlockService implements LayoutBlockServ
         $builder->add(
             $propertiesForm
         );
+    }
+
+    public function onPreSetData(FormEvent $event)
+    {
+        // block
+        $block = $event->getData();
+        $this->normalizeTabs($block);
+
+        $event->setData($block);
+    }
+
+    public function onPostSetData(FormEvent $event)
+    {
+        $block = $event->getData();
+        $this->normalizeTabs($block);
+
+        $event->setData($block);
+    }
+
+    public function onSubmit(FormEvent $event)
+    {
+        $block = $event->getData();
+        $this->normalizeTabs($block);
+
+        $event->setData($block);
+    }
+
+    private function normalizeTabs(BlockInterface $block)
+    {
+        $properties = $block->getProperties();
+
+        if (isset($properties['tabs']) && count($properties['tabs'])) {
+            if (!isset($properties['tabs'][0]['sort'])) {
+                $converted = array();
+                $sort = count($properties['tabs']);
+                foreach ($properties['tabs'] as $key => $value) {
+                    $converted[] = ['label' => $value, 'key' => $key, 'sort' => $sort--];
+                }
+
+                $properties['tabs'] = $converted;
+            }
+
+
+            $maxKey = 0;
+            $maxSort = 0;
+            array_walk($properties['tabs'], function ($tab) use (&$maxKey, &$maxSort) {
+                if (isset($tab['key']) && $tab['key'] > $maxKey) {
+                    $maxKey = $tab['key'];
+                }
+                if (isset($tab['sort']) && $tab['sort'] > $maxSort) {
+                    $maxSort = $tab['sort'];
+                }
+            });
+
+            $maxKey++;
+            $maxSort++;
+            foreach ($properties['tabs'] as &$tab) {
+                if (!isset($tab['key']) || $tab['key'] === null || $tab['key'] === "") {
+                    $tab['key'] = $maxKey++;
+                }
+                if (!isset($tab['sort']) || $tab['sort'] === null || $tab['sort'] === "") {
+                    $tab['sort'] = $maxSort++;
+                }
+            }
+
+            uasort($properties['tabs'], function ($a, $b) {
+                return $a['sort'] < $b['sort'] ? 1 : 0;
+            });
+
+            $block->setProperties($properties);
+        }
+
+        return $block;
+    }
+
+    public function load(BlockInterface $block)
+    {
+        parent::load($block);
+
+        $this->normalizeTabs($block);
     }
 
     /**
@@ -113,7 +191,7 @@ class TabNavBlockService extends AbstractBlockService implements LayoutBlockServ
      */
     public function getTool()
     {
-        $tool = new Tool($this->getName(), 'OpiferContentBundle:TabNavBlock');
+        $tool = new Tool($this->getName(), 'tabnav');
 
         $tool->setIcon('tab')
             ->setGroup(Tool::GROUP_LAYOUT)
@@ -134,8 +212,17 @@ class TabNavBlockService extends AbstractBlockService implements LayoutBlockServ
      */
     public function getPlaceholders(BlockInterface $block = null)
     {
+        $this->normalizeTabs($block);
         $tabs = $block->getTabs();
 
-        return ($tabs && count($tabs)) ? $tabs : array();
+        $placeholders = array();
+
+        if ($tabs && count($tabs)) {
+            foreach ($tabs as $tab) {
+                $placeholders[$tab['key']] = $tab['label'];
+            }
+        }
+
+        return $placeholders;
     }
 }

@@ -1,8 +1,5 @@
-
     <div class="container-fluid">
-
-        {{ form_start(form, {'action': path('opifer_content_contenteditor_edit_block', {'id': block.id, 'rootVersion': block.rootVersion}), 'label_col': 3, 'widget_col': 9, 'attr' : {'data-pm-block-id': block.id, 'novalidate': 'novalidate', 'class': 'prevent-enter-submit'}, 'style': 'horizontal'}) }}
-
+        {{ form_start(form, {'action': path('opifer_content_contenteditor_edit_block', {'id': block.id}), 'label_col': 3, 'widget_col': 9, 'attr' : {'data-pm-block-id': block.id, 'novalidate': 'novalidate', 'class': 'prevent-enter-submit'}, 'style': 'horizontal'}) }}
 
         <a href="#close" class="btn btn-close" id="btn-cancel"><i class="material-icons">close</i></a>
         <div class="row row-space-2">
@@ -27,7 +24,7 @@
                         <i class="material-icons md-18">menu</i>
                     </a>
                     <ul class="dropdown-menu" aria-labelledby="blockEditContextMenu">
-                        {% if not block.isShared %}
+                        {% if block_service.allowShare(block) %}
                             <li><a href="#" class="pm-btn-make-shared"><i class="material-icons md-18">all_inclusive</i> {{ "button.block_share"|trans }}</a></li>
                         {% endif %}
                         {% if block.isShared %}

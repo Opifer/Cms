@@ -108,7 +108,7 @@ class CollectionBlockService extends AbstractBlockService implements BlockServic
      */
     public function getTool()
     {
-        $tool = new Tool('Collection', 'OpiferContentBundle:CollectionBlock');
+        $tool = new Tool('Collection', 'collection');
 
         $tool->setIcon('query_builder')
             ->setDescription('Adds references to a collection of content items');

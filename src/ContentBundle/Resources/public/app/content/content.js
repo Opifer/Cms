@@ -246,7 +246,7 @@ angular.module('OpiferContent', ['angular-inview', 'ui.tree', 'ngCookies'])
                 };
 
                 $scope.editContent = function (id) {
-                    window.location = Routing.generate('opifer_content_contenteditor_design', {'type': 'content', 'id': id});
+                    window.location = Routing.generate('opifer_content_contenteditor_design', {'owner': 'content', 'ownerId': id});
                 };
 
                 $scope.editUrl = function (id) {
@@ -254,7 +254,7 @@ angular.module('OpiferContent', ['angular-inview', 'ui.tree', 'ngCookies'])
                 };
 
                 $scope.designUrl = function (id) {
-                    return Routing.generate('opifer_content_contenteditor_design', {'type': 'content', 'id': id});
+                    return Routing.generate('opifer_content_contenteditor_design', {'owner': 'content', 'ownerId': id});
                 };
 
                 $scope.copyContent = function (content) {

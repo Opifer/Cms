@@ -7,6 +7,9 @@ _liip_imagine:
 fos_js_routing:
     resource: "@FOSJsRoutingBundle/Resources/config/routing/routing.xml"
 
+opifer_revision:
+    resource: '@OpiferRevisionsBundle/Resources/config/routing.yml'
+
 fos_user_security_check:
     pattern: /login_check
     defaults: { _controller: FOSUserBundle:Security:check }
@@ -62,3 +65,10 @@ fos_user_change_password:
 _opifer_backend:
     resource: "routing_backend.yml"
     prefix:   /admin
+
+
+# Block Services
+
+opifer_mailing_list_subscribe_block:
+    pattern: /subscribe/{id}
+    defaults: { _controller: opifer.mailing_list.subscribe_block:subscribeAction }

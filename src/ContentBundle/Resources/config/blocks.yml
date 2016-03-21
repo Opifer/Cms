@@ -18,6 +18,8 @@ parameters:
     opifer.content.css_block.class: Opifer\ContentBundle\Block\Service\CssBlockService
     opifer.content.javascript_block.class: Opifer\ContentBundle\Block\Service\JavaScriptBlockService
     opifer.content.pointer_block.class: Opifer\ContentBundle\Block\Service\PointerBlockService
+    opifer.content.socialshare_block.class: Opifer\ContentBundle\Block\Service\SocialShareBlockService
+    opifer.content.clipboard_block.class: Opifer\ContentBundle\Block\Service\ClipboardBlockService
 
 services:
     opifer.content.carousel_block:
@@ -155,3 +157,17 @@ services:
         arguments: ['@templating', '%opifer_content.tabnav_block_configuration%']
         tags:
             - { name: opifer.content.block_service, alias: tabnav }
+
+    opifer.content.socialshare_block:
+        class: '%opifer.content.socialshare_block.class%'
+        arguments: ['@templating', '%opifer_content.socialshare_block_configuration%']
+        tags:
+            - { name: opifer.content.block_service, alias: socialshare }
+        calls:
+            - [setRequest, ['@request_stack']]
+
+    opifer.content.clipboard_block:
+        class: '%opifer.content.clipboard_block.class%'
+        arguments: ['@opifer.content.block_manager', '@session']
+        tags:
+            - { name: opifer.content.block_service, alias: clipboard }

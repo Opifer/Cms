@@ -118,6 +118,8 @@ services:
     opifer.cms.content_manager:
         class: 'Opifer\CmsBundle\Manager\ContentManager'
         arguments: ['@doctrine.orm.default_entity_manager', '@form.factory', '@opifer.eav.eav_manager', '%opifer_content.content_class%', '%opifer_eav.schema_class%', '@security.token_storage']
+        tags:
+            - { name: opifer.content.block_provider_pool, alias: 'content' }
 
     # Event Listeners
 
@@ -202,3 +204,13 @@ services:
         arguments: ['@twig.form.renderer']
         tags:
             - { name: 'twig.extension' }
+
+    # Block Services
+
+    opifer.mailing_list.subscribe_block:
+        class: Opifer\MailingListBundle\Block\Service\SubscribeBlockService
+        arguments: ['@templating', '%opifer_mailing_list.subscribe_block_configuration%', '@form.factory', '@doctrine.orm.default_entity_manager', '@opifer.content.content_manager']
+        tags:
+            - { name: opifer.content.block_service, alias: subscribe }
+        calls:
+            - [setRequest, ['@request_stack']]

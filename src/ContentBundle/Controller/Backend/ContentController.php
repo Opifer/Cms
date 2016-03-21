@@ -86,19 +86,11 @@ class ContentController extends Controller
         $form->handleRequest($request);
 
         if ($form->isValid()) {
-            // Create a new document
-            $blockManager = $this->get('opifer.content.block_manager');
-            $document = new DocumentBlock();
-            $document->setPublish(true);
-            $document->setSuper($content->getTemplate()->getBlock());
-            $blockManager->save($document);
-
-            $content->setBlock($document);
             $manager->save($content);
 
             return $this->redirectToRoute('opifer_content_contenteditor_design', [
-                'type'    => 'content',
-                'id'      => $content->getId(),
+                'owner'    => 'content',
+                'ownerId'      => $content->getId(),
                 'rootVersion' => 0,
             ]);
         }
@@ -139,7 +131,7 @@ class ContentController extends Controller
     }
 
     /**
-     * Details action for an inline form in the Content Designer.
+     * Details action for an inline form in the Content Design
      *
      * @param Request $request
      * @param integer $directoryId
@@ -165,7 +157,7 @@ class ContentController extends Controller
     }
 
 
-    public function historyAction(Request $request, $type, $id, $version = 0)
+    public function historyAction(Request $request, $owner, $ownerId)
     {
         return $this->render($this->getParameter('opifer_content.content_history_view'), array());
     }

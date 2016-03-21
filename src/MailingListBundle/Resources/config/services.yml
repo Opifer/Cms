@@ -1,0 +1,4 @@
+services:
+#    opifer_mailing_list.example:
+#        class: Opifer\MailingListBundle\Example
+#        arguments: ["@service_id", "plain_value", %parameter%]

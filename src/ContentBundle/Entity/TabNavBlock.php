@@ -13,7 +13,12 @@ use Opifer\ContentBundle\Block\BlockContainerInterface;
 class TabNavBlock extends CompositeBlock implements BlockContainerInterface
 {
 
-    protected $properties = ['tabs' => array()];
+    public function __construct()
+    {
+        parent::__construct();
+
+        $this->properties = ['tabs' => array()];
+    }
 
     /**
      * @return string
@@ -22,7 +27,6 @@ class TabNavBlock extends CompositeBlock implements BlockContainerInterface
     {
         return sprintf("Block %d: TabNav", $this->id);
     }
-
 
     public function getTabs()
     {
@@ -36,5 +40,4 @@ class TabNavBlock extends CompositeBlock implements BlockContainerInterface
     {
         return 'tabnav';
     }
-
 }

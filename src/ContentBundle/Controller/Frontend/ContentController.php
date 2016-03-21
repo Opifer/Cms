@@ -4,6 +4,7 @@ namespace Opifer\ContentBundle\Controller\Frontend;
 
 use Opifer\ContentBundle\Block\BlockManager;
 use Opifer\ContentBundle\Environment\ContentEnvironment;
+use Opifer\ContentBundle\Environment\Environment;
 use Opifer\ContentBundle\Model\Content;
 use Opifer\ContentBundle\Model\ContentInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -38,17 +39,17 @@ class ContentController extends Controller
         $version = $request->query->get('_version');
         $response = new Response();
 
-        /** @var ContentEnvironment $environment */
-        $environment = $this->get('opifer.content.block_content_environment');
+        /** @var Environment $environment */
+        $environment = $this->get('opifer.content.block_environment');
+        $environment->setObject($content);
 
         $response->setStatusCode($statusCode);
 
         if (null !== $version && $this->isGranted('ROLE_ADMIN')) {
-            $this->getDoctrine()->getManager()->getFilters()->disable('draftversion');
-            $environment->load($content->getId(), $version);
-        } else {
-            $environment->load($content->getId());
+            $environment->setDraft(true);
         }
+
+        $environment->load();
 
         return $this->render($environment->getView(), $environment->getViewParameters());
     }

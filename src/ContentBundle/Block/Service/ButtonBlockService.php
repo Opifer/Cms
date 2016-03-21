@@ -73,7 +73,7 @@ class ButtonBlockService extends AbstractBlockService implements BlockServiceInt
      */
     public function getTool()
     {
-        $tool = new Tool('Button link', 'OpiferContentBundle:ButtonBlock');
+        $tool = new Tool('Button link', 'button');
 
         $tool->setIcon('link')
             ->setDescription('Creates a link to a (external) page or content');

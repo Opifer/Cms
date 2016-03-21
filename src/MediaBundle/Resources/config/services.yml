@@ -129,3 +129,9 @@ services:
                 prefix: amazon_s3
         tags:
             - { name: liip_imagine.cache.resolver, resolver: cached_proxy_aws }
+
+    opifer.media.twig_extension:
+        class: 'Opifer\MediaBundle\Twig\MediaExtension'
+        arguments: ['@opifer.media.provider.pool']
+        tags:
+            - { name: 'twig.extension' }

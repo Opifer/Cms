@@ -72,13 +72,13 @@
     margin-bottom: 5px;
 }
 
-.bc-collection {
-    margin-bottom: 0;
-
-    > li > .row {
-        margin-bottom: @padding-large-vertical;
-    }
-}
+//.bc-collection {
+//    margin-bottom: 0;
+//
+//    > li > .row {
+//        margin-bottom: @padding-large-vertical;
+//    }
+//}
 
 
 #form_valueset_values {
@@ -173,6 +173,35 @@ select.form-control {
 
         * {
             font-family: Arial !important;
+        }
+    }
+}
+
+.form-inline .form-group {
+    margin-left: 0;
+    margin-right: 0;
+}
+
+.bc-collection .form-inline .form-group {
+    margin-bottom: 5px;
+
+}
+
+.bc-collection {
+    li {
+        .btn {
+            .pull-right;
+        }
+    }
+
+    .ui-sortable-handle {
+        &:before {
+            position: absolute;
+            &:extend(.material-icons);
+            content: "more_vert";
+            margin: 4px 0 0 -20px;
+            color: @gray-light;
+            cursor: pointer;
         }
     }
 }

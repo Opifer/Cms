@@ -50,6 +50,13 @@ class ContentType extends AbstractType
                     'help_text'   => 'help.content_title',
                 ]
             ])
+            ->add('navTitle', TextType::class, [
+                'label' => 'label.nav_title',
+                'attr'  => [
+                    'placeholder' => 'placeholder.content_nav_title',
+                    'help_text'   => 'help.content_nav_title',
+                ]
+            ])
             ->add('description', TextType::class, [
                 'label' => 'label.description',
                 'attr'  => [

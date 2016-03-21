@@ -69,9 +69,9 @@ form:
 # Buttons
 button:
     submit: Opslaan
-    add: nieuwe toevoegen
-    all: toon alles
-    cancel: annuleren
-    delete: verwijderen
-    edit: bewerken
+    add: Toevoegen
+    all: Alles
+    cancel: Annuleren
+    delete: Verwijderen
+    edit: Bewerken
     reset: Herstellen

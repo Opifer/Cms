@@ -4,6 +4,8 @@ namespace Opifer\ContentBundle\Block\Service;
 
 use Opifer\ContentBundle\Block\Tool\Tool;
 use Opifer\ContentBundle\Block\Tool\ToolsetMemberInterface;
+use Opifer\ContentBundle\Entity\JavaScriptBlock;
+use Opifer\ContentBundle\Form\Type\CodeMirrorType;
 use Symfony\Component\Form\Extension\Core\Type\FormType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -23,7 +25,7 @@ class JavaScriptBlockService extends AbstractBlockService implements BlockServic
         // Default panel
         $builder->add(
             $builder->create('default', FormType::class, ['inherit_data' => true])
-                ->add('value', TextareaType::class, ['label' => 'label.code', 'attr' => ['label_col' => 12, 'widget_col' => 12, 'help_text' => 'help.javascript_code']])
+                ->add('value', CodeMirrorType::class, ['label' => 'label.code', 'parameters' => ['mode' => 'css'], 'attr' => ['label_col' => 12, 'widget_col' => 12, 'help_text' => 'help.javascript_code']])
         );
     }
 
@@ -32,7 +34,7 @@ class JavaScriptBlockService extends AbstractBlockService implements BlockServic
      */
     public function createBlock()
     {
-        return new JavaScriptBlock;
+        return new JavaScriptBlock();
     }
 
     /**
@@ -40,7 +42,7 @@ class JavaScriptBlockService extends AbstractBlockService implements BlockServic
      */
     public function getTool()
     {
-        $tool = new Tool('JavaScript', 'OpiferContentBundle:JavaScriptBlock');
+        $tool = new Tool('JavaScript', 'javascript');
 
         $tool->setIcon('code')
             ->setDescription('Include custom JavaScript code block');

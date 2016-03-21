@@ -23,7 +23,6 @@ abstract class CompositeBlock extends Block implements BlockContainerInterface, 
     {
         parent::__construct();
 
-        $this->owning = new ArrayCollection();
         $this->children = new ArrayCollection();
     }
 
@@ -72,7 +71,7 @@ abstract class CompositeBlock extends Block implements BlockContainerInterface, 
      */
     public function hasChildren()
     {
-        return (count($this->getChildren())) ? true : false;
+        return ($this->getChildren() && $this->getChildren()->count() > 0) ? true : false;
     }
 
 //
@@ -81,13 +80,53 @@ abstract class CompositeBlock extends Block implements BlockContainerInterface, 
 //
 //    }
 
-
     /**
      * {@inheritDoc}
      */
     public function getIterator()
     {
         return $this->getChildren();
+    }
+
+
+    /**
+     * {@inheritDoc}
+     */
+    public function first()
+    {
+        return $this->getIterator()->first();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function last()
+    {
+        return $this->getIterator()->last();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function key()
+    {
+        return $this->getIterator()->key();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function current()
+    {
+        return $this->getIterator()->current();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function next()
+    {
+        return $this->getIterator()->next();
     }
 
 

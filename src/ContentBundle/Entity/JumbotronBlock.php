@@ -3,7 +3,7 @@
 namespace Opifer\ContentBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use Gedmo\Mapping\Annotation as Gedmo;
+use Opifer\Revisions\Mapping\Annotation as Revisions;
 use Opifer\MediaBundle\Model\MediaInterface;
 
 /**
@@ -16,7 +16,7 @@ class JumbotronBlock extends Block
     /**
      * @var MediaInterface
      *
-     * @Gedmo\Versioned
+     * @Revisions\Revised
      * @ORM\ManyToOne(targetEntity="Opifer\MediaBundle\Model\MediaInterface", fetch="EAGER")
      * @ORM\JoinColumn(name="media_id", referencedColumnName="id", onDelete="SET NULL")
      */
@@ -25,7 +25,7 @@ class JumbotronBlock extends Block
     /**
      * @var string
      *
-     * @Gedmo\Versioned
+     * @Revisions\Revised
      * @ORM\Column(type="text", nullable=true)
      */
     protected $value;

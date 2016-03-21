@@ -3,7 +3,7 @@
 namespace Opifer\ContentBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use Gedmo\Mapping\Annotation as Gedmo;
+use Opifer\Revisions\Mapping\Annotation as Revisions;
 
 /**
  * Navigation Block
@@ -18,7 +18,7 @@ class NavigationBlock extends Block
     /**
      * @var string
      *
-     * @Gedmo\Versioned
+     * @Revisions\Revised
      * @ORM\Column(type="text", nullable=true)
      */
     protected $value;

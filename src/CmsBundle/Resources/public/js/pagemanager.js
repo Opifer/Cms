@@ -138,13 +138,10 @@ $(document).ready(function() {
     //
     pagemanager = (function () {
         var client = null;
-        var ownerType = 'template';
-        var typeId = 0;
+        var owner = 'template';
         var ownerId = 0;
         var mprogress = null;
         var hasUnsavedChanges = false;
-        var version = 0;
-        var versionPublished = 0;
         var btnPublish = $('#pm-btn-publish');
         var btnDiscard = $('#pm-btn-discard');
         var btnMakeShared = $('.pm-make-shared');
@@ -196,11 +193,8 @@ $(document).ready(function() {
             });
 
 
-            ownerType = $('#pm-document').attr('data-pm-type');
-            typeId = $('#pm-document').attr('data-pm-type-id');
-            ownerId = $('#pm-document').attr('data-pm-id');
-            version = parseInt($('#pm-document').attr('data-pm-version'));
-            versionPublished = parseInt($('#pm-document').attr('data-pm-version-published'));
+            owner = $('#pm-document').attr('data-pm-owner');
+            ownerId = $('#pm-document').attr('data-pm-owner-id');
             permalink = $('#pm-document').attr('data-pm-permalink');
 
             // Split page library
@@ -261,12 +255,6 @@ $(document).ready(function() {
             $(document).on('click', '#pm-block-edit #btn-cancel', function (e) {
                 e.preventDefault();
                 closeEditBlock($(this).closest('.pm-block').attr('data-pm-block-id'));
-            });
-
-            // Version picker (click)
-            $(document).on('click', '.pm-version-link', function (e) {
-                //e.preventDefault();
-                loadVersion($(this).attr('data-pm-version'));
             });
 
             $(document).on('click', '#pm-btn-publish', function(e) {
@@ -344,7 +332,7 @@ $(document).ready(function() {
         };
 
         var refreshBlock = function (id) {
-            $.get(Routing.generate('opifer_content_api_contenteditor_view_block', {type: ownerType, typeId: typeId, id: id})).done(function (data) {
+            $.get(Routing.generate('opifer_content_api_contenteditor_view_block', {owner: owner, ownerId: ownerId, id: id})).done(function (data) {
                 getBlockElement(id).replaceWith(data.view);
                 showToolbars();
             });
@@ -379,21 +367,6 @@ $(document).ready(function() {
 
         var unselectBlock = function (id) {
             $('#pm-iframe').contents().find('.pm-block').removeClass('selected');
-        };
-
-        var lockEditing = function() {
-            btnPublish.prop("disabled", true);
-            btnDiscard.prop("disabled", true);
-            btnViewContent.addClass('disabled');
-            //btnViewLayout.addClass('disabled');
-            setViewMode(VIEWMODE_PREVIEW);
-        };
-
-        var unlockEditing = function() {
-            btnPublish.prop("disabled", false);
-            btnDiscard.prop("disabled", false);
-            btnViewContent.removeClass('disabled');
-            //btnViewLayout.removeClass('disabled');
         };
 
         var setViewMode = function(mode) {
@@ -438,6 +411,7 @@ $(document).ready(function() {
                     if (tab) {
                         $('#pm-block-edit .nav-tabs a[href="#block-'+tab+'"]').tab('show');
                     }
+                    sortables();
                 }).fail(function(data){
                     showAPIError(data);
                 });
@@ -493,7 +467,7 @@ $(document).ready(function() {
                         className: 'btn-primary',
                         callback: function() {
 
-                            $.post(Routing.generate('opifer_content_api_contenteditor_make_shared', {type: ownerType, typeId: typeId, ownerId: ownerId}), {id: id}).done(function (data, textStatus, request) {
+                            $.post(Routing.generate('opifer_content_api_contenteditor_make_shared', {owner: owner, ownerId: ownerId}), {id: id}).done(function (data, textStatus, request) {
                                 var viewUrl = request.getResponseHeader('Location');
                                 var newId = data.id;
                                 var reference = getBlockElement(id);
@@ -502,15 +476,13 @@ $(document).ready(function() {
                                     reference.replaceWith(data.view);
                                     // unbind and rebind sortable to allow new layouts with placeholders.
                                     editBlock(id);
-                                    updateVersionPicker();
                                     showToolbars();
                                     sortables();
                                 }).fail(function(data){
-                                    reference.remove();
+                                    iFrame.contents().find('.pm-block-insert').remove();
                                     showAPIError(data);
                                 });
                             }).fail(function(data){
-                                reference.remove();
                                 showAPIError(data);
                             });
                         }
@@ -529,8 +501,30 @@ $(document).ready(function() {
                     hideToolbar();
                     getBlockElement(id).remove();
                     pagemanager.closeEditBlock(id);
-                    updateVersionPicker();
                     loadToC(sortables);
+                }
+            }).error(function(data){
+                showAPIError(data);
+            });
+        };
+
+        // Clipboard block
+        var clipboardBlock = function (id) {
+            $.ajax({
+                url: Routing.generate('opifer_content_api_contenteditor_clipboard_block', {id: id}),
+                type: 'POST',
+                dataType: 'json', // Choosing a JSON datatype
+                success: function (data) {
+                    bootbox.dialog({
+                        title: 'Clipboard',
+                        message: data.message,
+                        buttons: {
+                            ok: {
+                                label: 'Ok',
+                                className: 'btn-primary'
+                            }
+                        }
+                    });
                 }
             }).error(function(data){
                 showAPIError(data);
@@ -541,10 +535,10 @@ $(document).ready(function() {
         // Call API to create a new block
         //
         var createBlock = function (block) {
-            var parentId = block.parent;
+            var parentId = (typeof block.parent == 'undefined') ? 0 : block.parent;
             var idx = (block.sort.indexOf("") != -1) ? block.sort.indexOf("") : block.sort.indexOf("0");
             var placeholder = block.placeholder;
-            $.post(Routing.generate('opifer_content_api_contenteditor_create_block', {type: ownerType, typeId: typeId, ownerId: ownerId}), block).done(function (data, textStatus, request) {
+            $.post(Routing.generate('opifer_content_api_contenteditor_create_block', {owner: owner, ownerId: ownerId}), block).done(function (data, textStatus, request) {
                 var viewUrl = request.getResponseHeader('Location');
                 var id = data.id;
 
@@ -567,15 +561,14 @@ $(document).ready(function() {
                     }
 
                     editBlock(id);
-                    updateVersionPicker();
                     showToolbars();
                     loadToC(sortables);
                 }).fail(function(data){
-                    reference.remove();
+                    iFrame.contents().find('.pm-block-insert').remove();
                     showAPIError(data);
                 });
             }).fail(function(data){
-                reference.remove();
+                iFrame.contents().find('.pm-block-insert').remove();
                 showAPIError(data);
             });
         };
@@ -639,6 +632,13 @@ $(document).ready(function() {
                 deleteBlock(id);
             });
 
+            // Block to clipboard
+            iFrame.contents().find('body').on('click', '.pm-btn-clipboard', function(e) {
+                e.preventDefault();
+                var id = $(this).closest('.pm-toolbar').attr('data-pm-control-id');
+                clipboardBlock(id);
+            });
+
 
             iFrame.contents().find('body').append('' +
                 '<div id="pm-toolbar" class="pm pm-toolbar hidden">' +
@@ -681,11 +681,6 @@ $(document).ready(function() {
 
             setViewMode(VIEWMODE_CONTENT);
 
-            if (version <= versionPublished) {
-                lockEditing();
-            }
-
-
             isNotLoading();
         };
 
@@ -700,6 +695,10 @@ $(document).ready(function() {
 
             var offset = $(element).offset();
             var width = $(element).width();
+            if (typeof offset == 'undefined') {
+                console.log('Could not find element to show toolbar');
+                return;
+            }
             var pos = (iFrame.contents().find('body').scrollTop() > offset.top) ? 'fixed' : 'absolute';
             var dir = ($(element).attr('data-pm-block-type') == 'layout') ? 'right' : 'left';
 
@@ -738,10 +737,8 @@ $(document).ready(function() {
                     var isIframe = ($(ui.item).closest('body').hasClass('pm-body')) ? false : true;
 
                     $.post(Routing.generate('opifer_content_api_contenteditor_move_block'), {sort: sortOrder, id: blockId, parent: parentId, placeholder: placeholderKey}).done(function (data, textStatus, request) {
-                        //console.log("Block moved", data);
-                        updateVersionPicker();
                         if (! isIframe) {
-                            refreshAll();
+                            reload();
                         } else {
                             loadToC(sortables);
                         }
@@ -753,7 +750,8 @@ $(document).ready(function() {
 
             var sortReceive = function (event, ui) {
                 // Create new block
-                if ($(ui.item).hasClass('pm-block-item')) {
+                if ($(ui.item).hasClass('pm-block-item') && $(this).hasClass('pm-accept')) {
+                    event.stopPropagation();
                     $(ui.item).addClass('pm-block-insert');
                     $(this).find('.pm-block-item').addClass('pm-block-insert');
                     var className = $(ui.item).attr('data-pm-block-type');
@@ -801,6 +799,10 @@ $(document).ready(function() {
                 cursorAt: { top: 0, left: 0 },
                 placeholder: 'pm-drag-placeholder',
                 receive: sortReceive,
+                over: function (event, ui) {
+                    $('.pm-placeholder').removeClass('pm-accept');
+                    $(ui.placeholder).closest('.pm-placeholder').addClass('pm-accept');
+                },
                 start: function (event, ui) {
                     isDragging = true;
                     hideToolbar();
@@ -848,6 +850,17 @@ $(document).ready(function() {
                 $('.pm-placeholder').sortable( "refreshPositions" );
             });
 
+            // tabnavblock
+            $('.sortable-tabnav .bc-collection').sortable({
+                stop: function () {
+                    var inputs = $('.sortable-tabnav .bc-collection input.sort-input')
+                    var nbElems = inputs.length;
+                    $('.sortable-tabnav .bc-collection input.sort-input').each(function(idx) {
+                        $(this).val(nbElems - idx);
+                    });
+                }
+            });
+
             return this;
         };
 
@@ -878,7 +891,7 @@ $(document).ready(function() {
                 data: values,
                 success: function (data) {
                     callback(data);
-                    updateVersionPicker();
+                    sortables();
                 }
             }).error(function(data){
                 showAPIError(data);
@@ -889,7 +902,7 @@ $(document).ready(function() {
         var discardChanges = function() {
             bootbox.dialog({
                 title: 'Discard changes',
-                message: '<p>Are you sure you want to discard all changes of version ' + version + '?</p>',
+                message: '<p>Are you sure you want to discard all changes?</p>',
                 buttons: {
                     cancel: {
                         label: "Cancel",
@@ -900,7 +913,7 @@ $(document).ready(function() {
                         className: 'btn-danger',
                         callback: function() {
                             $.post(Routing.generate('opifer_content_api_contenteditor_discard'), {id: ownerId}).done(function (data, textStatus, request) {
-                                loadVersion(version);
+                                reload();
                                 bootbox.alert("Discarded.", function() {});
                             }).error(function(data){
                                 showAPIError(data);
@@ -914,7 +927,7 @@ $(document).ready(function() {
         var publish = function() {
             bootbox.dialog({
                 title: 'Confirm publication of content',
-                message: '<p>Are you sure you want to put this version live?</p> <div class="well">'+ $('#pm-version-picker a[data-pm-version='+version+']').html()+'</div>',
+                message: '<p>Are you sure you want to publish and put this content live?</p>',
                 buttons: {
                     cancel: {
                         label: "Cancel",
@@ -924,11 +937,8 @@ $(document).ready(function() {
                         label: 'Publish',
                         className: 'btn-primary',
                         callback: function() {
-                            versionPublished = version;
-                            $.post(Routing.generate('opifer_content_api_contenteditor_publish'), {id: ownerId, type: ownerType, typeId: typeId}).done(function (data, textStatus, request) {
-                                version++;
-                                updateVersionPicker();
-                                loadVersion(version);
+                            $.post(Routing.generate('opifer_content_api_contenteditor_publish'), {owner: owner, ownerId: ownerId}).done(function (data, textStatus, request) {
+                                reload();
                                 bootbox.alert("Published.", function() {
 
                                 });
@@ -947,26 +957,11 @@ $(document).ready(function() {
             }).error(function(data){
                 showAPIError(data);
             });
-        }
-
-        var updateVersionPicker = function() {
-            $.get(Routing.generate('opifer_content_contenteditor_version_picker', {id: ownerId, current: version, published: versionPublished})).done(function(data){
-                $('#pm-version-picker').replaceWith(data);
-            });
-        }
-
-        var loadVersion = function(versionToLoad) {
-            isLoading();
-            version = versionToLoad;
-            iFrame.attr('src', Routing.generate('opifer_content_contenteditor_view', {type: ownerType, id: typeId, version: versionToLoad}));
-            updateVersionPicker();
-            clearEditBlock();
-            version <= versionPublished ? lockEditing() : unlockEditing();
         };
 
         var loadToC = function (callback) {
             $.ajax({
-                url: Routing.generate('opifer_content_contenteditor_toc', {type: ownerType, id: typeId, version: version}),
+                url: Routing.generate('opifer_content_contenteditor_toc', {owner: owner, ownerId: ownerId}),
                 cache: false
             }).done(function (data) {
                 $('#pm-toc').html(data);
@@ -974,8 +969,10 @@ $(document).ready(function() {
             });
         };
 
-        var refreshAll = function () {
-          loadVersion(version);
+        var reload = function () {
+            isLoading();
+            iFrame.attr('src', Routing.generate('opifer_content_contenteditor_view', {owner: owner, ownerId: ownerId}));
+            clearEditBlock();
         };
 
         return {

@@ -37,6 +37,8 @@ gulp.task('js', function () {
         'Resources/public/components/bootstrap/dist/js/bootstrap.js',
         'Resources/public/components/moment/min/moment.min.js',
         'Resources/public/components/eonasdan-bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js',
+        'Resources/public/components/bootstrap-iconpicker/bootstrap-iconpicker/js/iconset/iconset-materialdesign-2.2.1.js',
+        'Resources/public/components/bootstrap-iconpicker/bootstrap-iconpicker/js/bootstrap-iconpicker.js',
         'Resources/public/components/dropzone/dist/dropzone.js',
         'Resources/public/components/ngInfiniteScroll/build/ng-infinite-scroll.js',
         'Resources/public/components/afkl-lazy-image/release/lazy-image.js',
@@ -45,6 +47,9 @@ gulp.task('js', function () {
         'Resources/public/components/ng-file-upload/angular-file-upload.min.js',
         'Resources/public/components/typeahead.js/dist/typeahead.bundle.js',
         '../../../../braincrafted/bootstrap-bundle/Braincrafted/Bundle/BootstrapBundle/Resources/js/bc-bootstrap-collection.js',
+        'Resources/public/components/codemirror/lib/codemirror.js',
+        'Resources/public/components/codemirror/mode/javascript/javascript.js',
+        'Resources/public/components/codemirror/mode/css/css.js',
         'Resources/public/js/split-pane.js',
         'Resources/public/js/main.js',
         'Resources/public/js/pagemanager.js',
@@ -86,7 +91,9 @@ gulp.task('css', function () {
         '../MediaBundle/Resources/public/css/main.less',
         '../MediaBundle/Resources/public/css/dropzone.less',
         'Resources/public/components/angular-loading-bar/build/loading-bar.css',
+        'Resources/public/components/codemirror/lib/codemirror.css',
         'Resources/public/components/eonasdan-bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.css',
+        'Resources/public/components/bootstrap-iconpicker/bootstrap-iconpicker/css/bootstrap-iconpicker.css',
         'Resources/public/less/main.less'
     ];
 

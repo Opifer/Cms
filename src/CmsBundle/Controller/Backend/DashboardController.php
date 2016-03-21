@@ -22,13 +22,9 @@ class DashboardController extends Controller
         $newContent = $contentManager->getRepository()
             ->findLastCreated(6);
 
-        $unpublishedContent = $contentManager->getRepository()
-            ->findUnpublished(6);
-
         return $this->render('OpiferCmsBundle:Backend/Dashboard:dashboard.html.twig', [
             'latest_content' => $latestContent,
             'new_content' => $newContent,
-            'unpublished_content' => $unpublishedContent,
         ]);
     }
 }

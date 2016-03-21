@@ -6,29 +6,31 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use JMS\Serializer\Annotation as JMS;
+use Opifer\CmsBundle\Entity\Media;
+use Opifer\ContentBundle\Block\BlockOwnerInterface;
 use Opifer\ContentBundle\Entity\Template;
-
 use Opifer\EavBundle\Entity\Value;
 use Opifer\EavBundle\Entity\MediaValue;
-use Opifer\MediaBundle\Model\MediaInterface;
 use Opifer\EavBundle\Model\EntityInterface;
 use Opifer\EavBundle\Model\SchemaInterface;
 use Opifer\EavBundle\Model\ValueSetInterface;
+use Opifer\Revisions\Mapping\Annotation as Revisions;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * Content
+ * Content.
  *
  * @ORM\MappedSuperclass
  *
  * @JMS\ExclusionPolicy("all")
  * @Gedmo\SoftDeleteable(fieldName="deletedAt", timeAware=false)
  * @Gedmo\Tree(type="nested")
+ * @Revisions\Revision
  */
-class Content implements ContentInterface, EntityInterface
+class Content implements ContentInterface, EntityInterface, TemplatedInterface, BlockOwnerInterface
 {
     /**
-     * @var integer
+     * @var int
      *
      * @ORM\Id
      * @ORM\Column(name="id", type="integer")
@@ -56,7 +58,7 @@ class Content implements ContentInterface, EntityInterface
     protected $contentType;
 
     /**
-     * @var boolean
+     * @var bool
      *
      * @JMS\Expose
      * @JMS\Groups({"detail", "list"})
@@ -71,6 +73,7 @@ class Content implements ContentInterface, EntityInterface
      * @JMS\Groups({"detail", "list"})
      * @ORM\Column(name="title", type="string", length=255)
      * @Assert\NotBlank()
+     * @Revisions\Revised
      */
     protected $title;
 
@@ -79,7 +82,18 @@ class Content implements ContentInterface, EntityInterface
      *
      * @JMS\Expose
      * @JMS\Groups({"detail", "list"})
+     * @ORM\Column(name="nav_title", type="string", length=255, nullable=true)
+     * @Revisions\Revised
+     */
+    protected $navTitle;
+
+    /**
+     * @var string
+     *
+     * @JMS\Expose
+     * @JMS\Groups({"detail", "list"})
      * @ORM\Column(name="description", type="text", nullable=true)
+     * @Revisions\Revised
      */
     protected $description;
 
@@ -94,7 +108,6 @@ class Content implements ContentInterface, EntityInterface
      *      })
      * }, fields={"alias"}, unique_base="deletedAt")
      * @ORM\Column(name="alias", type="string", length=255, nullable=true)
-     *
      */
     protected $alias;
 
@@ -158,7 +171,8 @@ class Content implements ContentInterface, EntityInterface
      * @JMS\Expose
      * @JMS\Groups({"detail", "list"})
      * @Gedmo\Timestampable(on="create")
-     * @ORM\Column(name="created_at", type="datetime")
+     * @ORM\Column(name="created_at", type="datetime", nullable=true)
+     * @Revisions\Revised
      */
     protected $createdAt;
 
@@ -188,12 +202,12 @@ class Content implements ContentInterface, EntityInterface
     protected $template;
 
     /**
-     * @var BlockInterface
+     * @var ArrayCollection
      *
-     * @ORM\OneToOne(targetEntity="Opifer\ContentBundle\Entity\Block", cascade={"persist", "remove"}, orphanRemoval=true)
-     * @ORM\JoinColumn(name="block_id", referencedColumnName="id")
+     * @ORM\OneToMany(targetEntity="Opifer\ContentBundle\Entity\Block", mappedBy="content", cascade={"detach", "persist", "remove"})
+     * @ORM\OrderBy({"sort" = "ASC"})
      **/
-    protected $block;
+    protected $blocks;
 
     /**
      * @var bool
@@ -212,9 +226,8 @@ class Content implements ContentInterface, EntityInterface
      */
     protected $attributeValues;
 
-
     /**
-     * Constructor
+     * Constructor.
      */
     public function __construct()
     {
@@ -222,9 +235,9 @@ class Content implements ContentInterface, EntityInterface
     }
 
     /**
-     * Get id
+     * Get id.
      *
-     * @return integer
+     * @return int
      */
     public function getId()
     {
@@ -232,9 +245,10 @@ class Content implements ContentInterface, EntityInterface
     }
 
     /**
-     * Set title
+     * Set title.
      *
      * @param string $title
+     *
      * @return Content
      */
     public function setTitle($title)
@@ -245,7 +259,7 @@ class Content implements ContentInterface, EntityInterface
     }
 
     /**
-     * Get title
+     * Get title.
      *
      * @return string
      */
@@ -255,9 +269,34 @@ class Content implements ContentInterface, EntityInterface
     }
 
     /**
-     * Set description
+     * @return string
+     */
+    public function getNavTitle()
+    {
+        if (!$this->navTitle) {
+            return $this->getTitle();
+        }
+
+        return $this->navTitle;
+    }
+
+    /**
+     * @param string $navTitle
+     *
+     * @return Content
+     */
+    public function setNavTitle($navTitle)
+    {
+        $this->navTitle = $navTitle;
+
+        return $this;
+    }
+
+    /**
+     * Set description.
      *
      * @param string $description
+     *
      * @return Content
      */
     public function setDescription($description)
@@ -268,7 +307,7 @@ class Content implements ContentInterface, EntityInterface
     }
 
     /**
-     * Get description
+     * Get description.
      *
      * @return string
      */
@@ -278,9 +317,10 @@ class Content implements ContentInterface, EntityInterface
     }
 
     /**
-     * Set slug
+     * Set slug.
      *
-     * @param  string $slug
+     * @param string $slug
+     *
      * @return Content
      */
     public function setSlug($slug)
@@ -291,7 +331,7 @@ class Content implements ContentInterface, EntityInterface
     }
 
     /**
-     * Get slug
+     * Get slug.
      *
      * @return string
      */
@@ -301,7 +341,7 @@ class Content implements ContentInterface, EntityInterface
     }
 
     /**
-     * Get slug without index appended
+     * Get slug without index appended.
      *
      * @return string
      */
@@ -317,9 +357,9 @@ class Content implements ContentInterface, EntityInterface
     }
 
     /**
-     * Set active
+     * Set active.
      *
-     * @param boolean $active
+     * @param bool $active
      *
      * @return Content
      */
@@ -331,9 +371,9 @@ class Content implements ContentInterface, EntityInterface
     }
 
     /**
-     * Get active
+     * Get active.
      *
-     * @return boolean
+     * @return bool
      */
     public function getActive()
     {
@@ -341,7 +381,7 @@ class Content implements ContentInterface, EntityInterface
     }
 
     /**
-     * Set alias
+     * Set alias.
      *
      * @param string $alias
      *
@@ -355,7 +395,7 @@ class Content implements ContentInterface, EntityInterface
     }
 
     /**
-     * Get alias
+     * Get alias.
      *
      * @return string
      */
@@ -374,6 +414,7 @@ class Content implements ContentInterface, EntityInterface
 
     /**
      * @param ContentTypeInterface $contentType
+     *
      * @return Content
      */
     public function setContentType(ContentTypeInterface $contentType)
@@ -384,9 +425,10 @@ class Content implements ContentInterface, EntityInterface
     }
 
     /**
-     * Set lft
+     * Set lft.
      *
-     * @param  integer   $lft
+     * @param int $lft
+     *
      * @return Content
      */
     public function setLft($lft)
@@ -397,9 +439,9 @@ class Content implements ContentInterface, EntityInterface
     }
 
     /**
-     * Get lft
+     * Get lft.
      *
-     * @return integer
+     * @return int
      */
     public function getLft()
     {
@@ -407,9 +449,10 @@ class Content implements ContentInterface, EntityInterface
     }
 
     /**
-     * Set lvl
+     * Set lvl.
      *
-     * @param  integer   $lvl
+     * @param int $lvl
+     *
      * @return Content
      */
     public function setLvl($lvl)
@@ -420,9 +463,9 @@ class Content implements ContentInterface, EntityInterface
     }
 
     /**
-     * Get lvl
+     * Get lvl.
      *
-     * @return integer
+     * @return int
      */
     public function getLvl()
     {
@@ -430,9 +473,10 @@ class Content implements ContentInterface, EntityInterface
     }
 
     /**
-     * Set rgt
+     * Set rgt.
      *
-     * @param  integer   $rgt
+     * @param int $rgt
+     *
      * @return Content
      */
     public function setRgt($rgt)
@@ -443,9 +487,9 @@ class Content implements ContentInterface, EntityInterface
     }
 
     /**
-     * Get rgt
+     * Get rgt.
      *
-     * @return integer
+     * @return int
      */
     public function getRgt()
     {
@@ -453,9 +497,10 @@ class Content implements ContentInterface, EntityInterface
     }
 
     /**
-     * Set root
+     * Set root.
      *
-     * @param  integer   $root
+     * @param int $root
+     *
      * @return Content
      */
     public function setRoot($root)
@@ -466,9 +511,9 @@ class Content implements ContentInterface, EntityInterface
     }
 
     /**
-     * Get root
+     * Get root.
      *
-     * @return integer
+     * @return int
      */
     public function getRoot()
     {
@@ -476,9 +521,10 @@ class Content implements ContentInterface, EntityInterface
     }
 
     /**
-     * Set parent
+     * Set parent.
      *
-     * @param  ContentInterface $parent
+     * @param ContentInterface $parent
+     *
      * @return ContentInterface
      */
     public function setParent(ContentInterface $parent = null)
@@ -489,7 +535,7 @@ class Content implements ContentInterface, EntityInterface
     }
 
     /**
-     * Get parent
+     * Get parent.
      *
      * @return ContentInterface
      */
@@ -499,9 +545,10 @@ class Content implements ContentInterface, EntityInterface
     }
 
     /**
-     * Add children
+     * Add children.
      *
-     * @param  ContentInterface $children
+     * @param ContentInterface $children
+     *
      * @return ContentInterface
      */
     public function addChild(ContentInterface $child)
@@ -512,9 +559,10 @@ class Content implements ContentInterface, EntityInterface
     }
 
     /**
-     * Remove children
+     * Remove children.
      *
-     * @param  ContentInterface $children
+     * @param ContentInterface $children
+     *
      * @return ContentInterface
      */
     public function removeChild(ContentInterface $child)
@@ -525,7 +573,7 @@ class Content implements ContentInterface, EntityInterface
     }
 
     /**
-     * Get children
+     * Get children.
      *
      * @return ContentInterface[]|\Doctrine\Common\Collections\Collection
      */
@@ -535,7 +583,7 @@ class Content implements ContentInterface, EntityInterface
     }
 
     /**
-     * @return boolean
+     * @return bool
      */
     public function isShowInNavigation()
     {
@@ -543,7 +591,7 @@ class Content implements ContentInterface, EntityInterface
     }
 
     /**
-     * @param  boolean $showInNavigation
+     * @param bool $showInNavigation
      *
      * @return Content
      */
@@ -555,9 +603,9 @@ class Content implements ContentInterface, EntityInterface
     }
 
     /**
-     * Set created at
+     * Set created at.
      *
-     * @param  \DateTime $date
+     * @param \DateTime $date
      *
      * @return $this
      */
@@ -569,7 +617,7 @@ class Content implements ContentInterface, EntityInterface
     }
 
     /**
-     * Get created at
+     * Get created at.
      *
      * @return \DateTime
      */
@@ -579,7 +627,7 @@ class Content implements ContentInterface, EntityInterface
     }
 
     /**
-     * Get updated at
+     * Get updated at.
      *
      * @return \DateTime
      */
@@ -589,9 +637,9 @@ class Content implements ContentInterface, EntityInterface
     }
 
     /**
-     * Set updated at
+     * Set updated at.
      *
-     * @param  \DateTime $updatedAt
+     * @param \DateTime $updatedAt
      *
      * @return $this
      */
@@ -603,9 +651,9 @@ class Content implements ContentInterface, EntityInterface
     }
 
     /**
-     * Set deletedAt
+     * Set deletedAt.
      *
-     * @param  \DateTime $deletedAt
+     * @param \DateTime $deletedAt
      *
      * @return $this
      */
@@ -617,7 +665,7 @@ class Content implements ContentInterface, EntityInterface
     }
 
     /**
-     * Get deletedAt
+     * Get deletedAt.
      *
      * @return \DateTime
      */
@@ -627,7 +675,61 @@ class Content implements ContentInterface, EntityInterface
     }
 
     /**
-     * Set schema
+     * Get all blocks.
+     *
+     * @return ArrayCollection
+     */
+    public function getBlocks()
+    {
+        return $this->blocks;
+    }
+
+    /**
+     * Set blocks.
+     *
+     * @param mixed $blocks
+     */
+    public function setBlocks($blocks)
+    {
+        $this->blocks = $blocks;
+    }
+
+    /**
+     * Add block.
+     *
+     * @param BlockInterface $block
+     *
+     * @return BlockInterface
+     */
+    public function addBlock(BlockInterface $block)
+    {
+        $this->blocks[] = $block;
+
+        return $this;
+    }
+
+    /**
+     * Remove block.
+     *
+     * @param BlockInterface $block
+     */
+    public function removeBlock(BlockInterface $block)
+    {
+        $this->blocks->removeElement($block);
+    }
+
+    /**
+     * Check if any blocks are set.
+     *
+     * @return bool
+     */
+    public function hasBlocks()
+    {
+        return (count($this->getBlocks())) ? true : false;
+    }
+
+    /**
+     * Set schema.
      *
      * @param SchemaInterface $schema
      *
@@ -641,7 +743,7 @@ class Content implements ContentInterface, EntityInterface
     }
 
     /**
-     * Get schema
+     * Get schema.
      *
      * @return SchemaInterface
      */
@@ -651,7 +753,7 @@ class Content implements ContentInterface, EntityInterface
     }
 
     /**
-     * Add attributeValues
+     * Add attributeValues.
      *
      * @param Value $attributeValue
      *
@@ -665,7 +767,7 @@ class Content implements ContentInterface, EntityInterface
     }
 
     /**
-     * Remove attributeValues
+     * Remove attributeValues.
      *
      * @param Value $attributeValue
      */
@@ -675,7 +777,7 @@ class Content implements ContentInterface, EntityInterface
     }
 
     /**
-     * Get attributeValues
+     * Get attributeValues.
      *
      * @return ArrayCollection
      */
@@ -685,7 +787,7 @@ class Content implements ContentInterface, EntityInterface
     }
 
     /**
-     * Set valueSet
+     * Set valueSet.
      *
      * @param ValueSetInterface $valueSet
      *
@@ -699,7 +801,7 @@ class Content implements ContentInterface, EntityInterface
     }
 
     /**
-     * Get valueSet
+     * Get valueSet.
      *
      * @return ValueSetInterface
      *
@@ -711,7 +813,7 @@ class Content implements ContentInterface, EntityInterface
     }
 
     /**
-     * Gets the attributes and places them in an (by Twig) easily accessible array
+     * Gets the attributes and places them in an (by Twig) easily accessible array.
      *
      * @return array
      */
@@ -731,7 +833,27 @@ class Content implements ContentInterface, EntityInterface
     }
 
     /**
-     * Creates fake values for non-persisted attributes
+     * @return int
+     */
+    public function getVersion()
+    {
+        return $this->version;
+    }
+
+    /**
+     * @param int $version
+     *
+     * @return Content
+     */
+    public function setVersion($version)
+    {
+        $this->version = $version;
+
+        return $this;
+    }
+
+    /**
+     * Creates fake values for non-persisted attributes.
      *
      * @return array new Values which can be persisted through an EntityManager
      */
@@ -761,7 +883,7 @@ class Content implements ContentInterface, EntityInterface
     }
 
     /**
-     * Returns name of the Schema for the ValueSet
+     * Returns name of the Schema for the ValueSet.
      *
      * @JMS\VirtualProperty
      * @JMS\SerializedName("schemaName")
@@ -775,7 +897,7 @@ class Content implements ContentInterface, EntityInterface
     }
 
     /**
-     * Get breadcrumbs
+     * Get breadcrumbs.
      *
      * Loops through all parents to determine the breadcrumbs and stores them in
      * an associative array like [slug => label]
@@ -828,12 +950,11 @@ class Content implements ContentInterface, EntityInterface
     }
 
     /**
-     *
      * @JMS\VirtualProperty
      * @JMS\SerializedName("parent_id")
      * @JMS\Groups({"detail", "list"})
      *
-     * @return integer
+     * @return int
      */
     public function getParentId()
     {
@@ -841,7 +962,7 @@ class Content implements ContentInterface, EntityInterface
     }
 
     /**
-     * Finds first available image for listing purposes
+     * Finds first available image for listing purposes.
      *
      * @return bool
      */
@@ -849,19 +970,14 @@ class Content implements ContentInterface, EntityInterface
     {
         if ($this->getValueSet() !== null) {
             foreach ($this->getValueSet()->getValues() as $value) {
-                if ($value instanceof MediaValue && null !== $media = $value->getMedias()->first()) {
-                    if ($media instanceof MediaInterface) {
-                        return $media->getReference();
-                    }
+                if ($value instanceof MediaValue &&
+                    false !== $media = $value->getMedias()->first()) {
+                    return $media->getReference();
                 }
             }
         }
 
-        if ($this->getBlock() === null) {
-            return false;
-        }
-
-        foreach ($this->getBlock()->getOwning() as $block) {
+        foreach ($this->getBlocks() as $block) {
             $reflect = new \ReflectionClass($block);
 
             if ($reflect->hasProperty('media') && $block->getMedia()) {
@@ -872,4 +988,11 @@ class Content implements ContentInterface, EntityInterface
         return false;
     }
 
+    /**
+     * {@inheritdoc}
+     */
+    public function getSuper()
+    {
+        return $this->getTemplate();
+    }
 }

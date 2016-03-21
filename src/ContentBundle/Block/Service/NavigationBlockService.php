@@ -136,7 +136,7 @@ class NavigationBlockService extends AbstractBlockService implements BlockServic
 
         $unordered = [];
         foreach ($collection as $content) {
-            $unordered[$content['id']] = $content;
+            $unordered[$content->getId()] = $content;
         }
 
         $ordered = [];
@@ -249,7 +249,7 @@ class NavigationBlockService extends AbstractBlockService implements BlockServic
      */
     public function getTool()
     {
-        $tool = new Tool('Navigation', 'OpiferContentBundle:NavigationBlock');
+        $tool = new Tool('Navigation', 'navigation');
 
         $tool->setIcon('menu')
             ->setDescription('Generates a simple page navigation');

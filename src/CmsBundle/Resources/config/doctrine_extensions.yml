@@ -7,9 +7,6 @@ services:
         tags:
             # translatable sets locale after router processing
             - { name: kernel.event_listener, event: kernel.request, method: onLateKernelRequest, priority: -10 }
-            # loggable hooks user username if one is in security context
-            - { name: kernel.event_listener, event: kernel.request, method: onKernelRequest }
-
 
     # Doctrine Extension listeners to handle behaviors
     gedmo.listener.tree:
@@ -31,7 +28,7 @@ services:
     gedmo.listener.timestampable:
         class: Gedmo\Timestampable\TimestampableListener
         tags:
-            - { name: doctrine.event_subscriber, connection: default }
+            - { name: doctrine.event_subscriber, connection: default, priority: 100 } # should handle events before revisionslistener does
         calls:
             - [ setAnnotationReader, [ '@annotation_reader' ] ]
 
@@ -50,16 +47,21 @@ services:
         calls:
             - [ setAnnotationReader, [ '@annotation_reader' ] ]
 
-    gedmo.listener.loggable:
-        class: Opifer\CmsBundle\EventListener\LoggableListener
-        tags:
-            - { name: doctrine.event_subscriber, connection: default }
-        calls:
-            - [ setAnnotationReader, [ '@annotation_reader' ] ]
-
     gedmo.listener.softdeleteable:
         class: Gedmo\SoftDeleteable\SoftDeleteableListener
         tags:
-            - { name: doctrine.event_subscriber, connection: default }
+            - { name: doctrine.event_subscriber, connection: default, priority: 101 } # should handle events before revisionslistener does
         calls:
             - [ setAnnotationReader, [ '@annotation_reader' ] ]
+
+    opifer.revisions.schema_listener:
+        class: Opifer\Revisions\EventListener\SchemaListener
+        arguments: ['@service_container', '@opifer.revisions.annotation_reader']
+        tags:
+            - { name: 'doctrine.event_subscriber' }
+
+#    opifer.revisions.revision_listener:
+#        class: Opifer\Revisions\EventListener\RevisionListener
+#        arguments: ['@service_container', '@opifer.revisions.annotation_reader']
+#        tags:
+#            - { name: 'doctrine.event_subscriber', priority: 1000 }

@@ -27,7 +27,7 @@ abstract class AbstractDesignSuite implements DesignSuiteInterface
     /**
      * @return AbstractDesignSuite
      */
-    public function load($id = 0, $version = 1)
+    public function load($id = 0)
     {
         throw new NotImplementedException('Design Context must implement load method');
     }
@@ -82,7 +82,7 @@ abstract class AbstractDesignSuite implements DesignSuiteInterface
     /**
      * @return string
      */
-    public function getCanvasUrl($version)
+    public function getCanvasUrl()
     {
         throw new NotImplementedException('Design Context must implement getCanvasUrl method');
     }
@@ -90,20 +90,19 @@ abstract class AbstractDesignSuite implements DesignSuiteInterface
     /**
      * @return mixed
      */
-    public function getBlock()
+    public function getBlocks()
     {
-        return $this->subject->getBlock();
+        return $this->subject->getBlocks();
     }
 
     /**
-     * @param BlockInterface $block
+     * @param array $block
      *
      * @return DesignContextInterface
      */
-    public function setBlock(BlockInterface $block)
+    public function setBlocks($blocks)
     {
-        $this->subject->setBlock($block);
-        $this->block = $block;
+        $this->subject->setBlock($blocks);
 
         return $this;
     }

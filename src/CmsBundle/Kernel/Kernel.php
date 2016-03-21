@@ -45,6 +45,9 @@ abstract class Kernel extends BaseKernel
             new \Opifer\FormBundle\OpiferFormBundle(),
             new \Opifer\MediaBundle\OpiferMediaBundle(),
             new \Opifer\RedirectBundle\OpiferRedirectBundle(),
+            new \Opifer\MailingListBundle\OpiferMailingListBundle(),
+            new \Opifer\Revisions\OpiferRevisionsBundle(),
+            new \Opifer\BootstrapBlockBundle\OpiferBootstrapBlockBundle(),
         ];
 
         if (in_array($this->getEnvironment(), ['dev', 'test'])) {

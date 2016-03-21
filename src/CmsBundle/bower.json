@@ -5,6 +5,7 @@
     "jquery-ui": "~1.11.4",
     "bootstrap": "~3.3.6",
     "eonasdan-bootstrap-datetimepicker": "~4.17",
+    "bootstrap-iconpicker": "https://github.com/Opifer/bootstrap-iconpicker.git#6f6ff513c5b77f1681d5f2315e8f52e66f655699",
     "angular": "~1.4.9",
     "angular-resource": "~1.4.9",
     "angular-route": "~1.4.9",
@@ -26,10 +27,11 @@
     "typeahead.js": "~0.11",
     "js-cookie": "~2.1.0",
     "nestedSortable": "https://github.com/ilikenwf/nestedSortable.git#747d42c6c4303a60174158691c0c90e80fd83254",
-    "angular-ui-tree": "~2.1.3"
+    "angular-ui-tree": "~2.1.3",
+    "codemirror": "~5.12"
   },
   "resolutions": {
-    "angular": "1.4.9",
+    "angular": "1.4.10",
     "jquery": ">2.1.*"
   }
 }

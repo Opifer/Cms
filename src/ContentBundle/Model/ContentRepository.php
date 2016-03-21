@@ -265,6 +265,6 @@ class ContentRepository extends NestedTreeRepository
         $query->andWhere('c.active = :active')->setParameter('active', true);
         $query->andWhere('c.showInNavigation = :show')->setParameter('show', true);
 
-        return $query->getQuery()->getArrayResult();
+        return $query->getQuery()->getResult();
     }
 }

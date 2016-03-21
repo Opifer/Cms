@@ -182,3 +182,12 @@
         </li>
     {% endmacro %}
 {% endblock opifer_content_parent_widget %}
+
+{% block opifer_code_mirror_widget %}
+    {% spaceless %}
+        <textarea id="{{ id }}" name="{{ full_name }}">{{ data }}</textarea>
+        <script type="text/javascript">
+            var codeMirror{{ id }} = CodeMirror.fromTextArea(document.getElementById("{{ id }}"), {{ parameters|json_encode|raw }});
+        </script>
+    {% endspaceless %}
+{% endblock %}

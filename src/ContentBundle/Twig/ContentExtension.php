@@ -8,6 +8,7 @@ use Opifer\ContentBundle\Block\BlockOwnerInterface;
 use Opifer\ContentBundle\Entity\Block;
 use Opifer\ContentBundle\Entity\CompositeBlock;
 use Opifer\ContentBundle\Entity\DocumentBlock;
+use Opifer\ContentBundle\Entity\PointerBlock;
 use Opifer\ContentBundle\Environment\Environment;
 use Opifer\ContentBundle\Model\BlockInterface;
 use Opifer\ContentBundle\Model\ContentInterface;
@@ -82,6 +83,7 @@ class ContentExtension extends \Twig_Extension
     {
         return [
             new \Twig_SimpleTest('block_container', function (BlockInterface $block) { return $block instanceof BlockContainerInterface; }),
+            new \Twig_SimpleTest('block_pointer', function (BlockInterface $block) { return $block instanceof PointerBlock; }),
         ];
     }
 
@@ -135,7 +137,6 @@ class ContentExtension extends \Twig_Extension
                     throw new \Exception('Tried to render placeholder in a block which is not a CompositeBlock');
                 }
             } else {
-                $container = $this->blockEnvironment->getMainBlock();
                 $blocks = $this->blockEnvironment->getRootBlocks();
             }
 
@@ -165,8 +166,8 @@ class ContentExtension extends \Twig_Extension
         if (isset($context['block'])) {
             /** @var Block $block */
             $block = $context['block'];
-
-            $tags .= sprintf(' data-pm-block-manage="true" data-pm-block-id="%d" data-pm-block-owner-id="%d" data-pm-block-type="%s"', $block->getId(), $block->getOwner()->getId(), $context['manage_type']);
+            $ownerId = ($block->getOwner()) ? $block->getOwner()->getId() : null;
+            $tags .= sprintf(' data-pm-block-manage="true" data-pm-block-id="%d" data-pm-block-owner-id="%d" data-pm-block-type="%s"', $block->getId(), $ownerId, $context['manage_type']);
         } else if ($context['manage_type'] == 'placeholder')  {
             $tags .= sprintf(' data-pm-type="placeholder" data-pm-placeholder-key="%s" data-pm-placeholder-id="%s"', $context['key'], $context['id']);
         }

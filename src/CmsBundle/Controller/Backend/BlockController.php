@@ -16,7 +16,7 @@ class BlockController extends BaseBlockController
      */
     public function sharedAction()
     {
-        $this->getDoctrine()->getManager()->getFilters()->disable('draftversion');
+        $this->getDoctrine()->getManager()->getFilters()->disable('draft');
 
         $source = new Entity('OpiferContentBundle:Block');
         $tableAlias = $source->getTableAlias();
@@ -25,7 +25,8 @@ class BlockController extends BaseBlockController
             function ($query) use ($tableAlias)
             {
                 $query->andWhere("{$tableAlias}.shared = 1")
-                        ->andWhere("{$tableAlias}.owner IS NULL");
+                        ->andWhere("{$tableAlias}.content IS NULL")
+                        ->andWhere("{$tableAlias}.template IS NULL");
             }
         );
 //

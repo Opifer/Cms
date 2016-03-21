@@ -14,6 +14,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\MappedSuperclass
+ * @ORM\Entity
  *
  * @UniqueEntity("username")
  * @UniqueEntity("email")
