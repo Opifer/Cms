@@ -131,7 +131,6 @@ class ContentController extends Controller
             $blockManager = $this->container->get('opifer.content.block_manager');
 
             $duplicatedContent = $contentManager->duplicate($content);
-            $duplicatedContent->setBlocks(null);
             $this->getDoctrine()->getManager()->flush($duplicatedContent);
 
             $duplicatedBlocks = $blockManager->duplicate($content->getBlocks(), $duplicatedContent);
