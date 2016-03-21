@@ -891,6 +891,7 @@ $(document).ready(function() {
                 data: values,
                 success: function (data) {
                     callback(data);
+                    sortables();
                 }
             }).error(function(data){
                 showAPIError(data);

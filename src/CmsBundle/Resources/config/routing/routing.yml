@@ -65,3 +65,10 @@ fos_user_change_password:
 _opifer_backend:
     resource: "routing_backend.yml"
     prefix:   /admin
+
+
+# Block Services
+
+opifer_mailing_list_subscribe_block:
+    pattern: /subscribe/{id}
+    defaults: { _controller: opifer.mailing_list.subscribe_block:subscribeAction }

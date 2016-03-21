@@ -31,7 +31,7 @@
     "codemirror": "~5.12"
   },
   "resolutions": {
-    "angular": "1.4.9",
+    "angular": "1.4.10",
     "jquery": ">2.1.*"
   }
 }

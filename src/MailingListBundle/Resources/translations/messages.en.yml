@@ -1,0 +1,25 @@
+nav:
+    mailing_lists: Mailing Lists
+
+label:
+    mailinglist: Mailing list
+    subscribe_response_type: Response type
+    subscribe_response_message: Response message
+    subscribe_response_page: Redirect page
+    subscribe_choice_response_message: Show a message after submit
+    subscribe_choice_response_page: Redirect to page after submit
+    id: Id
+    name: Name
+    display_name: Display name
+
+title:
+    mailing_lists: Mailing lists
+
+help:
+    subscribe_mailinglist: Check to which mailinglists you want your visitor to subscribe after submit. This is not shown to the user.
+
+button:
+    view: View
+    edit: Edit
+    cancel: Cancel
+    save: Save
