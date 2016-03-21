@@ -136,7 +136,7 @@ class NavigationBlockService extends AbstractBlockService implements BlockServic
 
         $unordered = [];
         foreach ($collection as $content) {
-            $unordered[$content['id']] = $content;
+            $unordered[$content->getId()] = $content;
         }
 
         $ordered = [];
