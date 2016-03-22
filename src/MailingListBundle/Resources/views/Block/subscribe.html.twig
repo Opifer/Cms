@@ -1,4 +1,7 @@
 <div {{ manage_tags() }}>
+    {% if subscribed %}
+        <div class="alert alert-success">{{ block.properties.responseMessage|default|raw }}</div>
+    {% endif %}
     {{ form_start(form, {'style': 'inline'}) }}
     <div class="input-group">
         {{ form_widget(form.email) }}

@@ -50,6 +50,7 @@ gulp.task('js', function () {
         'Resources/public/components/codemirror/lib/codemirror.js',
         'Resources/public/components/codemirror/mode/javascript/javascript.js',
         'Resources/public/components/codemirror/mode/css/css.js',
+        'Resources/public/components/remarkable-bootstrap-notify/bootstrap-notify.js',
         'Resources/public/js/split-pane.js',
         'Resources/public/js/main.js',
         'Resources/public/js/pagemanager.js',

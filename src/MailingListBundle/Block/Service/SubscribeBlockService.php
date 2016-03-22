@@ -55,6 +55,9 @@ class SubscribeBlockService extends AbstractBlockService implements BlockService
     /** @var Form */
     protected $form;
 
+    /** @var bool */
+    protected $subscribed;
+
     /**
      * @param EngineInterface $templating
      * @param array $config
@@ -161,6 +164,8 @@ class SubscribeBlockService extends AbstractBlockService implements BlockService
                 $this->subscription = clone $this->subscription;
                 $this->subscription->setId(null);
             }
+
+            $this->subscribed = true;
         }
     }
 
@@ -168,7 +173,7 @@ class SubscribeBlockService extends AbstractBlockService implements BlockService
     {
         $parameters = parent::getViewParameters($block);
 
-        return array_merge($parameters, ['form' => $this->form->createView()]);
+        return array_merge($parameters, ['form' => $this->form->createView(), 'subscribed' => $this->subscribed]);
     }
 
     /**

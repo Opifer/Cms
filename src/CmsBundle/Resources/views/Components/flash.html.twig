@@ -6,29 +6,41 @@
 {% endif %}
 
 {% for message in app.session.flashbag.get('warning') %}
-    <div class="alert alert-warning">
-        {% if close %}<button type="button" class="close" data-dismiss="alert">&times;</button>{% endif %}
-        {{ message|trans({}, translation_domain)|raw }}
-    </div>
+    <script>
+        window.onload = function() {
+            $(document).ready(function () {
+                $.notify({ icon: 'icon-warning', message: '{{ message|trans({}, translation_domain)|raw }}'}, {type: 'warning', placement: {from: "top", align: "center"}});
+            });
+        };
+    </script>
 {% endfor %}
 
 {% for message in app.session.flashbag.get('error') %}
-    <div class="alert alert-danger">
-        {% if close %}<button type="button" class="close" data-dismiss="alert">&times;</button>{% endif %}
-        {{ message|trans({}, translation_domain)|raw }}
-    </div>
+    <script>
+        window.onload = function() {
+            $(document).ready(function () {
+                $.notify({ icon: 'icon-error-outline', message: '{{ message|trans({}, translation_domain)|raw }}'}, {type: 'danger', placement: {from: "top", align: "center"}});
+            });
+        };
+    </script>
 {% endfor %}
 
 {% for message in app.session.flashbag.get('info') %}
-    <div class="alert alert-info">
-        {% if close %}<button type="button" class="close" data-dismiss="alert">&times;</button>{% endif %}
-        {{ message|trans({}, translation_domain)|raw }}
-    </div>
+    <script>
+        window.onload = function() {
+            $(document).ready(function () {
+                $.notify({ icon: 'icon-info-outline', message: '{{ message|trans({}, translation_domain)|raw }}'}, {type: 'info', placement: {from: "top", align: "center"}});
+            });
+        };
+    </script>
 {% endfor %}
 
 {% for message in app.session.flashbag.get('success') %}
-    <div class="alert alert-success">
-        {% if close %}<button type="button" class="close" data-dismiss="alert">&times;</button>{% endif %}
-        {{ message|trans({}, translation_domain)|raw }}
-    </div>
+    <script>
+        window.onload = function() {
+            $(document).ready(function () {
+                $.notify({ icon: 'icon-check', message: '{{ message|trans({}, translation_domain)|raw }}'}, {type: 'success', placement: {from: "top", align: "center"}});
+            });
+        };
+    </script>
 {% endfor %}
