@@ -243,6 +243,18 @@ abstract class Block implements BlockInterface, DraftInterface
         return $this;
     }
 
+    public function getOwnerName()
+    {
+        $owner = $this->getOwner();
+
+        if ($owner === null) {
+            return;
+        } else if ($owner instanceof Content) {
+            return $owner->getTitle();
+        } else if ($owner instanceof Template) {
+            return $owner->getName();
+        }
+    }
 
     /**
      * @return BlockInterface

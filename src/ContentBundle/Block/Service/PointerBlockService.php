@@ -36,56 +36,21 @@ class PointerBlockService extends AbstractBlockService implements BlockServiceIn
 
         $this->blockManager = $blockManager;
     }
-    /**
-     * {@inheritdoc}
-     */
-    public function execute(BlockInterface $block, Response $response = null)
+
+    public function getViewParameters(BlockInterface $block)
     {
-        $this->load($block);
+        $parameters = parent::getViewParameters($block);
 
-        $parameters = array(
-            'block_service'  => $this,
-            'block'          => $block->getReference(),
-        );
-
-        return $this->renderResponse($this->getView($block), $parameters,  $response);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function manage(BlockInterface $block, Response $response = null)
-    {
-        $this->load($block);
-
+        $reference = null;
         if ($block->getReference()) {
-            $reference = $block->getReference();
-//            $reference->setOwner($block->getOwner()); // needed when managing (manage_tags uses this)
-        } else {
-            $reference = $block;
+            $reference = $this->environment->getBlock($block->getReference()->getId());
         }
 
-        $parameters = array(
-            'block_service'  => $this,
-            'pointer'        => $block,
-            'block'          => $reference,
-            'block_view'     => $this->getView($block),
-            'manage_type'    => $this->getManageFormTypeName(),
-        );
+        $custom = [
+            'reference' => $reference,
+        ];
 
-        return $this->renderResponse($this->getManageView($block), $parameters, $response);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getView(BlockInterface $block)
-    {
-        if (!$block->getReference()) {
-            return $this->config['view'];
-        }
-
-        return $this->getReferenceService($block)->getView($block->getReference());
+        return array_merge($parameters, $custom);
     }
 
     public function getReferenceService(BlockInterface $block)
@@ -128,9 +93,10 @@ class PointerBlockService extends AbstractBlockService implements BlockServiceIn
                     'query_builder' => function (EntityRepository $blockRepository) {
                         return $blockRepository->createQueryBuilder('b')
                             ->add('orderBy', 'b.sharedDisplayName ASC')
-                            ->andWhere("b.shared = 1")
+                            ->andWhere("b.shared = :shared")
                             ->andWhere("b.content IS NULL")
-                            ->andWhere("b.template IS NULL");
+                            ->andWhere("b.template IS NULL")
+                            ->setParameter('shared', true);
                         ;
                     },
                 ])

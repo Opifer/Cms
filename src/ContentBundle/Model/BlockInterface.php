@@ -16,5 +16,10 @@ interface BlockInterface
      */
     public function getBlockType();
 
+
+    public function isInRoot();
+
+    public function getOwner();
+
     public function setDraft($draft);
 }

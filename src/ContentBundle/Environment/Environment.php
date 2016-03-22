@@ -8,19 +8,18 @@
 
 namespace Opifer\ContentBundle\Environment;
 
-use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\PersistentCollection;
 use Opifer\ContentBundle\Block\BlockManager;
 use Opifer\ContentBundle\Block\BlockOwnerInterface;
+use Opifer\ContentBundle\Block\RecursiveBlockIterator;
 use Opifer\ContentBundle\Block\Service\LayoutBlockServiceInterface;
 use Opifer\ContentBundle\Block\Service\PointerBlockService;
+use Opifer\ContentBundle\Entity\PointerBlock;
 use Opifer\ContentBundle\Entity\Template;
 use Opifer\ContentBundle\Model\BlockInterface;
 use Opifer\ContentBundle\Model\Content;
 use Opifer\ContentBundle\Model\TemplatedInterface;
-use Opifer\ContentBundle\Provider\BlockProviderPool;
-use Opifer\Revisions\Exception\DeletedException;
 use Opifer\Revisions\RevisionManager;
 
 class Environment
@@ -195,6 +194,25 @@ class Environment
         $blocks = $this->blockManager->sortBlocks($blocks);
         $cacheKey = $this->getCacheKey();
 
+        // Load shared blocks
+        foreach ($blocks as $block) {
+            $this->blockManager->setDraftVersionFilter(false);
+            if ($block instanceof PointerBlock && $block->getReference()) {
+                $iterator = new \RecursiveIteratorIterator(
+                    new RecursiveBlockIterator(array($block->getReference())),
+                    \RecursiveIteratorIterator::SELF_FIRST
+                );
+
+                foreach ($iterator as $included) {
+                    $reverted = $this->blockManager->revertToDraft($included);
+                    if ($reverted) {
+                        $blocks[] = $reverted;
+                    }
+                }
+            }
+            $this->blockManager->setDraftVersionFilter(true);
+        }
+
         $this->blockCache[$cacheKey] = $blocks;
 
         $this->isLoaded = true;
@@ -204,7 +222,7 @@ class Environment
 
     protected function getBlocksRecursive($owner = null, $blocks = array())
     {
-        $draft = ($this->draft && $owner === $this->object) ? true : false;
+        $draft = ($this->draft && ($owner === $this->object || $owner === null)) ? true : false;
 
         $owned = $this->blockManager->findByOwner($owner, $draft);
 
