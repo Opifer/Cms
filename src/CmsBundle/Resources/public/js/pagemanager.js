@@ -502,6 +502,7 @@ $(document).ready(function() {
                     getBlockElement(id).remove();
                     pagemanager.closeEditBlock(id);
                     loadToC(sortables);
+                    doViewSanityChecks();
                 }
             }).error(function(data){
                 showAPIError(data);
@@ -563,6 +564,7 @@ $(document).ready(function() {
                     editBlock(id);
                     showToolbars();
                     loadToC(sortables);
+                    doViewSanityChecks();
                 }).fail(function(data){
                     iFrame.contents().find('.pm-block-insert').remove();
                     showAPIError(data);
@@ -742,6 +744,7 @@ $(document).ready(function() {
                         } else {
                             loadToC(sortables);
                         }
+                        doViewSanityChecks();
                     }).error(function(data){
                         showAPIError(data);
                     });
@@ -937,11 +940,10 @@ $(document).ready(function() {
                         label: 'Publish',
                         className: 'btn-primary',
                         callback: function() {
+                            var notifyPublish = $.notify('<strong>Publishing</strong> Do not close this page...', { allow_dismiss: false, placement: { from: "top", align: "center"}});
                             $.post(Routing.generate('opifer_content_api_contenteditor_publish'), {owner: owner, ownerId: ownerId}).done(function (data, textStatus, request) {
                                 reload();
-                                bootbox.alert("Published.", function() {
-
-                                });
+                                notifyPublish.update({ type: 'success', message: '<strong>Success</strong> Content published to live' });
                             }).error(function(data){
                                 showAPIError(data);
                             });
@@ -973,6 +975,21 @@ $(document).ready(function() {
             isLoading();
             iFrame.attr('src', Routing.generate('opifer_content_contenteditor_view', {owner: owner, ownerId: ownerId}));
             clearEditBlock();
+        };
+
+        var doViewSanityChecks = function () {
+            paintEmptyPlaceholders();
+        };
+
+
+        var paintEmptyPlaceholders = function () {
+            iFrame.contents().find('.pm-placeholder').each(function (index) {
+                if ($(this).children().length) {
+                    $(this).attr('data-pm-empty', false);
+                } else {
+                    $(this).attr('data-pm-empty', true);
+                }
+            });
         };
 
         return {

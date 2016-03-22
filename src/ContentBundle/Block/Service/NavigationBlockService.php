@@ -251,7 +251,7 @@ class NavigationBlockService extends AbstractBlockService implements BlockServic
         $tool = new Tool('Navigation', 'navigation');
 
         $tool->setIcon('menu')
-            ->setDescription('Generates a simple page navigation');
+            ->setDescription('Create different kinds of navigation lists');
 
         return $tool;
     }
