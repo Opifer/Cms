@@ -13,6 +13,7 @@ use Opifer\ContentBundle\Block\Service\BlockServiceInterface;
 use Opifer\ContentBundle\Block\Tool\Toolset;
 use Opifer\ContentBundle\Block\Tool\ToolsetMemberInterface;
 use Opifer\ContentBundle\Entity\Block;
+use Opifer\ContentBundle\Entity\CompositeBlock;
 use Opifer\ContentBundle\Entity\PointerBlock;
 use Opifer\ContentBundle\Model\BlockInterface;
 use Opifer\ContentBundle\Repository\BlockLogEntryRepository;
@@ -449,6 +450,7 @@ class BlockManager
     {
         /** @var AbstractBlockService $service */
         $service = $this->getService($type);
+        $parent = $parentId ? $this->find($parentId, $draft) : null;
 
         // This should replaced with a more hardened function
         if (is_null($data)) {
@@ -457,8 +459,6 @@ class BlockManager
         $data['owner'] = $owner;
 
         $block = $service->createBlock($data);
-
-        $parent = $parentId ? $this->find($parentId, $draft) : null;
 
         $block->setPosition($placeholder);
         $block->setSort(0); // < default, gets recalculated later for entire level
@@ -554,7 +554,8 @@ class BlockManager
      */
     public function makeBlockShared($id)
     {
-        $block = $this->find($id, false);
+        $block = $this->find($id, true);
+        $this->publish($block);
 
         // Duplicate some of the settings to the pointer
         $pointer = new PointerBlock();
@@ -562,14 +563,30 @@ class BlockManager
         $pointer->setParent($block->getParent());
         $pointer->setReference($block);
 
+
         // Detach and make shared
         $block->setShared(true);
+        $block->setSharedName(sprintf('%s_%s', $block->getBlockType(), $block->getOwner()->getId()));
+        $block->setSharedDisplayName(sprintf('%s from %s', $block->getBlockType(), $block->getOwnerName()));
         $block->setParent(null);
         $block->setOwner(null);
         $block->setPosition(null);
         $block->setSort(null);
 
-        $this->save($block)->save($pointer);
+        $this->save($block, false)->save($pointer);
+
+        if ($block instanceof CompositeBlock) {
+            $iterator = new \RecursiveIteratorIterator(
+                new RecursiveBlockIterator($block->getChildren()),
+                \RecursiveIteratorIterator::SELF_FIRST
+            );
+
+            foreach ($iterator as $child) {
+                $child->setOwner(null);
+                $this->publish($child);
+                $this->save($child, false);
+            }
+        }
 
         return $pointer;
     }
@@ -645,7 +662,8 @@ class BlockManager
         // Split arrays into levels by owner (child - parent)
         foreach ($blocks as $block) {
             $pos = array_search($block->getId(), $sort, false);
-            $levels[$block->getOwner()->getId()][$pos] = $block->getId();
+            $ownerId = ($block->getOwner()) ? $block->getOwner()->getId() : 0;
+            $levels[$ownerId][$pos] = $block->getId();
         }
 
         foreach ($levels as &$level) {
@@ -653,11 +671,12 @@ class BlockManager
         }
 
         foreach ($blocks as $block) {
-            $sortedIds = $levels[$block->getOwner()->getId()];
+            $ownerId = ($block->getOwner()) ? $block->getOwner()->getId() : 0;
+            $sortedIds = $levels[$ownerId];
             $pos = array_search(array_search($block->getId(), $sortedIds), array_keys($sortedIds));
             $block->setSort($pos);
 
-            if ($block->getOwner()->getSuper()) {
+            if ($block->getOwner() && $block->getOwner()->getSuper()) {
                 $superId = $block->getOwner()->getSuper()->getId();
                 // See if we need to position it below an inherited block
                 $pos = array_search($block->getId(), $levels[$block->getOwner()->getId()], false);

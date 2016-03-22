@@ -73,14 +73,20 @@ class ContentEditorController extends Controller
         $manager  = $this->get('opifer.content.block_manager');
         $response = new JsonResponse;
 
-        $object = $this->get('opifer.content.block_provider_pool')->getProvider($owner)->getBlockOwner($ownerId);
-
         $sort        = $request->request->get('sort');
         $parentId    = $request->request->get('parent');
         $className   = $request->request->get('className');
         $placeholder = (int) $request->request->get('placeholder');
+        $bOwnerId    = (int) $request->request->get('ownerId');
         $data        = $request->request->get('data');
         $data        = json_decode($data, true);
+
+        // In case of editing shared blocks they have no owner
+        if ($bOwnerId === 0) {
+            $object = null;
+        } else {
+            $object = $this->get('opifer.content.block_provider_pool')->getProvider($owner)->getBlockOwner($ownerId);
+        }
 
 //        try {
             $block = $manager->createBlock($object, $className, $parentId, $placeholder, $sort, $data);

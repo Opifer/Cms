@@ -168,7 +168,7 @@ opifer_media:
         views:
             index: 'OpiferCmsBundle:Backend\Media:index.html.twig'
             create: 'OpiferCmsBundle:Backend\Media:create.html.twig'
-            edit: 'OpiferCmsBundle:Backend\Media:design.html.twig'
+            edit: 'OpiferCmsBundle:Backend\Media:edit.html.twig'
     default_storage: '%storage_adapter%'
     providers:
         youtube:

@@ -606,7 +606,7 @@ $(document).ready(function() {
             iFrame.contents().find('body').append(link);
 
             iFrame.contents().find('*[data-pm-block-manage="true"]').each(function() {
-                if ($(this).attr('data-pm-block-owner-id') != ownerId) {
+                if ($(this).attr('data-pm-block-owner-id') != ownerId && $(this).attr('data-pm-block-owner-id') != "0") {
                     $(this).addClass('pm-inherited');
                 }
             });
@@ -761,11 +761,12 @@ $(document).ready(function() {
                     var parent = $(this).closest('*[data-pm-placeholder-key]').closest('*[data-pm-block-id]').attr('data-pm-block-id');
                     var placeholderKey = $(this).closest('*[data-pm-placeholder-key]').attr('data-pm-placeholder-key');
                     var data = $(ui.item).attr('data-pm-block-data');
+                    var blockOwnerId = $(this).closest('*[data-pm-placeholder-key]').closest('*[data-pm-block-id]').attr('data-pm-block-owner-id');
 
                     $(ui.item).attr('data-pm-block-id', '0'); // Set default so toArray won't trip and fall below
                     var sortOrder = $(this).closest('.pm-placeholder').sortable('toArray', {attribute: 'data-pm-block-id'});
 
-                    createBlock({className: className, parent: parent, placeholder: placeholderKey, sort: sortOrder, data: data});
+                    createBlock({className: className, parent: parent, placeholder: placeholderKey, sort: sortOrder, data: data, ownerId: blockOwnerId});
                 }
             };
 
@@ -980,7 +981,6 @@ $(document).ready(function() {
         var doViewSanityChecks = function () {
             paintEmptyPlaceholders();
         };
-
 
         var paintEmptyPlaceholders = function () {
             iFrame.contents().find('.pm-placeholder').each(function (index) {

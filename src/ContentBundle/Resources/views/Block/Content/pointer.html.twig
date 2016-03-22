@@ -1,1 +1,7 @@
-<div class="well text-muted text-center" {{ manage_tags() }}>shared block</div>
+{% if not reference %}
+    <div class="well text-muted text-center" {{ manage_tags() }}>shared block</div>
+{% else %}
+    <div {{ manage_tags() }}>
+        {{ render_block(reference) }}
+    </div>
+{% endif %}
