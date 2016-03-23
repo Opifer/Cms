@@ -100,9 +100,10 @@ class ContentExtension extends \Twig_Extension
         $manager = $this->container->get('opifer.content.block_manager');
 
         $service = $manager->getService($block);
+        $service->setEnvironment($this->blockEnvironment);
 
         if ($this->blockEnvironment->getBlockMode($block) == 'manage') {
-            $content = $service->setEnvironment($this->blockEnvironment)->manage($block)->getContent();
+            $content = $service->manage($block)->getContent();
 
             return $content;
         }
