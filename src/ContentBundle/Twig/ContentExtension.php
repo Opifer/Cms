@@ -167,7 +167,13 @@ class ContentExtension extends \Twig_Extension
             /** @var Block $block */
             $block = $context['block'];
             $ownerId = ($block->getOwner()) ? $block->getOwner()->getId() : null;
-            $tags .= sprintf(' data-pm-block-manage="true" data-pm-block-id="%d" data-pm-block-owner-id="%d" data-pm-block-type="%s"', $block->getId(), $ownerId, $context['manage_type']);
+
+            if (isset($context['pointer']) && $context['pointer'] instanceof PointerBlock) {
+                $tags .= sprintf(' data-pm-block-manage="true" data-pm-block-id="%d" data-pm-block-owner-id="%d" data-pm-block-type="%s"', $context['pointer']->getId(), $ownerId, $context['manage_type']);
+                $tags .= sprintf(' data-pm-block-pointer="true" data-pm-block-reference-id="%d"', $block->getId());
+            } else {
+                $tags .= sprintf(' data-pm-block-manage="true" data-pm-block-id="%d" data-pm-block-owner-id="%d" data-pm-block-type="%s"', $block->getId(), $ownerId, $context['manage_type']);
+            }
         } else if ($context['manage_type'] == 'placeholder')  {
             $tags .= sprintf(' data-pm-type="placeholder" data-pm-placeholder-key="%s" data-pm-placeholder-id="%s"', $context['key'], $context['id']);
         }

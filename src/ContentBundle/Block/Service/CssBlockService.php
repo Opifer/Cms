@@ -8,6 +8,7 @@ use Opifer\ContentBundle\Entity\CssBlock;
 use Opifer\ContentBundle\Form\Type\CodeMirrorType;
 use Symfony\Component\Form\Extension\Core\Type\FormType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Opifer\ContentBundle\Model\BlockInterface;
 
 /**
  * CSS Block Service
@@ -39,7 +40,7 @@ class CssBlockService extends AbstractBlockService implements BlockServiceInterf
     /**
      * {@inheritDoc}
      */
-    public function getTool()
+    public function getTool(BlockInterface $block = null)
     {
         $tool = new Tool('CSS', 'css');
 

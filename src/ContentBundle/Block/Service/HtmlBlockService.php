@@ -57,7 +57,7 @@ class HtmlBlockService extends AbstractBlockService implements BlockServiceInter
     /**
      * {@inheritDoc}
      */
-    public function getTool()
+    public function getTool(BlockInterface $block = null)
     {
         $tool = new Tool('Rich text', 'html');
 

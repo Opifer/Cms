@@ -92,7 +92,7 @@ class BlockManager
 
         foreach ($this->services as $service) {
             if ($service instanceof ToolsetMemberInterface) {
-                $tool = $service->getTool();
+                $tool = $service->getTool(null);
                 if (is_array($tool)) {
                     $toolbelt->addTools($tool);
                 } else {

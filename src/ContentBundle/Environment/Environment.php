@@ -143,7 +143,7 @@ class Environment
 
         /** @var BlockInterface $block */
         foreach ($this->blockCache[$cacheKey] as $block) {
-            if ($block->getParent() === null) {
+            if ($block->getParent() === null && $block->getOwner() !== null) {
                 array_push($blocks, $block);
             }
         }
@@ -252,7 +252,7 @@ class Environment
     }
 
     public function getTool(BlockInterface $block) {
-        return $this->getService($block)->getTool();
+        return $this->getService($block)->getTool($block);
     }
 
     public function getService(BlockInterface $block) {
@@ -266,7 +266,7 @@ class Environment
         } else {
             $service = $this->blockManager->getService($object);
 
-            if ($service instanceof LayoutBlockServiceInterface || $service instanceof PointerBlockService) {
+            if ($service instanceof LayoutBlockServiceInterface) {
                 return $service->getPlaceholders($object);
             }
 

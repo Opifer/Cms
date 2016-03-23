@@ -71,7 +71,7 @@ class ButtonBlockService extends AbstractBlockService implements BlockServiceInt
     /**
      * {@inheritDoc}
      */
-    public function getTool()
+    public function getTool(BlockInterface $block = null)
     {
         $tool = new Tool('Button link', 'button');
 

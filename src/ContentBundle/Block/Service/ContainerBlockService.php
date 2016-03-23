@@ -77,7 +77,7 @@ class ContainerBlockService extends AbstractBlockService implements LayoutBlockS
     /**
      * {@inheritDoc}
      */
-    public function getTool()
+    public function getTool(BlockInterface $block = null)
     {
         $tool = new Tool($this->getName(), 'container');
 

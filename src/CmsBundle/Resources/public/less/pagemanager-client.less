@@ -5,6 +5,7 @@
 @pm-active-color: #FFC000;
 
 @pm-primary-bright: #0062ff;
+@pm-yellow-bright: #FFD600;
 
 .pm-material-icons {
     font: normal normal normal 20px/1 'Material Icons';
@@ -190,6 +191,12 @@
     .pm-btn-label {
         color: white !important;
         background-color: @pm-primary-bright !important;
+    }
+
+    &.pm-toolbar-pointer {
+        .pm-btn-label {
+            background-color: @pm-yellow-bright !important;
+        }
     }
 
     .pm-btn-icon {

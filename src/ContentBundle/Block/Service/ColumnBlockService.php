@@ -123,7 +123,7 @@ class ColumnBlockService extends AbstractBlockService implements LayoutBlockServ
     /**
      * {@inheritDoc}
      */
-    public function getTool()
+    public function getTool(BlockInterface $block = null)
     {
         switch ($this->columnCount) {
             case 1: $type = 'one'; break;
