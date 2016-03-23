@@ -114,7 +114,7 @@ class ClipboardBlockService implements BlockServiceInterface, ToolsetMemberInter
     /**
      * @inheritDoc
      */
-    public function getTool()
+    public function getTool(BlockInterface $block = null)
     {
         $tools = array();
 
@@ -122,7 +122,7 @@ class ClipboardBlockService implements BlockServiceInterface, ToolsetMemberInter
             /** @var ToolsetMemberInterface $copyService */
             $copyService = $this->blockManager->getService($block);
 
-            $copyTool = $copyService->getTool();
+            $copyTool = $copyService->getTool($block);
 
 
             $tool = new Tool($copyTool->getName(), 'clipboard');

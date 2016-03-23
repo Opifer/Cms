@@ -86,7 +86,7 @@ class GalleryBlockService extends AbstractBlockService implements BlockServiceIn
     /**
      * {@inheritDoc}
      */
-    public function getTool()
+    public function getTool(BlockInterface $block = null)
     {
         $tool = new Tool('Gallery', 'gallery');
 

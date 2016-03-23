@@ -702,7 +702,11 @@ $(document).ready(function() {
 
         var showToolbar = function (element) {
             toolbar.addClass('hidden');
+            toolbar.removeClass('pm-toolbar-pointer');
             iFrame.contents().find('*[data-pm-block-manage]').removeClass('pm-hovered');
+            if ($(element).attr('data-pm-block-pointer') == 'true') {
+                toolbar.addClass('pm-toolbar-pointer');
+            }
             if ($(element).hasClass('pm-inherited')) {
                 return;
             }

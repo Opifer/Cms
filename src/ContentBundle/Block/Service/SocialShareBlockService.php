@@ -83,7 +83,7 @@ class SocialShareBlockService extends AbstractBlockService implements BlockServi
     /**
      * {@inheritDoc}
      */
-    public function getTool()
+    public function getTool(BlockInterface $block = null)
     {
         $tool = new Tool('Social share', 'socialshare');
 

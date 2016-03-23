@@ -103,7 +103,7 @@ class ListBlockService extends AbstractBlockService implements BlockServiceInter
     /**
      * {@inheritDoc}
      */
-    public function getTool()
+    public function getTool(BlockInterface $block = null)
     {
         $tool = new Tool('List', 'list');
 

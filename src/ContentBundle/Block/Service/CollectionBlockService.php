@@ -106,7 +106,7 @@ class CollectionBlockService extends AbstractBlockService implements BlockServic
     /**
      * {@inheritDoc}
      */
-    public function getTool()
+    public function getTool(BlockInterface $block = null)
     {
         $tool = new Tool('Collection', 'collection');
 

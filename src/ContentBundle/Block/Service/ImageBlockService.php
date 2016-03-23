@@ -133,7 +133,7 @@ class ImageBlockService extends AbstractBlockService implements BlockServiceInte
     /**
      * {@inheritdoc}
      */
-    public function getTool()
+    public function getTool(BlockInterface $block = null)
     {
         $tool = new Tool('Image', 'image');
 

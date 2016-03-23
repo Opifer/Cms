@@ -9,6 +9,7 @@ use Opifer\ContentBundle\Form\Type\CodeMirrorType;
 use Symfony\Component\Form\Extension\Core\Type\FormType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Opifer\ContentBundle\Model\BlockInterface;
 
 /**
  * JavaScript Block Service
@@ -40,7 +41,7 @@ class JavaScriptBlockService extends AbstractBlockService implements BlockServic
     /**
      * {@inheritDoc}
      */
-    public function getTool()
+    public function getTool(BlockInterface $block = null)
     {
         $tool = new Tool('JavaScript', 'javascript');
 

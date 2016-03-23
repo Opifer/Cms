@@ -246,7 +246,7 @@ class NavigationBlockService extends AbstractBlockService implements BlockServic
     /**
      * {@inheritdoc}
      */
-    public function getTool()
+    public function getTool(BlockInterface $block = null)
     {
         $tool = new Tool('Navigation', 'navigation');
 

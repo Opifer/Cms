@@ -9,6 +9,7 @@ use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\FormType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Opifer\ContentBundle\Model\BlockInterface;
 
 /**
  * iFrame Block Service
@@ -58,7 +59,7 @@ class IFrameBlockService extends AbstractBlockService implements BlockServiceInt
     /**
      * {@inheritDoc}
      */
-    public function getTool()
+    public function getTool(BlockInterface $block = null)
     {
         $tool = new Tool('iFrame', 'iframe');
 

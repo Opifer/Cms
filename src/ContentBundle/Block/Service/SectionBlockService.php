@@ -10,6 +10,7 @@ use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\FormType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Opifer\ContentBundle\Model\BlockInterface;
 
 /**
  * Section Block Service
@@ -72,7 +73,7 @@ class SectionBlockService extends AbstractBlockService implements BlockServiceIn
     /**
      * {@inheritDoc}
      */
-    public function getTool()
+    public function getTool(BlockInterface $block = null)
     {
         $tool = new Tool($this->getName(), 'section');
 

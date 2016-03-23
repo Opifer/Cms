@@ -81,7 +81,7 @@ class CarouselSlideBlockService extends AbstractBlockService implements BlockSer
     /**
      * {@inheritDoc}
      */
-    public function getTool()
+    public function getTool(BlockInterface $block = null)
     {
         $tool = new Tool('Carousel slide', 'carousel_slide');
 

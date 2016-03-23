@@ -213,7 +213,7 @@ class SubscribeBlockService extends AbstractBlockService implements BlockService
     /**
      * {@inheritDoc}
      */
-    public function getTool()
+    public function getTool(BlockInterface $block = null)
     {
         $tool = new Tool('Subscribe form', 'subscribe');
 

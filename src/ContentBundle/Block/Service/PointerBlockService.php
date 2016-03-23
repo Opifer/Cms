@@ -37,25 +37,40 @@ class PointerBlockService extends AbstractBlockService implements BlockServiceIn
         $this->blockManager = $blockManager;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function getViewParameters(BlockInterface $block)
     {
         $parameters = parent::getViewParameters($block);
 
         $reference = null;
         if ($block->getReference()) {
+            $service = $this->getReferenceService($block);
+            $service->load($block);
             $reference = $this->environment->getBlock($block->getReference()->getId());
+            $parameters = $service->getViewParameters($reference);
+            $parameters['pointer'] = $block;
         }
 
-        $custom = [
-            'reference' => $reference,
-        ];
-
-        return array_merge($parameters, $custom);
+        return $parameters;
     }
 
     public function getReferenceService(BlockInterface $block)
     {
         return $this->blockManager->getService($block->getReference()->getBlockType());
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getView(BlockInterface $block)
+    {
+        if (!$block->getReference()) {
+            return $this->config['view'];
+        }
+
+        return $this->getReferenceService($block)->getView($block->getReference());
     }
 
     /**
@@ -122,18 +137,17 @@ class PointerBlockService extends AbstractBlockService implements BlockServiceIn
     /**
      * {@inheritDoc}
      */
-    public function getTool()
+    public function getTool(BlockInterface $block = null)
     {
-        $tool = new Tool('Shared block', 'pointer');
+        if (is_null($block) || ! $block->getReference()) {
+            $tool = new Tool('Shared block', 'pointer');
 
-        $tool->setIcon('all_inclusive')
-            ->setDescription('This block will load a shared block');
+            $tool->setIcon('all_inclusive')
+                ->setDescription('This block will load a shared block');
 
-        return $tool;
-    }
+            return $tool;
+        }
 
-    public function getPlaceholders(BlockInterface $block = null)
-    {
-        return [0 => 'Reference'];
+        return $this->getReferenceService($block)->getTool($block->getReference());
     }
 }
