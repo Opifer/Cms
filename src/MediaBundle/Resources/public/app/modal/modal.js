@@ -40,6 +40,9 @@ angular.module('ngModal', [])
 
             scope.closeButtonHtml = $sce.trustAsHtml("<span class='ng-modal-close-x'>X</span>");
 
+
+            angular.element(document.body).append(element);
+
             return setupStyle();
         }
 
