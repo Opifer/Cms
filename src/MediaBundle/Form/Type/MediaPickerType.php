@@ -57,7 +57,7 @@ class MediaPickerType extends AbstractType
                         });
                     }
 
-                    return $items;
+                    return array_values($items);
                 },
                 function ($submitted) {
                     $ids = [];

@@ -104,43 +104,4 @@ class ContentEditorController extends Controller
 
         return $this->render($environment->getView(), $environment->getViewParameters());
     }
-
-    /**
-     * @param Request $request
-     * @param integer $id
-     *
-     * @return Response
-     *
-     * @throws \Exception
-     */
-    public function editBlockAction(Request $request, $id)
-    {
-        /** @var BlockManager $manager */
-        $manager = $this->get('opifer.content.block_manager');
-        $block = $manager->find($id, true);
-
-        /** @var BlockServiceInterface $service */
-        $service = $manager->getService($block);
-        $updatePreview = false; // signals parent window preview from iframe to update preview
-
-        $service->preFormSubmit($block);
-
-        $form = $this->createForm(new BlockAdapterFormType($service), $block);
-        $form->handleRequest($request);
-
-        if ($form->isValid()) {
-
-            $service->postFormSubmit($form, $block);
-
-            $manager->save($block, true);
-            $updatePreview = true;
-        }
-
-        return $this->render($service->getEditView(), [
-            'block_service' => $service,
-            'block' => $block,
-            'form' => $form->createView(),
-            'update_preview' => $updatePreview
-        ]);
-    }
 }

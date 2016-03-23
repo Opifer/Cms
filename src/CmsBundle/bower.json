@@ -29,7 +29,8 @@
     "nestedSortable": "https://github.com/ilikenwf/nestedSortable.git#747d42c6c4303a60174158691c0c90e80fd83254",
     "angular-ui-tree": "~2.1.3",
     "codemirror": "~5.12",
-    "remarkable-bootstrap-notify": "~3.1.3"
+    "remarkable-bootstrap-notify": "~3.1.3",
+    "bootstrap3-dialog": "^1.35.0"
   },
   "resolutions": {
     "angular": "1.4.10",

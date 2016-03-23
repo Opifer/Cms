@@ -56,12 +56,6 @@ opifer_content_contenteditor_design:
     options:
         expose: true
 
-opifer_content_contenteditor_edit_block:
-    path: /contenteditor/editblock/{id}
-    defaults: { _controller: OpiferContentBundle:Backend/ContentEditor:editBlock }
-    options:
-        expose: true
-
 opifer_content_contenteditor_view:
     path: /contenteditor/view/{owner}/{ownerId}
     defaults: { _controller: OpiferContentBundle:Backend/ContentEditor:view }
