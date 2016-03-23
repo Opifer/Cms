@@ -65,6 +65,10 @@ angular.module('mediaLibrary', ['infinite-scroll', 'ngModal', 'angularFileUpload
                     MediaService.index({ids: strItems}, function(response, headers) {
                         var results = response.results;
 
+                        if (!items.length) {
+                            items = [items];
+                        }
+
                         for (var j = 0; j < items.length; j++) {
                             for (var i = 0; i < results.length; i++) {
                                 if (results[i].id == items[j]) {

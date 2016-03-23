@@ -80,14 +80,14 @@
 
                     <div class="pm-col">
                         <h4 class="title" data-toggle="collapse" data-target="#pm-toc" aria-expanded="false" aria-controls="pm-toc">Table of contents</h4>
-                        <div class="collapse in" id="pm-toc">
+                        <div class="collapse in pm-noselect" id="pm-toc">
                         </div>
                     </div>
                 </div>
                 <div class="pm-toolset-card pm-dark">
 
                         {% for group in toolset.groups %}
-                        <div id="pm-tools-{{ group|lower|replace(' ', '-') }}" class="pm-tools-blockset">
+                        <div id="pm-tools-{{ group|lower|replace(' ', '-') }}" class="pm-tools-blockset pm-noselect">
                             <div class="pm-col">
                                 <h4 class="title" data-toggle="collapse" data-target="#list-group-{{ group|lower|replace(' ', '-') }}" aria-expanded="true" aria-controls="list-group-{{ group|lower|replace(' ', '-') }}">{{ group }}</h4>
                                 <div class="collapse in list-group" id="list-group-{{ group|lower|replace(' ', '-') }}">

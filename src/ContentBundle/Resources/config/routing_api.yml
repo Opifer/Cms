@@ -40,6 +40,13 @@ opifer_content_api_contenteditor_create_block:
     options:
         expose: true
 
+opifer_content_api_contenteditor_edit_block:
+    path: /contenteditor/editblock/{id}
+    defaults: { _controller: OpiferContentBundle:Api/ContentEditor:editBlock }
+    methods: [GET, POST]
+    options:
+        expose: true
+
 opifer_content_api_contenteditor_move_block:
     path: /contenteditor/moveblock
     defaults: { _controller: OpiferContentBundle:Api/ContentEditor:moveBlock }

@@ -7,9 +7,9 @@ use Opifer\ContentBundle\Block\BlockManager;
 use Opifer\ContentBundle\Block\ContentBlockAdapter;
 use Opifer\ContentBundle\Block\Service\AbstractBlockService;
 use Opifer\ContentBundle\Block\Service\ClipboardBlockService;
-use Opifer\ContentBundle\Designer\AbstractDesignSuite;
 use Opifer\ContentBundle\Entity\PointerBlock;
 use Opifer\ContentBundle\Environment\Environment;
+use Opifer\ContentBundle\Form\Type\BlockAdapterFormType;
 use Opifer\ContentBundle\Provider\BlockProviderInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -317,5 +317,45 @@ class ContentEditorController extends Controller
         }
 
         return $response;
+    }
+
+    /**
+     * @param Request $request
+     * @param integer $id
+     *
+     * @return Response
+     *
+     * @throws \Exception
+     */
+    public function editBlockAction(Request $request, $id)
+    {
+        /** @var BlockManager $manager */
+        $manager = $this->get('opifer.content.block_manager');
+        $block = $manager->find($id, true);
+
+        /** @var AbstractBlockService $service */
+        $service = $manager->getService($block);
+        $updatePreview = false; // signals parent window preview from iframe to update preview
+
+        $service->preFormSubmit($block);
+
+        $form = $this->createForm(new BlockAdapterFormType($service), $block);
+        $form->handleRequest($request);
+
+        if ($form->isValid()) {
+            $service->postFormSubmit($form, $block);
+
+            $manager->save($block, true);
+            $updatePreview = true;
+        }
+
+        $viewResponse = $this->render($service->getEditView(), [
+            'block_service' => $service,
+            'block' => $block,
+            'form' => $form->createView(),
+            'update_preview' => $updatePreview
+        ]);
+
+        return new JsonResponse(['title' => $service->getName($block), 'view' => $viewResponse->getContent(), 'updatePreview' => $updatePreview]);
     }
 }

@@ -159,12 +159,28 @@ $(document).ready(function() {
         var splitPane = $('.split-pane');
         var settings = {rightColumnWidth: 380};
         var isDragging = false;
+        var editDialog = new BootstrapDialog({
+            title: 'Edit block',
+            id: 'pm-dialog-edit',
+            closable: true,
+            draggable: true
+        });
 
         var onReady = function () {
 
             mprogress = new Mprogress({
                 template: 3
             });
+
+            editDialog.realize();
+            editDialog.onHide(function (dialog) {
+                unselectBlock(dialog.getData('blockId'));
+                dialog.setData('blockId', null);
+            });
+            editDialog.onShown(function (dialog) {
+                $(document).find('.modal-backdrop').remove();
+            });
+
             isLoading();
 
             // Toggle view between Content, Preview and Layout
@@ -231,13 +247,14 @@ $(document).ready(function() {
             //
             //})
 
-            $(document).on('submit', '#pm-block-edit form', function (e) {
+            $(document).on('submit', '#pm-dialog-edit form', function (e) {
                 e.preventDefault();
-                var id = $('#pm-block-edit').attr('data-pm-block-id');
+                var id = editDialog.getData('blockId');
                 postBlockForm($(this), function (data) {
-                    $('#pm-block-edit').html(data);
+                    editDialog.setTitle(data.title);
+                    editDialog.getModalBody().html(data.view);
                     // Bootstrap AngularJS app (media library etc) after altering DOM
-                    angular.bootstrap($('#pm-block-edit form'), ["MainApp"]);
+                    angular.bootstrap(editDialog.getModalBody().find('form'), ["MainApp"]);
                     if (id) {
                         refreshBlock(id);
                     }
@@ -252,11 +269,6 @@ $(document).ready(function() {
             //});
 
             // Edit block (click)
-            $(document).on('click', '#pm-block-edit #btn-cancel', function (e) {
-                e.preventDefault();
-                closeEditBlock($(this).closest('.pm-block').attr('data-pm-block-id'));
-            });
-
             $(document).on('click', '#pm-btn-publish', function(e) {
                 e.preventDefault();
                 publish();
@@ -390,67 +402,68 @@ $(document).ready(function() {
         // Call API to request an edit view
         //
         var editBlock = function (id, tab) {
-            if ($('#pm-block-edit').attr('data-pm-block-id') != id) {
-                $('#pm-block-edit').attr('data-pm-block-id', id);
+            if (editDialog.getData('blockId') != id) {
+                editDialog.setData('blockId', id);
 
                 var refId = getBlockReferenceId(id);
                 var editId = (refId) ? refId : id;
 
                 isLoadingEdit();
+                editDialog.open();
+
                 selectBlock(id);
 
-                $('.pm-toolset-body').animate({
-                    scrollTop: 0
-                }, 200);
-                $.get(Routing.generate('opifer_content_contenteditor_edit_block', {id: editId})).success(function (data) {
-                    $('#pm-block-edit').html(data);
+                $.get(Routing.generate('opifer_content_api_contenteditor_edit_block', {id: editId})).success(function (data) {
+                    editDialog.setTitle(data.title);
+                    editDialog.getModalBody().html(data.view);
 
                     // Bootstrap AngularJS app (media library etc) after altering DOM
-                    angular.bootstrap($('#pm-block-edit form'), ["MainApp"]);
+                    angular.bootstrap(editDialog.getModalBody().find('form'), ["MainApp"]);
 
                     if (tab) {
-                        $('#pm-block-edit .nav-tabs a[href="#block-'+tab+'"]').tab('show');
+                        editDialog.getModalBody().find('.nav-tabs a[href="#block-'+tab+'"]').tab('show');
                     }
                     sortables();
                 }).fail(function(data){
                     showAPIError(data);
                 });
             } else if (tab) {
-                $('#pm-block-edit .nav-tabs a[href="#block-'+tab+'"]').tab('show');
+                editDialog.getModalBody().find('.nav-tabs a[href="#block-'+tab+'"]').tab('show');
+                editDialog.open();
+            } else {
+                editDialog.open();
             }
-
-
-            $('#pm-block-edit').removeClass('hidden');
 
             return this;
         };
 
         var editProperties = function (url) {
-            $('#pm-block-edit').attr('data-pm-block-id', '');
+            editDialog.setData('blockId', null);
             isLoadingEdit();
 
             $.get(url).success(function (data) {
-                $('#pm-block-edit').html(data);
-                angular.bootstrap($('#pm-block-edit form'), ["MainApp"]);
+                editDialog.message(data);
+                angular.bootstrap(editDialog.getModalBody().find('form'), ["MainApp"]);
             });
 
-            $('#pm-block-edit').removeClass('hidden');
+            editDialog.open();
 
             return this;
         };
 
         var isLoadingEdit = function() {
-            $('#pm-block-edit').html('<div class="loading panel-body"><span>Loading…</span></div>');
+            editDialog.setTitle('Loading');
+            editDialog.getModalBody().html('<div class="loading panel-body"><span>Loading…</span></div>');
         };
 
         var closeEditBlock = function (id) {
             unselectBlock(id);
-            $('#pm-block-edit').attr('data-pm-block-id', '').addClass('hidden');
+            editDialog.close();
         };
 
         var clearEditBlock = function () {
-            $('#pm-block-edit').attr('data-pm-block-id', 0);
-            $('#pm-block-edit').addClass('hidden');
+            editDialog.setData('blockId', null);
+            editDialog.getModalBody().html('');
         };
 
         var makeShared = function (id) {
