@@ -777,7 +777,7 @@ $(document).ready(function() {
                     var data = $(ui.item).attr('data-pm-block-data');
 
                     $(ui.item).attr('data-pm-block-id', '0'); // Set default so toArray won't trip and fall below
-                    var sortOrder = $(this).closest('.pm-placeholder').sortable('toArray', {attribute: 'data-pm-block-id'});
+                    var sortOrder = parentElement.sortable('toArray', {attribute: 'data-pm-block-id'});
 
                     createBlock({className: className, parent: parentId, placeholder: placeholderKey, sort: sortOrder, data: data, ownerId: blockOwnerId});
                 }
