@@ -17,27 +17,12 @@ use Opifer\CmsBundle\Entity\Form;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Opifer\MediaBundle\Form\Type\MediaPickerType;
 use Opifer\CmsBundle\Form\Type\CKEditorType;
-use Opifer\MediaBundle\Provider\YoutubeProvider;
-use Symfony\Bundle\FrameworkBundle\Templating\EngineInterface;
-use Symfony\Component\DependencyInjection\ContainerInterface as Container;
 
 /**
  * Video Block Service
  */
 class VideoBlockService extends AbstractBlockService implements BlockServiceInterface, ToolsetMemberInterface
 {
-
-    /**
-     * @param EngineInterface $templating
-     * @param ContainerInterface $container
-     * @param array $config
-     */
-    public function __construct(EngineInterface $templating, Container $container, array $config)
-    {
-        $this->templating = $templating;
-        $this->config = $config;
-        $this->container = $container;
-    }
 
     /**
      * {@inheritdoc}
@@ -98,26 +83,5 @@ class VideoBlockService extends AbstractBlockService implements BlockServiceInte
         return 'OpiferContentBundle:Block:Content/video.html.twig';
     }
 
-    /**
-     * Returns a Response object that can be cache-able.
-     *
-     * @param string   $view
-     * @param array    $parameters
-     * @param Response $response
-     *
-     * @return Response
-     */
-    public function renderResponse($view, array $parameters = array(), Response $response = null)
-    {
-        //if ($parameters['block']->getMedia()->getProvider() == 'youtube') {
-            //$mediaManager = $this->container->get('opifer.media.media_manager');
-            //$youtubeProvider = $this->container->get('opifer.media.provider.pool')->getProvider('youtube');
-            //$videoUrl = $youtubeProvider->getUrl($parameters['block']->getMedia());
-            //$parameters['block']->getMedia()->setReference($videoUrl);
-        //}
-        //dump($parameters['block']->getMedia()->getProvider()); exit;
-        //dump($rep->findOneByThumb($parameters['block']->getMedia()));exit;
-        return $this->getTemplating()->renderResponse($view, $parameters, $response);
-    }
 
 }
