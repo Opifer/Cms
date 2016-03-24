@@ -700,7 +700,7 @@ class BlockManager
 
     /**
      * Sorts an array of Blocks using their $sort property taking into account inherited
-     * BlockOwners.
+     * owners.
      *
      * @param array $blocks
      *
@@ -710,6 +710,9 @@ class BlockManager
     {
         // Perform a simple sort first
         usort($blocks, function ($a, $b)  {
+            if ($a->getSort() == $b->getSort()) {
+                return 0;
+            }
             return ($a->getSort() < $b->getSort()) ? -1 : 1;
         });
 
