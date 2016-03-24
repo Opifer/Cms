@@ -215,4 +215,19 @@ class YoutubeProvider extends AbstractProvider
 
         return $thumb;
     }
+
+
+    /**
+     * Get the full url to the original video.
+     *
+     * @param MediaInterface $media
+     *
+     * @return string
+     */
+    public function getUrl(MediaInterface $media)
+    {
+        $metadata = $media->getMetaData();
+
+        return sprintf('https://youtube.com/?watch=%s', $metadata['id']);
+    }
 }
