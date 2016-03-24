@@ -2,7 +2,7 @@
 
 namespace Opifer\ContentBundle\Block\Service;
 
-use Opifer\ContentBundle\Entity\CoockieWallBlock;
+use Opifer\ContentBundle\Entity\CookieWallBlock;
 use Opifer\ContentBundle\Block\Service\AbstractBlockService;
 use Opifer\ContentBundle\Block\Service\BlockServiceInterface;
 use Opifer\ContentBundle\Block\Tool\Tool;
@@ -15,7 +15,7 @@ use Opifer\CmsBundle\Form\Type\CKEditorType;
 /**
  * CoockieWall Block Service
  */
-class CoockieWallBlockService extends AbstractBlockService implements BlockServiceInterface, ToolsetMemberInterface
+class CookieWallBlockService extends AbstractBlockService implements BlockServiceInterface, ToolsetMemberInterface
 {
     /**
      * {@inheritdoc}
@@ -37,7 +37,7 @@ class CoockieWallBlockService extends AbstractBlockService implements BlockServi
      */
     public function createBlock()
     {
-        return new CoockieWallBlock;
+        return new CookieWallBlock;
     }
 
     /**
@@ -45,10 +45,10 @@ class CoockieWallBlockService extends AbstractBlockService implements BlockServi
      */
     public function getTool(BlockInterface $block = null)
     {
-        $tool = new Tool('CoockieWall', 'coockiewall');
+        $tool = new Tool('CookieWall', 'cookiewall');
 
         $tool->setIcon('info')
-            ->setDescription('Coockiewall');
+            ->setDescription('Cookiewall');
 
         return $tool;
     }

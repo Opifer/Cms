@@ -6,11 +6,11 @@ use Doctrine\ORM\Mapping as ORM;
 use Opifer\Revisions\Mapping\Annotation as Revisions;
 
 /**
- * CoockieWallBlock
+ * CookieWallBlock
  *
  * @ORM\Entity
  */
-class CoockieWallBlock extends Block
+class CookieWallBlock extends Block
 {
     /**
      * @var string
@@ -45,6 +45,6 @@ class CoockieWallBlock extends Block
      */
     public function getBlockType()
     {
-        return 'coockiewall';
+        return 'cookiewall';
     }
 }
