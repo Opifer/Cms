@@ -20,6 +20,7 @@ parameters:
     opifer.content.pointer_block.class: Opifer\ContentBundle\Block\Service\PointerBlockService
     opifer.content.socialshare_block.class: Opifer\ContentBundle\Block\Service\SocialShareBlockService
     opifer.content.clipboard_block.class: Opifer\ContentBundle\Block\Service\ClipboardBlockService
+    opifer.content.video_block.class: Opifer\ContentBundle\Block\Service\VideoBlockService
 
 services:
     opifer.content.carousel_block:
@@ -171,3 +172,9 @@ services:
         arguments: ['@opifer.content.block_manager', '@session']
         tags:
             - { name: opifer.content.block_service, alias: clipboard }
+
+    opifer.content.video_block:
+        class: '%opifer.content.video_block.class%'
+        arguments: ['@templating', '@service_container', []]
+        tags:
+            - { name: opifer.content.block_service, alias: video }

@@ -11,6 +11,12 @@ opifer_media_media_new:
     options:
         expose: true
 
+opifer_media_media_create:
+    path: /media/create/{provider}
+    defaults: { _controller: OpiferMediaBundle:Backend/Media:create }
+    options:
+        expose: true
+
 opifer_media_media_edit:
     path: /media/{id}
     defaults: { _controller: OpiferMediaBundle:Backend/Media:edit }
