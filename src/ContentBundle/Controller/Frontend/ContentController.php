@@ -3,7 +3,6 @@
 namespace Opifer\ContentBundle\Controller\Frontend;
 
 use Opifer\ContentBundle\Block\BlockManager;
-use Opifer\ContentBundle\Environment\ContentEnvironment;
 use Opifer\ContentBundle\Environment\Environment;
 use Opifer\ContentBundle\Model\Content;
 use Opifer\ContentBundle\Model\ContentInterface;

@@ -142,18 +142,9 @@ $(document).ready(function() {
         var ownerId = 0;
         var mprogress = null;
         var hasUnsavedChanges = false;
-        var btnPublish = $('#pm-btn-publish');
-        var btnDiscard = $('#pm-btn-discard');
-        var btnMakeShared = $('.pm-make-shared');
-        var btnPublishShared = $('.pm-make-shared');
         var btnRun = $('#pm-btn-run');
-        var btnViewContent = $('#pm-btn-viewmode-content');
-        var btnViewPreview = $('#pm-btn-viewmode-preview');
-        var btnViewLayout = $('#pm-btn-viewmode-layout');
         var toolbar = null;
         var VIEWMODE_CONTENT = 'CONTENT';
-        var VIEWMODE_LAYOUT = 'LAYOUT';
-        var VIEWMODE_PREVIEW = 'PREVIEW';
         var iFrame = $('#pm-iframe');
         var permalink = null;
         var splitPane = $('.split-pane');
@@ -239,13 +230,13 @@ $(document).ready(function() {
             $(document).ajaxComplete(function (e) {
                 isNotLoading();
             });
-            //
+
             //$('a[href="#tab-history"]').on('shown.bs.tab', function (e) {
             //    e.target // newly activated tab
             //    e.relatedTarget // previous active tab
             //
             //
-            //})
+            //});
 
             $(document).on('submit', '#pm-dialog-edit form', function (e) {
                 e.preventDefault();
@@ -262,11 +253,6 @@ $(document).ready(function() {
 
                 return false;
             });
-
-            //$(document).on('click', '.pm-block .pm-btn-edit', function (e) {
-            //    e.preventDefault();
-            //    editBlock($(this).closest('.pm-block').attr('data-pm-block-id'));
-            //});
 
             // Edit block (click)
             $(document).on('click', '#pm-btn-publish', function(e) {
@@ -449,6 +435,10 @@ $(document).ready(function() {
             editDialog.open();
 
             return this;
+        };
+
+        var isPointer = function (element) {
+            return (element.attr('data-pm-block-pointer') == 'true');
         };
 
         var isLoadingEdit = function() {
@@ -772,18 +762,24 @@ $(document).ready(function() {
                 // Create new block
                 if ($(ui.item).hasClass('pm-block-item') && $(this).hasClass('pm-accept')) {
                     event.stopPropagation();
+                    var placeholderElement = $(this).closest('*[data-pm-placeholder-key]');
+                    var parentElement = placeholderElement.closest('*[data-pm-block-id]');
                     $(ui.item).addClass('pm-block-insert');
                     $(this).find('.pm-block-item').addClass('pm-block-insert');
                     var className = $(ui.item).attr('data-pm-block-type');
-                    var parent = $(this).closest('*[data-pm-placeholder-key]').closest('*[data-pm-block-id]').attr('data-pm-block-id');
-                    var placeholderKey = $(this).closest('*[data-pm-placeholder-key]').attr('data-pm-placeholder-key');
+                    var parentId = parentElement.attr('data-pm-block-id');
+                    if (isPointer(parentElement)) {
+                        // block is pointer, so use the shared block as the parent
+                        parentId = parentElement.attr('data-pm-block-reference-id');
+                    }
+                    var placeholderKey = placeholderElement.attr('data-pm-placeholder-key');
+                    var blockOwnerId = parentElement.attr('data-pm-block-owner-id');
                     var data = $(ui.item).attr('data-pm-block-data');
-                    var blockOwnerId = $(this).closest('*[data-pm-placeholder-key]').closest('*[data-pm-block-id]').attr('data-pm-block-owner-id');
 
                     $(ui.item).attr('data-pm-block-id', '0'); // Set default so toArray won't trip and fall below
                     var sortOrder = $(this).closest('.pm-placeholder').sortable('toArray', {attribute: 'data-pm-block-id'});
 
-                    createBlock({className: className, parent: parent, placeholder: placeholderKey, sort: sortOrder, data: data, ownerId: blockOwnerId});
+                    createBlock({className: className, parent: parentId, placeholder: placeholderKey, sort: sortOrder, data: data, ownerId: blockOwnerId});
                 }
             };
 

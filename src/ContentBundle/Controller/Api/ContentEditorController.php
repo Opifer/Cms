@@ -7,6 +7,7 @@ use Opifer\ContentBundle\Block\BlockManager;
 use Opifer\ContentBundle\Block\ContentBlockAdapter;
 use Opifer\ContentBundle\Block\Service\AbstractBlockService;
 use Opifer\ContentBundle\Block\Service\ClipboardBlockService;
+use Opifer\ContentBundle\Entity\CompositeBlock;
 use Opifer\ContentBundle\Entity\PointerBlock;
 use Opifer\ContentBundle\Environment\Environment;
 use Opifer\ContentBundle\Form\Type\BlockAdapterFormType;
@@ -240,8 +241,12 @@ class ContentEditorController extends Controller
         $id       = (int) $request->request->get('id');
 
         try {
-            $block = $manager->find($id);
+            $block = $manager->find($id, true);
             $manager->publish($block);
+
+            if ($block instanceof CompositeBlock) {
+                $manager->publish($manager->findDescendants($block));
+            }
 
             $response->setStatusCode(200);
             $response->setData(['state' => 'published']);

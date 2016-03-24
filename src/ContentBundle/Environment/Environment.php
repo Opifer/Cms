@@ -194,24 +194,7 @@ class Environment
         $blocks = $this->blockManager->sortBlocks($blocks);
         $cacheKey = $this->getCacheKey();
 
-        // Load shared blocks
-        foreach ($blocks as $block) {
-            $this->blockManager->setDraftVersionFilter(false);
-            if ($block instanceof PointerBlock && $block->getReference()) {
-                $iterator = new \RecursiveIteratorIterator(
-                    new RecursiveBlockIterator(array($block->getReference())),
-                    \RecursiveIteratorIterator::SELF_FIRST
-                );
-
-                foreach ($iterator as $included) {
-                    $reverted = $this->blockManager->revertToDraft($included);
-                    if ($reverted) {
-                        $blocks[] = $reverted;
-                    }
-                }
-            }
-            $this->blockManager->setDraftVersionFilter(true);
-        }
+        $blocks = $this->loadSharedBlocks($blocks);
 
         $this->blockCache[$cacheKey] = $blocks;
 
@@ -234,6 +217,33 @@ class Environment
 
         if ($owner instanceof TemplatedInterface && $owner->getTemplate()) {
             $blocks = $this->getBlocksRecursive($owner->getTemplate(), $blocks);
+        }
+
+        return $blocks;
+    }
+
+    protected function loadSharedBlocks($blocks)
+    {
+        // Load shared blocks
+        foreach ($blocks as $block) {
+            if ($this->draft) {
+                $this->blockManager->setDraftVersionFilter(false);
+            }
+            
+            if ($block instanceof PointerBlock && $block->getReference()) {
+                $iterator = new \RecursiveIteratorIterator(
+                    new RecursiveBlockIterator(array($block->getReference())),
+                    \RecursiveIteratorIterator::SELF_FIRST
+                );
+
+                foreach ($iterator as $included) {
+                    $reverted = $this->blockManager->revertToDraft($included);
+                    if ($reverted) {
+                        $blocks[] = $reverted;
+                    }
+                }
+            }
+            $this->blockManager->setDraftVersionFilter(true);
         }
 
         return $blocks;
