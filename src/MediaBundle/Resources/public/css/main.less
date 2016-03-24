@@ -240,7 +240,7 @@
             position: relative;
             top: 0;
             left: 0;
-            overflow-y: hidden;
+            overflow-y: scroll;
         }
     }
 
@@ -275,6 +275,7 @@
 
         .ng-modal-dialog-content {
             height: 100%;
+            overflow-y: scroll;
         }
         .ng-modal-close {
             position: absolute;
@@ -284,14 +285,11 @@
             padding: 5px;
             display: inline-block;
             z-index: 100;
+
             .ng-modal-close-x {
 
             }
         }
-    }
-
-    .media-items {
-        overflow-y: scroll;
     }
 }
 
@@ -344,7 +342,6 @@
 .image-section {
     position: relative;
     z-index: 10;
-    overflow-y: scroll;
 }
 
 .drag-drop {
