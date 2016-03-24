@@ -47,8 +47,8 @@ class PointerBlockService extends AbstractBlockService implements BlockServiceIn
         $reference = null;
         if ($block->getReference()) {
             $service = $this->getReferenceService($block);
-            $service->load($block);
             $reference = $this->environment->getBlock($block->getReference()->getId());
+            $service->load($reference);
             $parameters = $service->getViewParameters($reference);
             $parameters['pointer'] = $block;
         }

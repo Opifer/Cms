@@ -89,17 +89,16 @@ class ContentEditorController extends Controller
             $object = $this->get('opifer.content.block_provider_pool')->getProvider($owner)->getBlockOwner($ownerId);
         }
 
-//        try {
+        try {
             $block = $manager->createBlock($object, $className, $parentId, $placeholder, $sort, $data);
 
             $response = new JsonResponse(['state' => 'created', 'id' => $block->getId()]);
             $response->setStatusCode(201);
             $response->headers->add(['Location' => $this->generateUrl('opifer_content_api_contenteditor_view_block', ['owner' => $owner, 'ownerId' => $ownerId, 'id' => $block->getId()])]);
-
-//        } catch (\Exception $e) {
-//            $response->setStatusCode(500);
-//            $response->setData(['error' => $e->getMessage()]);
-//        }
+        } catch (\Exception $e) {
+            $response->setStatusCode(500);
+            $response->setData(['error' => $e->getMessage()]);
+        }
 
         return $response;
     }
@@ -207,7 +206,7 @@ class ContentEditorController extends Controller
         $manager = $this->get('opifer.content.block_manager');
 
         $response = new JsonResponse;
-        $id       = (int)$request->request->get('id');
+        $id       = (int) $request->request->get('id');
 
         try {
             /** @var PointerBlock $pointerBlock */

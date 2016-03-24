@@ -282,7 +282,7 @@ $(document).ready(function() {
 
             $(document).on('click', '.pm-btn-make-shared', function (e) {
                 e.preventDefault();
-                makeShared($(this).closest('.pm-toolset-card').attr('data-pm-block-id'));
+                makeShared($(this).closest('form').attr('data-pm-block-id'));
             });
 
             $(document).on('click', '.pm-btn-publish-shared', function (e) {
