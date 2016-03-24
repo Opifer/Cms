@@ -203,16 +203,40 @@ class BlockManager
         return $blocks;
     }
 
+    public function findDescendants(CompositeBlock $parent, $draft = true)
+    {
+        $this->setDraftVersionFilter(! $draft);
+
+        $blocks = array();
+
+        $iterator = new \RecursiveIteratorIterator(
+            new RecursiveBlockIterator(array($parent)),
+            \RecursiveIteratorIterator::SELF_FIRST
+        );
+
+        foreach ($iterator as $descendant) {
+            $blocks[] = $descendant;
+        }
+
+        if ($draft) {
+            $this->revertToDraft($blocks);
+        }
+
+        return $blocks;
+    }
+
     public function revertToDraft($blocks)
     {
-        if (is_array($blocks)) {
+        $single = ! is_array($blocks) && $blocks instanceof BlockInterface;
+
+        if ($single) {
             $blocks = array($blocks);
         }
 
         foreach ($blocks as $key => $block) {
             $currentRevision = $this->revisionManager->getCurrentRevision($block);
             $latestRevision = $this->revisionManager->getLatestRevision($block);
-            if ($latestRevision !== false && $currentRevision <= $latestRevision) {
+            if ($latestRevision !== false && $currentRevision < $latestRevision) {
                 try {
                     $this->revisionManager->revert($block, $latestRevision);
                 } catch (DeletedException $e) {
@@ -221,7 +245,7 @@ class BlockManager
             }
         }
 
-        return $blocks;
+        return ($single) ? array_shift($blocks) : $blocks;
     }
 
     protected function findGroupDraftRevision($block)
@@ -281,10 +305,8 @@ class BlockManager
      */
     public function save(BlockInterface $block, $draft = true)
     {
-        if ($draft) {
-            $this->setDraftVersionFilter(! $draft);
-            $block->setDraft($draft);
-        }
+        $this->setDraftVersionFilter(! $draft);
+        $block->setDraft($draft);
 
         $this->em->persist($block);
         $this->em->flush($block);
@@ -420,6 +442,8 @@ class BlockManager
      */
     public function killRevisionListener()
     {
+        $listenerInst = false;
+
         foreach ($this->em->getEventManager()->getListeners() as $event => $listeners) {
             foreach ($listeners as $hash => $listener) {
                 if ($listener instanceof RevisionListener) {
@@ -428,13 +452,14 @@ class BlockManager
                 }
             }
         }
-        $this->em->getEventManager()->removeEventListener(array(Events::onFlush, Events::postPersist, Events::postUpdate, Events::postFlush, SoftDeleteableListener::PRE_SOFT_DELETE, SoftDeleteableListener::POST_SOFT_DELETE), $listenerInst);
+
+        if ($listenerInst) {
+            $this->em->getEventManager()->removeEventListener(array(Events::onFlush, Events::postPersist, Events::postUpdate, Events::postFlush, SoftDeleteableListener::PRE_SOFT_DELETE, SoftDeleteableListener::POST_SOFT_DELETE), $listenerInst);
+        }
     }
 
 
     /**
-     * TODO: refactor this
-     *
      * @param BlockOwnerInterface $owner
      * @param string              $type
      * @param integer             $parentId
@@ -491,7 +516,12 @@ class BlockManager
                 $contained = $this->setSortsByDirective($contained, $sort);
 
                 foreach ($contained as $node) {
-                    if ($node->getOwner()->getId() == $block->getOwner()->getId()) {
+                    // If nodes are in the same parent and if their owners match we
+                    // save the changes. We don't want to save sort changes made to
+                    // nodes belonging to inherited trees.
+                    if ($node->getParent() === $block->getParent() &&
+                        (($node->getOwner() === null && $block->getOwner() === null) ||
+                        ($node->getOwner()->getId() == $block->getOwner()->getId()))) {
                         $this->save($node, $draft);
                     }
                 }
@@ -562,6 +592,7 @@ class BlockManager
         $pointer->setOwner($block->getOwner());
         $pointer->setParent($block->getParent());
         $pointer->setReference($block);
+        $pointer->setDraft(true);
 
 
         // Detach and make shared
@@ -620,34 +651,6 @@ class BlockManager
         return $siblings;
     }
 
-
-    public function revertRecursiveFromNode(BlockInterface $block, $version)
-    {
-        if (!$block->getOwner()) {
-            $this->revert($block, $version);
-
-            return $block;
-        }
-
-        $owner = $block->getOwner();
-        $this->revert($owner, $version);
-
-        $iterator = new \RecursiveIteratorIterator(
-            new RecursiveBlockIterator(
-                $owner->getChildren()
-            ),
-            \RecursiveIteratorIterator::SELF_FIRST
-        );
-
-        foreach ($iterator as $item) {
-            if ($block->getId() == $item->getId()) {
-                return $item;
-            }
-        }
-
-        throw new \Exception(sprintf('Unable to revert with recursion. Could not find your node %s in the tree anymore', $block));
-    }
-
     /**
      * @param array $blocks
      * @param array $sort
@@ -697,7 +700,7 @@ class BlockManager
 
     /**
      * Sorts an array of Blocks using their $sort property taking into account inherited
-     * BlockOwners.
+     * owners.
      *
      * @param array $blocks
      *
@@ -707,6 +710,9 @@ class BlockManager
     {
         // Perform a simple sort first
         usort($blocks, function ($a, $b)  {
+            if ($a->getSort() == $b->getSort()) {
+                return 0;
+            }
             return ($a->getSort() < $b->getSort()) ? -1 : 1;
         });
 
@@ -795,67 +801,67 @@ class BlockManager
 
         return $version + 1;
     }
-
-    /**
-     * Fixes nested tree hierarchy between parent and children by examining child's parent.
-     *
-     * Blocks may have altered parent/child relationships after reverting. Let's
-     * loop and try to add the missing children to our tree.
-     *
-     * @param BlockContainerInterface    $block
-     * @param \RecursiveIteratorIterator $iterator
-     */
-    public static function treeAddMissingChildren(BlockContainerInterface $block, \RecursiveIteratorIterator $iterator = null)
-    {
-        if (!$iterator) {
-            $iterator = new \RecursiveIteratorIterator(
-                new RecursiveBlockIterator(
-                    ($block instanceof BlockOwnerInterface) ? $block->getOwning() : $block->getChildren()
-                ),
-                \RecursiveIteratorIterator::SELF_FIRST
-            );
-        }
-
-        // Add children that belong
-        $pass = array();
-        foreach ($iterator as $object) {
-            if (in_array($object->getId(), $pass)) {
-                $iterator->next();
-            }
-            array_push($pass, $object->getId());
-
-            // Found block that has current block as parent
-            if ($object->getParent() && $object->getParent()->getId() == $block->getId()) {
-
-                if (!$block->getChildren()->contains($object)) {
-                    $block->addChild($object);
-                }
-            }
-        }
-
-        foreach ($block->getChildren() as $child) {
-            if ($child instanceof BlockContainerInterface) {
-                // Go deeper
-                self::treeAddMissingChildren($child, $iterator);
-            }
-        }
-    }
-
-    /**
-     * @param BlockContainerInterface $block
-     */
-    public static function treeRemoveInvalidChildren(BlockContainerInterface $block)
-    {
-        foreach ($block->getChildren() as $child) {
-            if ($child instanceof BlockContainerInterface) {
-                // Go deeper
-                self::treeRemoveInvalidChildren($child);
-            }
-
-            // Remove children not belonging
-            if ($child->getParent() && $child->getParent()->getId() !== $block->getId()) {
-                $block->removeChild($child);
-            }
-        }
-    }
+//
+//    /**
+//     * Fixes nested tree hierarchy between parent and children by examining child's parent.
+//     *
+//     * Blocks may have altered parent/child relationships after reverting. Let's
+//     * loop and try to add the missing children to our tree.
+//     *
+//     * @param BlockContainerInterface    $block
+//     * @param \RecursiveIteratorIterator $iterator
+//     */
+//    public static function treeAddMissingChildren(BlockContainerInterface $block, \RecursiveIteratorIterator $iterator = null)
+//    {
+//        if (!$iterator) {
+//            $iterator = new \RecursiveIteratorIterator(
+//                new RecursiveBlockIterator(
+//                    ($block instanceof BlockOwnerInterface) ? $block->getOwning() : $block->getChildren()
+//                ),
+//                \RecursiveIteratorIterator::SELF_FIRST
+//            );
+//        }
+//
+//        // Add children that belong
+//        $pass = array();
+//        foreach ($iterator as $object) {
+//            if (in_array($object->getId(), $pass)) {
+//                $iterator->next();
+//            }
+//            array_push($pass, $object->getId());
+//
+//            // Found block that has current block as parent
+//            if ($object->getParent() && $object->getParent()->getId() == $block->getId()) {
+//
+//                if (!$block->getChildren()->contains($object)) {
+//                    $block->addChild($object);
+//                }
+//            }
+//        }
+//
+//        foreach ($block->getChildren() as $child) {
+//            if ($child instanceof BlockContainerInterface) {
+//                // Go deeper
+//                self::treeAddMissingChildren($child, $iterator);
+//            }
+//        }
+//    }
+//
+//    /**
+//     * @param BlockContainerInterface $block
+//     */
+//    public static function treeRemoveInvalidChildren(BlockContainerInterface $block)
+//    {
+//        foreach ($block->getChildren() as $child) {
+//            if ($child instanceof BlockContainerInterface) {
+//                // Go deeper
+//                self::treeRemoveInvalidChildren($child);
+//            }
+//
+//            // Remove children not belonging
+//            if ($child->getParent() && $child->getParent()->getId() !== $block->getId()) {
+//                $block->removeChild($child);
+//            }
+//        }
+//    }
 }
