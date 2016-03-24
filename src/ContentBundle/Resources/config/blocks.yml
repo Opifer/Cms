@@ -21,6 +21,7 @@ parameters:
     opifer.content.socialshare_block.class: Opifer\ContentBundle\Block\Service\SocialShareBlockService
     opifer.content.clipboard_block.class: Opifer\ContentBundle\Block\Service\ClipboardBlockService
     opifer.content.video_block.class: Opifer\ContentBundle\Block\Service\VideoBlockService
+    opifer.content.coockiewall_block.class: Opifer\ContentBundle\Block\Service\CoockieWallBlockService
 
 services:
     opifer.content.carousel_block:
@@ -178,3 +179,9 @@ services:
         arguments: ['@templating', []]
         tags:
             - { name: opifer.content.block_service, alias: video }
+
+    opifer.content.coockiewall_block:
+        class: '%opifer.content.coockiewall_block.class%'
+        arguments: ['@templating', []]
+        tags:
+            - { name: opifer.content.block_service, alias: coockiewall }
