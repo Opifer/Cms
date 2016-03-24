@@ -22,6 +22,8 @@
 }
 
 .media-items {
+    position: relative;
+
     .visual img {
         margin: 0 auto;
         box-shadow: 0 1px 3px rgba(0,0,0,.3);
@@ -340,11 +342,19 @@
 }
 
 .image-section {
-    max-height: 500px;
+    position: relative;
+    z-index: 10;
     overflow-y: scroll;
 }
 
 .drag-drop {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 1;
+
     .fa {
         margin-top: 30px;
         font-size: 100px;
