@@ -122,7 +122,7 @@ angular.module('mediaLibrary', ['infinite-scroll', 'ngModal', 'angularFileUpload
                 $scope.mediaCollection.items.push(data);
             });
         };
-
+        
         /**
          * Toggle the picker
          */

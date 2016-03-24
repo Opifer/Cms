@@ -58,8 +58,12 @@ label:
     spans: Widths
     offsets: Offsets
     title: Title
+    caption: Caption
+    message: Message
     code: Code
     tabs: Tabs
+    width: Width
+    height: Height
     column_m_t_md: Margin top md (row)
     column_m_b_md: Margin bottom md (row)
     column_m_t_lg: Margin top lg (row)

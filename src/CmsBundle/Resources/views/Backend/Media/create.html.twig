@@ -1,11 +1,24 @@
 {% extends 'OpiferCmsBundle:Backend:base.html.twig' %}
-
-{% block opifer_media_title %}
-    <span class="iconl icon-file"></span>{{ 'media.new'|trans({'%provider%': provider.label})|capitalize }}
-{% endblock opifer_media_title %}
-
-{% block opifer_media_body %}
-    <section class="page-section">
-        {{ form(form, {'style': 'horizontal'}) }}
+{% block body %}
+    <section class="container">
+        <div class="row">
+            <div class="col-xs-12 col-md-10 col-md-offset-2">
+                <div class="page-header">
+                    <h1>
+                        <span class="small">{{ 'media.plural'|trans|capitalize }}</span><br />
+                        {{ 'media.new'|trans({'%provider%': provider.label})|capitalize }}
+                    </h1>
+                </div>
+                {{ form_start(form, {'attr' : { 'novalidate' : 'novalidate' }, 'style': 'horizontal' }) }}
+                {{ form_widget(form) }}
+                <div class="form-group">
+                    <div class="col-xs-12">
+                        <button type="submit" class="btn btn-primary">{{ 'button.submit'|trans }}</button>
+                        <a href="{{ path('opifer_media_media_index') }}" class="btn btn-link pull-right">{{ 'button.cancel'|trans|capitalize }}</a>
+                    </div>
+                </div>
+                {{ form_end(form) }}
+            </div>
+        </div>
     </section>
-{% endblock opifer_media_body %}
+{% endblock body %}

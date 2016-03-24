@@ -23,6 +23,8 @@ class MediaRepository extends EntityRepository
             $ids = explode(',', $request->get('ids'));
 
             $qb->andWhere('m.id IN (:ids)')->setParameter('ids', $ids);
+        } else {
+            $qb->andWhere('m.status = :status')->setParameter('status', Media::STATUS_ENABLED);
         }
 
         if ($request->get('search')) {
