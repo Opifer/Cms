@@ -59,6 +59,7 @@ label:
     offsets: Offsets
     title: Title
     caption: Caption
+    message: Message
     code: Code
     tabs: Tabs
     width: Width

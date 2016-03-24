@@ -4,7 +4,6 @@ namespace Opifer\ContentBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Opifer\Revisions\Mapping\Annotation as Revisions;
-use Opifer\ContentBundle\Entity\Block;
 
 /**
  * CoockieWallBlock
@@ -13,7 +12,6 @@ use Opifer\ContentBundle\Entity\Block;
  */
 class CoockieWallBlock extends Block
 {
-
     /**
      * @var string
      *
@@ -49,5 +47,4 @@ class CoockieWallBlock extends Block
     {
         return 'coockiewall';
     }
-
 }

@@ -182,6 +182,6 @@ services:
 
     opifer.content.coockiewall_block:
         class: '%opifer.content.coockiewall_block.class%'
-        arguments: ['@templating', []]
+        arguments: ['@templating', '%opifer_content.coockiewall_block_configuration%']
         tags:
             - { name: opifer.content.block_service, alias: coockiewall }

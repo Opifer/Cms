@@ -10,9 +10,6 @@ use Opifer\ContentBundle\Block\Tool\ToolsetMemberInterface;
 use Opifer\ContentBundle\Model\BlockInterface;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\Extension\Core\Type\FormType;
-use Symfony\Component\HttpFoundation\Response;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
-use Opifer\CmsBundle\Entity\Form;
 use Opifer\CmsBundle\Form\Type\CKEditorType;
 
 /**
@@ -20,7 +17,6 @@ use Opifer\CmsBundle\Form\Type\CKEditorType;
  */
 class CoockieWallBlockService extends AbstractBlockService implements BlockServiceInterface, ToolsetMemberInterface
 {
-
     /**
      * {@inheritdoc}
      */
@@ -31,7 +27,7 @@ class CoockieWallBlockService extends AbstractBlockService implements BlockServi
         $builder->add(
             $builder->create('default', FormType::class, ['virtual' => true])
                 ->add('value', CKEditorType::class, [
-                    'label' => 'Message',
+                    'label' => 'label.message',
                 ])
         );
     }
@@ -51,16 +47,9 @@ class CoockieWallBlockService extends AbstractBlockService implements BlockServi
     {
         $tool = new Tool('CoockieWall', 'coockiewall');
 
-        $tool->setIcon('text_fields')
+        $tool->setIcon('info')
             ->setDescription('Coockiewall');
 
         return $tool;
     }
-
-    public function getView(BlockInterface $block)
-    {
-        return 'OpiferContentBundle:Block:Content/coockiewall.html.twig';
-    }
-
-
 }
