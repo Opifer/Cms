@@ -82,7 +82,7 @@ class ContentEditorController extends Controller
         $data        = json_decode($data, true);
 
         // In case of editing shared blocks they have no owner
-        if ($bOwnerId === 0) {
+        if ($bOwnerId === 0 && $parentId !== null) {
             $object = null;
         } else {
             $object = $this->get('opifer.content.block_provider_pool')->getProvider($owner)->getBlockOwner($ownerId);
