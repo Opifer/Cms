@@ -1,13 +1,6 @@
 <div ng-file-drop ng-file-change="onFileSelect($files)" ng-file-drag-over-class="file-drop-area-hover" ng-show="dropSupported" class="file-drop-area">
     <div class="file-drop-area-overlay"></div>
     <div class="container-fluid">
-        <div class="row">
-            <div class="col-xs-12">
-                <div class="page-header">
-                    <h1>Media Manager</h1>
-                </div>
-            </div>
-        </div>
         <div class="row row-space-4">
             <div class="col-md-4">
                 <div class="input-group search-group">
@@ -15,15 +8,6 @@
                         <i class="material-icons md-18">search</i>
                     </span>
                     <input type="text" class="form-control" placeholder="Enter name, filename or description" ng-model="mediaCollection.search" ng-change="mediaCollection.loadMore(true)">
-                </div>
-            </div>
-        </div>
-        <div class="row row-space-4">
-            <div class="col-md-4">
-                <div class="input-group search-group">
-                    <div class="btn btn-primary" id="btnMediaPaginate"  ng-click="addYoutubeVideo()">
-                        Add Youtube Video
-                    </div>
                 </div>
             </div>
         </div>

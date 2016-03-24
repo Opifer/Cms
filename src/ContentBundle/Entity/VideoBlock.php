@@ -4,7 +4,6 @@ namespace Opifer\ContentBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Opifer\Revisions\Mapping\Annotation as Revisions;
-use Opifer\ContentBundle\Entity\Block;
 use Opifer\MediaBundle\Model\MediaInterface;
 
 /**
@@ -29,22 +28,6 @@ class VideoBlock extends Block
      * @ORM\Column(type="text", nullable=true)
      */
     protected $value;
-
-    /**
-     * @var integer
-     *
-     * @Revisions\Revised
-     * @ORM\Column(type="integer", name="width", nullable=true)
-     */
-    protected $width;
-
-    /**
-     * @var integer
-     *
-     * @Revisions\Revised
-     * @ORM\Column(type="integer", name="height", nullable=true)
-     */
-    protected $height;
 
     /**
      * @var MediaInterface
@@ -95,8 +78,6 @@ class VideoBlock extends Block
         return $this;
     }
 
-
-
     /**
      * @return string
      */
@@ -124,48 +105,4 @@ class VideoBlock extends Block
 
         return $this;
     }
-
-
-
-    /**
-     * @return string
-     */
-    public function getWidth()
-    {
-        return $this->width;
-    }
-
-    /**
-     * @param string $width
-     *
-     * @return VideoBlock
-     */
-    public function setWidth($width)
-    {
-        $this->width = $width;
-
-        return $this;
-    }
-
-
-    /**
-     * @return string
-     */
-    public function getHeight()
-    {
-        return $this->height;
-    }
-
-    /**
-     * @param string $height
-     *
-     * @return VideoBlock
-     */
-    public function setHeight($height)
-    {
-        $this->height = $height;
-
-        return $this;
-    }
-
 }

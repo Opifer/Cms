@@ -51,6 +51,7 @@
                                 <div class="media-image">
                                     <input type="hidden" id="" name="{{ picker.name }}" value="{{ item.id }}">
                                     <img ng-src="{{ item.images.medialibrary }}" class="media-object" ng-if="item.provider == 'image'" alt="{{ item.alt }}">
+                                    <img ng-src="{{ item.thumb.images.medialibrary }}" class="media-object" ng-if="item.provider == 'youtube'" alt="{{ item.alt }}">
                                     <div class="image-wrapper">
                                         <div class="controls">
                                             <a ng-click="removeMedia($index)" class="btn btn-close"></a>

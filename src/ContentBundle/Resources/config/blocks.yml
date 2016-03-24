@@ -176,7 +176,7 @@ services:
 
     opifer.content.video_block:
         class: '%opifer.content.video_block.class%'
-        arguments: ['@templating', []]
+        arguments: ['@templating', '%opifer_content.video_block_configuration%']
         tags:
             - { name: opifer.content.block_service, alias: video }
 

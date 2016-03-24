@@ -1,17 +1,18 @@
 <div {{ manage_tags() }}>
-    <h1>{{ block.title|default }}</h1>
-    <h1>{{ block.value|default|raw }}</h1>
+	{% if block.title|default %}
+	 	<h1>{{ block.title|default }}</h1>
+	{% endif %}
   	{% if block.media|default %}
-	  	
 	  	{% if block.media.provider == 'youtube' %}
-	      	<iframe width="{{ block.width|default('420') }}" height="{{ block.width|default('315') }}"
-				src="https://www.youtube.com/embed/{{ block.media.reference }}" allowfullscreen>
+	      	<iframe width="{{ block.properties.width|default('420') }}" height="{{ block.properties.height|default('315') }}"
+				src="https://www.youtube.com/embed/{{ block.media.reference }}" frameborder="0" allowfullscreen>
 		  	</iframe>
 		{% else %}
 		  	<video width="{{ block.properties.width|default('320') }}" height="{{ block.properties.height|default('240') }}" controls preload="auto">
 		  		<source src="{{ block.media.original|default }}" type="video/mp4">
 				Your browser does not support the video tag.
-			</video> 
+			</video>
 		{% endif %}
 	{% endif %}
+	{{ block.value|default|raw }}
 </div>

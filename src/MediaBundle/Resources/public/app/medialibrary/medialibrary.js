@@ -122,11 +122,7 @@ angular.module('mediaLibrary', ['infinite-scroll', 'ngModal', 'angularFileUpload
                 $scope.mediaCollection.items.push(data);
             });
         };
-
-        $scope.addYoutubeVideo = function(){
-            $window.location.href = Routing.generate('opifer_media_media_create', {'provider': 'youtube'});
-        };
-
+        
         /**
          * Toggle the picker
          */
