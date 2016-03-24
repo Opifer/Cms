@@ -170,7 +170,9 @@ class Environment
 
             if ($member->getParent()->getId() == $block->getId()) { // direct child
                 array_push($children, $member);
-            } else if ($member->getOwner() && $member->getParent()->getId() == $member->getOwner()->getId() && $block instanceof BlockOwnerInterface) {
+            } else if ( $member->getOwner() &&
+                        $member->getParent()->getId() == $member->getOwner()->getId() &&
+                        $block instanceof BlockOwnerInterface) {
                 array_push($children, $member);
             }
         }
@@ -229,7 +231,7 @@ class Environment
             if ($this->draft) {
                 $this->blockManager->setDraftVersionFilter(false);
             }
-            
+
             if ($block instanceof PointerBlock && $block->getReference()) {
                 $iterator = new \RecursiveIteratorIterator(
                     new RecursiveBlockIterator(array($block->getReference())),
@@ -237,9 +239,14 @@ class Environment
                 );
 
                 foreach ($iterator as $included) {
-                    $reverted = $this->blockManager->revertToDraft($included);
-                    if ($reverted) {
-                        $blocks[] = $reverted;
+                    if ($this->draft) {
+                        $reverted = $this->blockManager->revertToDraft($included);
+
+                        if ($reverted) {
+                            $blocks[] = $reverted;
+                        }
+                    } else {
+                        $blocks[] = $included;
                     }
                 }
             }

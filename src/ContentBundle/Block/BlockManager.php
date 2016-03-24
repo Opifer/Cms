@@ -236,7 +236,7 @@ class BlockManager
         foreach ($blocks as $key => $block) {
             $currentRevision = $this->revisionManager->getCurrentRevision($block);
             $latestRevision = $this->revisionManager->getLatestRevision($block);
-            if ($latestRevision !== false && $currentRevision <= $latestRevision) {
+            if ($latestRevision !== false && $currentRevision < $latestRevision) {
                 try {
                     $this->revisionManager->revert($block, $latestRevision);
                 } catch (DeletedException $e) {
@@ -305,10 +305,8 @@ class BlockManager
      */
     public function save(BlockInterface $block, $draft = true)
     {
-        if ($draft) {
-            $this->setDraftVersionFilter(! $draft);
-            $block->setDraft($draft);
-        }
+        $this->setDraftVersionFilter(! $draft);
+        $block->setDraft($draft);
 
         $this->em->persist($block);
         $this->em->flush($block);
@@ -594,6 +592,7 @@ class BlockManager
         $pointer->setOwner($block->getOwner());
         $pointer->setParent($block->getParent());
         $pointer->setReference($block);
+        $pointer->setDraft(true);
 
 
         // Detach and make shared
