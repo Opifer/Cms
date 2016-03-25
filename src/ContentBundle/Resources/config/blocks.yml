@@ -180,8 +180,8 @@ services:
         tags:
             - { name: opifer.content.block_service, alias: video }
 
-    opifer.content.coociewall_block:
+    opifer.content.cookiewall_block:
         class: '%opifer.content.cookiewall_block.class%'
-        arguments: ['@templating', '%opifer_content.cookiewall_block_configuration%']
+        arguments: ['@templating', '@session', '%opifer_content.cookiewall_block_configuration%']
         tags:
             - { name: opifer.content.block_service, alias: cookiewall }

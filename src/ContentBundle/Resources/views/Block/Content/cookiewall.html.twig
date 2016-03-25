@@ -1,4 +1,4 @@
-<div {{ manage_tags() }} class="alert alert-info fade in">
-	<a href="#" class="close" data-dismiss="alert" aria-label="close" title="close">×</a>
+<div {{ manage_tags() }} class="alert alert-info fade in" {% if closed|default(false) == true %}style="display:none"{% endif %}>
+	<a href="#" class="close add-cookiewall" id="{{ block.id }}" data-route="{{ path('opifer_cookie_wall_block', {'id': block.id }) }}" data-dismiss="alert" aria-label="close" title="close">×</a>
     {{ block.value|default|raw }}
 </div>
