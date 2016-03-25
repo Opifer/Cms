@@ -87,11 +87,11 @@
             </div>
         </div>
 
-        <div ng-click='togglePicker()' class="btn btn-default" ng-hide="(!picker.multiple && selecteditems.length >= 1)">
+        <div ng-click="togglePicker()" class="btn btn-default" ng-hide="(!picker.multiple && selecteditems.length >= 1)">
             select media
         </div>
 
-        <ng-modal show='picker.pickerShown' class="fullsize">
+        <ng-modal show="picker.pickerShown" title="'Medialibrary'" class="fullsize">
             <ng-media-library></ng-media-library>
         </ng-modal>
         {% endverbatim %}

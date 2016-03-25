@@ -250,6 +250,7 @@ angular.module('mediaLibrary', ['infinite-scroll', 'ngModal', 'angularFileUpload
             this.orderBy = 'createdAt';
             this.orderDir = 'desc';
             this.search = '';
+            this.maxUploadSize = 'unknown';
         };
 
         /**
@@ -301,6 +302,7 @@ angular.module('mediaLibrary', ['infinite-scroll', 'ngModal', 'angularFileUpload
 
                 this.page = this.page + 1;
                 this.busy = false;
+                this.maxUploadSize = data.max_upload_size;
             }.bind(this));
         };
 
