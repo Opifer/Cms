@@ -1,0 +1,8 @@
+{
+	"name": "opifer-bootrapbundle",
+	"version": "1.0",
+    "dependencies": {
+	    "jquery": ">=1.11",
+	    "bootstrap": "4.0.0-alpha.2"
+	}
+}
