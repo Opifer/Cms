@@ -682,9 +682,9 @@ $(document).ready(function() {
                 return false;
             });
 
-            loadToC(sortables);
-
             setViewMode(VIEWMODE_CONTENT);
+
+            loadToC(sortables);
 
             isNotLoading();
         };
@@ -777,9 +777,13 @@ $(document).ready(function() {
                     var data = $(ui.item).attr('data-pm-block-data');
 
                     $(ui.item).attr('data-pm-block-id', '0'); // Set default so toArray won't trip and fall below
-                    var sortOrder = parentElement.sortable('toArray', {attribute: 'data-pm-block-id'});
+                    var sortOrder = placeholderElement.sortable('toArray', {attribute: 'data-pm-block-id'});
+                    var block = {className: className, parent: parentId, placeholder: placeholderKey, sort: sortOrder, data: data, ownerId: blockOwnerId};
+                    if (console && console.log) {
+                        console.log('Block dropped', block);
+                    }
 
-                    createBlock({className: className, parent: parentId, placeholder: placeholderKey, sort: sortOrder, data: data, ownerId: blockOwnerId});
+                    createBlock(block);
                 }
             };
 
