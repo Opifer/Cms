@@ -32,10 +32,13 @@ class MediaController extends Controller
 
         $items = $this->get('jms_serializer')->serialize(iterator_to_array($media->getCurrentPageResults()), 'json', SerializationContext::create()->setGroups(['Default', 'list']));
 
+        $maxUploadSize = (ini_get('post_max_size') < ini_get('upload_max_filesize')) ? ini_get('post_max_size') : ini_get('upload_max_filesize');
+        
         return new JsonResponse([
             'results' => json_decode($items, true),
             'total_results' => $media->getNbResults(),
             'results_per_page' => $media->getMaxPerPage(),
+            'max_upload_size' => $maxUploadSize,
         ]);
     }
     /**

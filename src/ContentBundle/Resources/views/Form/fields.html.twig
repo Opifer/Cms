@@ -21,7 +21,7 @@
                     <a class="remove" ng-click="content={}"></a>
                 </div>
             </div>
-            <ng-modal show="isPickerOpen">
+            <ng-modal show="isPickerOpen" title="'Content'">
                 <content-browser site-id="0" locale="nl_NL" directory-id="0" mode="PICKER_SINGLE" active="isPickerOpen"></content-browser>
             </ng-modal>
             {% endverbatim %}
@@ -53,7 +53,7 @@
                 <button type="button" class="btn btn-default" ng-click="isPickerOpen = !isPickerOpen">Add items</button>
             </div>
 
-            <ng-modal show="isPickerOpen">
+            <ng-modal show="isPickerOpen" title="'Content'">
                 <content-browser site-id="0" locale="nl_NL" directory-id="0" mode="PICKER" active="isPickerOpen"></content-browser>
             </ng-modal>
             {% endverbatim %}
@@ -131,7 +131,7 @@
             <button type="button" class="btn btn-default" ng-click="isPickerOpen = !isPickerOpen">Add items</button>
         </div>
 
-        <ng-modal show="isPickerOpen">
+        <ng-modal show="isPickerOpen" title="'Content'">
             <content-browser site-id="0" locale="nl_NL" directory-id="0" mode="PICKER" active="isPickerOpen"></content-browser>
         </ng-modal>
         {% endverbatim %}

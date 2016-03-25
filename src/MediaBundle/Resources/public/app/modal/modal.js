@@ -11,7 +11,7 @@ angular.module('ngModal', [])
     .directive('ngModal', ['$sce', function($sce) {
 
         function link(scope, element, attrs) {
-            var setupCloseButton, setupStyle;
+            var setupStyle;
 
             setupStyle = function() {
                 scope.dialogStyle = {};
@@ -38,9 +38,6 @@ angular.module('ngModal', [])
                 }
             });
 
-            scope.closeButtonHtml = $sce.trustAsHtml("<span class='ng-modal-close-x'>X</span>");
-
-
             angular.element(document.body).append(element);
 
             return setupStyle();
@@ -50,6 +47,7 @@ angular.module('ngModal', [])
             restrict: 'E',
             scope: {
                 show: '=',
+                title: '=',
                 onClose: '&?'
             },
             replace: true,

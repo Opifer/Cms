@@ -1,9 +1,11 @@
-<div class='ng-modal' ng-show='show'>
-    <div class='ng-modal-overlay' ng-click='hidePicker()'></div>
-    <div class='ng-modal-dialog' ng-style='dialogStyle'>
-        <div class='ng-modal-close' ng-click='hidePicker()'>
-            <i class="material-icons">close</i>
+<div class="modal fade in modal-ng" tabindex="-1" role="dialog" ng-show="show">
+    <div class="modal-dialog modal-min-lg" ng-style="dialogStyle">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" aria-label="Close" ng-click="hidePicker()"><span class="material-icons" aria-hidden="true">close</span></button>
+                <h4 class="modal-title">{{ title }}</h4>
+            </div>
+            <div class="modal-body" ng-transclude></div>
         </div>
-        <div class='ng-modal-dialog-content' ng-transclude></div>
     </div>
 </div>

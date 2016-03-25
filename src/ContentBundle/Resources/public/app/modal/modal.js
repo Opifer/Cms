@@ -38,7 +38,10 @@ angular.module('ngModal', [])
                 }
             });
 
-            scope.closeButtonHtml = $sce.trustAsHtml("<span class='ng-modal-close-x'>X</span>");
+            scope.closeButtonHtml = $sce.trustAsHtml('<span class="ng-modal-close-x"><i class="material-icons">close</i></span>');
+
+
+            angular.element(document.body).append(element);
 
             return setupStyle();
         }
@@ -47,12 +50,13 @@ angular.module('ngModal', [])
             restrict: 'E',
             scope: {
                 show: '=',
+                title: '=',
                 onClose: '&?'
             },
             replace: true,
             transclude: true,
             link: link,
-            templateUrl: "/bundles/opifercontent/app/modal/modal.html"
+            templateUrl: "/bundles/opifermedia/app/modal/modal.html"
         };
     }])
 ;
