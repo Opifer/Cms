@@ -2,7 +2,6 @@
 
 namespace Opifer\ContentBundle\Block\Service;
 
-use Opifer\ContentBundle\Block\BlockManager;
 use Opifer\ContentBundle\Entity\CookieWallBlock;
 use Opifer\ContentBundle\Block\Service\AbstractBlockService;
 use Opifer\ContentBundle\Block\Service\BlockServiceInterface;
@@ -99,8 +98,6 @@ class CookieWallBlockService extends AbstractBlockService implements BlockServic
      */
     public function renderResponse($view, array $parameters = array(), Response $response = null)
     {
-        //$this->session->clear();
-        //dump($this->session->all()); exit;
         if (in_array($parameters['block']->getId(), $this->blockIds)) {
             $parameters['closed'] = true;
         }
