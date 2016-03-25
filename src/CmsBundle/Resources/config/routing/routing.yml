@@ -74,5 +74,5 @@ opifer_mailing_list_subscribe_block:
     defaults: { _controller: opifer.mailing_list.subscribe_block:subscribeAction }
 
 opifer_cookie_wall_block:
-    pattern: /add-cookiewall/{id}
-    defaults: { _controller: opifer.content.cookiewall_block:addCookiewall }
+    pattern: /accept-cookies/{id}
+    defaults: { _controller: opifer.content.cookiewall_block:acceptCookiesAction }

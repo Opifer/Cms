@@ -55,14 +55,14 @@ class CookieWallBlockService extends AbstractBlockService implements BlockServic
         );
     }
 
-    public function addCookiewall($id)
+    public function acceptCookiesAction($id)
     {
         array_push($this->blockIds, $id);
 
         $this->session->set(self::SESSION_KEY, $this->blockIds);
 
         $response = new JsonResponse;
-        $response->setData(['message' => 'cookiewall block added to session']);
+        $response->setData(['message' => 'Cookiewall block added to session']);
         return $response;
     }
 
@@ -87,21 +87,17 @@ class CookieWallBlockService extends AbstractBlockService implements BlockServic
         return $tool;
     }
 
-    /**
-     * Returns a Response object that can be cache-able.
-     *
-     * @param string   $view
-     * @param array    $parameters
-     * @param Response $response
-     *
-     * @return Response
-     */
-    public function renderResponse($view, array $parameters = array(), Response $response = null)
+    public function getViewParameters(BlockInterface $block)
     {
+        $parameters = [
+            'block_service' => $this,
+            'block'         => $block,
+        ];
+
         if (in_array($parameters['block']->getId(), $this->blockIds)) {
             $parameters['closed'] = true;
         }
 
-        return $this->getTemplating()->renderResponse($view, $parameters, $response);
+        return $parameters;
     }
 }
