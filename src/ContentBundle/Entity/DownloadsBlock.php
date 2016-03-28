@@ -15,6 +15,14 @@ use Opifer\MediaBundle\Model\MediaInterface;
 class DownloadsBlock extends Block
 {
     /**
+     * @var string
+     *
+     * @Revisions\Revised
+     * @ORM\Column(type="text", nullable=true)
+     */
+    protected $value;
+
+    /**
      * @var ArrayCollection
      */
     protected $items;
@@ -24,6 +32,26 @@ class DownloadsBlock extends Block
         parent::__construct();
 
         $this->items = new ArrayCollection();
+    }
+
+    /**
+     * @return string
+     */
+    public function getValue()
+    {
+        return $this->value;
+    }
+
+    /**
+     * @param string $value
+     *
+     * @return $this
+     */
+    public function setValue($value)
+    {
+        $this->value = $value;
+
+        return $this;
     }
 
     /**

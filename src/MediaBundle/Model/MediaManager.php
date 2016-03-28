@@ -65,7 +65,6 @@ class MediaManager implements MediaManagerInterface
     public function getPaginatedByRequest(Request $request)
     {
         $qb = $this->getRepository()->createQueryBuilderFromRequest($request);
-        $qb->andWhere('m.status = :status')->setParameters(['status' => 1]);
         $paginator = new Pagerfanta(new DoctrineORMAdapter($qb));
         $paginator->setMaxPerPage($request->get('limit', 50));
         $paginator->setCurrentPage($request->get('page', 1));

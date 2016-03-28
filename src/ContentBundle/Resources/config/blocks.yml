@@ -189,6 +189,6 @@ services:
 
     opifer.content.downloads_block:
         class: '%opifer.content.downloads_block.class%'
-        arguments: ['@templating', '%opifer_content.downloads_block_configuration%']
+        arguments: ['@templating', '%opifer_content.downloads_block_configuration%', '@opifer.media.media_manager']
         tags:
             - { name: opifer.content.block_service, alias: downloads }

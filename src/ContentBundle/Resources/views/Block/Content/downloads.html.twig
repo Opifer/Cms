@@ -1,2 +1,21 @@
 <div {{ manage_tags() }}>
+	<ul class="media-list">
+		{% if block.items|default %}
+			{% for item in block.items %}
+				<li class="media">
+					<div class="media-left">
+					  <a href="{{ path('opifer_api_media_download', {'id' : item.id }) }}">
+					    <img class="media-object" src="{{ item.reference|default('fallback.jpeg')|imagine_filter('medialibrary') }}" alt="{{ item.alt }}">
+					  </a>
+					</div>
+					<div class="media-body">
+					  <h4 class="media-heading">Title: {{ item.name }}</h4>
+					  <p class="media-info">Filesize: {{ item.filesize / 1024 / 1024 | number_format(2) }} Mb</p>
+					  <p class="media-info">File type: {{ item.contentType }}</p>
+					  <p class="media-info"><a href="{{ path('opifer_api_media_download', {'id' : item.id }) }}">Download</a></p>
+					</div>
+				</li>
+			{% endfor %}
+		{% endif %}
+	</ul>
 </div>

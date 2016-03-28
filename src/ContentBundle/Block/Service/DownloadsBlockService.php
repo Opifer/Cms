@@ -2,20 +2,39 @@
 
 namespace Opifer\ContentBundle\Block\Service;
 
-use Opifer\ContentBundle\Entity\DownloadsBlock;
+use Doctrine\Common\Collections\ArrayCollection;
 use Opifer\ContentBundle\Block\Tool\Tool;
 use Opifer\ContentBundle\Block\Tool\ToolsetMemberInterface;
+use Opifer\ContentBundle\Entity\DownloadsBlock;
 use Opifer\ContentBundle\Model\BlockInterface;
+use Opifer\MediaBundle\Model\MediaManager;
+use Opifer\MediaBundle\Form\Type\MediaPickerType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\Extension\Core\Type\FormType;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
-use Opifer\MediaBundle\Form\Type\MediaPickerType;
+use Symfony\Bundle\FrameworkBundle\Templating\EngineInterface;
 
 /**
  * Video Block Service
  */
 class DownloadsBlockService extends AbstractBlockService implements BlockServiceInterface, ToolsetMemberInterface
 {
+    /** @var MediaManager */
+    protected $mediaManager;
+
+    /**
+     * Constructor.
+     *
+     * @param EngineInterface $templating
+     * @param array $config
+     * @param MediaManager $mediaManager
+     */
+    public function __construct(EngineInterface $templating, array $config, MediaManager $mediaManager)
+    {
+        parent::__construct($templating, $config);
+
+        $this->mediaManager = $mediaManager;
+    }
+
     /**
      * {@inheritdoc}
      */
@@ -25,13 +44,35 @@ class DownloadsBlockService extends AbstractBlockService implements BlockService
 
         $builder->add(
             $builder->create('default', FormType::class, ['virtual' => true])
-                ->add('items', MediaPickerType::class, [
-                    'required'  => false,
+                ->add('value', MediaPickerType::class, [
+                    'to_json' => true,
                     'multiple' => true,
-                    'attr' => array('label_col' => 12, 'widget_col' => 12),
+                    'label' => 'label.content'
                 ])
         );
     }
+
+    /**
+     * @param BlockInterface $block
+     */
+    public function load(BlockInterface $block)
+    {
+        $ids = json_decode($block->getValue());
+
+        if (empty($ids) || ! count($ids)) {
+            return;
+        }
+
+        $items = $this->mediaManager->getRepository()->findByIds($ids);
+
+        uasort($items, function ($a, $b) use ($ids) {
+            return (array_search($a->getId(), $ids) > array_search($b->getId(), $ids));
+        });
+
+        if ($items) {
+            $block->setItems(new ArrayCollection($items));
+        }
+    }    
 
     /**
      * {@inheritDoc}

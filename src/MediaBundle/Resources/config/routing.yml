@@ -75,3 +75,11 @@ opifer_api_media_delete:
         id: \d+
     options:
         expose: true
+
+opifer_api_media_download:
+    path: /api/media/download/{id}
+    defaults: { _controller: OpiferMediaBundle:Api/Media:download }
+    requirements:
+        id: \d+
+    options:
+        expose: true
