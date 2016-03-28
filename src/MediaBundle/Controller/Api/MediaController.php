@@ -10,6 +10,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Filesystem\Filesystem;
 
 
 class MediaController extends Controller
@@ -154,10 +155,16 @@ class MediaController extends Controller
         $filePath = $this->getParameter('kernel.root_dir').'/../web/uploads/'.$media->getName();
 
         $response = new Response();
-        $response->headers->set('Content-type', 'application/octect-stream');
-        $response->headers->set('Content-Disposition', sprintf('attachment; filename="%s"', $media->getName()));
-        $response->setContent(file_get_contents($filePath));
+        $fs = new Filesystem();
 
+        if ($fs->exists($filePath)) {
+            $response->headers->set('Content-type', 'application/octect-stream');
+            $response->headers->set('Content-Disposition', sprintf('attachment; filename="%s"', $media->getName()));
+            $response->setContent(file_get_contents($filePath));
+        } else {
+            $response->setContent('File not found!');
+        }
+        
         return $response;
     }
 }
