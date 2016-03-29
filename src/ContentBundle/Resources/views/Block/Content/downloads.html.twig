@@ -15,6 +15,7 @@
 						</div>
 						<div class="media-body">
 						  <h4 class="media-heading">Title: {{ item.name }}</h4>
+						  <h4 class="media-heading">Filename: {{ item.reference }}</h4>
 						  <p class="media-info">Filesize: {{ item.filesize / 1024 / 1024 | number_format(2) }} Mb</p>
 						  <p class="media-info">File type: {{ item.contentType }}</p>
 						  <p class="media-info"><a href="{{ path('opifer_download_block', {'id' : item.id }) }}">Download</a></p>
