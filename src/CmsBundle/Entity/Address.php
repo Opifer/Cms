@@ -4,75 +4,55 @@ namespace Opifer\CmsBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use Proxies\__CG__\Opifer\CmsBundle\Entity\AddressValue;
 
 /**
  * Address.
- *
- * @ORM\MappedSuperclass()
- * @ORM\Table(name="address")
  */
 class Address
 {
     /**
      * @var int
-     *
-     * @ORM\Column(name="id", type="integer")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="AUTO")
      */
     private $id;
 
     /**
      * @var string
-     *
-     * @ORM\Column(name="street", type="string", length=255)
      */
     private $street;
 
     /**
      * @var string
-     *
-     * @ORM\Column(name="zipcode", type="string", length=255)
      */
     private $zipcode;
 
     /**
      * @var string
-     *
-     * @ORM\Column(name="city", type="string", length=255)
      */
     private $city;
 
     /**
      * @var string
-     *
-     * @ORM\Column(name="state", type="string", length=255)
      */
     private $state;
 
     /**
      * @var string
-     *
-     * @ORM\Column(name="country", type="string", length=2)
      */
     private $country;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="lat", type="decimal", precision=10, scale=8)
+     * @var float
      */
     private $lat;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="lng", type="decimal", precision=11, scale=8)
+     * @var float
      */
     private $lng;
 
     /**
-     * @ORM\OneToMany(targetEntity="Opifer\CmsBundle\Entity\AddressValue", mappedBy="address")
+     * @var ArrayCollection
      */
     protected $contents;
 

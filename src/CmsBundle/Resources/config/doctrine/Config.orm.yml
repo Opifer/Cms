@@ -1,0 +1,41 @@
+Opifer\CmsBundle\Entity\Config:
+    type: entity
+    table: config
+    id:
+        id:
+            type: integer
+            scale: 0
+            length: null
+            unique: false
+            nullable: false
+            precision: 0
+            id: true
+            generator:
+                strategy: IDENTITY
+    fields:
+        name:
+            type: string
+            scale: 0
+            length: null
+            unique: true
+            nullable: false
+            precision: 0
+        value:
+            type: object
+            scale: 0
+            length: 1024
+            unique: false
+            nullable: true
+            precision: 0
+        updatedAt:
+            type: datetime
+            scale: 0
+            length: null
+            unique: false
+            nullable: false
+            precision: 0
+            column: updated_at
+            gedmo:
+              timestampable:
+                on: update
+    lifecycleCallbacks: {  }

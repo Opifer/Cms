@@ -7,42 +7,31 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * Site.
+ * Site
  *
- * @ORM\Table(name="site")
- * @ORM\Entity()
  * @GRID\Source(columns="id, name, domain, defaultLocale")
  */
 class Site
 {
     /**
      * @var int
-     *
-     * @ORM\Column(name="id", type="integer")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="AUTO")
      */
     private $id;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="name", type="string", length=128)
      * @Assert\NotBlank()
      */
     private $name;
 
     /**
      * @var string
-     *
-     * @ORM\Column(name="description", type="text")
      */
     private $description;
 
     /**
      * @var string
-     *
-     * @ORM\Column(name="domain", type="string", length=128)
      * @Assert\NotBlank()
      * @Assert\Regex(
      *     pattern="/^(?:[-A-Za-z0-9]+\.)+[A-Za-z]{2,6}$/",
@@ -53,15 +42,12 @@ class Site
 
     /**
      * @var string
-     *
-     * @ORM\Column(name="cookie_domain", type="string", length=128, nullable=true)
      */
     private $cookieDomain;
 
     /**
      * @var string
-     *
-     * @ORM\Column(name="default_locale", type="string", length=5)
+     * 
      * @Assert\NotBlank()
      */
     private $defaultLocale;

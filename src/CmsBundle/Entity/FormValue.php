@@ -2,22 +2,16 @@
 
 namespace Opifer\CmsBundle\Entity;
 
-use Doctrine\ORM\Mapping as ORM;
 use Opifer\EavBundle\Entity\Value;
 use Opifer\FormBundle\Model\FormInterface;
 
 /**
- * FormValue.
- *
- * @ORM\Entity
+ * FormValue
  */
 class FormValue extends Value
 {
     /**
      * @var FormInterface
-     *
-     * @ORM\ManyToOne(targetEntity="Opifer\FormBundle\Model\FormInterface", cascade={"persist"})
-     * @ORM\JoinColumn(name="form_id", referencedColumnName="id")
      */
     protected $form;
 

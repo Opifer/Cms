@@ -1,0 +1,119 @@
+Opifer\CmsBundle\Entity\Media:
+    type: entity
+    table: media
+    repositoryClass: Opifer\MediaBundle\Model\MediaRepository
+    gedmo:
+      soft_deleteable:
+        field_name: deletedAt
+        time_aware: false
+    id:
+        id:
+            type: integer
+            scale: 0
+            length: null
+            unique: false
+            nullable: false
+            precision: 0
+            id: true
+            generator:
+                strategy: IDENTITY
+    fields:
+        status:
+            type: smallint
+            scale: 0
+            length: null
+            unique: false
+            nullable: false
+            precision: 0
+        name:
+            type: string
+            scale: 0
+            length: 255
+            unique: false
+            nullable: false
+            precision: 0
+        alt:
+            type: string
+            scale: 0
+            length: 255
+            unique: false
+            nullable: true
+            precision: 0
+        provider:
+            type: string
+            scale: 0
+            length: 255
+            unique: false
+            nullable: false
+            precision: 0
+        reference:
+            type: string
+            scale: 0
+            length: 255
+            unique: true
+            nullable: false
+            precision: 0
+        contentType:
+            type: string
+            scale: 0
+            length: 255
+            unique: false
+            nullable: true
+            precision: 0
+            column: content_type
+        metadata:
+            type: json_array
+            scale: 0
+            length: null
+            unique: false
+            nullable: false
+            precision: 0
+        filesize:
+            type: integer
+            scale: 0
+            length: null
+            unique: false
+            nullable: true
+            precision: 0
+        createdAt:
+            type: datetime
+            scale: 0
+            length: null
+            unique: false
+            nullable: false
+            precision: 0
+            column: created_at
+            gedmo:
+              timestampable:
+                on: create
+        updatedAt:
+            type: datetime
+            scale: 0
+            length: null
+            unique: false
+            nullable: false
+            precision: 0
+            column: updated_at
+            gedmo:
+              timestampable:
+                on: update
+        deletedAt:
+            type: datetime
+            scale: 0
+            length: null
+            unique: false
+            nullable: true
+            precision: 0
+            column: deleted_at
+    oneToOne:
+        thumb:
+            targetEntity: Opifer\CmsBundle\Entity\Media
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                thumb_id:
+                    referencedColumnName: id
+            orphanRemoval: false
+    lifecycleCallbacks: {  }

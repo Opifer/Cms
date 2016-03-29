@@ -1,0 +1,44 @@
+Opifer\CmsBundle\Entity\Redirect:
+    type: entity
+    table: redirect
+    id:
+        id:
+            type: integer
+            scale: 0
+            length: null
+            unique: false
+            nullable: false
+            precision: 0
+            id: true
+            generator:
+                strategy: IDENTITY
+    fields:
+        origin:
+            type: string
+            scale: 0
+            length: 255
+            unique: false
+            nullable: false
+            precision: 0
+        target:
+            type: string
+            scale: 0
+            length: 255
+            unique: false
+            nullable: false
+            precision: 0
+        permanent:
+            type: boolean
+            scale: 0
+            length: null
+            unique: false
+            nullable: false
+            precision: 0
+        requirements:
+            type: array
+            scale: 0
+            length: null
+            unique: false
+            nullable: false
+            precision: 0
+    lifecycleCallbacks: {  }

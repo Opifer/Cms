@@ -142,7 +142,6 @@ class LoadORMMetadataSubscriber implements EventSubscriber
             $type,
             [
                 ClassMetadataInfo::MANY_TO_MANY,
-                ClassMetadataInfo::ONE_TO_MANY,
                 ClassMetadataInfo::MANY_TO_ONE,
                 ClassMetadataInfo::ONE_TO_ONE,
             ],

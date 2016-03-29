@@ -10,8 +10,6 @@ use Gedmo\Mapping\Annotation as Gedmo;
 /**
  * Cron job.
  *
- * @ORM\Entity(repositoryClass="Opifer\CmsBundle\Repository\CronRepository")
- * @ORM\Table(name="cron")
  * @GRID\Source(columns="id, state, command, expression, startedAt, endedAt")
  */
 class Cron
@@ -36,60 +34,41 @@ class Cron
 
     /**
      * @var int
-     *
-     * @ORM\Column(name="id", type="integer")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="AUTO")
      */
     protected $id;
 
     /**
      * @var string
-     *
-     * @ORM\Column(name="command", type="string", length=255)
      */
     protected $command;
 
     /**
      * @var string
-     *
-     * @ORM\Column(name="expression", type="string", length=255)
      */
     protected $expression;
 
     /**
      * @var int
-     *
-     * @ORM\Column(name="priority", type="integer")
      */
     protected $priority = 0;
 
     /**
      * @var string
-     *
-     * @ORM\Column(name="state", type="string", length=20)
      */
     protected $state = self::STATE_PENDING;
 
     /**
      * @var \DateTime
-     *
-     * @ORM\Column(name="started_at", type="datetime", nullable=true)
      */
     protected $startedAt;
 
     /**
      * @var \DateTime
-     *
-     * @ORM\Column(name="ended_at", type="datetime", nullable=true)
      */
     protected $endedAt;
 
     /**
      * @var \DateTime
-     *
-     * @Gedmo\Timestampable(on="create")
-     * @ORM\Column(name="created_at", type="datetime")
      */
     protected $createdAt;
 

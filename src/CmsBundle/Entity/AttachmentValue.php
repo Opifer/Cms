@@ -9,7 +9,7 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * @ORM\Entity
+ * class AttachmentValue
  */
 class AttachmentValue extends Value
 {
@@ -22,8 +22,6 @@ class AttachmentValue extends Value
 
     /**
      * @var MediaInterface
-     *
-     * @ORM\OneToOne(targetEntity="Opifer\EavBundle\Model\MediaInterface", cascade={"persist"})
      */
     protected $attachment;
 

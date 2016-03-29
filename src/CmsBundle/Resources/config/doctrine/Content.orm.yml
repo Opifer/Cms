@@ -1,0 +1,242 @@
+Opifer\CmsBundle\Entity\Content:
+    type: entity
+    table: content
+    repositoryClass: Opifer\CmsBundle\Repository\ContentRepository
+    gedmo:
+      tree:
+        type: nested
+      soft_deleteable:
+        field_name: deletedAt
+        time_aware: false
+    id:
+        id:
+            type: integer
+            scale: 0
+            length: null
+            unique: false
+            nullable: false
+            precision: 0
+            id: true
+            generator:
+                strategy: IDENTITY
+    fields:
+        active:
+            type: boolean
+            scale: 0
+            length: null
+            unique: false
+            nullable: false
+            precision: 0
+        indexable:
+            type: boolean
+            scale: 0
+            length: null
+            unique: false
+            nullable: false
+            precision: 0
+        searchable:
+            type: boolean
+            scale: 0
+            length: null
+            unique: false
+            nullable: false
+            precision: 0
+        title:
+            type: string
+            scale: 0
+            length: 255
+            unique: false
+            nullable: false
+            precision: 0
+        description:
+            type: text
+            scale: 0
+            length: null
+            unique: false
+            nullable: true
+            precision: 0
+        lft:
+            type: integer
+            scale: 0
+            length: null
+            unique: false
+            nullable: false
+            precision: 0
+            gedmo:
+              - treeLeft
+        lvl:
+            type: integer
+            scale: 0
+            length: null
+            unique: false
+            nullable: false
+            precision: 0
+            gedmo:
+              - treeLevel
+        rgt:
+            type: integer
+            scale: 0
+            length: null
+            unique: false
+            nullable: false
+            precision: 0
+            gedmo:
+              - treeRight
+        root:
+            type: integer
+            scale: 0
+            length: null
+            unique: false
+            nullable: true
+            precision: 0
+            gedmo:
+              - treeRoot
+        createdAt:
+            type: datetime
+            scale: 0
+            length: null
+            unique: false
+            nullable: true
+            precision: 0
+            column: created_at
+            gedmo:
+              timestampable:
+                on: create
+        updatedAt:
+            type: datetime
+            scale: 0
+            length: null
+            unique: false
+            nullable: false
+            precision: 0
+            column: updated_at
+            gedmo:
+              timestampable:
+                on: update
+        navTitle:
+            type: string
+            scale: 0
+            length: 255
+            unique: false
+            nullable: true
+            precision: 0
+            column: nav_title
+        alias:
+            type: string
+            scale: 0
+            length: 255
+            unique: false
+            nullable: true
+            precision: 0
+        slug:
+            type: string
+            scale: 0
+            length: 255
+            unique: false
+            nullable: false
+            precision: 0
+        deletedAt:
+            type: datetime
+            scale: 0
+            length: null
+            unique: false
+            nullable: true
+            precision: 0
+            column: deleted_at
+        showInNavigation:
+            type: boolean
+            scale: 0
+            length: null
+            unique: false
+            nullable: false
+            precision: 0
+            column: show_in_navigation
+    manyToOne:
+        site:
+            targetEntity: Opifer\CmsBundle\Entity\Site
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                site_id:
+                    referencedColumnName: id
+            orphanRemoval: false
+        template:
+            targetEntity: Opifer\ContentBundle\Entity\Template
+            cascade: {  }
+            fetch: EAGER
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                template_id:
+                    referencedColumnName: id
+            orphanRemoval: false
+        contentType:
+            targetEntity: Opifer\CmsBundle\Entity\ContentType
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: content
+            joinColumns:
+                content_type_id:
+                    referencedColumnName: id
+            orphanRemoval: false
+        author:
+            targetEntity: Opifer\CmsBundle\Entity\User
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: contents
+            joinColumns:
+                author_id:
+                    referencedColumnName: id
+            orphanRemoval: false
+        parent:
+            targetEntity: Opifer\CmsBundle\Entity\Content
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: children
+            joinColumns:
+                parent_id:
+                    referencedColumnName: id
+                    onDelete: CASCADE
+            orphanRemoval: false
+            gedmo:
+              - treeParent
+        valueSet:
+            targetEntity: Opifer\CmsBundle\Entity\ValueSet
+            cascade:
+                - persist
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                valueset_id:
+                    referencedColumnName: id
+                    onDelete: CASCADE
+            orphanRemoval: false
+    oneToMany:
+        blocks:
+            targetEntity: Opifer\ContentBundle\Entity\Block
+            cascade:
+                - remove
+                - persist
+                - detach
+            fetch: LAZY
+            mappedBy: content
+            inversedBy: null
+            orphanRemoval: false
+            orderBy:
+                sort: ASC
+        children:
+            targetEntity: Opifer\CmsBundle\Entity\Content
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: parent
+            inversedBy: null
+            orphanRemoval: false
+            orderBy:
+                lft: ASC
+    lifecycleCallbacks: {  }

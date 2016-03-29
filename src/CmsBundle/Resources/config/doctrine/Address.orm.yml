@@ -1,0 +1,65 @@
+Opifer\CmsBundle\Entity\Address:
+    type: mappedSuperclass
+    table: address
+    id:
+        id:
+            type: integer
+            scale: 0
+            length: null
+            unique: false
+            nullable: false
+            precision: 0
+            id: true
+            generator:
+                strategy: IDENTITY
+    fields:
+        street:
+            type: string
+            scale: 0
+            length: 255
+            unique: false
+            nullable: false
+            precision: 0
+        zipcode:
+            type: string
+            scale: 0
+            length: 255
+            unique: false
+            nullable: false
+            precision: 0
+        city:
+            type: string
+            scale: 0
+            length: 255
+            unique: false
+            nullable: false
+            precision: 0
+        state:
+            type: string
+            scale: 0
+            length: 255
+            unique: false
+            nullable: false
+            precision: 0
+        country:
+            type: string
+            scale: 0
+            length: 2
+            unique: false
+            nullable: false
+            precision: 0
+        lat:
+            type: decimal
+            scale: 8
+            length: null
+            unique: false
+            nullable: false
+            precision: 10
+        lng:
+            type: decimal
+            scale: 8
+            length: null
+            unique: false
+            nullable: false
+            precision: 11
+    lifecycleCallbacks: {  }

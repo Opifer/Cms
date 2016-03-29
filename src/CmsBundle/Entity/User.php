@@ -4,29 +4,20 @@ namespace Opifer\CmsBundle\Entity;
 
 use APY\DataGridBundle\Grid\Mapping as GRID;
 use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\ORM\Mapping as ORM;
 use FOS\UserBundle\Model\GroupInterface;
 use FOS\UserBundle\Model\User as FOSUser;
-use Gedmo\Mapping\Annotation as Gedmo;
 use Opifer\MediaBundle\Model\MediaInterface;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * @ORM\MappedSuperclass
- *
  * @UniqueEntity("username")
  * @UniqueEntity("email")
- * @ORM\Table(name="users")
  * @GRID\Source(columns="id, username, email")
  */
 class User extends FOSUser
 {
     /**
-     * @ORM\Id
-     * @ORM\Column(type="integer")
-     * @ORM\GeneratedValue(strategy="AUTO")
-     *
      * @GRID\Column(title="Id", size="10", type="number")
      */
     protected $id;
@@ -40,23 +31,16 @@ class User extends FOSUser
 
     /**
      * @var string
-     *
-     * @ORM\Column(name="first_name", type="string", length=255, nullable=true)
      */
     protected $firstName;
 
     /**
      * @var string
-     *
-     * @ORM\Column(name="last_name", type="string", length=255, nullable=true)
      */
     protected $lastName;
 
     /**
      * @var MediaInterface
-     *
-     * @ORM\ManyToOne(targetEntity="Opifer\MediaBundle\Model\MediaInterface")
-     * @ORM\JoinColumn(name="avatar_id", referencedColumnName="id")
      */
     protected $avatar;
 
@@ -79,60 +63,36 @@ class User extends FOSUser
 
     /**
      * @var string
-     *
-     * @ORM\Column(name="company_id", type="string", length=255, nullable=true)
      */
     protected $company;
 
     /**
      * @var string
-     *
-     * @ORM\Column(name="job_position", type="string", length=255, nullable=true)
      */
     protected $jobPosition;
 
     /**
      * @var ArrayCollection
-     *
-     * @ORM\ManyToMany(targetEntity="Opifer\CmsBundle\Entity\Group")
-     * @ORM\JoinTable(name="users_groups",
-     *      joinColumns={@ORM\JoinColumn(name="user_id", referencedColumnName="id")},
-     *      inverseJoinColumns={@ORM\JoinColumn(name="group_id", referencedColumnName="id")}
-     * )
      */
     protected $groups;
 
     /**
      * @var ArrayCollection
-     *
-     * @ORM\OneToMany(targetEntity="Opifer\ContentBundle\Model\ContentInterface", mappedBy="author")
      */
     protected $contents;
 
     /**
-     * Created at
-     *
      * @var \DateTime
-     *
-     * @Gedmo\Timestampable(on="create")
-     * @ORM\Column(name="created_at", type="datetime")
      */
     protected $createdAt;
 
     /**
-     * Updated at
-     *
      * @var \DateTime
-     *
-     * @Gedmo\Timestampable(on="update")
-     * @ORM\Column(name="updated_at", type="datetime")
      */
     protected $updatedAt;
 
     /**
      * @var \DateTime
-     *
-     * @ORM\Column(name="deleted_at", type="datetime", nullable=true)
      */
     protected $deletedAt;
 

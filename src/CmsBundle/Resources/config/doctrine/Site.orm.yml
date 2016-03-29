@@ -1,0 +1,53 @@
+Opifer\CmsBundle\Entity\Site:
+    type: entity
+    table: site
+    id:
+        id:
+            type: integer
+            scale: 0
+            length: null
+            unique: false
+            nullable: false
+            precision: 0
+            id: true
+            generator:
+                strategy: IDENTITY
+    fields:
+        name:
+            type: string
+            scale: 0
+            length: 128
+            unique: false
+            nullable: false
+            precision: 0
+        description:
+            type: text
+            scale: 0
+            length: null
+            unique: false
+            nullable: false
+            precision: 0
+        domain:
+            type: string
+            scale: 0
+            length: 128
+            unique: false
+            nullable: false
+            precision: 0
+        cookieDomain:
+            type: string
+            scale: 0
+            length: 128
+            unique: false
+            nullable: true
+            precision: 0
+            column: cookie_domain
+        defaultLocale:
+            type: string
+            scale: 0
+            length: 5
+            unique: false
+            nullable: false
+            precision: 0
+            column: default_locale
+    lifecycleCallbacks: {  }

@@ -80,7 +80,7 @@ class SiteController extends Controller
             return $this->redirectToRoute('opifer_cms_site_edit', ['id' => $site->getId()]);
         }
 
-        return $this->render('OpiferCmsBundle:Backend/Site:design.html.twig', [
+        return $this->render('OpiferCmsBundle:Backend/Site:edit.html.twig', [
             'form' => $form->createView(),
             'site' => $site,
         ]);

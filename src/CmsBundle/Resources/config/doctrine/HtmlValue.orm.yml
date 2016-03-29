@@ -1,0 +1,3 @@
+Opifer\CmsBundle\Entity\HtmlValue:
+    type: entity
+    table: html_value

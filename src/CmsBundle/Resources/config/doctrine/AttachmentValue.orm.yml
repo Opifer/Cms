@@ -1,0 +1,15 @@
+Opifer\CmsBundle\Entity\AttachmentValue:
+    type: entity
+    table: attachment_value
+    oneToOne:
+        attachment:
+            targetEntity: Opifer\CmsBundle\Entity\Media
+            cascade:
+                - persist
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                attachment_id:
+                    referencedColumnName: id
+            orphanRemoval: false

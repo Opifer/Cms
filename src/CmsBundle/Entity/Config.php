@@ -2,29 +2,19 @@
 
 namespace Opifer\CmsBundle\Entity;
 
-use Doctrine\ORM\Mapping as ORM;
-use Gedmo\Mapping\Annotation as Gedmo;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * @ORM\Table(name="config")
- * @ORM\Entity()
  */
 class Config
 {
     /**
      * @var int
-     *
-     * @ORM\Id
-     * @ORM\Column(type="integer")
-     * @ORM\GeneratedValue(strategy="AUTO")
      */
     protected $id;
 
     /**
      * @var string
-     *
-     * @ORM\Column(name="name", type="string", nullable=false, unique=true)
      * @Assert\NotBlank()
      * @Assert\Regex(
      *     pattern="/^[a-z_]+$/",
@@ -35,16 +25,11 @@ class Config
 
     /**
      * @var object
-     *
-     * @ORM\Column(name="value", type="object", length=1024, nullable=true)
      */
     protected $value;
 
     /**
      * @var \DateTime
-     *
-     * @ORM\Column(name="updated_at", type="datetime")
-     * @Gedmo\Timestampable(on="update")
      */
     protected $updatedAt;
 
