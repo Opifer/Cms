@@ -107,7 +107,7 @@ Opifer\CmsBundle\Entity\Media:
             column: deleted_at
     oneToOne:
         thumb:
-            targetEntity: Opifer\CmsBundle\Entity\Media
+            targetEntity: Opifer\MediaBundle\Model\MediaInterface
             cascade: {  }
             fetch: LAZY
             mappedBy: null
