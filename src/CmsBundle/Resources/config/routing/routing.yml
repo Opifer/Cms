@@ -72,3 +72,11 @@ _opifer_backend:
 opifer_mailing_list_subscribe_block:
     pattern: /subscribe/{id}
     defaults: { _controller: opifer.mailing_list.subscribe_block:subscribeAction }
+
+opifer_cookie_wall_block:
+    pattern: /accept-cookies/{id}
+    defaults: { _controller: opifer.content.cookiewall_block:acceptCookiesAction }
+
+opifer_download_block:
+    pattern: /download/{filename}
+    defaults: { _controller: opifer.content.downloads_block:downloadMedia }
