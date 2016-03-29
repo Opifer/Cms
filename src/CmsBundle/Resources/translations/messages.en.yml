@@ -185,15 +185,16 @@ button:
 
 # Labels
 label:
+    display_name: Display name
     general: General
+    label: Label
+    name: Name
+    no: No
     properties: Properties
     slug: Slug
-    yes: Yes
-    no: No
-    label: Label
+    show_rows: Amount of Rows
     version_new: New version
-    name: Name
-    display_name: Display name
+    yes: Yes
 
 message:
     no_items_found: "No items found"
