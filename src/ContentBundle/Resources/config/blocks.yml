@@ -22,6 +22,7 @@ parameters:
     opifer.content.clipboard_block.class: Opifer\ContentBundle\Block\Service\ClipboardBlockService
     opifer.content.video_block.class: Opifer\ContentBundle\Block\Service\VideoBlockService
     opifer.content.cookiewall_block.class: Opifer\ContentBundle\Block\Service\CookieWallBlockService
+    opifer.content.downloads_block.class: Opifer\ContentBundle\Block\Service\DownloadsBlockService
 
 services:
     opifer.content.carousel_block:
@@ -180,8 +181,14 @@ services:
         tags:
             - { name: opifer.content.block_service, alias: video }
 
-    opifer.content.coociewall_block:
+    opifer.content.cookiewall_block:
         class: '%opifer.content.cookiewall_block.class%'
-        arguments: ['@templating', '%opifer_content.cookiewall_block_configuration%']
+        arguments: ['@templating', '@session', '%opifer_content.cookiewall_block_configuration%']
         tags:
             - { name: opifer.content.block_service, alias: cookiewall }
+
+    opifer.content.downloads_block:
+        class: '%opifer.content.downloads_block.class%'
+        arguments: ['@templating', '%opifer_content.downloads_block_configuration%', '@opifer.media.media_manager', '@service_container']
+        tags:
+            - { name: opifer.content.block_service, alias: downloads }
