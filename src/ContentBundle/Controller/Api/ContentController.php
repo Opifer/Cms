@@ -9,8 +9,6 @@ use Opifer\ContentBundle\Model\ContentManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
-use Opifer\ContentBundle\Block\Service\CookieWallBlockService;
-
 use Symfony\Component\HttpFoundation\Response;
 
 class ContentController extends Controller
