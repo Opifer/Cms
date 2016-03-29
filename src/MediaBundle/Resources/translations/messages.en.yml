@@ -6,6 +6,12 @@ file:
     name:
         label: name
 
+title:
+    media: Media
+
+button:
+    add_youtube: Add YouTube
+
 image:
     singular: image
     plural: images

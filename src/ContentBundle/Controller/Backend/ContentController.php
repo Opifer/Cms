@@ -90,8 +90,7 @@ class ContentController extends Controller
 
             return $this->redirectToRoute('opifer_content_contenteditor_design', [
                 'owner'    => 'content',
-                'ownerId'      => $content->getId(),
-                'rootVersion' => 0,
+                'ownerId'      => $content->getId()
             ]);
         }
 
