@@ -12,9 +12,9 @@ use Opifer\MediaBundle\Form\Type\MediaPickerType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\Extension\Core\Type\FormType;
 use Symfony\Bundle\FrameworkBundle\Templating\EngineInterface;
-use Symfony\Component\Filesystem\Filesystem;
-use Symfony\Component\DependencyInjection\ContainerInterface as Container;
 use Symfony\Component\HttpFoundation\Response;
+use Liip\ImagineBundle\Imagine\Cache\CacheManager;
+use Symfony\Component\DependencyInjection\ContainerInterface as Container;
 
 /**
  * Video Block Service
@@ -30,14 +30,13 @@ class DownloadsBlockService extends AbstractBlockService implements BlockService
      * @param EngineInterface $templating
      * @param array $config
      * @param MediaManager $mediaManager
-     * @param Container $container
      */
     public function __construct(EngineInterface $templating, array $config, MediaManager $mediaManager, Container $container)
     {
         parent::__construct($templating, $config);
 
-        $this->mediaManager = $mediaManager;
         $this->container = $container;
+        $this->mediaManager = $mediaManager;
     }
 
     /**
@@ -60,25 +59,22 @@ class DownloadsBlockService extends AbstractBlockService implements BlockService
     /**
      * Download media item.
      *
-     * @param int $id
+     * @param string $filename
      *
      * @return Response
     */
-    public function downloadMedia($id)
+    public function downloadMedia($filename)
     {
-        $media = $this->mediaManager->getRepository()->find($id);
-        $filePath = $this->container->getParameter('kernel.root_dir').'/../web/uploads/'.$media->getName();
-
+        $media = $this->mediaManager->getRepository()->findOneByReference($filename);
+        $provider = $this->container->get('opifer.media.provider.pool')->getProvider($media->getProvider());
+        
+        $reference = $provider->getThumb($media);
+        $mediaUrl = $provider->getUrl($media);
+        
         $response = new Response();
-        $fs = new Filesystem();
-
-        if ($fs->exists($filePath)) {
-            $response->headers->set('Content-type', 'application/octect-stream');
-            $response->headers->set('Content-Disposition', sprintf('attachment; filename="%s"', $media->getName()));
-            $response->setContent(file_get_contents($filePath));
-        } else {
-            $response->setContent('File not found!');
-        }
+        $response->headers->set('Content-type', 'application/octect-stream');
+        $response->headers->set('Content-Disposition', sprintf('attachment; filename="%s"', $reference));
+        $response->setContent($mediaUrl);
         
         return $response;
     }

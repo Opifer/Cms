@@ -78,5 +78,5 @@ opifer_cookie_wall_block:
     defaults: { _controller: opifer.content.cookiewall_block:acceptCookiesAction }
 
 opifer_download_block:
-    pattern: /download/{id}
+    pattern: /download/{filename}
     defaults: { _controller: opifer.content.downloads_block:downloadMedia }
