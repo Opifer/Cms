@@ -253,6 +253,7 @@ label:
     container_fluid: Volledige breedte (gerekt)
     container_smooth: Scherm-afhankelijke breedte (gerekt)
     container_fixed: Scherm-afhankelijke breedte (vast)
+    show_rows: Aantal rijen
     version_new: Nieuwe versie
 
 help:

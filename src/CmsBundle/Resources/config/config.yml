@@ -197,6 +197,11 @@ liip_imagine:
             filters:
                 relative_resize: {heighten: 160}
 
+apy_data_grid:
+    pagerfanta:
+        enable: true
+        view_class: Pagerfanta\View\TwitterBootstrap3View
+
 # Content
 opifer_content:
     content_manager: 'opifer.cms.content_manager'
