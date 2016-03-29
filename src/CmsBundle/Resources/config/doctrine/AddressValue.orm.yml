@@ -1,0 +1,15 @@
+Opifer\CmsBundle\Entity\AddressValue:
+    type: entity
+    table: address_value
+    manyToOne:
+        address:
+            targetEntity: Opifer\CmsBundle\Entity\Address
+            cascade:
+                - persist
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                address_id:
+                    referencedColumnName: id
+            orphanRemoval: false

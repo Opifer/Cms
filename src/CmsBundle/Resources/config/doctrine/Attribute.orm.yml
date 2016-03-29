@@ -1,0 +1,119 @@
+Opifer\CmsBundle\Entity\Attribute:
+    type: entity
+    table: attribute
+    id:
+        id:
+            type: integer
+            scale: 0
+            length: null
+            unique: false
+            nullable: false
+            precision: 0
+            id: true
+            generator:
+                strategy: IDENTITY
+    fields:
+        valueType:
+            type: string
+            scale: 0
+            length: 128
+            unique: false
+            nullable: false
+            precision: 0
+            column: value_type
+        displayName:
+            type: string
+            scale: 0
+            length: 255
+            unique: false
+            nullable: false
+            precision: 0
+            column: display_name
+        name:
+            type: string
+            scale: 0
+            length: 128
+            unique: false
+            nullable: false
+            precision: 0
+        description:
+            type: string
+            scale: 0
+            length: 1000
+            unique: false
+            nullable: true
+            precision: 0
+        sort:
+            type: integer
+            scale: 0
+            length: null
+            unique: false
+            nullable: false
+            precision: 0
+        parameters:
+            type: json_array
+            scale: 0
+            length: null
+            unique: false
+            nullable: true
+            precision: 0
+        required:
+            type: boolean
+            scale: 0
+            length: null
+            unique: false
+            nullable: false
+            precision: 0
+    oneToMany:
+        options:
+            targetEntity: Opifer\CmsBundle\Entity\Option
+            cascade:
+                - all
+            fetch: LAZY
+            mappedBy: attribute
+            inversedBy: null
+            orphanRemoval: true
+            orderBy: null
+        values:
+            targetEntity: Opifer\EavBundle\Entity\Value
+            cascade:
+                - all
+            fetch: LAZY
+            mappedBy: attribute
+            inversedBy: null
+            orphanRemoval: true
+            orderBy: null
+    manyToMany:
+        allowedSchemas:
+            targetEntity: Opifer\CmsBundle\Entity\Schema
+            cascade:
+                - persist
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: allowedInAttributes
+            joinTable:
+                name: opifer_attribute_allowed_schema
+                schema: null
+                joinColumns:
+                    -
+                        name: attribute_id
+                        referencedColumnName: id
+                        onDelete: CASCADE
+                inverseJoinColumns:
+                    -
+                        name: schema_id
+                        referencedColumnName: id
+                        onDelete: CASCADE
+            orderBy: null
+    manyToOne:
+        schema:
+            targetEntity: Opifer\CmsBundle\Entity\Schema
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: attributes
+            joinColumns:
+                schema_id:
+                    referencedColumnName: id
+            orphanRemoval: false
+    lifecycleCallbacks: {  }

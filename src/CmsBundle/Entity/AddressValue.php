@@ -8,14 +8,11 @@ use Opifer\EavBundle\Model\ValueInterface;
 
 /**
  * Address Value.
- *
- * @ORM\Entity()
  */
 class AddressValue extends Value implements ValueInterface
 {
     /**
-     * @ORM\ManyToOne(targetEntity="Opifer\CmsBundle\Entity\Address", cascade={"persist"})
-     * @ORM\JoinColumn(name="address_id", referencedColumnName="id")
+     * @var Address
      */
     protected $address;
 

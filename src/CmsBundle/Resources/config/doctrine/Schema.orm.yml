@@ -1,0 +1,44 @@
+Opifer\CmsBundle\Entity\Schema:
+    type: entity
+    table: schema
+    repositoryClass: Opifer\EavBundle\Repository\SchemaRepository
+    id:
+        id:
+            type: integer
+            scale: 0
+            length: null
+            unique: false
+            nullable: false
+            precision: 0
+            id: true
+            generator:
+                strategy: IDENTITY
+    fields:
+        objectClass:
+            type: string
+            scale: 0
+            length: 128
+            unique: false
+            nullable: false
+            precision: 0
+            column: object_class
+    oneToMany:
+        attributes:
+            targetEntity: Opifer\CmsBundle\Entity\Attribute
+            cascade:
+                - all
+            fetch: LAZY
+            mappedBy: schema
+            inversedBy: null
+            orphanRemoval: true
+            orderBy: null
+    manyToMany:
+        allowedInAttributes:
+            targetEntity: Opifer\CmsBundle\Entity\Attribute
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: allowedSchemas
+            inversedBy: null
+            joinTable: {  }
+            orderBy: null
+    lifecycleCallbacks: {  }

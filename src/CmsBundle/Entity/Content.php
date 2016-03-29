@@ -13,21 +13,14 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Content.
- *
- * @ORM\Entity(repositoryClass="Opifer\CmsBundle\Repository\ContentRepository")
- * @ORM\Table(name="content")
+ * 
  * @JMS\ExclusionPolicy("all")
- * @Gedmo\Tree(type="nested")
  * @GRID\Source(columns="id, title, slug")
  */
 class Content extends BaseContent
 {
     /**
      * @var int
-     *
-     * @ORM\Id
-     * @ORM\Column(name="id", type="integer")
-     * @ORM\GeneratedValue(strategy="AUTO")
      *
      * @JMS\Expose
      * @JMS\Groups({"detail", "list"})
@@ -40,8 +33,6 @@ class Content extends BaseContent
      *
      * @JMS\Expose
      * @JMS\Groups({"detail", "list"})
-     * @ORM\ManyToOne(targetEntity="Opifer\ContentBundle\Model\ContentTypeInterface", inversedBy="content")
-     * @ORM\JoinColumn(name="content_type_id", referencedColumnName="id")
      */
     protected $contentType;
 
@@ -50,28 +41,21 @@ class Content extends BaseContent
      *
      * @JMS\Expose
      * @JMS\Groups({"detail", "list"})
-     * @ORM\Column(name="active", type="boolean")
      */
     protected $active = true;
 
     /**
      * @var int
-     *
-     * @ORM\ManyToOne(targetEntity="FOS\UserBundle\Model\UserInterface", inversedBy="contents")
      */
     protected $author;
 
     /**
      * @var bool
-     *
-     * @ORM\Column(name="indexable", type="boolean")
      */
     protected $indexable = true;
 
     /**
      * @var bool
-     *
-     * @ORM\Column(name="searchable", type="boolean")
      */
     protected $searchable = true;
 
@@ -80,7 +64,6 @@ class Content extends BaseContent
      *
      * @JMS\Expose
      * @JMS\Groups({"detail", "list"})
-     * @ORM\Column(name="title", type="string", length=255)
      * @Assert\NotBlank()
      * @Revisions\Revised
      */
@@ -91,51 +74,15 @@ class Content extends BaseContent
      *
      * @JMS\Expose
      * @JMS\Groups({"detail", "list"})
-     * @ORM\Column(name="description", type="text", nullable=true)
      * @Revisions\Revised
      */
     protected $description;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Opifer\CmsBundle\Entity\Site")
-     * @ORM\JoinColumn(name="site_id", referencedColumnName="id")
      */
     protected $site;
 
     /**
-     * @Gedmo\TreeLeft
-     * @ORM\Column(name="lft", type="integer")
-     */
-    protected $lft;
-
-    /**
-     * @Gedmo\TreeLevel
-     * @ORM\Column(name="lvl", type="integer")
-     */
-    protected $lvl;
-
-    /**
-     * @Gedmo\TreeRight
-     * @ORM\Column(name="rgt", type="integer")
-     */
-    protected $rgt;
-
-    /**
-     * @Gedmo\TreeRoot
-     * @ORM\Column(name="root", type="integer", nullable=true)
-     */
-    protected $root;
-
-    /**
-     * @Gedmo\TreeParent
-     * @ORM\ManyToOne(targetEntity="Opifer\ContentBundle\Model\ContentInterface", inversedBy="children")
-     * @ORM\JoinColumn(name="parent_id", referencedColumnName="id", onDelete="CASCADE")
-     */
-    protected $parent;
-
-    /**
-     * @ORM\OneToMany(targetEntity="Opifer\ContentBundle\Model\ContentInterface", mappedBy="parent")
-     * @ORM\OrderBy({"lft" = "ASC"})
      */
     protected $children;
 
@@ -146,8 +93,6 @@ class Content extends BaseContent
      *
      * @JMS\Expose
      * @JMS\Groups({"detail", "list"})
-     * @Gedmo\Timestampable(on="create")
-     * @ORM\Column(name="created_at", type="datetime", nullable=true)
      * @Revisions\Revised
      */
     protected $createdAt;
@@ -159,8 +104,6 @@ class Content extends BaseContent
      *
      * @JMS\Expose
      * @JMS\Groups({"detail", "list"})
-     * @Gedmo\Timestampable(on="update")
-     * @ORM\Column(name="updated_at", type="datetime")
      */
     protected $updatedAt;
 

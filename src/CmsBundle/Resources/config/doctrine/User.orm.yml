@@ -1,0 +1,122 @@
+Opifer\CmsBundle\Entity\User:
+    type: mappedSuperclass
+    table: users
+    gedmo:
+      soft_deleteable:
+        field_name: deletedAt
+        time_aware: false
+    id:
+        id:
+            type: integer
+            scale: 0
+            length: null
+            unique: false
+            nullable: false
+            precision: 0
+            id: true
+            generator:
+                strategy: IDENTITY
+    fields:
+        firstName:
+            type: string
+            scale: 0
+            length: 255
+            unique: false
+            nullable: true
+            precision: 0
+            column: first_name
+        lastName:
+            type: string
+            scale: 0
+            length: 255
+            unique: false
+            nullable: true
+            precision: 0
+            column: last_name
+        company:
+            type: string
+            scale: 0
+            length: 255
+            unique: false
+            nullable: true
+            precision: 0
+        jobPosition:
+            type: string
+            scale: 0
+            length: 255
+            unique: false
+            nullable: true
+            precision: 0
+            column: job_position
+        createdAt:
+            type: datetime
+            scale: 0
+            length: null
+            unique: false
+            nullable: false
+            precision: 0
+            column: created_at
+        updatedAt:
+            type: datetime
+            scale: 0
+            length: null
+            unique: false
+            nullable: false
+            precision: 0
+            column: updated_at
+        deletedAt:
+            type: datetime
+            scale: 0
+            length: null
+            unique: false
+            nullable: true
+            precision: 0
+            column: deleted_at
+    manyToMany:
+        groups:
+            targetEntity: Opifer\CmsBundle\Entity\Group
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: null
+            joinTable:
+                name: opifer_users_groups
+                schema: null
+                joinColumns:
+                    -
+                        name: user_id
+                        unique: false
+                        nullable: true
+                        onDelete: null
+                        columnDefinition: null
+                        referencedColumnName: id
+                inverseJoinColumns:
+                    -
+                        name: group_id
+                        unique: false
+                        nullable: true
+                        onDelete: null
+                        columnDefinition: null
+                        referencedColumnName: id
+            orderBy: null
+    manyToOne:
+        avatar:
+            targetEntity: Opifer\CmsBundle\Entity\Media
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                avatar_id:
+                    referencedColumnName: id
+            orphanRemoval: false
+    oneToMany:
+        contents:
+            targetEntity: Opifer\CmsBundle\Entity\Content
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: author
+            inversedBy: null
+            orphanRemoval: false
+            orderBy: null
+    lifecycleCallbacks: {  }

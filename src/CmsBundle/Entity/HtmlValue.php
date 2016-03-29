@@ -2,13 +2,10 @@
 
 namespace Opifer\CmsBundle\Entity;
 
-use Doctrine\ORM\Mapping as ORM;
 use Opifer\EavBundle\Entity\Value;
 
 /**
  * HtmlValue.
- *
- * @ORM\Entity()
  */
 class HtmlValue extends Value
 {

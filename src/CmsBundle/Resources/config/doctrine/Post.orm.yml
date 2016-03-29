@@ -1,0 +1,61 @@
+Opifer\CmsBundle\Entity\Post:
+    type: entity
+    table: post
+    gedmo:
+      soft_deleteable:
+        field_name: deletedAt
+        time_aware: false
+    id:
+        id:
+            type: integer
+            scale: 0
+            length: null
+            unique: false
+            nullable: false
+            precision: 0
+            id: true
+            generator:
+                strategy: IDENTITY
+    fields:
+        submittedAt:
+            type: datetime
+            scale: 0
+            length: null
+            unique: false
+            nullable: false
+            precision: 0
+            column: submitted_at
+            gedmo:
+              timestampable:
+                on: create
+        deletedAt:
+            type: datetime
+            scale: 0
+            length: null
+            unique: false
+            nullable: true
+            precision: 0
+            column: deleted_at
+    manyToOne:
+        valueSet:
+            targetEntity: Opifer\CmsBundle\Entity\ValueSet
+            cascade:
+                - persist
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                valueset_id:
+                    referencedColumnName: id
+            orphanRemoval: false
+        form:
+            targetEntity: Opifer\CmsBundle\Entity\Form
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: posts
+            joinColumns:
+                form_id:
+                    referencedColumnName: id
+            orphanRemoval: false
+    lifecycleCallbacks: {  }

@@ -1,0 +1,15 @@
+Opifer\CmsBundle\Entity\FormValue:
+    type: entity
+    table: form_value
+    manyToOne:
+        form:
+            targetEntity: Opifer\CmsBundle\Entity\Form
+            cascade:
+                - persist
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                form_id:
+                    referencedColumnName: id
+            orphanRemoval: false

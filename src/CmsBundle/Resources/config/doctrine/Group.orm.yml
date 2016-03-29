@@ -1,0 +1,15 @@
+Opifer\CmsBundle\Entity\Group:
+    type: entity
+    table: groups
+    id:
+        id:
+            type: integer
+            scale: 0
+            length: null
+            unique: false
+            nullable: false
+            precision: 0
+            id: true
+            generator:
+                strategy: IDENTITY
+    lifecycleCallbacks: {  }

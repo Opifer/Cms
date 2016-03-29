@@ -174,12 +174,6 @@ services:
         tags:
             - { name: 'opifer.eav.value_provider', alias: 'address' }
 
-    opifer.cms.menu_group_value_provider:
-        class: '%opifer.cms.menu_group_value_provider.class%'
-        arguments: ['%opifer.cms.menu_group.class%']
-        tags:
-            - { name: 'opifer.eav.value_provider', alias: 'menu_group' }
-
     opifer.cms.form_value_provider:
          class: '%opifer.cms.form_value_provider.class%'
          arguments: ['%opifer_form.form_class%']

@@ -1,0 +1,61 @@
+Opifer\CmsBundle\Entity\Option:
+    type: entity
+    table: option
+    repositoryClass: Opifer\EavBundle\Repository\OptionRepository
+    id:
+        id:
+            type: integer
+            scale: 0
+            length: null
+            unique: false
+            nullable: false
+            precision: 0
+            id: true
+            generator:
+                strategy: IDENTITY
+    fields:
+        name:
+            type: string
+            scale: 0
+            length: 128
+            unique: false
+            nullable: false
+            precision: 0
+        displayName:
+            type: string
+            scale: 0
+            length: 255
+            unique: false
+            nullable: false
+            precision: 0
+            column: display_name
+        sort:
+            type: integer
+            scale: 0
+            length: null
+            unique: false
+            nullable: false
+            precision: 0
+    manyToMany:
+        values:
+            targetEntity: Opifer\EavBundle\Entity\Value
+            cascade:
+                - all
+            fetch: LAZY
+            mappedBy: options
+            inversedBy: null
+            joinTable: {  }
+            orderBy: null
+    manyToOne:
+        attribute:
+            targetEntity: Opifer\CmsBundle\Entity\Attribute
+            cascade:
+                - persist
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: options
+            joinColumns:
+                attribute_id:
+                    referencedColumnName: id
+            orphanRemoval: false
+    lifecycleCallbacks: {  }
