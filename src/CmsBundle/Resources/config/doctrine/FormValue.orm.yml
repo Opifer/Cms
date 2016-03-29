@@ -3,7 +3,7 @@ Opifer\CmsBundle\Entity\FormValue:
     table: form_value
     manyToOne:
         form:
-            targetEntity: Opifer\CmsBundle\Entity\Form
+            targetEntity: Opifer\FormBundle\Model\FormInterface
             cascade:
                 - persist
             fetch: LAZY

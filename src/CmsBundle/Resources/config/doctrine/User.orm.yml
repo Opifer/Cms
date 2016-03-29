@@ -101,7 +101,7 @@ Opifer\CmsBundle\Entity\User:
             orderBy: null
     manyToOne:
         avatar:
-            targetEntity: Opifer\CmsBundle\Entity\Media
+            targetEntity: Opifer\MediaBundle\Model\MediaInterface
             cascade: {  }
             fetch: LAZY
             mappedBy: null
@@ -112,7 +112,7 @@ Opifer\CmsBundle\Entity\User:
             orphanRemoval: false
     oneToMany:
         contents:
-            targetEntity: Opifer\CmsBundle\Entity\Content
+            targetEntity: Opifer\ContentBundle\Model\ContentInterface
             cascade: {  }
             fetch: LAZY
             mappedBy: author

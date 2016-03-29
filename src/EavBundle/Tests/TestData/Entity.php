@@ -2,9 +2,7 @@
 
 namespace Opifer\EavBundle\Tests\TestData;
 
-use Opifer\EavBundle\Entity\NestedValue;
 use Opifer\EavBundle\Model\EntityInterface;
-use Opifer\EavBundle\Model\Nestable;
 use Opifer\EavBundle\Model\SchemaInterface;
 use Opifer\EavBundle\Model\ValueSetInterface;
 

@@ -15,10 +15,6 @@ use Symfony\Component\HttpKernel\DependencyInjection\Extension;
  */
 class OpiferCmsExtension extends Extension implements PrependExtensionInterface
 {
-    const DEFAULT_KEY = 'default';
-
-    protected $applicationName = 'opifer_cms';
-
     /**
      * {@inheritDoc}
      */
