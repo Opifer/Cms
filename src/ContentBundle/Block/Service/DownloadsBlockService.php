@@ -70,10 +70,10 @@ class DownloadsBlockService extends AbstractBlockService implements BlockService
         
         $reference = $provider->getThumb($media);
         $mediaUrl = $provider->getUrl($media);
-        
+
         $response = new Response();
         $response->headers->set('Content-type', 'application/octect-stream');
-        $response->headers->set('Content-Disposition', sprintf('attachment; filename="%s"', $reference));
+        $response->headers->set('Content-Disposition', sprintf('attachment; filename="%s"', basename($mediaUrl)));
         $response->setContent($mediaUrl);
         
         return $response;
