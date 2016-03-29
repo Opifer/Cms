@@ -66,7 +66,7 @@ Opifer\CmsBundle\Entity\Attribute:
             precision: 0
     oneToMany:
         options:
-            targetEntity: Opifer\CmsBundle\Entity\Option
+            targetEntity: Opifer\EavBundle\Model\OptionInterface
             cascade:
                 - all
             fetch: LAZY
@@ -85,7 +85,7 @@ Opifer\CmsBundle\Entity\Attribute:
             orderBy: null
     manyToMany:
         allowedSchemas:
-            targetEntity: Opifer\CmsBundle\Entity\Schema
+            targetEntity: Opifer\EavBundle\Model\SchemaInterface
             cascade:
                 - persist
             fetch: LAZY
@@ -107,7 +107,7 @@ Opifer\CmsBundle\Entity\Attribute:
             orderBy: null
     manyToOne:
         schema:
-            targetEntity: Opifer\CmsBundle\Entity\Schema
+            targetEntity: Opifer\EavBundle\Model\SchemaInterface
             cascade: {  }
             fetch: LAZY
             mappedBy: null

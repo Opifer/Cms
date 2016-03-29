@@ -24,7 +24,7 @@ Opifer\CmsBundle\Entity\ValueSet:
             orderBy: null
     manyToOne:
         schema:
-            targetEntity: Opifer\CmsBundle\Entity\Schema
+            targetEntity: Opifer\EavBundle\Model\SchemaInterface
             cascade: {  }
             fetch: LAZY
             mappedBy: null

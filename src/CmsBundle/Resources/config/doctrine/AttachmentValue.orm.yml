@@ -3,7 +3,7 @@ Opifer\CmsBundle\Entity\AttachmentValue:
     table: attachment_value
     oneToOne:
         attachment:
-            targetEntity: Opifer\CmsBundle\Entity\Media
+            targetEntity: Opifer\MediaBundle\Model\MediaInterface
             cascade:
                 - persist
             fetch: LAZY

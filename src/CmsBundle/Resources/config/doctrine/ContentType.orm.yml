@@ -55,7 +55,7 @@ Opifer\CmsBundle\Entity\ContentType:
             precision: 0
     manyToOne:
         schema:
-            targetEntity: Opifer\CmsBundle\Entity\Schema
+            targetEntity: Opifer\EavBundle\Model\SchemaInterface
             cascade:
                 - persist
             fetch: LAZY
@@ -67,7 +67,7 @@ Opifer\CmsBundle\Entity\ContentType:
             orphanRemoval: false
     oneToMany:
         content:
-            targetEntity: Opifer\CmsBundle\Entity\Content
+            targetEntity: Opifer\ContentBundle\Model\ContentInterface
             cascade: {  }
             fetch: LAZY
             mappedBy: contentType

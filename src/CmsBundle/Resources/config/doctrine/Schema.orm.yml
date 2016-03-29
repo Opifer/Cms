@@ -24,7 +24,7 @@ Opifer\CmsBundle\Entity\Schema:
             column: object_class
     oneToMany:
         attributes:
-            targetEntity: Opifer\CmsBundle\Entity\Attribute
+            targetEntity: Opifer\EavBundle\Model\AttributeInterface
             cascade:
                 - all
             fetch: LAZY
@@ -34,7 +34,7 @@ Opifer\CmsBundle\Entity\Schema:
             orderBy: null
     manyToMany:
         allowedInAttributes:
-            targetEntity: Opifer\CmsBundle\Entity\Attribute
+            targetEntity: Opifer\EavBundle\Model\AttributeInterface
             cascade: {  }
             fetch: LAZY
             mappedBy: allowedSchemas

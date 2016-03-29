@@ -37,7 +37,6 @@ class OpiferEavExtension extends Extension implements PrependExtensionInterface
         $params = [
             'opifer_eav.attribute_class' => $config['attribute_class'],
             'opifer_eav.media_class'     => $config['media_class'],
-            'opifer_eav.nestable_class'  => $config['nestable_class'],
             'opifer_eav.option_class'    => $config['option_class'],
             'opifer_eav.schema_class'  => $config['schema_class'],
             'opifer_eav.valueset_class'  => $config['valueset_class'],
@@ -74,10 +73,6 @@ class OpiferEavExtension extends Extension implements PrependExtensionInterface
             'Opifer\EavBundle\Model\SchemaInterface'  => $config['schema_class'],
             'Opifer\EavBundle\Model\ValueSetInterface'  => $config['valueset_class'],
         ];
-
-        if ($config['nestable_class'] != '') {
-            $resolvableEntities['Opifer\EavBundle\Model\Nestable'] = $config['nestable_class'];
-        }
 
         if ($config['media_class'] != '') {
             $resolvableEntities['Opifer\EavBundle\Model\MediaInterface'] = $config['media_class'];

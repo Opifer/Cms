@@ -3,7 +3,7 @@
 namespace Opifer\CmsBundle\Entity;
 
 use Opifer\MediaBundle\Model\Media as BaseMedia;
-use Opifer\MediaBundle\Model\MediaInterface;
+use Opifer\EavBundle\Model\MediaInterface;
 
 /**
  */
