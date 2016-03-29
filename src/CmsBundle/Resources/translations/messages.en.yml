@@ -35,8 +35,6 @@ content:
             advanced: advanced
         success: "%title% was saved successfully!"
     form:
-        directory:
-            help_text: Directory this page will be stored in
         indexable:
             help_text: Allow search engines to index this page
             label: Indexable
@@ -65,41 +63,10 @@ dashboard:
     user:
         latest: Newest users
 
-# Menu
-menu:
-    edit:
-        title: edit menu
-    panel:
-        id: Id
-        name: Name
-    confirmation:
-        delete:
-            title: "Delete confirmation"
-            description: "Are you sure you want to delete"
-    form:
-        content:
-            empty: no related content
-            help_text: connect the menu to an existing content item
-        name:
-            help_text: the name of the menu item
-        link:
-            help_text: Add a hard link where the menu should redirect to. Leave empty when you selected a related content item.
-        parent:
-            help_text: define a parent menu item
-    group:
-        add: new menugroup
-        type: Menu group
-    index:
-        title: menus
-    item:
-        add: new menuitem
-        type: Menu item
-
 # Navigation
 nav:
     dashboard: Dashboard
     content: Content
-    directory: Directories
     media: Media
     block_shared: shared blocks
     form:
