@@ -1,0 +1,9 @@
+<div {{ manage_tags() }}>
+	{% if breadcrumbs|default %}
+		<ol class="breadcrumb">
+		{% for slug, title in breadcrumbs %}
+			<li><a href="{{ path('_content', {'slug': slug}) }}">{{ title }}</a></li>
+		{% endfor %}
+		</ol>
+	{% endif %}
+</div>
