@@ -58,17 +58,13 @@ class FormBlockService extends AbstractBlockService implements BlockServiceInter
         );
     }
 
-    /**
-     * Returns a Response object that can be cache-able.
-     *
-     * @param string   $view
-     * @param array    $parameters
-     * @param Response $response
-     *
-     * @return Response
-     */
-    public function renderResponse($view, array $parameters = array(), Response $response = null)
+    public function getViewParameters(BlockInterface $block)
     {
+        $parameters = [
+            'block_service' => $this,
+            'block'         => $block,
+        ];
+
         if (!empty($parameters['block']->getForm())) {
             $post = $this->eavManager->initializeEntity($parameters['block']->getForm()->getSchema());
 
@@ -76,7 +72,8 @@ class FormBlockService extends AbstractBlockService implements BlockServiceInter
 
             $parameters['block']->formView = $form->createView();
         }
-        return $this->getTemplating()->renderResponse($view, $parameters, $response);
+
+        return $parameters;
     }
 
 
