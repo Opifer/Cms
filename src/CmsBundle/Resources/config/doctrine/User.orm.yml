@@ -56,6 +56,9 @@ Opifer\CmsBundle\Entity\User:
             nullable: false
             precision: 0
             column: created_at
+            gedmo:
+              timestampable:
+                on: create
         updatedAt:
             type: datetime
             scale: 0
@@ -64,6 +67,9 @@ Opifer\CmsBundle\Entity\User:
             nullable: false
             precision: 0
             column: updated_at
+            gedmo:
+              timestampable:
+                on: update
         deletedAt:
             type: datetime
             scale: 0
