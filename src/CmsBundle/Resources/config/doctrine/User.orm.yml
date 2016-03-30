@@ -110,13 +110,4 @@ Opifer\CmsBundle\Entity\User:
                 avatar_id:
                     referencedColumnName: id
             orphanRemoval: false
-    oneToMany:
-        contents:
-            targetEntity: Opifer\ContentBundle\Model\ContentInterface
-            cascade: {  }
-            fetch: LAZY
-            mappedBy: author
-            inversedBy: null
-            orphanRemoval: false
-            orderBy: null
     lifecycleCallbacks: {  }
