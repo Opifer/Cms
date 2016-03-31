@@ -2,7 +2,11 @@
 	{% if breadcrumbs|default %}
 		<ol class="breadcrumb">
 		{% for slug, title in breadcrumbs %}
-			<li><a href="{{ path('_content', {'slug': slug}) }}">{{ title }}</a></li>
+			{% if slug == currentPageSlug %}
+				<li class="active">{{ title }}</li>
+			{% else %}
+				<li><a href="{{ path('_content', {'slug': slug}) }}">{{ title }}</a></li>
+			{% endif %}
 		{% endfor %}
 		</ol>
 	{% endif %}

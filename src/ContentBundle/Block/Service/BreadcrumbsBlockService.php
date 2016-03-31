@@ -36,11 +36,20 @@ class BreadcrumbsBlockService extends AbstractBlockService implements BlockServi
             'block_service' => $this,
             'block'         => $block,
         ];
-        
+
+        $homePage = $this->contentManager->findOneBySlug('index');
         $currentPage = $this->contentManager->findOneBySlug($block->getOwner()->getSlug());
 
-        $parameters['breadcrumbs'] = array_merge($currentPage->getBreadCrumbs());
-               
+        //get current page slug to mark it as active when listing
+        $parameters['currentPageSlug'] = $currentPage->getSlug();
+
+        $parameters['breadcrumbs'] = $currentPage->getBreadCrumbs();
+
+        // add homepage link as first breadcrumb if not exists in breadcrumbs
+        if (!array_key_exists('index', $parameters['breadcrumbs'])) {
+            $parameters['breadcrumbs'] = array_merge(['index' => $homePage->getTitle()], $parameters['breadcrumbs']);
+        }
+
         return $parameters;
     }
 
