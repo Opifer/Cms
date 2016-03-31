@@ -8,14 +8,28 @@
 					{% endif %}
 					{{ app.user.username }} <b class="caret"></b>
 					<ul class="dropdown-menu">
-				        <li><a href="{{ path('opifer_cms_user_profile') }}"><i class="fa fa-cog"></i>My Account</a></li>
+				        <li><a href="{{ path('opifer_cms_user_profile') }}"><i class="fa fa-cog"></i> My Account</a></li>
 				        <li class="divider"></li>
-				        <li><a href="{{ path('fos_user_security_logout') }}"><i class="fa fa-sign-out"></i>Logout</a></li>
+				        <li><a href="{{ path('fos_user_security_logout') }}"><i class="fa fa-sign-out"></i> Logout</a></li>
 				    </ul>
 				</a>
 			</li>
 		</ul>
 	{% else %}
-		<a href="{{ path('fos_user_security_login') }}" class="btn btn-primary">Login</a> <a href="#" class="btn btn-primary">Register</a>
+		{% set loginUrl = '#' %}
+		{% if block.loginContentItem|default %}	
+			{% set loginUrl = path('_content', {'slug': block.loginContentItem.slug }) %}
+		{% else %}
+			{% if block.loginUrl|default %} {% set loginUrl = block.loginUrl %} {% endif %}
+		{% endif %}
+
+		{% set registrationUrl = '#' %}
+		{% if block.registrationContentItem|default %}	
+			{% set registrationUrl = path('_content', {'slug': block.registrationContentItem.slug }) %}
+		{% else %}
+			{% if block.registrationUrl|default %} {% set registrationUrl = block.registrationUrl %} {% endif %}
+		{% endif %}
+		<a href="{{ loginUrl }}" class="btn btn-primary">Login</a>
+		<a href="{{ registrationUrl }}" class="btn btn-primary">Register</a>
 	{% endif %}
 </div>

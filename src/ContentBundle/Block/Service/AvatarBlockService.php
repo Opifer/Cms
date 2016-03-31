@@ -11,19 +11,47 @@ use Opifer\ContentBundle\Model\BlockInterface;
 use Symfony\Component\Form\FormBuilderInterface;
 use Opifer\ContentBundle\Model\ContentManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Templating\EngineInterface;
+use Opifer\ContentBundle\Form\Type\ContentPickerType;
+use Symfony\Component\Form\Extension\Core\Type\FormType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 
 /**
  * Avatar Block Service
  */
 class AvatarBlockService extends AbstractBlockService implements BlockServiceInterface, ToolsetMemberInterface
 {
+    /**
+     * {@inheritdoc}
+     */
+    public function buildManageForm(FormBuilderInterface $builder, array $options)
+    {
+        parent::buildManageForm($builder, $options);
+
+        // Default panel
+        $builder->add(
+            $builder->create('default', FormType::Class, ['inherit_data' => true])
+                ->add('loginContentItem', ContentPickerType::class, [
+                            'label' => 'Login Content Item',
+                        ])
+                ->add('loginUrl', TextType::class, [
+                            'label' => 'Login Url',
+                        ])
+                ->add('registrationContentItem', ContentPickerType::class, [
+                            'label' => 'Registration Content Item',
+                        ])
+                ->add('registrationUrl', TextType::class, [
+                            'label' => 'Registration Url',
+                        ])
+        );
+    }
+
     public function getViewParameters(BlockInterface $block)
     {
         $parameters = [
             'block_service' => $this,
             'block'         => $block,
         ];
-
+        
         return $parameters;
     }
 
