@@ -19,7 +19,7 @@ var gulp = require('gulp'),
 // JAVASCRIPT TASK: write one minified js file out of jquery.js, bootstrap.js and all of my custom js files
 gulp.task('js', function () {
     var files = [
-        'Resources/public/components/ng-file-upload/angular-file-upload-shim.min.js',
+        'Resources/public/components/ng-file-upload/ng-file-upload-shim.min.js',
         'Resources/public/components/jquery/dist/jquery.min.js',
         'Resources/public/components/jquery-ui/jquery-ui.js',
         'Resources/public/components/js-cookie/src/js.cookie.js',
@@ -39,12 +39,11 @@ gulp.task('js', function () {
         'Resources/public/components/eonasdan-bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js',
         'Resources/public/components/bootstrap-iconpicker/bootstrap-iconpicker/js/iconset/iconset-materialdesign-2.2.1.js',
         'Resources/public/components/bootstrap-iconpicker/bootstrap-iconpicker/js/bootstrap-iconpicker.js',
-        'Resources/public/components/dropzone/dist/dropzone.js',
         'Resources/public/components/ngInfiniteScroll/build/ng-infinite-scroll.js',
         'Resources/public/components/afkl-lazy-image/release/lazy-image.js',
         'Resources/public/components/bootbox.js/bootbox.js',
         'Resources/public/components/mprogress/mprogress.min.js',
-        'Resources/public/components/ng-file-upload/angular-file-upload.min.js',
+        'Resources/public/components/ng-file-upload/ng-file-upload.min.js',
         'Resources/public/components/typeahead.js/dist/typeahead.bundle.js',
         '../../../../braincrafted/bootstrap-bundle/Braincrafted/Bundle/BootstrapBundle/Resources/js/bc-bootstrap-collection.js',
         'Resources/public/components/codemirror/lib/codemirror.js',
@@ -58,7 +57,6 @@ gulp.task('js', function () {
         'Resources/public/angular/app.js',
         '../ContentBundle/Resources/public/js/app.js',
         '../ContentBundle/Resources/public/app/content/content.js',
-        '../MediaBundle/Resources/public/js/dropzone.js',
         '../MediaBundle/Resources/public/app/modal/modal.js',
         '../MediaBundle/Resources/public/app/medialibrary/medialibrary.js',
 
@@ -91,7 +89,6 @@ gulp.task('js', function () {
 gulp.task('css', function () {
     var files = [
         '../MediaBundle/Resources/public/css/main.less',
-        '../MediaBundle/Resources/public/css/dropzone.less',
         'Resources/public/components/angular-loading-bar/build/loading-bar.css',
         'Resources/public/components/codemirror/lib/codemirror.css',
         'Resources/public/components/eonasdan-bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.css',

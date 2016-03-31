@@ -1,4 +1,6 @@
-<div ng-file-drop ng-file-change="onFileSelect($files)" ng-file-drag-over-class="file-drop-area-hover" ng-show="dropSupported" class="file-drop-area">
+<div ngf-drop ngf-select ng-model="files" ngf-capture="'camera'"
+     ngf-drag-over-class="'dragover'" ngf-multiple="true" ngf-allow-dir="true"
+     ngf-change="onFileSelect($files)" ng-show="dropSupported" class="file-drop-area">
     <div class="file-drop-area-overlay"></div>
     <div class="container-fluid">
         <div class="row row-space-4">
@@ -17,7 +19,7 @@
         <section class="row media-items">
             <div ng-show="uploadingFiles != null">
                 <div ng-repeat="f in uploadingFiles">
-                    <div class="progress">
+                    <div class="progress" ng-show="progress[$index] < 100">
                         <div class="progress-bar" role="progressbar" aria-valuenow="{{ progress[$index] }}" aria-valuemin="0" aria-valuemax="100" style="width: {{ progress[$index] }}%;">
                             {{ progress[$index] }}%
                         </div>
