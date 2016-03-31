@@ -25,6 +25,7 @@ parameters:
     opifer.content.downloads_block.class: Opifer\ContentBundle\Block\Service\DownloadsBlockService
     opifer.content.form_block.class: Opifer\ContentBundle\Block\Service\FormBlockService
     opifer.content.breadcrumbs_block.class: Opifer\ContentBundle\Block\Service\BreadcrumbsBlockService
+    opifer.content.avatar_block.class: Opifer\ContentBundle\Block\Service\AvatarBlockService
 
 services:
     opifer.content.carousel_block:
@@ -200,8 +201,15 @@ services:
         arguments: ['@templating', '@service_container', '@opifer.eav.eav_manager', '%opifer_content.form_block_configuration%']
         tags:
             - { name: opifer.content.block_service, alias: form }
+
     opifer.content.breadcrumbs_block:
         class: '%opifer.content.breadcrumbs_block.class%'
         arguments: ['@templating', '@opifer.content.content_manager', '%opifer_content.breadcrumbs_block_configuration%']
         tags:
             - { name: opifer.content.block_service, alias: breadcrumbs }
+
+    opifer.content.avatar_block:
+        class: '%opifer.content.avatar_block.class%'
+        arguments: ['@templating', '%opifer_content.avatar_block_configuration%']
+        tags:
+            - { name: opifer.content.block_service, alias: avatar }

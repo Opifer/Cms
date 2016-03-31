@@ -1,0 +1,21 @@
+<div {{ manage_tags() }}>
+	{% if app.user|default %}
+		<ul class="nav navbar-nav">
+			<li class="dropdown">
+				<a href="#" class="dropdown-toggle" data-toggle="dropdown">
+					{% if app.user.avatar|default %}
+						<img src="{{app.user.avatar.reference|imagine_filter('avatar') }}" class="profile-image">
+					{% endif %}
+					{{ app.user.username }} <b class="caret"></b>
+					<ul class="dropdown-menu">
+				        <li><a href="{{ path('opifer_cms_user_profile') }}"><i class="fa fa-cog"></i>My Account</a></li>
+				        <li class="divider"></li>
+				        <li><a href="{{ path('fos_user_security_logout') }}"><i class="fa fa-sign-out"></i>Logout</a></li>
+				    </ul>
+				</a>
+			</li>
+		</ul>
+	{% else %}
+		<a href="{{ path('fos_user_security_login') }}" class="btn btn-primary">Login</a> <a href="#" class="btn btn-primary">Register</a>
+	{% endif %}
+</div>

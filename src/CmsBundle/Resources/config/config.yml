@@ -196,6 +196,10 @@ liip_imagine:
             quality: 70
             filters:
                 relative_resize: {heighten: 160}
+        avatar:
+            quality: 80
+            filters:
+                thumbnail: { size: [64, 64], mode: outbound }
 
 apy_data_grid:
     pagerfanta:
