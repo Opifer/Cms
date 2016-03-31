@@ -1,0 +1,45 @@
+<div {{ manage_tags() }}>
+	<section class="form-holder p-t-sm p-b-lg">
+    <div class="container">
+    	{% if block.formView|default %}
+	        {% set form = block.formView %}
+	        {% if form %}
+	            {% set inputs = form.valueset.namedvalues %}
+
+	            <h2>{{ block.form.name }}</h2>
+
+	            {{ form_start(form, { 'style': 'horizontal', 'attr': {'class':'contact-form', 'data-toggle': 'validator'} }) }}
+	                {{ form_errors(form) }}
+
+	                {% for input in inputs %}
+	                    <div class="form-group">
+	                        <label for="{{ input.vars.value.id }}" class="col-md-3">
+	                            {{ input.vars.attribute.displayName }} {% if input.vars.value.attribute.parameters.required|default %}<bdi>*</bdi>{% endif %}
+	                        </label>
+	                        <div class="col-md-8">
+	                            {% set attr = {'placeholder' : input.vars.attribute.displayName, 'class':'inputs'} %}
+
+	                            {{ form_widget(input, {'attr': attr, 'required': false} ) }}
+	                        </div>
+	                    </div>
+	                {% endfor %}
+
+	                <div class="form-group m-t-md">
+	                    <div class="col-md-7 col-sm-offset-3">
+	                        <input type="submit" value="Verzenden" class="btn btn-lg btn-primary btn-submit"/>
+	                    </div>
+	                </div>
+
+	                <div class="form-group">
+	                    <div class="col-md-7 col-sm-offset-3">
+	                        <span class="req"><bdi>*</bdi> Deze velden zijn verplicht</span>
+	                    </div>
+	                </div>
+
+	            {{ form_rest(form) }}
+	            {{ form_end(form) }}
+	        {% endif %}
+	    {% endif %}
+    </div>
+</section>
+</div>

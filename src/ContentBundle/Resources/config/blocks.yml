@@ -23,6 +23,7 @@ parameters:
     opifer.content.video_block.class: Opifer\ContentBundle\Block\Service\VideoBlockService
     opifer.content.cookiewall_block.class: Opifer\ContentBundle\Block\Service\CookieWallBlockService
     opifer.content.downloads_block.class: Opifer\ContentBundle\Block\Service\DownloadsBlockService
+    opifer.content.form_block.class: Opifer\ContentBundle\Block\Service\FormBlockService
 
 services:
     opifer.content.carousel_block:
@@ -192,3 +193,9 @@ services:
         arguments: ['@templating', '%opifer_content.downloads_block_configuration%', '@opifer.media.media_manager', '@service_container']
         tags:
             - { name: opifer.content.block_service, alias: downloads }
+
+    opifer.content.form_block:
+        class: '%opifer.content.form_block.class%'
+        arguments: ['@templating', '@service_container', '@opifer.eav.eav_manager', '%opifer_content.form_block_configuration%']
+        tags:
+            - { name: opifer.content.block_service, alias: form }
