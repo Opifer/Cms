@@ -117,7 +117,7 @@ class DownloadsBlockService extends AbstractBlockService implements BlockService
         $tool = new Tool('Downloads', 'downloads');
 
         $tool->setIcon('file_download')
-            ->setDescription('Allows to download media items');
+            ->setDescription('List of media items available for download');
 
         return $tool;
     }

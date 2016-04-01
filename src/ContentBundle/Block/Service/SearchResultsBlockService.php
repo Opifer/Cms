@@ -68,10 +68,10 @@ class SearchResultsBlockService extends AbstractBlockService implements BlockSer
      */
     public function getTool(BlockInterface $block = null)
     {
-        $tool = new Tool('Search Results', 'search_results');
+        $tool = new Tool('Search results', 'search_results');
 
         $tool->setIcon('search')
-            ->setDescription('Shows search results');
+            ->setDescription('Lists search results from a user query');
 
         return $tool;
     }

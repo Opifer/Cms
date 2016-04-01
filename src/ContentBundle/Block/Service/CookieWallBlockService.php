@@ -79,10 +79,10 @@ class CookieWallBlockService extends AbstractBlockService implements BlockServic
      */
     public function getTool(BlockInterface $block = null)
     {
-        $tool = new Tool('CookieWall', 'cookiewall');
+        $tool = new Tool('Cookie wall', 'cookiewall');
 
         $tool->setIcon('info')
-            ->setDescription('Cookiewall');
+            ->setDescription('Dismissable message regarding EU cookies regulation');
 
         return $tool;
     }

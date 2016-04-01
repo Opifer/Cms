@@ -66,10 +66,10 @@ class BreadcrumbsBlockService extends AbstractBlockService implements BlockServi
      */
     public function getTool(BlockInterface $block = null)
     {
-        $tool = new Tool('Breadcrumbs', 'breadcrumbs');
+        $tool = new Tool('Breadcrumb', 'breadcrumbs');
 
-        $tool->setIcon('list')
-            ->setDescription('Adds breadcrumbs');
+        $tool->setIcon('linear_scale')
+            ->setDescription('Navigation path of current content');
 
         return $tool;
     }

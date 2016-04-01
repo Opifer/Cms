@@ -93,7 +93,7 @@ class FormBlockService extends AbstractBlockService implements BlockServiceInter
         $tool = new Tool('Form', 'form');
 
         $tool->setIcon('receipt')
-            ->setDescription('Adds form');
+            ->setDescription('Include a form created in Forms');
 
         return $tool;
     }
