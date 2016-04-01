@@ -2,17 +2,18 @@
 	<ul class="media-list">
 		{% if search_results|default %}
 			 {% for result in search_results %}
-					<li class="media">
-						<div class="media-left">
-						  <a href="{{ path('_content', {'slug': result.slug }) }}">
-						  </a>
-						</div>
-						<div class="media-body">
-						  	<a href="{{ path('_content', {'slug': result.slug }) }}">
-						  		<h4 class="media-title">{{ result.title }}</h4>
-						  	</a>
-						</div>
-					</li>
+			 	<li class="media">
+					<div class="media-left">
+					  <a href="{{ path('_content', {'slug': result.owner.slug }) }}">
+					  	{{ result.owner.title }}
+					  </a>
+					</div>
+					<div class="media-body">
+					  	<a href="{{ path('_content', {'slug': result.owner.slug }) }}">
+					  		<h4 class="media-description">{{ result.owner.description }}</h4>
+					  	</a>
+					</div>
+				</li>
 			{% endfor %}
 		{% else %}
 			<li class="media">Please enter your search query</li>
