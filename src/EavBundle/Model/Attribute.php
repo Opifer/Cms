@@ -73,7 +73,7 @@ class Attribute implements AttributeInterface
      *
      * @Assert\NotBlank()
      */
-    protected $sort;
+    protected $sort = 0;
 
     /**
      * @var ArrayCollection
