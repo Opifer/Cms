@@ -184,14 +184,9 @@ Opifer\CmsBundle\Entity\Content:
             orphanRemoval: false
         author:
             targetEntity: FOS\UserBundle\Model\UserInterface
-            cascade: {  }
-            fetch: LAZY
-            mappedBy: null
-            inversedBy: contents
             joinColumns:
                 author_id:
                     referencedColumnName: id
-            orphanRemoval: false
         parent:
             targetEntity: Opifer\ContentBundle\Model\ContentInterface
             cascade: {  }
