@@ -136,6 +136,14 @@ abstract class Block implements BlockInterface, DraftInterface
     protected $sharedDisplayName;
 
     /**
+     * @var string
+     *
+     * @Revisions\Revised
+     * @ORM\Column(type="text", name="value", nullable=true)
+     */
+    protected $value;
+
+    /**
      * @var \DateTime
      *
      * @JMS\Expose

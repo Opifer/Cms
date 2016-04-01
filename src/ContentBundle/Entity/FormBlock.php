@@ -16,7 +16,7 @@ class FormBlock extends Block
     /**
      * @var Form
      *
-     * @Gedmo\Versioned
+     * @Revisions\Revised
      * @ORM\ManyToOne(targetEntity="Opifer\CmsBundle\Entity\Form", fetch="EAGER")
      * @ORM\JoinColumn(name="form_id", referencedColumnName="id", nullable=true, onDelete="SET NULL")
      */
@@ -25,7 +25,7 @@ class FormBlock extends Block
     /**
      * @var string
      *
-     * @Gedmo\Versioned
+     * @Revisions\Revised
      * @ORM\Column(type="text", nullable=true)
      */
     protected $value;
