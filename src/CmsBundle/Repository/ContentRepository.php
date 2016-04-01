@@ -169,6 +169,8 @@ class ContentRepository extends BaseContentRepository
                 ->select('c')
                 ->innerjoin('c.blocks', 'b', 'WITH', 'c.id = b.content')
                 ->where('b.value LIKE :search')
+                ->orWhere('c.title LIKE :search')
+                ->orWhere('c.description LIKE :search')
                 ->setParameter('search', '%'.$search.'%')
                 ->groupBy('c.id')
                 ->orderBy('c.id')
