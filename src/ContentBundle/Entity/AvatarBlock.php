@@ -26,7 +26,7 @@ class AvatarBlock extends Block
     /**
      * @var string
      *
-     * @Gedmo\Versioned
+     * @Revisions\Revised
      * @ORM\Column(type="text", name="registration_url", nullable=true)
      */
     protected $registrationUrl;
