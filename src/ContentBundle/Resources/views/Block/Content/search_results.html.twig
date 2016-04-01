@@ -1,1 +1,20 @@
-<div {{ manage_tags() }}></div>
+<div {{ manage_tags() }}>
+	<ul class="media-list">
+		{% if search_results|default %}
+			 {% for result in search_results %}
+					<li class="media">
+						<div class="media-left">
+						  <a href="#">
+						    asdas
+						  </a>
+						</div>
+						<div class="media-body">
+						  Item
+						</div>
+					</li>
+			{% endfor %}
+		{% else %}
+			<li class="media">Please enter your search query</li>
+		{% endif %}
+	</ul>
+</div>

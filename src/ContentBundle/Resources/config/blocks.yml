@@ -217,6 +217,8 @@ services:
 
     opifer.content.search_results_block:
         class: '%opifer.content.search_results_block.class%'
-        arguments: ['@templating', '%opifer_content.search_results_block_configuration%']
+        arguments: ['@templating', '@opifer.content.block_manager', '%opifer_content.search_results_block_configuration%']
         tags:
             - { name: opifer.content.block_service, alias: search_results }
+        calls:
+            - [setRequest, ['@request_stack']]

@@ -33,7 +33,7 @@ class AvatarBlockService extends AbstractBlockService implements BlockServiceInt
                 ->add('loginContentItem', ContentPickerType::class, [
                             'label' => 'Login Content Item',
                         ])
-                ->add('loginUrl', TextType::class, [
+                ->add('value', TextType::class, [
                             'label' => 'Login Url',
                         ])
                 ->add('registrationContentItem', ContentPickerType::class, [

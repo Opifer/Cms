@@ -13,13 +13,6 @@ use Opifer\ContentBundle\Entity\Block;
  */
 class AvatarBlock extends Block
 {
-    /**
-     * @var string
-     *
-     * @Gedmo\Versioned
-     * @ORM\Column(type="text", name="value", nullable=true)
-     */
-    protected $loginUrl;
 
     /**
      * @var <Content>
@@ -47,26 +40,6 @@ class AvatarBlock extends Block
      */
     protected $registrationContentItem;
 
-
-    /**
-     * @return string
-     */
-    public function getLoginUrl()
-    {
-        return $this->loginUrl;
-    }
-
-    /**
-     * @param string $value
-     *
-     * @return string
-     */
-    public function setLoginUrl($loginUrl)
-    {
-        $this->loginUrl = $loginUrl;
-
-        return $this;
-    }
 
    /**
      * Set login content
