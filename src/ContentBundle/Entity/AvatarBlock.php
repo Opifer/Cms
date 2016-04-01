@@ -24,14 +24,6 @@ class AvatarBlock extends Block
     protected $loginContentItem;
 
     /**
-     * @var string
-     *
-     * @Revisions\Revised
-     * @ORM\Column(type="text", name="registration_url", nullable=true)
-     */
-    protected $registrationUrl;
-
-    /**
      * @var <Content>
      *
      * @ORM\ManyToOne(targetEntity="Opifer\ContentBundle\Model\ContentInterface")
@@ -83,26 +75,6 @@ class AvatarBlock extends Block
     public function getRegistrationContentItem()
     {
         return $this->registrationContentItem;
-    }
-
-    /**
-     * @return string
-     */
-    public function getRegistrationUrl()
-    {
-        return $this->registrationUrl;
-    }
-
-    /**
-     * @param string $value
-     *
-     * @return string
-     */
-    public function setRegistrationUrl($registrationUrl)
-    {
-        $this->registrationUrl = $registrationUrl;
-
-        return $this;
     }
 
     /**

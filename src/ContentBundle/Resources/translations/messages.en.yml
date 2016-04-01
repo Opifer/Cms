@@ -68,6 +68,10 @@ label:
     column_m_b_md: Margin bottom md (row)
     column_m_t_lg: Margin top lg (row)
     column_m_b_lg: Margin bottom lg (row)
+    login_url: Login url
+    register_url: Register url
+    login_content_item: Login Content item
+    register_content_item: Register Content item
 
 link:
     default: Default

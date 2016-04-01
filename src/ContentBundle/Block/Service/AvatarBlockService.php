@@ -31,17 +31,21 @@ class AvatarBlockService extends AbstractBlockService implements BlockServiceInt
         $builder->add(
             $builder->create('default', FormType::Class, ['inherit_data' => true])
                 ->add('loginContentItem', ContentPickerType::class, [
-                            'label' => 'Login Content Item',
-                        ])
-                ->add('value', TextType::class, [
-                            'label' => 'Login Url',
+                            'label' => 'label.login_content_item',
                         ])
                 ->add('registrationContentItem', ContentPickerType::class, [
-                            'label' => 'Registration Content Item',
+                            'label' => 'label.register_content_item',
                         ])
+        );
+
+        $builder->add(
+            $builder->create('properties', FormType::class)
+                ->add('loginUrl', TextType::class, [
+                    'label' => 'label.login_url',
+                ])
                 ->add('registrationUrl', TextType::class, [
-                            'label' => 'Registration Url',
-                        ])
+                    'label' => 'label.registration_url',
+                ])
         );
     }
 
