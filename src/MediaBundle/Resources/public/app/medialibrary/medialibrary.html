@@ -36,9 +36,9 @@
                             <span class="details" ng-if="item.provider == 'image'">{{ item.metadata.width }}x{{ item.metadata.height }}px</span>
                         </div>
                         <div class="center-stage">
-                            <button type="button" ng-if="picker.name" ng-click="selectMedia($index)" class="btn btn-default-outline include">Use media</button>
-                            <button type="button" ng-if="!picker.name" ng-click="editMedia($index)" class="btn btn-default-outline edit">Edit</button>
-                            <button type="button" ng-if="!picker.name" ng-click="confirmDelete($index)" class="btn btn-default-outline delete">Delete</button>
+                            <button type="button" ng-if="picker.name" ng-click="selectMedia($index); $event.stopPropagation();" class="btn btn-default-outline include">Use media</button>
+                            <button type="button" ng-if="!picker.name" ng-click="editMedia($index); $event.stopPropagation();" class="btn btn-default-outline edit">Edit</button>
+                            <button type="button" ng-if="!picker.name" ng-click="confirmDelete($index); $event.stopPropagation();" class="btn btn-default-outline delete">Delete</button>
                             <!--<button type="button" ng-if="!picker.name" ng-click="zoomMedia($index)" class="btn btn-default-outline zoom">Zoom</button>-->
                         </div>
                         <span class="name">{{ item.name }}</span>
