@@ -499,7 +499,7 @@ abstract class Block implements BlockInterface, DraftInterface
     /**
      * @return BlockInterface
      */
-    protected function getContent()
+    public function getContent()
     {
         return $this->content;
     }

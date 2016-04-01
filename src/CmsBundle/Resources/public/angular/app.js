@@ -10,7 +10,7 @@ angular.module('MainApp', [
     'OpiferContent',
     'ui.sortable',
     'afkl.lazyImage',
-    'angularFileUpload'
+    'ngFileUpload'
 ]);
 
 angular

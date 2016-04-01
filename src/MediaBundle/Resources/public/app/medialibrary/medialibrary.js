@@ -1,5 +1,5 @@
 
-angular.module('mediaLibrary', ['infinite-scroll', 'ngModal', 'angularFileUpload'])
+angular.module('mediaLibrary', ['infinite-scroll', 'ngModal', 'ngFileUpload'])
 
     /**
      * Media Service
@@ -14,7 +14,7 @@ angular.module('mediaLibrary', ['infinite-scroll', 'ngModal', 'angularFileUpload
      * The media library Controller
      */
 
-    .controller('MediaLibraryController', ['$scope', '$rootScope', '$http', '$location', '$upload', '$window', 'MediaCollection', 'MediaService', function($scope, $rootScope, $http, $location, $upload, $window, MediaCollection, MediaService) {
+    .controller('MediaLibraryController', ['$scope', '$rootScope', '$http', '$location', 'Upload', '$window', 'MediaCollection', 'MediaService', function($scope, $rootScope, $http, $location, Upload, $window, MediaCollection, MediaService) {
         $scope.mediaCollection = new MediaCollection();
         $scope.selecteditems = [];
         $scope.searchmedia = '';
@@ -106,7 +106,7 @@ angular.module('mediaLibrary', ['infinite-scroll', 'ngModal', 'angularFileUpload
         $scope.startUpload = function(index) {
             $scope.progress[index] = 0;
 
-            $scope.upload[index] = $upload.upload({
+            $scope.upload[index] = Upload.upload({
                 url: Routing.generate('opifer_api_media_upload'),
                 method: 'POST',
                 data: {},
