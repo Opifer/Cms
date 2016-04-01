@@ -60,8 +60,7 @@ class SearchResultsBlockService extends AbstractBlockService implements BlockSer
     public function getSearchResults(){
         $search = $this->request->get('search');
 
-        $content = $this->blockManager->getRepository()->getContentByValue($search);
-        return $content;
+        return (!empty($search)) ? $this->blockManager->getRepository()->getContentByValue($search) : null;
     }
 
     /**
