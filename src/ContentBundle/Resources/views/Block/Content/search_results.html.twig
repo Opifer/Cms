@@ -1,16 +1,17 @@
 <div {{ manage_tags() }}>
 	<ul class="media-list">
-		{% if search_results|default %}
-			 {% for result in search_results %}
+		{% if searchResults|default %}
+			 {% for content in searchResults %}
 			 	<li class="media">
 					<div class="media-left">
-					  <a href="{{ path('_content', {'slug': result.owner.slug }) }}">
-					  	{{ result.owner.title }}
+					  <a href="{{ path('_content', {'slug': content.slug }) }}">
+					  	<img class="media-object" src="{% if content.coverImage|default %}{{ content.coverImage|imagine_filter('content_list') }}{% else %}http://placehold.it/100x100{% endif %}" alt="coverImage">
 					  </a>
 					</div>
 					<div class="media-body">
-					  	<a href="{{ path('_content', {'slug': result.owner.slug }) }}">
-					  		<h4 class="media-description">{{ result.owner.description }}</h4>
+					  	<a href="{{ path('_content', {'slug': content.slug }) }}">
+					  		<h4 class="media-title">{{ content.title }}</h4>
+					  		<p class="media-description">{{ content.description }}</p>
 					  	</a>
 					</div>
 				</li>

@@ -2,7 +2,7 @@
 
 namespace Opifer\ContentBundle\Block\Service;
 
-use Opifer\ContentBundle\Block\BlockManager;
+use Opifer\ContentBundle\Model\ContentManagerInterface;
 use Opifer\ContentBundle\Entity\SearchResultsBlock;
 use Opifer\ContentBundle\Block\Service\AbstractBlockService;
 use Opifer\ContentBundle\Block\Service\BlockServiceInterface;
@@ -23,13 +23,13 @@ class SearchResultsBlockService extends AbstractBlockService implements BlockSer
 
     /**
      * @param EngineInterface $templating
-     * @param BlockManager $blockManager
+     * @param ContentManagerInterface $contentManager
      * @param array $config
      */
-    public function __construct(EngineInterface $templating, BlockManager $blockManager, array $config)
+    public function __construct(EngineInterface $templating, ContentManagerInterface $contentManager, array $config)
     {
         $this->templating = $templating;
-        $this->blockManager = $blockManager;
+        $this->contentManager = $contentManager;
         $this->config = $config;
     }
 
@@ -51,7 +51,7 @@ class SearchResultsBlockService extends AbstractBlockService implements BlockSer
         $parameters = [
             'block_service' => $this,
             'block'         => $block,
-            'search_results' => $this->getSearchResults()
+            'searchResults' => $this->getSearchResults()
         ];
            
         return $parameters;
@@ -60,7 +60,7 @@ class SearchResultsBlockService extends AbstractBlockService implements BlockSer
     public function getSearchResults(){
         $search = $this->request->get('search');
 
-        return (!empty($search)) ? $this->blockManager->getRepository()->getContentByValue($search) : null;
+        return (!empty($search)) ? $this->contentManager->getRepository()->getRelatedContentToBlocks($search) : null;
     }
 
     /**

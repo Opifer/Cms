@@ -155,4 +155,17 @@ class ContentRepository extends BaseContentRepository
             ->getQuery()
             ->getResult();
     }
+
+    public function getRelatedContentToBlocks($search)
+    {
+        return $this->createQueryBuilder('c')
+                ->select('c')
+                ->innerjoin('c.blocks', 'b', 'WITH', 'c.id = b.content')
+                ->where('b.value LIKE :search')
+                ->setParameter('search', '%'.$search.'%')
+                ->groupBy('c.id')
+                ->orderBy('c.id')
+                ->getQuery()
+                ->getResult();
+    }
 }
