@@ -156,6 +156,13 @@ class ContentRepository extends BaseContentRepository
             ->getResult();
     }
 
+    /**
+     * Find related content to block with value like $search.
+     *
+     * @param string $search
+     *
+     * @return ArrayCollection
+     */
     public function getRelatedContentToBlocks($search)
     {
         return $this->createQueryBuilder('c')
