@@ -189,10 +189,7 @@ class FileProvider extends AbstractProvider
      */
     public function createUniqueFileName($file)
     {
-        $ext = '.'.$file->guessExtension();
-        if ($ext === '.txt' && null !== $clientExt = $file->guessClientExtension()) {
-            $ext = '.' . $clientExt;
-        }
+        $ext = '.'.$file->getClientOriginalExtension();
         $basename = trim(str_replace('.'.$file->getClientOriginalExtension(), '', $file->getClientOriginalName()));
         $basename = str_replace(' ', '-', $basename);
         $basename = strtolower($basename);
