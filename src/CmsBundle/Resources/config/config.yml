@@ -200,6 +200,10 @@ liip_imagine:
             quality: 80
             filters:
                 thumbnail: { size: [64, 64], mode: outbound }
+        content_list:
+            quality: 80
+            filters:
+                thumbnail: { size: [100, 100], mode: outbound }
 
 apy_data_grid:
     pagerfanta:
