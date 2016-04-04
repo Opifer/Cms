@@ -239,6 +239,7 @@ class BlockManager
             if ($latestRevision !== false && $currentRevision < $latestRevision) {
                 try {
                     $this->revisionManager->revert($block, $latestRevision);
+                    $block->setDraft(true);
                 } catch (DeletedException $e) {
                     unset($blocks[$key]);
                 }
