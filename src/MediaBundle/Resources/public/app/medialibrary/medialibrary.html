@@ -1,11 +1,11 @@
-<div ngf-drop ngf-select ng-model="files" ngf-capture="'camera'"
+<div ngf-drop ng-model="files" ngf-capture="'camera'"
      ngf-drag-over-class="'dragover'" ngf-multiple="true" ngf-allow-dir="true"
      ngf-change="onFileSelect($files)" ng-show="dropSupported" class="file-drop-area">
     <div class="file-drop-area-overlay"></div>
     <div class="container-fluid">
         <div class="row row-space-4">
             <div class="col-md-6">
-                <div class="input-group search-group">
+                <div ng-click="$event.stopPropagation();" class="input-group search-group">
                     <span class="input-group-addon">
                         <i class="material-icons md-18">search</i>
                     </span>
@@ -36,9 +36,9 @@
                             <span class="details" ng-if="item.provider == 'image'">{{ item.metadata.width }}x{{ item.metadata.height }}px</span>
                         </div>
                         <div class="center-stage">
-                            <button type="button" ng-if="picker.name" ng-click="selectMedia($index)" class="btn btn-default-outline include">Use media</button>
-                            <button type="button" ng-if="!picker.name" ng-click="editMedia($index)" class="btn btn-default-outline edit">Edit</button>
-                            <button type="button" ng-if="!picker.name" ng-click="confirmDelete($index)" class="btn btn-default-outline delete">Delete</button>
+                            <button type="button" ng-if="picker.name" ng-click="selectMedia($index); $event.stopPropagation();" class="btn btn-default-outline include">Use media</button>
+                            <button type="button" ng-if="!picker.name" ng-click="editMedia($index); $event.stopPropagation();" class="btn btn-default-outline edit">Edit</button>
+                            <button type="button" ng-if="!picker.name" ng-click="confirmDelete($index); $event.stopPropagation();" class="btn btn-default-outline delete">Delete</button>
                             <!--<button type="button" ng-if="!picker.name" ng-click="zoomMedia($index)" class="btn btn-default-outline zoom">Zoom</button>-->
                         </div>
                         <span class="name">{{ item.name }}</span>
@@ -51,8 +51,9 @@
                     <span class="fa fa-image"></span>
                     <h3>Drag and drop files to upload</h3>
                 </div>
-                <div class="btn btn-primary" id="btnMediaPaginate" data-loading-text="Loading..."  in-view="mediaCollection.loadMore()" ng-click="mediaCollection.loadMore()" ng-if="(picker.pickerShown || !picker.name)" ng-hide="mediaCollection.end">
-                    Load more
+                <div class="btn btn-primary" id="btnMediaPaginate" in-view="mediaCollection.loadMore()" ng-click="mediaCollection.loadMore()" ng-if="(picker.pickerShown || !picker.name)" ng-hide="mediaCollection.end">
+                    <span ng-if="! MediaCollection.busy">Load more</span>
+                    <span ng-if="MediaCollection.busy">Loading…</span>
                 </div>
             </div>
 

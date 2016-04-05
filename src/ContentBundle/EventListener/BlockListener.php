@@ -82,7 +82,7 @@ class BlockListener implements EventSubscriber
      */
     public function postLoad(LifecycleEventArgs $args)
     {
-        if ($args->getObject() instanceof BlockInterface && !$args->getObject() instanceof DocumentBlock) {
+        if ($args->getObject() instanceof BlockInterface) {
             $this->getService($args)->postLoad($args->getObject());
         }
     }
@@ -94,7 +94,7 @@ class BlockListener implements EventSubscriber
      */
     public function prePersist(LifecycleEventArgs $args)
     {
-        if ($args->getObject() instanceof BlockInterface && !$args->getObject() instanceof DocumentBlock) {
+        if ($args->getObject() instanceof BlockInterface) {
             $this->getService($args)->prePersist($args->getObject());
         }
     }
@@ -106,7 +106,7 @@ class BlockListener implements EventSubscriber
      */
     public function postPersist(LifecycleEventArgs $args)
     {
-        if ($args->getObject() instanceof BlockInterface && !$args->getObject() instanceof DocumentBlock) {
+        if ($args->getObject() instanceof BlockInterface) {
             $this->getService($args)->postPersist($args->getObject());
         }
     }
@@ -118,7 +118,7 @@ class BlockListener implements EventSubscriber
      */
     public function preUpdate(LifecycleEventArgs $args)
     {
-        if ($args->getObject() instanceof BlockInterface && !$args->getObject() instanceof DocumentBlock) {
+        if ($args->getObject() instanceof BlockInterface) {
             $this->getService($args)->preUpdate($args->getObject());
         }
     }
@@ -130,7 +130,7 @@ class BlockListener implements EventSubscriber
      */
     public function postUpdate(LifecycleEventArgs $args)
     {
-        if ($args->getObject() instanceof BlockInterface && !$args->getObject() instanceof DocumentBlock) {
+        if ($args->getObject() instanceof BlockInterface) {
             $this->getService($args)->postUpdate($args->getObject());
         }
     }
@@ -142,7 +142,7 @@ class BlockListener implements EventSubscriber
      */
     public function preRemove(LifecycleEventArgs $args)
     {
-        if ($args->getObject() instanceof BlockInterface && !$args->getObject() instanceof DocumentBlock) {
+        if ($args->getObject() instanceof BlockInterface) {
             $this->getService($args)->preRemove($args->getObject());
         }
     }
@@ -154,7 +154,7 @@ class BlockListener implements EventSubscriber
      */
     public function postRemove(LifecycleEventArgs $args)
     {
-        if ($args->getObject() instanceof BlockInterface && !$args->getObject() instanceof DocumentBlock) {
+        if ($args->getObject() instanceof BlockInterface) {
             $this->getService($args)->postRemove($args->getObject());
         }
     }

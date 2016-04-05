@@ -128,6 +128,15 @@ Opifer\CmsBundle\Entity\Content:
             unique: false
             nullable: true
             precision: 0
+            gedmo:
+              slug:
+                fields:
+                  - alias
+                handlers:
+                  Opifer\ContentBundle\Handler\AliasHandler:
+                    field: slug
+                    separator: -
+                unique_base: deletedAt
         slug:
             type: string
             scale: 0
@@ -135,6 +144,19 @@ Opifer\CmsBundle\Entity\Content:
             unique: false
             nullable: false
             precision: 0
+            gedmo:
+              slug:
+                fields:
+                  - title
+                handlers:
+                  Opifer\ContentBundle\Handler\SlugHandler:
+                    relationField: parent
+                    relationSlugField: slug
+                    separator: /
+                    onSlugCompletion:
+                      - appendIndex
+                unique_base: deletedAt
+
         deletedAt:
             type: datetime
             scale: 0

@@ -52,6 +52,9 @@
                                     <input type="hidden" id="" name="{{ picker.name }}" value="{{ item.id }}">
                                     <img ng-src="{{ item.images.medialibrary }}" class="media-object" ng-if="item.provider == 'image'" alt="{{ item.alt }}">
                                     <img ng-src="{{ item.thumb.images.medialibrary }}" class="media-object" ng-if="item.provider == 'youtube'" alt="{{ item.alt }}">
+                                    <div class="media-object media-file" ng-if="item.provider == 'file'">
+                                        <i class="material-icons">description</i>
+                                    </div>
                                     <div class="image-wrapper">
                                         <div class="controls">
                                             <a ng-click="removeMedia($index)" class="btn btn-close"></a>
@@ -63,10 +66,10 @@
                                 <dl class="dl-horizontal">
                                     <dt>Name</dt>
                                     <dd>{{ item.name }}</dd>
-                                    <dt>Alt</dt>
-                                    <dd>{{ item.alt }}</dd>
-                                    <dt>Dimensions</dt>
-                                    <dd>{{ item.metadata.width }}x{{ item.metadata.height }}</dd>
+                                    <dt ng-if="item.provider == 'image'">Alt</dt>
+                                    <dd ng-if="item.provider == 'image'">{{ item.alt }}</dd>
+                                    <dt ng-if="item.provider == 'image'">Dimensions</dt>
+                                    <dd ng-if="item.provider == 'image'">{{ item.metadata.width }}x{{ item.metadata.height }}</dd>
                                     <dt>Type</dt>
                                     <dd>{{ item.content_type }}</dd>
                                     <dt>Filesize</dt>
