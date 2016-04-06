@@ -22,6 +22,12 @@ class ScriptHandler
             throw new \RuntimeException("Running bower install failed with $return_var\n");
         }
 
+        exec('npm install', $output, $return_var);
+        $event->getIO()->write('<info>'.implode("\n", $output).'</info>');
+        if ($return_var) {
+            throw new \RuntimeException("Running npm failed with $return_var\n");
+        }
+
         exec('gulp default', $output, $return_var);
         $event->getIO()->write('<info>'.implode("\n", $output).'</info>');
         if ($return_var) {
