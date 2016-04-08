@@ -12,7 +12,7 @@ use APY\DataGridBundle\Grid\Mapping as GRID;
  *
  * @ORM\Table(name="mailing_list")
  * @ORM\Entity(repositoryClass="Opifer\MailingListBundle\Repository\MailingListRepository")
- * @GRID\Source(columns="id, name, displayName")
+ * @GRID\Source(columns="id, name, displayName, provider, remoteID")
  */
 class MailingList
 {
@@ -52,6 +52,24 @@ class MailingList
      * @ORM\OrderBy({"createdAt" = "DESC"})
      **/
     protected $subscriptions;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="provider", type="string", length=255, nullable=true)
+     *
+     * @GRID\Column(title="label.provider")
+     */
+    protected $provider;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="remote_id", type="integer", nullable=true)
+     *
+     * @GRID\Column(title="label.remote_id")
+     */
+    protected $remoteID;
 
     /**
      * @var \DateTime
@@ -131,6 +149,54 @@ class MailingList
     public function getDisplayName()
     {
         return $this->displayName;
+    }
+
+    /**
+     * Set provider
+     *
+     * @param string $provider
+     *
+     * @return MailingList
+     */
+    public function setProvider($provider)
+    {
+        $this->provider = $provider;
+
+        return $this;
+    }
+
+    /**
+     * Get provider
+     *
+     * @return string
+     */
+    public function getProvider()
+    {
+        return $this->provider;
+    }
+
+    /**
+     * Set remoteID
+     *
+     * @param string $remoteID
+     *
+     * @return MailingList
+     */
+    public function setRemoteID($remoteID)
+    {
+        $this->remoteID = $remoteID;
+
+        return $this;
+    }
+
+    /**
+     * Get remoteID
+     *
+     * @return int
+     */
+    public function getRemoteID()
+    {
+        return $this->remoteID;
     }
 
     /**

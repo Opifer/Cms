@@ -162,6 +162,8 @@ label:
     show_rows: Amount of Rows
     version_new: New version
     yes: Yes
+    provider: Provider
+    remote_id: remoteID
 
 message:
     no_items_found: "No items found"
