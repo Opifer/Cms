@@ -29,6 +29,12 @@ services:
         tags:
             - { name: doctrine.event_subscriber }
 
+    opifer.contacts_manager:
+        class: Opifer\MailingListBundle\Block\Service\ContactsManager
+        arguments: ['@doctrine.orm.default_entity_manager', '@service_container', '@logger', '%consumer_key%', '%consumer_secret%']
+        tags:
+            - { name: opifer.contacts_manager }
+
     # Authenticators
 
     opifer.cms.captcha_authenticator:

@@ -12,7 +12,7 @@ use APY\DataGridBundle\Grid\Mapping as GRID;
  *
  * @ORM\Table(name="mailing_list")
  * @ORM\Entity(repositoryClass="Opifer\MailingListBundle\Repository\MailingListRepository")
- * @GRID\Source(columns="id, name, displayName, provider, remoteID")
+ * @GRID\Source(columns="id, name, displayName, provider, status")
  */
 class MailingList
 {
@@ -63,13 +63,13 @@ class MailingList
     protected $provider;
 
     /**
-     * @var integer
+     * @var string
      *
-     * @ORM\Column(name="remote_id", type="integer", nullable=true)
+     * @ORM\Column(name="status", type="string", length=255)
      *
-     * @GRID\Column(title="label.remote_id")
+     * @GRID\Column(title="Sync Status", type="text")
      */
-    protected $remoteID;
+    protected $status = 'pending';
 
     /**
      * @var \DateTime
@@ -178,25 +178,25 @@ class MailingList
     /**
      * Set remoteID
      *
-     * @param string $remoteID
+     * @param string $status
      *
      * @return MailingList
      */
-    public function setRemoteID($remoteID)
+    public function setStatus($status)
     {
-        $this->remoteID = $remoteID;
+        $this->status = $status;
 
         return $this;
     }
 
     /**
-     * Get remoteID
+     * Get status
      *
      * @return int
      */
-    public function getRemoteID()
+    public function getStatus()
     {
-        return $this->remoteID;
+        return $this->status;
     }
 
     /**

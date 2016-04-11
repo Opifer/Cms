@@ -21,11 +21,16 @@ class SyncMailingListCommand extends ContainerAwareCommand
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
+        $contactsManager = $this->getContainer()->get('opifer.contacts_manager');
         $rep = $this->getContainer()->get('doctrine')->getRepository('OpiferMailingListBundle:MailingList');
         
+        $synched = $failed = 0;
+        $contacts_to_sync = 0;
+
         $providers = $rep->createQueryBuilder('m')
                             ->select('m.provider')
                             ->where("m.provider IS NOT NULL")
+                            ->andWhere("m.status = 'pending' OR m.status = 'failed'")
                             ->groupBy("m.provider")
                             ->getQuery()
                             ->getResult();
@@ -35,15 +40,30 @@ class SyncMailingListCommand extends ContainerAwareCommand
                 
                 $provider_contacts = $rep->createQueryBuilder('m')
                                         ->where("m.provider = :provider")
-                                        ->andWhere("m.remoteID IS NULL")
+                                        ->andWhere("m.status = 'pending'")
                                         ->setParameter("provider", $provider['provider'])
                                         ->getQuery()
                                         ->getResult();
-                //dump($provider_contacts);
+                if (!empty($provider_contacts)) {
+                    foreach ($provider_contacts as $contact) {
+                        $result = $contactsManager->addContactToMailPlus($contact);
+
+                        if ($result) {
+                            $contact->setStatus('synched');
+                            $synched++;
+                        } else {
+                            $contact->setStatus('failed');
+                            $failed++;
+                        }
+
+                        $contactsManager->save($contact);
+
+                        $contacts_to_sync++;
+                    }
+                }
             }
         }
-        exit;
 
-        $output->writeln();
+        $output->writeln('Synched '.$synched.', failed '.$failed.' contacts of '.$contacts_to_sync);
     }
 } 
