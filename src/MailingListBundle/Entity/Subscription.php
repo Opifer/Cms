@@ -13,6 +13,10 @@ use Gedmo\Mapping\Annotation as Gedmo;
  */
 class Subscription
 {
+    const STATUS_PENDING = 'pending';
+    const STATUS_SYNCHED = 'synched';
+    const STATUS_FAILED = 'failed';
+
     /**
      * @var int
      *
@@ -36,6 +40,14 @@ class Subscription
      * @ORM\Column(name="name", type="string", length=255)
      */
     protected $email;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="status", type="string", length=255)
+     *
+     */
+    protected $status = self::STATUS_PENDING;
 
     /**
      * @var \DateTime
@@ -139,6 +151,30 @@ class Subscription
     public function setEmail($email)
     {
         $this->email = $email;
+    }
+
+    /**
+     * Set status
+     *
+     * @param string $status
+     *
+     * @return Subscription
+     */
+    public function setStatus($status)
+    {
+        $this->status = $status;
+
+        return $this;
+    }
+
+    /**
+     * Get status
+     *
+     * @return int
+     */
+    public function getStatus()
+    {
+        return $this->status;
     }
 
     /**
