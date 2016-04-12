@@ -56,20 +56,10 @@ class MailingList
     /**
      * @var string
      *
-     * @ORM\Column(name="provider", type="string", length=255, nullable=true)
+     * @ORM\Column(name="provider", type="string", length=255)
      *
-     * @GRID\Column(title="label.provider")
      */
     protected $provider;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="status", type="string", length=255)
-     *
-     * @GRID\Column(title="Sync Status", type="text")
-     */
-    protected $status = 'pending';
 
     /**
      * @var \DateTime
@@ -173,30 +163,6 @@ class MailingList
     public function getProvider()
     {
         return $this->provider;
-    }
-
-    /**
-     * Set remoteID
-     *
-     * @param string $status
-     *
-     * @return MailingList
-     */
-    public function setStatus($status)
-    {
-        $this->status = $status;
-
-        return $this;
-    }
-
-    /**
-     * Get status
-     *
-     * @return int
-     */
-    public function getStatus()
-    {
-        return $this->status;
     }
 
     /**
