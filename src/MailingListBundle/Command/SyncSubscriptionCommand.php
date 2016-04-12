@@ -30,7 +30,7 @@ class SyncSubscriptionCommand extends ContainerAwareCommand
 
         if (!empty($mailingLists)) {
             foreach ($mailingLists as $mailingList) {
-                $mailingListSubscriptions = $subscriptionListRep->getNotSynchedSubscriptionsByProvider($mailingList->getId());
+                $mailingListSubscriptions = $subscriptionListRep->getNotSynchedSubscriptionsByMailingList($mailingList->getId());
 
                 if (!empty($mailingListSubscriptions)) {
                     foreach ($mailingListSubscriptions as $subscription) {

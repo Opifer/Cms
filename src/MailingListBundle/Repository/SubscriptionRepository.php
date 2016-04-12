@@ -12,7 +12,7 @@ use Opifer\MailingListBundle\Entity\Subscription;
 class SubscriptionRepository extends EntityRepository
 {
 
-	public function getNotSynchedSubscriptionsByProvider($mailingListId = null){
+	public function getNotSynchedSubscriptionsByMailingList($mailingListId = null){
 		return $this->createQueryBuilder('s')
 					->select('s')
 					->innerjoin('s.mailingList', 'm', 'WITH', 's.mailingList = m.id')
