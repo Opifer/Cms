@@ -1,6 +1,5 @@
 imports:
     - { resource: doctrine_extensions.yml }
-    - { resource: '@OpiferMailingListBundle/Resources/config/config.yml' }
 
 parameters:
     grid.class: Opifer\CmsBundle\Grid\Grid

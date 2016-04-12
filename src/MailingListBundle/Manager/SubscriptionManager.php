@@ -22,46 +22,46 @@ class SubscriptionManager
 
     public function addContactToMailPlus(Subscription $subscription)
     {
-    	if (!empty($subscription)) {
-    		try {
-		    	$stack = HandlerStack::create();
+        if (!empty($subscription)) {
+            try {
+                $stack = HandlerStack::create();
 
-		        $middleware = new Oauth1([
-		            'consumer_key'    => $this->container->getParameter('mailplus.consumer_key'),
-		            'consumer_secret' => $this->container->getParameter('mailplus.consumer_secret'),
-		            'token'           => '',
-		            'token_secret'    => ''
-		        ]);
+                $middleware = new Oauth1([
+                    'consumer_key' => $this->container->getParameter('opifer_mailinglist.mailplus.consumer_key'),
+                    'consumer_secret' => $this->container->getParameter('opifer_mailinglist.mailplus.consumer_secret'),
+                    'token' => '',
+                    'token_secret' => '',
+                ]);
 
-		        $stack->push($middleware);
+                $stack->push($middleware);
 
-		        $client = new GuzzleClient([
-		            'base_uri' => 'https://restapi.mailplus.nl',
-		            'handler' => $stack,
-		            'auth' => 'oauth',
-		            'headers' => ['Accept' => 'application/json', 'Content-Type' => 'application/json'],
-		        ]);
+                $client = new GuzzleClient([
+                    'base_uri' => 'https://restapi.mailplus.nl',
+                    'handler' => $stack,
+                    'auth' => 'oauth',
+                    'headers' => ['Accept' => 'application/json', 'Content-Type' => 'application/json'],
+                ]);
 
-		        $contact = [
-		            "update" => true,
-		            "purge" => false,
-		            "contact" => [
-		                "externalId"=> $subscription->getId(),
-		                "properties"=> [
-		                    "email"=> $subscription->getEmail(),
-		                ]
-		            ]
-		        ];  
-		    	
-		    	$response = $client->post('/integrationservice-1.1.0/contact', ['body' => json_encode($contact) ]);
-		        
-		        if ($response->getStatusCode() == '204') { //Contact added successfully status code
-		        	return true;
-		        }
-		    } catch (\Exception $e) {
-		    	return 'MailPlus contact #' . $contact->getId() . ' message: ' . $e->getMessage();
-	        }
-	    }
+                $contact = [
+                    'update' => true,
+                    'purge' => false,
+                    'contact' => [
+                        'externalId' => $subscription->getId(),
+                        'properties' => [
+                            'email' => $subscription->getEmail(),
+                        ],
+                    ],
+                ];
+
+                $response = $client->post('/integrationservice-1.1.0/contact', ['body' => json_encode($contact)]);
+
+                if ($response->getStatusCode() == '204') { //Contact added successfully status code
+                    return true;
+                }
+            } catch (\Exception $e) {
+                return 'MailPlus contact #'.$contact->getId().' message: '.$e->getMessage();
+            }
+        }
     }
 
     /**

@@ -29,12 +29,6 @@ services:
         tags:
             - { name: doctrine.event_subscriber }
 
-    opifer.subscription_manager:
-        class: Opifer\MailingListBundle\Manager\SubscriptionManager
-        arguments: ['@doctrine.orm.default_entity_manager', '@service_container']
-        tags:
-            - { name: opifer.subscription_manager }
-
     # Authenticators
 
     opifer.cms.captcha_authenticator:

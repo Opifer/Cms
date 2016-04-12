@@ -131,8 +131,8 @@ opifer_content_admin:
 opifer_media_admin:
     resource: "@OpiferMediaBundle/Resources/config/routing.yml"
 
-opifer_mailing_list_admin:
-    resource: "@OpiferMailingListBundle/Resources/config/routing_admin.yml"
+# opifer_mailing_list_admin:
+#     resource: "@OpiferMailingListBundle/Resources/config/routing_admin.yml"
 
 fos_user_security_login:
     pattern:  /login
