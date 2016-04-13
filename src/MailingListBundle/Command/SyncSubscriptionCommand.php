@@ -21,10 +21,10 @@ class SyncSubscriptionCommand extends ContainerAwareCommand
         $subscriptionManager = $this->getContainer()->get('opifer.subscription_manager');
         $mailingListRep = $this->getContainer()->get('doctrine')->getRepository('OpiferMailingListBundle:MailingList');
         $subscriptionListRep = $this->getContainer()->get('doctrine')->getRepository('OpiferMailingListBundle:Subscription');
-        $logger = $this->getCOntainer()->get('logger');
 
         $synched = $failed = 0;
         $subscriptionsToSync = 0;
+        $message = 'All subscriptions synced';
 
         $mailingLists = $mailingListRep->findAll();
 
@@ -32,26 +32,13 @@ class SyncSubscriptionCommand extends ContainerAwareCommand
             foreach ($mailingLists as $mailingList) {
                 $mailingListSubscriptions = $subscriptionListRep->getNotSynchedSubscriptionsByMailingList($mailingList->getId());
 
-                if (!empty($mailingListSubscriptions)) {
-                    foreach ($mailingListSubscriptions as $subscription) {
-                        $result = $subscriptionManager->addContactToMailPlus($subscription);
-
-                        if ($result == true) {
-                            $subscription->setStatus(Subscription::STATUS_SYNCHED);
-                            ++$synched;
-                        } else {
-                            $subscription->setStatus(Subscription::STATUS_FAILED);
-                            ++$failed;
-                            $logger->addError($result);
-                        }
-
-                        $subscriptionManager->save($subscription);
-                        ++$subscriptionsToSync;
-                    }
+                if ($mailingList->getProvider() == 'mailplus') {
+                    $provider = $this->getContainer()->get('opifer.mailplus_provider');
+                    $message = $provider->sync($mailingListSubscriptions);
                 }
             }
         }
 
-        $output->writeln(sprintf('Synched %d,failed %d subscriptions of %d total', $synched, $failed, $subscriptionsToSync));
+        $output->writeln($message);
     }
 }

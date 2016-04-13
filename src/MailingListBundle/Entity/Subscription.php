@@ -14,7 +14,7 @@ use Gedmo\Mapping\Annotation as Gedmo;
 class Subscription
 {
     const STATUS_PENDING = 'pending';
-    const STATUS_SYNCHED = 'synched';
+    const STATUS_SYNCED = 'synced';
     const STATUS_FAILED = 'failed';
 
     /**
