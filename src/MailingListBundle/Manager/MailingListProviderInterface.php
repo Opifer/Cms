@@ -9,6 +9,10 @@ interface MailingListProviderInterface
 {
     /**
      * Sync subsriptions.
+     *
+     * @param array $subscriptions
+     *
+     * @return string
      */
     public function sync(array $subscriptions);
 }

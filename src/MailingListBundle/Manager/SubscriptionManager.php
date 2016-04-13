@@ -14,6 +14,7 @@ class SubscriptionManager
 
     /**
      * @param Subscription $subscription
+     * @param string $status
      *
      * @return $this
      */
