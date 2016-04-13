@@ -12,8 +12,8 @@ class SyncSubscriptionCommand extends ContainerAwareCommand
 {
     protected function configure()
     {
-        $this->setName('sync:subscriptions')
-            ->setDescription('Sync subscriptions');
+        $this->setName('opifer:sync:subscriptions')
+            ->setDescription('Opifer Sync Subscriptions');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)

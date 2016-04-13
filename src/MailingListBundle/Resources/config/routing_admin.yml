@@ -1,0 +1,15 @@
+opifer_mailing_list_mailing_list_index:
+    path: /mailinglist
+    defaults: { _controller: OpiferMailingListBundle:MailingList:index }
+    
+opifer_mailing_list_mailing_list_view:
+    path: /mailinglist/{id}/view
+    defaults: { _controller: OpiferMailingListBundle:MailingList:view }
+    requirements:
+        id:  \d+
+
+opifer_mailing_list_mailing_list_subscriptions:
+    path: /mailinglist/{id}/subscribers
+    defaults: { _controller: OpiferMailingListBundle:MailingList:subscriptions }
+    requirements:
+        id:  \d+
