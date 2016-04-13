@@ -18,12 +18,9 @@ class SyncSubscriptionCommand extends ContainerAwareCommand
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $subscriptionManager = $this->getContainer()->get('opifer.subscription_manager');
         $mailingListRep = $this->getContainer()->get('doctrine')->getRepository('OpiferMailingListBundle:MailingList');
         $subscriptionListRep = $this->getContainer()->get('doctrine')->getRepository('OpiferMailingListBundle:Subscription');
 
-        $synched = $failed = 0;
-        $subscriptionsToSync = 0;
         $message = 'All subscriptions synced';
 
         $mailingLists = $mailingListRep->findAll();
