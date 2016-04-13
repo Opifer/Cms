@@ -1,4 +1,12 @@
 services:
-#    opifer_mailing_list.example:
-#        class: Opifer\MailingListBundle\Example
-#        arguments: ["@service_id", "plain_value", %parameter%]
+    opifer.subscription_manager:
+        class: Opifer\MailingListBundle\Manager\SubscriptionManager
+        arguments: ['@doctrine.orm.default_entity_manager']
+        tags:
+            - { name: opifer.subscription_manager }
+
+    opifer.mailplus_provider:
+        class: Opifer\MailingListBundle\Manager\MailPlusProvider
+        arguments: ['@opifer.subscription_manager', '@service_container']
+        tags:
+            - { name: opifer.mailplus_provider }
