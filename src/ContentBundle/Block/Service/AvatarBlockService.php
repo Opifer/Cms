@@ -44,7 +44,7 @@ class AvatarBlockService extends AbstractBlockService implements BlockServiceInt
                     'label' => 'label.login_url',
                 ])
                 ->add('registrationUrl', TextType::class, [
-                    'label' => 'label.registration_url',
+                    'label' => 'label.register_url',
                 ])
         );
     }
