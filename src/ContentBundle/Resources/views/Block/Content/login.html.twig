@@ -34,14 +34,6 @@
 	                            </div>
 	                        </div>
 
-	                        {% if google_captcha_site_key is defined %}
-	                        <div class="form-group">
-	                            <div class="col-sm-offset-3 col-sm-9">
-	                                <div class="g-recaptcha" data-sitekey="{{ google_captcha_site_key }}"></div>
-	                            </div>
-	                        </div>
-	                        {% endif %}
-
 	                        <div class="form-group">
 	                            <div class="col-sm-offset-2 col-sm-10">
 	                                <div class="checkbox">
@@ -49,18 +41,16 @@
 	                                        <input type="checkbox" id="remember_me" name="_remember_me" checked="checked" />{{ 'security.login.remember_me'|trans }}
 	                                    </label>
 	                                    {% if registrationUrl|default or block.registrationContentItem|default %}
-			                            	{% if block.registrationContentItem|default %}	
-												{% set registrationUrl = path('_content', {'slug': block.registrationContentItem.slug }) %}
-											{% else %}
-												{% if block.properties.registrationUrl|default %} {% set registrationUrl = block.properties.registrationUrl %} {% endif %}
-											{% endif %}
-				                            	 | <a href="{{ registrationUrl }}">Register</a>
-				                        {% endif %}
+	                                        {% if block.registrationContentItem|default %}
+	                                            {% set registrationUrl = path('_content', {'slug': block.registrationContentItem.slug }) %}
+	                                        {% else %}
+	                                            {% if block.properties.registrationUrl|default %} {% set registrationUrl = block.properties.registrationUrl %} {% endif %}
+	                                        {% endif %}
+	                                        | <a href="{{ registrationUrl }}">Register</a>
+	                                    {% endif %}
 	                                </div>
 	                            </div>
-	                            
 	                        </div>
-
 	                        <div class="form-group">
 	                            <div class="col-sm-offset-2 col-sm-10">
 	                                <button type="submit" id="_submit" name="_submit" class="btn btn-primary">

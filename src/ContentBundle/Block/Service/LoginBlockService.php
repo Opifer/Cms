@@ -17,8 +17,6 @@ use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Bundle\FrameworkBundle\Templating\EngineInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface as Container;
 use Symfony\Component\Security\Core\Security;
-use Symfony\Component\Security\Core\SecurityContextInterface;
-use Symfony\Component\Security\Core\Exception\AuthenticationException;
 
 /**
  * Login Block Service
@@ -77,15 +75,9 @@ class LoginBlockService extends AbstractBlockService implements BlockServiceInte
 
     public function getViewParameters(BlockInterface $block)
     {
-        if (class_exists('\Symfony\Component\Security\Core\Security')) {
-            $authErrorKey = Security::AUTHENTICATION_ERROR;
-            $lastUsernameKey = Security::LAST_USERNAME;
-        } else {
-            // BC for SF < 2.6
-            $authErrorKey = SecurityContextInterface::AUTHENTICATION_ERROR;
-            $lastUsernameKey = SecurityContextInterface::LAST_USERNAME;
-        }
-
+        $authErrorKey = Security::AUTHENTICATION_ERROR;
+        $lastUsernameKey = Security::LAST_USERNAME;
+        
         // get the error if any (works with forward and redirect -- see below)
         if ($this->request->attributes->has($authErrorKey)) {
             $error = $this->request->attributes->get($authErrorKey);
@@ -103,14 +95,7 @@ class LoginBlockService extends AbstractBlockService implements BlockServiceInte
         // last username entered by the user
         $lastUsername = (null === $this->session) ? '' : $this->session->get($lastUsernameKey);
 
-        if ($this->container->has('security.csrf.token_manager')) {
-            $csrfToken = $this->container->get('security.csrf.token_manager')->getToken('authenticate')->getValue();
-        } else {
-            // BC for SF < 2.4
-            $csrfToken = $this->container->has('form.csrf_provider')
-                ? $this->container->get('form.csrf_provider')->generateCsrfToken('authenticate')
-                : null;
-        }
+        $csrfToken = $this->container->get('security.csrf.token_manager')->getToken('authenticate')->getValue();
 
         $parameters = [
             'block_service' => $this,
@@ -119,7 +104,7 @@ class LoginBlockService extends AbstractBlockService implements BlockServiceInte
             'error' => $error,
             'csrf_token' => $csrfToken
         ];
-
+        
         return $parameters;
     }
 
