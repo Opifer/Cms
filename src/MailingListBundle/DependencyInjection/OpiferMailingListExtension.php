@@ -35,7 +35,10 @@ class OpiferMailingListExtension extends Extension implements PrependExtensionIn
      */
     public function getParameters(array $config)
     {
-        $params = [];
+        $params = [
+            'opifer_mailing_list.mailplus.consumer_key' => (isset($config['mailplus'])) ? $config['mailplus']['consumer_key'] : '',
+            'opifer_mailing_list.mailplus.consumer_secret' => (isset($config['mailplus'])) ? $config['mailplus']['consumer_secret'] : ''
+        ];
 
         // Block configuration
         foreach ($config['blocks'] as $block => $blockConfig) {

@@ -1,7 +1,7 @@
 opifer_mailing_list_mailing_list_index:
     path: /mailinglist
     defaults: { _controller: OpiferMailingListBundle:MailingList:index }
-
+    
 opifer_mailing_list_mailing_list_view:
     path: /mailinglist/{id}/view
     defaults: { _controller: OpiferMailingListBundle:MailingList:view }
