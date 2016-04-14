@@ -13,8 +13,8 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\Extension\Core\Type\FormType;
 use Symfony\Bundle\FrameworkBundle\Templating\EngineInterface;
 use Symfony\Component\HttpFoundation\Response;
-use Liip\ImagineBundle\Imagine\Cache\CacheManager;
 use Symfony\Component\DependencyInjection\ContainerInterface as Container;
+use Gaufrette\FileSystem;
 
 /**
  * Video Block Service
@@ -67,14 +67,16 @@ class DownloadsBlockService extends AbstractBlockService implements BlockService
     {
         $media = $this->mediaManager->getRepository()->findOneByReference($filename);
         $provider = $this->container->get('opifer.media.provider.pool')->getProvider($media->getProvider());
-        
-        $reference = $provider->getThumb($media);
+
         $mediaUrl = $provider->getUrl($media);
 
+        $fileSystem = $provider->getFileSystem();
+        $file = $fileSystem->read($media->getReference());
+        
         $response = new Response();
-        $response->headers->set('Content-type', 'application/octect-stream');
+        $response->headers->set('Content-type', $media->getContentType());
         $response->headers->set('Content-Disposition', sprintf('attachment; filename="%s"', basename($mediaUrl)));
-        $response->setContent($mediaUrl);
+        $response->setContent($file);
         
         return $response;
     }
