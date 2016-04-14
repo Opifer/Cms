@@ -64,6 +64,7 @@ class MailingList
     /**
      * @var \DateTime
      *
+     * @Gedmo\Timestampable(on="create")
      * @ORM\Column(name="createdAt", type="datetime", nullable=true)
      */
     protected $createdAt;
@@ -71,6 +72,7 @@ class MailingList
     /**
      * @var \DateTime
      *
+     * @Gedmo\Timestampable(on="update")
      * @ORM\Column(name="updatedAt", type="datetime")
      */
     protected $updatedAt;

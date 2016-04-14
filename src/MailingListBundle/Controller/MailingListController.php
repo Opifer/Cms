@@ -8,6 +8,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use Opifer\MailingListBundle\Entity\MailingList;
+use Opifer\MailingListBundle\Form\Type\MailingListType;
 
 class MailingListController extends Controller
 {
@@ -29,4 +30,33 @@ class MailingListController extends Controller
 
         return $grid->getGridResponse('OpiferMailingListBundle:MailingList:index.html.twig');
     }
+
+    /**
+     * Add new Mailing List
+     */
+    public function createAction(Request $request)
+    {
+
+        $mailingList = new MailingList();
+
+        $form = $this->createForm(new MailingListType(), $mailingList, [
+            'action' => $this->generateUrl('opifer_mailing_list_mailing_list_create'),
+        ]);
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($mailingList);
+            $em->flush();
+
+            return $this->redirectToRoute('opifer_mailing_list_mailing_list_index');
+        }
+
+        return $this->render('OpiferMailingListBundle:MailingList:add.html.twig', [
+            'form' => $form->createView()
+        ]);
+    }
+
 }
