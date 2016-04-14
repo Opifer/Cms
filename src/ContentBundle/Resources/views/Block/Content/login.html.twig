@@ -1,6 +1,6 @@
 <div {{ manage_tags() }}>
 	{% if app.user|default %}
-		<p>You are already logged in!</p>
+		<p>Logged in as <strong>{{ app.user.username }}</strong>!</p>
 	{% else %}
 		<div class="container" id="login">
 	        <div class="row row-space-top-8">

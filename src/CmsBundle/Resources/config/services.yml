@@ -21,7 +21,6 @@ parameters:
     twig.extension.intl.class: Twig_Extensions_Extension_Intl
 
     opifer.cms.event_subscriber.load_orm_metadata.class: Opifer\CmsBundle\EventListener\LoadORMMetadataSubscriber
-    security.exception_listener.class: Opifer\CmsBundle\Security\Firewall\ExceptionListener
 
 services:
     opifer.cms.event_subscriber.load_orm_metadata:
