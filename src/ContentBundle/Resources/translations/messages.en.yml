@@ -8,6 +8,7 @@ button:
     edit: Edit
     publish: Publish
     block_share: Share block
+    subscribe: Subscribe
 
 help:
     active: Status of publication of the content item where inactive means the content is not public accessible

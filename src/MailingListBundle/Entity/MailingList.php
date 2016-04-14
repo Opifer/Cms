@@ -54,6 +54,14 @@ class MailingList
     protected $subscriptions;
 
     /**
+      * @var string
+      *
+      * @ORM\Column(name="provider", type="string", length=255)
+      *
+      */
+     protected $provider;
+
+    /**
      * @var \DateTime
      *
      * @ORM\Column(name="createdAt", type="datetime", nullable=true)

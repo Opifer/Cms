@@ -6,6 +6,8 @@ use APY\DataGridBundle\Grid\Action\RowAction;
 use APY\DataGridBundle\Grid\Source\Entity;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Request;
+use Opifer\MailingListBundle\Entity\MailingList;
 
 class MailingListController extends Controller
 {
@@ -27,5 +29,4 @@ class MailingListController extends Controller
 
         return $grid->getGridResponse('OpiferMailingListBundle:MailingList:index.html.twig');
     }
-
 }
