@@ -59,4 +59,30 @@ class MailingListController extends Controller
         ]);
     }
 
+    /**
+     * Edit Mailing List
+     *
+     * @param Request $request
+     * @param int $id
+     */
+    public function viewAction(Request $request, $id)
+    {
+        $mailingList = $this->getDoctrine()->getRepository('OpiferMailingListBundle:MailingList')->find($id);
+
+        $form = $this->createForm(new MailingListType(), $mailingList);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            
+            $em = $this->getDoctrine()->getManager();
+            $em->flush();
+
+            return $this->redirectToRoute('opifer_mailing_list_mailing_list_index');
+        }
+
+        return $this->render('OpiferMailingListBundle:MailingList:view.html.twig', [
+            'form' => $form->createView()
+        ]);
+    }
+
 }
