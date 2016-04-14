@@ -12,7 +12,7 @@ use APY\DataGridBundle\Grid\Mapping as GRID;
  *
  * @ORM\Table(name="mailing_list")
  * @ORM\Entity(repositoryClass="Opifer\MailingListBundle\Repository\MailingListRepository")
- * @GRID\Source(columns="id, name, displayName, provider, status")
+ * @GRID\Source(columns="id, name, displayName")
  */
 class MailingList
 {
@@ -52,14 +52,6 @@ class MailingList
      * @ORM\OrderBy({"createdAt" = "DESC"})
      **/
     protected $subscriptions;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="provider", type="string", length=255)
-     *
-     */
-    protected $provider;
 
     /**
      * @var \DateTime
