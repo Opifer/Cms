@@ -6,7 +6,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
- * Subscription
+ * Subscription.
  *
  * @ORM\Table(name="subscription")
  * @ORM\Entity(repositoryClass="Opifer\MailingListBundle\Repository\SubscriptionRepository")
@@ -45,7 +45,6 @@ class Subscription
      * @var string
      *
      * @ORM\Column(name="status", type="string", length=255)
-     *
      */
     protected $status = self::STATUS_PENDING;
 
@@ -72,9 +71,8 @@ class Subscription
      */
     protected $deletedAt;
 
-
     /**
-     * Get id
+     * Get id.
      *
      * @return int
      */
@@ -84,7 +82,7 @@ class Subscription
     }
 
     /**
-     * Set id
+     * Set id.
      *
      * @param int $id
      *
@@ -98,7 +96,7 @@ class Subscription
     }
 
     /**
-     * Set name
+     * Set name.
      *
      * @param string $name
      *
@@ -112,7 +110,7 @@ class Subscription
     }
 
     /**
-     * Get name
+     * Get name.
      *
      * @return string
      */
@@ -154,7 +152,7 @@ class Subscription
     }
 
     /**
-     * Set status
+     * Set status.
      *
      * @param string $status
      *
@@ -168,7 +166,7 @@ class Subscription
     }
 
     /**
-     * Get status
+     * Get status.
      *
      * @return int
      */
@@ -178,7 +176,7 @@ class Subscription
     }
 
     /**
-     * Set createdAt
+     * Set createdAt.
      *
      * @param \DateTime $createdAt
      *
@@ -192,7 +190,7 @@ class Subscription
     }
 
     /**
-     * Get createdAt
+     * Get createdAt.
      *
      * @return \DateTime
      */
@@ -202,7 +200,7 @@ class Subscription
     }
 
     /**
-     * Set updatedAt
+     * Set updatedAt.
      *
      * @param \DateTime $updatedAt
      *
@@ -216,7 +214,7 @@ class Subscription
     }
 
     /**
-     * Get updatedAt
+     * Get updatedAt.
      *
      * @return \DateTime
      */
@@ -226,7 +224,7 @@ class Subscription
     }
 
     /**
-     * Set deletedAt
+     * Set deletedAt.
      *
      * @param \DateTime $deletedAt
      *
@@ -240,7 +238,7 @@ class Subscription
     }
 
     /**
-     * Get deletedAt
+     * Get deletedAt.
      *
      * @return \DateTime
      */
@@ -249,4 +247,3 @@ class Subscription
         return $this->deletedAt;
     }
 }
-

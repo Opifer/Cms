@@ -4,7 +4,6 @@ namespace Opifer\MailingListBundle\Block\Service;
 
 use Doctrine\Common\Persistence\ObjectManager;
 use Doctrine\ORM\EntityRepository;
-
 use Opifer\CmsBundle\Form\Type\CKEditorType;
 use Opifer\ContentBundle\Block\Service\AbstractBlockService;
 use Opifer\ContentBundle\Block\Service\BlockServiceInterface;
@@ -18,7 +17,6 @@ use Opifer\ContentBundle\Model\ContentManager;
 use Opifer\MailingListBundle\Entity\SubscribeBlock;
 use Opifer\MailingListBundle\Entity\Subscription;
 use Opifer\MailingListBundle\Form\DataTransformer\MailingListToArrayTransformer;
-
 use Opifer\MailingListBundle\Form\Type\SubscribeType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Bundle\FrameworkBundle\Templating\EngineInterface;
@@ -33,7 +31,7 @@ use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
- * Subscribe Block Service
+ * Subscribe Block Service.
  */
 class SubscribeBlockService extends AbstractBlockService implements BlockServiceInterface, ToolsetMemberInterface
 {
@@ -60,8 +58,8 @@ class SubscribeBlockService extends AbstractBlockService implements BlockService
 
     /**
      * @param EngineInterface $templating
-     * @param array $config
-     * @param ObjectManager $em
+     * @param array           $config
+     * @param ObjectManager   $em
      */
     public function __construct(EngineInterface $templating, array $config, FormFactory $formFactory, ObjectManager $em, ContentManager $contentManager)
     {
@@ -84,38 +82,37 @@ class SubscribeBlockService extends AbstractBlockService implements BlockService
         $builder->add(
             $builder->create('properties', FormType::class)
                 ->add('mailingLists', EntityType::class, [
-                    'required'      => false,
-                    'label'         => 'label.mailinglist',
-                    'class'         => 'OpiferMailingListBundle:MailingList',
-                    'choice_label'  => 'displayName',
-                    'expanded'      => true,
-                    'multiple'      => true,
+                    'required' => false,
+                    'label' => 'label.mailinglist',
+                    'class' => 'OpiferMailingListBundle:MailingList',
+                    'choice_label' => 'displayName',
+                    'expanded' => true,
+                    'multiple' => true,
                     'query_builder' => function (EntityRepository $repository) {
                         return $repository->createQueryBuilder('m')
                             ->add('orderBy', 'm.displayName ASC');
                     },
-                    'attr'          => ['help_text' => 'help.subscribe_mailinglist']
+                    'attr' => ['help_text' => 'help.subscribe_mailinglist'],
                 ])
                 ->add('responseType', ChoiceType::class, [
-                    'choices'       => [
-                        'message'      => 'label.subscribe_choice_response_message',
-                        'redirect'     => 'label.subscribe_choice_response_page',
+                    'choices' => [
+                        'message' => 'label.subscribe_choice_response_message',
+                        'redirect' => 'label.subscribe_choice_response_page',
                     ],
-                    'required'      => true,
-                    'label'         => 'label.subscribe_response_message',
-                    'expanded'      => true,
-                    'multiple'      => false,
+                    'required' => true,
+                    'label' => 'label.subscribe_response_message',
+                    'expanded' => true,
+                    'multiple' => false,
                 ])
                 ->add('responseMessage', CKEditorType::class, [
-                    'label'         => 'label.subscribe_response_message',
+                    'label' => 'label.subscribe_response_message',
                 ])
                 ->add('responseContent', ContentPickerType::class, [
-                    'label'         => 'label.subscribe_response_page',
+                    'label' => 'label.subscribe_response_page',
                 ])
                 ->add('id', TextType::class, ['attr' => ['help_text' => 'help.html_id']])
                 ->add('extra_classes', TextType::class, ['attr' => ['help_text' => 'help.extra_classes']])
         );
-
 
         $builder->get('properties')->get('mailingLists')
             ->addModelTransformer(new MailingListToArrayTransformer($this->em));
@@ -124,7 +121,7 @@ class SubscribeBlockService extends AbstractBlockService implements BlockService
         $builder->get('properties')->get('responseContent')
             ->addModelTransformer(new CallbackTransformer(
                 function ($contentId) use ($contentManager) {
-                    if (! $contentId || empty($contentId) || ! is_int($contentId)) {
+                    if (!$contentId || empty($contentId) || !is_int($contentId)) {
                         return;
                     }
 
@@ -177,7 +174,7 @@ class SubscribeBlockService extends AbstractBlockService implements BlockService
     }
 
     /**
-     * Processes a POST request to subscribe
+     * Processes a POST request to subscribe.
      *
      * @param Block $block
      *
@@ -192,7 +189,7 @@ class SubscribeBlockService extends AbstractBlockService implements BlockService
     {
         $properties = $block->getProperties();
 
-        if (! isset($properties['mailingLists']) || ! count($properties['mailingLists'])) {
+        if (!isset($properties['mailingLists']) || !count($properties['mailingLists'])) {
             return;
         }
 
@@ -203,7 +200,7 @@ class SubscribeBlockService extends AbstractBlockService implements BlockService
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function createBlock()
     {
@@ -211,7 +208,7 @@ class SubscribeBlockService extends AbstractBlockService implements BlockService
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getTool(BlockInterface $block = null)
     {

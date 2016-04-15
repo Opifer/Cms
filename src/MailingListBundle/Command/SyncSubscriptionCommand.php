@@ -13,29 +13,31 @@ class SyncSubscriptionCommand extends ContainerAwareCommand
     protected function configure()
     {
         $this->setName('opifer:sync:subscriptions')
-            ->setDescription('Opifer Sync Subscriptions');
+            ->setDescription('Synchronize mailinglist subscriptions');
     }
 
+    /**
+     * @param InputInterface  $input
+     * @param OutputInterface $output
+     */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $mailingListRep = $this->getContainer()->get('doctrine')->getRepository('OpiferMailingListBundle:MailingList');
         $subscriptionListRep = $this->getContainer()->get('doctrine')->getRepository('OpiferMailingListBundle:Subscription');
 
-        $message = 'All subscriptions synced';
-
         $mailingLists = $mailingListRep->findAll();
 
         if (!empty($mailingLists)) {
             foreach ($mailingLists as $mailingList) {
-                $mailingListSubscriptions = $subscriptionListRep->getNotSynchedSubscriptionsByMailingList($mailingList->getId());
+                $mailingListSubscriptions = $subscriptionListRep->getUnsyncedByMailinglist($mailingList);
 
                 if ($mailingList->getProvider() == 'mailplus') {
                     $provider = $this->getContainer()->get('opifer.mailplus_provider');
                     $message = $provider->sync($mailingListSubscriptions);
+
+                    $output->writeln($message);
                 }
             }
         }
-
-        $output->writeln($message);
     }
 }

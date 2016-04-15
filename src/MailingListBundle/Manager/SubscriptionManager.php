@@ -7,6 +7,14 @@ use Opifer\MailingListBundle\Entity\Subscription;
 
 class SubscriptionManager
 {
+    /** @var EntityManagerInterface */
+    protected $em;
+
+    /**
+     * Constructor.
+     *
+     * @param EntityManagerInterface $em
+     */
     public function __construct(EntityManagerInterface $em)
     {
         $this->em = $em;
@@ -14,7 +22,7 @@ class SubscriptionManager
 
     /**
      * @param Subscription $subscription
-     * @param string $status
+     * @param string       $status
      *
      * @return $this
      */

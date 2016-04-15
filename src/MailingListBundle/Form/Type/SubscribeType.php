@@ -7,7 +7,7 @@ use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\FormBuilderInterface;
 
 /**
- * Subscribe Type
+ * Subscribe Type.
  */
 class SubscribeType extends AbstractType
 {
@@ -19,10 +19,10 @@ class SubscribeType extends AbstractType
         $builder
             ->add('email', EmailType::class, [
                 'required' => true,
-                'label'    => 'label.email',
-                'attr'  => [
+                'label' => 'label.email',
+                'attr' => [
                     'placeholder' => 'placeholder.email',
-                ]
+                ],
             ])
         ;
     }

@@ -1,6 +1,6 @@
 <?php
 
-namespace Opifer\MailingListBundle\Manager;
+namespace Opifer\MailingListBundle\Provider;
 
 /**
  * MailingListProviderInterface is the interface implemented by all provider classes.

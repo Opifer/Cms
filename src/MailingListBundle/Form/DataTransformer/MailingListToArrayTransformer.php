@@ -1,4 +1,5 @@
 <?php
+
 namespace Opifer\MailingListBundle\Form\DataTransformer;
 
 use Opifer\MailingListBundle\Entity\MailingList;
@@ -18,13 +19,14 @@ class MailingListToArrayTransformer implements DataTransformerInterface
     /**
      * Transforms an array (mailinglists) to an array of ids.
      *
-     * @param  mailinglist|null $mailingList
+     * @param mailinglist|null $mailingList
+     *
      * @return array
      */
     public function transform($mailingListIds)
     {
         // no mailinglist ids? It's optional, so that's ok
-        if (!$mailingListIds || ! count($mailingListIds)) {
+        if (!$mailingListIds || !count($mailingListIds)) {
             return;
         }
 
@@ -40,7 +42,7 @@ class MailingListToArrayTransformer implements DataTransformerInterface
             // see the invalid_message option
             throw new TransformationFailedException(sprintf(
                 'Mailinglists %s could not be fetched from database',
-                implode(", ", $mailingListIds)
+                implode(', ', $mailingListIds)
             ));
         }
 
@@ -50,8 +52,10 @@ class MailingListToArrayTransformer implements DataTransformerInterface
     /**
      * Transforms a array (ids) to an array (mailinglists).
      *
-     * @param  array $mailingListIds
+     * @param array $mailingListIds
+     *
      * @return array|null
+     *
      * @throws TransformationFailedException if object (mailinglist) is not found.
      */
     public function reverseTransform($mailingLists)

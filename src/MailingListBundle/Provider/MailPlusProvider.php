@@ -1,8 +1,8 @@
 <?php
 
-namespace Opifer\MailingListBundle\Manager;
+namespace Opifer\MailingListBundle\Provider;
 
-use Symfony\Component\DependencyInjection\ContainerInterface as Container;
+use Opifer\MailingListBundle\Manager\SubscriptionManager;
 use Opifer\MailingListBundle\Entity\Subscription;
 use GuzzleHttp\Client as GuzzleClient;
 use GuzzleHttp\HandlerStack;
@@ -10,28 +10,32 @@ use GuzzleHttp\Subscriber\Oauth\Oauth1;
 
 class MailPlusProvider implements MailingListProviderInterface
 {
+    /** @var SubscriptionManager  */
     protected $subscriptionManager;
 
-    /** @var Service Container */
-    protected $container;
+    /** @var string */
+    protected $consumerKey;
 
-    public function __construct(SubscriptionManager $subscriptionManager, Container $container)
+    /** @var string */
+    protected $consumerSecret;
+
+    public function __construct(SubscriptionManager $subscriptionManager, $consumerKey, $consumerSecret)
     {
         $this->subscriptionManager = $subscriptionManager;
-        $this->container = $container;
+        $this->consumerKey = $consumerKey;
+        $this->consumerSecret = $consumerSecret;
     }
 
     public function sync(array $subscriptions)
     {
         $synched = $failed = 0;
-        $logger = $this->container->get('logger');
 
         if (!empty($subscriptions)) {
             $stack = HandlerStack::create();
 
             $middleware = new Oauth1([
-                'consumer_key' => $this->container->getParameter('opifer_mailing_list.mailplus.consumer_key'),
-                'consumer_secret' => $this->container->getParameter('opifer_mailing_list.mailplus.consumer_secret'),
+                'consumer_key' => $this->consumerKey,
+                'consumer_secret' => $this->consumerSecret,
                 'token' => '',
                 'token_secret' => '',
             ]);
@@ -69,7 +73,6 @@ class MailPlusProvider implements MailingListProviderInterface
                     }
                 } catch (\Exception $e) {
                     $this->subscriptionManager->updateStatus($subscription, Subscription::STATUS_FAILED);
-                    $logger->addError('MailPlus contact #'.$subscription->getId().' message: '.$e->getMessage());
                     ++$failed;
                 }
             }

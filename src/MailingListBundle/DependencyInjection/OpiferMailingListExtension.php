@@ -28,16 +28,17 @@ class OpiferMailingListExtension extends Extension implements PrependExtensionIn
     }
 
     /**
-     * Simplifying parameter syntax
+     * Simplifying parameter syntax.
      *
-     * @param  array $config
+     * @param array $config
+     *
      * @return array
      */
     public function getParameters(array $config)
     {
         $params = [
             'opifer_mailing_list.mailplus.consumer_key' => (isset($config['mailplus'])) ? $config['mailplus']['consumer_key'] : '',
-            'opifer_mailing_list.mailplus.consumer_secret' => (isset($config['mailplus'])) ? $config['mailplus']['consumer_secret'] : ''
+            'opifer_mailing_list.mailplus.consumer_secret' => (isset($config['mailplus'])) ? $config['mailplus']['consumer_secret'] : '',
         ];
 
         // Block configuration
@@ -50,11 +51,9 @@ class OpiferMailingListExtension extends Extension implements PrependExtensionIn
 
     /**
      * Prepend our config before other bundles, so we can preset
-     * their config with our parameters
+     * their config with our parameters.
      *
-     * @param  ContainerBuilder $container
-     *
-     * @return void
+     * @param ContainerBuilder $container
      */
     public function prepend(ContainerBuilder $container)
     {

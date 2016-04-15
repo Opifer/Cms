@@ -6,7 +6,7 @@ services:
             - { name: opifer.subscription_manager }
 
     opifer.mailplus_provider:
-        class: Opifer\MailingListBundle\Manager\MailPlusProvider
-        arguments: ['@opifer.subscription_manager', '@service_container']
+        class: Opifer\MailingListBundle\Provider\MailPlusProvider
+        arguments: ['@opifer.subscription_manager', '%opifer_mailing_list.mailplus.consumer_key%', '%opifer_mailing_list.mailplus.consumer_secret%']
         tags:
             - { name: opifer.mailplus_provider }
