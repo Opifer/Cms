@@ -5,8 +5,7 @@ namespace Opifer\MailingListBundle\Repository;
 use Doctrine\ORM\EntityRepository;
 
 /**
- * MailingListRepository
- *
+ * MailingListRepository.
  */
 class MailingListRepository extends EntityRepository
 {

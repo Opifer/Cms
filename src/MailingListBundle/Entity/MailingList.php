@@ -8,7 +8,7 @@ use Gedmo\Mapping\Annotation as Gedmo;
 use APY\DataGridBundle\Grid\Mapping as GRID;
 
 /**
- * MailingList
+ * MailingList.
  *
  * @ORM\Table(name="mailing_list")
  * @ORM\Entity(repositoryClass="Opifer\MailingListBundle\Repository\MailingListRepository")
@@ -54,11 +54,10 @@ class MailingList
      **/
     protected $subscriptions;
 
-    /**
+     /**
       * @var string
       *
       * @ORM\Column(name="provider", type="string", length=255)
-      *
       */
      protected $provider;
 
@@ -85,9 +84,8 @@ class MailingList
      */
     protected $deletedAt;
 
-
     /**
-     * Get id
+     * Get id.
      *
      * @return int
      */
@@ -97,7 +95,7 @@ class MailingList
     }
 
     /**
-     * Set name
+     * Set name.
      *
      * @param string $name
      *
@@ -111,7 +109,7 @@ class MailingList
     }
 
     /**
-     * Get name
+     * Get name.
      *
      * @return string
      */
@@ -121,7 +119,7 @@ class MailingList
     }
 
     /**
-     * Set displayName
+     * Set displayName.
      *
      * @param string $displayName
      *
@@ -135,7 +133,7 @@ class MailingList
     }
 
     /**
-     * Get displayName
+     * Get displayName.
      *
      * @return string
      */
@@ -145,7 +143,7 @@ class MailingList
     }
 
     /**
-     * Set provider
+     * Set provider.
      *
      * @param string $provider
      *
@@ -159,7 +157,7 @@ class MailingList
     }
 
     /**
-     * Get provider
+     * Get provider.
      *
      * @return string
      */
@@ -169,7 +167,7 @@ class MailingList
     }
 
     /**
-     * Set createdAt
+     * Set createdAt.
      *
      * @param \DateTime $createdAt
      *
@@ -183,7 +181,7 @@ class MailingList
     }
 
     /**
-     * Get createdAt
+     * Get createdAt.
      *
      * @return \DateTime
      */
@@ -193,7 +191,7 @@ class MailingList
     }
 
     /**
-     * Set updatedAt
+     * Set updatedAt.
      *
      * @param \DateTime $updatedAt
      *
@@ -207,7 +205,7 @@ class MailingList
     }
 
     /**
-     * Get updatedAt
+     * Get updatedAt.
      *
      * @return \DateTime
      */
@@ -217,7 +215,7 @@ class MailingList
     }
 
     /**
-     * Set deletedAt
+     * Set deletedAt.
      *
      * @param \DateTime $deletedAt
      *
@@ -231,7 +229,7 @@ class MailingList
     }
 
     /**
-     * Get deletedAt
+     * Get deletedAt.
      *
      * @return \DateTime
      */
@@ -240,4 +238,3 @@ class MailingList
         return $this->deletedAt;
     }
 }
-

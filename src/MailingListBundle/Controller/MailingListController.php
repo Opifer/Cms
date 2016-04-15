@@ -57,7 +57,7 @@ class MailingListController extends Controller
             return $this->redirectToRoute('opifer_mailing_list_mailing_list_index');
         }
 
-        return $this->render('OpiferMailingListBundle:MailingList:add.html.twig', [
+        return $this->render('OpiferMailingListBundle:MailingList:create.html.twig', [
             'form' => $form->createView(),
         ]);
     }
@@ -84,6 +84,7 @@ class MailingListController extends Controller
 
         return $this->render('OpiferMailingListBundle:MailingList:edit.html.twig', [
             'form' => $form->createView(),
+            'mailing_list' => $mailingList,
         ]);
     }
 
