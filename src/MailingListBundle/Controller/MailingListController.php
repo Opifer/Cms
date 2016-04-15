@@ -37,11 +37,10 @@ class MailingListController extends Controller
     }
 
     /**
-     * Add new Mailing List
+     * Add new Mailing List.
      */
     public function createAction(Request $request)
     {
-
         $mailingList = new MailingList();
 
         $form = $this->createForm(new MailingListType(), $mailingList, [
@@ -51,7 +50,6 @@ class MailingListController extends Controller
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            
             $em = $this->getDoctrine()->getManager();
             $em->persist($mailingList);
             $em->flush();
@@ -60,15 +58,15 @@ class MailingListController extends Controller
         }
 
         return $this->render('OpiferMailingListBundle:MailingList:add.html.twig', [
-            'form' => $form->createView()
+            'form' => $form->createView(),
         ]);
     }
 
     /**
-     * Edit Mailing List
+     * Edit Mailing List.
      *
      * @param Request $request
-     * @param int $id
+     * @param int     $id
      */
     public function editAction(Request $request, $id)
     {
@@ -78,7 +76,6 @@ class MailingListController extends Controller
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            
             $em = $this->getDoctrine()->getManager();
             $em->flush();
 
@@ -86,12 +83,12 @@ class MailingListController extends Controller
         }
 
         return $this->render('OpiferMailingListBundle:MailingList:edit.html.twig', [
-            'form' => $form->createView()
+            'form' => $form->createView(),
         ]);
     }
 
     /**
-     * Delete Mailing List
+     * Delete Mailing List.
      *
      * @param int $id
      */
@@ -104,8 +101,7 @@ class MailingListController extends Controller
             $em->remove($mailingList);
             $em->flush();
         }
-        
+
         return $this->redirectToRoute('opifer_mailing_list_mailing_list_index');
     }
-
 }
