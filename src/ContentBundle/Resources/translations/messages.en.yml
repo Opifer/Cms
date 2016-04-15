@@ -18,7 +18,7 @@ help:
     column_offsets: Offset columns per viewport (http://getbootstrap.com/css/#grid-offsetting)
     container_sizing: Strategy to determine width at different viewports
     content_description: Describe your page in a few important keywords
-    content_nav_title: Short version of the title, used in navigation
+    content_short_title: Short version of the title, used in navigation
     content_title: The title of the page is displayed in the browser tab and in searchengines
     extra_classes: Apply custom CSS classes to the block
     html_id: 'Set an html #id to the block'
@@ -50,7 +50,7 @@ label:
     gutters: Gutter width
     header: Header
     levels: Levels
-    nav_title: Nav Title
+    short_title: Nav Title
     navigation_block_value: Type
     rich_text: RTF-editor
     style: Style
@@ -79,7 +79,7 @@ link:
 placeholder:
     choice_optional: Choose (optional)
     content_description: Description for your page
-    content_nav_title: Navigation title
+    content_short_title: Navigation title
     content_title: Enter a title for your page
     slug: Unique permalink slug for this page
     default: Default
