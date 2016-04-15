@@ -27,6 +27,7 @@ parameters:
     opifer.content.breadcrumbs_block.class: Opifer\ContentBundle\Block\Service\BreadcrumbsBlockService
     opifer.content.avatar_block.class: Opifer\ContentBundle\Block\Service\AvatarBlockService
     opifer.content.search_results_block.class: Opifer\ContentBundle\Block\Service\SearchResultsBlockService
+    opifer.content.login_block.class: Opifer\ContentBundle\Block\Service\LoginBlockService
 
 services:
     opifer.content.carousel_block:
@@ -220,5 +221,13 @@ services:
         arguments: ['@templating', '@opifer.content.content_manager', '%opifer_content.search_results_block_configuration%']
         tags:
             - { name: opifer.content.block_service, alias: search_results }
+        calls:
+            - [setRequest, ['@request_stack']]
+
+    opifer.content.login_block:
+        class: '%opifer.content.login_block.class%'
+        arguments: ['@templating', '@service_container', '@session', '%opifer_content.login_block_configuration%']
+        tags:
+            - { name: opifer.content.block_service, alias: login }
         calls:
             - [setRequest, ['@request_stack']]

@@ -8,6 +8,7 @@ button:
     edit: Edit
     publish: Publish
     block_share: Share block
+    subscribe: Subscribe
 
 help:
     active: Status of publication of the content item where inactive means the content is not public accessible
@@ -70,8 +71,10 @@ label:
     column_m_b_lg: Margin bottom lg (row)
     login_url: Login url
     register_url: Register url
-    login_content_item: Login Content item
-    register_content_item: Register Content item
+    login_redirect_url: Login redirect url
+    login_content_item: Login content item
+    login_redirect_content_item: Login redirect content item
+    register_content_item: Register content item
 
 link:
     default: Default
