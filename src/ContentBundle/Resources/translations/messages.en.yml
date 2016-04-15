@@ -94,6 +94,8 @@ title:
     block_shared: Shared blocks
     select_content_type: Choose a content type
     new_content: New content
+    new_mailing_list: New Mailing List
+    edit_mailing_list: Edit Mailing List
 
 warning:
     block_shared_edit: 'This is a shared block. <br /><span class="small">Shared blocks need publishing individually.</span>'
