@@ -13,6 +13,7 @@ use APY\DataGridBundle\Grid\Mapping as GRID;
  * @ORM\Table(name="mailing_list")
  * @ORM\Entity(repositoryClass="Opifer\MailingListBundle\Repository\MailingListRepository")
  * @GRID\Source(columns="id, name, displayName")
+ * @Gedmo\SoftDeleteable(fieldName="deletedAt")
  */
 class MailingList
 {

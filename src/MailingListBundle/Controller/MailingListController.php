@@ -19,14 +19,19 @@ class MailingListController extends Controller
     {
         $source = new Entity('OpiferMailingListBundle:MailingList');
 
-        $editAction = new RowAction('button.view', 'opifer_mailing_list_mailing_list_view');
+        $editAction = new RowAction('button.edit', 'opifer_mailing_list_mailing_list_edit');
         $editAction->setRouteParameters(['id']);
+
+        $deleteAction = new RowAction('button.delete', 'opifer_mailing_list_mailing_list_delete', true, '_self');
+        $deleteAction->setConfirmMessage('Confirm deleting this entry?');
+        $deleteAction->setRouteParameters(['id']);
 
         /* @var $grid \APY\DataGridBundle\Grid\Grid */
         $grid = $this->get('grid');
         $grid->setId('property')
             ->setSource($source)
-            ->addRowAction($editAction);
+            ->addRowAction($editAction)
+            ->addRowAction($deleteAction);
 
         return $grid->getGridResponse('OpiferMailingListBundle:MailingList:index.html.twig');
     }
@@ -65,7 +70,7 @@ class MailingListController extends Controller
      * @param Request $request
      * @param int $id
      */
-    public function viewAction(Request $request, $id)
+    public function editAction(Request $request, $id)
     {
         $mailingList = $this->getDoctrine()->getRepository('OpiferMailingListBundle:MailingList')->find($id);
 
@@ -80,9 +85,27 @@ class MailingListController extends Controller
             return $this->redirectToRoute('opifer_mailing_list_mailing_list_index');
         }
 
-        return $this->render('OpiferMailingListBundle:MailingList:view.html.twig', [
+        return $this->render('OpiferMailingListBundle:MailingList:edit.html.twig', [
             'form' => $form->createView()
         ]);
+    }
+
+    /**
+     * Delete Mailing List
+     *
+     * @param int $id
+     */
+    public function deleteAction($id)
+    {
+        $mailingList = $this->getDoctrine()->getRepository('OpiferMailingListBundle:MailingList')->find($id);
+
+        if (!empty($mailingList)) {
+            $em = $this->getDoctrine()->getManager();
+            $em->remove($mailingList);
+            $em->flush();
+        }
+        
+        return $this->redirectToRoute('opifer_mailing_list_mailing_list_index');
     }
 
 }
