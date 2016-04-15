@@ -12,7 +12,8 @@ use APY\DataGridBundle\Grid\Mapping as GRID;
  *
  * @ORM\Table(name="mailing_list")
  * @ORM\Entity(repositoryClass="Opifer\MailingListBundle\Repository\MailingListRepository")
- * @GRID\Source(columns="id, name, displayName, provider, status")
+ * @GRID\Source(columns="id, name, displayName")
+ * @Gedmo\SoftDeleteable(fieldName="deletedAt")
  */
 class MailingList
 {
@@ -54,16 +55,17 @@ class MailingList
     protected $subscriptions;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="provider", type="string", length=255)
-     *
-     */
-    protected $provider;
+      * @var string
+      *
+      * @ORM\Column(name="provider", type="string", length=255)
+      *
+      */
+     protected $provider;
 
     /**
      * @var \DateTime
      *
+     * @Gedmo\Timestampable(on="create")
      * @ORM\Column(name="createdAt", type="datetime", nullable=true)
      */
     protected $createdAt;
@@ -71,6 +73,7 @@ class MailingList
     /**
      * @var \DateTime
      *
+     * @Gedmo\Timestampable(on="update")
      * @ORM\Column(name="updatedAt", type="datetime")
      */
     protected $updatedAt;
