@@ -1,18 +1,16 @@
 <?php
-
 namespace Opifer\MailingListBundle\Entity;
-
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use APY\DataGridBundle\Grid\Mapping as GRID;
-
 /**
  * MailingList
  *
  * @ORM\Table(name="mailing_list")
  * @ORM\Entity(repositoryClass="Opifer\MailingListBundle\Repository\MailingListRepository")
  * @GRID\Source(columns="id, name, displayName")
+ * @Gedmo\SoftDeleteable(fieldName="deletedAt")
  */
 class MailingList
 {
@@ -26,7 +24,6 @@ class MailingList
      * @GRID\Column(title="label.id", size="10", type="number")
      */
     protected $id;
-
     /**
      * @var string
      *
@@ -35,7 +32,6 @@ class MailingList
      * @GRID\Column(title="label.name")
      */
     protected $name;
-
     /**
      * @var string
      *
@@ -44,7 +40,6 @@ class MailingList
      * @GRID\Column(title="label.display_name")
      */
     protected $displayName;
-
     /**
      * @var ArrayCollection
      *
@@ -52,7 +47,6 @@ class MailingList
      * @ORM\OrderBy({"createdAt" = "DESC"})
      **/
     protected $subscriptions;
-
     /**
       * @var string
       *
@@ -60,29 +54,26 @@ class MailingList
       *
       */
      protected $provider;
-
     /**
      * @var \DateTime
      *
+     * @Gedmo\Timestampable(on="create")
      * @ORM\Column(name="createdAt", type="datetime", nullable=true)
      */
     protected $createdAt;
-
     /**
      * @var \DateTime
      *
+     * @Gedmo\Timestampable(on="update")
      * @ORM\Column(name="updatedAt", type="datetime")
      */
     protected $updatedAt;
-
     /**
      * @var \DateTime
      *
      * @ORM\Column(name="deletedAt", type="datetime", nullable=true)
      */
     protected $deletedAt;
-
-
     /**
      * Get id
      *
@@ -92,7 +83,6 @@ class MailingList
     {
         return $this->id;
     }
-
     /**
      * Set name
      *
@@ -103,10 +93,8 @@ class MailingList
     public function setName($name)
     {
         $this->name = $name;
-
         return $this;
     }
-
     /**
      * Get name
      *
@@ -116,7 +104,6 @@ class MailingList
     {
         return $this->name;
     }
-
     /**
      * Set displayName
      *
@@ -127,10 +114,8 @@ class MailingList
     public function setDisplayName($displayName)
     {
         $this->displayName = $displayName;
-
         return $this;
     }
-
     /**
      * Get displayName
      *
@@ -140,7 +125,6 @@ class MailingList
     {
         return $this->displayName;
     }
-
     /**
      * Set provider
      *
@@ -151,10 +135,8 @@ class MailingList
     public function setProvider($provider)
     {
         $this->provider = $provider;
-
         return $this;
     }
-
     /**
      * Get provider
      *
@@ -164,7 +146,6 @@ class MailingList
     {
         return $this->provider;
     }
-
     /**
      * Set createdAt
      *
@@ -175,10 +156,8 @@ class MailingList
     public function setCreatedAt($createdAt)
     {
         $this->createdAt = $createdAt;
-
         return $this;
     }
-
     /**
      * Get createdAt
      *
@@ -188,7 +167,6 @@ class MailingList
     {
         return $this->createdAt;
     }
-
     /**
      * Set updatedAt
      *
@@ -199,10 +177,8 @@ class MailingList
     public function setUpdatedAt($updatedAt)
     {
         $this->updatedAt = $updatedAt;
-
         return $this;
     }
-
     /**
      * Get updatedAt
      *
@@ -212,7 +188,6 @@ class MailingList
     {
         return $this->updatedAt;
     }
-
     /**
      * Set deletedAt
      *
@@ -223,10 +198,8 @@ class MailingList
     public function setDeletedAt($deletedAt)
     {
         $this->deletedAt = $deletedAt;
-
         return $this;
     }
-
     /**
      * Get deletedAt
      *
@@ -237,4 +210,3 @@ class MailingList
         return $this->deletedAt;
     }
 }
-

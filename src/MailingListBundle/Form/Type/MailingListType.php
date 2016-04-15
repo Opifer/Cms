@@ -1,12 +1,9 @@
 <?php
-
 namespace Opifer\MailingListBundle\Form\Type;
-
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\FormBuilderInterface;
-
 /**
  * MailingListType Type
  */
@@ -29,14 +26,14 @@ class MailingListType extends AbstractType
                 'required' => true,
                 'label'    => 'label.display_name',
                 'attr'  => [
-                    'placeholder' => 'placeholder.name',
+                    'placeholder' => 'placeholder.display_name',
                 ]
             ])
-            ->add('displayName', TextType::class, [
+            ->add('provider', TextType::class, [
                 'required' => true,
-                'label'    => 'label.display_name',
+                'label'    => 'label.provider',
                 'attr'  => [
-                    'placeholder' => 'placeholder.name',
+                    'placeholder' => 'placeholder.provider',
                 ]
             ])
         ;

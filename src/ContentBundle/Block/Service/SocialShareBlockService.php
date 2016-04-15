@@ -13,7 +13,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
 
 /**
- * Social Share Block Service
+ * Social Share Block Service.
  */
 class SocialShareBlockService extends AbstractBlockService implements BlockServiceInterface, ToolsetMemberInterface
 {
@@ -55,25 +55,25 @@ class SocialShareBlockService extends AbstractBlockService implements BlockServi
     {
         $parameters = [
             'block_service' => $this,
-            'block'         => $block,
-            'request_url'  => $this->getRequestUrl(),
-            'facebook_url'  => $this->getFacebookShareUrl(),
-            'twitter_url'   => $this->getTwitterShareUrl(),
-            'linkedin_url'      => $this->getLinkedInShareUrl(),
-            'google_url'    => $this->getGoogleShareUrl(),
-            'whatsapp_url'  => $this->getWhatsappShareUrl(),
-            'email_url'     => $this->getEmailShareUrl(),
-            'facebook_count'  => $this->getFacebookShareUrl(),
-            'twitter_count'   => $this->getTwitterShareUrl(),
-            'linkedin_count'      => $this->getLinkedInShareUrl(),
-            'google_count'    => $this->getGoogleShareUrl(),
+            'block' => $block,
+            'request_url' => $this->getRequestUrl(),
+            'facebook_url' => $this->getFacebookShareUrl(),
+            'twitter_url' => $this->getTwitterShareUrl(),
+            'linkedin_url' => $this->getLinkedInShareUrl(),
+            'google_url' => $this->getGoogleShareUrl(),
+            'whatsapp_url' => $this->getWhatsappShareUrl(),
+            'email_url' => $this->getEmailShareUrl(),
+            'facebook_count' => $this->getFacebookShareCount(),
+            'twitter_count' => $this->getTwitterShareCount(),
+            'linkedin_count' => $this->getLinkedInShareCount(),
+            'google_count' => $this->getGoogleShareCount(),
         ];
 
         return $parameters;
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function createBlock()
     {
@@ -81,7 +81,7 @@ class SocialShareBlockService extends AbstractBlockService implements BlockServi
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getTool(BlockInterface $block = null)
     {
@@ -92,7 +92,6 @@ class SocialShareBlockService extends AbstractBlockService implements BlockServi
 
         return $tool;
     }
-
 
     public function getRequestUrl()
     {

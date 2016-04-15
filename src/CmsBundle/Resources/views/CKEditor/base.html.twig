@@ -1,7 +1,7 @@
 {% extends 'OpiferCmsBundle:Backend:base.html.twig' %}
 {% set hide_nav = true %}
 
-{% block body %}
+{% block main %}
     {% if app.request.get('type') == 'link' %}
         <header class="mainnav">
             <nav class="navbar navbar-inverse navbar-static-top" role="navigation">
@@ -16,5 +16,7 @@
             </nav>
         </header>
     {% endif %}
-    {% block selector %}{% endblock selector %}
-{% endblock body %}
+    <div class="container-fluid">
+        {% block selector %}{% endblock selector %}
+    </div>
+{% endblock main %}
