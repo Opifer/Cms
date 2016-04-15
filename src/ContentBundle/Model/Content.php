@@ -82,10 +82,10 @@ class Content implements ContentInterface, EntityInterface, TemplatedInterface, 
      *
      * @JMS\Expose
      * @JMS\Groups({"detail", "list"})
-     * @ORM\Column(name="nav_title", type="string", length=255, nullable=true)
+     * @ORM\Column(name="short_title", type="string", length=255, nullable=true)
      * @Revisions\Revised
      */
-    protected $navTitle;
+    protected $shortTitle;
 
     /**
      * @var string
@@ -271,23 +271,23 @@ class Content implements ContentInterface, EntityInterface, TemplatedInterface, 
     /**
      * @return string
      */
-    public function getNavTitle()
+    public function getShortTitle()
     {
-        if (!$this->navTitle) {
+        if (!$this->shortTitle) {
             return $this->getTitle();
         }
 
-        return $this->navTitle;
+        return $this->shortTitle;
     }
 
     /**
-     * @param string $navTitle
+     * @param string $shortTitle
      *
      * @return Content
      */
-    public function setNavTitle($navTitle)
+    public function setShortTitle($shortTitle)
     {
-        $this->navTitle = $navTitle;
+        $this->shortTitle = $shortTitle;
 
         return $this;
     }

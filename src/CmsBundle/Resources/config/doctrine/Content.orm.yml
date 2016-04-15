@@ -113,14 +113,14 @@ Opifer\CmsBundle\Entity\Content:
             gedmo:
               timestampable:
                 on: update
-        navTitle:
+        shortTitle:
             type: string
             scale: 0
             length: 255
             unique: false
             nullable: true
             precision: 0
-            column: nav_title
+            column: short_title
         alias:
             type: string
             scale: 0
