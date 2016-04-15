@@ -84,6 +84,9 @@ placeholder:
     slug: Unique permalink slug for this page
     default: Default
     tab_label: Name
+    name: Name
+    display_name: Display Name
+    provider: Provider
 
 title:
     content: Content
