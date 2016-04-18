@@ -1,6 +1,7 @@
 <?php
 
 namespace Opifer\MailingListBundle\Provider;
+use Opifer\MailingListBundle\Entity\Subscription;
 
 /**
  * MailingListProviderInterface is the interface implemented by all provider classes.
@@ -8,11 +9,11 @@ namespace Opifer\MailingListBundle\Provider;
 interface MailingListProviderInterface
 {
     /**
-     * Sync subsriptions.
+     * Sync a subsription.
      *
-     * @param array $subscriptions
+     * @param Subscription $subscription
      *
      * @return string
      */
-    public function sync(array $subscriptions);
+    public function sync(Subscription $subscription);
 }
