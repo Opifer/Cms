@@ -32,8 +32,8 @@ class ContentRouter implements RouterInterface
     /** @var ContentManagerInterface */
     protected $contentManager;
 
-    /** @var Request */
-    protected $request;
+    /** @var RequestStack */
+    protected $requestStack;
 
     /**
      * The constructor for this service.
@@ -43,7 +43,7 @@ class ContentRouter implements RouterInterface
     public function __construct(RequestStack $requestStack, ContentManagerInterface $contentManager)
     {
         $this->routeCollection = new RouteCollection();
-        $this->request = $requestStack->getCurrentRequest();
+        $this->requestStack = $requestStack;
         $this->contentManager = $contentManager;
 
         $this->createRoutes();
@@ -62,6 +62,7 @@ class ContentRouter implements RouterInterface
         ], [
             'expose'      => true,
         ]));
+
         $this->routeCollection->add('home', new Route('/', [
             '_controller' => 'OpiferContentBundle:Frontend/Content:view',
             'slug'        => '',
@@ -84,8 +85,6 @@ class ContentRouter implements RouterInterface
      * @return array An array of parameters
      *
      * @throws ResourceNotFoundException If the resource could not be found
-     * @throws MethodNotAllowedException If the resource was found but the
-     *                                   request method is not allowed
      */
     public function match($pathinfo)
     {
@@ -93,28 +92,21 @@ class ContentRouter implements RouterInterface
         $result = $urlMatcher->match($pathinfo);
 
         if (!empty($result)) {
+            // The route matches, now check if it actually exists
+            $slug = $result['slug'];
+
             try {
-                // The route matches, now check if it actually exists
-                $result['content'] = $this->contentManager->findActiveBySlug($result['slug']);
+                //is it directory index
+                if (substr($slug, -1) == '/') {
+                    $slug = rtrim($slug, '/');
+                }
+
+                $result['content'] = $this->contentManager->findActiveBySlug($slug);
             } catch (NoResultException $e) {
                 try {
-
-                    //is it directory index
-                    if (substr($result['slug'], -1) == '/' || $result['slug'] == '') {
-                        $result['content'] = $this->contentManager->findActiveBySlug($result['slug'].'index');
-                    } else {
-                        if ($this->contentManager->findActiveBySlug($result['slug'].'/index')) {
-                            $redirect = new RedirectResponse($this->request->getBaseUrl()."/".$result['slug'].'/');
-                            $redirect->sendHeaders();
-                            exit;
-                        }
-                    }
+                    $result['content'] = $this->contentManager->findActiveByAlias($slug);
                 } catch (NoResultException $ex) {
-                    try {
-                        $result['content'] = $this->contentManager->findActiveByAlias($result['slug']);
-                    } catch (NoResultException $ex) {
-                        throw new ResourceNotFoundException('No page found for slug '.$pathinfo);
-                    }
+                    throw new ResourceNotFoundException('No page found for slug '.$pathinfo);
                 }
             }
         }
@@ -157,7 +149,7 @@ class ContentRouter implements RouterInterface
     {
         if (!isset($this->context)) {
             $this->context = new RequestContext();
-            $this->context->fromRequest($this->request);
+            $this->context->fromRequest($this->getRequest());
         }
 
         return $this->context;
@@ -171,5 +163,13 @@ class ContentRouter implements RouterInterface
     public function getRouteCollection()
     {
         return $this->routeCollection;
+    }
+
+    /**
+     * @return null|\Symfony\Component\HttpFoundation\Request
+     */
+    protected function getRequest()
+    {
+        return $this->requestStack->getCurrentRequest();
     }
 }
