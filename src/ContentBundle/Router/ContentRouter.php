@@ -62,15 +62,6 @@ class ContentRouter implements RouterInterface
         ], [
             'expose'      => true,
         ]));
-
-        $this->routeCollection->add('home', new Route('/', [
-            '_controller' => 'OpiferContentBundle:Frontend/Content:view',
-            'slug'        => '',
-        ], [
-            'slug'        => "[a-zA-Z0-9\-_\/]*",
-        ], [
-            'expose'      => true,
-        ]));
     }
 
     /**
