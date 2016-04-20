@@ -58,6 +58,12 @@ class Cron
     protected $state = self::STATE_PENDING;
 
     /**
+     * @var string
+     *
+     */
+    protected $lastError;
+
+    /**
      * @var \DateTime
      */
     protected $startedAt;
@@ -193,6 +199,30 @@ class Cron
     public function getState()
     {
         return $this->state;
+    }
+
+    /**
+     * Set lastError.
+     *
+     * @param string $lastError
+     *
+     * @return Cron
+     */
+    public function setLastError($lastError)
+    {
+        $this->lastError = $lastError;
+
+        return $this;
+    }
+
+    /**
+     * Get lastError.
+     *
+     * @return string
+     */
+    public function getLastError()
+    {
+        return $this->lastError;
     }
 
     /**
