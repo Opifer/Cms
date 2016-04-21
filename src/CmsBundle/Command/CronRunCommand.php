@@ -95,7 +95,7 @@ class CronRunCommand extends ContainerAwareCommand
             $this->changeState($cron, Cron::STATE_CANCELED, $process->getErrorOutput());
         } else {
             $this->changeState($cron, Cron::STATE_FINISHED);
-        }
+        } 
     }
 
     /**
