@@ -164,17 +164,17 @@ class ContentRepository extends BaseContentRepository
      */
     public function getRelatedContentToBlocks($search)
     {
-        $results = $this->createQueryBuilder('c')
-                        ->select('c')
-                        ->innerjoin('c.blocks', 'b', 'WITH', 'c.id = b.content')
-                        ->where('b.value LIKE :search')
-                        ->orWhere('c.title LIKE :search')
-                        ->orWhere('c.description LIKE :search')
-                        ->setParameter('search', '%'.$search.'%')
-                        ->groupBy('c.id')
-                        ->orderBy('c.id')
-                        ->getQuery()
-                        ->getResult();
+        $results = $this->createQueryBuilder('c')   
+            ->select('c')
+            ->innerjoin('c.blocks', 'b', 'WITH', 'c.id = b.content')
+            ->where('b.value LIKE :search')
+            ->orWhere('c.title LIKE :search')
+            ->orWhere('c.description LIKE :search')
+            ->setParameter('search', '%'.$search.'%')
+            ->groupBy('c.id')
+            ->orderBy('c.id')
+            ->getQuery()
+            ->getResult();
 
         return $this->sortSearchResults($results, $search);
     }
@@ -189,8 +189,8 @@ class ContentRepository extends BaseContentRepository
      */
     public function sortSearchResults($results, $search)
     {
-        $sortedResults = array();
-
+        $sortedResults = [];
+        
         if (!empty($results)) {
             foreach ($results as $result) {
                 if (stripos($result->getTitle(), $search)) {
