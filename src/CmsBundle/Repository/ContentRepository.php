@@ -3,7 +3,6 @@
 namespace Opifer\CmsBundle\Repository;
 
 use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\ORM\Query\Expr\Join;
 use Opifer\ContentBundle\Model\Content;
 use Opifer\ContentBundle\Model\ContentRepository as BaseContentRepository;
 
@@ -183,7 +182,7 @@ class ContentRepository extends BaseContentRepository
     /**
      * Sort search results by giving priority to founded by title.
      *
-     * @param array $results
+     * @param array  $results
      * @param string $search
      *
      * @return ArrayCollection
@@ -201,6 +200,7 @@ class ContentRepository extends BaseContentRepository
                 }
             }
         }
+
         return $sortedResults;
     }
 }
