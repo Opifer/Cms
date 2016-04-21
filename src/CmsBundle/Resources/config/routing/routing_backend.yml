@@ -71,6 +71,12 @@ opifer_cms_cronjob_delete:
     requirements:
         id: \d+
 
+opifer_cms_cronjob_reset:
+    path: /cronjob/reset/{id}
+    defaults: { _controller: OpiferCmsBundle:Backend/Cronjob:reset }
+    requirements:
+        id: \d+
+
 opifer_cms_user_index:
     path: /users
     defaults: { _controller: OpiferCmsBundle:Backend/User:index }

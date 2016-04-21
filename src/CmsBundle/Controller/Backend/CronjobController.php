@@ -26,11 +26,16 @@ class CronjobController extends Controller
         $deleteAction = new RowAction('delete', 'opifer_cms_cronjob_delete');
         $deleteAction->setRouteParameters(['id']);
 
+        $resetAction = new RowAction('reset', 'opifer_cms_cronjob_reset', true, '_self');
+        $resetAction->setConfirmMessage('Confirm reset?');
+        $resetAction->setRouteParameters(['id']);
+
         $grid = $this->get('grid');
         $grid->setId('cronjobs')
             ->setSource($source)
             ->addRowAction($editAction)
-            ->addRowAction($deleteAction);
+            ->addRowAction($deleteAction)
+            ->addRowAction($resetAction);
 
         $grid->getColumn('state')->manipulateRenderCell(function ($value, $row, $router) {
             switch ($value) {
@@ -130,6 +135,24 @@ class CronjobController extends Controller
         $cron = $em->getRepository('OpiferCmsBundle:Cron')->find($id);
 
         $em->remove($cron);
+        $em->flush();
+
+        return $this->redirectToRoute('opifer_cms_cronjob_index');
+    }
+
+    /**
+     * @param int $id
+     *
+     * @return RedirectResponse
+     */
+    public function resetAction($id)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $cron = $em->getRepository('OpiferCmsBundle:Cron')->find($id);
+
+        $cron->setState(Cron::STATE_FINISHED);
+        $em = $this->getDoctrine()->getManager();
+        $em->persist($cron);
         $em->flush();
 
         return $this->redirectToRoute('opifer_cms_cronjob_index');
