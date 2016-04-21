@@ -3,7 +3,6 @@
 namespace Opifer\CmsBundle\Repository;
 
 use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\ORM\Query\Expr\Join;
 use Opifer\ContentBundle\Model\Content;
 use Opifer\ContentBundle\Model\ContentRepository as BaseContentRepository;
 
@@ -165,16 +164,43 @@ class ContentRepository extends BaseContentRepository
      */
     public function getRelatedContentToBlocks($search)
     {
-        return $this->createQueryBuilder('c')
-                ->select('c')
-                ->innerjoin('c.blocks', 'b', 'WITH', 'c.id = b.content')
-                ->where('b.value LIKE :search')
-                ->orWhere('c.title LIKE :search')
-                ->orWhere('c.description LIKE :search')
-                ->setParameter('search', '%'.$search.'%')
-                ->groupBy('c.id')
-                ->orderBy('c.id')
-                ->getQuery()
-                ->getResult();
+        $results = $this->createQueryBuilder('c')   
+            ->select('c')
+            ->innerjoin('c.blocks', 'b', 'WITH', 'c.id = b.content')
+            ->where('b.value LIKE :search')
+            ->orWhere('c.title LIKE :search')
+            ->orWhere('c.description LIKE :search')
+            ->setParameter('search', '%'.$search.'%')
+            ->groupBy('c.id')
+            ->orderBy('c.id')
+            ->getQuery()
+            ->getResult();
+
+        return $this->sortSearchResults($results, $search);
+    }
+
+    /**
+     * Sort search results by giving priority to founded by title.
+     *
+     * @param array  $results
+     * @param string $search
+     *
+     * @return ArrayCollection
+     */
+    public function sortSearchResults($results, $search)
+    {
+        $sortedResults = [];
+        
+        if (!empty($results)) {
+            foreach ($results as $result) {
+                if (stripos($result->getTitle(), $search)) {
+                    array_unshift($sortedResults, $result);
+                } else {
+                    $sortedResults[] = $result;
+                }
+            }
+        }
+
+        return $sortedResults;
     }
 }
