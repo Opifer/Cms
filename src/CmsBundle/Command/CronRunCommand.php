@@ -83,7 +83,7 @@ class CronRunCommand extends ContainerAwareCommand
 
         $process = $pb->getProcess();
 
-        $process->run(function ($type, $buffer) use ($cron) { // or ->start() to make processes run asynchronously
+        $process->run(function ($type, $buffer) { // or ->start() to make processes run asynchronously
             if (Process::ERR === $type) {
                 $this->output->writeln('ERR > '.$buffer);
             } else {
