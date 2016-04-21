@@ -83,19 +83,21 @@ class CronRunCommand extends ContainerAwareCommand
 
         $process = $pb->getProcess();
 
-        $process->run(function ($type, $buffer) { // or ->start() to make processes run asynchronously
-            if (Process::ERR === $type) {
-                $this->output->writeln('ERR > '.$buffer);
-            } else {
-                $this->output->writeln(' > '.$buffer);
-            }
-        });
+        try {
+            $process->mustRun();
 
-        if (!$process->isSuccessful() || !empty($process->getErrorOutput())) {
-            $this->changeState($cron, Cron::STATE_CANCELED, $process->getErrorOutput());
-        } else {
-            $this->changeState($cron, Cron::STATE_FINISHED);
-        } 
+            $this->output->writeln(' > '.$process->getOutput());
+
+            if (!$process->isSuccessful() || !empty($process->getErrorOutput())) {
+                $this->output->writeln(' > '.$process->getErrorOutput());
+                $this->changeState($cron, Cron::STATE_CANCELED, $process->getErrorOutput());
+            } else {
+                $this->changeState($cron, Cron::STATE_FINISHED);
+            }
+        } catch (\Exception $e) {
+            $this->output->writeln(' > '.$e->getMessage());
+            $this->changeState($cron, Cron::STATE_CANCELED, $e->getMessage());
+        }
     }
 
     /**
