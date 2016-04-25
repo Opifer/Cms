@@ -158,7 +158,8 @@ $(document).ready(function() {
         CKEDITOR.replace($(this).attr('data-ckeditor'), {
             extraPlugins: 'iframe,justify,showblocks,tabletools,tableresize,selectall,find',
             filebrowserBrowseUrl: browsePath,
-            filebrowserImageBrowseUrl: browsePathImages
+            filebrowserImageBrowseUrl: browsePathImages,
+            allowedContent: true
         });
         CKEDITOR.dtd.$removeEmpty['i'] = false;
         CKEDITOR.dtd.$removeEmpty['span'] = false;
