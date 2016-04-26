@@ -5,7 +5,7 @@
         <li data-pm-block-id="{{ node.id }}" data-pm-block-owner-id="{{ node.owner.id|default("0") }}" {% if node is block_pointer %}data-pm-block-pointer="true" data-pm-block-reference-id="{{ node.reference.id|default }}"{% endif %}>
             <span class="node-block {% if node is block_pointer %}node-pointer{% endif %} {% if environment.object.id != node.owner.id|default("0") and node.owner.id|default("0") != "0" %}node-inherited{% endif %}">
                 {% if environment.getTool(node).name == 'Section' %}
-                    {% if node.properties.sectionName is not empty %}
+                    {% if node.properties.sectionName|default and node.properties.sectionName is not empty %}
                         <i class="material-icons md-18">{{ environment.getTool(node).icon }}</i> {{ node.properties.sectionName }}
                     {% else %}
                         <i class="material-icons md-18">{{ environment.getTool(node).icon }}</i> {{ environment.getTool(node).name }}
