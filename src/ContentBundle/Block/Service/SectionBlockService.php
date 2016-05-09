@@ -31,6 +31,7 @@ class SectionBlockService extends AbstractBlockService implements BlockServiceIn
         );
 
         $propertiesForm = $builder->create('properties', FormType::Class)
+            ->add('sectionName', TextType::class, ['attr' => ['help_text' => 'help.section_name']])
             ->add('id', TextType::class, ['attr' => ['help_text' => 'help.html_id']])
             ->add('extra_classes', TextType::class, ['attr' => ['help_text' => 'help.extra_classes']]);
 

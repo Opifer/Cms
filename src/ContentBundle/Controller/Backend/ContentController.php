@@ -113,6 +113,7 @@ class ContentController extends Controller
         /** @var ContentManager $manager */
         $manager = $this->get('opifer.content.content_manager');
         $content = $manager->getRepository()->find($id);
+        $content = $manager->createMissingValueSet($content);
 
         $form = $this->createForm(ContentType::class, $content);
         $form->handleRequest($request);
@@ -141,6 +142,7 @@ class ContentController extends Controller
     {
         $manager = $this->get('opifer.content.content_manager');
         $content = $manager->getRepository()->find($id);
+        $content = $manager->createMissingValueSet($content);
 
         $form = $this->createForm(ContentType::class, $content);
         $form->handleRequest($request);

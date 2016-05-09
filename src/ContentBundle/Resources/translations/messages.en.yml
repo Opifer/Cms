@@ -27,6 +27,7 @@ help:
     show_in_navigation: If checked this page will be visible in navigation blocks if the selected options and level allows
     slug: Use only letters and numbers, no spaces allowed a-z0-9_-
     template: Choose a template as your starting point to create content with
+    section_name: This name will be displayed in table of contents
 
 label:
     block: Block
