@@ -3,6 +3,8 @@
 namespace Opifer\CmsBundle\Manager;
 
 use Doctrine\ORM\EntityManagerInterface;
+use Opifer\CmsBundle\Entity\Content;
+use Opifer\CmsBundle\Entity\ValueSet;
 use Opifer\ContentBundle\Model\ContentInterface;
 use Opifer\ContentBundle\Model\ContentManager as BaseContentManager;
 use Opifer\EavBundle\Manager\EavManager;
@@ -33,5 +35,28 @@ class ContentManager extends BaseContentManager
     public function getEntityManager()
     {
         return $this->em;
+    }
+
+    /**
+     * Creates a ValueSet entity for Content when missing and there is a ContentType set.
+     *
+     * @param Content $content
+     *
+     * @return Content
+     */
+    public function createMissingValueSet(Content $content)
+    {
+        if ($content->getContentType() !== null && $content->getValueSet() === null)
+        {
+            $valueSet = new ValueSet();
+            $this->em->persist($valueSet);
+
+            $valueSet->setSchema($content->getContentType()->getSchema());
+            $content->setValueSet($valueSet);
+
+            $content = $this->save($content);
+        }
+
+        return $content;
     }
 }

@@ -242,13 +242,17 @@ $(document).ready(function() {
                 e.preventDefault();
                 var id = editDialog.getData('blockId');
                 postBlockForm($(this), function (data) {
-                    editDialog.setTitle(data.title);
-                    editDialog.getModalBody().html(data.view);
+                    if (typeof data == 'object') {
+                        editDialog.setTitle(data.title);
+                        editDialog.getModalBody().html(data.view);
+                        if (id) {
+                            refreshBlock(id);
+                        }
+                    } else {
+                        editDialog.getModalBody().html(data);
+                    }
                     // Bootstrap AngularJS app (media library etc) after altering DOM
                     angular.bootstrap(editDialog.getModalBody().find('form'), ["MainApp"]);
-                    if (id) {
-                        refreshBlock(id);
-                    }
                 });
 
                 return false;
@@ -428,7 +432,8 @@ $(document).ready(function() {
             isLoadingEdit();
 
             $.get(url).success(function (data) {
-                editDialog.message(data);
+                editDialog.setTitle('Content');
+                editDialog.getModalBody().html(data);
                 angular.bootstrap(editDialog.getModalBody().find('form'), ["MainApp"]);
             });
 

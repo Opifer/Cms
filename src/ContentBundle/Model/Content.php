@@ -853,36 +853,6 @@ class Content implements ContentInterface, EntityInterface, TemplatedInterface, 
     }
 
     /**
-     * Creates fake values for non-persisted attributes.
-     *
-     * @return array new Values which can be persisted through an EntityManager
-     */
-    public function replaceMissingAttributes()
-    {
-        // collect persisted attributevalues
-        $persistedAttributes = array();
-        foreach ($this->getValueSet()->getValues() as $value) {
-            $persistedAttributes[] = $value->getAttribute();
-        }
-
-        $newValues = array();
-        // Create empty entities for missing attributes
-        $missingAttributes = array_diff($this->getValueSet()->getAttributes()->toArray(), $persistedAttributes);
-        foreach ($missingAttributes as $attribute) {
-            $valueClass = $attribute->getValueType();
-            $value = new $valueClass();
-
-            $this->getValueSet()->addValue($value);
-            $value->setValueSet($this->getValueSet());
-            $value->setAttribute($attribute);
-
-            $newValues[] = $value;
-        }
-
-        return $newValues;
-    }
-
-    /**
      * Returns name of the Schema for the ValueSet.
      *
      * @JMS\VirtualProperty
