@@ -193,7 +193,7 @@ class ContentRepository extends BaseContentRepository
         
         if (!empty($results)) {
             foreach ($results as $result) {
-                if (stripos($result->getTitle(), $search)) {
+                if (stripos($result->getTitle(), $search) !== false) {
                     array_unshift($sortedResults, $result);
                 } else {
                     $sortedResults[] = $result;
