@@ -10,6 +10,8 @@
                     {% else %}
                         <i class="material-icons md-18">{{ environment.getTool(node).icon }}</i> {{ environment.getTool(node).name }}
                     {% endif %}
+                {% else %}
+                    <i class="material-icons md-18">{{ environment.getTool(node).icon }}</i> {{ environment.getTool(node).name }}
                 {% endif %}
                 {% spaceless %}
                 <div class="pm-btn-group">
