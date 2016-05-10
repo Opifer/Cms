@@ -100,8 +100,14 @@ class Configuration implements ConfigurationInterface
                                 ->scalarNode('view')->defaultValue('OpiferContentBundle:Block:Content/button.html.twig')->end()
                                 ->arrayNode('styles')
                                     ->prototype('scalar')->end()
+                                    ->normalizeKeys(false)
                                     ->defaultValue([
-                                        'btn-sm', 'btn-lg', 'btn-primary', 'btn-default', 'btn-block', 'center-block'
+                                        'btn-sm' => 'Button small',
+                                        'btn-lg' => 'Button large',
+                                        'btn-primary' => 'Button primary',
+                                        'btn-default' => 'Button default',
+                                        'btn-block' => 'Button block',
+                                        'center-block' => 'Center block'
                                     ])
                                 ->end()
                             ->end()
