@@ -84,6 +84,7 @@ class Environment
     {
         return array(
             'environment' => $this,
+            'content' => $this->object,
             'block_mode' => $this->getBlockMode(),
         );
     }
