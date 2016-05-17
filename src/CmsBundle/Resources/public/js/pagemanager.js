@@ -154,7 +154,8 @@ $(document).ready(function() {
             title: 'Edit block',
             id: 'pm-dialog-edit',
             closable: true,
-            draggable: true
+            draggable: true,
+            tabindex: false
         });
 
         var onReady = function () {
