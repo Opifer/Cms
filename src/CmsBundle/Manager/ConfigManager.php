@@ -68,6 +68,23 @@ class ConfigManager
 
     /**
      * @param string $key
+     * @param mixed $value
+     */
+    public function set($key, $value)
+    {
+        $config = $this->get($key);
+
+        $object = new \stdClass();
+        $object->Value = $value;
+
+        $config->setValue($object);
+
+        $this->em->persist($config);
+        $this->em->flush();
+    }
+
+    /**
+     * @param string $key
      * @return Config
      */
     public function findOrCreate($key)
