@@ -79,7 +79,7 @@ class ConfigManager
 
         $config->setValue($object);
 
-        $this->em->persist($config);
+        $this->em->merge($config);
         $this->em->flush();
     }
 
