@@ -882,7 +882,7 @@ class Content implements ContentInterface, EntityInterface, TemplatedInterface, 
             $crumbs = $this->getParent()->getBreadCrumbs();
         }
 
-        $crumbs[$this->slug] = $this->getTitle();
+        $crumbs[$this->slug] = $this->getShortTitle();
 
         return $crumbs;
     }
