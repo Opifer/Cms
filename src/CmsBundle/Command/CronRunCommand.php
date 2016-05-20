@@ -88,9 +88,9 @@ class CronRunCommand extends ContainerAwareCommand
 
             $this->output->writeln(' > '.$process->getOutput());
 
-            if (!$process->isSuccessful() || !empty($process->getErrorOutput())) {
+            if (!$process->isSuccessful()) {
                 $this->output->writeln(' > '.$process->getErrorOutput());
-                $this->changeState($cron, Cron::STATE_CANCELED, $process->getErrorOutput());
+                $this->changeState($cron, Cron::STATE_FAILED, $process->getErrorOutput());
             } else {
                 $this->changeState($cron, Cron::STATE_FINISHED);
             }
