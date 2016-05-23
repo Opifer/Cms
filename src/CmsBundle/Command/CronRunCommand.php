@@ -82,6 +82,7 @@ class CronRunCommand extends ContainerAwareCommand
         $pb->add($cron->getCommand());
 
         $process = $pb->getProcess();
+        $process->setTimeout(3600);
 
         try {
             $process->mustRun();
