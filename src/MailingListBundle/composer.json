@@ -1,0 +1,18 @@
+{
+    "name": "opifer/mailinglist-bundle",
+    "type": "symfony-bundle",
+    "description": "Opifer Mailinglist Bundle",
+    "authors": [
+        {
+            "name": "Opifer",
+            "homepage": "http://www.opifer.nl/"
+        }
+    ],
+    "require": {
+        "php": ">=5.4",
+        "drewm/mailchimp-api": "^2.2"
+    },
+    "autoload": {
+        "psr-4": {"Opifer\\MailingListBundle\\": "."}
+    }
+}

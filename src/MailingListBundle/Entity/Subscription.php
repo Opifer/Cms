@@ -4,18 +4,24 @@ namespace Opifer\MailingListBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
+use APY\DataGridBundle\Grid\Mapping as Grid;
+
+use FOS\UserBundle\Model\UserInterface;
 
 /**
  * Subscription.
  *
  * @ORM\Table(name="subscription")
  * @ORM\Entity(repositoryClass="Opifer\MailingListBundle\Repository\SubscriptionRepository")
+ * @Gedmo\SoftDeleteable(fieldName="deletedAt")
+ * @Grid\Source(columns="id, email, status, updatedAt, syncedAt", groupBy={"id"})
  */
 class Subscription
 {
-    const STATUS_PENDING = 'pending';
-    const STATUS_SYNCED = 'synced';
-    const STATUS_FAILED = 'failed';
+    const STATUS_PENDING = 'pending'; // not yet opted-in
+    const STATUS_SUBSCRIBED = 'subscribed';
+    const STATUS_UNSUBSCRIBED = 'unsubscribed';
+    const STATUS_CLEANED = 'cleaned'; // has bounces
 
     /**
      * @var int
@@ -23,6 +29,8 @@ class Subscription
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
+     *
+     * @Grid\Column(title="label.id", size="10", type="number")
      */
     protected $id;
 
@@ -35,9 +43,19 @@ class Subscription
     protected $mailingList;
 
     /**
+     * @var UserInterface
+     *
+     * @ORM\ManyToOne(targetEntity="FOS\UserBundle\Model\UserInterface")
+     * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
+     */
+    protected $user;
+
+    /**
      * @var string
      *
-     * @ORM\Column(name="name", type="string", length=255)
+     * @ORM\Column(name="email", type="string", length=255)
+     *
+     * @Grid\Column(title="label.email")
      */
     protected $email;
 
@@ -45,14 +63,18 @@ class Subscription
      * @var string
      *
      * @ORM\Column(name="status", type="string", length=255)
+     *
+     * @Grid\Column(title="label.status")
      */
-    protected $status = self::STATUS_PENDING;
+    protected $status = self::STATUS_SUBSCRIBED;
 
     /**
      * @var \DateTime
      *
      * @ORM\Column(name="createdAt", type="datetime", nullable=true)
      * @Gedmo\Timestampable(on="create")
+     *
+     * @Grid\Column(title="label.created_at")
      */
     protected $createdAt;
 
@@ -61,6 +83,8 @@ class Subscription
      *
      * @ORM\Column(name="updatedAt", type="datetime")
      * @Gedmo\Timestampable(on="update")
+     *
+     * @Grid\Column(title="label.updated_at")
      */
     protected $updatedAt;
 
@@ -70,6 +94,15 @@ class Subscription
      * @ORM\Column(name="deletedAt", type="datetime", nullable=true)
      */
     protected $deletedAt;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="synced_at", type="datetime", nullable=true)
+     *
+     * @Grid\Column(title="label.synced_at")
+     */
+    protected $syncedAt;
 
     /**
      * Get id.
@@ -246,4 +279,43 @@ class Subscription
     {
         return $this->deletedAt;
     }
+
+    /**
+     * @return UserInterface
+     */
+    public function getUser()
+    {
+        return $this->user;
+    }
+
+    /**
+     * @param UserInterface $user
+     *
+     * @return Subscription
+     */
+    public function setUser($user)
+    {
+        $this->user = $user;
+        return $this;
+    }
+
+    /**
+     * @return \DateTime
+     */
+    public function getSyncedAt()
+    {
+        return $this->syncedAt;
+    }
+
+    /**
+     * @param \DateTime $syncedAt
+     *
+     * @return Subscription
+     */
+    public function setSyncedAt($syncedAt)
+    {
+        $this->syncedAt = $syncedAt;
+        return $this;
+    }
+
 }

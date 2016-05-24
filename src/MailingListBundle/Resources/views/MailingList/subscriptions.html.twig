@@ -1,0 +1,12 @@
+{% extends 'OpiferCmsBundle:Backend:base.html.twig' %}
+
+{% block body %}
+    <div class="col-xs-12">
+        <div class="page-header clearfix">
+            <small>{{ 'title.subscriptions'|trans }}</small><br />
+            <h1>{{ list.displayName }}</h1>
+        </div>
+    </div>
+
+    {% include 'OpiferCmsBundle:Components:grid.html.twig' with { 'grid': grid } %}
+{% endblock body %}

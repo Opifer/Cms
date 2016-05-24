@@ -4,7 +4,7 @@
     <section class="container">
         <div class="row">
             <div class="page-header clearfix">
-                <small>{{ 'title.mailing_List'|trans }}</small><br />
+                <small>{{ 'title.mailing_list'|trans }}</small><br />
                 <h1>{{ mailing_list.displayName }}</h1>
             </div>
             {{ form_start(form, {'style': 'horizontal' }) }}
@@ -12,7 +12,7 @@
                 <div class="form-group form-footer">
                     <div class="col-xs-12">
                         <input type="submit" value="{{ 'button.submit'|trans }}" class="btn btn-primary"/>
-                        <a href="{{ path('newyse_period_index') }}" class="btn btn-link pull-right">{{ 'button.cancel'|trans|capitalize }}</a>
+                        <a href="{{ path('opifer_mailing_list_mailing_list_index') }}" class="btn btn-link pull-right">{{ 'button.cancel'|trans|capitalize }}</a>
                     </div>
                 </div>
             {{ form_end(form) }}

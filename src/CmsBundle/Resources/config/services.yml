@@ -203,7 +203,7 @@ services:
 
     opifer.mailing_list.subscribe_block:
         class: Opifer\MailingListBundle\Block\Service\SubscribeBlockService
-        arguments: ['@templating', '%opifer_mailing_list.subscribe_block_configuration%', '@form.factory', '@doctrine.orm.default_entity_manager', '@opifer.content.content_manager']
+        arguments: ['@templating', '%opifer_mailing_list.subscribe_block_configuration%', '@form.factory', '@doctrine.orm.default_entity_manager', '@opifer.content.content_manager', '@opifer.mailinglist.subscription_manager']
         tags:
             - { name: opifer.content.block_service, alias: subscribe }
         calls:

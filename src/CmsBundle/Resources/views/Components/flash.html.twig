@@ -9,7 +9,7 @@
     <script>
         window.onload = function() {
             $(document).ready(function () {
-                $.notify({ icon: 'icon-warning', message: '{{ message|trans({}, translation_domain)|raw }}'}, {type: 'warning', placement: {from: "top", align: "center"}});
+                $.notify({ icon: 'icon-warning', message: '{{ message|trans({}, translation_domain)|raw }}'}, {type: 'warning', offset: 0, placement: {from: "top", align: "center"}});
             });
         };
     </script>
@@ -19,7 +19,7 @@
     <script>
         window.onload = function() {
             $(document).ready(function () {
-                $.notify({ icon: 'icon-error-outline', message: '{{ message|trans({}, translation_domain)|raw }}'}, {type: 'danger', placement: {from: "top", align: "center"}});
+                $.notify({ icon: 'icon-error-outline', message: '{{ message|trans({}, translation_domain)|raw }}'}, {type: 'danger', offset: 0, placement: {from: "top", align: "center"}});
             });
         };
     </script>
@@ -29,7 +29,7 @@
     <script>
         window.onload = function() {
             $(document).ready(function () {
-                $.notify({ icon: 'icon-info-outline', message: '{{ message|trans({}, translation_domain)|raw }}'}, {type: 'info', placement: {from: "top", align: "center"}});
+                $.notify({ icon: 'icon-info-outline', message: '{{ message|trans({}, translation_domain)|raw }}'}, {type: 'info', offset: 0, placement: {from: "top", align: "center"}});
             });
         };
     </script>
@@ -39,7 +39,7 @@
     <script>
         window.onload = function() {
             $(document).ready(function () {
-                $.notify({ icon: 'icon-check', message: '{{ message|trans({}, translation_domain)|raw }}'}, {type: 'success', placement: {from: "top", align: "center"}});
+                $.notify({ icon: 'icon-check', message: '{{ message|trans({}, translation_domain)|raw }}'}, {type: 'success', offset: 0, placement: {from: "top", align: "center"}});
             });
         };
     </script>

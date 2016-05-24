@@ -9,4 +9,12 @@ use Doctrine\ORM\EntityRepository;
  */
 class MailingListRepository extends EntityRepository
 {
+
+    public function findHasProviders()
+    {
+        return $this->createQueryBuilder('l')
+            ->andWhere('l.provider IS NOT NULL')
+            ->getQuery()
+            ->getResult();
+    }
 }

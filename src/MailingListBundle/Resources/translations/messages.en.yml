@@ -11,9 +11,17 @@ label:
     id: Id
     name: Name
     display_name: Display name
+    mailchimp_api_key: MailChimp API key
+    remote_list_id: Remote list id
+    subscriptions: Subscriptions
+    status: Status
+    updated_at: Updated at
+    synced_at: Synced at
 
 title:
+    mailing_list: Mailing list
     mailing_lists: Mailing lists
+    subscriptions: Subscriptions
 
 help:
     subscribe_mailinglist: Check to which mailinglists you want your visitor to subscribe after submit. This is not shown to the user.
@@ -23,3 +31,4 @@ button:
     edit: Edit
     cancel: Cancel
     save: Save
+    subscriptions: Subscriptions

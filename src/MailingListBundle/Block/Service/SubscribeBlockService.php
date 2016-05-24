@@ -4,6 +4,7 @@ namespace Opifer\MailingListBundle\Block\Service;
 
 use Doctrine\Common\Persistence\ObjectManager;
 use Doctrine\ORM\EntityRepository;
+use Guzzle\Tests\Service\Mock\Command\Sub\Sub;
 use Opifer\CmsBundle\Form\Type\CKEditorType;
 use Opifer\ContentBundle\Block\Service\AbstractBlockService;
 use Opifer\ContentBundle\Block\Service\BlockServiceInterface;
@@ -18,6 +19,7 @@ use Opifer\MailingListBundle\Entity\SubscribeBlock;
 use Opifer\MailingListBundle\Entity\Subscription;
 use Opifer\MailingListBundle\Form\DataTransformer\MailingListToArrayTransformer;
 use Opifer\MailingListBundle\Form\Type\SubscribeType;
+use Opifer\MailingListBundle\Manager\SubscriptionManager;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Bundle\FrameworkBundle\Templating\EngineInterface;
 use Symfony\Component\Form\CallbackTransformer;
@@ -47,6 +49,9 @@ class SubscribeBlockService extends AbstractBlockService implements BlockService
     /** @var ContentManager */
     protected $contentManager;
 
+    /** @var SubscriptionManager */
+    protected $subscriptionManager;
+
     /** @var Subscription */
     protected $subscription;
 
@@ -61,7 +66,7 @@ class SubscribeBlockService extends AbstractBlockService implements BlockService
      * @param array           $config
      * @param ObjectManager   $em
      */
-    public function __construct(EngineInterface $templating, array $config, FormFactory $formFactory, ObjectManager $em, ContentManager $contentManager)
+    public function __construct(EngineInterface $templating, array $config, FormFactory $formFactory, ObjectManager $em, ContentManager $contentManager, SubscriptionManager $subscriptionManager)
     {
         $this->templating = $templating;
         $this->config = $config;
@@ -69,6 +74,7 @@ class SubscribeBlockService extends AbstractBlockService implements BlockService
         $this->em = $em;
         $this->contentManager = $contentManager;
         $this->subscription = new Subscription();
+        $this->subscriptionManager = $subscriptionManager;
     }
 
     /**
@@ -151,15 +157,9 @@ class SubscribeBlockService extends AbstractBlockService implements BlockService
         $this->form->handleRequest($this->request);
 
         if ($this->form->isValid()) {
-            foreach ($this->getMailingLists($block) as $mailingList) {
-                $this->subscription->setMailingList($mailingList);
-                $this->em->persist($this->subscription);
-                $this->em->flush($this->subscription);
-
-                // Reset to add to another mailing list
-                $this->em->detach($this->subscription);
-                $this->subscription = clone $this->subscription;
-                $this->subscription->setId(null);
+            foreach ($this->getMailingLists($block) as $list) {
+                $subscription = $this->subscriptionManager->findOrCreate($list, $this->subscription->getEmail());
+                $this->subscriptionManager->save($subscription);
             }
 
             $this->subscribed = true;

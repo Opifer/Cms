@@ -45,7 +45,7 @@ class Content extends BaseContent
     protected $active = true;
 
     /**
-     * @var int
+     * @var User
      */
     protected $author;
 

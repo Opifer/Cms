@@ -2,6 +2,7 @@
 
 namespace Opifer\MailingListBundle\Provider;
 
+use Opifer\MailingListBundle\Entity\MailingList;
 use Opifer\MailingListBundle\Manager\SubscriptionManager;
 use Opifer\MailingListBundle\Entity\Subscription;
 use GuzzleHttp\Client as GuzzleClient;
@@ -42,7 +43,7 @@ class MailPlusProvider implements MailingListProviderInterface
      * @param Subscription $subscription
      * @return bool
      */
-    public function sync(Subscription $subscription)
+    public function synchronise(Subscription $subscription)
     {
         try {
             $contact = [
@@ -129,4 +130,29 @@ class MailPlusProvider implements MailingListProviderInterface
 
         return $this->client;
     }
+
+    /**
+     * @inheritDoc
+     */
+    public function getName()
+    {
+        return 'MailPlus';
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function synchroniseList(MailingList $mailingList, \Closure $logger)
+    {
+        // TODO: Implement synchroniseList() method.
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getRemoteLists()
+    {
+        return [];
+    }
+
 }
