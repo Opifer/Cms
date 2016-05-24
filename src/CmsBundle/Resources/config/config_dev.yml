@@ -14,12 +14,15 @@ monolog:
             type:  stream
             path:  '%kernel.logs_dir%/%kernel.environment%.log'
             level: debug
-        firephp:
-            type:  firephp
-            level: info
-        chromephp:
-            type:  chromephp
-            level: info
+        # uncomment to get logging in your browser
+        # you may have to allow bigger header sizes in your Web server configuration
+        # nginx will trip with 502 bad gateway if buffers are small (ngrok also)
+#        firephp:
+#            type:  firephp
+#            level: info
+#        chromephp:
+#            type:  chromephp
+#            level: info
 
 #swiftmailer:
 #    delivery_address: me@example.com
