@@ -41,7 +41,8 @@
         "willdurand/js-translation-bundle": "~2.2",
         "opifer/revisions": "@dev",
         "guzzlehttp/guzzle": "^6.0.0",
-        "guzzlehttp/oauth-subscriber": "^0.3.0"
+        "guzzlehttp/oauth-subscriber": "^0.3.0",
+        "drewm/mailchimp-api": "^2.2"
     },
     "require-dev": {
         "phpunit/phpunit": "~4.1",
