@@ -75,3 +75,7 @@ button:
     delete: Verwijderen
     edit: Bewerken
     reset: Herstellen
+    send: Verzenden
+
+caption:
+    required_fields: Deze velden zijn verplicht
