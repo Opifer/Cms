@@ -134,7 +134,7 @@ class MailChimpProvider implements MailingListProviderInterface
                 'status' => array_search($subscription->getStatus(), $this->statusMap),
             ]);
 
-            $logger(sprintf('Processed updates to MailChimp for %s - %d/%d', $member['email_address'], $i, count($subscriptions)));
+            $logger(sprintf('Processed updates to MailChimp for %s - %d/%d',  $subscription->getEmail(), $i, count($subscriptions)));
         }
 
         $list->setSyncedAt($now);

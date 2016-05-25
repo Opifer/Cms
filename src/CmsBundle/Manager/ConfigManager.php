@@ -90,7 +90,7 @@ class ConfigManager
     public function findOrCreate($key)
     {
         if ($this->exists($key)) {
-            return $this->get($key);
+            return $this->configs[$key];
         }
 
         $config = new $this->class();
