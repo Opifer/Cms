@@ -2,11 +2,13 @@
 
 {% block body %}
     {% spaceless %}
-        <div class="page-header clearfix">
-            <h1 class="pull-left">{{ 'form.posts_for'|trans({ '%name%': form.name }) }}</h1>
-            <a href="{{ path('opifer_form_form_edit', {'id': form.id}) }}" class="btn btn-default pull-right">
-                {{ 'form.back_to_form'|trans|capitalize }}
-            </a>
+        <div class="col-xs-12">
+            <div class="page-header clearfix">
+                <a href="{{ path('opifer_form_form_index') }}" class="btn btn-link pull-right">
+                    <i class="material-icons md-18">keyboard_return</i> {{ 'button.back_to_forms'|trans|capitalize }}
+                </a>
+                <h1>{{ 'form.posts_for'|trans({ '%name%': form.name }) }}</h1>
+            </div>
         </div>
 
         {% include 'OpiferCmsBundle:Components:grid.html.twig' with { 'grid': grid } %}

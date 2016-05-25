@@ -1,13 +1,30 @@
-{% extends 'OpiferCmsBundle:Backend:base.html.twig' %}
+{% extends 'OpiferContentBundle::base.html.twig' %}
 
-{% block body %}
-    {% spaceless %}
-        <div class="page-header clearfix">
-            <h1>{{ 'form.new_form'|trans|capitalize }}</h1>
-        </div>
+{% block opifer_content_body %}
 
-        <div class="container">
-            {% include 'OpiferCmsBundle:Backend/Form:_form.html.twig' %}
+    <section class="container">
+        <div class="row">
+            <div class="col-xs-12 col-md-10 col-md-offset-1">
+                <div class="page-header clearfix">
+                    <h1>
+                        <small>{{ 'title.edit_form'|trans }}</small><br />
+                        {{ 'title.new'|trans }}
+                    </h1>
+                </div>
+
+                {{ form_start(form_form, {'style': 'horizontal'}) }}
+                    {{ form_widget(form_form) }}
+                    <div class="form-group">
+                        <div class="col-xs-12">
+                            <button type="submit" class="btn btn-primary">{{ 'button.submit'|trans }}</button>
+                            <a href="{{ path('opifer_form_form_index') }}" class="btn btn-link pull-right">{{ 'button.cancel'|trans|capitalize }}</a>
+                        </div>
+                    </div>
+                {{ form_end(form_form) }}
+
+
+            </div>
         </div>
-    {% endspaceless %}
-{% endblock body %}
+    </section>
+
+{% endblock opifer_content_body %}

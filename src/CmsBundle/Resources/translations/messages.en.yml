@@ -124,8 +124,6 @@ form:
     permalink: permalink
     username: username
 
-    back_to_form: back to form
-    back_to_posts: back to posts
     post_on: 'Post %id% on "%name%"'
     posts_for: 'Posts for "%name%"'
     edit_form: 'Edit form "%name%"'
@@ -151,6 +149,8 @@ button:
     reset: Reset
     submit: Save
     quit: Quit
+    back_to_forms: Back to forms
+    back_to_posts: Back to posts
 
 # Labels
 label:

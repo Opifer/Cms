@@ -2,11 +2,13 @@
 
 {% block body %}
     {% spaceless %}
-        <div class="page-header clearfix">
-            <h1 class="pull-left">{{ 'form.post_on'|trans({ '%id%': post.id, '%name%': post.form.name }) }}</h1>
-            <a href="{{ path('opifer_form_post_index', {'formId': post.form.id}) }}" class="btn btn-default pull-right">
-                {{ 'form.back_to_posts'|trans|capitalize }}
-            </a>
+        <div class="col-xs-12">
+            <div class="page-header clearfix">
+                <a href="{{ path('opifer_form_post_index', {'formId': post.form.id}) }}" class="btn btn-link pull-right">
+                    <i class="material-icons md-18">keyboard_return</i>  {{ 'button.back_to_posts'|trans|capitalize }}
+                </a>
+                <h1>{{ 'form.post_on'|trans({ '%id%': post.id, '%name%': post.form.name }) }}</h1>
+            </div>
         </div>
 
         <div class="container">
