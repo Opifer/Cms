@@ -29,6 +29,14 @@ parameters:
     opifer.content.search_results_block.class: Opifer\ContentBundle\Block\Service\SearchResultsBlockService
 
 services:
+    opifer.content.button_block:
+        class: '%opifer.content.button_block.class%'
+        arguments: ['@templating', '%opifer_content.button_block_configuration%']
+        tags:
+            - { name: opifer.content.block_service, alias: button }
+        tags:
+            - { name: opifer.content.block_service, alias: css }
+
     opifer.content.carousel_block:
         class: '%opifer.content.carousel_block.class%'
         arguments: ['@templating', '%opifer_content.carousel_block_configuration%']
@@ -43,7 +51,7 @@ services:
 
     opifer.content.collection_block:
         class: '%opifer.content.collection_block.class%'
-        arguments: ['@templating', '@opifer.content.content_manager', '%opifer_content.collection_block_configuration%']
+        arguments: ['@templating', '@opifer.doctrine_expression_engine', '@opifer.content.content_manager', '@opifer.content.content_type_manager', '%opifer_content.collection_block_configuration%']
         tags:
             - { name: opifer.content.block_service, alias: collection }
 
@@ -65,6 +73,12 @@ services:
         tags:
             - { name: opifer.content.block_service, alias: image }
 
+    opifer.content.jumbotron_block:
+        class: '%opifer.content.jumbotron_block.class%'
+        arguments: ['@templating', '%opifer_content.jumbotron_block_configuration%']
+        tags:
+            - { name: opifer.content.block_service, alias: jumbotron }
+
     opifer.content.list_block:
         class: '%opifer.content.list_block.class%'
         arguments: ['@templating', '@opifer.content.content_manager', '%opifer_content.list_block_configuration%']
@@ -76,20 +90,6 @@ services:
         arguments: ['@templating', '@opifer.content.content_manager', '%opifer_content.navigation_block_configuration%']
         tags:
             - { name: opifer.content.block_service, alias: navigation }
-
-    opifer.content.jumbotron_block:
-        class: '%opifer.content.jumbotron_block.class%'
-        arguments: ['@templating', '%opifer_content.jumbotron_block_configuration%']
-        tags:
-            - { name: opifer.content.block_service, alias: jumbotron }
-
-    opifer.content.button_block:
-        class: '%opifer.content.button_block.class%'
-        arguments: ['@templating', '%opifer_content.button_block_configuration%']
-        tags:
-            - { name: opifer.content.block_service, alias: button }
-        tags:
-            - { name: opifer.content.block_service, alias: css }
 
     opifer.content_iframe_block:
         class: '%opifer.content.iframe_block.class%'

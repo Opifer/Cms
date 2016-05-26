@@ -411,6 +411,9 @@ $(document).ready(function() {
                     // Bootstrap AngularJS app (media library etc) after altering DOM
                     angular.bootstrap(editDialog.getModalBody().find('form'), ["MainApp"]);
 
+                    // Bootstrap ExpressionEngine ReactJS app
+                    initializeExpressionEngine();
+
                     if (tab) {
                         editDialog.getModalBody().find('.nav-tabs a[href="#block-'+tab+'"]').tab('show');
                     }

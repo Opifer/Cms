@@ -67,16 +67,14 @@ class ListBlockService extends AbstractBlockService implements BlockServiceInter
 
 
         if ($this->config['styles']) {
-
-            $propertiesForm
-                ->add('styles', ChoiceType::class, [
-                    'label' => 'label.styling',
-                    'choices'  => $this->config['styles'],
-                    'required' => false,
-                    'expanded' => true,
-                    'multiple' => true,
-                    'attr' => ['help_text' => 'help.html_styles'],
-                ]);
+            $propertiesForm->add('styles', ChoiceType::class, [
+                'label' => 'label.styling',
+                'choices'  => $this->config['styles'],
+                'required' => false,
+                'expanded' => true,
+                'multiple' => true,
+                'attr' => ['help_text' => 'help.html_styles'],
+            ]);
         }
     }
 

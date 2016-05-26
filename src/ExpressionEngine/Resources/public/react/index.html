@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Expression Engine</title>
+
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+
+    <!-- React -->
+    <script src="build/react-with-addons.js"></script>
+    <script src="build/react-dom.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.8.23/browser.min.js"></script>
+  </head>
+  <body>
+    <div id="expressionbuilder" expressions='[]' prototypes='[{"selector": "arrival","name": "Arrival Date","constraints": [{"value": "eq","name": "Equals"},{"value": "neq","name": "Not equals"}],"valueType": "select","choices": [{"value": "monday", "name":"Monday"},{"value": "tuesday", "name":"Tuesday"},{"value": "wednesday", "name":"Wednesday"}]},{"selector": "nights","name": "Nights","constraints": [{"value": "eq","name": "Equals"},{"value": "neq","name": "Not equals"}],"valueType": "number"}]'></div>
+    <script type="text/babel" src="expression-builder.js"></script>
+  </body>
+</html>

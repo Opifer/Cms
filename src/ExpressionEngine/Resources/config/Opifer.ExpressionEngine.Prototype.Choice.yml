@@ -1,0 +1,7 @@
+Opifer\ExpressionEngine\Prototype\Choice:
+  #exclusion_policy: ALL
+  properties:
+    name:
+      type: string
+    value:
+      type: string

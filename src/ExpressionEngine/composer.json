@@ -1,0 +1,18 @@
+{
+    "name": "opifer/expression-engine",
+    "description": "A dynamic expression engine",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Opifer",
+            "email": "support@opifer.nl"
+        }
+    ],
+    "require": {
+        "webmozart/expression": "^1.0",
+        "jms/serializer": "^1.0"
+    },
+    "suggest": {
+        "symfony/form": "For Symfony compatibility"
+    }
+}

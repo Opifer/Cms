@@ -1,0 +1,15 @@
+Opifer\ExpressionEngine\Prototype\Prototype:
+  #exclusion_policy: ALL
+  properties:
+    key:
+      type: string
+    selector:
+      type: string
+    constraints:
+      type: array<Opifer\ExpressionEngine\Prototype\Choice>
+    name:
+      type: string
+    type:
+      type: string
+    choices:
+      type: array<Opifer\ExpressionEngine\Prototype\Choice>

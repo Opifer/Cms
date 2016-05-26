@@ -7,6 +7,13 @@ use Symfony\Component\HttpFoundation\Request;
 interface ContentManagerInterface
 {
     /**
+     * Get the full class name of the Content entity
+     *
+     * @return string
+     */
+    public function getClass();
+
+    /**
      * Save content
      *
      * @param  ContentInterface $content
