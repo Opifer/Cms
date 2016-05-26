@@ -42,7 +42,8 @@
         "opifer/revisions": "@dev",
         "guzzlehttp/guzzle": "^6.0.0",
         "guzzlehttp/oauth-subscriber": "^0.3.0",
-        "drewm/mailchimp-api": "^2.2"
+        "drewm/mailchimp-api": "^2.2",
+        "webmozart/expression": "^1.0"
     },
     "require-dev": {
         "phpunit/phpunit": "~4.1",
