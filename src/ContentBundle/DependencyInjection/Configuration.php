@@ -132,6 +132,14 @@ class Configuration implements ConfigurationInterface
                             ->addDefaultsIfNotSet()
                             ->children()
                                 ->scalarNode('view')->defaultValue('OpiferContentBundle:Block:Content/collection.html.twig')->end()
+                                ->arrayNode('templates')
+                                    ->prototype('scalar')->end()
+                                    ->normalizeKeys(false)
+                                    ->useAttributeAsKey('name')
+                                    ->defaultValue([
+                                        'default' => 'Default',
+                                    ])
+                                ->end()
                             ->end()
                         ->end()
                         ->arrayNode('iframe')

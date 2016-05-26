@@ -2,41 +2,51 @@
 
 namespace Opifer\ContentBundle\Block\Service;
 
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\ORM\EntityManager;
 use Opifer\ContentBundle\Block\Tool\Tool;
 use Opifer\ContentBundle\Block\Tool\ToolsetMemberInterface;
 use Opifer\ContentBundle\Entity\CollectionBlock;
 use Opifer\ContentBundle\Model\BlockInterface;
 use Opifer\ContentBundle\Model\ContentManagerInterface;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Opifer\ContentBundle\Model\ContentTypeInterface;
+use Opifer\ContentBundle\Model\ContentTypeManager;
+use Opifer\ExpressionEngine\DoctrineExpressionEngine;
+use Opifer\ExpressionEngine\Form\Type\ExpressionEngineType;
+use Opifer\ExpressionEngine\Prototype\Choice;
+use Opifer\ExpressionEngine\Prototype\Prototype;
 use Symfony\Bundle\FrameworkBundle\Templating\EngineInterface;
-use Symfony\Component\Form\CallbackTransformer;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
-use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\FormType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\Form\FormInterface;
+use Webmozart\Expression\Constraint\Equals;
+use Webmozart\Expression\Constraint\NotEquals;
 
 /**
- * Content Collection Block Service
+ * Content Collection Block Service.
  */
 class CollectionBlockService extends AbstractBlockService implements BlockServiceInterface, ToolsetMemberInterface
 {
     /** @var ContentManagerInterface */
     protected $contentManager;
 
+    /** @var ContentTypeManager */
+    protected $contentTypeManager;
+
+    /** @var DoctrineExpressionEngine */
+    protected $expressionEngine;
+
     /**
      * @param EngineInterface         $templating
      * @param ContentManagerInterface $contentManager
      * @param array                   $config
      */
-    public function __construct(EngineInterface $templating, ContentManagerInterface $contentManager, array $config)
+    public function __construct(EngineInterface $templating, DoctrineExpressionEngine $expressionEngine, ContentManagerInterface $contentManager, ContentTypeManager $contentTypeManager, array $config)
     {
         parent::__construct($templating, $config);
 
+        $this->expressionEngine = $expressionEngine;
         $this->contentManager = $contentManager;
+        $this->contentTypeManager = $contentTypeManager;
     }
 
     /**
@@ -49,11 +59,14 @@ class CollectionBlockService extends AbstractBlockService implements BlockServic
         // Default panel
         $builder->add(
             $builder->create('properties', FormType::class)
+                ->add('conditions', ExpressionEngineType::class, [
+                    'prototypes' => $this->getPrototypes(),
+                ])
                 ->add('order_by', ChoiceType::class, [
                     'label' => 'Order by',
                     'choices' => [
                         'Creation Date' => 'createdAt',
-                        'Title' => 'title'
+                        'Title' => 'title',
                     ],
                     'choices_as_values' => true,
                 ])
@@ -61,12 +74,67 @@ class CollectionBlockService extends AbstractBlockService implements BlockServic
                     'label' => 'Order direction',
                     'choices' => [
                         'Ascending' => 'ASC',
-                        'Descending' => 'DESC'
+                        'Descending' => 'DESC',
                     ],
                     'choices_as_values' => true,
                 ])
                 ->add('limit', IntegerType::class)
+                ->add('template', ChoiceType::class, [
+                    'label' => 'label.template',
+                    'placeholder' => 'placeholder.choice_optional',
+                    'attr' => ['help_text' => 'help.block_template'],
+                    'choices' => $this->config['templates'],
+                    'required' => false,
+                ])
         );
+    }
+
+    protected function getPrototypes()
+    {
+        $prototypes = [];
+
+        $prototype = new Prototype();
+        $prototype->setKey('1');
+        $prototype->setName('Content Type');
+        $prototype->setSelector('contentType.id');
+        $prototype->setConstraints([
+            new Choice(Equals::class, 'Equals'),
+            new Choice(NotEquals::class, 'Not Equals'),
+        ]);
+        $prototype->setType(Prototype::TYPE_SELECT);
+        $prototype->setChoices($this->getContentTypeChoices());
+        $prototypes[] = $prototype;
+
+        $prototype = new Prototype();
+        $prototype->setKey('2');
+        $prototype->setName('Status');
+        $prototype->setSelector('active');
+        $prototype->setConstraints([
+            new Choice(Equals::class, 'Equals'),
+            new Choice(NotEquals::class, 'Not Equals'),
+        ]);
+        $prototype->setType(Prototype::TYPE_SELECT);
+        $prototype->setChoices([
+            new Choice(true, 'Active'),
+            new Choice(false, 'Inactive'),
+        ]);
+        $prototypes[] = $prototype;
+
+        return $prototypes;
+    }
+
+    protected function getContentTypeChoices()
+    {
+        $choices = [];
+
+        /** @var ContentTypeInterface[] $contentTypes */
+        $contentTypes = $this->contentTypeManager->getRepository()->findAll();
+
+        foreach ($contentTypes as $contentType) {
+            $choices[] = new Choice($contentType->getId(), $contentType->getName());
+        }
+
+        return $choices;
     }
 
     /**
@@ -76,13 +144,13 @@ class CollectionBlockService extends AbstractBlockService implements BlockServic
     {
         $properties = $block->getProperties();
 
-        $qb = $this->contentManager->getRepository()
-            ->createQueryBuilder('c');
+        $conditions = $this->expressionEngine->deserialize($properties['conditions']);
+        $qb = $this->expressionEngine->toQueryBuilder($conditions, $this->contentManager->getClass());
 
         if (isset($properties['order_by'])) {
             $direction = (isset($properties['order_direction'])) ? $properties['order_direction'] : 'ASC';
 
-            $qb->orderBy('c.'.$properties['order_by'], $direction);
+            $qb->orderBy('a.'.$properties['order_by'], $direction);
         }
 
         $limit = (isset($properties['limit'])) ? $properties['limit'] : 10;
@@ -96,7 +164,7 @@ class CollectionBlockService extends AbstractBlockService implements BlockServic
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function createBlock()
     {
@@ -104,7 +172,7 @@ class CollectionBlockService extends AbstractBlockService implements BlockServic
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getTool(BlockInterface $block = null)
     {

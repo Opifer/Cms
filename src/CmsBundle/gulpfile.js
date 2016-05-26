@@ -8,6 +8,7 @@ var gulp = require('gulp'),
     uglifycss = require('gulp-uglifycss'),
     less = require('gulp-less'),
     fs = require('fs'),
+    react = require('gulp-react'),
     concat = require('gulp-concat'),
     sourcemaps = require('gulp-sourcemaps'),
     livereload = require('gulp-livereload'),
@@ -15,7 +16,7 @@ var gulp = require('gulp'),
     env = process.env.SYMFONY_ENV;
 
 // JAVASCRIPT TASK: write one minified js file out of jquery.js, bootstrap.js and all of my custom js files
-gulp.task('js', function () {
+gulp.task('js', ['react'], function () {
     var files = [
         'Resources/public/components/ng-file-upload/ng-file-upload-shim.min.js',
         'Resources/public/components/jquery/dist/jquery.min.js',
@@ -49,10 +50,16 @@ gulp.task('js', function () {
         'Resources/public/components/codemirror/mode/css/css.js',
         'Resources/public/components/remarkable-bootstrap-notify/bootstrap-notify.js',
         'Resources/public/components/bootstrap3-dialog/dist/js/bootstrap-dialog.js',
+
+        'node_modules/react/dist/react-with-addons.min.js',
+        'node_modules/react-dom/dist/react-dom.min.js',
+
+        'Resources/public/js/react.js',
         'Resources/public/js/split-pane.js',
         'Resources/public/js/main.js',
         'Resources/public/js/pagemanager.js',
         'Resources/public/angular/app.js',
+
         '../ContentBundle/Resources/public/js/app.js',
         '../ContentBundle/Resources/public/app/content/content.js',
         '../MediaBundle/Resources/public/app/modal/modal.js',
@@ -78,6 +85,17 @@ gulp.task('js', function () {
 
     return gulp.src(files)
         .pipe(concat('app.js'))
+        .pipe(sourcemaps.write('./'))
+        .pipe(gulp.dest('Resources/public/js'));
+});
+
+// REACT TASK
+gulp.task('react', function () {
+    return gulp.src([
+            '../ExpressionEngine/Resources/public/react/expression-engine.js'
+        ])
+        .pipe(react())
+        .pipe(concat('react.js'))
         .pipe(sourcemaps.write('./'))
         .pipe(gulp.dest('Resources/public/js'));
 });

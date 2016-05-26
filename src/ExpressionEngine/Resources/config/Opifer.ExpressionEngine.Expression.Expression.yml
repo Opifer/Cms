@@ -1,0 +1,10 @@
+Opifer\ExpressionEngine\Expression\Expression:
+  properties:
+    selector:
+      type: string
+    constraint:
+      type: string
+    value:
+      type: string
+    children:
+      type: "array<Opifer\ExpressionEngine\Expression\Expression>"

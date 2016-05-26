@@ -208,3 +208,18 @@ services:
             - { name: opifer.content.block_service, alias: subscribe }
         calls:
             - [setRequest, ['@request_stack']]
+
+    # Expression Engine services
+
+    opifer.expression_engine:
+        class: 'Opifer\ExpressionEngine\ExpressionEngine'
+
+    opifer.doctrine_expression_engine:
+        class: 'Opifer\ExpressionEngine\DoctrineExpressionEngine'
+        arguments: ['@doctrine.orm.entity_manager']
+
+    opifer.expression_engine_type:
+        class: 'Opifer\ExpressionEngine\Form\Type\ExpressionEngineType'
+        arguments: ['@opifer.expression_engine']
+        tags:
+            - { name: 'form.type' }
