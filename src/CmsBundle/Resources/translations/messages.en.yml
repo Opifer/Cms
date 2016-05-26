@@ -5,6 +5,7 @@ title:
     config: Configuration
     mailing_list: Mailing List
     mailing_list_plural: Mailing Lists
+    review: Reviews
 
 # Base
 base:

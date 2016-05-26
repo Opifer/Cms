@@ -99,12 +99,17 @@ services:
         tags:
             - { name: 'form.type' }
 
-    # Form Type Extension
+    # Form Type Extensions
 
     opifer.cms.redirect_type_extension:
-        class: Opifer\CmsBundle\Form\Extension\RedirectTypeExtension
+        class: 'Opifer\CmsBundle\Form\Extension\RedirectTypeExtension'
         tags:
-            - { name: form.type_extension, extended_type: Opifer\RedirectBundle\Form\Type\RedirectType }
+            - { name: 'form.type_extension', extended_type: 'Opifer\RedirectBundle\Form\Type\RedirectType' }
+
+    opifer.cms.review_type_extension:
+        class: 'Opifer\CmsBundle\Form\Extension\ReviewTypeExtension'
+        tags:
+            - { name: 'form.type_extension', extended_type: 'Opifer\ReviewBundle\Form\Type\ReviewType' }
 
     # Entity Managers
 
@@ -112,7 +117,7 @@ services:
         class: 'Opifer\CmsBundle\Manager\ContentManager'
         arguments: ['@doctrine.orm.default_entity_manager', '@form.factory', '@opifer.eav.eav_manager', '%opifer_content.content_class%', '%opifer_eav.schema_class%', '@security.token_storage']
         tags:
-            - { name: opifer.content.block_provider_pool, alias: 'content' }
+            - { name: 'opifer.content.block_provider_pool', alias: 'content' }
 
     # Event Listeners
 
@@ -195,12 +200,18 @@ services:
     # Block Services
 
     opifer.mailing_list.subscribe_block:
-        class: Opifer\MailingListBundle\Block\Service\SubscribeBlockService
+        class: 'Opifer\MailingListBundle\Block\Service\SubscribeBlockService'
         arguments: ['@templating', '%opifer_mailing_list.subscribe_block_configuration%', '@form.factory', '@doctrine.orm.default_entity_manager', '@opifer.content.content_manager', '@opifer.mailinglist.subscription_manager']
         tags:
-            - { name: opifer.content.block_service, alias: subscribe }
+            - { name: 'opifer.content.block_service', alias: 'subscribe' }
         calls:
             - [setRequest, ['@request_stack']]
+
+    opifer.cms.review_block:
+        class: 'Opifer\CmsBundle\Block\Service\ReviewBlockService'
+        arguments: ['@templating', [], '@opifer.review.review_manager']
+        tags:
+            - { name: 'opifer.content.block_service', alias: 'review' }
 
     # Expression Engine services
 

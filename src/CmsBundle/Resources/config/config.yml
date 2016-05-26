@@ -274,3 +274,11 @@ opifer_cms:
         user:
             class: 'Opifer\CmsBundle\Entity\User'
             property: 'email'
+
+opifer_review:
+    review:
+        class: 'Opifer\CmsBundle\Entity\Review'
+        views:
+            index: 'OpiferCmsBundle:Backend/Review:index.html.twig'
+            create: 'OpiferCmsBundle:Backend/Review:create.html.twig'
+            edit: 'OpiferCmsBundle:Backend/Review:edit.html.twig'

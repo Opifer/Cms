@@ -128,6 +128,9 @@ opifer_redirect_admin:
 opifer_form_admin:
     resource: "@OpiferFormBundle/Resources/config/routing_admin.yml"
 
+opifer_review_admin:
+    resource: "@OpiferReviewBundle/Resources/config/routing.yml"
+
 opifer_eav_admin:
     resource: "@OpiferEavBundle/Resources/config/routing.yml"
 
@@ -185,3 +188,7 @@ opifer_form_post_index:
     defaults: { _controller: OpiferCmsBundle:Backend/Post:index }
     requirements:
         formId: \d+
+
+opifer_review_review_index:
+    path: /review
+    defaults: { _controller: OpiferCmsBundle:Backend/Review:index }

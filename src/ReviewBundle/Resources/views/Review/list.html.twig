@@ -1,0 +1,11 @@
+<div class="reviews" {{ manage_tags() }}>
+    {% for testimonial in testimonials %}
+        <div class="row">
+            <h2>{{ testimonial.title|capitalize }}</h2>
+            <p class="subhead">{{ testimonial.createdAt|localizeddate('long', 'none', app.request.locale, 'Europe/Amsterdam') }}</p>
+            <p>
+                {{ testimonial.content }}
+            </p>
+        </div>
+    {% endfor %}
+</div>

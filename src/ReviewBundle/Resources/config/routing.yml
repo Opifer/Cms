@@ -1,0 +1,15 @@
+opifer_review_review_index:
+    path: /reviews
+    defaults: { _controller: OpiferReviewBundle:Review:index }
+
+opifer_review_review_create:
+    path: /reviews/create
+    defaults: { _controller: OpiferReviewBundle:Review:create }
+
+opifer_review_review_edit:
+    path: /reviews/edit/{id}
+    defaults: { _controller: OpiferReviewBundle:Review:edit }
+
+opifer_review_review_delete:
+    path: /reviews/delete/{id}
+    defaults: { _controller: OpiferReviewBundle:Review:delete }
