@@ -129,6 +129,20 @@ class Content implements ContentInterface, EntityInterface, TemplatedInterface, 
     protected $slug;
 
     /**
+     * @var bool
+     *
+     * @ORM\Column(name="indexable", type="boolean")
+     */
+    protected $indexable = true;
+
+    /**
+     * @var bool
+     *
+     * @ORM\Column(name="searchable", type="boolean")
+     */
+    protected $searchable = true;
+
+    /**
      * @Gedmo\TreeLeft
      * @ORM\Column(name="lft", type="integer")
      */
@@ -422,6 +436,74 @@ class Content implements ContentInterface, EntityInterface, TemplatedInterface, 
         $this->contentType = $contentType;
 
         return $this;
+    }
+
+    /**
+     * Set indexable
+     *
+     * @param bool $indexable
+     *
+     * @return Content
+     */
+    public function setIndexable($indexable)
+    {
+        $this->indexable = $indexable;
+
+        return $this;
+    }
+
+    /**
+     * Get indexable.
+     *
+     * @return bool
+     */
+    public function getIndexable()
+    {
+        return $this->indexable;
+    }
+
+    /**
+     * Is indexable.
+     *
+     * @return bool
+     */
+    public function isIndexable()
+    {
+        return ($this->indexable) ? true : false;
+    }
+
+    /**
+     * Set searchable.
+     *
+     * @param bool $searchable
+     *
+     * @return Content
+     */
+    public function setSearchable($searchable)
+    {
+        $this->searchable = $searchable;
+
+        return $this;
+    }
+
+    /**
+     * Get searchable.
+     *
+     * @return bool
+     */
+    public function getSearchable()
+    {
+        return $this->searchable;
+    }
+
+    /**
+     * Is searchable.
+     *
+     * @return bool
+     */
+    public function isSearchable()
+    {
+        return ($this->searchable) ? true : false;
     }
 
     /**

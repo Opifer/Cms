@@ -1,3 +1,11 @@
+label:
+    indexable: Indexeerbaar
+    searchable: Zoekbaar
+
+help:
+    indexable: Sta zoekmachines toe om deze pagina te indexeren
+    searchable: Toon de pagina in zoekresultaten
+
 # Content
 content:
     edit:

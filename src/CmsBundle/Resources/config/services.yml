@@ -7,7 +7,6 @@ parameters:
     opifer.cms.form.attribute_parameters.class: Opifer\CmsBundle\Form\Type\AttributeParametersType
     opifer.cms.form.ckeditor_type.class: Opifer\CmsBundle\Form\Type\CKEditorType
     opifer.cms.form.collapsible_collection.class: Opifer\CmsBundle\Form\Type\CollapsibleCollectionType
-    opifer.cms.form.content.class: Opifer\CmsBundle\Form\Type\ContentFormType
     opifer.cms.form.google_address.class: Opifer\CmsBundle\Form\Type\GoogleAddressType
     opifer.cms.form.menu_group.class: Opifer\CmsBundle\Form\Type\MenuGroupType
     opifer.cms.form.menu_parameters.class: Opifer\CmsBundle\Form\Type\MenuParametersType
@@ -62,12 +61,6 @@ services:
 
     opifer.cms.form.collapsible_collection:
         class: '%opifer.cms.form.collapsible_collection.class%'
-        tags:
-            - { name: 'form.type' }
-
-    opifer.cms.form.content:
-        class: '%opifer.cms.form.content.class%'
-        arguments: ['@translator']
         tags:
             - { name: 'form.type' }
 

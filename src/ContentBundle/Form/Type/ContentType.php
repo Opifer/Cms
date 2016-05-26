@@ -90,6 +90,22 @@ class ContentType extends AbstractType
                     'help_text' => 'help.active'
                 ],
             ])
+            ->add('indexable', CheckboxType::class, [
+                'label' => 'label.indexable',
+                'attr' => [
+                    'align_with_widget' => true,
+                    'class' => 'before-form-section',
+                    'help_text' => 'help.indexable',
+                ],
+            ])
+            ->add('searchable', CheckboxType::class, [
+                'label' => 'label.searchable',
+                'attr' => [
+                    'align_with_widget' => true,
+                    'class' => 'before-form-section',
+                    'help_text' => 'help.searchable',
+                ],
+            ])
             ->add('showInNavigation', CheckboxType::class, [
                 'attr' => [
                     'align_with_widget' => true,
