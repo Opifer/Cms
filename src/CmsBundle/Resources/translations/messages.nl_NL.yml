@@ -257,12 +257,12 @@ label:
     version_new: Nieuwe versie
 
 help:
-    html_id: Een id attribuut voor dit html-element
     extra_classes: Extra CSS klassen toepassen (bijvoorbeeld icm een CSS block)
     column_spans: Verdeel 12 eenheden over de schermgroottes om andere breedte kolommen te maken.
     column_gutters: Pas de breedte van de goot tussen de kolommen aan
-    html_styles: Pas extra CSS stijl-klassen toe op dit element.
     container_sizing: Pas de weergave aan van de container
+    html_id: Een id attribuut voor dit html-element
+    html_styles: Pas extra CSS stijl-klassen toe op dit element.
 
 #Delete confirmation
 confirmation:

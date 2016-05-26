@@ -50,16 +50,6 @@ class Content extends BaseContent
     protected $author;
 
     /**
-     * @var bool
-     */
-    protected $indexable = true;
-
-    /**
-     * @var bool
-     */
-    protected $searchable = true;
-
-    /**
      * @var string
      *
      * @JMS\Expose
@@ -156,74 +146,6 @@ class Content extends BaseContent
     public function getSite()
     {
         return $this->site;
-    }
-
-    /**
-     * Set indexable
-     *
-     * @param bool $indexable
-     *
-     * @return Content
-     */
-    public function setIndexable($indexable)
-    {
-        $this->indexable = $indexable;
-
-        return $this;
-    }
-
-    /**
-     * Get indexable.
-     *
-     * @return bool
-     */
-    public function getIndexable()
-    {
-        return $this->indexable;
-    }
-
-    /**
-     * Is indexable.
-     *
-     * @return bool
-     */
-    public function isIndexable()
-    {
-        return ($this->indexable) ? true : false;
-    }
-
-    /**
-     * Set searchable.
-     *
-     * @param bool $searchable
-     *
-     * @return Content
-     */
-    public function setSearchable($searchable)
-    {
-        $this->searchable = $searchable;
-
-        return $this;
-    }
-
-    /**
-     * Get searchable.
-     *
-     * @return bool
-     */
-    public function getSearchable()
-    {
-        return $this->searchable;
-    }
-
-    /**
-     * Is searchable.
-     *
-     * @return bool
-     */
-    public function isSearchable()
-    {
-        return ($this->searchable) ? true : false;
     }
 
     /**

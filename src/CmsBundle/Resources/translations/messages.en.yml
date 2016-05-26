@@ -37,16 +37,10 @@ content:
             advanced: advanced
         success: "%title% was saved successfully!"
     form:
-        indexable:
-            help_text: Allow search engines to index this page
-            label: Indexable
         init:
             submit: continue
         locale:
             help_text: ""
-        searchable:
-            help_text: Allow this page to end up in search results
-            label: Searchable
         site:
             help_text: Choose the site you want to create the content in
         submit: Save

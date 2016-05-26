@@ -3,14 +3,13 @@
 namespace Opifer\ContentBundle\Controller\Backend;
 
 use Opifer\CmsBundle\Manager\ContentManager;
-use Opifer\ContentBundle\Entity\DocumentBlock;
 use Opifer\ContentBundle\Form\Type\ContentType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
- * Backend Content Controller
+ * Backend Content Controller.
  */
 class ContentController extends Controller
 {
@@ -26,6 +25,7 @@ class ContentController extends Controller
 
     /**
      * @param int $type
+     *
      * @return Response
      */
     public function typeAction($type)
@@ -43,21 +43,18 @@ class ContentController extends Controller
     /**
      * Select the type of content before actually creating a new content item.
      *
-     * @param Request $request
-     * @param integer $type
-     *
      * @return Response
      */
     public function selectTypeAction()
     {
         $contentTypes = $this->get('opifer.content.content_type_manager')->getRepository()->findAll();
 
-        if (! $contentTypes) {
+        if (!$contentTypes) {
             return $this->redirectToRoute('opifer_content_content_create');
         }
 
         return $this->render($this->getParameter('opifer_content.content_select_type'), [
-            'content_types' => $contentTypes
+            'content_types' => $contentTypes,
         ]);
     }
 
@@ -65,7 +62,7 @@ class ContentController extends Controller
      * Create a new content item.
      *
      * @param Request $request
-     * @param integer $type
+     * @param int     $type
      *
      * @return Response
      */
@@ -89,8 +86,8 @@ class ContentController extends Controller
             $manager->save($content);
 
             return $this->redirectToRoute('opifer_content_contenteditor_design', [
-                'owner'    => 'content',
-                'ownerId'      => $content->getId()
+                'owner' => 'content',
+                'ownerId' => $content->getId(),
             ]);
         }
 
@@ -99,12 +96,11 @@ class ContentController extends Controller
         ]);
     }
 
-
     /**
-     * Edit the details of Content
+     * Edit the details of Content.
      *
      * @param Request $request
-     * @param integer $type
+     * @param int     $id
      *
      * @return Response
      */
@@ -131,10 +127,10 @@ class ContentController extends Controller
     }
 
     /**
-     * Details action for an inline form in the Content Design
+     * Details action for an inline form in the Content Design.
      *
      * @param Request $request
-     * @param integer $directoryId
+     * @param int     $id
      *
      * @return \Symfony\Component\HttpFoundation\Response
      */
@@ -153,10 +149,9 @@ class ContentController extends Controller
 
         return $this->render($this->getParameter('opifer_content.content_details_view'), [
             'content' => $content,
-            'form' => $form->createView()
+            'form' => $form->createView(),
         ]);
     }
-
 
     public function historyAction(Request $request, $owner, $ownerId)
     {
