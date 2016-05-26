@@ -1,0 +1,14 @@
+{% extends 'OpiferCmsBundle:Backend:base.html.twig' %}
+
+{% block body %}
+    <div class="col-xs-12">
+        <div class="page-header clearfix">
+            <a href="{{ path('opifer_review_review_create') }}" class="btn btn-link pull-right">
+                <i class="material-icons">add</i> {{ 'button.add'|trans }}
+            </a>
+            <h1>{{ 'title.review'|trans|capitalize }}</h1>
+        </div>
+    </div>
+
+    {% include 'OpiferCmsBundle:Components:grid.html.twig' with { 'grid': grid } %}
+{% endblock body %}

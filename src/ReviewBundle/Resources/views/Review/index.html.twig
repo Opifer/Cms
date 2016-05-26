@@ -1,0 +1,40 @@
+{% extends 'OpiferReviewBundle::base.html.twig' %}
+
+{% block opifer_review_body %}
+    {% spaceless %}
+
+        <div class="container">
+            <div class="row">
+
+                <div class="page-header">
+                    <a href="{{ path('opifer_review_review_create') }}" class="btn btn-link pull-right">
+                        <i class="material-icons">add</i>
+                        New review
+                    </a>
+                    <h1>Reviews</h1>
+                </div>
+                <table class="table table-striped">
+                    <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Author</th>
+                        <th></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for review in reviews %}
+                        <tr>
+                            <td>{{ review.id }}</td>
+                            <td>{{ review.author }}</td>
+                            <td>
+                                <a href="{{ path('opifer_review_review_edit', {'id': review.id}) }}"><i class="fa fa-edit"></i> Edit</a>
+                                <a href="{{ path('opifer_review_review_delete', {'id': review.id}) }}"><i class="fa fa-remove"></i> Delete</a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    {% endspaceless %}
+{% endblock opifer_review_body %}

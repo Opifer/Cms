@@ -1,0 +1,25 @@
+Opifer\CmsBundle\Entity\Review:
+    type: mappedSuperclass
+    table: review
+    id:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: IDENTITY
+    fields:
+        title:
+            type: string
+        author:
+            type: string
+        content:
+            type: text
+        createdAt:
+            type: datetime
+    manyToOne:
+        avatar:
+            targetEntity: Opifer\MediaBundle\Model\MediaInterface
+            joinColumns:
+                avatar_id:
+                    referencedColumnName: id
+                    onDelete: CASCADE

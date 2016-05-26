@@ -13,9 +13,9 @@ Add OpiferCmsBundle to your composer.json:
 To avoid enabling all required bundles, extend `Opifer\CmsBundle\Kernel\Kernel` in `app/AppKernel.php`:
 
 ```php
-use Opifer\CmsBundle\Kernel\Kernel;
+use Opifer\CmsBundle\CmsKernel;
 
-class AppKernel extends Kernel
+class AppKernel extends CmsKernel
 {
     /**
      * Register bundles
