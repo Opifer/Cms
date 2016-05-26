@@ -267,4 +267,60 @@ class ContentRepository extends NestedTreeRepository
 
         return $query->getQuery()->getResult();
     }
+
+    /**
+     * Find related content to block with value like $search.
+     *
+     * @param string $term
+     *
+     * @return Content[]
+     */
+    public function search($term)
+    {
+        $qb = $this->createQueryBuilder('c');
+
+        $results = $qb
+            ->innerjoin('c.blocks', 'b', 'WITH', 'c.id = b.content')
+            ->where($qb->expr()->orX(
+                $qb->expr()->like('c.title', ':term'),
+                $qb->expr()->like('c.description', ':term'),
+                $qb->expr()->like('b.value', ':term')
+            ))
+            ->andWhere('c.searchable = :searchable')
+            ->andWhere('c.active = :active')
+            ->setParameter('term', '%'.$term.'%')
+            ->setParameter('searchable', true)
+            ->setParameter('active', true)
+            ->groupBy('c.id')
+            ->orderBy('c.id')
+            ->getQuery()
+            ->getResult();
+
+        return $this->sortSearchResults($results, $term);
+    }
+
+    /**
+     * Sort search results by giving priority to founded by title.
+     *
+     * @param array  $results
+     * @param string $term
+     *
+     * @return ArrayCollection
+     */
+    public function sortSearchResults($results, $term)
+    {
+        $sortedResults = [];
+
+        if (!empty($results)) {
+            foreach ($results as $result) {
+                if (stripos($result->getTitle(), $term) !== false) {
+                    array_unshift($sortedResults, $result);
+                } else {
+                    $sortedResults[] = $result;
+                }
+            }
+        }
+
+        return $sortedResults;
+    }
 }

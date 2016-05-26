@@ -2,6 +2,7 @@
 
 namespace Opifer\ContentBundle\Block\Service;
 
+use Opifer\ContentBundle\Model\Content;
 use Opifer\ContentBundle\Model\ContentManagerInterface;
 use Opifer\ContentBundle\Entity\SearchResultsBlock;
 use Opifer\ContentBundle\Block\Service\AbstractBlockService;
@@ -18,8 +19,11 @@ use Symfony\Component\HttpFoundation\RequestStack;
  */
 class SearchResultsBlockService extends AbstractBlockService implements BlockServiceInterface, ToolsetMemberInterface
 {
-    /** @var Request */
-    protected $request;
+    /** @var RequestStack */
+    protected $requestStack;
+
+    /** @var ContentManagerInterface */
+    protected $contentManager;
 
     /**
      * @param EngineInterface $templating
@@ -28,9 +32,9 @@ class SearchResultsBlockService extends AbstractBlockService implements BlockSer
      */
     public function __construct(EngineInterface $templating, ContentManagerInterface $contentManager, array $config)
     {
-        $this->templating = $templating;
+        parent::__construct($templating, $config);
+
         $this->contentManager = $contentManager;
-        $this->config = $config;
     }
 
     /**
@@ -41,11 +45,9 @@ class SearchResultsBlockService extends AbstractBlockService implements BlockSer
         return new SearchResultsBlock;
     }
 
-    public function setRequest(RequestStack $request)
-    {
-        $this->request = $request->getCurrentRequest();
-    }
-
+    /**
+     * {@inheritDoc}
+     */
     public function getViewParameters(BlockInterface $block)
     {
         $parameters = [
@@ -57,10 +59,16 @@ class SearchResultsBlockService extends AbstractBlockService implements BlockSer
         return $parameters;
     }
 
-    public function getSearchResults(){
-        $search = $this->request->get('search');
+    /**
+     * Get the search results
+     *
+     * @return Content[]
+     */
+    public function getSearchResults()
+    {
+        $term = $this->getRequest()->get('search', '');
 
-        return (!empty($search)) ? $this->contentManager->getRepository()->getRelatedContentToBlocks($search) : null;
+        return $this->contentManager->getRepository()->search($term);
     }
 
     /**
@@ -74,5 +82,21 @@ class SearchResultsBlockService extends AbstractBlockService implements BlockSer
             ->setDescription('Lists search results from a user query');
 
         return $tool;
+    }
+
+    /**
+     * @param RequestStack $requestStack
+     */
+    public function setRequest(RequestStack $requestStack)
+    {
+        $this->requestStack = $requestStack;
+    }
+
+    /**
+     * @return null|Request
+     */
+    public function getRequest()
+    {
+        return $this->requestStack->getCurrentRequest();
     }
 }
