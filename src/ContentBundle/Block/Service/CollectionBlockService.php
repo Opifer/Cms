@@ -144,7 +144,8 @@ class CollectionBlockService extends AbstractBlockService implements BlockServic
     {
         $properties = $block->getProperties();
 
-        $conditions = $this->expressionEngine->deserialize($properties['conditions']);
+        $conditions = (isset($properties['conditions'])) ? $properties['conditions'] : '[]';
+        $conditions = $this->expressionEngine->deserialize($conditions);
         $qb = $this->expressionEngine->toQueryBuilder($conditions, $this->contentManager->getClass());
 
         if (isset($properties['order_by'])) {
