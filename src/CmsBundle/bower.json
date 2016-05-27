@@ -6,13 +6,13 @@
     "bootstrap": "~3.3.6",
     "eonasdan-bootstrap-datetimepicker": "~4.17",
     "bootstrap-iconpicker": "https://github.com/Opifer/bootstrap-iconpicker.git#6f6ff513c5b77f1681d5f2315e8f52e66f655699",
-    "angular": "~1.4.9",
-    "angular-resource": "~1.4.9",
-    "angular-route": "~1.4.9",
+    "angular": "1.4.11",
+    "angular-resource": "1.4.11",
+    "angular-route": "1.4.11",
     "underscore": "1.5.2",
     "angular-inview": "~1.5.6",
-    "angular-cookies": "~1.4.9",
-    "afkl-lazy-image": "0.2.3",
+    "angular-cookies": "1.4.11",
+    "afkl-lazy-image": "^0.3.1",
     "angular-ui-sortable": "0.13.4",
     "angular-loading-bar": "0.8.0",
     "ngInfiniteScroll": "1.2.2",
@@ -32,7 +32,7 @@
     "bootstrap3-dialog": "^1.35.0"
   },
   "resolutions": {
-    "angular": "1.4.10",
+    "angular": "1.4.11",
     "jquery": ">2.1.*"
   }
 }
