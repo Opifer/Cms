@@ -29,7 +29,7 @@ class PostType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder->setAction($this->router->generate('opifer_form_form_submit', ['id' => $options['form_id']]));
-        $builder->add('valueset', ValueSetType::class);
+        $builder->add('valueset', ValueSetType::class, ['label' => false]);
     }
 
     /**

@@ -68,7 +68,7 @@ class FormBlockService extends AbstractBlockService implements BlockServiceInter
         if (!empty($parameters['block']->getForm())) {
             $post = $this->eavManager->initializeEntity($parameters['block']->getForm()->getSchema());
 
-            $form = $this->container->get('form.factory')->create(PostType::class, $post, ['form_id' => $parameters['block']->getForm()->getId()]);
+            $form = $this->container->get('form.factory')->create(PostType::class, $post, ['form_id' => $parameters['block']->getForm()->getId(), 'label' => false]);
 
             $parameters['block']->formView = $form->createView();
         }

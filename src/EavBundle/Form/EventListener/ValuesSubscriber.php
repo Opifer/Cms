@@ -2,6 +2,7 @@
 
 namespace Opifer\EavBundle\Form\EventListener;
 
+use Opifer\EavBundle\Entity\Value;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\Form\Exception\UnexpectedTypeException;
 use Symfony\Component\Form\FormEvent;
@@ -51,6 +52,10 @@ class ValuesSubscriber implements EventSubscriberInterface
             return $a->getAttribute()->getSort() > $b->getAttribute()->getSort();
         });
 
+        /**
+         * @var string $name
+         * @var Value  $value
+         */
         foreach ($data as $name => $value) {
             //Do not add fields when there not in fields value when giving.
             if (!empty($fields) && !in_array($name, $fields)) {
@@ -64,6 +69,7 @@ class ValuesSubscriber implements EventSubscriberInterface
             }
             $form->add($name, ValueType::class, [
                 'label' => $value->getAttribute()->getDisplayName(),
+                'required' => $value->getAttribute()->getRequired(),
                 'attribute' => $value->getAttribute(),
                 'entity' => get_class($value),
                 'value' => $value,
