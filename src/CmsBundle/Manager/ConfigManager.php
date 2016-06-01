@@ -68,11 +68,32 @@ class ConfigManager
 
     /**
      * @param string $key
-     * @param mixed $value
+     *
+     * @return Config
+     */
+    public function getConfig($key)
+    {
+        if (null === $this->configs) {
+            $this->loadConfigs();
+        }
+
+        if (false == array_key_exists($key, $this->configs)) {
+            $availableKeys = implode(', ', array_keys($this->configs));
+            throw new \RuntimeException(sprintf('Config "%s" could not be found. Found: %s', $key, $availableKeys));
+        }
+
+        $config = $this->configs[$key];
+
+        return $config;
+    }
+
+    /**
+     * @param string $key
+     * @param mixed  $value
      */
     public function set($key, $value)
     {
-        $config = $this->get($key);
+        $config = $this->getConfig($key);
 
         $object = new \stdClass();
         $object->Value = $value;
@@ -85,6 +106,7 @@ class ConfigManager
 
     /**
      * @param string $key
+     *
      * @return Config
      */
     public function findOrCreate($key)
@@ -114,7 +136,7 @@ class ConfigManager
     }
 
     /**
-     * Returns a key-value array of the settings
+     * Returns a key-value array of the settings.
      *
      * @return array
      */
