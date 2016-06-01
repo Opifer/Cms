@@ -28,9 +28,11 @@ use Symfony\Component\Form\Extension\Core\Type\FormType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormFactory;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\RouterInterface;
 
 /**
  * Subscribe Block Service.
@@ -42,6 +44,9 @@ class SubscribeBlockService extends AbstractBlockService implements BlockService
 
     /** @var Request */
     protected $request;
+
+    /** @var RouterInterface */
+    protected $router;
 
     /** @var ObjectManager */
     protected $em;
@@ -62,15 +67,22 @@ class SubscribeBlockService extends AbstractBlockService implements BlockService
     protected $subscribed;
 
     /**
-     * @param EngineInterface $templating
-     * @param array           $config
-     * @param ObjectManager   $em
+     * SubscribeBlockService constructor.
+     *
+     * @param EngineInterface     $templating
+     * @param array               $config
+     * @param FormFactory         $formFactory
+     * @param Router              $router
+     * @param ObjectManager       $em
+     * @param ContentManager      $contentManager
+     * @param SubscriptionManager $subscriptionManager
      */
-    public function __construct(EngineInterface $templating, array $config, FormFactory $formFactory, ObjectManager $em, ContentManager $contentManager, SubscriptionManager $subscriptionManager)
+    public function __construct(EngineInterface $templating, array $config, FormFactory $formFactory, RouterInterface $router, ObjectManager $em, ContentManager $contentManager, SubscriptionManager $subscriptionManager)
     {
         $this->templating = $templating;
         $this->config = $config;
         $this->formFactory = $formFactory;
+        $this->router = $router;
         $this->em = $em;
         $this->contentManager = $contentManager;
         $this->subscription = new Subscription();
@@ -153,7 +165,14 @@ class SubscribeBlockService extends AbstractBlockService implements BlockService
      */
     public function load(BlockInterface $block)
     {
-        $this->form = $this->formFactory->create(SubscribeType::class, $this->subscription);
+        $properties = $block->getProperties();
+        $opts = array();
+
+        if (isset($properties['responseType']) && $properties['responseType'] == 'redirect') {
+            $opts['action'] = $this->router->generate('opifer_mailing_list_subscribe_block', ['id' => $block->getId()]);
+        }
+
+        $this->form = $this->formFactory->create(SubscribeType::class, $this->subscription, $opts);
         $this->form->handleRequest($this->request);
 
         if ($this->form->isValid()) {
@@ -182,7 +201,15 @@ class SubscribeBlockService extends AbstractBlockService implements BlockService
      */
     public function subscribeAction(Block $block)
     {
-        return $this->execute($block);
+        $response = $this->execute($block);
+        $properties = $block->getProperties();
+
+        if ($this->subscribed && isset($properties['responseType']) && $properties['responseType'] == 'redirect') {
+            $content = $this->contentManager->getRepository()->find($properties['responseContent']);
+            $response = new RedirectResponse($this->router->generate('_content', ['slug' => $content->getSlug()]));
+        }
+        
+        return $response;
     }
 
     protected function getMailingLists(Block $block)
