@@ -8,7 +8,7 @@ use Opifer\EavBundle\Model\ValueInterface;
 use Opifer\EavBundle\Model\ValueSetInterface;
 
 /**
- * Empty Value Listener
+ * Empty Value Listener.
  *
  * Adds/removes empty values to/from the valueset, to avoid storing null values
  * inside the database
@@ -19,9 +19,9 @@ class EmptyValueListener
     protected $eavManager;
 
     /**
-     * Constructor
+     * Constructor.
      *
-     * @param ValueManager $eavManager
+     * @param EavManager $eavManager
      */
     public function __construct(EavManager $eavManager)
     {
@@ -29,11 +29,9 @@ class EmptyValueListener
     }
 
     /**
-     * Create empty values for non-persisted values
+     * Create empty values for non-persisted values.
      *
      * @param LifeCycleEventArgs $args
-     *
-     * @return void
      */
     public function postLoad(LifeCycleEventArgs $args)
     {
@@ -49,8 +47,6 @@ class EmptyValueListener
      * the database.
      *
      * @param LifeCycleEventArgs $args
-     *
-     * @return void
      */
     public function postPersist(LifeCycleEventArgs $args)
     {

@@ -1,14 +1,15 @@
 parameters:
-    opifer.eav.boolean_value_provider.class: Opifer\EavBundle\ValueProvider\BooleanValueProvider
-    opifer.eav.checklist_value_provider.class: Opifer\EavBundle\ValueProvider\ChecklistValueProvider
-    opifer.eav.date_value_provider.class: Opifer\EavBundle\ValueProvider\DateValueProvider
-    opifer.eav.datetime_value_provider.class: Opifer\EavBundle\ValueProvider\DatetimeValueProvider
-    opifer.eav.radio_value_provider.class: Opifer\EavBundle\ValueProvider\RadioValueProvider
-    opifer.eav.integer_value_provider.class: Opifer\EavBundle\ValueProvider\IntegerValueProvider
-    opifer.eav.media_value_provider.class: Opifer\EavBundle\ValueProvider\MediaValueProvider
-    opifer.eav.select_value_provider.class: Opifer\EavBundle\ValueProvider\SelectValueProvider
-    opifer.eav.string_value_provider.class: Opifer\EavBundle\ValueProvider\StringValueProvider
-    opifer.eav.text_value_provider.class: Opifer\EavBundle\ValueProvider\TextValueProvider
+    opifer.eav.boolean_value_provider.class: 'Opifer\EavBundle\ValueProvider\BooleanValueProvider'
+    opifer.eav.checklist_value_provider.class: 'Opifer\EavBundle\ValueProvider\ChecklistValueProvider'
+    opifer.eav.date_value_provider.class: 'Opifer\EavBundle\ValueProvider\DateValueProvider'
+    opifer.eav.datetime_value_provider.class: 'Opifer\EavBundle\ValueProvider\DatetimeValueProvider'
+    opifer.eav.email_value_provider.class: 'Opifer\EavBundle\ValueProvider\EmailValueProvider'
+    opifer.eav.radio_value_provider.class: 'Opifer\EavBundle\ValueProvider\RadioValueProvider'
+    opifer.eav.integer_value_provider.class: 'Opifer\EavBundle\ValueProvider\IntegerValueProvider'
+    opifer.eav.media_value_provider.class: 'Opifer\EavBundle\ValueProvider\MediaValueProvider'
+    opifer.eav.select_value_provider.class: 'Opifer\EavBundle\ValueProvider\SelectValueProvider'
+    opifer.eav.string_value_provider.class: 'Opifer\EavBundle\ValueProvider\StringValueProvider'
+    opifer.eav.text_value_provider.class: 'Opifer\EavBundle\ValueProvider\TextValueProvider'
 
 services:
     opifer.eav.boolean_value_provider:
@@ -21,6 +22,11 @@ services:
          arguments: ['%opifer_eav.option_class%']
          tags:
              - { name: opifer.eav.value_provider, alias: checklist }
+
+    opifer.eav.email_value_provider:
+        class: '%opifer.eav.email_value_provider.class%'
+        tags:
+            - { name: opifer.eav.value_provider, alias: email }
 
     opifer.eav.radio_value_provider:
         class: '%opifer.eav.radio_value_provider.class%'

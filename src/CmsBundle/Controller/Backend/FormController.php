@@ -6,8 +6,6 @@ use APY\DataGridBundle\Grid\Action\RowAction;
 use APY\DataGridBundle\Grid\Column\TextColumn;
 use APY\DataGridBundle\Grid\Source\Entity;
 use Opifer\FormBundle\Controller\FormController as BaseFormController;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 class FormController extends BaseFormController
@@ -17,11 +15,11 @@ class FormController extends BaseFormController
      */
     public function indexAction()
     {
-        $source = new Entity('OpiferCmsBundle:Form');
+        $source = new Entity($this->get('opifer.form.form_manager')->getClass());
 
         $postsColumn = new TextColumn(['id' => 'posts', 'title' => 'Posts', 'source' => false, 'filterable' => false, 'sortable' => false, 'safe' => false]);
         $postsColumn->manipulateRenderCell(function ($value, $row, $router) {
-            return '<a href="'.$this->generateUrl('opifer_form_post_index', ['formId'=> $row->getEntity()->getId()]).'">'.count($row->getEntity()->getPosts()).' posts</a>';
+            return '<a href="'.$this->generateUrl('opifer_form_post_index', ['formId' => $row->getEntity()->getId()]).'">'.count($row->getEntity()->getPosts()).' posts</a>';
         });
 
         $editAction = new RowAction('button.edit', 'opifer_form_form_edit');

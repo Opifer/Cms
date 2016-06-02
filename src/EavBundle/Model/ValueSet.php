@@ -247,7 +247,7 @@ class ValueSet implements ValueSetInterface
      *
      * @param string $name
      *
-     * @return Value
+     * @return ValueInterface
      */
     public function get($name)
     {
@@ -259,7 +259,7 @@ class ValueSet implements ValueSetInterface
      *
      * @param string $name
      *
-     * @return Value
+     * @return ValueInterface
      */
     public function getValueFor($name)
     {

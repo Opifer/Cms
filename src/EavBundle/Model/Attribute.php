@@ -8,7 +8,7 @@ use JMS\Serializer\Annotation as JMS;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * Attribute
+ * Attribute.
  *
  * @ORM\MappedSuperclass
  *
@@ -17,7 +17,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 class Attribute implements AttributeInterface
 {
     /**
-     * @var integer
+     * @var int
      *
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
@@ -62,12 +62,11 @@ class Attribute implements AttributeInterface
      * @var string
      *
      * @ORM\Column(name="description", type="string", length=1000, nullable=true)
-     *
      */
     protected $description;
 
     /**
-     * @var integer
+     * @var int
      *
      * @ORM\Column(name="sort", type="integer")
      *
@@ -99,7 +98,7 @@ class Attribute implements AttributeInterface
     protected $allowedSchemas;
 
     /**
-     * @var boolean
+     * @var bool
      *
      * @ORM\Column(name="required", type="boolean")
      */
@@ -113,40 +112,39 @@ class Attribute implements AttributeInterface
     protected $parameters;
 
     /**
-     * Constructor
+     * Constructor.
      */
     public function __construct()
     {
-        $this->values = new ArrayCollection;
-        $this->options = new ArrayCollection;
-        $this->allowedSchemas = new ArrayCollection;
+        $this->values = new ArrayCollection();
+        $this->options = new ArrayCollection();
+        $this->allowedSchemas = new ArrayCollection();
     }
 
     /**
-     * Do not remove, for diff purposes on array of objects
+     * Do not remove, for diff purposes on array of objects.
      *
      * @return string
      */
     public function __toString()
     {
-        return $this->getId() . ' ' . $this->getDisplayName();
+        return $this->getId().' '.$this->getDisplayName();
     }
 
     /**
-     * Get id
+     * Get id.
      *
-     * @return integer
+     * @return int
      */
     public function getId()
     {
         return $this->id;
     }
 
-
     /**
-     * Set name
+     * Set name.
      *
-     * @param  string $name
+     * @param string $name
      *
      * @return Attribute
      */
@@ -157,9 +155,8 @@ class Attribute implements AttributeInterface
         return $this;
     }
 
-
     /**
-     * Get name
+     * Get name.
      *
      * @return string
      */
@@ -168,11 +165,10 @@ class Attribute implements AttributeInterface
         return $this->name;
     }
 
-
     /**
-     * Set displayName
+     * Set displayName.
      *
-     * @param  string $displayName
+     * @param string $displayName
      *
      * @return Attribute
      */
@@ -183,9 +179,8 @@ class Attribute implements AttributeInterface
         return $this;
     }
 
-
     /**
-     * Get displayName
+     * Get displayName.
      *
      * @return string
      */
@@ -194,9 +189,8 @@ class Attribute implements AttributeInterface
         return $this->displayName;
     }
 
-
     /**
-     * Set Description
+     * Set Description.
      *
      * @param string $description
      *
@@ -209,9 +203,8 @@ class Attribute implements AttributeInterface
         return $this;
     }
 
-
     /**
-     * Get Description
+     * Get Description.
      *
      * @return string
      */
@@ -220,11 +213,10 @@ class Attribute implements AttributeInterface
         return $this->description;
     }
 
-
     /**
-     * Set schema
+     * Set schema.
      *
-     * @param  SchemaInterface $schema
+     * @param SchemaInterface $schema
      *
      * @return Attribute
      */
@@ -235,9 +227,8 @@ class Attribute implements AttributeInterface
         return $this;
     }
 
-
     /**
-     * Get schema
+     * Get schema.
      *
      * @return SchemaInterface
      */
@@ -246,11 +237,10 @@ class Attribute implements AttributeInterface
         return $this->schema;
     }
 
-
     /**
-     * Set sort
+     * Set sort.
      *
-     * @param integer $sort
+     * @param int $sort
      */
     public function setSort($sort)
     {
@@ -259,22 +249,20 @@ class Attribute implements AttributeInterface
         return $this;
     }
 
-
     /**
-     * Get sort
+     * Get sort.
      *
-     * @return integer
+     * @return int
      */
     public function getSort()
     {
         return $this->sort;
     }
 
-
     /**
-     * Add values
+     * Add values.
      *
-     * @param  ValueInterface $values
+     * @param ValueInterface $values
      *
      * @return Attribute
      */
@@ -285,9 +273,8 @@ class Attribute implements AttributeInterface
         return $this;
     }
 
-
     /**
-     * Remove values
+     * Remove values.
      *
      * @param ValueInterface $values
      */
@@ -296,9 +283,8 @@ class Attribute implements AttributeInterface
         $this->values->removeElement($values);
     }
 
-
     /**
-     * Get values
+     * Get values.
      *
      * @return ArrayCollection
      */
@@ -307,9 +293,8 @@ class Attribute implements AttributeInterface
         return $this->values;
     }
 
-
     /**
-     * Get options
+     * Get options.
      *
      * @return array
      */
@@ -318,11 +303,10 @@ class Attribute implements AttributeInterface
         return $this->options;
     }
 
-
     /**
-     * Add options
+     * Add options.
      *
-     * @param  OptionInterface $options
+     * @param OptionInterface $options
      *
      * @return Attribute
      */
@@ -333,9 +317,8 @@ class Attribute implements AttributeInterface
         return $this;
     }
 
-
     /**
-     * Remove options
+     * Remove options.
      *
      * @param OptionInterface $options
      */
@@ -344,9 +327,8 @@ class Attribute implements AttributeInterface
         $this->options->removeElement($options);
     }
 
-
     /**
-     * Get an option by its name
+     * Get an option by its name.
      *
      * @param string $name
      *
@@ -363,11 +345,10 @@ class Attribute implements AttributeInterface
         return false;
     }
 
-
     /**
-     * Set valueType
+     * Set valueType.
      *
-     * @param  string $valueType
+     * @param string $valueType
      *
      * @return Attribute
      */
@@ -378,9 +359,8 @@ class Attribute implements AttributeInterface
         return $this;
     }
 
-
     /**
-     * Get valueType
+     * Get valueType.
      *
      * @return string
      */
@@ -389,9 +369,8 @@ class Attribute implements AttributeInterface
         return $this->valueType;
     }
 
-
     /**
-     * Build a new value
+     * Build a new value.
      *
      * @return Opifer\EavBundle\Model\ValueInterface
      */
@@ -403,11 +382,11 @@ class Attribute implements AttributeInterface
     }
 
     /**
-     * Add allowed schema
+     * Add allowed schema.
      *
-     * @param  SchemaInterface $schema
+     * @param SchemaInterface $schema
      *
-     * @return  AttributeInterface
+     * @return AttributeInterface
      */
     public function addAllowedSchema(SchemaInterface $schema)
     {
@@ -426,7 +405,7 @@ class Attribute implements AttributeInterface
     }
 
     /**
-     * Remove allowed schema
+     * Remove allowed schema.
      *
      * @param SchemaInterface $schema
      */
@@ -456,7 +435,7 @@ class Attribute implements AttributeInterface
     }
 
     /**
-     * @return boolean
+     * @return bool
      */
     public function getRequired()
     {
@@ -464,7 +443,7 @@ class Attribute implements AttributeInterface
     }
 
     /**
-     * @param boolean $required
+     * @param bool $required
      */
     public function setRequired($required)
     {
@@ -474,9 +453,10 @@ class Attribute implements AttributeInterface
     }
 
     /**
-     * Set parameters
+     * Set parameters.
      *
-     * @param  array     $parameters
+     * @param array $parameters
+     *
      * @return Attribute
      */
     public function setParameters($parameters)
@@ -487,7 +467,7 @@ class Attribute implements AttributeInterface
     }
 
     /**
-     * Get parameters
+     * Get parameters.
      *
      * @return array
      */

@@ -7,40 +7,46 @@ use Symfony\Component\Form\FormBuilderInterface;
 interface ValueProviderInterface
 {
     /**
-     * Build form
+     * Build form.
      *
      * @param FormBuilderInterface $builder
      * @param array                $options
-     *
-     * @return void
      */
     public function buildForm(FormBuilderInterface $builder, array $options);
 
     /**
-     * Get the full entity namespace
+     * Build a form to define additional data on the Attribute.
+     *
+     * @param FormBuilderInterface $builder
+     * @param array|null           $options
+     */
+    public function buildParametersForm(FormBuilderInterface $builder, array $options = null);
+
+    /**
+     * Get the full entity namespace.
      *
      * @return string
      */
     public function getEntity();
 
     /**
-     * Get name
+     * Get name.
      *
      * @return string
      */
     public function getName();
 
     /**
-     * Get label
+     * Get label.
      *
      * @return string
      */
     public function getLabel();
 
     /**
-     * Check if the current valueprovider is enabled
+     * Check if the current valueprovider is enabled.
      *
-     * @return boolean
+     * @return bool
      */
     public function isEnabled();
 }

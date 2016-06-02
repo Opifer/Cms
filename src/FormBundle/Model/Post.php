@@ -93,7 +93,7 @@ class Post implements PostInterface, EntityInterface
      *
      * @param ValueSetInterface $valueSet
      *
-     * @return Content
+     * @return Post
      */
     public function setValueSet(ValueSetInterface $valueSet = null)
     {
@@ -145,7 +145,7 @@ class Post implements PostInterface, EntityInterface
      *
      * @param \DateTime $deletedAt
      *
-     * @return File
+     * @return Post
      */
     public function setDeletedAt($deletedAt)
     {

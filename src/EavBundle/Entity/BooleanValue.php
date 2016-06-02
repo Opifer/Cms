@@ -3,6 +3,7 @@
 namespace Opifer\EavBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Opifer\EavBundle\Model\ValueInterface;
 
 /**
  * Boolean Value

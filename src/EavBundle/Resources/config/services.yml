@@ -31,7 +31,7 @@ services:
 
     opifer.eav.form.attribute_type:
         class: '%opifer.eav.form.attribute_type.class%'
-        arguments: ['%opifer_eav.attribute_class%', '%opifer_eav.schema_class%']
+        arguments: ['@form.factory', '@opifer.eav.value_provider.pool', '%opifer_eav.attribute_class%', '%opifer_eav.schema_class%']
         tags:
             - { name: form.type }
 

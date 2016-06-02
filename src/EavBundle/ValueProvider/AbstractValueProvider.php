@@ -9,14 +9,21 @@ abstract class AbstractValueProvider
     protected $enabled = true;
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
+     */
+    public function buildParametersForm(FormBuilderInterface $builder, array $options = null)
+    {
+    }
+
+    /**
+     * {@inheritdoc}
      */
     public function getName()
     {
@@ -27,7 +34,7 @@ abstract class AbstractValueProvider
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getLabel()
     {
@@ -35,7 +42,7 @@ abstract class AbstractValueProvider
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function isEnabled()
     {
