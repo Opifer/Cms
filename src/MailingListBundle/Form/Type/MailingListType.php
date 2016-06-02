@@ -7,7 +7,6 @@ use Opifer\MailingListBundle\Provider\ProviderPool;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
-
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -71,8 +70,7 @@ class MailingListType extends AbstractType
         $list = $event->getData();
         $form = $event->getForm();
 
-        if ($list->getProvider())
-        {
+        if ($list->getProvider()) {
             $provider = $this->pool->getProvider($list->getProvider());
             $remoteLists = $provider->getRemoteLists();
 
@@ -82,9 +80,9 @@ class MailingListType extends AbstractType
             }, $remoteLists);
 
             $form->add('remoteListId', ChoiceType::class, [
-                'required'  => false,
-                'choices'   => $lists,
-                'label'     => 'label.remote_list',
+                'required' => false,
+                'choices' => $lists,
+                'label' => 'label.remote_list',
             ]);
         }
     }

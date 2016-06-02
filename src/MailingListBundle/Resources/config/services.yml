@@ -5,23 +5,24 @@ services:
     opifer.mailinglist.subscription_manager:
         class: Opifer\MailingListBundle\Manager\SubscriptionManager
         arguments: ['@doctrine.orm.default_entity_manager']
-        tags:
-            - { name: opifer.subscription_manager }
 
-    opifer.mailplus_provider:
+    opifer.mailinglist.mailinglist_manager:
+        class: Opifer\MailingListBundle\Manager\MailingListManager
+        arguments: ['@doctrine.orm.default_entity_manager']
+
+    opifer.mailinglist.mailplus_provider:
         class: Opifer\MailingListBundle\Provider\MailPlusProvider
         arguments: ['@opifer.mailinglist.subscription_manager', '%opifer_mailing_list.mailplus.consumer_key%', '%opifer_mailing_list.mailplus.consumer_secret%']
         tags:
-            - { name: opifer.mailplus_provider }
             - { name: opifer.mailinglist.provider, alias: mailplus }
 
-    opifer.mailing_list.mailchimp_provider:
+    opifer.mailinglist.mailchimp_provider:
         class: Opifer\MailingListBundle\Provider\MailChimpProvider
         arguments: ['@opifer.mailinglist.subscription_manager', '@opifer.cms.config_manager']
         tags:
             - { name: opifer.mailinglist.provider, alias: mailchimp }
 
-    mailchimp_settings_form:
+    opifer.mailinglist.mailchimp_settings_form:
         class: Opifer\MailingListBundle\Form\Type\MailChimpSettingsType
         tags:
             - { name: opifer.configuration_form }
@@ -29,5 +30,11 @@ services:
     opifer.mailinglist.mailinglist_type:
         class: Opifer\MailingListBundle\Form\Type\MailingListType
         arguments: ['@opifer.mailinglist.provider_pool']
+        tags:
+            - { name: form.type }
+
+    opifer.mailinglist.mailinglists_type:
+        class: Opifer\MailingListBundle\Form\Type\MailingListsType
+        arguments: ['@opifer.mailinglist.mailinglist_manager']
         tags:
             - { name: form.type }

@@ -22,24 +22,23 @@ class MailChimpProvider implements MailingListProviderInterface
     protected $client;
 
     protected $statusMap = [
-        'pending'       => Subscription::STATUS_PENDING,
-        'subscribed'    => Subscription::STATUS_SUBSCRIBED,
-        'unsubscribed'  => Subscription::STATUS_UNSUBSCRIBED,
-        'cleaned'       => Subscription::STATUS_CLEANED
+        'pending' => Subscription::STATUS_PENDING,
+        'subscribed' => Subscription::STATUS_SUBSCRIBED,
+        'unsubscribed' => Subscription::STATUS_UNSUBSCRIBED,
+        'cleaned' => Subscription::STATUS_CLEANED,
     ];
 
     /**
      * Constructor.
      *
-     * @param SubscriptionManager   $subscriptionManager
-     * @param ConfigManager         $configManager
+     * @param SubscriptionManager $subscriptionManager
+     * @param ConfigManager       $configManager
      */
     public function __construct(SubscriptionManager $subscriptionManager, ConfigManager $configManager)
     {
         $this->subscriptionManager = $subscriptionManager;
         $this->configManager = $configManager;
     }
-
 
     public function client()
     {
@@ -57,7 +56,7 @@ class MailChimpProvider implements MailingListProviderInterface
     }
 
     /**
-     * @inheritDoc
+     * {@inheritdoc}
      */
     public function getName()
     {
@@ -68,7 +67,6 @@ class MailChimpProvider implements MailingListProviderInterface
     {
         // TODO: Implement sync() method.
     }
-
 
     public function getRemoteLists()
     {
@@ -85,7 +83,7 @@ class MailChimpProvider implements MailingListProviderInterface
 
     public function synchroniseList(MailingList $list, \Closure $logger)
     {
-        $now = new \DateTime;
+        $now = new \DateTime();
         $size = 10;
         $lastSync = ($list->getSyncedAt()) ? $list->getSyncedAt()->format('Y-m-d H:i:s') : null;
 
@@ -109,7 +107,7 @@ class MailChimpProvider implements MailingListProviderInterface
             }
 
             foreach ($updates['members'] as $member) {
-                $i++;
+                ++$i;
 
                 $subscription = $this->subscriptionManager->findOrCreate($list, $member['email_address']);
                 $subscription->setEmail($member['email_address']);
@@ -120,14 +118,13 @@ class MailChimpProvider implements MailingListProviderInterface
                 $this->subscriptionManager->save($subscription);
                 $logger(sprintf('Processed updates from MailChimp for %s - %d/%d', $member['email_address'], $i, $updates['total_items']));
             }
-
         }
 
         $subscriptions = $this->subscriptionManager->findOutOfSync($list, $now);
 
         $i = 0;
         foreach ($subscriptions as $subscription) {
-            $i++;
+            ++$i;
 
             $this->client()->post(sprintf('lists/%s/members', $list->getRemoteListId()), [
                 'email_address' => $subscription->getEmail(),
@@ -140,8 +137,4 @@ class MailChimpProvider implements MailingListProviderInterface
         $list->setSyncedAt($now);
         $this->subscriptionManager->saveList($list);
     }
-    
-
-
-
 }

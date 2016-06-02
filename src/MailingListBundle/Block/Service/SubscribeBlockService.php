@@ -108,7 +108,7 @@ class SubscribeBlockService extends AbstractBlockService implements BlockService
                     'multiple' => true,
                     'query_builder' => function (EntityRepository $repository) {
                         return $repository->createQueryBuilder('m')
-                            ->add('orderBy', 'm.displayName ASC');
+                            ->orderBy('m.displayName');
                     },
                     'attr' => ['help_text' => 'help.subscribe_mailinglist'],
                 ])

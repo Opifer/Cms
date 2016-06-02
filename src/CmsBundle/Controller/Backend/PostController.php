@@ -48,9 +48,12 @@ class PostController extends BasePostController
         return $grid->getGridResponse('OpiferCmsBundle:Backend/Post:index.html.twig', ['form' => $form]);
     }
 
+    /**
+     * @return Response
+     */
     public function listAction()
     {
-        $source = new Entity('OpiferCmsBundle:Post');
+        $source = new Entity($this->get('opifer.form.post_manager')->getClass());
 
         $formColumn = new TextColumn(['id' => 'posts', 'title' => 'Form', 'source' => false, 'filterable' => false, 'sortable' => false, 'safe' => false]);
         $formColumn->manipulateRenderCell(function ($value, $row, $router) {

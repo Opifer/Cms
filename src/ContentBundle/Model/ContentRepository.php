@@ -190,7 +190,7 @@ class ContentRepository extends NestedTreeRepository
      *
      * @param array $ids
      *
-     * @return \Doctrine\Common\Collections\ArrayCollection
+     * @return Content[]
      */
     public function findByIds($ids)
     {

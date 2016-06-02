@@ -49,7 +49,7 @@ class SyncSubscriptionCommand extends ContainerAwareCommand
     {
         $providerPool = $this->getContainer()->get('opifer.mailinglist.provider_pool');
 
-        $lists = $this->em->getRepository('OpiferMailingListBundle:MailingList')->findHasProviders();
+        $lists = $this->em->getRepository('OpiferMailingListBundle:MailingList')->findWithProviders();
 
         if (empty($lists)) {
             $output->writeln("<info>0 lists found to synchronise: exiting…</info>");
