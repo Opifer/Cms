@@ -27,7 +27,7 @@ class ContentExtension extends \Twig_Extension
     /** @var FragmentHandler */
     protected $fragmentHandler;
 
-    /** @var \Opifer\ContentBundle\Block\Environment */
+    /** @var Environment */
     protected $blockEnvironment;
 
     /** @var ContainerInterface */
@@ -196,7 +196,7 @@ class ContentExtension extends \Twig_Extension
     }
 
     /**
-     * @return \Opifer\ContentBundle\Block\Environment
+     * @return Environment
      */
     public function getBlockEnvironment()
     {
@@ -204,7 +204,7 @@ class ContentExtension extends \Twig_Extension
     }
 
     /**
-     * @param \Opifer\ContentBundle\Block\Environment $blockEnvironment
+     * @param Environment $blockEnvironment
      */
     public function setBlockEnvironment($blockEnvironment)
     {
