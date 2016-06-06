@@ -2,57 +2,46 @@
 
 namespace Opifer\ContentBundle\EventListener\Serializer;
 
+use Doctrine\Common\Cache\CacheProvider;
 use JMS\Serializer\EventDispatcher\EventSubscriberInterface;
 use JMS\Serializer\EventDispatcher\ObjectEvent;
-
-use JMS\Serializer\EventDispatcher\PreSerializeEvent;
 use Liip\ImagineBundle\Imagine\Cache\CacheManager;
-
 use Opifer\ContentBundle\Model\Content;
 use Symfony\Component\Routing\RouterInterface;
 
-/**
- * Class ContentEventSubscriber
- *
- * @package  Opifer\ContentBundle\EventListener\Serializer
- */
 class ContentEventSubscriber implements EventSubscriberInterface
 {
-    /**
-     * @var CacheManager
-     */
-    private $cacheManager;
-    /**
-     * @var RouterInterface
-     */
+    /** @var CacheManager  */
+    private $imageCacheManager;
+
+    /** @var RouterInterface  */
     private $router;
 
+    /** @var CacheProvider */
+    protected $cache;
+
     /**
-     * Constructor.
+     * Constructor
      *
-     * @param CacheManager $cacheManager
+     * @param CacheManager $imageCacheManager
+     * @param RouterInterface $router
+     * @param CacheProvider $cacheProvider
      */
-    public function __construct(CacheManager $cacheManager, RouterInterface $router)
+    public function __construct(CacheManager $imageCacheManager, RouterInterface $router, CacheProvider $cacheProvider)
     {
-        $this->cacheManager = $cacheManager;
+        $this->imageCacheManager = $imageCacheManager;
         $this->router = $router;
+        $this->cache = $cacheProvider;
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public static function getSubscribedEvents()
     {
-        return array(
-            array('event' => 'serializer.post_serialize', 'method' => 'onPostSerialize'),
-            array('event' => 'serializer.pre_serialize', 'method' => 'onPreSerialize'),
-        );
-    }
-
-    public function onPreSerialize(PreSerializeEvent $event)
-    {
-        // do something
-        $event->getContext();
+        return [
+            ['event' => 'serializer.post_serialize', 'method' => 'onPostSerialize'],
+        ];
     }
 
     /**
@@ -68,7 +57,6 @@ class ContentEventSubscriber implements EventSubscriberInterface
         }
 
         if (false !== $coverImage = $this->getCoverImage($object)) {
-            $coverImage = $this->cacheManager->getBrowserPath($coverImage, 'medialibrary');
             $event->getVisitor()->addData('coverImage', $coverImage);
         }
 
@@ -76,7 +64,7 @@ class ContentEventSubscriber implements EventSubscriberInterface
     }
 
     /**
-     * Finds first available image for listing purposes TODO: this is very inefficient
+     * Finds first available image for listing purposes
      *
      * @param Content $content
      *
@@ -84,6 +72,16 @@ class ContentEventSubscriber implements EventSubscriberInterface
      */
     public function getCoverImage(Content $content)
     {
-        return $content->getCoverImage();
+        $key = Content::class.'_'.$content->getId().'_cover_image';
+
+        if (!$image = $this->cache->fetch($key)) {
+            $image = $content->getCoverImage();
+
+            $image = $this->imageCacheManager->getBrowserPath($image, 'medialibrary');
+
+            $this->cache->save($key, $image, 86400);
+        }
+
+        return $image;
     }
 }

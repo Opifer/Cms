@@ -44,9 +44,9 @@ services:
 
     # Serializer
 
-    opifer.content.handler.serialization:
+    opifer.content.content_serializer_subscriber:
         class: Opifer\ContentBundle\EventListener\Serializer\ContentEventSubscriber
-        arguments: ['@liip_imagine.cache.manager', '@router']
+        arguments: ['@liip_imagine.cache.manager', '@router', '@opifer.content.cache_provider']
         tags:
             - { name: jms_serializer.event_subscriber }
 
