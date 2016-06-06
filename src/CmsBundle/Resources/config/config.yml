@@ -216,6 +216,7 @@ apy_data_grid:
 # Content
 opifer_content:
     content_manager: 'opifer.cms.content_manager'
+    cache_provider: 'Doctrine\Common\Cache\ApcuCache'
     content:
         class: Opifer\CmsBundle\Entity\Content
         views:

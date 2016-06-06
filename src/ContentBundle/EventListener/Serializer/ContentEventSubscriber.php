@@ -2,8 +2,7 @@
 
 namespace Opifer\ContentBundle\EventListener\Serializer;
 
-use Doctrine\Common\Cache\ApcuCache;
-use Doctrine\Common\Cache\Cache;
+use Doctrine\Common\Cache\CacheProvider;
 use JMS\Serializer\EventDispatcher\EventSubscriberInterface;
 use JMS\Serializer\EventDispatcher\ObjectEvent;
 use Liip\ImagineBundle\Imagine\Cache\CacheManager;
@@ -18,19 +17,21 @@ class ContentEventSubscriber implements EventSubscriberInterface
     /** @var RouterInterface  */
     private $router;
 
-    /** @var Cache */
+    /** @var CacheProvider */
     protected $cache;
 
     /**
-     * ContentEventSubscriber constructor.
+     * Constructor
      *
-     * @param CacheManager    $imageCacheManager
+     * @param CacheManager $imageCacheManager
      * @param RouterInterface $router
+     * @param CacheProvider $cacheProvider
      */
-    public function __construct(CacheManager $imageCacheManager, RouterInterface $router)
+    public function __construct(CacheManager $imageCacheManager, RouterInterface $router, CacheProvider $cacheProvider)
     {
         $this->imageCacheManager = $imageCacheManager;
         $this->router = $router;
+        $this->cache = $cacheProvider;
     }
 
     /**
@@ -73,28 +74,14 @@ class ContentEventSubscriber implements EventSubscriberInterface
     {
         $key = Content::class.'_'.$content->getId().'_cover_image';
 
-        if (!$image = $this->getCache()->fetch($key)) {
+        if (!$image = $this->cache->fetch($key)) {
             $image = $content->getCoverImage();
 
             $image = $this->imageCacheManager->getBrowserPath($image, 'medialibrary');
 
-            $this->getCache()->save($key, $image, 86400);
+            $this->cache->save($key, $image, 86400);
         }
 
         return $image;
-    }
-
-    /**
-     * @todo Retrieve cache provider dynamically
-     *
-     * @return ApcuCache|Cache
-     */
-    protected function getCache()
-    {
-        if (!$this->cache) {
-            $this->cache = new ApcuCache();
-        }
-
-        return $this->cache;
     }
 }
