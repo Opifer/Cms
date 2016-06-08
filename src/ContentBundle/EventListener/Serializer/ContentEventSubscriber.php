@@ -76,8 +76,9 @@ class ContentEventSubscriber implements EventSubscriberInterface
 
         if (!$image = $this->cache->fetch($key)) {
             $image = $content->getCoverImage();
-
-            $image = $this->imageCacheManager->getBrowserPath($image, 'medialibrary');
+            if ($image) {
+                $image = $this->imageCacheManager->getBrowserPath($image, 'medialibrary');
+            }
 
             $this->cache->save($key, $image, 86400);
         }
