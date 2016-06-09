@@ -1,0 +1,29 @@
+{% extends 'OpiferContentBundle::base.html.twig' %}
+
+{% block opifer_content_body %}
+<section class="container">
+    <div class="row">
+        <div class="col-xs-12 col-md-8 col-md-offset-2">
+            <div class="page-header clearfix">
+                <h1>
+                    <small>{% if content.contentType %}{{ content.contentType.name }}{% else %}{{ 'title.content'|trans }}{% endif %}</small>
+                    <br />
+                    {{ content.title }}
+                </h1>
+            </div>
+
+            {{ form_start(form, {'attr' : { 'novalidate' : 'novalidate' }, 'style': 'horizontal' }) }}
+                <div class="alert alert-warning">Note: Changing the content type will remove all current properties</div>
+
+                {{ form_widget(form) }}
+                <div class="form-group">
+                    <div class="col-xs-12">
+                        <button type="submit" class="btn btn-primary">{{ 'button.submit'|trans }}</button>
+                        <a href="{{ path('opifer_content_content_index') }}" class="btn btn-link pull-right">{{ 'button.cancel'|trans|capitalize }}</a>
+                    </div>
+                </div>
+            {{ form_end(form) }}
+        </div>
+    </div>
+</section>
+{% endblock opifer_content_body %}

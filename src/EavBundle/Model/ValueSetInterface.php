@@ -14,6 +14,13 @@ interface ValueSetInterface
     public function getSchema();
 
     /**
+     * Set schema
+     *
+     * @param SchemaInterface
+     */
+    public function setSchema(SchemaInterface $schema = null);
+
+    /**
      * Get values
      *
      * @return ArrayCollection

@@ -35,9 +35,12 @@ class ContentController extends BaseContentController
             $query->andWhere($tableAlias . '.contentType = :contentType')->setParameter('contentType', $contentType);
         });
 
-        $editAction = new RowAction('button.edit', 'opifer_content_contenteditor_design');
-        $editAction->setRouteParameters(['id', 'owner' => 'content']);
-        $editAction->setRouteParametersMapping(['id' => 'ownerId']);
+        $designAction = new RowAction('button.design', 'opifer_content_contenteditor_design');
+        $designAction->setRouteParameters(['id', 'owner' => 'content']);
+        $designAction->setRouteParametersMapping(['id' => 'ownerId']);
+
+        $detailsAction = new RowAction('button.details', 'opifer_content_content_edit');
+        $detailsAction->setRouteParameters(['id']);
 
         //$deleteAction = new RowAction('button.delete', 'opifer_content_content_delete');
         //$deleteAction->setRouteParameters(['id']);
@@ -46,7 +49,8 @@ class ContentController extends BaseContentController
         $grid = $this->get('grid');
         $grid->setId('content')
             ->setSource($source)
-            ->addRowAction($editAction);
+            ->addRowAction($detailsAction)
+            ->addRowAction($designAction);
             //->addRowAction($deleteAction)
 
         foreach ($contentType->getSchema()->getAttributes() as $attribute) {

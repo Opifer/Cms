@@ -5,6 +5,8 @@ button:
     all: Show all
     cancel: Cancel
     delete: Delete
+    design: Design
+    details: Details
     edit: Edit
     publish: Publish
     block_share: Share block
