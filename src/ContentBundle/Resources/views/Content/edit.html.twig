@@ -7,7 +7,16 @@
             <div class="col-xs-12 col-md-8 col-md-offset-2">
                 <div class="page-header clearfix">
                     <h1>
-                        <small>{{ 'title.content'|trans }}</small><br />
+                        {% spaceless %}
+                        <small>
+                            {% if content.contentType %}
+                                <a href="{{ path('opifer_content_content_edit_type', {'id': content.id}) }}">{{ content.contentType.name }}</a>
+                            {% else %}
+                                {{ 'title.content'|trans }}
+                            {% endif %}
+                        </small>
+                        {% endspaceless %}
+                        <br />
                         {{ content.title }}
                     </h1>
                 </div>

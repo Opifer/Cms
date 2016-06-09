@@ -39,8 +39,14 @@ opifer_content_content_type:
         type:  \d+
 
 opifer_content_content_select_type:
-    path: /content/selecttype
+    path: /content/select-type
     defaults: { _controller: OpiferContentBundle:Backend/Content:selectType }
+
+opifer_content_content_edit_type:
+    path: /content/edit-type/{id}
+    defaults: { _controller: OpiferContentBundle:Backend/Content:editType }
+    requirements:
+        id:  \d+
 
 opifer_content_content_history:
     path: /content/history/{owner}/{id}

@@ -71,9 +71,8 @@ class ValueSet implements ValueSetInterface
     }
 
     /**
-     * Set schema
+     * {@inheritdoc}
      *
-     * @param  SchemaInterface $schema
      * @return ValueSet
      */
     public function setSchema(SchemaInterface $schema = null)

@@ -30,14 +30,13 @@ class EavManager
     /**
      * Initializes an entity from a schema to work properly with this bundle.
      *
-     * @param Schema $schema
+     * @param SchemaInterface $schema
      *
      * @return EntityInterface
      */
     public function initializeEntity(SchemaInterface $schema)
     {
-        $valueSetClass = $this->valueSetClass;
-        $valueSet = new $valueSetClass();
+        $valueSet = $this->createValueSet();
         $valueSet->setSchema($schema);
 
         // To avoid persisting Value entities with no actual value to the database
@@ -89,5 +88,15 @@ class EavManager
         }
 
         return $newValues;
+    }
+
+    /**
+     * @return ValueSetInterface
+     */
+    public function createValueSet()
+    {
+        $valueSetClass = $this->valueSetClass;
+
+        return new $valueSetClass();
     }
 }

@@ -4,9 +4,13 @@ namespace Opifer\ContentBundle\Controller\Backend;
 
 use Opifer\CmsBundle\Manager\ContentManager;
 use Opifer\ContentBundle\Form\Type\ContentType;
+use Opifer\ContentBundle\Model\Content;
+use Opifer\EavBundle\Manager\EavManager;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * Backend Content Controller.
@@ -43,7 +47,7 @@ class ContentController extends Controller
     /**
      * Select the type of content before actually creating a new content item.
      *
-     * @return Response
+     * @return Response|RedirectResponse
      */
     public function selectTypeAction()
     {
@@ -55,6 +59,50 @@ class ContentController extends Controller
 
         return $this->render($this->getParameter('opifer_content.content_select_type'), [
             'content_types' => $contentTypes,
+        ]);
+    }
+
+    /**
+     * @param Request $request
+     * @param int     $id
+     *
+     * @return RedirectResponse|Response
+     */
+    public function editTypeAction(Request $request, $id)
+    {
+        /** @var ContentManager $manager */
+        $manager = $this->get('opifer.content.content_manager');
+
+        /** @var Content $content */
+        $content = $manager->getRepository()->find($id);
+
+        $form = $this->createFormBuilder($content)
+            ->add('contentType', EntityType::class, [
+                'class' => $this->get('opifer.content.content_type_manager')->getClass(),
+                'choice_label' => 'name',
+            ])
+            ->getForm();
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            /** @var EavManager $eavManager */
+            $eavManager = $this->get('opifer.eav.eav_manager');
+            $valueSet = $eavManager->createValueSet();
+
+            $this->getDoctrine()->getManager()->persist($valueSet);
+
+            $valueSet->setSchema($content->getContentType()->getSchema());
+            $content->setValueSet($valueSet);
+
+            $manager->save($content);
+
+            return $this->redirectToRoute('opifer_content_content_edit', ['id' => $content->getId()]);
+        }
+
+        return $this->render($this->getParameter('opifer_content.content_edit_type'), [
+            'content' => $content,
+            'form' => $form->createView(),
         ]);
     }
 
