@@ -1041,6 +1041,14 @@ class Content implements ContentInterface, EntityInterface, TemplatedInterface, 
     }
 
     /**
+     * @return string
+     */
+    public function getCoverImageCacheKey()
+    {
+        return sha1(__FILE__).'_'.$this->id.'_cover_image';
+    }
+
+    /**
      * {@inheritdoc}
      */
     public function getSuper()

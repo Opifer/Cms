@@ -72,7 +72,7 @@ class ContentEventSubscriber implements EventSubscriberInterface
      */
     public function getCoverImage(Content $content)
     {
-        $key = Content::class.'_'.$content->getId().'_cover_image';
+        $key = $content->getCoverImageCacheKey();
 
         if (!$image = $this->cache->fetch($key)) {
             $image = $content->getCoverImage();
