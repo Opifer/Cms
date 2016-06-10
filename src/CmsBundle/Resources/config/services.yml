@@ -195,7 +195,7 @@ services:
         class: '%opifer.cms.exception_router.class%'
         arguments: ['@service_container']
 
-    # Twig
+    # Twig Extensions
 
     opifer.cms.twig.form_extension:
         class: 'Opifer\CmsBundle\Twig\Extension\FormExtension'

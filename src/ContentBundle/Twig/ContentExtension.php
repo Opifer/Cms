@@ -4,20 +4,17 @@ namespace Opifer\ContentBundle\Twig;
 
 use Opifer\ContentBundle\Block\BlockContainerInterface;
 use Opifer\ContentBundle\Block\BlockManager;
-use Opifer\ContentBundle\Block\BlockOwnerInterface;
 use Opifer\ContentBundle\Entity\Block;
 use Opifer\ContentBundle\Entity\CompositeBlock;
-use Opifer\ContentBundle\Entity\DocumentBlock;
 use Opifer\ContentBundle\Entity\PointerBlock;
 use Opifer\ContentBundle\Environment\Environment;
 use Opifer\ContentBundle\Model\BlockInterface;
-use Opifer\ContentBundle\Model\ContentInterface;
+use Opifer\ContentBundle\Model\Content;
 use Opifer\ContentBundle\Model\ContentManager;
 use Symfony\Component\DependencyInjection\ContainerInterface;
-
 use Symfony\Component\HttpFoundation\RequestStack;
-use Symfony\Component\HttpKernel\Controller\ControllerReference;
 use Symfony\Component\HttpKernel\Fragment\FragmentHandler;
+use Symfony\Component\Routing\RouterInterface;
 
 class ContentExtension extends \Twig_Extension
 {
@@ -27,7 +24,7 @@ class ContentExtension extends \Twig_Extension
     /** @var FragmentHandler */
     protected $fragmentHandler;
 
-    /** @var \Opifer\ContentBundle\Block\Environment */
+    /** @var Environment */
     protected $blockEnvironment;
 
     /** @var ContainerInterface */
@@ -37,12 +34,12 @@ class ContentExtension extends \Twig_Extension
     private $requestStack;
 
     /**
-     * Constructor
+     * Constructor.
      *
-     * @param \Twig_Environment   $twig
-     * @param FragmentHandler     $fragmentHandler
-     * @param ContentManager      $contentManager
-     * @param ContainerInterface  $container
+     * @param \Twig_Environment  $twig
+     * @param FragmentHandler    $fragmentHandler
+     * @param ContentManager     $contentManager
+     * @param ContainerInterface $container
      */
     public function __construct(\Twig_Environment $twig, FragmentHandler $fragmentHandler, ContainerInterface $container, RequestStack $requestStack)
     {
@@ -63,15 +60,15 @@ class ContentExtension extends \Twig_Extension
     {
         return [
             new \Twig_SimpleFunction('render_block', [$this, 'renderBlock'], [
-                'is_safe' => array('html')
+                'is_safe' => array('html'),
             ]),
             new \Twig_SimpleFunction('render_placeholder', [$this, 'renderPlaceholder'], array(
                 'is_safe' => array('html'),
-                'needs_context' => true
+                'needs_context' => true,
             )),
             new \Twig_SimpleFunction('manage_tags', [$this, 'renderManageTags'], array(
                 'is_safe' => array('html'),
-                'needs_context' => true
+                'needs_context' => true,
             )),
         ];
     }
@@ -79,14 +76,23 @@ class ContentExtension extends \Twig_Extension
     /**
      * {@inheritdoc}
      */
-    public function getTests ()
+    public function getFilters()
+    {
+        return [
+            new \Twig_SimpleFilter('parse', [$this, 'parseString']),
+        ];
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getTests()
     {
         return [
             new \Twig_SimpleTest('block_container', function (BlockInterface $block) { return $block instanceof BlockContainerInterface; }),
             new \Twig_SimpleTest('block_pointer', function (BlockInterface $block) { return $block instanceof PointerBlock; }),
         ];
     }
-
 
     /**
      * @param BlockInterface $block
@@ -112,8 +118,6 @@ class ContentExtension extends \Twig_Extension
     }
 
     /**
-     *
-     *
      * @param $context
      * @param $key
      *
@@ -128,7 +132,7 @@ class ContentExtension extends \Twig_Extension
         $content = '';
 
         if ($this->blockEnvironment instanceof Environment) {
-            /** @var BlockInterface $container */
+            /* @var BlockInterface $container */
 
             if (isset($context['block'])) {
                 $container = $context['block'];
@@ -140,7 +144,6 @@ class ContentExtension extends \Twig_Extension
             } else {
                 $blocks = $this->blockEnvironment->getRootBlocks();
             }
-
 
             foreach ($blocks as $block) {
                 if ($block->getPosition() === (int) $key || ((int) $key === 0 && $block->getPosition() === 0)) {
@@ -175,7 +178,7 @@ class ContentExtension extends \Twig_Extension
             } else {
                 $tags .= sprintf(' data-pm-block-manage="true" data-pm-block-id="%d" data-pm-block-owner-id="%d" data-pm-block-type="%s"', $block->getId(), $ownerId, $context['manage_type']);
             }
-        } else if ($context['manage_type'] == 'placeholder')  {
+        } elseif ($context['manage_type'] == 'placeholder') {
             $tags .= sprintf(' data-pm-type="placeholder" data-pm-placeholder-key="%s" data-pm-placeholder-id="%s"', $context['key'], $context['id']);
         }
 
@@ -188,6 +191,51 @@ class ContentExtension extends \Twig_Extension
     }
 
     /**
+     * @param string $string
+     *
+     * @return string
+     */
+    public function parseString($string)
+    {
+        $string = $this->replaceLinks($string);
+
+        return $string;
+    }
+
+    /**
+     * Replaces all links that matches the pattern with content urls.
+     *
+     * @param string $string
+     *
+     * @return string
+     */
+    protected function replaceLinks($string)
+    {
+        preg_match_all('/\[content_url\](.*?)\[\/content_url\]/', $string, $matches);
+
+        if (!count($matches)) {
+            return $string;
+        }
+
+        /** @var Content[] $contents */
+        $contents = $this->getContentManager()->getRepository()->findByIds($matches[1]);
+
+        foreach ($matches[0] as $key => $match) {
+            if (isset($contents[$matches[1][$key]])) {
+                $content = $contents[$matches[1][$key]];
+
+                $url = $this->getRouter()->generate('_content', ['slug' => $content->getSlug()]);
+            } else {
+                $url = $this->getRouter()->generate('_content', ['slug' => '404']);
+            }
+
+            $string = str_replace($match, $url, $string);
+        }
+
+        return $string;
+    }
+
+    /**
      * {@inheritdoc}
      */
     public function getName()
@@ -196,7 +244,7 @@ class ContentExtension extends \Twig_Extension
     }
 
     /**
-     * @return \Opifer\ContentBundle\Block\Environment
+     * @return Environment
      */
     public function getBlockEnvironment()
     {
@@ -204,11 +252,26 @@ class ContentExtension extends \Twig_Extension
     }
 
     /**
-     * @param \Opifer\ContentBundle\Block\Environment $blockEnvironment
+     * @param Environment $blockEnvironment
      */
     public function setBlockEnvironment($blockEnvironment)
     {
         $this->blockEnvironment = $blockEnvironment;
     }
 
+    /**
+     * @return RouterInterface
+     */
+    protected function getRouter()
+    {
+        return $this->container->get('router');
+    }
+
+    /**
+     * @return ContentManager
+     */
+    protected function getContentManager()
+    {
+        return $this->container->get('opifer.content.content_manager');
+    }
 }

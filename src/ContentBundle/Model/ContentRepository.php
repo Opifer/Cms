@@ -224,7 +224,7 @@ class ContentRepository extends NestedTreeRepository
         $ordered = [];
         foreach ($order as $id) {
             if (isset($unordered[$id])) {
-                $ordered[] = $unordered[$id];
+                $ordered[$id] = $unordered[$id];
             }
         }
 
