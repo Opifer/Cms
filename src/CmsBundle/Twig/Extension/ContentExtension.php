@@ -56,7 +56,7 @@ class ContentExtension extends \Twig_Extension
      */
     protected function replaceLinks($string)
     {
-        preg_match_all('/\[\[(.*?)\]\]/', $string, $matches);
+        preg_match_all('/\[content_url\](.*?)\[\/content_url\]/', $string, $matches);
 
         if (!count($matches)) {
             return $string;
@@ -70,8 +70,11 @@ class ContentExtension extends \Twig_Extension
                 $content = $contents[$matches[1][$key]];
 
                 $url = $this->router->generate('_content', ['slug' => $content->getSlug()]);
-                $string = str_replace($match, $url, $string);
+            } else {
+                $url = $this->router->generate('_content', ['slug' => '404']);
             }
+
+            $string = str_replace($match, $url, $string);
         }
 
         return $string;

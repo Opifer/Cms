@@ -56,7 +56,7 @@ angular
 
         var pickContentEvent = $rootScope.$on('contentPicker.pickContent', function(event, content) {
             // Pass the content ID to the URL field, so we can parse it later
-            window.opener.CKEDITOR.tools.callFunction( $scope.funcNum, '{{'+content.id+'}}', function() {
+            window.opener.CKEDITOR.tools.callFunction( $scope.funcNum, '[content_url]'+content.id+'[/content_url]', function() {
                 var dialog = this.getDialog();
                 if (dialog.getName() == 'link') {
                     // Clear the protocol, since we will replace the URL with the actual url + protocol.
