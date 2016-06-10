@@ -22,9 +22,12 @@ class DashboardController extends Controller
         $newContent = $contentManager->getRepository()
             ->findLastCreated(6);
 
+        $crons = $this->getDoctrine()->getRepository('OpiferCmsBundle:Cron')->findAll();
+
         return $this->render('OpiferCmsBundle:Backend/Dashboard:dashboard.html.twig', [
             'latest_content' => $latestContent,
             'new_content' => $newContent,
+            'crons' => $crons
         ]);
     }
 }
