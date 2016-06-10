@@ -203,12 +203,6 @@ services:
         tags:
             - { name: 'twig.extension' }
 
-    opifer.cms.twig.content_extension:
-        class: 'Opifer\CmsBundle\Twig\Extension\ContentExtension'
-        arguments: ['@opifer.content.content_manager', '@router']
-        tags:
-            - { name: 'twig.extension' }
-
     # Block Services
 
     opifer.mailing_list.subscribe_block:
