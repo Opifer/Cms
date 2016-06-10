@@ -42,7 +42,6 @@
                         {% endif %}
                     </div>
                 </section>
-
             </div>
             <div class="col-xs-12 col-sm-6">
                 <section class="dashboard-section">
@@ -59,8 +58,29 @@
                     </div>
                 </section>
             </div>
+            {% if crons %}
+                <div class="col-xs-12 col-sm-6">
+                    <section class="dashboard-section">
+                        <h2>Cronjobs</h2>
+                        <div class="row">
+                            <div class="col-xs-12">
+                            {% for cron in crons if cron.state == constant('STATE_FAILED', cron) %}
+                                <div class="alert alert-danger">
+                                    Cronjob {{ cron.command }} failed.
+                                    <span class="pull-right">
+                                        <a href="{{ path('opifer_cms_cronjob_edit', {'id': cron.id}) }}" class="alert-link">Details</a>&nbsp;
+                                        <a href="{{ path('opifer_cms_cronjob_reset', {'id': cron.id}) }}" class="alert-link">Reset</a>
+                                    </span>
 
-
+                                </div>
+                            {% else %}
+                                <div class="alert alert-success">All cronjobs operational</div>
+                            {% endfor %}
+                            </div>
+                        </div>
+                    </section>
+                </div>
+            {% endif %}
         </div>
     </div>
     {#
