@@ -7,12 +7,12 @@ var Expression = React.createClass({
         })[0];
 
         var self = this;
+
         if (prototype.type == 'date') {
-            $('.date-picker').datetimepicker({
+            $(ReactDOM.findDOMNode(this)).find('input.expression-date-picker').datetimepicker({
                 format: 'YYYY-MM-DD',
             }).on('dp.change', function(e) {
                 self.changeDate(e.date.format('YYYY-MM-DD'));
-                //this.props.expression.value = e.date;
             });
         }
     },
@@ -53,7 +53,7 @@ var Expression = React.createClass({
                 var value = '';
                 break;
             case 'date':
-                var value = <input type="text" className="form-control date-picker" onChange={this.props.changeValue} value={this.props.expression.value}/>;
+                var value = <input type="text" className="form-control expression-date-picker" onChange={this.props.changeValue} value={this.props.expression.value}/>;
                 break;
             case 'number':
                 var value = <input type="number" className="form-control" onChange={this.props.changeValue} value={this.props.expression.value}/>;
@@ -141,7 +141,7 @@ var ExpressionBuilder = React.createClass({
     },
     changeExpression: function(expression, event) {
         var key = event.target.value;
-        var index = this.state.expressions.findIndex(function(item) { 
+        var index = this.state.expressions.findIndex(function(item) {
             return expression.id == item.id;
         });
 
@@ -153,12 +153,12 @@ var ExpressionBuilder = React.createClass({
         this.state.expressions[index].selector = prototype.selector;
         this.state.expressions[index].constraint = prototype.constraints[0].value;
         this.state.expressions[index].value = (prototype.choices && prototype.choices.length > 0) ? prototype.choices[0].value : '';
-        
+
         this.updateExpressions(this.state.expressions);
     },
     changeConstraint: function (expression, event) {
         var constraint = event.target.value;
-        var index = this.state.expressions.findIndex(function(item) { 
+        var index = this.state.expressions.findIndex(function(item) {
             return expression.id == item.id;
         });
 
@@ -167,7 +167,7 @@ var ExpressionBuilder = React.createClass({
     },
     changeValue: function (expression, event) {
         var value = event.target.value;
-        var index = this.state.expressions.findIndex(function(item) { 
+        var index = this.state.expressions.findIndex(function(item) {
             return expression.id == item.id;
         });
 
@@ -175,7 +175,7 @@ var ExpressionBuilder = React.createClass({
         this.updateExpressions(this.state.expressions);
     },
     changeChildren: function (expression, children) {
-        var index = this.state.expressions.findIndex(function(item) { 
+        var index = this.state.expressions.findIndex(function(item) {
             return expression.id == item.id;
         });
 
