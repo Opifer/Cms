@@ -68,8 +68,8 @@
                                 <div class="alert alert-danger">
                                     Cronjob {{ cron.command }} failed.
                                     <span class="pull-right">
+                                        <a href="{{ path('opifer_cms_cronjob_edit', {'id': cron.id}) }}" class="alert-link">Details</a>&nbsp;
                                         <a href="{{ path('opifer_cms_cronjob_reset', {'id': cron.id}) }}" class="alert-link">Reset</a>
-                                        <a href="{{ path('opifer_cms_cronjob_edit', {'id': cron.id}) }}" class="alert-link">Details</a>
                                     </span>
 
                                 </div>
