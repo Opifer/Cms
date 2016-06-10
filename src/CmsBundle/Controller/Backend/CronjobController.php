@@ -151,6 +151,8 @@ class CronjobController extends Controller
         $cron = $em->getRepository('OpiferCmsBundle:Cron')->find($id);
 
         $cron->setState(Cron::STATE_FINISHED);
+        $cron->setLastError('');
+
         $em = $this->getDoctrine()->getManager();
         $em->persist($cron);
         $em->flush();

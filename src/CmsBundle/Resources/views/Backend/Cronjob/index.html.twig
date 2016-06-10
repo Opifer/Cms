@@ -1,11 +1,13 @@
 {% extends 'OpiferCmsBundle:Backend:base.html.twig' %}
 
 {% block body %}
-    <div class="page-header clearfix">
-        <h1 class="pull-left">Cronjobs</h1>
-        <a href="{{ path('opifer_cms_cronjob_create') }}" class="btn btn-default pull-right">
-            New cronjob
-        </a>
+    <div class="col-xs-12">
+        <div class="page-header clearfix">
+            <h1>Cronjobs</h1>
+            <a href="{{ path('opifer_cms_cronjob_create') }}" class="btn btn-default pull-right">
+                New cronjob
+            </a>
+        </div>
     </div>
 
     {% include 'OpiferCmsBundle:Components:grid.html.twig' with { 'grid': grid } %}
