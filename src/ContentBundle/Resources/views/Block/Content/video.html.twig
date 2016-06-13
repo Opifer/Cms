@@ -14,5 +14,5 @@
 			</video>
 		{% endif %}
 	{% endif %}
-	{{ block.value|default|raw }}
+	{{ block.value|default('')|parse|raw }}
 </div>

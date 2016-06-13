@@ -3,5 +3,5 @@
 {% elseif block.properties.extra_classes|default or block.properties.id|default %}
     <div class="{{ block.properties.extra_classes|default }}" id="{{ block.properties.id|default }}">{{ block.value|raw }}</div>
 {% else %}
-    {{ block.value|raw }}
+    {{ block.value|parse|raw }}
 {% endif %}

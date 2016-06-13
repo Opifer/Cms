@@ -3,6 +3,6 @@
         <img src="{{ block.media.reference|default('fallback.jpeg')|imagine_filter('medialibrary') }}">
     {% endif %}
     <div class="carousel-caption">
-        {{ block.value|default }}
+        {{ block.value|parse|default }}
     </div>
 </div>
