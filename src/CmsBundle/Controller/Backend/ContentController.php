@@ -55,7 +55,12 @@ class ContentController extends BaseContentController
 
         foreach ($contentType->getSchema()->getAttributes() as $attribute) {
             $name = $attribute->getName();
-            $column = new TextColumn(['id' => $name, 'field' => 'attributes.'.$attribute->getName().'.value', 'title' => $attribute->getDisplayName()]);
+            $column = new TextColumn([
+                'id' => $name,
+                'field' => 'attributes.'.$attribute->getName().'.value',
+                'title' => $attribute->getDisplayName(),
+                'visible' => false
+            ]);
             $column->manipulateRenderCell(
                 function($value, $row, $router) use ($name) {
                     $value = $row->getEntity()->getAttributes()[$name];

@@ -15,7 +15,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * Content.
  * 
  * @JMS\ExclusionPolicy("all")
- * @GRID\Source(columns="id, title, slug")
+ * @GRID\Source(columns="id, title, slug, alias, active, updatedAt, indexable, searchable")
  */
 class Content extends BaseContent
 {
@@ -67,6 +67,20 @@ class Content extends BaseContent
      * @Revisions\Revised
      */
     protected $description;
+
+    /**
+     * @var bool
+     *
+     * @GRID\Column(title="Indexable", type="boolean", visible=false)
+     */
+    protected $indexable = true;
+
+    /**
+     * @var bool
+     *
+     * @GRID\Column(title="Searchable", type="boolean", visible=false)
+     */
+    protected $searchable = true;
 
     /**
      */
