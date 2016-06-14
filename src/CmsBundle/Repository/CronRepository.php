@@ -21,6 +21,7 @@ class CronRepository extends EntityRepository
      */
     public function findDue()
     {
+        /** @var Cron[] $active */
         $active = $this->createQueryBuilder('c')
             ->where('c.state <> :canceled')
             ->andWhere('c.state <> :running')
