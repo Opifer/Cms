@@ -215,7 +215,7 @@ form:
 # Buttons
 button:
     add: Toevoegen
-    all: Alles
+    all: Toon alle
     cancel: Annuleren
     delete: Verwijderen
     edit: Bewerken

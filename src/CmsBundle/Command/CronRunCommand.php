@@ -4,6 +4,7 @@ namespace Opifer\CmsBundle\Command;
 
 use Doctrine\Common\Persistence\ManagerRegistry;
 use Opifer\CmsBundle\Entity\Cron;
+use Opifer\CmsBundle\Repository\CronRepository;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -79,7 +80,10 @@ class CronRunCommand extends ContainerAwareCommand
         $this->changeState($cron, Cron::STATE_RUNNING);
 
         $pb = $this->getCommandProcessBuilder();
-        $pb->add($cron->getCommand());
+        $parts = explode(' ', $cron->getCommand());
+        foreach ($parts as $part) {
+            $pb->add($part);
+        }
 
         $process = $pb->getProcess();
         $process->setTimeout(3600);
@@ -97,7 +101,7 @@ class CronRunCommand extends ContainerAwareCommand
             }
         } catch (\Exception $e) {
             $this->output->writeln(' > '.$e->getMessage());
-            $this->changeState($cron, Cron::STATE_CANCELED, $e->getMessage());
+            $this->changeState($cron, Cron::STATE_FAILED, $e->getMessage());
         }
     }
 
@@ -154,7 +158,7 @@ class CronRunCommand extends ContainerAwareCommand
     /**
      * Get repository.
      *
-     * @return \Doctrine\ORM\EntityRepository
+     * @return CronRepository
      */
     private function getRepository()
     {
