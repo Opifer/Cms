@@ -18,7 +18,7 @@ class Prototype
     protected $key;
 
     /**
-     * The selector which is evaluated. e.g. the property on a an object
+     * The selector which is evaluated. e.g. the property on a an object.
      *
      * This selector is transformed to a getter when evaluating objects
      *
@@ -27,6 +27,8 @@ class Prototype
     protected $selector;
 
     /**
+     * A human readable representation of the prototype
+     *
      * @var string
      */
     protected $name;
@@ -37,6 +39,8 @@ class Prototype
     protected $constraints;
 
     /**
+     * The type defines the input fields that get rendered in the expression
+     *
      * @var string
      */
     protected $type;
@@ -45,6 +49,23 @@ class Prototype
      * @var array
      */
     protected $choices;
+
+    /**
+     * Constructor.
+     *
+     * @param string|null $name
+     * @param string|null $selector
+     */
+    public function __construct($name = null, $selector = null)
+    {
+        if ($name) {
+            $this->setName($name);
+        }
+
+        if ($selector) {
+            $this->setSelector($selector);
+        }
+    }
 
     /**
      * @return string
