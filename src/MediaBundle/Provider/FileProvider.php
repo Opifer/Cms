@@ -148,7 +148,10 @@ class FileProvider extends AbstractProvider
         $adapter = $this->filesystem->getAdapter();
 
         if ($adapter instanceof AwsS3) {
-            $adapter->setMetadata($media->getReference(), ['ContentType' => $media->getContentType()]);
+            $adapter->setMetadata($media->getReference(), [
+                'ContentType' => $media->getContentType(),
+                'Cache-Control' => 'max-age=86400'
+            ]);
         }
 
         $this->filesystem->write($media->getReference(), file_get_contents($media->getFile()));
