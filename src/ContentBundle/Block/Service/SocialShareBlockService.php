@@ -110,7 +110,7 @@ class SocialShareBlockService extends AbstractBlockService implements BlockServi
 
     public function getTwitterShareUrl()
     {
-        return sprintf('http://www.facebook.com/sharer.php?u=%s', urlencode($this->getRequestUrl()));
+        return sprintf('https://twitter.com/intent/tweet?text=%s', urlencode($this->getRequestUrl()));
     }
 
     public function getTwitterShareCount()
