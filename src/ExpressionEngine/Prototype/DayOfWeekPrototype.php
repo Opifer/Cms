@@ -8,8 +8,8 @@ class DayOfWeekPrototype extends Prototype
 {
     public function __construct($name, $selector)
     {
-        $this->setName($name);
-        $this->setSelector($selector);
+        parent::__construct($name, $selector);
+
         $this->setConstraints([
             new Choice(IsDayOfWeek::class, 'Equals'),
         ]);
