@@ -83,7 +83,7 @@ class ListBlockService extends AbstractBlockService implements BlockServiceInter
      */
     public function load(BlockInterface $block)
     {
-        $collection = $this->contentManager->getRepository()->findByIds(json_decode($block->getValue()));
+        $collection = $this->contentManager->getRepository()->findOrderedByIds(json_decode($block->getValue()));
 
         if ($collection) {
             $block->setCollection($collection);

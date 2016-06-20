@@ -219,10 +219,14 @@ class ContentExtension extends \Twig_Extension
 
         /** @var Content[] $contents */
         $contents = $this->getContentManager()->getRepository()->findByIds($matches[1]);
+        $array = [];
+        foreach ($contents as $content) {
+            $array[$content->getId()] = $content;
+        }
 
         foreach ($matches[0] as $key => $match) {
-            if (isset($contents[$matches[1][$key]])) {
-                $content = $contents[$matches[1][$key]];
+            if (isset($array[$matches[1][$key]])) {
+                $content = $array[$matches[1][$key]];
 
                 $url = $this->getRouter()->generate('_content', ['slug' => $content->getSlug()]);
             } else {

@@ -198,10 +198,19 @@ class ContentRepository extends NestedTreeRepository
             $ids = explode(',', $ids);
         }
 
-        $items = $this->createValuedQueryBuilder('c')
+        return $this->createValuedQueryBuilder('c')
             ->andWhere('c.id IN (:ids)')->setParameter('ids', $ids)
             ->andWhere('c.deletedAt IS NULL')
             ->getQuery()->useResultCache(true, self::CACHE_TTL)->getResult();
+    }
+
+    public function findOrderedByIds($ids)
+    {
+        if (!is_array($ids)) {
+            $ids = explode(',', $ids);
+        }
+
+        $items = $this->findByIds($ids);
 
         return $this->sortByArray($items, $ids);
     }
@@ -224,7 +233,7 @@ class ContentRepository extends NestedTreeRepository
         $ordered = [];
         foreach ($order as $id) {
             if (isset($unordered[$id])) {
-                $ordered[$id] = $unordered[$id];
+                $ordered[] = $unordered[$id];
             }
         }
 

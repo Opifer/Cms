@@ -48,7 +48,7 @@ class ContentController extends Controller
     {
         $items = $this->get('opifer.content.content_manager')
             ->getRepository()
-            ->findByIds($ids);
+            ->findOrderedByIds($ids);
 
         $contents = $this->get('jms_serializer')->serialize($items, 'json', SerializationContext::create()->setGroups(['list'])->enableMaxDepthChecks());
 

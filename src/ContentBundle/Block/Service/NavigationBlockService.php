@@ -123,8 +123,8 @@ class NavigationBlockService extends AbstractBlockService implements BlockServic
     }
 
     /**
-    * @param array collection
-    * @param array sort
+    * @param array $collection
+    * @param array $sort
     *
     * @return array
     */
