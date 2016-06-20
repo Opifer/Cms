@@ -48,7 +48,6 @@ class AttributeType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        dump($options);
         $builder->add('valueType', ValueProviderType::class, [
             'label' => 'attribute.value_type',
             'attr' => [
