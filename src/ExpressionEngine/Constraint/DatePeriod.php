@@ -5,17 +5,17 @@ namespace Opifer\ExpressionEngine\Constraint;
 use Webmozart\Expression\Expression;
 use Webmozart\Expression\Logic\Literal;
 
-class Date extends Literal
+class DatePeriod extends Literal
 {
     /**
-     * @var int|string
+     * @var string
      */
     protected $date;
 
     /**
-     * Constructor.
+     * Constructor
      *
-     * @param string|int $date
+     * @param string $period
      */
     public function __construct($date)
     {
@@ -27,11 +27,17 @@ class Date extends Literal
      */
     public function evaluate($value)
     {
-        if (!$value instanceof \DateTime) {
+        if (!$value instanceof \DatePeriod) {
             throw new \Exception('The value passed to the Date constraint should be an instance of \DateTime');
         }
 
-        return (strtolower($value->format($this->getDateFormat())) == strtolower($this->date));
+        foreach ($value as $day) {
+            if (strtolower($day->format($this->getDateFormat())) == strtolower($this->date)) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     /**
@@ -57,6 +63,6 @@ class Date extends Literal
      */
     public function toString()
     {
-        return 'date()';
+        return 'datePeriod()';
     }
 }

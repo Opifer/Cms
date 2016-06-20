@@ -32,6 +32,11 @@ class ExpressionEngine
         return $this->getSerializer()->serialize($collection, 'json');
     }
 
+    /**
+     * @param string $json
+     *
+     * @return Expression[]
+     */
     public function deserialize($json)
     {
         return $this->getSerializer()->deserialize($json, "array<Opifer\ExpressionEngine\Expression\Expression>", 'json');
@@ -77,9 +82,10 @@ class ExpressionEngine
     }
 
     /**
-     * Transform the expression to Webmozarts' Expression
+     * Transform the expression to Webmozarts' Expression.
      *
      * @param Expression $expression
+     *
      * @return \Webmozart\Expression\Expression
      */
     protected function transform(Expression $expression)
