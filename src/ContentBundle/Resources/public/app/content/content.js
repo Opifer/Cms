@@ -43,11 +43,11 @@ angular.module('OpiferContent', ['angular-inview', 'ui.tree', 'ngCookies'])
                         $http.get(Routing.generate('opifer_content_api_content_ids', {'ids': content}))
                             .success(function (data) {
                                 var results = data.results;
-                                for (var i = 0; i < results.length; i++) {
-                                    results[i].__children = [];
+                                angular.forEach(results, function(c, index) {
+                                    results[index].__children = [];
 
-                                    $scope.selecteditems.push(results[i]);
-                                }
+                                    $scope.selecteditems.push(results[index]);
+                                });
                             })
                         ;
                     }
