@@ -201,7 +201,9 @@ class ContentRepository extends NestedTreeRepository
         return $this->createValuedQueryBuilder('c')
             ->andWhere('c.id IN (:ids)')->setParameter('ids', $ids)
             ->andWhere('c.deletedAt IS NULL')
-            ->getQuery()->useResultCache(true, self::CACHE_TTL)->getResult();
+            ->getQuery()
+            ->useResultCache(true, self::CACHE_TTL)
+            ->getResult();
     }
 
     public function findOrderedByIds($ids)

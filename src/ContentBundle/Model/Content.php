@@ -970,6 +970,28 @@ class Content implements ContentInterface, EntityInterface, TemplatedInterface, 
     }
 
     /**
+     * Get all parents of the current content item
+     *
+     * @param bool $includeSelf
+     *
+     * @return ContentInterface[]
+     */
+    public function getParents($includeSelf = true)
+    {
+        $parents = [];
+
+        if (null !== $this->parent) {
+            $parents = $this->getParent()->getParents();
+        }
+
+        if ($includeSelf) {
+            $parents[] = $this;
+        }
+
+        return $parents;
+    }
+
+    /**
      * @return Template
      */
     public function getTemplate()
