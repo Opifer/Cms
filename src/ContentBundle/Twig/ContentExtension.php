@@ -7,6 +7,7 @@ use Opifer\ContentBundle\Block\BlockManager;
 use Opifer\ContentBundle\Entity\Block;
 use Opifer\ContentBundle\Entity\CompositeBlock;
 use Opifer\ContentBundle\Entity\PointerBlock;
+use Opifer\ContentBundle\Entity\Template;
 use Opifer\ContentBundle\Environment\Environment;
 use Opifer\ContentBundle\Model\BlockInterface;
 use Opifer\ContentBundle\Model\Content;
@@ -249,6 +250,10 @@ class ContentExtension extends \Twig_Extension
      */
     public function isParentOf($content, ContentInterface $child)
     {
+        if ($child instanceof Template) {
+            return false;
+        }
+
         $parents = $child->getParents();
         foreach ($parents as $parent) {
             if (is_string($content)) {
