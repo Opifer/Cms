@@ -10,6 +10,7 @@ use Opifer\ContentBundle\Entity\PointerBlock;
 use Opifer\ContentBundle\Environment\Environment;
 use Opifer\ContentBundle\Model\BlockInterface;
 use Opifer\ContentBundle\Model\Content;
+use Opifer\ContentBundle\Model\ContentInterface;
 use Opifer\ContentBundle\Model\ContentManager;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
@@ -91,6 +92,7 @@ class ContentExtension extends \Twig_Extension
         return [
             new \Twig_SimpleTest('block_container', function (BlockInterface $block) { return $block instanceof BlockContainerInterface; }),
             new \Twig_SimpleTest('block_pointer', function (BlockInterface $block) { return $block instanceof PointerBlock; }),
+            new \Twig_SimpleTest('parent_of', [$this, 'isParentOf']),
         ];
     }
 
@@ -237,6 +239,30 @@ class ContentExtension extends \Twig_Extension
         }
 
         return $string;
+    }
+
+    /**
+     * @param string|ContentInterface $content
+     * @param ContentInterface        $child
+     *
+     * @return bool
+     */
+    public function isParentOf($content, ContentInterface $child)
+    {
+        $parents = $child->getParents();
+        foreach ($parents as $parent) {
+            if (is_string($content)) {
+                if (substr($content, 0, strlen($parent->getSlug())) === $parent->getSlug()) {
+                    return true;
+                }
+            } else {
+                if ($parent->getId() == $content->getId()) {
+                    return true;
+                }
+            }
+        }
+
+        return false;
     }
 
     /**
