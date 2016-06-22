@@ -86,13 +86,16 @@ class ContentRepository extends BaseContentRepository
      *
      * @return ArrayCollection
      */
-    public function findActiveAddressable()
+    public function findIndexable()
     {
         return $this->createQueryBuilder('c')
-            ->leftJoin('c.directory', 'directory')
+            ->where('c.indexable = :indexable')
             ->Andwhere('c.active = :active')
-            ->setParameter('active', '1')
-            ->orderBy('directory.name', 'ASC')
+            ->setParameters([
+                'active' => true,
+                'indexable' => true
+            ])
+            ->orderBy('c.slug', 'ASC')
             ->getQuery()
             ->getResult();
     }
