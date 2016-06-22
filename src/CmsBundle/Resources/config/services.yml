@@ -15,7 +15,6 @@ parameters:
     opifer.cms.menu_group.class: 'Opifer\CmsBundle\Entity\MenuGroup'
     opifer.cms.menu_group_value_provider.class: 'Opifer\CmsBundle\ValueProvider\MenuGroupValueProvider'
     opifer.cms.menu_manager.class: 'Opifer\CmsBundle\Manager\MenuManager'
-    opifer.cms.sitemap_listener.class: 'Opifer\CmsBundle\EventListener\SitemapListener'
     opifer.cms.slug_form_type.class: 'Opifer\CmsBundle\Form\Type\SlugType'
     opifer.cms.tableprefix_listener.class: 'Opifer\CmsBundle\EventListener\TablePrefixSubscriber'
     twig.extension.intl.class: 'Twig_Extensions_Extension_Intl'
@@ -127,12 +126,6 @@ services:
         arguments: ['%opifer_cms.classes%']
         tags:
             - { name: doctrine.event_subscriber }
-
-    opifer.cms.sitemap_listener:
-        class: '%opifer.cms.sitemap_listener.class%'
-        arguments: ['@router', '@doctrine.orm.entity_manager']
-        tags:
-            - {name: 'presta.sitemap.listener'}
 
     opifer.cms.tableprefix_listener:
         class: '%opifer.cms.tableprefix_listener.class%'

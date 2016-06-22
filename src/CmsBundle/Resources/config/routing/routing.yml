@@ -29,27 +29,27 @@ opifer_cms_exception_404:
     defaults: { _controller: OpiferCmsBundle:Frontend\Exception:error404 }
     methods: [GET]
 
+opifer_cms_sitemap_sitemap:
+    pattern: /sitemap.xml
+    defaults: { _controller: OpiferCmsBundle:Frontend\Sitemap:sitemap, _format: xml }
+    methods: [GET]
+
 opifer_form:
     resource: "@OpiferFormBundle/Resources/config/routing.yml"
 
 opifer_cms_home:
     pattern:  /
     defaults: { _controller: OpiferContentBundle:Frontend\Content:home }
-    options: {sitemap: true}
+
+opifer_cms_login:
+    pattern:  /login
+    defaults: { _controller: FOSUserBundle:Security:login }
 
 opifer_cms_auto_complete:
     path: /autocomplete/{alias}
     defaults: { _controller: OpiferCmsBundle:AutoComplete:query }
     options:
         expose: true
-
-opifer_cms_login:
-    pattern:  /login
-    defaults: { _controller: FOSUserBundle:Security:login }
-
-PrestaSitemapBundle:
-    resource: "@PrestaSitemapBundle/Resources/config/routing.yml"
-    prefix:   /
 
 # Third party bundle routing fallbacks
 
