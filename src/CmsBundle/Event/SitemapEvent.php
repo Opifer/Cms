@@ -7,37 +7,37 @@ use Symfony\Component\EventDispatcher\Event;
 class SitemapEvent extends Event
 {
     /** @var array */
-    protected $pages = [];
+    protected $urls = [];
 
     /**
-     * @param string $loc
+     * @param string    $loc
      * @param \DateTime $lastmod
-     * @param string $changefreq
-     * @param int $priority
+     * @param string    $changefreq
+     * @param int       $priority
      */
-    public function addPage($loc, \DateTime $lastmod, $changefreq = 'daily', $priority = 1)
+    public function addUrl($loc, \DateTime $lastmod, $changefreq = 'daily', $priority = 1)
     {
-        $this->pages[] = [
+        $this->urls[] = [
             'loc' => $loc,
             'lastmod' => $lastmod,
             'changefreq' => $changefreq,
-            'priority' => $priority
+            'priority' => $priority,
         ];
     }
 
     /**
      * @return array
      */
-    public function getPages()
+    public function getUrls()
     {
-        return $this->pages;
+        return $this->urls;
     }
 
     /**
-     * @param array $pages
+     * @param array $urls
      */
-    public function setPages(array $pages)
+    public function setUrls(array $urls)
     {
-        $this->pages = $pages;
+        $this->urls = $urls;
     }
 }

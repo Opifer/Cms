@@ -7,5 +7,5 @@ final class Events
     /**
      * Fired right after the sitemap is populated
      */
-    const POST_SET_SITEMAP = 'opifer_cms.post_populate_sitemap';
+    const POPULATE_SITEMAP = 'opifer_cms.populate_sitemap';
 }
