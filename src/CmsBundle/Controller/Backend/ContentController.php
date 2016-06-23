@@ -5,6 +5,7 @@ namespace Opifer\CmsBundle\Controller\Backend;
 use APY\DataGridBundle\Grid\Action\RowAction;
 use APY\DataGridBundle\Grid\Column\TextColumn;
 use APY\DataGridBundle\Grid\Source\Entity;
+use Opifer\CmsBundle\Grid\AttributeColumn;
 use Opifer\ContentBundle\Controller\Backend\ContentController as BaseContentController;
 use Opifer\ContentBundle\Designer\AbstractDesignSuite;
 use Opifer\ContentBundle\Environment\Environment;
@@ -27,7 +28,12 @@ class ContentController extends BaseContentController
             throw $this->createNotFoundException(sprintf('Content Type with ID %d could not be found.', $type));
         }
 
-        $queryBuilder = $this->get('opifer.content.content_manager')->getRepository()->createValuedQueryBuilder('c');
+        $queryBuilder = $this->get('opifer.content.content_manager')->getRepository()->createQueryBuilder('c')
+            ->select('c', 'vs', 'v', 'a')
+            ->leftJoin('c.valueSet', 'vs')
+            ->leftJoin('vs.values', 'v')
+            ->leftJoin('v.attribute', 'a');
+
         $source = new Entity($this->getParameter('opifer_content.content_class'));
         $source->initQueryBuilder($queryBuilder);
         $tableAlias = $source->getTableAlias();
@@ -55,11 +61,13 @@ class ContentController extends BaseContentController
 
         foreach ($contentType->getSchema()->getAttributes() as $attribute) {
             $name = $attribute->getName();
-            $column = new TextColumn([
+            $column = new AttributeColumn([
                 'id' => $name,
-                'field' => 'attributes.'.$attribute->getName().'.value',
+                'field' => 'valueSet.values.value',
                 'title' => $attribute->getDisplayName(),
-                'visible' => false
+                'visible' => false,
+                'attribute' => $name,
+                'source' => true
             ]);
             $column->manipulateRenderCell(
                 function($value, $row, $router) use ($name) {
