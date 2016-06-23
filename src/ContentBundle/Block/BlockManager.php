@@ -491,8 +491,10 @@ class BlockManager
         $block->setSortParent(-1); // < need to be calculated when putting in the tree
 
         // Set owner
-        $block->setOwner($owner);
-//        $owner->addBlock($block);
+        if (is_null($parent) || false === $parent->isShared()) {
+            $block->setOwner($owner);
+        }
+
         $block->setParent($parent);
 
         // Save now, rest will be in changeset. All we do is a create a stub entry anyway.
