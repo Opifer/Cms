@@ -20,34 +20,6 @@ use Opifer\ContentBundle\Model\ContentRepository as BaseContentRepository;
 class ContentRepository extends BaseContentRepository
 {
     /**
-     * Find related content.
-     *
-     * @param Content $content
-     * @param int     $limit
-     *
-     * @return ArrayCollection
-     */
-    public function findRelated(Content $content, $limit = 10)
-    {
-        $city = $content->getValueSet()->getValueFor('address')->getAddress()->getCity();
-        $query = $this->createQueryBuilder('c')
-            ->innerJoin('c.valueSet', 'vs')
-            ->innerJoin('vs.values', 'v')
-            ->innerJoin('v.attribute', 'a')
-            ->innerJoin('v.address', 'addr')
-            ->where('addr.city = :city')
-            ->andWhere('c.active = 1')
-            ->andWhere('c.nestedIn IS NULL')
-            ->andWhere('c.id <> :id')
-            ->setParameter('id', $content->getId())
-            ->setParameter('city', $city)
-            ->setMaxResults($limit)
-            ->getQuery();
-
-        return $query->getResult();
-    }
-
-    /**
      * Find the last updated content items.
      *
      * @param int $limit

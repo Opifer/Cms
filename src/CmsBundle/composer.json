@@ -8,6 +8,12 @@
             "homepage": "http://www.opifer.nl/"
         }
     ],
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/Opifer/APYDataGridBundle.git"
+        }
+    ],
     "require": {
         "php": ">=5.5",
         "symfony/symfony": "~2.7",
