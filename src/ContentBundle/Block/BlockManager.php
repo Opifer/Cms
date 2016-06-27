@@ -297,6 +297,9 @@ class BlockManager
                 $this->em->flush($block);
             }
         }
+
+        $cacheDriver = $this->em->getConfiguration()->getResultCacheImpl();
+        $cacheDriver->deleteAll();
     }
 
     /**
