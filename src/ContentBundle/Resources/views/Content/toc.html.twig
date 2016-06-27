@@ -15,9 +15,9 @@
                 {% endif %}
                 {% spaceless %}
                 <div class="pm-btn-group">
-                    {% if  environment.object.id == node.owner.id|default("0") %}<i data-pm-block-id="{{ node.id }}" class="pm-btn pm-btn-drag material-icons">drag_handle</i>{% endif %}
+                    {% if environment.object.id == node.owner.id|default("0") %}<i data-pm-block-id="{{ node.id }}" class="pm-btn pm-btn-drag material-icons">drag_handle</i>{% endif %}
                     <i data-pm-block-id="{{ node.id }}" class="pm-btn pm-btn-localize material-icons">location_searching</i>
-                    {% if  environment.object.id == node.owner.id|default("0") %}<i data-pm-block-id="{{ (node is block_pointer and node.reference.id|default) ? node.reference.id : node.id }}" class="pm-btn pm-btn-edit material-icons">edit</i>{% endif %}
+                    {% if environment.object.id == node.owner.id|default("0") or node.hasSharedParent %}<i data-pm-block-id="{{ (node is block_pointer and node.reference.id|default) ? node.reference.id : node.id }}" class="pm-btn pm-btn-edit material-icons">edit</i>{% endif %}
                 </div>
                 {% endspaceless %}
             </span>
