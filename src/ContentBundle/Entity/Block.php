@@ -470,6 +470,22 @@ abstract class Block implements BlockInterface, DraftInterface
     }
 
     /**
+     * Checks if one of the current blocks' parents is a shared block
+     *
+     * @return bool
+     */
+    public function hasSharedParent()
+    {
+        $parent = $this->getParent();
+
+        if ($parent != null && ($parent->isShared() || $parent->hasSharedParent())) {
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
      * @param VisitorInterface $visitor
      */
     public function accept(VisitorInterface $visitor)
