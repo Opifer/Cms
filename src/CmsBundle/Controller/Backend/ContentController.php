@@ -3,8 +3,7 @@
 namespace Opifer\CmsBundle\Controller\Backend;
 
 use APY\DataGridBundle\Grid\Action\RowAction;
-use APY\DataGridBundle\Grid\Column\TextColumn;
-use APY\DataGridBundle\Grid\Source\Entity;
+use Opifer\CmsBundle\Grid\Entity;
 use Opifer\CmsBundle\Grid\AttributeColumn;
 use Opifer\ContentBundle\Controller\Backend\ContentController as BaseContentController;
 use Opifer\ContentBundle\Designer\AbstractDesignSuite;
