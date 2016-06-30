@@ -254,6 +254,9 @@ $(document).ready(function() {
                     }
                     // Bootstrap AngularJS app (media library etc) after altering DOM
                     angular.bootstrap(editDialog.getModalBody().find('form'), ["MainApp"]);
+
+                    // Bootstrap ExpressionEngine ReactJS app
+                    initializeExpressionEngine();
                 });
 
                 return false;
@@ -439,6 +442,9 @@ $(document).ready(function() {
                 editDialog.setTitle('Content');
                 editDialog.getModalBody().html(data);
                 angular.bootstrap(editDialog.getModalBody().find('form'), ["MainApp"]);
+
+                // Bootstrap ExpressionEngine ReactJS app
+                initializeExpressionEngine();
             });
 
             editDialog.open();
@@ -1038,5 +1044,3 @@ $(document).ready(function() {
 
     pagemanager.onReady();
 });
-
-
