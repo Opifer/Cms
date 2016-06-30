@@ -13,6 +13,8 @@ use Opifer\ExpressionEngine\DoctrineExpressionEngine;
 use Opifer\ExpressionEngine\Form\Type\ExpressionEngineType;
 use Opifer\ExpressionEngine\Prototype\Choice;
 use Opifer\ExpressionEngine\Prototype\Prototype;
+use Opifer\ExpressionEngine\Prototype\PrototypeCollection;
+use Opifer\ExpressionEngine\Prototype\SelectPrototype;
 use Symfony\Bundle\FrameworkBundle\Templating\EngineInterface;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\FormType;
@@ -60,7 +62,7 @@ class CollectionBlockService extends AbstractBlockService implements BlockServic
         $builder->add(
             $builder->create('properties', FormType::class)
                 ->add('conditions', ExpressionEngineType::class, [
-                    'prototypes' => $this->getPrototypes(),
+                    'prototypes' => $this->getPrototypes()
                 ])
                 ->add('order_by', ChoiceType::class, [
                     'label' => 'Order by',
@@ -89,38 +91,22 @@ class CollectionBlockService extends AbstractBlockService implements BlockServic
         );
     }
 
+    /**
+     * @return \Opifer\ExpressionEngine\Prototype\Prototype[]
+     */
     protected function getPrototypes()
     {
-        $prototypes = [];
-
-        $prototype = new Prototype();
-        $prototype->setKey('1');
-        $prototype->setName('Content Type');
-        $prototype->setSelector('contentType.id');
-        $prototype->setConstraints([
-            new Choice(Equals::class, 'Equals'),
-            new Choice(NotEquals::class, 'Not Equals'),
+        $collection = new PrototypeCollection([
+            new SelectPrototype('Content Type', 'contentType.id', $this->getContentTypeChoices()),
+            new SelectPrototype('Status', 'active', [
+                new Choice(true, 'Active'),
+                new Choice(false, 'Inactive'),
+            ])
         ]);
-        $prototype->setType(Prototype::TYPE_SELECT);
-        $prototype->setChoices($this->getContentTypeChoices());
-        $prototypes[] = $prototype;
 
-        $prototype = new Prototype();
-        $prototype->setKey('2');
-        $prototype->setName('Status');
-        $prototype->setSelector('active');
-        $prototype->setConstraints([
-            new Choice(Equals::class, 'Equals'),
-            new Choice(NotEquals::class, 'Not Equals'),
-        ]);
-        $prototype->setType(Prototype::TYPE_SELECT);
-        $prototype->setChoices([
-            new Choice(true, 'Active'),
-            new Choice(false, 'Inactive'),
-        ]);
-        $prototypes[] = $prototype;
 
-        return $prototypes;
+
+        return $collection->all();
     }
 
     protected function getContentTypeChoices()
