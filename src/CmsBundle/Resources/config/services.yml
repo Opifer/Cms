@@ -212,6 +212,14 @@ services:
         tags:
             - { name: 'opifer.content.block_service', alias: 'review' }
 
+    opifer.cms.login_block:
+        class: 'Opifer\CmsBundle\Block\Service\LoginBlockService'
+        arguments: ['@templating', '@security.csrf.token_manager', '@session', '%opifer_cms.login_block_configuration%']
+        tags:
+            - { name: 'opifer.content.block_service', alias: 'login' }
+        calls:
+            - [setRequest, ['@request_stack']]
+
     # Expression Engine services
 
     opifer.expression_engine:

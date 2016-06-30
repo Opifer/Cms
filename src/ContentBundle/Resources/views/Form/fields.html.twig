@@ -3,12 +3,10 @@
 #}
 {% block contentpicker_widget %}
     {% spaceless %}
-        {% if form.vars.value.content_id %}
-            {% set content = form.vars.value.content_id %}
-        {% endif %}
+        {% set content = form.vars.value %}
 
         <div class="content-picker" ng-controller="ContentPickerController" ng-cloak ng-init="init('{{ {'id': content.id|default, 'title': content.title|default|escape, 'coverImage': (content.coverImage|default) ? content.coverImage|imagine_filter('medialibrary') : '', 'path': path('_content', {'slug': content.slug|default})}|json_encode }}')">
-            {{ form_row(form.content_id, {'attr': {'ng-value': 'content.id'} }) }}
+            <input type="hidden" id="{{ form.vars.id }}" name="{{ form.vars.full_name }}" ng-value="content.id" value="{{ content.id|default }}">
             {% verbatim %}
             <div class="wrapper">
                 <button type="button" class="btn btn-default" ng-click="isPickerOpen = !isPickerOpen">Choose item</button>
