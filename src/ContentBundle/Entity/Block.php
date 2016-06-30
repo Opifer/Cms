@@ -3,22 +3,19 @@
 namespace Opifer\ContentBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
-
 use APY\DataGridBundle\Grid\Mapping as GRID;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Opifer\Revisions\Mapping\Annotation as Revisions;
 use Opifer\Revisions\DraftInterface;
-
 use JMS\Serializer\Annotation as JMS;
-use Opifer\ContentBundle\Block\DraftVersionInterface;
 use Opifer\ContentBundle\Block\VisitorInterface;
 use Opifer\ContentBundle\Model\BlockInterface;
 use Opifer\ContentBundle\Model\Content;
 use Opifer\ContentBundle\Model\ContentInterface;
 
 /**
- * Block
+ * Block.
  *
  * @ORM\Table(name="block")
  * @ORM\Entity(repositoryClass="Opifer\ContentBundle\Repository\BlockRepository")
@@ -28,6 +25,7 @@ use Opifer\ContentBundle\Model\ContentInterface;
  * The discriminatorMap is handled dynamically by the BlockDiscriminatorListener. It
  * retrieves the mapped classes from the BlockManager and adds them to the
  * map.
+ *
  * @see Opifer\CmsBundle\EventListener\BlockDiscriminatorListener
  *
  * @Revisions\Revision(draft=true)
@@ -39,7 +37,7 @@ use Opifer\ContentBundle\Model\ContentInterface;
 abstract class Block implements BlockInterface, DraftInterface
 {
     /**
-     * @var integer
+     * @var int
      *
      * @ORM\Column(type="integer")
      * @ORM\Id
@@ -81,7 +79,7 @@ abstract class Block implements BlockInterface, DraftInterface
     protected $children;
 
     /**
-     * @var integer
+     * @var int
      *
      * @Revisions\Revised
      * @ORM\Column(type="integer", nullable=true)
@@ -89,7 +87,7 @@ abstract class Block implements BlockInterface, DraftInterface
     protected $position = 0;
 
     /**
-     * @var integer
+     * @var int
      *
      * @Revisions\Revised
      * @ORM\Column(type="integer", nullable=true)
@@ -97,7 +95,7 @@ abstract class Block implements BlockInterface, DraftInterface
     protected $sort = 0;
 
     /**
-     * @var null|integer
+     * @var null|int
      *
      * @Revisions\Revised
      * @ORM\Column(type="integer", nullable=true, options={"default":null})
@@ -113,7 +111,7 @@ abstract class Block implements BlockInterface, DraftInterface
     protected $properties;
 
     /**
-     * @var boolean
+     * @var bool
      *
      * @ORM\Column(type="boolean")
      */
@@ -174,12 +172,12 @@ abstract class Block implements BlockInterface, DraftInterface
     protected $deletedAt;
 
     /**
-     * @var boolean
+     * @var bool
      */
     protected $draft = false;
 
     /**
-     * Constructor
+     * Constructor.
      */
     public function __construct()
     {
@@ -191,15 +189,14 @@ abstract class Block implements BlockInterface, DraftInterface
      */
     public function __toString()
     {
-        return sprintf("Block %d", $this->id);
+        return sprintf('Block %d', $this->id);
     }
-
 
     public function isInRoot()
     {
-        if (! $this->getOwner()) {
+        if (!$this->getOwner()) {
             return false;
-        } elseif (! $this->getParent()) {
+        } elseif (!$this->getParent()) {
             return true;
         }
 
@@ -239,9 +236,9 @@ abstract class Block implements BlockInterface, DraftInterface
     {
         if ($owner instanceof Content) {
             $this->content = $owner;
-        } else if ($owner instanceof Template) {
+        } elseif ($owner instanceof Template) {
             $this->template = $owner;
-        } else if ($owner === null) {
+        } elseif ($owner === null) {
             $this->template = null;
             $this->content = null;
         } else {
@@ -257,9 +254,9 @@ abstract class Block implements BlockInterface, DraftInterface
 
         if ($owner === null) {
             return;
-        } else if ($owner instanceof Content) {
+        } elseif ($owner instanceof Content) {
             return $owner->getTitle();
-        } else if ($owner instanceof Template) {
+        } elseif ($owner instanceof Template) {
             return $owner->getName();
         }
     }
@@ -345,9 +342,9 @@ abstract class Block implements BlockInterface, DraftInterface
     }
 
     /**
-     * Set created at
+     * Set created at.
      *
-     * @param  \DateTime|null $date
+     * @param \DateTime|null $date
      *
      * @return $this
      */
@@ -359,7 +356,7 @@ abstract class Block implements BlockInterface, DraftInterface
     }
 
     /**
-     * Get created at
+     * Get created at.
      *
      * @return \DateTime
      */
@@ -369,7 +366,7 @@ abstract class Block implements BlockInterface, DraftInterface
     }
 
     /**
-     * Get updated at
+     * Get updated at.
      *
      * @return \DateTime
      */
@@ -379,9 +376,9 @@ abstract class Block implements BlockInterface, DraftInterface
     }
 
     /**
-     * Set updated at
+     * Set updated at.
      *
-     * @param  \DateTime $updatedAt
+     * @param \DateTime $updatedAt
      *
      * @return $this
      */
@@ -393,9 +390,9 @@ abstract class Block implements BlockInterface, DraftInterface
     }
 
     /**
-     * Set deletedAt
+     * Set deletedAt.
      *
-     * @param  \DateTime $deletedAt
+     * @param \DateTime $deletedAt
      *
      * @return $this
      */
@@ -407,7 +404,7 @@ abstract class Block implements BlockInterface, DraftInterface
     }
 
     /**
-     * Get deletedAt
+     * Get deletedAt.
      *
      * @return \DateTime
      */
@@ -418,7 +415,27 @@ abstract class Block implements BlockInterface, DraftInterface
 
     public function getChildren()
     {
-        return new ArrayCollection;
+        return new ArrayCollection();
+    }
+
+    /**
+     * @return string
+     */
+    public function getValue()
+    {
+        return $this->value;
+    }
+
+    /**
+     * @param string $value
+     *
+     * @return Block
+     */
+    public function setValue($value)
+    {
+        $this->value = $value;
+
+        return $this;
     }
 
     /**
@@ -438,7 +455,7 @@ abstract class Block implements BlockInterface, DraftInterface
     }
 
     /**
-     * @return boolean
+     * @return bool
      */
     public function isShared()
     {
@@ -446,7 +463,7 @@ abstract class Block implements BlockInterface, DraftInterface
     }
 
     /**
-     * @param boolean $shared
+     * @param bool $shared
      */
     public function setShared($shared)
     {
@@ -470,7 +487,7 @@ abstract class Block implements BlockInterface, DraftInterface
     }
 
     /**
-     * Checks if one of the current blocks' parents is a shared block
+     * Checks if one of the current blocks' parents is a shared block.
      *
      * @return bool
      */
@@ -509,6 +526,7 @@ abstract class Block implements BlockInterface, DraftInterface
     protected function setTemplate($template)
     {
         $this->template = $template;
+
         return $this;
     }
 
@@ -533,7 +551,7 @@ abstract class Block implements BlockInterface, DraftInterface
     }
 
     /**
-     * @return boolean
+     * @return bool
      */
     public function isDraft()
     {
@@ -541,7 +559,7 @@ abstract class Block implements BlockInterface, DraftInterface
     }
 
     /**
-     * @param boolean $draft
+     * @param bool $draft
      *
      * @return Block
      */
@@ -552,10 +570,8 @@ abstract class Block implements BlockInterface, DraftInterface
         return $this;
     }
 
-
     public function hasChildren()
     {
         return false;
     }
-
 }

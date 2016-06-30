@@ -84,6 +84,18 @@ class Configuration implements ConfigurationInterface
                     ->end()
                 ->end()
 
+                ->arrayNode('blocks')
+                    ->addDefaultsIfNotSet()
+                    ->children()
+                        ->arrayNode('login')
+                            ->addDefaultsIfNotSet()
+                            ->children()
+                                ->scalarNode('view')->defaultValue('OpiferCmsBundle:Block:Content/login.html.twig')->end()
+                            ->end()
+                        ->end()
+                    ->end()
+                ->end()
+
                 ->scalarNode('google_captcha_site_key')->defaultNull()->end()
                 ->scalarNode('google_captcha_secret')->defaultNull()->end()
 

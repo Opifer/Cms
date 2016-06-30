@@ -46,7 +46,7 @@ class OpiferCmsExtension extends Extension implements PrependExtensionInterface
      */
     public function getParameters(array $config)
     {
-        return [
+        $params = [
             'opifer_cms.default_locale' => $config['default_locale'],
             'opifer_cms.google_captcha_site_key' => $config['google_captcha_site_key'],
             'opifer_cms.google_captcha_secret' => $config['google_captcha_secret'],
@@ -63,6 +63,13 @@ class OpiferCmsExtension extends Extension implements PrependExtensionInterface
             // Deprecated
             'opifer_cms.allowed_locales' => ['en'],
         ];
+
+        // Block configuration
+        foreach ($config['blocks'] as $block => $blockConfig) {
+            $params['opifer_cms.'.$block.'_block_configuration'] = $blockConfig;
+        }
+
+        return $params;
     }
 
     /**
