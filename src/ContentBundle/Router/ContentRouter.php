@@ -86,16 +86,18 @@ class ContentRouter implements RouterInterface
             // The route matches, now check if it actually exists
             $slug = $result['slug'];
 
+            $contentRepository = $this->contentManager->getRepository();
+
             try {
                 //is it directory index
                 if (substr($slug, -1) == '/') {
                     $slug = rtrim($slug, '/');
                 }
 
-                $result['content'] = $this->contentManager->findActiveBySlug($slug);
+                $result['content'] = $contentRepository->findActiveBySlug($slug);
             } catch (NoResultException $e) {
                 try {
-                    $result['content'] = $this->contentManager->findActiveByAlias($slug);
+                    $result['content'] = $contentRepository->findActiveByAlias($slug);
                 } catch (NoResultException $ex) {
                     throw new ResourceNotFoundException('No page found for slug '.$pathinfo);
                 }

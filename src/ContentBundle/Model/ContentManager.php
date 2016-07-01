@@ -107,42 +107,6 @@ class ContentManager implements ContentManagerInterface, BlockProviderInterface
     }
 
     /**
-     * Find published content
-     *
-     * @param string $slug
-     *
-     * @return ContentInterface
-     */
-    public function findActiveBySlug($slug)
-    {
-        return $this->getRepository()->findActiveBySlug($slug);
-    }
-
-    /**
-     * Find content by alias
-     *
-     * @param string $alias
-     *
-     * @return ContentInterface
-     */
-    public function findOneByAlias($alias)
-    {
-        return $this->getRepository()->findOneByAlias($alias);
-    }
-
-    /**
-     * Find published content by alias
-     *
-     * @param string $alias
-     *
-     * @return ContentInterface
-     */
-    public function findActiveByAlias($alias)
-    {
-        return $this->getRepository()->findActiveByAlias($alias);
-    }
-
-    /**
      * Get the content by a reference
      *
      * If the passed reference is a numeric, it must be the content ID from a

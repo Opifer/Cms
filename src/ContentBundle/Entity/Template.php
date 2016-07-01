@@ -3,17 +3,16 @@
 namespace Opifer\ContentBundle\Entity;
 
 use APY\DataGridBundle\Grid\Mapping as GRID;
-
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
-
+use Gedmo\Mapping\Annotation as Gedmo;
 use Opifer\ContentBundle\Block\BlockOwnerInterface;
 use Opifer\ContentBundle\Model\BlockInterface;
 use Opifer\ContentBundle\Model\ContentInterface;
 use Opifer\ContentBundle\Model\TemplatedInterface;
 
 /**
- * Template
+ * Template.
  *
  * @ORM\Entity(repositoryClass="Opifer\ContentBundle\Repository\TemplateRepository")
  * @ORM\Table(name="template")
@@ -23,7 +22,7 @@ use Opifer\ContentBundle\Model\TemplatedInterface;
 class Template implements ContentInterface, TemplatedInterface, BlockOwnerInterface
 {
     /**
-     * @var integer
+     * @var int
      *
      * @ORM\Column(type="integer")
      * @ORM\Id
@@ -75,15 +74,22 @@ class Template implements ContentInterface, TemplatedInterface, BlockOwnerInterf
     protected $blocks;
 
     /**
-     * @var integer
+     * @var int
      *
      * @ORM\Column(name="version", type="integer")
      */
     protected $version = 0;
 
+    /**
+     * @var \DateTime
+     *
+     * @Gedmo\Timestampable(on="update")
+     * @ORM\Column(name="updated_at", type="datetime")
+     */
+    protected $updatedAt;
 
     /**
-     * Constructor
+     * Constructor.
      */
     public function __construct()
     {
@@ -154,7 +160,7 @@ class Template implements ContentInterface, TemplatedInterface, BlockOwnerInterf
     }
 
     /**
-     * Get all blocks
+     * Get all blocks.
      *
      * @return ArrayCollection
      */
@@ -164,7 +170,7 @@ class Template implements ContentInterface, TemplatedInterface, BlockOwnerInterf
     }
 
     /**
-     * Set blocks
+     * Set blocks.
      *
      * @param mixed $blocks
      */
@@ -174,7 +180,7 @@ class Template implements ContentInterface, TemplatedInterface, BlockOwnerInterf
     }
 
     /**
-     * Add block
+     * Add block.
      *
      * @param BlockInterface $block
      *
@@ -188,7 +194,7 @@ class Template implements ContentInterface, TemplatedInterface, BlockOwnerInterf
     }
 
     /**
-     * Remove block
+     * Remove block.
      *
      * @param BlockInterface $block
      */
@@ -198,9 +204,9 @@ class Template implements ContentInterface, TemplatedInterface, BlockOwnerInterf
     }
 
     /**
-     * Check if any blocks are set
+     * Check if any blocks are set.
      *
-     * @return boolean
+     * @return bool
      */
     public function hasBlocks()
     {
@@ -233,11 +239,13 @@ class Template implements ContentInterface, TemplatedInterface, BlockOwnerInterf
 
     /**
      * @param int $version
+     *
      * @return Content
      */
     public function setVersion($version)
     {
         $this->version = $version;
+
         return $this;
     }
 
@@ -247,10 +255,34 @@ class Template implements ContentInterface, TemplatedInterface, BlockOwnerInterf
     }
 
     /**
-     * @inheritDoc
+     * {@inheritdoc}
      */
     public function getSuper()
     {
         return $this->getParent();
+    }
+
+    /**
+     * Get updated at.
+     *
+     * @return \DateTime
+     */
+    public function getUpdatedAt()
+    {
+        return $this->updatedAt;
+    }
+
+    /**
+     * Set updated at.
+     *
+     * @param \DateTime $updatedAt
+     *
+     * @return $this
+     */
+    public function setUpdatedAt(\DateTime $updatedAt)
+    {
+        $this->updatedAt = $updatedAt;
+
+        return $this;
     }
 }

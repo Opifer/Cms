@@ -1,3 +1,7 @@
+opifer_content_api:
+    resource: "routing_api.yml"
+    prefix:   /api
+
 opifer_content_template_index:
     path: /template
     defaults: { _controller: OpiferContentBundle:Backend/Template:index }

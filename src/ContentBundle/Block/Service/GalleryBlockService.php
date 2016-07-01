@@ -48,7 +48,7 @@ class GalleryBlockService extends AbstractBlockService implements BlockServiceIn
                 ->add('value',  MediaPickerType::class, [
                     'to_json' => true,
                     'multiple' => true,
-                    'label'    => 'label.content',
+                    'label'    => 'label.media',
                 ])
         );
     }

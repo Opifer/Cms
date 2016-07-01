@@ -3,7 +3,6 @@
 namespace Opifer\ContentBundle\Block\Service;
 
 use Opifer\ContentBundle\Block\BlockManager;
-use Opifer\ContentBundle\Block\RecursiveBlockIterator;
 use Opifer\ContentBundle\Block\Tool\Tool;
 use Opifer\ContentBundle\Block\Tool\ToolsetMemberInterface;
 use Opifer\ContentBundle\Model\BlockInterface;
@@ -14,7 +13,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\Session;
 
 /**
- * Clipboard Block Service
+ * Clipboard Block Service.
  */
 class ClipboardBlockService implements BlockServiceInterface, ToolsetMemberInterface
 {
@@ -52,48 +51,46 @@ class ClipboardBlockService implements BlockServiceInterface, ToolsetMemberInter
     }
 
     /**
-     * @inheritDoc
+     * {@inheritdoc}
      */
     public function getName(BlockInterface $block = null)
     {
-
     }
 
     /**
-     * @inheritDoc
+     * {@inheritdoc}
      */
     public function getView(BlockInterface $block)
     {
     }
 
     /**
-     * @inheritDoc
+     * {@inheritdoc}
      */
-    public function execute(BlockInterface $block, Response $response = null)
+    public function execute(BlockInterface $block, Response $response = null, array $parameters = [])
     {
     }
 
     /**
-     * @inheritDoc
+     * {@inheritdoc}
      */
     public function buildManageForm(FormBuilderInterface $builder, array $options)
     {
     }
 
     /**
-     * @inheritDoc
+     * {@inheritdoc}
      */
     public function preFormSubmit(BlockInterface $block)
     {
     }
 
     /**
-     * @inheritDoc
+     * {@inheritdoc}
      */
     public function postFormSubmit(FormInterface $form, BlockInterface $block)
     {
     }
-
 
     public function addToClipboard(BlockInterface $block)
     {
@@ -112,7 +109,7 @@ class ClipboardBlockService implements BlockServiceInterface, ToolsetMemberInter
     }
 
     /**
-     * @inheritDoc
+     * {@inheritdoc}
      */
     public function getTool(BlockInterface $block = null)
     {
@@ -123,7 +120,6 @@ class ClipboardBlockService implements BlockServiceInterface, ToolsetMemberInter
             $copyService = $this->blockManager->getService($block);
 
             $copyTool = $copyService->getTool($block);
-
 
             $tool = new Tool($copyTool->getName(), 'clipboard');
             $tool->setGroup('Clipboard');
@@ -137,5 +133,4 @@ class ClipboardBlockService implements BlockServiceInterface, ToolsetMemberInter
 
         return $tools;
     }
-
 }

@@ -36,7 +36,23 @@ class ContentController extends Controller
     public function viewAction(Request $request, ContentInterface $content, $statusCode = 200)
     {
         $version = $request->query->get('_version');
+        $debug = $this->getParameter('kernel.debug');
+
+        $contentDate = $content->getUpdatedAt();
+        $templateDate = $content->getTemplate()->getUpdatedAt();
+
+        $date = $contentDate > $templateDate ? $contentDate : $templateDate;
+
         $response = new Response();
+        $response->setLastModified($date);
+        $response->setPublic();
+
+        if (null === $version && false == $debug && $response->isNotModified($request)) {
+            // return the 304 Response immediately
+            return $response;
+        }
+
+        $version = $request->query->get('_version');
 
         /** @var Environment $environment */
         $environment = $this->get('opifer.content.block_environment');
@@ -50,7 +66,7 @@ class ContentController extends Controller
 
         $environment->load();
 
-        return $this->render($environment->getView(), $environment->getViewParameters());
+        return $this->render($environment->getView(), $environment->getViewParameters(), $response);
     }
 
     /**
