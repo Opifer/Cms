@@ -36,6 +36,7 @@ class ContentController extends Controller
     public function viewAction(Request $request, ContentInterface $content, $statusCode = 200)
     {
         $version = $request->query->get('_version');
+        $debug = $this->getParameter('kernel.debug');
 
         $contentDate = $content->getUpdatedAt();
         $templateDate = $content->getTemplate()->getUpdatedAt();
@@ -46,7 +47,7 @@ class ContentController extends Controller
         $response->setLastModified($date);
         $response->setPublic();
 
-        if (null === $version && $response->isNotModified($request)) {
+        if (null === $version && false == $debug && $response->isNotModified($request)) {
             // return the 304 Response immediately
             return $response;
         }
