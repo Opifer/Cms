@@ -1,13 +1,11 @@
-<?php 
+<?php
 
 namespace Opifer\ContentBundle\Tests\Router;
 
-use Doctrine\Common\Collections\ArrayCollection;
 use Mockery as m;
 use Opifer\ContentBundle\Router\ContentRouter;
 use Opifer\ContentBundle\Tests\TestData\Content;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\RequestContext;
 
 class ContentRouterTest extends \PHPUnit_Framework_TestCase
 {
@@ -20,7 +18,7 @@ class ContentRouterTest extends \PHPUnit_Framework_TestCase
 
         $this->contentManager = m::mock('Opifer\ContentBundle\Model\ContentManager');
         $this->requestStack = m::mock('Symfony\Component\HttpFoundation\RequestStack', [
-            'getCurrentRequest' => $request
+            'getCurrentRequest' => $request,
         ]);
     }
 
@@ -28,11 +26,15 @@ class ContentRouterTest extends \PHPUnit_Framework_TestCase
     {
         $content = new Content();
 
-        $this->contentManager->shouldReceive('findActiveBySlug', 'findActiveByAlias')->andReturn($content);
+        $contentRepository = m::mock('Opifer\ContentBundle\Model\ContentRepository');
+
+        $this->contentManager->shouldReceive('getRepository')->andReturn($contentRepository);
+
+        $contentRepository->shouldReceive('findActiveBySlug', 'findActiveByAlias')->andReturn($content);
 
         $contentRouter = new ContentRouter($this->requestStack, $this->contentManager);
         $result = $contentRouter->match('/about');
-        
+
         $this->assertEquals($content, $result['content']);
     }
 
@@ -41,7 +43,11 @@ class ContentRouterTest extends \PHPUnit_Framework_TestCase
      */
     public function testNotMatch()
     {
-        $this->contentManager->shouldReceive('findActiveBySlug', 'findActiveByAlias')->andThrow('Doctrine\ORM\NoResultException');
+        $contentRepository = m::mock('Opifer\ContentBundle\Model\ContentRepository');
+
+        $this->contentManager->shouldReceive('getRepository')->andReturn($contentRepository);
+
+        $contentRepository->shouldReceive('findActiveBySlug', 'findActiveByAlias')->andThrow('Doctrine\ORM\NoResultException');
 
         $contentRouter = new ContentRouter($this->requestStack, $this->contentManager);
         $result = $contentRouter->match('/about');

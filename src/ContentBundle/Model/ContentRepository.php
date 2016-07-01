@@ -111,24 +111,7 @@ class ContentRepository extends NestedTreeRepository
             ->setParameters(['slug' => $slug, 'active' => true])
             ->getQuery();
 
-        return $query->useResultCache(true, self::CACHE_TTL)->getSingleResult();
-    }
-
-    /**
-     * Find one by alias
-     *
-     * @param string $alias
-     *
-     * @return ContentInterface
-     */
-    public function findOneByAlias($alias)
-    {
-        $query = $this->createValuedQueryBuilder('c')
-            ->where('c.alias = :alias')
-            ->setParameter('alias', $alias)
-            ->getQuery();
-
-        return $query->useResultCache(true, self::CACHE_TTL)->getSingleResult();
+        return $query->getSingleResult();
     }
 
     /**
@@ -146,7 +129,7 @@ class ContentRepository extends NestedTreeRepository
             ->setParameters(['alias' => $alias, 'active' => true])
             ->getQuery();
 
-        return $query->useResultCache(true, self::CACHE_TTL)->getSingleResult();
+        return $query->getSingleResult();
     }
 
     /**

@@ -266,7 +266,8 @@ class ContentEditorController extends Controller
      */
     public function publishAction(Request $request)
     {
-        $this->getDoctrine()->getManager()->getFilters()->disable('draft');
+        $em = $this->getDoctrine()->getManager();
+        $em->getFilters()->disable('draft');
 
         $owner        = $request->request->get('owner');
         $ownerId      = (int) $request->request->get('ownerId');
@@ -278,6 +279,7 @@ class ContentEditorController extends Controller
         $response = new JsonResponse;
 
         $object = $provider->getBlockOwner($ownerId);
+        $object->setUpdatedAt(new \DateTime());
 
         try {
             $manager->publish($object->getBlocks());
@@ -288,6 +290,8 @@ class ContentEditorController extends Controller
             $response->setStatusCode(500);
             $response->setData(['error' => $e->getMessage() . $e->getTraceAsString()]);
         }
+
+        $em->flush($object);
 
         return $response;
     }
