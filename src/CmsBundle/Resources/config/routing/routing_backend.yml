@@ -135,7 +135,7 @@ opifer_eav_admin:
     resource: "@OpiferEavBundle/Resources/config/routing.yml"
 
 opifer_content_admin:
-    resource: "@OpiferContentBundle/Resources/config/routing.yml"
+    resource: "@OpiferContentBundle/Resources/config/routing_backend.yml"
 
 opifer_media_admin:
     resource: "@OpiferMediaBundle/Resources/config/routing.yml"

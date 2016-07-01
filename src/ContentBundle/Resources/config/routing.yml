@@ -1,6 +1,6 @@
-opifer_content_api:
-    resource: "routing_api.yml"
-    prefix:   /api
-
-opifer_content_backend:
-    resource: "routing_backend.yml"
+# Uncomment to test or allow access to single blocks
+#opifer_content_block_view:
+#    path: /block/{id}
+#    defaults: { _controller: OpiferContentBundle:Frontend/Block:view }
+#    requirements:
+#        id: \d+

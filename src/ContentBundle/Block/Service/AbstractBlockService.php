@@ -14,9 +14,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
- * Class AbstractBlockService
- *
- * @package Opifer\ContentBundle\Block
+ * Class AbstractBlockService.
  */
 abstract class AbstractBlockService
 {
@@ -30,7 +28,7 @@ abstract class AbstractBlockService
     protected $environment;
 
     /**
-     * The block configuration
+     * The block configuration.
      *
      * @var array
      */
@@ -40,7 +38,7 @@ abstract class AbstractBlockService
 
     /**
      * @param EngineInterface $templating
-     * @param array $config
+     * @param array           $config
      */
     public function __construct(EngineInterface $templating, array $config)
     {
@@ -51,11 +49,11 @@ abstract class AbstractBlockService
     /**
      * {@inheritdoc}
      */
-    public function execute(BlockInterface $block, Response $response = null)
+    public function execute(BlockInterface $block, Response $response = null, array $parameters = [])
     {
         $this->load($block);
 
-        $parameters = $this->getViewParameters($block);
+        $parameters = array_merge($parameters, $this->getViewParameters($block));
 
         if ($this->getEnvironment() !== null && $this->getEnvironment()->getBlockMode() === Environment::MODE_MANAGE) {
             $parameters = array_merge($parameters, $this->getManageViewParameters($block));
@@ -64,11 +62,16 @@ abstract class AbstractBlockService
         return $this->renderResponse($this->getView($block), $parameters,  $response);
     }
 
+    /**
+     * @param BlockInterface $block
+     *
+     * @return array
+     */
     public function getViewParameters(BlockInterface $block)
     {
         $parameters = [
             'block_service' => $this,
-            'block'         => $block,
+            'block' => $block,
         ];
 
         return $parameters;
@@ -77,9 +80,9 @@ abstract class AbstractBlockService
     public function getManageViewParameters(BlockInterface $block)
     {
         $parameters = [
-            'block_view'     => $this->getView($block),
-            'manage'         => true,
-            'manage_type'    => $this->getManageFormTypeName(),
+            'block_view' => $this->getView($block),
+            'manage' => true,
+            'manage_type' => $this->getManageFormTypeName(),
         ];
 
         return $parameters;
@@ -118,7 +121,7 @@ abstract class AbstractBlockService
      */
     public function getName(BlockInterface $block = null)
     {
-        $class = substr(get_class($this), strrpos(get_class($this), '\\')+1);
+        $class = substr(get_class($this), strrpos(get_class($this), '\\') + 1);
         $shortName = str_replace('BlockService', '', $class);
 
         return $shortName;
@@ -132,7 +135,7 @@ abstract class AbstractBlockService
     }
 
     /**
-     * @param FormInterface $form
+     * @param FormInterface  $form
      * @param BlockInterface $block
      */
     public function postFormSubmit(FormInterface $form, BlockInterface $block)
@@ -170,7 +173,7 @@ abstract class AbstractBlockService
     }
 
     /**
-     * {@inheritView}
+     * {@inheritView}.
      */
     public function getEditView()
     {
@@ -243,7 +246,7 @@ abstract class AbstractBlockService
 
     public function allowShare(BlockInterface $block)
     {
-        return ! $block->isShared();
+        return !$block->isShared();
     }
 
     /**
@@ -251,7 +254,6 @@ abstract class AbstractBlockService
      */
     public function buildManageForm(FormBuilderInterface $builder, array $options)
     {
-
         $builder->addEventListener(FormEvents::PRE_SET_DATA, function (FormEvent $event) {
             /** @var Block $block */
             $block = $event->getData();
@@ -260,10 +262,10 @@ abstract class AbstractBlockService
             if ($block->isShared()) {
                 $form
                     ->add('sharedName', 'text', [
-                        'label' => 'block.shared_name.label'
+                        'label' => 'block.shared_name.label',
                     ])
                     ->add('sharedDisplayName', 'text', [
-                        'label' => 'block.shared_displayname.label'
+                        'label' => 'block.shared_displayname.label',
                     ]);
             }
         });
@@ -271,7 +273,7 @@ abstract class AbstractBlockService
 
     /**
      * Configures the options for this type. (replaces the setDefaultOptions
-     * method that was deprecated since Symfony 2.7)
+     * method that was deprecated since Symfony 2.7).
      *
      * @param OptionsResolver $resolver The resolver for the options.
      */
