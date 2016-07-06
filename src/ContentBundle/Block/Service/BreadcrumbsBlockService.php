@@ -47,7 +47,7 @@ class BreadcrumbsBlockService extends AbstractBlockService implements BlockServi
 
         // add homepage link as first breadcrumb if not exists in breadcrumbs
         if (!array_key_exists('index', $parameters['breadcrumbs'])) {
-            $parameters['breadcrumbs'] = array_merge(['index' => $homePage->getTitle()], $parameters['breadcrumbs']);
+            $parameters['breadcrumbs'] = array_merge(['index' => $homePage->getShortTitle()], $parameters['breadcrumbs']);
         }
 
         return $parameters;
