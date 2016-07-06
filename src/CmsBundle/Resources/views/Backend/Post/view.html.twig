@@ -23,7 +23,7 @@
                             <td>{{ value.attribute.displayName }}</td>
                             <td>
                                 {% if value is attachment %}
-                                    <a href="{{ asset('uploads/' ~ value) }}">{{ value }}</a>
+                                    <a href="{{ value.attachment.original }}">{{ value }}</a>
                                 {% else %}
                                     {{ value }}
                                 {% endif %}
