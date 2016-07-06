@@ -30,6 +30,9 @@ class AttachmentListener implements EventSubscriberInterface
         ];
     }
 
+    /**
+     * @param FormSubmitEvent $event
+     */
     public function postFormSubmit(FormSubmitEvent $event)
     {
         $post = $event->getPost();
@@ -39,6 +42,11 @@ class AttachmentListener implements EventSubscriberInterface
 
         foreach ($values as $value) {
             if ($value instanceof AttachmentValue) {
+                // Avoid saving the attachment when it's empty and not required
+                if (null === $value->getFile() && !$value->getAttribute()->getRequired()) {
+                    continue;
+                }
+
                 $media = $this->mediaManager->createMedia();
                 $media->setFile($value->getFile());
                 $media->setProvider('file');

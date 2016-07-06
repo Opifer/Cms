@@ -2,8 +2,10 @@
 
 {% block body %}
     {% spaceless %}
-        <div class="page-header clearfix">
-            <h1 class="pull-left">{{ 'base.posts'|trans|capitalize }}</h1>
+        <div class="col-xs-12">
+            <div class="page-header clearfix">
+                <h1>{{ 'base.posts'|trans|capitalize }}</h1>
+            </div>
         </div>
 
         {% include 'OpiferCmsBundle:Components:grid.html.twig' with { 'grid': grid } %}
