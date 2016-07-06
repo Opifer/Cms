@@ -42,6 +42,7 @@ class PostController extends BasePostController
         $grid = $this->get('grid');
         $grid->setId('posts')
             ->setSource($source)
+            ->setDefaultOrder('id', 'desc')
             ->addRowAction($viewAction)
             ->addRowAction($deleteAction);
 
@@ -49,6 +50,8 @@ class PostController extends BasePostController
     }
 
     /**
+     * Lists all posts from every form
+     *
      * @return Response
      */
     public function listAction()
@@ -69,6 +72,7 @@ class PostController extends BasePostController
         $grid = $this->get('grid');
         $grid->setId('posts')
             ->setSource($source)
+            ->setDefaultOrder('id', 'desc')
             ->addColumn($formColumn, 2)
             ->addRowAction($viewAction)
             ->addRowAction($deleteAction);

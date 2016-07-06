@@ -22,7 +22,7 @@
                         <tr>
                             <td>{{ value.attribute.displayName }}</td>
                             <td>
-                                {% if value is attachment %}
+                                {% if value is attachment and value.attachment is not null %}
                                     <a href="{{ value.attachment.original }}">{{ value }}</a>
                                 {% else %}
                                     {{ value }}
