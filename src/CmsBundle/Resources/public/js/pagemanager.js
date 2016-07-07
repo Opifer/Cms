@@ -171,6 +171,8 @@ $(document).ready(function() {
             });
             editDialog.onShown(function (dialog) {
                 $(document).find('.modal-backdrop').remove();
+
+                initializeExpressionEngine();
             });
 
             isLoading();
