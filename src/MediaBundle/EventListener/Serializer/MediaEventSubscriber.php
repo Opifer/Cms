@@ -62,10 +62,13 @@ class MediaEventSubscriber implements EventSubscriberInterface
             return;
         }
 
-        $provider = $this->pool->getProvider($event->getObject()->getProvider());
+        /** @var MediaInterface $media */
+        $media = $event->getObject();
+
+        $provider = $this->pool->getProvider($media->getProvider());
 
         if ($provider->getName() == 'image') {
-            $reference = $provider->getThumb($event->getObject());
+            $reference = $provider->getThumb($media);
 
             $groups = $event->getContext()->attributes->get('groups');
 
@@ -77,16 +80,18 @@ class MediaEventSubscriber implements EventSubscriberInterface
 
             $variants = [];
             foreach ($filters as $filter) {
-                if ($event->getObject()->getContentType() == 'image/svg+xml') {
-                    $variants[$filter] = $provider->getUrl($event->getObject());
+                if ($media->getContentType() == 'image/svg+xml') {
+                    $variants[$filter] = $provider->getUrl($media);
                 } else {
                     $variants[$filter] = $this->cacheManager->getBrowserPath($reference, $filter);
                 }
             }
 
             $event->getVisitor()->addData('images', $variants);
-        }
 
-        $event->getVisitor()->addData('original', $provider->getUrl($event->getObject()));
+            $event->getVisitor()->addData('original', $this->cacheManager->getBrowserPath($media->getReference(), 'full_size'));
+        } else {
+            $event->getVisitor()->addData('original', $provider->getUrl($media));
+        }
     }
 }

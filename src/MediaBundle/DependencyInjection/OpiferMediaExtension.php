@@ -96,10 +96,13 @@ class OpiferMediaExtension extends Extension implements PrependExtensionInterfac
                         'driver' => 'imagick',
                         'filter_sets' => [
                             'medialibrary' => [
-                                'quality' => 100,
+                                'quality' => 80,
                                 'filters' => [
                                     'relative_resize' => ['heighten' => 160],
                                 ],
+                            ],
+                            'full_size' => [
+                                'quality' => 80
                             ],
                         ],
                     ]);
