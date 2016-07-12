@@ -171,7 +171,7 @@ services:
         tags:
             - { name: opifer.content.block_service, alias: socialshare }
         calls:
-            - [setRequest, ['@request_stack']]
+            - [setRequestStack, ['@request_stack']]
 
     opifer.content.clipboard_block:
         class: '%opifer.content.clipboard_block.class%'
