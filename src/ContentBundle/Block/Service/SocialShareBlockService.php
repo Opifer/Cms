@@ -5,6 +5,7 @@ namespace Opifer\ContentBundle\Block\Service;
 use Opifer\ContentBundle\Block\Tool\Tool;
 use Opifer\ContentBundle\Block\Tool\ToolsetMemberInterface;
 use Opifer\ContentBundle\Entity\SocialShareBlock;
+use Opifer\ContentBundle\Helper\SocialShareHelper;
 use Opifer\ContentBundle\Model\BlockInterface;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\FormType;
@@ -17,8 +18,8 @@ use Symfony\Component\HttpFoundation\RequestStack;
  */
 class SocialShareBlockService extends AbstractBlockService implements BlockServiceInterface, ToolsetMemberInterface
 {
-    /** @var Request */
-    protected $request;
+    /** @var RequestStack */
+    protected $requestStack;
 
     /**
      * {@inheritdoc}
@@ -43,9 +44,14 @@ class SocialShareBlockService extends AbstractBlockService implements BlockServi
         }
     }
 
-    public function setRequest(RequestStack $request)
+    public function setRequestStack(RequestStack $requestStack)
     {
-        $this->request = $request->getCurrentRequest();
+        $this->requestStack = $requestStack;
+    }
+
+    protected function getRequest()
+    {
+        return $this->requestStack->getCurrentRequest();
     }
 
     /**
@@ -53,20 +59,24 @@ class SocialShareBlockService extends AbstractBlockService implements BlockServi
      */
     public function getViewParameters(BlockInterface $block)
     {
+        $socialShareHelper = new SocialShareHelper();
+
+        $url = $this->getRequestUrl();
+
         $parameters = [
             'block_service' => $this,
             'block' => $block,
-            'request_url' => $this->getRequestUrl(),
-            'facebook_url' => $this->getFacebookShareUrl(),
-            'twitter_url' => $this->getTwitterShareUrl(),
-            'linkedin_url' => $this->getLinkedInShareUrl(),
-            'google_url' => $this->getGoogleShareUrl(),
-            'whatsapp_url' => $this->getWhatsappShareUrl(),
-            'email_url' => $this->getEmailShareUrl(),
-            'facebook_count' => $this->getFacebookShareCount(),
-            'twitter_count' => $this->getTwitterShareCount(),
-            'linkedin_count' => $this->getLinkedInShareCount(),
-            'google_count' => $this->getGoogleShareCount(),
+            'request_url' => $url,
+            'facebook_url' => $socialShareHelper->getFacebookShareUrl($url),
+            'twitter_url' => $socialShareHelper->getTwitterShareUrl($url),
+            'linkedin_url' => $socialShareHelper->getLinkedInShareUrl($url),
+            'google_url' => $socialShareHelper->getGoogleShareUrl($url),
+            'whatsapp_url' => $socialShareHelper->getWhatsappShareUrl($url),
+            'email_url' => $socialShareHelper->getEmailShareUrl($url),
+            'facebook_count' => 0,
+            'twitter_count' => 0,
+            'linkedin_count' => 0,
+            'google_count' => 0,
         ];
 
         return $parameters;
@@ -95,56 +105,6 @@ class SocialShareBlockService extends AbstractBlockService implements BlockServi
 
     public function getRequestUrl()
     {
-        return sprintf('%s%s', $this->request->getSchemeAndHttpHost(), $this->request->getRequestUri());
-    }
-
-    public function getFacebookShareUrl()
-    {
-        return sprintf('http://www.facebook.com/sharer.php?u=%s', urlencode($this->getRequestUrl()));
-    }
-
-    public function getFacebookShareCount()
-    {
-        return 0;
-    }
-
-    public function getTwitterShareUrl()
-    {
-        return sprintf('https://twitter.com/intent/tweet?text=%s', urlencode($this->getRequestUrl()));
-    }
-
-    public function getTwitterShareCount()
-    {
-        return 0;
-    }
-
-    public function getGoogleShareUrl()
-    {
-        return sprintf('https://plus.google.com/share?url=%s', urlencode($this->getRequestUrl()));
-    }
-
-    public function getGoogleShareCount()
-    {
-        return 0;
-    }
-
-    public function getLinkedInShareUrl()
-    {
-        return sprintf('http://www.linkedin.com/shareArticle?mini=true&amp;url=%s', urlencode($this->getRequestUrl()));
-    }
-
-    public function getLinkedInShareCount()
-    {
-        return 0;
-    }
-
-    public function getWhatsappShareUrl()
-    {
-        return sprintf('whatsapp://send?text=%s', urlencode($this->getRequestUrl()));
-    }
-
-    public function getEmailShareUrl()
-    {
-        return sprintf('mailto:?subject=&amp;body=%s', urlencode($this->getRequestUrl()));
+        return sprintf('%s%s', $this->getRequest()->getSchemeAndHttpHost(), $this->getRequest()->getRequestUri());
     }
 }
