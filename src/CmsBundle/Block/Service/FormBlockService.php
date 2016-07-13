@@ -10,6 +10,7 @@ use Opifer\ContentBundle\Block\Tool\ToolsetMemberInterface;
 use Opifer\ContentBundle\Model\BlockInterface;
 use Opifer\FormBundle\Model\FormManager;
 use Opifer\FormBundle\Model\PostInterface;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\Extension\Core\Type\FormType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
@@ -46,6 +47,18 @@ class FormBlockService extends AbstractBlockService implements BlockServiceInter
     {
         parent::buildManageForm($builder, $options);
 
+        $propertiesForm = $builder->create('properties', FormType::class, ['label' => false, 'attr' => ['widget_col' => 12]]);
+
+        if (isset($this->config['templates'])) {
+            $propertiesForm->add('template', ChoiceType::class, [
+                'label'       => 'label.template',
+                'placeholder' => 'placeholder.choice_optional',
+                'attr'        => ['help_text' => 'help.block_template'],
+                'choices'     => $this->config['templates'],
+                'required'    => false,
+            ]);
+        }
+
         $builder->add(
             $builder->create('default', FormType::class, ['virtual' => true])
                 ->add('form', EntityType::class, [
@@ -54,6 +67,7 @@ class FormBlockService extends AbstractBlockService implements BlockServiceInter
                     'label' => 'Form',
                     'placeholder' => 'Choose Form',
                 ])
+                ->add($propertiesForm)
         );
     }
 
