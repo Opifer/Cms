@@ -1,43 +1,42 @@
 <?php
 
-namespace Opifer\ContentBundle\Block\Service;
+namespace Opifer\CmsBundle\Block\Service;
 
-use Opifer\ContentBundle\Entity\FormBlock;
+use Opifer\CmsBundle\Entity\FormBlock;
 use Opifer\ContentBundle\Block\Service\AbstractBlockService;
 use Opifer\ContentBundle\Block\Service\BlockServiceInterface;
 use Opifer\ContentBundle\Block\Tool\Tool;
 use Opifer\ContentBundle\Block\Tool\ToolsetMemberInterface;
 use Opifer\ContentBundle\Model\BlockInterface;
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Opifer\FormBundle\Model\FormManager;
+use Opifer\FormBundle\Model\PostInterface;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\Extension\Core\Type\FormType;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
-use Opifer\CmsBundle\Entity\Form;
-use Symfony\Component\DependencyInjection\ContainerInterface as Container;
 use Symfony\Bundle\FrameworkBundle\Templating\EngineInterface;
 use Opifer\EavBundle\Manager\EavManager;
-use Opifer\FormBundle\Model\FormInterface;
-use Opifer\FormBundle\Form\Type\PostType;
 
 /**
- * Form Block Service
+ * Form Block Service.
  */
 class FormBlockService extends AbstractBlockService implements BlockServiceInterface, ToolsetMemberInterface
 {
+    protected $eavManager;
+
+    protected $formManager;
 
     /**
      * @param EngineInterface $templating
-     * @param ContainerInterface $container
-     * @param EavManager $eavManager
-     * @param array $config
+     * @param EavManager      $eavManager
+     * @param FormManager     $formManager
+     * @param array           $config
      */
-    public function __construct(EngineInterface $templating, Container $container, EavManager $eavManager, array $config)
+    public function __construct(EngineInterface $templating, EavManager $eavManager, FormManager $formManager, array $config)
     {
-        $this->templating = $templating;
-        $this->config = $config;
-        $this->container = $container;
+        parent::__construct($templating, $config);
+
         $this->eavManager = $eavManager;
+        $this->formManager = $formManager;
     }
 
     /**
@@ -53,7 +52,7 @@ class FormBlockService extends AbstractBlockService implements BlockServiceInter
                     'class' => 'OpiferCmsBundle:Form',
                     'choice_label' => 'name',
                     'label' => 'Form',
-                    'placeholder' => 'Choose Form'
+                    'placeholder' => 'Choose Form',
                 ])
         );
     }
@@ -62,13 +61,14 @@ class FormBlockService extends AbstractBlockService implements BlockServiceInter
     {
         $parameters = [
             'block_service' => $this,
-            'block'         => $block,
+            'block' => $block,
         ];
 
-        if (!empty($parameters['block']->getForm())) {
+        if (!empty($block->getForm())) {
+            /** @var PostInterface $post */
             $post = $this->eavManager->initializeEntity($parameters['block']->getForm()->getSchema());
 
-            $form = $this->container->get('form.factory')->create(PostType::class, $post, ['form_id' => $parameters['block']->getForm()->getId(), 'label' => false]);
+            $form = $this->formManager->createForm($block->getForm(), $post);
 
             $parameters['block']->formView = $form->createView();
         }
@@ -76,17 +76,16 @@ class FormBlockService extends AbstractBlockService implements BlockServiceInter
         return $parameters;
     }
 
-
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function createBlock()
     {
-        return new FormBlock;
+        return new FormBlock();
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getTool(BlockInterface $block = null)
     {

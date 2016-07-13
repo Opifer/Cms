@@ -6,7 +6,7 @@ use Doctrine\ORM\EntityManagerInterface;
 
 class PostManager
 {
-    /** @var EntityManager */
+    /** @var EntityManagerInterface */
     protected $em;
 
     /** @var string */

@@ -1,0 +1,32 @@
+<div {{ manage_tags() }}>
+    <section class="form-holder p-t-sm p-b-lg">
+        <div class="container">
+            {% if block.formView|default %}
+                {% set form = block.formView %}
+                {% if form %}
+                    <h2>{{ block.form.name }}</h2>
+
+                    {{ form_start(form, { 'style': 'horizontal', 'attr': {'class':'contact-form', 'data-toggle': 'validator'} }) }}
+                    {{ form_errors(form) }}
+
+                    {{ form_widget(form) }}
+
+                    <div class="form-group m-t-md">
+                        <div class="col-md-7 col-sm-offset-3">
+                            <input type="submit" value="{{ 'button.send'|trans }}" class="btn btn-lg btn-primary btn-submit"/>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-md-7 col-sm-offset-3">
+                            <span class="req"><bdi>*</bdi> {{ 'caption.required_fields'|trans }}</span>
+                        </div>
+                    </div>
+
+                    {{ form_rest(form) }}
+                    {{ form_end(form) }}
+                {% endif %}
+            {% endif %}
+        </div>
+    </section>
+</div>

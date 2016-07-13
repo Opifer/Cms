@@ -1,10 +1,10 @@
 parameters:
-    opifer.form.form_extension.class: Opifer\FormBundle\Twig\FormExtension
-    opifer.form.form_manager.class: Opifer\FormBundle\Model\FormManager
-    opifer.form.form_form.class: Opifer\FormBundle\Form\Type\FormType
-    opifer.form.notification_mail_listener.class: Opifer\FormBundle\EventListener\NotificationMailListener
-    opifer.form.post_form.class: Opifer\FormBundle\Form\Type\PostType
-    opifer.form.post_manager.class: Opifer\FormBundle\Model\PostManager
+    opifer.form.form_extension.class: 'Opifer\FormBundle\Twig\FormExtension'
+    opifer.form.form_manager.class: 'Opifer\FormBundle\Model\FormManager'
+    opifer.form.form_form.class: 'Opifer\FormBundle\Form\Type\FormType'
+    opifer.form.notification_mail_listener.class: 'Opifer\FormBundle\EventListener\NotificationMailListener'
+    opifer.form.post_form.class: 'Opifer\FormBundle\Form\Type\PostType'
+    opifer.form.post_manager.class: 'Opifer\FormBundle\Model\PostManager'
 
 services:
     # Form
@@ -13,6 +13,7 @@ services:
         class: '%opifer.form.form_manager.class%'
         arguments:
             - '@doctrine.orm.default_entity_manager'
+            - '@form.factory'
             - '@opifer.eav.schema_manager'
             - '@opifer.form.post_manager'
             - '%opifer_form.form_class%'
