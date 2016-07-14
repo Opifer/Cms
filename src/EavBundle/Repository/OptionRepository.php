@@ -22,4 +22,26 @@ class OptionRepository extends EntityRepository
 
         return $query->getResult();
     }
+
+    /**
+     * Find all options by an array or comma-separated list of ids.
+     *
+     * @param array|string $ids
+     *
+     * @return array
+     */
+    public function findByIds($ids)
+    {
+        if (!is_array($ids)) {
+            $ids = explode(',', trim($ids));
+        }
+
+        return $this->createQueryBuilder('o')
+            ->where('o.id IN (:ids)')
+            ->setParameters([
+                'ids' => $ids,
+            ])
+            ->getQuery()
+            ->getResult();
+    }
 }

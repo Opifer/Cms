@@ -239,18 +239,31 @@ class ValueSet implements ValueSetInterface
     }
 
     /**
-     * Get Value for Attribute $name
-     *
-     * Created for cleaner syntax in Twig
-     * e.g. {{ content.valueset.get('attributename') }}
-     *
-     * @param string $name
-     *
-     * @return ValueInterface
+     * {@inheritdoc}
      */
     public function get($name)
     {
-        return $this->__get($name);
+        $value = $this->getOrNull($name);
+
+        if (null === $value) {
+            throw new \BadMethodCallException(sprintf('The valueset for schema "%d" does not have a value called "%s".', $this->schema->getId(), $name));
+        }
+
+        return $value;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getOrNull($name)
+    {
+        foreach ($this->values as $valueObject) {
+            if ($valueObject->getAttribute()->getName() == $name) {
+                return $valueObject;
+            }
+        }
+
+        return null;
     }
 
     /**
@@ -289,13 +302,7 @@ class ValueSet implements ValueSetInterface
      */
     public function __get($name)
     {
-        foreach ($this->values as $valueObject) {
-            if ($valueObject->getAttribute()->getName() == $name) {
-                return $valueObject;
-            }
-        }
-
-        throw new \BadMethodCallException(sprintf('The valueset for schema "%d" does not have a value called "%s".', $this->schema->getId(), $name));
+        return $this->get($name);
     }
 
     /**

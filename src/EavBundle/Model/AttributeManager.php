@@ -69,7 +69,7 @@ class AttributeManager
     /**
      * Get repository
      *
-     * @return Doctrine\ORM\EntityRepository
+     * @return \Doctrine\ORM\EntityRepository
      */
     public function getRepository()
     {

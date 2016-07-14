@@ -129,11 +129,11 @@ class Post implements PostInterface, EntityInterface
     /**
      * Set submittedAt.
      *
-     * @param \DateTime $deletedAt
+     * @param \DateTime $submittedAt
      *
      * @return Post
      */
-    public function setSubmittedAt($submittedAt)
+    public function setSubmittedAt(\DateTime $submittedAt)
     {
         $this->submittedAt = $submittedAt;
 

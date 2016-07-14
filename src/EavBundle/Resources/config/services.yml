@@ -16,11 +16,13 @@ parameters:
     opifer.eav.form.values_subscriber.class: 'Opifer\EavBundle\Form\EventListener\ValuesSubscriber'
     opifer.eav.form.values_type.class: 'Opifer\EavBundle\Form\Type\ValuesType'
     opifer.eav.form.valueset_type.class: 'Opifer\EavBundle\Form\Type\ValueSetType'
+    opifer.eav.option_manager.class: 'Opifer\EavBundle\Model\OptionManager'
     opifer.eav.schema_manager.class: 'Opifer\EavBundle\Model\SchemaManager'
     opifer.eav.value_provider.pool.class: 'Opifer\EavBundle\ValueProvider\Pool'
 
 services:
     # Values provider pool
+
     opifer.eav.value_provider.pool:
         class: '%opifer.eav.value_provider.pool.class%'
 
@@ -93,6 +95,7 @@ services:
             - { name: form.type }
 
     # Entity Managers
+
     opifer.eav.attribute_manager:
         class: '%opifer.eav.attribute_manager.class%'
         arguments: ['@doctrine.orm.default_entity_manager', '%opifer_eav.attribute_class%']
@@ -101,11 +104,16 @@ services:
         class: '%opifer.eav.eav_manager.class%'
         arguments: ['@opifer.eav.value_provider.pool', '%opifer_eav.valueset_class%']
 
+    opifer.eav.option_manager:
+        class: '%opifer.eav.option_manager.class%'
+        arguments: ['@doctrine.orm.default_entity_manager', '%opifer_eav.option_class%']
+
     opifer.eav.schema_manager:
         class: '%opifer.eav.schema_manager.class%'
         arguments: ['@doctrine.orm.default_entity_manager', '%opifer_eav.schema_class%']
 
     # Listeners
+
     opifer.eav.discriminator_listener:
         class: '%opifer.eav.discriminator_listener.class%'
         arguments: ['@opifer.eav.value_provider.pool']
