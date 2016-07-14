@@ -32,6 +32,8 @@ class EavManager
      *
      * @param SchemaInterface $schema
      *
+     * @throws \Exception If the entity is not an instance of EntityInterface
+     *
      * @return EntityInterface
      */
     public function initializeEntity(SchemaInterface $schema)

@@ -4,32 +4,31 @@ namespace Opifer\EavBundle\Model;
 
 use Doctrine\ORM\EntityManagerInterface;
 
-class SchemaManager
+class OptionManager
 {
-
-    /** @var EntityManager */
+    /** @var EntityManagerInterface */
     protected $em;
 
     /** @var string */
     protected $class;
 
-
     /**
      * Constructor
+     *
+     * @throws \Exception If the passed class is no sub class of OptionInterface
      *
      * @param EntityManagerInterface $em
      * @param string                 $class
      */
     public function __construct(EntityManagerInterface $em, $class)
     {
-        if ( ! is_subclass_of($class, 'Opifer\EavBundle\Model\SchemaInterface')) {
-            throw new \Exception($class . ' must implement Opifer\EavBundle\Model\SchemaInterface');
+        if (!is_subclass_of($class, 'Opifer\EavBundle\Model\OptionInterface')) {
+            throw new \Exception($class.' must implement Opifer\EavBundle\Model\OptionInterface');
         }
 
-        $this->em    = $em;
+        $this->em = $em;
         $this->class = $class;
     }
-
 
     /**
      * Get class
@@ -41,40 +40,33 @@ class SchemaManager
         return $this->class;
     }
 
-
     /**
-     * Create a new schema instance
+     * Create a new option instance
      *
-     * @return SchemaInterface
+     * @return OptionInterface
      */
     public function create()
     {
-        $class    = $this->getClass();
-        $schema = new $class();
+        $class = $this->getClass();
+        $option = new $class();
 
-        return $schema;
+        return $option;
     }
-
 
     /**
-     * Save schema
+     * Save option
      *
-     * @param SchemaInterface $schema
+     * @param OptionInterface $option
      *
-     * @return SchemaInterface
+     * @return OptionInterface
      */
-    public function save(SchemaInterface $schema)
+    public function save(OptionInterface $option)
     {
-        foreach ($schema->getAttributes() as $attribute) {
-            $attribute->setSchema($schema);
-            $this->em->persist($attribute);
-        }
-        $this->em->persist($schema);
+        $this->em->persist($option);
         $this->em->flush();
 
-        return $schema;
+        return $option;
     }
-
 
     /**
      * Get repository
