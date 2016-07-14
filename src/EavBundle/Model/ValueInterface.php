@@ -19,6 +19,11 @@ interface ValueInterface
     public function getValue();
 
     /**
+     * @return AttributeInterface
+     */
+    public function getAttribute();
+
+    /**
      * Check if your value is actually empty. This is needed, so we can verify if
      * the value actually has data attached, so no empty values will get stored
      * in the database.

@@ -150,7 +150,7 @@ class FileProvider extends AbstractProvider
         if ($adapter instanceof AwsS3) {
             $adapter->setMetadata($media->getReference(), [
                 'ContentType' => $media->getContentType(),
-                'Cache-Control' => 'max-age=86400'
+                'Cache-Control' => 'max-age=86400',
             ]);
         }
 
@@ -176,7 +176,17 @@ class FileProvider extends AbstractProvider
      */
     public function getUrl(MediaInterface $media)
     {
-        return $this->urlGenerator->generate($media->getReference());
+        return $this->getUrlByReference($media->getReference());
+    }
+
+    /**
+     * @param string $reference
+     *
+     * @return string
+     */
+    public function getUrlByReference($reference)
+    {
+        return $this->urlGenerator->generate($reference);
     }
 
     /**

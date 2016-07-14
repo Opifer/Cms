@@ -23,7 +23,7 @@ interface ValueSetInterface
     /**
      * Get values
      *
-     * @return ArrayCollection
+     * @return ValueInterface[]
      */
     public function getValues();
 }
