@@ -167,6 +167,8 @@ class Content implements ContentInterface, EntityInterface, TemplatedInterface, 
     protected $root;
 
     /**
+     * @var ContentInterface
+     *
      * @Gedmo\TreeParent
      * @ORM\ManyToOne(targetEntity="Opifer\ContentBundle\Model\ContentInterface", inversedBy="children")
      * @ORM\JoinColumn(name="parent_id", referencedColumnName="id", onDelete="CASCADE")
@@ -174,6 +176,8 @@ class Content implements ContentInterface, EntityInterface, TemplatedInterface, 
     protected $parent;
 
     /**
+     * @var ContentInterface[]|ArrayCollection
+     *
      * @ORM\OneToMany(targetEntity="Opifer\ContentBundle\Model\ContentInterface", mappedBy="parent")
      * @ORM\OrderBy({"lft" = "ASC"})
      */
@@ -657,7 +661,7 @@ class Content implements ContentInterface, EntityInterface, TemplatedInterface, 
     /**
      * Get children.
      *
-     * @return ContentInterface[]|\Doctrine\Common\Collections\Collection
+     * @return ContentInterface[]|ArrayCollection
      */
     public function getChildren()
     {
@@ -665,9 +669,37 @@ class Content implements ContentInterface, EntityInterface, TemplatedInterface, 
     }
 
     /**
+     * @return array
+     */
+    public function getNavigationChildren()
+    {
+        return array_filter($this->children->toArray(), function($child) {
+            return $child->showInNavigation();
+        });
+    }
+
+    /**
+     * @return bool
+     */
+    public function hasNavigationChildren()
+    {
+        return (count($this->getNavigationChildren())) ? true : false;
+    }
+
+    /**
+     * @deprecated Use showInNavigation instead
+     *
      * @return bool
      */
     public function isShowInNavigation()
+    {
+        return $this->showInNavigation;
+    }
+
+    /**
+     * @return bool
+     */
+    public function showInNavigation()
     {
         return $this->showInNavigation;
     }
