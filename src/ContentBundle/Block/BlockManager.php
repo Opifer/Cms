@@ -41,6 +41,9 @@ class BlockManager
     /** @var RevisionManager */
     protected $revisionManager;
 
+    /** @var RevisionListener */
+    protected $revisionListener = null;
+
     /**
      * Constructor
      *
@@ -284,7 +287,7 @@ class BlockManager
             $blocks = array($blocks);
         }
 
-        $this->killRevisionListener();
+        $this->disableRevisionListener();
 
         foreach ($blocks as $block) {
             if (null !== $revision = $this->revisionManager->getDraftRevision($block)) {
@@ -300,6 +303,9 @@ class BlockManager
 
         $cacheDriver = $this->em->getConfiguration()->getResultCacheImpl();
         $cacheDriver->deleteAll();
+
+
+        $this->enableRevisionListener();
     }
 
     /**
@@ -444,22 +450,33 @@ class BlockManager
     /**
      * Removes the RevisionListener from the EventManager
      */
-    public function killRevisionListener()
+    public function disableRevisionListener()
     {
-        $listenerInst = false;
 
         foreach ($this->em->getEventManager()->getListeners() as $event => $listeners) {
             foreach ($listeners as $hash => $listener) {
                 if ($listener instanceof RevisionListener) {
-                    $listenerInst = $listener;
+                    $this->revisionListener = $listener;
                     break 2;
                 }
             }
         }
 
-        if ($listenerInst) {
-            $this->em->getEventManager()->removeEventListener(array(Events::onFlush, Events::postPersist, Events::postUpdate, Events::postFlush, SoftDeleteableListener::PRE_SOFT_DELETE, SoftDeleteableListener::POST_SOFT_DELETE), $listenerInst);
+        if ($this->revisionListener) {
+            $this->em->getEventManager()->removeEventListener(array(Events::onFlush, Events::postPersist, Events::postUpdate, Events::postFlush, SoftDeleteableListener::PRE_SOFT_DELETE, SoftDeleteableListener::POST_SOFT_DELETE), $this->revisionListener);
         }
+    }
+
+    /**
+     * Adds the RevisionListener back to the EventManager
+     */
+    public function enableRevisionListener()
+    {
+        if (! $this->revisionListener) {
+            throw new \Exception('Could not enable revision listener: instance not found');
+        }
+
+        $this->em->getEventManager()->addEventListener(array(Events::onFlush, Events::postPersist, Events::postUpdate, Events::postFlush, SoftDeleteableListener::PRE_SOFT_DELETE, SoftDeleteableListener::POST_SOFT_DELETE), $this->revisionListener);
     }
 
 
@@ -597,6 +614,8 @@ class BlockManager
         $pointer = new PointerBlock();
         $pointer->setOwner($block->getOwner());
         $pointer->setParent($block->getParent());
+        $pointer->setPosition($block->getPosition());
+        $pointer->setSort($block->getSort());
         $pointer->setReference($block);
         $pointer->setDraft(true);
 
