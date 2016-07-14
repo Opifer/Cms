@@ -14,11 +14,11 @@
                 <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                     <ul class="nav navbar-nav">
                         {% for item in block.tree if item.showInNavigation == true %}
-                            {% if item.children|default() %}
+                            {% if item.hasNavigationChildren %}
                                 <li class="dropdown">
                                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{{ item.title }} <span class="caret"></span></a>
                                     <ul class="dropdown-menu">
-                                        {% for child in item.children|default([]) %}
+                                        {% for child in item.navigationChildren %}
                                             <li><a href="{{ path('_content', {'slug': child.slug}) }}">{{ child.title }}</a></li>
                                         {% endfor %}
                                     </ul>
@@ -43,7 +43,7 @@
                 {% for item in tree if item.showInNavigation == true %}
                     <li>
                         <a href="{{ path('_content', {'slug': item.slug}) }}">{{ item.title }}</a>
-                        {% if item.children|default %}
+                        {% if item.hasNavigationChildren %}
                             {{ _self.render_tree(item.children) }}
                         {% endif %}
                     </li>
