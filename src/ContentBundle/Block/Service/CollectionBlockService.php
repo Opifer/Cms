@@ -11,7 +11,9 @@ use Opifer\ContentBundle\Model\ContentTypeInterface;
 use Opifer\ContentBundle\Model\ContentTypeManager;
 use Opifer\ExpressionEngine\DoctrineExpressionEngine;
 use Opifer\ExpressionEngine\Form\Type\ExpressionEngineType;
+use Opifer\ExpressionEngine\Prototype\AndXPrototype;
 use Opifer\ExpressionEngine\Prototype\Choice;
+use Opifer\ExpressionEngine\Prototype\OrXPrototype;
 use Opifer\ExpressionEngine\Prototype\Prototype;
 use Opifer\ExpressionEngine\Prototype\PrototypeCollection;
 use Opifer\ExpressionEngine\Prototype\SelectPrototype;
@@ -97,14 +99,14 @@ class CollectionBlockService extends AbstractBlockService implements BlockServic
     protected function getPrototypes()
     {
         $collection = new PrototypeCollection([
+            new OrXPrototype(),
+            new AndXPrototype(),
             new SelectPrototype('Content Type', 'contentType.id', $this->getContentTypeChoices()),
             new SelectPrototype('Status', 'active', [
                 new Choice(true, 'Active'),
                 new Choice(false, 'Inactive'),
             ])
         ]);
-
-
 
         return $collection->all();
     }

@@ -2,10 +2,13 @@
 
 namespace Opifer\ExpressionEngine\Visitor;
 
+use Doctrine\ORM\Query\Expr\Comparison;
 use Doctrine\ORM\QueryBuilder;
 use Webmozart\Expression\Constraint\In;
 use Webmozart\Expression\Constraint\NotEquals;
 use Webmozart\Expression\Expression;
+use Webmozart\Expression\Logic\AndX;
+use Webmozart\Expression\Logic\OrX;
 use Webmozart\Expression\Selector\Key;
 use Webmozart\Expression\Traversal\ExpressionVisitor;
 
@@ -13,6 +16,20 @@ class QueryBuilderVisitor implements ExpressionVisitor
 {
     /** @var QueryBuilder */
     protected $qb;
+
+    /**
+     * Keeps the order of hashes. The last hash is always the `current` hash.
+     *
+     * @var string[]
+     */
+    protected $hashes = [];
+
+    /**
+     * Keeps track of the expressions for each `OrX` or `AndX` Doctrine expression.
+     *
+     * @var Comparison[]
+     */
+    protected $map = [];
 
     /**
      * Constructor.
@@ -25,23 +42,64 @@ class QueryBuilderVisitor implements ExpressionVisitor
     }
 
     /**
+     * Adds `Key` expressions to the query or stores children of OrX and AndX expressions in memory to be added
+     * on the leaveExpression for OrX or AndX expressions.
+     *
      * {@inheritdoc}
      */
     public function enterExpression(Expression $expr)
     {
+        $hash = spl_object_hash($expr);
+
         if ($expr instanceof Key) {
-            $this->qb->andWhere($this->toExpr($expr));
+            if (!count($this->hashes)) {
+                $this->qb->andWhere($this->toExpr($expr));
+            } else {
+                $lastHash = end($this->hashes);
+
+                $this->map[$lastHash][] = $this->toExpr($expr);
+            }
+        } elseif ($expr instanceof OrX) {
+            $this->hashes[] = $hash;
+            $this->map[$hash] = [];
+        } elseif ($expr instanceof AndX) {
+            $this->hashes[] = $hash;
+            $this->map[$hash] = [];
         }
 
         return $expr;
     }
 
     /**
+     * Adds the AndX and OrX Doctrine expressions to the query
+     *
      * {@inheritdoc}
      */
     public function leaveExpression(Expression $expr)
     {
-        //
+        if ($expr instanceof OrX || $expr instanceof AndX) {
+            $hash = spl_object_hash($expr);
+
+            if ($expr instanceof OrX) {
+                $composite = $this->qb->expr()->orX();
+                $composite->addMultiple($this->map[$hash]);
+            } else {
+                $composite = $this->qb->expr()->andX();
+                $composite->addMultiple($this->map[$hash]);
+            }
+
+            unset($this->hashes[array_search($hash, $this->hashes)]);
+
+            if (!count($this->hashes)) {
+                $this->qb->andWhere($composite);
+            } else {
+                $lastHash = end($this->hashes);
+
+                $this->map[$lastHash][] = $composite;
+            }
+        }
+
+        return $expr;
     }
 
     /**
@@ -49,7 +107,7 @@ class QueryBuilderVisitor implements ExpressionVisitor
      *
      * @param Key $expr
      *
-     * @return \Doctrine\ORM\Query\Expr\Comparison|\Doctrine\ORM\Query\Expr\Func
+     * @return Comparison|\Doctrine\ORM\Query\Expr\Func
      */
     protected function toExpr(Key $expr)
     {

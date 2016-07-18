@@ -6,7 +6,7 @@ use Webmozart\Expression\Logic\AndX;
 
 class AndXPrototype extends Prototype
 {
-    public function __construct($name, $selector)
+    public function __construct($name = 'AND – match all', $selector = 'and')
     {
         parent::__construct($name, $selector);
 
