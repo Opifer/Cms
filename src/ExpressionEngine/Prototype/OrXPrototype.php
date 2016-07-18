@@ -6,7 +6,7 @@ use Webmozart\Expression\Logic\OrX;
 
 class OrXPrototype extends Prototype
 {
-    public function __construct($name, $selector)
+    public function __construct($name = 'OR - match any', $selector = 'or')
     {
         parent::__construct($name, $selector);
 
