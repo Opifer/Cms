@@ -190,6 +190,7 @@ class ContentManager implements ContentManagerInterface, BlockProviderInterface
         $duplicatedContent->setTitle(sprintf("%s copy %s", $duplicatedContent->getTitle(), date('r')));
         $duplicatedContent->setSlug(null);
         $duplicatedContent->setActive(false);
+        $duplicatedContent->setCreatedAt(new \DateTime());
 
         //get valueset to clone
         if (null !== $valueset = $content->getValueSet()) {
