@@ -130,10 +130,25 @@ class CollectionBlockService extends AbstractBlockService implements BlockServic
      */
     public function load(BlockInterface $block)
     {
+        $this->loadCollection($block);
+    }
+
+    /**
+     * Load the collection if any conditions are defined
+     *
+     * @param BlockInterface $block
+     */
+    protected function loadCollection(BlockInterface $block)
+    {
         $properties = $block->getProperties();
 
         $conditions = (isset($properties['conditions'])) ? $properties['conditions'] : '[]';
         $conditions = $this->expressionEngine->deserialize($conditions);
+
+        if (empty($conditions)) {
+            return;
+        }
+
         $qb = $this->expressionEngine->toQueryBuilder($conditions, $this->contentManager->getClass());
 
         if (isset($properties['order_by'])) {
