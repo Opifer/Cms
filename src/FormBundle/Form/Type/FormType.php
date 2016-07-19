@@ -5,6 +5,7 @@ namespace Opifer\FormBundle\Form\Type;
 use Doctrine\ORM\EntityManager;
 use Opifer\EavBundle\Form\Type\SchemaType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -45,6 +46,16 @@ class FormType extends AbstractType
                 'required' => false,
                 'attr' => [
                     'placeholder' => 'example@email.com'
+                ]
+            ])
+            ->add('requiresConfirmation', ChoiceType::class, [
+                'choices' => [
+                    'Do not send confirmation' => false,
+                    'Send confirmation' => true
+                ],
+                'choices_as_values' => true,
+                'attr' => [
+                    'help_text' => 'When a confirmation is required, a confirmation email will be sent to all email field values'
                 ]
             ])
             ->add('redirectUrl', TextType::class, [

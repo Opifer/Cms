@@ -3,93 +3,56 @@ Opifer\CmsBundle\Entity\Form:
     table: form
     repositoryClass: Opifer\FormBundle\Model\FormRepository
     gedmo:
-      soft_deleteable:
-        field_name: deletedAt
-        time_aware: false
+        soft_deleteable:
+            field_name: deletedAt
+            time_aware: false
     id:
         id:
             type: integer
-            scale: 0
-            length: null
-            unique: false
-            nullable: false
-            precision: 0
             id: true
             generator:
                 strategy: IDENTITY
     fields:
         name:
             type: string
-            scale: 0
             length: 128
-            unique: false
-            nullable: false
-            precision: 0
         notificationEmail:
             type: string
-            scale: 0
-            length: 255
-            unique: false
             nullable: true
-            precision: 0
             column: notification_email
+        requiresConfirmation:
+            type: boolean
+            column: requires_confirmation
         redirectUrl:
             type: string
-            scale: 0
-            length: 255
-            unique: false
             nullable: true
-            precision: 0
             column: redirect_url
         createdAt:
             type: datetime
-            scale: 0
-            length: null
-            unique: false
-            nullable: false
-            precision: 0
             column: created_at
             gedmo:
-              timestampable:
-                on: create
+                timestampable:
+                    on: create
         updatedAt:
             type: datetime
-            scale: 0
-            length: null
-            unique: false
-            nullable: false
-            precision: 0
             column: updated_at
             gedmo:
-              timestampable:
-                on: update
+                timestampable:
+                    on: update
         deletedAt:
             type: datetime
-            scale: 0
-            length: null
-            unique: false
             nullable: true
-            precision: 0
     manyToOne:
         schema:
             targetEntity: Opifer\CmsBundle\Entity\Schema
             cascade:
                 - persist
-            fetch: LAZY
-            mappedBy: null
-            inversedBy: null
             joinColumns:
                 schema_id:
                     referencedColumnName: id
-            orphanRemoval: false
     oneToMany:
         posts:
             targetEntity: Opifer\CmsBundle\Entity\Post
-            cascade: {  }
-            fetch: LAZY
             mappedBy: form
-            inversedBy: null
-            orphanRemoval: false
             orderBy:
                 id: DESC
-    lifecycleCallbacks: {  }

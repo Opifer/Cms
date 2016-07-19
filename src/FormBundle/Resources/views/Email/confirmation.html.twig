@@ -1,0 +1,7 @@
+Thanks for contacting us.
+
+We've received the following details:
+
+{% for key, value in post.valueset.namedvalues %}
+    {{ value.attribute.displayName }}: {{ value }}
+{% endfor %}
