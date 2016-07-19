@@ -81,7 +81,7 @@ class FormManager
      */
     public function createForm(FormInterface $form, PostInterface $post)
     {
-        return $this->formFactory->create(PostType::class, $post, ['form_id' => $form->getId(), 'label' => false]);
+        return $this->formFactory->create(PostType::class, $post, ['form_id' => $form->getId()]);
     }
 
     /**

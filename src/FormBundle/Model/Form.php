@@ -7,7 +7,6 @@ use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use JMS\Serializer\Annotation as JMS;
 use Opifer\EavBundle\Model\SchemaInterface;
-use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\MappedSuperclass(repositoryClass="Opifer\FormBundle\Model\FormRepository")
@@ -55,6 +54,13 @@ class Form implements FormInterface
      * @ORM\Column(name="notification_email", type="string", length=255, nullable=true)
      */
     protected $notificationEmail;
+
+    /**
+     * @var bool
+     *
+     * @ORM\Column(name="requires_confirmation", type="boolean")
+     */
+    protected $requiresConfirmation = false;
 
     /**
      * @var string
@@ -128,6 +134,8 @@ class Form implements FormInterface
 
     /**
      * @param SchemaInterface $schema
+     *
+     * @return Form
      */
     public function setSchema(SchemaInterface $schema)
     {
@@ -138,6 +146,8 @@ class Form implements FormInterface
 
     /**
      * @param string $notificationEmail
+     *
+     * @return Form
      */
     public function setNotificationEmail($notificationEmail)
     {
@@ -155,7 +165,29 @@ class Form implements FormInterface
     }
 
     /**
+     * @return bool
+     */
+    public function requiresConfirmation()
+    {
+        return $this->requiresConfirmation;
+    }
+
+    /**
+     * @param bool $requiresConfirmation
+     *
+     * @return Form
+     */
+    public function setRequiresConfirmation($requiresConfirmation)
+    {
+        $this->requiresConfirmation = $requiresConfirmation;
+
+        return $this;
+    }
+
+    /**
      * @param string $redirectUrl
+     *
+     * @return Form
      */
     public function setRedirectUrl($redirectUrl)
     {
