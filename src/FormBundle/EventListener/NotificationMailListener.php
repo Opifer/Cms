@@ -117,7 +117,7 @@ class NotificationMailListener implements EventSubscriberInterface
             ->setFrom($this->sender)
             ->setTo($recipient)
             ->setSubject($subject)
-            ->setBody($body);
+            ->setBody($body, 'text/html');
     }
 
     /**
