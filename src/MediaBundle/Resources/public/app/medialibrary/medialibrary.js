@@ -122,7 +122,7 @@ angular.module('mediaLibrary', ['infinite-scroll', 'ngModal', 'ngFileUpload'])
                 $scope.mediaCollection.items.push(data);
             });
         };
-        
+
         /**
          * Toggle the picker
          */
@@ -239,7 +239,7 @@ angular.module('mediaLibrary', ['infinite-scroll', 'ngModal', 'ngFileUpload'])
      *
      * @return  {object}
      */
-    .factory('MediaCollection', function($http) {
+    .factory('MediaCollection', function($http, $q) {
 
         var MediaCollection = function() {
             this.items = [];
@@ -251,6 +251,7 @@ angular.module('mediaLibrary', ['infinite-scroll', 'ngModal', 'ngFileUpload'])
             this.orderDir = 'desc';
             this.search = '';
             this.maxUploadSize = 'unknown';
+            this.canceler = null;
         };
 
         /**
@@ -271,8 +272,8 @@ angular.module('mediaLibrary', ['infinite-scroll', 'ngModal', 'ngFileUpload'])
          * Load more media to the collection
          */
         MediaCollection.prototype.loadMore = function(search) {
-            if (this.busy) {
-                return;
+            if (this.busy && this.canceler) {
+                this.canceler.resolve();
             }
 
             this.busy = true;
@@ -288,22 +289,25 @@ angular.module('mediaLibrary', ['infinite-scroll', 'ngModal', 'ngFileUpload'])
             // Return when the last page is reached
             if (this.end) {
                 this.busy = false;
+                this.canceler = null;
                 return;
             }
 
+            this.canceler = $q.defer();
+
             // Retrieve more items and add them to the already loaded items
-            $http.get(Routing.generate('opifer_api_media', {'page': this.page, 'search': this.search, 'order': this.orderBy, 'orderdir': this.orderDir})).success(function(data) {
+            $http.get(Routing.generate('opifer_api_media', {'page': this.page, 'search': this.search, 'order': this.orderBy, 'orderdir': this.orderDir}), {timeout: this.canceler.promise})
+                .success(function(data) {
+                    this.items = this.items.concat(data.results);
 
-                this.items = this.items.concat(data.results);
+                    if ((data.total_results / data.results_per_page) <= this.page) {
+                        this.end = true;
+                    }
 
-                if ((data.total_results / data.results_per_page) <= this.page) {
-                    this.end = true;
-                }
-
-                this.page = this.page + 1;
-                this.busy = false;
-                this.maxUploadSize = data.max_upload_size;
-            }.bind(this));
+                    this.page = this.page + 1;
+                    this.busy = false;
+                    this.maxUploadSize = data.max_upload_size;
+                }.bind(this));
         };
 
         return MediaCollection;

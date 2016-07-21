@@ -9,7 +9,7 @@
                     <span class="input-group-addon" ng-click="mediaCollection.loadMore(true)">
                         <i class="material-icons md-18">search</i>
                     </span>
-                    <input type="text" class="form-control" placeholder="Enter name, filename or description" ng-model="mediaCollection.search" ng-change="mediaCollection.loadMore(true)">
+                    <input type="text" class="form-control" placeholder="Enter name, filename or description" ng-model="mediaCollection.search" ng-change="mediaCollection.loadMore(true)" ng-model-options="{debounce:{'default':500}}">
                 </div>
             </div>
             <div class="col-md-6">
