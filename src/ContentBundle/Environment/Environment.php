@@ -1,20 +1,14 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: dylan
- * Date: 21/01/16
- * Time: 15:29
- */
 
 namespace Opifer\ContentBundle\Environment;
 
+use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\PersistentCollection;
 use Opifer\ContentBundle\Block\BlockManager;
 use Opifer\ContentBundle\Block\BlockOwnerInterface;
 use Opifer\ContentBundle\Block\RecursiveBlockIterator;
 use Opifer\ContentBundle\Block\Service\LayoutBlockServiceInterface;
-use Opifer\ContentBundle\Block\Service\PointerBlockService;
 use Opifer\ContentBundle\Entity\PointerBlock;
 use Opifer\ContentBundle\Entity\Template;
 use Opifer\ContentBundle\Model\BlockInterface;
@@ -30,7 +24,6 @@ class Environment
      * @var object
      */
     protected $object;
-
 
     protected $type;
 
@@ -74,9 +67,8 @@ class Environment
         $this->twigAnalyzer = $twigAnalyzer;
     }
 
-
     /**
-     * Returns view parameters array that can be passed to any Response
+     * Returns view parameters array that can be passed to any Response.
      *
      * @return array
      */
@@ -153,7 +145,6 @@ class Environment
     }
 
     /**
-     *
      * @param BlockInterface $block
      *
      * @return array
@@ -166,12 +157,13 @@ class Environment
         $cacheKey = $this->getCacheKey();
 
         foreach ($this->blockCache[$cacheKey] as $member) {
-            if ($member->getParent() == null)
+            if ($member->getParent() == null) {
                 continue;
+            }
 
             if ($member->getParent()->getId() == $block->getId()) { // direct child
                 array_push($children, $member);
-            } else if ( $member->getOwner() &&
+            } elseif ($member->getOwner() &&
                         $member->getParent()->getId() == $member->getOwner()->getId() &&
                         $block instanceof BlockOwnerInterface) {
                 array_push($children, $member);
@@ -189,8 +181,9 @@ class Environment
      */
     public function load()
     {
-        if ($this->isLoaded)
+        if ($this->isLoaded) {
             return;
+        }
 
         $blocks = $this->getBlocksRecursive($this->object);
 
@@ -259,7 +252,7 @@ class Environment
 
     protected function isTemplated($object)
     {
-        return ($object instanceof TemplatedInterface);
+        return $object instanceof TemplatedInterface;
     }
 
     protected function getCacheKey()
@@ -269,11 +262,13 @@ class Environment
         return $cacheKey;
     }
 
-    public function getTool(BlockInterface $block) {
+    public function getTool(BlockInterface $block)
+    {
         return $this->getService($block)->getTool($block);
     }
 
-    public function getService(BlockInterface $block) {
+    public function getService(BlockInterface $block)
+    {
         return $this->blockManager->getService($block);
     }
 
@@ -315,7 +310,7 @@ class Environment
     }
 
     /**
-     * @return boolean
+     * @return bool
      */
     public function isDraft()
     {
@@ -323,7 +318,8 @@ class Environment
     }
 
     /**
-     * @param boolean $draft
+     * @param bool $draft
+     *
      * @return Environment
      */
     public function setDraft($draft)
@@ -332,6 +328,4 @@ class Environment
 
         return $this;
     }
-
-
 }
