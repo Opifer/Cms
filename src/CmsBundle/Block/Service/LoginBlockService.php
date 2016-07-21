@@ -3,6 +3,7 @@
 namespace Opifer\CmsBundle\Block\Service;
 
 use Opifer\CmsBundle\Entity\LoginBlock;
+use Opifer\ContentBundle\Block\BlockRenderer;
 use Opifer\ContentBundle\Block\Service\AbstractBlockService;
 use Opifer\ContentBundle\Block\Service\BlockServiceInterface;
 use Opifer\ContentBundle\Block\Tool\Tool;
@@ -37,14 +38,14 @@ class LoginBlockService extends AbstractBlockService implements BlockServiceInte
     /**
      * LoginBlockService constructor.
      *
-     * @param EngineInterface  $templating
+     * @param BlockRenderer    $blockRenderer
      * @param CsrfTokenManager $csrfTokenManager
      * @param Session          $session
      * @param array            $config
      */
-    public function __construct(EngineInterface $templating, CsrfTokenManager $csrfTokenManager, Session $session, array $config)
+    public function __construct(BlockRenderer $blockRenderer, CsrfTokenManager $csrfTokenManager, Session $session, array $config)
     {
-        parent::__construct($templating, $config);
+        parent::__construct($blockRenderer, $config);
 
         $this->csrfTokenManager = $csrfTokenManager;
         $this->session = $session;

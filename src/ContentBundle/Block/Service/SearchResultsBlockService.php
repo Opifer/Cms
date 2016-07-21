@@ -2,6 +2,7 @@
 
 namespace Opifer\ContentBundle\Block\Service;
 
+use Opifer\ContentBundle\Block\BlockRenderer;
 use Opifer\ContentBundle\Model\Content;
 use Opifer\ContentBundle\Model\ContentManagerInterface;
 use Opifer\ContentBundle\Entity\SearchResultsBlock;
@@ -26,13 +27,13 @@ class SearchResultsBlockService extends AbstractBlockService implements BlockSer
     protected $contentManager;
 
     /**
-     * @param EngineInterface $templating
+     * @param BlockRenderer $blockRenderer
      * @param ContentManagerInterface $contentManager
      * @param array $config
      */
-    public function __construct(EngineInterface $templating, ContentManagerInterface $contentManager, array $config)
+    public function __construct(BlockRenderer $blockRenderer, ContentManagerInterface $contentManager, array $config)
     {
-        parent::__construct($templating, $config);
+        parent::__construct($blockRenderer, $config);
 
         $this->contentManager = $contentManager;
     }

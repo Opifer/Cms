@@ -3,6 +3,7 @@
 namespace Opifer\CmsBundle\Block\Service;
 
 use Opifer\CmsBundle\Entity\FormBlock;
+use Opifer\ContentBundle\Block\BlockRenderer;
 use Opifer\ContentBundle\Block\Service\AbstractBlockService;
 use Opifer\ContentBundle\Block\Service\BlockServiceInterface;
 use Opifer\ContentBundle\Block\Tool\Tool;
@@ -32,14 +33,14 @@ class FormBlockService extends AbstractBlockService implements BlockServiceInter
     protected $formManager;
 
     /**
-     * @param EngineInterface $templating
+     * @param BlockRenderer $blockRenderer
      * @param EavManager      $eavManager
      * @param FormManager     $formManager
      * @param array           $config
      */
-    public function __construct(EngineInterface $templating, EavManager $eavManager, FormManager $formManager, array $config)
+    public function __construct(BlockRenderer $blockRenderer, EavManager $eavManager, FormManager $formManager, array $config)
     {
-        parent::__construct($templating, $config);
+        parent::__construct($blockRenderer, $config);
 
         $this->eavManager = $eavManager;
         $this->formManager = $formManager;

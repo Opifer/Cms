@@ -2,6 +2,7 @@
 
 namespace Opifer\ContentBundle\Block\Service;
 
+use Opifer\ContentBundle\Block\BlockRenderer;
 use Opifer\ContentBundle\Entity\Block;
 use Opifer\ContentBundle\Environment\Environment;
 use Opifer\ContentBundle\Model\BlockInterface;
@@ -11,6 +12,7 @@ use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Fragment\FragmentHandler;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
@@ -21,11 +23,13 @@ abstract class AbstractBlockService
     /** @var string */
     protected $editView = 'OpiferContentBundle:Editor:edit_block.html.twig';
 
-    /** @var EngineInterface */
-    protected $templating;
+    /** @var BlockRenderer */
+    protected $blockRenderer;
 
     /** @var Environment */
     protected $environment;
+
+    protected $esiEnabled = false;
 
     /**
      * The block configuration.
@@ -37,12 +41,12 @@ abstract class AbstractBlockService
     const FORM_GROUP_PROPERTIES = 'properties';
 
     /**
-     * @param EngineInterface $templating
+     * @param BlockRenderer $blockRenderer
      * @param array           $config
      */
-    public function __construct(EngineInterface $templating, array $config)
+    public function __construct(BlockRenderer $blockRenderer, array $config)
     {
-        $this->templating = $templating;
+        $this->blockRenderer = $blockRenderer;
         $this->config = $config;
     }
 
@@ -185,7 +189,7 @@ abstract class AbstractBlockService
      */
     public function getTemplating()
     {
-        return $this->templating;
+        return $this->blockRenderer;
     }
 
     /**
@@ -302,6 +306,6 @@ abstract class AbstractBlockService
      */
     public function renderResponse($view, array $parameters = array(), Response $response = null)
     {
-        return $this->getTemplating()->renderResponse($view, $parameters, $response);
+        return $this->blockRenderer->render($view, $parameters, $response);
     }
 }

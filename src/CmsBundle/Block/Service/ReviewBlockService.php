@@ -3,6 +3,7 @@
 namespace Opifer\CmsBundle\Block\Service;
 
 use Opifer\CmsBundle\Entity\ReviewBlock;
+use Opifer\ContentBundle\Block\BlockRenderer;
 use Opifer\ContentBundle\Block\Service\AbstractBlockService;
 use Opifer\ContentBundle\Block\Service\BlockServiceInterface;
 use Opifer\ContentBundle\Block\Tool\Tool;
@@ -26,13 +27,13 @@ class ReviewBlockService extends AbstractBlockService implements BlockServiceInt
     /**
      * Constructor.
      *
-     * @param EngineInterface $templating
+     * @param BlockRenderer $blockRenderer
      * @param array           $config
      * @param ReviewManager   $reviewManager
      */
-    public function __construct(EngineInterface $templating, array $config, ReviewManager $reviewManager)
+    public function __construct(BlockRenderer $blockRenderer, array $config, ReviewManager $reviewManager)
     {
-        parent::__construct($templating, $config);
+        parent::__construct($blockRenderer, $config);
 
         $this->reviewManager = $reviewManager;
     }

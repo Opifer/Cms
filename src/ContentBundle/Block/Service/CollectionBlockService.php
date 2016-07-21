@@ -2,6 +2,7 @@
 
 namespace Opifer\ContentBundle\Block\Service;
 
+use Opifer\ContentBundle\Block\BlockRenderer;
 use Opifer\ContentBundle\Block\Tool\Tool;
 use Opifer\ContentBundle\Block\Tool\ToolsetMemberInterface;
 use Opifer\ContentBundle\Entity\CollectionBlock;
@@ -40,13 +41,13 @@ class CollectionBlockService extends AbstractBlockService implements BlockServic
     protected $expressionEngine;
 
     /**
-     * @param EngineInterface         $templating
+     * @param BlockRenderer         $blockRenderer
      * @param ContentManagerInterface $contentManager
      * @param array                   $config
      */
-    public function __construct(EngineInterface $templating, DoctrineExpressionEngine $expressionEngine, ContentManagerInterface $contentManager, ContentTypeManager $contentTypeManager, array $config)
+    public function __construct(BlockRenderer $blockRenderer, DoctrineExpressionEngine $expressionEngine, ContentManagerInterface $contentManager, ContentTypeManager $contentTypeManager, array $config)
     {
-        parent::__construct($templating, $config);
+        parent::__construct($blockRenderer, $config);
 
         $this->expressionEngine = $expressionEngine;
         $this->contentManager = $contentManager;
