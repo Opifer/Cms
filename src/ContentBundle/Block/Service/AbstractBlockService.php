@@ -15,11 +15,10 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Fragment\FragmentHandler;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-/**
- * Class AbstractBlockService.
- */
 abstract class AbstractBlockService
 {
+    const FORM_GROUP_PROPERTIES = 'properties';
+
     /** @var string */
     protected $editView = 'OpiferContentBundle:Editor:edit_block.html.twig';
 
@@ -29,6 +28,7 @@ abstract class AbstractBlockService
     /** @var Environment */
     protected $environment;
 
+    /** @var bool */
     protected $esiEnabled = false;
 
     /**
@@ -37,8 +37,6 @@ abstract class AbstractBlockService
      * @var array
      */
     protected $config;
-
-    const FORM_GROUP_PROPERTIES = 'properties';
 
     /**
      * @param BlockRenderer $blockRenderer
@@ -63,7 +61,7 @@ abstract class AbstractBlockService
             $parameters = array_merge($parameters, $this->getManageViewParameters($block));
         }
 
-        return $this->renderResponse($this->getView($block), $parameters,  $response);
+        return $this->renderResponse($block, $parameters,  $response);
     }
 
     /**
@@ -298,14 +296,40 @@ abstract class AbstractBlockService
     /**
      * Returns a Response object that can be cache-able.
      *
-     * @param string   $view
+     * @param BlockInterface $block
      * @param array    $parameters
      * @param Response $response
      *
      * @return Response
      */
-    public function renderResponse($view, array $parameters = array(), Response $response = null)
+    public function renderResponse(BlockInterface $block, array $parameters = array(), Response $response = null)
     {
+        $partial = (isset($parameters['partial'])) ? $parameters['partial'] : false;
+
+        if (!$partial && $this->esiEnabled) {
+            if (null === $response) {
+                $response = new Response();
+            }
+
+            $content = $this->blockRenderer->renderEsi($block);
+
+            return $response->setContent($content);
+        }
+
+        $view = $this->getView($block);
+
+        if ($response) {
+            $this->setResponseHeaders($response);
+        }
+
         return $this->blockRenderer->render($view, $parameters, $response);
+    }
+
+    /**
+     * @param Response $response
+     */
+    protected function setResponseHeaders(Response $response)
+    {
+        // Override in child class
     }
 }

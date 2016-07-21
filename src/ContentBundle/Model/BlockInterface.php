@@ -4,6 +4,8 @@ namespace Opifer\ContentBundle\Model;
 
 interface BlockInterface
 {
+    public function getId();
+
     /**
      * The string returned should match Block's service name.
      *

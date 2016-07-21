@@ -2,13 +2,13 @@
 
 namespace Opifer\ContentBundle\Block;
 
+use Opifer\ContentBundle\Model\BlockInterface;
 use Symfony\Bundle\FrameworkBundle\Templating\EngineInterface;
+use Symfony\Component\HttpKernel\Controller\ControllerReference;
 use Symfony\Component\HttpKernel\Fragment\FragmentHandler;
 
 class BlockRenderer
 {
-    //fragment.handler
-
     protected $templating;
 
     protected $fragmentHandler;
@@ -22,5 +22,12 @@ class BlockRenderer
     public function render($view, $parameters, $response = null)
     {
         return $this->templating->renderResponse($view, $parameters, $response);
+    }
+
+    public function renderEsi(BlockInterface $block, $query = [])
+    {
+        $reference = new ControllerReference('OpiferContentBundle:Frontend/Block:view', ['id' => $block->getId()], $query);
+
+        return $this->fragmentHandler->render($reference, 'esi');
     }
 }
