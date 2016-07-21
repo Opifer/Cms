@@ -34,11 +34,15 @@ class ContentManager implements ContentManagerInterface, BlockProviderInterface
     protected $templateClass;
 
     /**
-     * Constructor
+     * Constructor.
      *
      * @param EntityManagerInterface $em
-     * @param FormFactoryInterface   $formFactory
-     * @param EavManager             $eavManager
+     * @param FormFactoryInterface $formFactory
+     * @param EavManager $eavManager
+     * @param string $class
+     * @param string $templateClass
+     *
+     * @throws \Exception If the passed content class is no subclass of ContentInterface
      */
     public function __construct(EntityManagerInterface $em, FormFactoryInterface $formFactory, EavManager $eavManager, $class, $templateClass)
     {
@@ -54,12 +58,9 @@ class ContentManager implements ContentManagerInterface, BlockProviderInterface
     }
 
     /**
-     * Initialize the content entity
-     *
-     * @param int $type
-     * @return ContentInterface
+     * {@inheritdoc}
      */
-    public function initialize($type = 0)
+    public function initialize()
     {
         $class = $this->getClass();
 

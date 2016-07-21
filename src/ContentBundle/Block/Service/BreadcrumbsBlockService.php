@@ -3,25 +3,25 @@
 namespace Opifer\ContentBundle\Block\Service;
 
 use Opifer\ContentBundle\Entity\BreadcrumbsBlock;
-use Opifer\ContentBundle\Block\Service\AbstractBlockService;
-use Opifer\ContentBundle\Block\Service\BlockServiceInterface;
 use Opifer\ContentBundle\Block\Tool\Tool;
 use Opifer\ContentBundle\Block\Tool\ToolsetMemberInterface;
 use Opifer\ContentBundle\Model\BlockInterface;
-use Symfony\Component\Form\FormBuilderInterface;
+use Opifer\ContentBundle\Model\Content;
 use Opifer\ContentBundle\Model\ContentManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Templating\EngineInterface;
 
 /**
- * Breadcrumbs Block Service
+ * Breadcrumbs Block Service.
  */
 class BreadcrumbsBlockService extends AbstractBlockService implements BlockServiceInterface, ToolsetMemberInterface
 {
+    /** @var ContentManagerInterface */
+    protected $contentManager;
 
     /**
-     * @param EngineInterface $templating
+     * @param EngineInterface         $templating
      * @param ContentManagerInterface $contentManager
-     * @param array $config
+     * @param array                   $config
      */
     public function __construct(EngineInterface $templating, ContentManagerInterface $contentManager, array $config)
     {
@@ -30,23 +30,35 @@ class BreadcrumbsBlockService extends AbstractBlockService implements BlockServi
         $this->config = $config;
     }
 
+    /**
+     * @param BlockInterface $block
+     *
+     * @return array
+     */
     public function getViewParameters(BlockInterface $block)
     {
         $parameters = [
             'block_service' => $this,
-            'block'         => $block,
+            'block' => $block,
         ];
 
-        $homePage = $this->contentManager->findOneBySlug('index');
-        $currentPage = $this->contentManager->findOneBySlug($block->getOwner()->getSlug());
+        if ($this->environment->getObject() instanceof Content) {
+            // Get current page slug to mark it as active when listing
+            $parameters['content'] = $this->environment->getObject();
+            $parameters['breadcrumbs'] = $parameters['content']->getBreadCrumbs();
+        } else {
+            $parameters['content'] = $this->contentManager->initialize();
+            $parameters['content']->setSlug('example');
+            $parameters['breadcrumbs'] = [
+                'directory' => 'Example Directory',
+                'example' => 'Example Page',
+            ];
+        }
 
-        //get current page slug to mark it as active when listing
-        $parameters['currentPageSlug'] = $currentPage->getSlug();
-
-        $parameters['breadcrumbs'] = $currentPage->getBreadCrumbs();
-
-        // add homepage link as first breadcrumb if not exists in breadcrumbs
+        // Add homepage link as first breadcrumb if it does not exist in breadcrumbs
         if (!array_key_exists('index', $parameters['breadcrumbs'])) {
+            $homePage = $this->contentManager->findOneBySlug('index');
+
             $parameters['breadcrumbs'] = array_merge(['index' => $homePage->getShortTitle()], $parameters['breadcrumbs']);
         }
 
@@ -54,15 +66,15 @@ class BreadcrumbsBlockService extends AbstractBlockService implements BlockServi
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function createBlock()
     {
-        return new BreadcrumbsBlock;
+        return new BreadcrumbsBlock();
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getTool(BlockInterface $block = null)
     {

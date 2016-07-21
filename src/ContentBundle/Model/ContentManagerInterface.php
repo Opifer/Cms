@@ -14,6 +14,13 @@ interface ContentManagerInterface
     public function getClass();
 
     /**
+     * Initialize the content entity
+     *
+     * @return ContentInterface
+     */
+    public function initialize();
+
+    /**
      * Save content
      *
      * @param  ContentInterface $content
