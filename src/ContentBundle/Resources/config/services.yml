@@ -9,7 +9,6 @@ parameters:
     opifer.content.form.gutter_collection_type.class: Opifer\ContentBundle\Form\Type\GutterCollectionType
     opifer.content.form.span_collection_type.class: Opifer\ContentBundle\Form\Type\SpanCollectionType
     opifer.content.form.content_list_picker_type.class: Opifer\ContentBundle\Form\Type\ContentListPickerType
-#    opifer.content.block_adapter_type.class: Opifer\ContentBundle\Form\Type\BlockAdapterFormType
     opifer.content.twig.content_extension.class: Opifer\ContentBundle\Twig\ContentExtension
     opifer.content.block_manager.class: Opifer\ContentBundle\Block\BlockManager
     opifer.content.content_design_suite.class: Opifer\ContentBundle\Designer\ContentSuite
@@ -47,6 +46,7 @@ services:
         arguments:
             - '@templating'
             - '@fragment.handler'
+            - '@request_stack'
 
     # Serializer
 
