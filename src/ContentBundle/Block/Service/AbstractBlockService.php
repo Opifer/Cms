@@ -51,6 +51,18 @@ abstract class AbstractBlockService implements BlockServiceInterface
      */
     public function execute(BlockInterface $block, Response $response = null, array $parameters = [])
     {
+        $partial = (isset($parameters['partial'])) ? $parameters['partial'] : false;
+
+        if (!$partial && $this->esiEnabled) {
+            if (null === $response) {
+                $response = new Response();
+            }
+
+            $content = $this->blockRenderer->renderEsi($block);
+
+            return $response->setContent($content);
+        }
+
         $this->load($block);
 
         $parameters = array_merge($parameters, $this->getViewParameters($block));
@@ -306,18 +318,6 @@ abstract class AbstractBlockService implements BlockServiceInterface
      */
     public function renderResponse(BlockInterface $block, array $parameters = array(), Response $response = null)
     {
-        $partial = (isset($parameters['partial'])) ? $parameters['partial'] : false;
-
-        if (!$partial && $this->esiEnabled) {
-            if (null === $response) {
-                $response = new Response();
-            }
-
-            $content = $this->blockRenderer->renderEsi($block);
-
-            return $response->setContent($content);
-        }
-
         $view = $this->getView($block);
 
         if ($response) {
