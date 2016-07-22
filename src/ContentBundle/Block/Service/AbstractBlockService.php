@@ -6,16 +6,14 @@ use Opifer\ContentBundle\Block\BlockRenderer;
 use Opifer\ContentBundle\Entity\Block;
 use Opifer\ContentBundle\Environment\Environment;
 use Opifer\ContentBundle\Model\BlockInterface;
-use Symfony\Bundle\FrameworkBundle\Templating\EngineInterface;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpKernel\Fragment\FragmentHandler;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-abstract class AbstractBlockService
+abstract class AbstractBlockService implements BlockServiceInterface
 {
     const FORM_GROUP_PROPERTIES = 'properties';
 
@@ -40,7 +38,7 @@ abstract class AbstractBlockService
 
     /**
      * @param BlockRenderer $blockRenderer
-     * @param array           $config
+     * @param array         $config
      */
     public function __construct(BlockRenderer $blockRenderer, array $config)
     {
@@ -53,6 +51,18 @@ abstract class AbstractBlockService
      */
     public function execute(BlockInterface $block, Response $response = null, array $parameters = [])
     {
+        $partial = (isset($parameters['partial'])) ? $parameters['partial'] : false;
+
+        if (!$partial && $this->esiEnabled) {
+            if (null === $response) {
+                $response = new Response();
+            }
+
+            $content = $this->blockRenderer->renderEsi($block);
+
+            return $response->setContent($content);
+        }
+
         $this->load($block);
 
         $parameters = array_merge($parameters, $this->getViewParameters($block));
@@ -79,6 +89,11 @@ abstract class AbstractBlockService
         return $parameters;
     }
 
+    /**
+     * @param BlockInterface $block
+     *
+     * @return array
+     */
     public function getManageViewParameters(BlockInterface $block)
     {
         $parameters = [
@@ -175,7 +190,7 @@ abstract class AbstractBlockService
     }
 
     /**
-     * {@inheritView}.
+     * {@inheritdoc}.
      */
     public function getEditView()
     {
@@ -274,8 +289,7 @@ abstract class AbstractBlockService
     }
 
     /**
-     * Configures the options for this type. (replaces the setDefaultOptions
-     * method that was deprecated since Symfony 2.7).
+     * Configures the options for this type.
      *
      * @param OptionsResolver $resolver The resolver for the options.
      */
@@ -297,38 +311,29 @@ abstract class AbstractBlockService
      * Returns a Response object that can be cache-able.
      *
      * @param BlockInterface $block
-     * @param array    $parameters
-     * @param Response $response
+     * @param array          $parameters
+     * @param Response       $response
      *
      * @return Response
      */
     public function renderResponse(BlockInterface $block, array $parameters = array(), Response $response = null)
     {
-        $partial = (isset($parameters['partial'])) ? $parameters['partial'] : false;
-
-        if (!$partial && $this->esiEnabled) {
-            if (null === $response) {
-                $response = new Response();
-            }
-
-            $content = $this->blockRenderer->renderEsi($block);
-
-            return $response->setContent($content);
-        }
-
         $view = $this->getView($block);
 
         if ($response) {
-            $this->setResponseHeaders($response);
+            $this->setResponseHeaders($block, $response);
         }
 
         return $this->blockRenderer->render($view, $parameters, $response);
     }
 
     /**
-     * @param Response $response
+     * Allows defining custom headers in case of edge side includes
+     *
+     * @param BlockInterface $block
+     * @param Response       $response
      */
-    protected function setResponseHeaders(Response $response)
+    protected function setResponseHeaders(BlockInterface $block, Response $response)
     {
         // Override in child class
     }
