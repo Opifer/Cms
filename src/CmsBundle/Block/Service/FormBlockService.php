@@ -28,6 +28,7 @@ class FormBlockService extends AbstractBlockService implements BlockServiceInter
     /** @var FormManager */
     protected $formManager;
 
+    /** @var bool {@inheritdoc} */
     protected $esiEnabled = true;
 
     /**
