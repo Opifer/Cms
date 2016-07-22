@@ -3,6 +3,7 @@
 namespace Opifer\ContentBundle\Block\Service;
 
 use Doctrine\Common\Collections\ArrayCollection;
+use Opifer\ContentBundle\Block\BlockRenderer;
 use Opifer\ContentBundle\Block\Tool\Tool;
 use Opifer\ContentBundle\Block\Tool\ToolsetMemberInterface;
 use Opifer\ContentBundle\Entity\GalleryBlock;
@@ -24,13 +25,13 @@ class GalleryBlockService extends AbstractBlockService implements BlockServiceIn
     /**
      * Constructor.
      *
-     * @param EngineInterface $templating
+     * @param BlockRenderer $blockRenderer
      * @param array $config
      * @param MediaManager $mediaManager
      */
-    public function __construct(EngineInterface $templating, array $config, MediaManager $mediaManager)
+    public function __construct(BlockRenderer $blockRenderer, array $config, MediaManager $mediaManager)
     {
-        parent::__construct($templating, $config);
+        parent::__construct($blockRenderer, $config);
 
         $this->mediaManager = $mediaManager;
     }

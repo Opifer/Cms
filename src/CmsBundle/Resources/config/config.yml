@@ -11,8 +11,8 @@ parameters:
 # Application specific configuration should be located inside the main config
 # file at app/config/config.yml
 framework:
-    ide:    "phpstorm://open?file=%%f&line=%%1"
-    #esi:             ~
+    ide:             'phpstorm://open?file=%%f&line=%%1'
+    esi:             { enabled: true }
     translator:      { fallback: ['%opifer_cms.default_locale%', en] }
     secret:          '%secret%'
     router:
@@ -23,11 +23,10 @@ framework:
     validation:      { enable_annotations: true }
     templating:
         engines: ['twig']
-        #assets_version: SomeVersionScheme
     default_locale:  '%opifer_cms.default_locale%'
     trusted_proxies: ~
     session:
-        save_path:   null #%kernel.root_dir%/../var/sessions
+        save_path: null #%kernel.root_dir%/../var/sessions
     fragments:       ~
     http_method_override: true
 

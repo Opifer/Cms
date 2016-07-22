@@ -3,22 +3,19 @@
 namespace Opifer\CmsBundle\Block\Service;
 
 use Opifer\CmsBundle\Entity\FormBlock;
+use Opifer\ContentBundle\Block\BlockRenderer;
 use Opifer\ContentBundle\Block\Service\AbstractBlockService;
 use Opifer\ContentBundle\Block\Service\BlockServiceInterface;
 use Opifer\ContentBundle\Block\Tool\Tool;
 use Opifer\ContentBundle\Block\Tool\ToolsetMemberInterface;
 use Opifer\ContentBundle\Model\BlockInterface;
-use Opifer\EavBundle\Entity\OptionValue;
 use Opifer\FormBundle\Model\FormManager;
 use Opifer\FormBundle\Model\PostInterface;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\Extension\Core\Type\FormType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
-use Symfony\Bundle\FrameworkBundle\Templating\EngineInterface;
 use Opifer\EavBundle\Manager\EavManager;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\RequestStack;
 
 /**
  * Form Block Service.
@@ -31,15 +28,18 @@ class FormBlockService extends AbstractBlockService implements BlockServiceInter
     /** @var FormManager */
     protected $formManager;
 
+    /** @var bool {@inheritdoc} */
+    protected $esiEnabled = true;
+
     /**
-     * @param EngineInterface $templating
-     * @param EavManager      $eavManager
-     * @param FormManager     $formManager
-     * @param array           $config
+     * @param BlockRenderer $blockRenderer
+     * @param EavManager    $eavManager
+     * @param FormManager   $formManager
+     * @param array         $config
      */
-    public function __construct(EngineInterface $templating, EavManager $eavManager, FormManager $formManager, array $config)
+    public function __construct(BlockRenderer $blockRenderer, EavManager $eavManager, FormManager $formManager, array $config)
     {
-        parent::__construct($templating, $config);
+        parent::__construct($blockRenderer, $config);
 
         $this->eavManager = $eavManager;
         $this->formManager = $formManager;
@@ -56,11 +56,11 @@ class FormBlockService extends AbstractBlockService implements BlockServiceInter
 
         if (isset($this->config['templates'])) {
             $propertiesForm->add('template', ChoiceType::class, [
-                'label'       => 'label.template',
+                'label' => 'label.template',
                 'placeholder' => 'placeholder.choice_optional',
-                'attr'        => ['help_text' => 'help.block_template'],
-                'choices'     => $this->config['templates'],
-                'required'    => false,
+                'attr' => ['help_text' => 'help.block_template'],
+                'choices' => $this->config['templates'],
+                'required' => false,
             ]);
         }
 

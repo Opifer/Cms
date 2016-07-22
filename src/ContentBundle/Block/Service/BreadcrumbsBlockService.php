@@ -2,6 +2,7 @@
 
 namespace Opifer\ContentBundle\Block\Service;
 
+use Opifer\ContentBundle\Block\BlockRenderer;
 use Opifer\ContentBundle\Entity\BreadcrumbsBlock;
 use Opifer\ContentBundle\Block\Tool\Tool;
 use Opifer\ContentBundle\Block\Tool\ToolsetMemberInterface;
@@ -19,15 +20,14 @@ class BreadcrumbsBlockService extends AbstractBlockService implements BlockServi
     protected $contentManager;
 
     /**
-     * @param EngineInterface         $templating
+     * @param BlockRenderer $blockRenderer
      * @param ContentManagerInterface $contentManager
      * @param array                   $config
      */
-    public function __construct(EngineInterface $templating, ContentManagerInterface $contentManager, array $config)
+    public function __construct(BlockRenderer $blockRenderer, ContentManagerInterface $contentManager, array $config)
     {
+        parent::__construct($blockRenderer, $config);
         $this->contentManager = $contentManager;
-        $this->templating = $templating;
-        $this->config = $config;
     }
 
     /**

@@ -200,13 +200,13 @@ services:
 
     opifer.cms.form_block:
         class: 'Opifer\CmsBundle\Block\Service\FormBlockService'
-        arguments: ['@templating', '@opifer.eav.eav_manager', '@opifer.form.form_manager', '%opifer_cms.form_block_configuration%']
+        arguments: ['@opifer.content.block_renderer', '@opifer.eav.eav_manager', '@opifer.form.form_manager', '%opifer_cms.form_block_configuration%']
         tags:
             - { name: 'opifer.content.block_service', alias: 'form' }
 
     opifer.mailing_list.subscribe_block:
         class: 'Opifer\MailingListBundle\Block\Service\SubscribeBlockService'
-        arguments: ['@templating', '%opifer_mailing_list.subscribe_block_configuration%', '@form.factory', '@router', '@doctrine.orm.default_entity_manager', '@opifer.content.content_manager', '@opifer.mailinglist.subscription_manager']
+        arguments: ['@opifer.content.block_renderer', '%opifer_mailing_list.subscribe_block_configuration%', '@form.factory', '@router', '@doctrine.orm.default_entity_manager', '@opifer.content.content_manager', '@opifer.mailinglist.subscription_manager']
         tags:
             - { name: 'opifer.content.block_service', alias: 'subscribe' }
         calls:
@@ -214,13 +214,13 @@ services:
 
     opifer.cms.review_block:
         class: 'Opifer\CmsBundle\Block\Service\ReviewBlockService'
-        arguments: ['@templating', [], '@opifer.review.review_manager']
+        arguments: ['@opifer.content.block_renderer', [], '@opifer.review.review_manager']
         tags:
             - { name: 'opifer.content.block_service', alias: 'review' }
 
     opifer.cms.login_block:
         class: 'Opifer\CmsBundle\Block\Service\LoginBlockService'
-        arguments: ['@templating', '@security.csrf.token_manager', '@session', '%opifer_cms.login_block_configuration%']
+        arguments: ['@opifer.content.block_renderer', '@security.csrf.token_manager', '@session', '%opifer_cms.login_block_configuration%']
         tags:
             - { name: 'opifer.content.block_service', alias: 'login' }
         calls:

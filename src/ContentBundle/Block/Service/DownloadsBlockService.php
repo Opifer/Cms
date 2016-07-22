@@ -3,6 +3,7 @@
 namespace Opifer\ContentBundle\Block\Service;
 
 use Doctrine\Common\Collections\ArrayCollection;
+use Opifer\ContentBundle\Block\BlockRenderer;
 use Opifer\ContentBundle\Block\Tool\Tool;
 use Opifer\ContentBundle\Block\Tool\ToolsetMemberInterface;
 use Opifer\ContentBundle\Entity\DownloadsBlock;
@@ -27,13 +28,13 @@ class DownloadsBlockService extends AbstractBlockService implements BlockService
     /**
      * Constructor.
      *
-     * @param EngineInterface $templating
+     * @param BlockRenderer $blockRenderer
      * @param array $config
      * @param MediaManager $mediaManager
      */
-    public function __construct(EngineInterface $templating, array $config, MediaManager $mediaManager, Container $container)
+    public function __construct(BlockRenderer $blockRenderer, array $config, MediaManager $mediaManager, Container $container)
     {
-        parent::__construct($templating, $config);
+        parent::__construct($blockRenderer, $config);
 
         $this->container = $container;
         $this->mediaManager = $mediaManager;

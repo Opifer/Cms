@@ -42,6 +42,12 @@ services:
         class: Opifer\ContentBundle\Environment\TwigAnalyzer
         arguments: ['@twig', '@templating.name_parser']
 
+    opifer.content.block_renderer:
+        class: Opifer\ContentBundle\Block\BlockRenderer
+        arguments:
+            - '@templating'
+            - '@fragment.handler'
+
     # Serializer
 
     opifer.content.content_serializer_subscriber:

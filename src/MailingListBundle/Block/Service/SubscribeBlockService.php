@@ -6,6 +6,7 @@ use Doctrine\Common\Persistence\ObjectManager;
 use Doctrine\ORM\EntityRepository;
 use Guzzle\Tests\Service\Mock\Command\Sub\Sub;
 use Opifer\CmsBundle\Form\Type\CKEditorType;
+use Opifer\ContentBundle\Block\BlockRenderer;
 use Opifer\ContentBundle\Block\Service\AbstractBlockService;
 use Opifer\ContentBundle\Block\Service\BlockServiceInterface;
 use Opifer\ContentBundle\Block\Tool\Tool;
@@ -69,18 +70,18 @@ class SubscribeBlockService extends AbstractBlockService implements BlockService
     /**
      * SubscribeBlockService constructor.
      *
-     * @param EngineInterface     $templating
+     * @param BlockRenderer     $blockRenderer
      * @param array               $config
      * @param FormFactory         $formFactory
-     * @param Router              $router
+     * @param RouterInterface      $router
      * @param ObjectManager       $em
      * @param ContentManager      $contentManager
      * @param SubscriptionManager $subscriptionManager
      */
-    public function __construct(EngineInterface $templating, array $config, FormFactory $formFactory, RouterInterface $router, ObjectManager $em, ContentManager $contentManager, SubscriptionManager $subscriptionManager)
+    public function __construct(BlockRenderer $blockRenderer, array $config, FormFactory $formFactory, RouterInterface $router, ObjectManager $em, ContentManager $contentManager, SubscriptionManager $subscriptionManager)
     {
-        $this->templating = $templating;
-        $this->config = $config;
+        parent::__construct($blockRenderer, $config);
+
         $this->formFactory = $formFactory;
         $this->router = $router;
         $this->em = $em;

@@ -2,6 +2,7 @@
 
 namespace Opifer\ContentBundle\Block\Service;
 
+use Opifer\ContentBundle\Block\BlockRenderer;
 use Opifer\ContentBundle\Entity\CookieWallBlock;
 use Opifer\ContentBundle\Block\Service\AbstractBlockService;
 use Opifer\ContentBundle\Block\Service\BlockServiceInterface;
@@ -29,11 +30,11 @@ class CookieWallBlockService extends AbstractBlockService implements BlockServic
 
     const SESSION_KEY = 'cookiewall-blocks';
 
-    public function __construct(EngineInterface $templating, Session $session, array $config)
+    public function __construct(BlockRenderer $blockRenderer, Session $session, array $config)
     {
-        $this->templating = $templating;
+        parent::__construct($blockRenderer, $config);
+
         $this->session = $session;
-        $this->config = $config;
 
         if ($session->has(self::SESSION_KEY)) {
             $this->blockIds = $session->get(self::SESSION_KEY);

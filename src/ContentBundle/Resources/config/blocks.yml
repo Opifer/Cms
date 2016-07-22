@@ -30,7 +30,7 @@ parameters:
 services:
     opifer.content.button_block:
         class: '%opifer.content.button_block.class%'
-        arguments: ['@templating', '%opifer_content.button_block_configuration%']
+        arguments: ['@opifer.content.block_renderer', '%opifer_content.button_block_configuration%']
         tags:
             - { name: opifer.content.block_service, alias: button }
         tags:
@@ -38,97 +38,97 @@ services:
 
     opifer.content.carousel_block:
         class: '%opifer.content.carousel_block.class%'
-        arguments: ['@templating', '%opifer_content.carousel_block_configuration%']
+        arguments: ['@opifer.content.block_renderer', '%opifer_content.carousel_block_configuration%']
         tags:
             - { name: opifer.content.block_service, alias: carousel }
 
     opifer.content.carousel_slide_block:
         class: '%opifer.content.carousel_slide_block.class%'
-        arguments: ['@templating', '%opifer_content.carousel_slide_block_configuration%']
+        arguments: ['@opifer.content.block_renderer', '%opifer_content.carousel_slide_block_configuration%']
         tags:
             - { name: opifer.content.block_service, alias: carousel_slide }
 
     opifer.content.collection_block:
         class: '%opifer.content.collection_block.class%'
-        arguments: ['@templating', '@opifer.doctrine_expression_engine', '@opifer.content.content_manager', '@opifer.content.content_type_manager', '%opifer_content.collection_block_configuration%']
+        arguments: ['@opifer.content.block_renderer', '@opifer.doctrine_expression_engine', '@opifer.content.content_manager', '@opifer.content.content_type_manager', '%opifer_content.collection_block_configuration%']
         tags:
             - { name: opifer.content.block_service, alias: collection }
 
     opifer.content.gallery_block:
         class: '%opifer.content.gallery_block.class%'
-        arguments: ['@templating', '%opifer_content.gallery_block_configuration%', '@opifer.media.media_manager']
+        arguments: ['@opifer.content.block_renderer', '%opifer_content.gallery_block_configuration%', '@opifer.media.media_manager']
         tags:
             - { name: opifer.content.block_service, alias: gallery }
 
     opifer.content.html_block:
         class: '%opifer.content.html_block.class%'
-        arguments: ['@templating', '%opifer_content.html_block_configuration%']
+        arguments: ['@opifer.content.block_renderer', '%opifer_content.html_block_configuration%']
         tags:
             - { name: opifer.content.block_service, alias: html }
 
     opifer.content.image_block:
         class: '%opifer.content.image_block.class%'
-        arguments: ['@templating', '%liip_imagine.filter_sets%', '%opifer_content.image_block_configuration%']
+        arguments: ['@opifer.content.block_renderer', '%liip_imagine.filter_sets%', '%opifer_content.image_block_configuration%']
         tags:
             - { name: opifer.content.block_service, alias: image }
 
     opifer.content.jumbotron_block:
         class: '%opifer.content.jumbotron_block.class%'
-        arguments: ['@templating', '%opifer_content.jumbotron_block_configuration%']
+        arguments: ['@opifer.content.block_renderer', '%opifer_content.jumbotron_block_configuration%']
         tags:
             - { name: opifer.content.block_service, alias: jumbotron }
 
     opifer.content.list_block:
         class: '%opifer.content.list_block.class%'
-        arguments: ['@templating', '@opifer.content.content_manager', '%opifer_content.list_block_configuration%']
+        arguments: ['@opifer.content.block_renderer', '@opifer.content.content_manager', '%opifer_content.list_block_configuration%']
         tags:
             - { name: opifer.content.block_service, alias: list }
 
     opifer.content.navigation_block:
         class: '%opifer.content.navigation_block.class%'
-        arguments: ['@templating', '@opifer.content.content_manager', '%opifer_content.navigation_block_configuration%']
+        arguments: ['@opifer.content.block_renderer', '@opifer.content.content_manager', '%opifer_content.navigation_block_configuration%']
         tags:
             - { name: opifer.content.block_service, alias: navigation }
 
     opifer.content_iframe_block:
         class: '%opifer.content.iframe_block.class%'
-        arguments: ['@templating', '%opifer_content.iframe_block_configuration%']
+        arguments: ['@opifer.content.block_renderer', '%opifer_content.iframe_block_configuration%']
         tags:
             - { name: opifer.content.block_service, alias: iframe }
 
     opifer.content.css_block:
         class: '%opifer.content.css_block.class%'
-        arguments: ['@templating', '%opifer_content.css_block_configuration%']
+        arguments: ['@opifer.content.block_renderer', '%opifer_content.css_block_configuration%']
         tags:
             - { name: opifer.content.block_service, alias: css }
 
     opifer.content.javascript_block:
         class: '%opifer.content.javascript_block.class%'
-        arguments: ['@templating', '%opifer_content.javascript_block_configuration%']
+        arguments: ['@opifer.content.block_renderer', '%opifer_content.javascript_block_configuration%']
         tags:
             - { name: opifer.content.block_service, alias: javascript }
 
     opifer.content.pointer_block:
         class: '%opifer.content.pointer_block.class%'
-        arguments: ['@templating', '@opifer.content.block_manager', '%opifer_content.pointer_block_configuration%']
+        arguments: ['@opifer.content.block_renderer', '@opifer.content.block_manager', '%opifer_content.pointer_block_configuration%']
         tags:
             - { name: opifer.content.block_service, alias: pointer }
 
     opifer.content.section_block:
         class: '%opifer.content.section_block.class%'
-        arguments: ['@templating', '%opifer_content.section_block_configuration%']
+        arguments: ['@opifer.content.block_renderer', '%opifer_content.section_block_configuration%']
         tags:
             - { name: opifer.content.block_service, alias: section }
 
     opifer.content.container_block:
         class: '%opifer.content.container_block.class%'
-        arguments: ['@templating', '%opifer_content.container_block_configuration%']
+        arguments: ['@opifer.content.block_renderer', '%opifer_content.container_block_configuration%']
         tags:
             - { name: opifer.content.block_service, alias: container }
 
     opifer.content.column_one_block:
         class: '%opifer.content.column_block.class%'
-        arguments: ['@templating', '%opifer_content.column_block_configuration%']
+        arguments: ['@opifer.content.block_renderer', '%opifer_content.column_block_configuration%']
         tags:
             - { name: opifer.content.block_service, alias: column_one }
         calls:
@@ -136,7 +136,7 @@ services:
 
     opifer.content.column_two_block:
         class: '%opifer.content.column_block.class%'
-        arguments: ['@templating', '%opifer_content.column_block_configuration%']
+        arguments: ['@opifer.content.block_renderer', '%opifer_content.column_block_configuration%']
         tags:
             - { name: opifer.content.block_service, alias: column_two }
         calls:
@@ -144,7 +144,7 @@ services:
 
     opifer.content.column_three_block:
         class: '%opifer.content.column_block.class%'
-        arguments: ['@templating', '%opifer_content.column_block_configuration%']
+        arguments: ['@opifer.content.block_renderer', '%opifer_content.column_block_configuration%']
         tags:
             - { name: opifer.content.block_service, alias: column_three }
         calls:
@@ -152,7 +152,7 @@ services:
 
     opifer.content.column_four_block:
         class: '%opifer.content.column_block.class%'
-        arguments: ['@templating', '%opifer_content.column_block_configuration%']
+        arguments: ['@opifer.content.block_renderer', '%opifer_content.column_block_configuration%']
         tags:
             - { name: opifer.content.block_service, alias: column_four }
         calls:
@@ -160,13 +160,13 @@ services:
 
     opifer.content.tabnav_block:
         class: '%opifer.content.tabnav_block.class%'
-        arguments: ['@templating', '%opifer_content.tabnav_block_configuration%']
+        arguments: ['@opifer.content.block_renderer', '%opifer_content.tabnav_block_configuration%']
         tags:
             - { name: opifer.content.block_service, alias: tabnav }
 
     opifer.content.socialshare_block:
         class: '%opifer.content.socialshare_block.class%'
-        arguments: ['@templating', '%opifer_content.socialshare_block_configuration%']
+        arguments: ['@opifer.content.block_renderer', '%opifer_content.socialshare_block_configuration%']
         tags:
             - { name: opifer.content.block_service, alias: socialshare }
         calls:
@@ -180,37 +180,37 @@ services:
 
     opifer.content.video_block:
         class: '%opifer.content.video_block.class%'
-        arguments: ['@templating', '%opifer_content.video_block_configuration%']
+        arguments: ['@opifer.content.block_renderer', '%opifer_content.video_block_configuration%']
         tags:
             - { name: opifer.content.block_service, alias: video }
 
     opifer.content.cookiewall_block:
         class: '%opifer.content.cookiewall_block.class%'
-        arguments: ['@templating', '@session', '%opifer_content.cookiewall_block_configuration%']
+        arguments: ['@opifer.content.block_renderer', '@session', '%opifer_content.cookiewall_block_configuration%']
         tags:
             - { name: opifer.content.block_service, alias: cookiewall }
 
     opifer.content.downloads_block:
         class: '%opifer.content.downloads_block.class%'
-        arguments: ['@templating', '%opifer_content.downloads_block_configuration%', '@opifer.media.media_manager', '@service_container']
+        arguments: ['@opifer.content.block_renderer', '%opifer_content.downloads_block_configuration%', '@opifer.media.media_manager', '@service_container']
         tags:
             - { name: opifer.content.block_service, alias: downloads }
 
     opifer.content.breadcrumbs_block:
         class: '%opifer.content.breadcrumbs_block.class%'
-        arguments: ['@templating', '@opifer.content.content_manager', '%opifer_content.breadcrumbs_block_configuration%']
+        arguments: ['@opifer.content.block_renderer', '@opifer.content.content_manager', '%opifer_content.breadcrumbs_block_configuration%']
         tags:
             - { name: opifer.content.block_service, alias: breadcrumbs }
 
     opifer.content.avatar_block:
         class: '%opifer.content.avatar_block.class%'
-        arguments: ['@templating', '%opifer_content.avatar_block_configuration%']
+        arguments: ['@opifer.content.block_renderer', '%opifer_content.avatar_block_configuration%']
         tags:
             - { name: opifer.content.block_service, alias: avatar }
 
     opifer.content.search_results_block:
         class: '%opifer.content.search_results_block.class%'
-        arguments: ['@templating', '@opifer.content.content_manager', '%opifer_content.search_results_block_configuration%']
+        arguments: ['@opifer.content.block_renderer', '@opifer.content.content_manager', '%opifer_content.search_results_block_configuration%']
         tags:
             - { name: opifer.content.block_service, alias: search_results }
         calls:

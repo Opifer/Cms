@@ -4,6 +4,7 @@ namespace Opifer\ContentBundle\Block\Service;
 
 use Doctrine\ORM\EntityRepository;
 use Opifer\ContentBundle\Block\BlockManager;
+use Opifer\ContentBundle\Block\BlockRenderer;
 use Opifer\ContentBundle\Block\Tool\Tool;
 use Opifer\ContentBundle\Block\Tool\ToolsetMemberInterface;
 use Opifer\ContentBundle\Entity\Block;
@@ -26,13 +27,13 @@ class PointerBlockService extends AbstractBlockService implements BlockServiceIn
     protected $blockManager;
 
     /**
-     * @param EngineInterface $templating
-     * @param BlockManager    $em\
+     * @param BlockRenderer $blockRenderer
+     * @param BlockManager    $blockManager
      * @param array           $config
      */
-    public function __construct(EngineInterface $templating, BlockManager $blockManager, array $config)
+    public function __construct(BlockRenderer $blockRenderer, BlockManager $blockManager, array $config)
     {
-        parent::__construct($templating, $config);
+        parent::__construct($blockRenderer, $config);
 
         $this->blockManager = $blockManager;
     }

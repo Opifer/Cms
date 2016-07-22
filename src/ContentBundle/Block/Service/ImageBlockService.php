@@ -2,6 +2,7 @@
 
 namespace Opifer\ContentBundle\Block\Service;
 
+use Opifer\ContentBundle\Block\BlockRenderer;
 use Opifer\ContentBundle\Block\Tool\Tool;
 use Opifer\ContentBundle\Block\Tool\ToolsetMemberInterface;
 use Opifer\ContentBundle\Entity\ImageBlock;
@@ -30,13 +31,13 @@ class ImageBlockService extends AbstractBlockService implements BlockServiceInte
     /**
      * Constructor.
      *
-     * @param EngineInterface $templating
+     * @param BlockRenderer $blockRenderer
      * @param array           $filterSets
      * @param array           $config
      */
-    public function __construct(EngineInterface $templating, array $filterSets, array $config)
+    public function __construct(BlockRenderer $blockRenderer, array $filterSets, array $config)
     {
-        parent::__construct($templating, $config);
+        parent::__construct($blockRenderer, $config);
 
         $this->filterSets = $filterSets;
     }

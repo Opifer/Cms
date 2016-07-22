@@ -3,6 +3,7 @@
 namespace Opifer\ContentBundle\Block\Service;
 
 use Doctrine\ORM\EntityManager;
+use Opifer\ContentBundle\Block\BlockRenderer;
 use Opifer\ContentBundle\Block\Tool\Tool;
 use Opifer\ContentBundle\Block\Tool\ToolsetMemberInterface;
 use Opifer\ContentBundle\Entity\ListBlock;
@@ -24,13 +25,13 @@ class ListBlockService extends AbstractBlockService implements BlockServiceInter
     protected $contentManager;
 
     /**
-     * @param EngineInterface $templating
+     * @param BlockRenderer $blockRenderer
      * @param EntityManager   $em
      * @param array           $config
      */
-    public function __construct(EngineInterface $templating, ContentManagerInterface $contentManager, array $config)
+    public function __construct(BlockRenderer $blockRenderer, ContentManagerInterface $contentManager, array $config)
     {
-        parent::__construct($templating, $config);
+        parent::__construct($blockRenderer, $config);
 
         $this->contentManager = $contentManager;
     }
