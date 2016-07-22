@@ -79,6 +79,7 @@ abstract class AbstractBlockService implements BlockServiceInterface
 
     /**
      * @param BlockInterface $block
+     *
      * @return array
      */
     public function getManageViewParameters(BlockInterface $block)
@@ -320,16 +321,19 @@ abstract class AbstractBlockService implements BlockServiceInterface
         $view = $this->getView($block);
 
         if ($response) {
-            $this->setResponseHeaders($response);
+            $this->setResponseHeaders($block, $response);
         }
 
         return $this->blockRenderer->render($view, $parameters, $response);
     }
 
     /**
-     * @param Response $response
+     * Allows defining custom headers in case of edge side includes
+     *
+     * @param BlockInterface $block
+     * @param Response       $response
      */
-    protected function setResponseHeaders(Response $response)
+    protected function setResponseHeaders(BlockInterface $block, Response $response)
     {
         // Override in child class
     }

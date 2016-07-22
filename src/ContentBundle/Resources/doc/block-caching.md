@@ -28,10 +28,7 @@ class MyBlockService extends AbstractBlockService implements BlockServiceInterfa
     
     //...
     
-    /**
-     * {@inheritdoc}
-     */
-    protected function setResponseHeaders(Response $response)
+    protected function setResponseHeaders(BlockInterface $block, Response $response)
     {
         $response->setSharedMaxAge(3600);
     }
