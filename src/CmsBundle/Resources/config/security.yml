@@ -16,6 +16,11 @@ security:
             id: fos_user.user_provider.username_email
 
     firewalls:
+        staging:
+            host: ^staging\.
+            http_basic:
+                provider: fos_userbundle
+            anonymous: false
         main:
             pattern: ^/
             simple_form:
