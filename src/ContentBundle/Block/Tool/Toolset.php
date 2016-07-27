@@ -3,14 +3,12 @@
 namespace Opifer\ContentBundle\Block\Tool;
 
 /**
- * Class Toolset
- *
- * @package Opifer\ContentBundle\Block\Tool
+ * Class Toolset.
  */
 class Toolset
 {
     /**
-     * @var array
+     * @var Tool[]
      */
     protected $tools = array();
 
@@ -19,19 +17,30 @@ class Toolset
      */
     public function getTools()
     {
+        usort($this->tools, function ($a, $b) {
+            return strcmp($a->getName(), $b->getName());
+        });
+
         return $this->tools;
     }
 
     /**
      * @param array $tools
-     * @return Toolbelt
+     *
+     * @return Toolset
      */
     public function setTools($tools)
     {
         $this->tools = $tools;
+
         return $this;
     }
 
+    /**
+     * @param Tool $tool
+     *
+     * @return Toolset
+     */
     public function addTool(Tool $tool)
     {
         array_push($this->tools, $tool);
@@ -39,7 +48,13 @@ class Toolset
         return $this;
     }
 
-    public function addTools(array $tools) {
+    /**
+     * @param array $tools
+     *
+     * @return Toolset
+     */
+    public function addTools(array $tools)
+    {
         foreach ($tools as $tool) {
             $this->addTool($tool);
         }
@@ -47,10 +62,12 @@ class Toolset
         return $this;
     }
 
+    /**
+     * @return string[]
+     */
     public function getGroups()
     {
         $groups = [];
-
         foreach ($this->tools as $tool) {
             if (!in_array($tool->getGroup(), $groups)) {
                 array_push($groups, $tool->getGroup());
@@ -59,5 +76,4 @@ class Toolset
 
         return $groups;
     }
-
 }
