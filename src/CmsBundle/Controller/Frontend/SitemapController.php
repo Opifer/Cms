@@ -7,6 +7,7 @@ use Opifer\CmsBundle\Event\SitemapEvent;
 use Opifer\ContentBundle\Model\ContentInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class SitemapController extends Controller
 {
@@ -23,7 +24,7 @@ class SitemapController extends Controller
         $event = new SitemapEvent();
 
         foreach ($contents as $content) {
-            $event->addUrl($this->generateUrl('_content', ['slug' => $content->getSlug()]), $content->getUpdatedAt());
+            $event->addUrl($this->generateUrl('_content', ['slug' => $content->getSlug()], UrlGeneratorInterface::ABSOLUTE_URL), $content->getUpdatedAt());
         }
 
         $dispatcher = $this->get('event_dispatcher');
