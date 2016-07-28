@@ -46,29 +46,29 @@ class GalleryBlockService extends AbstractBlockService implements BlockServiceIn
         parent::buildManageForm($builder, $options);
 
         $propertiesForm = $builder->create('properties', FormType::class)
-			->add('id', TextType::class, ['attr' => ['help_text' => 'help.html_id']])
-			->add('extra_classes', TextType::class, ['attr' => ['help_text' => 'help.extra_classes']]);
+            ->add('id', TextType::class, ['attr' => ['help_text' => 'help.html_id']])
+            ->add('extra_classes', TextType::class, ['attr' => ['help_text' => 'help.extra_classes']]);
 
-		if (isset($this->config['templates'])) {
-			$propertiesForm->add('template', ChoiceType::class, [
-				'label'       => 'label.template',
-				'placeholder' => 'placeholder.choice_optional',
-				'attr'        => ['help_text' => 'help.block_template'],
-				'choices'     => $this->config['templates'],
-				'required'    => false,
-			]);
-		}
+        if (isset($this->config['templates'])) {
+            $propertiesForm->add('template', ChoiceType::class, [
+                'label'       => 'label.template',
+                'placeholder' => 'placeholder.choice_optional',
+                'attr'        => ['help_text' => 'help.block_template'],
+                'choices'     => $this->config['templates'],
+                'required'    => false,
+            ]);
+        }
 
-		$builder->add(
-			 $builder->create('default', FormType::class, ['virtual' => true])
-				 ->add('value',  MediaPickerType::class, [
-					 'to_json' => true,
-					 'multiple' => true,
-					 'label'    => 'label.media',
-				 ])
-		 )->add(
-			$propertiesForm
-		);
+        $builder->add(
+             $builder->create('default', FormType::class, ['virtual' => true])
+                 ->add('value',  MediaPickerType::class, [
+                     'to_json' => true,
+                     'multiple' => true,
+                     'label'    => 'label.media',
+                 ])
+         )->add(
+            $propertiesForm
+        );
     }
 
     /**
