@@ -1,8 +1,5 @@
-<html>
-    <head>
-        <title>Content</title>
-    </head>
-    <body>
-        {% block opifer_content_body %}{% endblock %}
-    </body>
-</html>
+{% extends ['OpiferCmsBundle::base.html.twig', 'OpiferContentBundle::basic.html.twig'] %}
+
+{% block body %}
+    {% block opifer_content_body %}{% endblock %}
+{% endblock %}
