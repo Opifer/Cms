@@ -86,13 +86,16 @@ profile:
 
 # Security
 security:
+    logout: Log out
     login:
         title: Opifer CMS
-        email: "Email:"
-        username: "Username:"
-        password: "Password:"
+        email: Email
+        username: Username
+        password: Password
         remember_me: Stay signed in
+        forgot_password: Forgot password?
         submit: Login
+        register: Register
 
 # Sites
 site:

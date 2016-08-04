@@ -10,7 +10,7 @@ use Opifer\Revisions\Mapping\Annotation as Revisions;
  *
  * @ORM\Entity
  */
-class NavigationBlock extends Block
+class NavigationBlock extends CompositeBlock
 {
     const CHOICE_TOP_LEVEL = 'top_level';
     const CHOICE_CUSTOM = 'custom';

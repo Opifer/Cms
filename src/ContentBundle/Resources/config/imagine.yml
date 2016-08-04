@@ -1,0 +1,9 @@
+liip_imagine:
+    filter_sets:
+        jumbotron:
+            filters:
+                upscale: { min: [1920, 1280] }
+                thumbnail: { size: [1920, 1280], mode: outbound, allow_upscale: true  }
+            post_processors:
+                jpegoptim: { max: 65 }
+                pngquant: {}

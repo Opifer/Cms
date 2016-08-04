@@ -1,54 +1,53 @@
-<div {{ manage_tags() }}>
-    {% if block.properties.template is defined and block.properties.template == 'navbar' %}
-        <nav class="navbar navbar-default">
-            <div class="container-fluid">
-                <div class="navbar-header">
-                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
-                        <span class="sr-only">Toggle navigation</span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                    </button>
-                </div>
-
-                <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-                    <ul class="nav navbar-nav">
-                        {% for item in block.tree if item.showInNavigation == true %}
-                            {% if item.hasNavigationChildren %}
-                                <li class="dropdown">
-                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{{ item.title }} <span class="caret"></span></a>
-                                    <ul class="dropdown-menu">
-                                        {% for child in item.navigationChildren %}
-                                            <li><a href="{{ path('_content', {'slug': child.slug}) }}">{{ child.title }}</a></li>
-                                        {% endfor %}
-                                    </ul>
-                                </li>
-                            {% else %}
-                                <li {% if loop.first %}class="active"{% endif %}>
-                                    <a href="{{ path('_content', {'slug': item.slug}) }}">
-                                        {{ item.title }}
-                                    </a>
-                                </li>
-                            {% endif %}
-                        {% endfor %}
-                    </ul>
-                </div>
-            </div>
-        </nav>
-    {% else %}
-        {{ _self.render_tree(block.tree) }}
-
-        {% macro render_tree(tree) %}
-            <ul>
-                {% for item in tree if item.showInNavigation == true %}
-                    <li>
-                        <a href="{{ path('_content', {'slug': item.slug}) }}">{{ item.title }}</a>
-                        {% if item.hasNavigationChildren %}
-                            {{ _self.render_tree(item.children) }}
-                        {% endif %}
-                    </li>
+{% if block.properties.template is defined and block.properties.template == 'navbar' %}
+    <nav class="navbar navbar-light bg-faded" {{ manage_tags() }}>
+        <button class="navbar-toggler hidden-sm-up" type="button" data-toggle="collapse" data-target="#exCollapsingNavbar2" aria-controls="exCollapsingNavbar2" aria-expanded="false" aria-label="Toggle navigation">
+            &#9776;
+        </button>
+        <div class="collapse navbar-toggleable-xs" id="exCollapsingNavbar2">
+            {% block navigation_left %}
+                {{ render_placeholder(0, 'Navbar left') }}
+            {% endblock navigation_left %}
+            <a class="navbar-brand" href="#">Your brand</a>
+            <ul class="nav navbar-nav">
+                {% for item in block.tree if item.showInNavigation == true %}
+                    {% if item.hasNavigationChildren %}
+                        <li class="nav-item dropdown">
+                            <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{{ item.title }} <span class="caret"></span></a>
+                            <div class="dropdown-menu">
+                                {% for child in item.navigationChildren %}
+                                    <a class="dropdown-item" href="{{ path('_content', {'slug': child.slug}) }}">{{ child.shortTitle | default(child.title) }}</a>
+                                {% endfor %}
+                            </div>
+                        </li>
+                    {% else %}
+                        <li class="nav-item {% if item is parent_of(block_service.environment.object) %}active{% endif %}">
+                            <a href="{{ path('_content', {'slug': item.slug}) }}" class="nav-link">
+                                {{ item.shortTitle | default(item.title) }}
+                            </a>
+                        </li>
+                    {% endif %}
                 {% endfor %}
             </ul>
-        {% endmacro %}
-    {% endif %}
-</div>
+            {% block navigation_right %}
+                {{ render_placeholder(1, 'Navbar right') }}
+            {% endblock navigation_right %}
+        </div>
+    </nav>
+{% else %}
+    <div {{ manage_tags() }}>
+    {{ _self.render_tree(block.tree) }}
+    </div>
+
+    {% macro render_tree(tree) %}
+        <ul>
+            {% for item in tree if item.showInNavigation == true %}
+                <li>
+                    <a href="{{ path('_content', {'slug': item.slug}) }}">{{ item.title }}</a>
+                    {% if item.hasNavigationChildren %}
+                        {{ _self.render_tree(item.children) }}
+                    {% endif %}
+                </li>
+            {% endfor %}
+        </ul>
+    {% endmacro %}
+{% endif %}

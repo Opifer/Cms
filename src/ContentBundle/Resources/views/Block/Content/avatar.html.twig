@@ -1,35 +1,35 @@
-<div {{ manage_tags() }}>
-	{% if app.user|default %}
-		<ul class="nav navbar-nav">
-			<li class="dropdown">
-				<a href="#" class="dropdown-toggle" data-toggle="dropdown">
-					{% if app.user.avatar|default %}
-						<img src="{{app.user.avatar.reference|imagine_filter('avatar') }}" class="profile-image">
-					{% endif %}
-					{{ app.user.username }} <b class="caret"></b>
-					<ul class="dropdown-menu">
-				        <li><a href="{{ path('opifer_cms_user_profile') }}"><i class="fa fa-cog"></i> My Account</a></li>
-				        <li class="divider"></li>
-				        <li><a href="{{ path('fos_user_security_logout') }}"><i class="fa fa-sign-out"></i> {{ 'logout'|trans }}</a></li>
-				    </ul>
-				</a>
-			</li>
-		</ul>
+{% if app.user|default %}
+	<ul {{ manage_tags() }} class="nav navbar-nav {{ block.properties.extra_classes|default }}">
+		<li class="nav-item dropdown">
+			<a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">
+				{% if app.user.avatar|default %}
+					<img src="{{app.user.avatar.reference|imagine_filter('avatar') }}" class="profile-image">
+				{% endif %}
+				{{ app.user.username }} <b class="caret"></b>
+			</a>
+			<div class="dropdown-menu dropdown-menu-right">
+				<a class="dropdown-item" href="{{ path('opifer_cms_user_profile') }}">My Account</a></a>
+				<div class="dropdown-divider"></div>
+				<a class="dropdown-item" href="{{ path('fos_user_security_logout') }}">{{ 'security.logout'|trans }}</a></a>
+			</div>
+		</li>
+	</ul>
+{% else %}
+<div {{ manage_tags() }} class="{{ block.properties.extra_classes|default }}">
+	{% set loginUrl = '#' %}
+	{% if block.loginContentItem|default %}
+		{% set loginUrl = path('_content', {'slug': block.loginContentItem.slug }) %}
 	{% else %}
-		{% set loginUrl = '#' %}
-		{% if block.loginContentItem|default %}	
-			{% set loginUrl = path('_content', {'slug': block.loginContentItem.slug }) %}
-		{% else %}
-			{% if block.properties.loginUrl|default %} {% set loginUrl = block.properties.loginUrl %} {% endif %}
-		{% endif %}
-
-		{% set registrationUrl = '#' %}
-		{% if block.registrationContentItem|default %}	
-			{% set registrationUrl = path('_content', {'slug': block.registrationContentItem.slug }) %}
-		{% else %}
-			{% if block.properties.registrationUrl|default %} {% set registrationUrl = block.properties.registrationUrl %} {% endif %}
-		{% endif %}
-		<a href="{{ loginUrl }}" class="btn btn-primary">Login</a>
-		<a href="{{ registrationUrl }}" class="btn btn-primary">Register</a>
+		{% if block.properties.loginUrl|default %} {% set loginUrl = block.properties.loginUrl %} {% endif %}
 	{% endif %}
+
+	{% set registrationUrl = '#' %}
+	{% if block.registrationContentItem|default %}
+		{% set registrationUrl = path('_content', {'slug': block.registrationContentItem.slug }) %}
+	{% else %}
+		{% if block.properties.registrationUrl|default %} {% set registrationUrl = block.properties.registrationUrl %} {% endif %}
+	{% endif %}
+	<a href="{{ loginUrl }}" class="btn btn-primary">Login</a>
+	<a href="{{ registrationUrl }}" class="btn btn-primary">Register</a>
 </div>
+{% endif %}

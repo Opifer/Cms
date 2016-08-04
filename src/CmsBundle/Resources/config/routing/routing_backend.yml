@@ -153,10 +153,6 @@ fos_user_group:
 
 # Overriden Bundle actions
 
-opifer_content_directory_index:
-    path: /directory
-    defaults: { _controller: OpiferCmsBundle:Backend/Directory:index }
-
 opifer_content_content_type:
     path: /content/type/{type}
     defaults: { _controller: OpiferCmsBundle:Backend/Content:type }
