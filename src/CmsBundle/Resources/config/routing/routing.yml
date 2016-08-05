@@ -11,12 +11,12 @@ opifer_revision:
     resource: '@OpiferRevisionsBundle/Resources/config/routing.yml'
 
 fos_user_security_check:
-    pattern: /login_check
+    path: /login_check
     defaults: { _controller: FOSUserBundle:Security:check }
     methods: [POST]
 
 fos_user_security_logout:
-    pattern: /logout
+    path: /logout
     defaults: { _controller: FOSUserBundle:Security:logout }
 
 _bazinga_jstranslation:
@@ -25,12 +25,12 @@ _bazinga_jstranslation:
 # Opifer bundle routing
 
 opifer_cms_exception_404:
-    pattern: /404
+    path: /404
     defaults: { _controller: OpiferCmsBundle:Frontend\Exception:error404 }
     methods: [GET]
 
 opifer_cms_sitemap_sitemap:
-    pattern: /sitemap.xml
+    path: /sitemap.xml
     defaults: { _controller: OpiferCmsBundle:Frontend\Sitemap:sitemap, _format: xml }
     methods: [GET]
 
@@ -41,11 +41,11 @@ opifer_form:
     resource: "@OpiferFormBundle/Resources/config/routing.yml"
 
 opifer_cms_home:
-    pattern:  /
+    path:  /
     defaults: { _controller: OpiferContentBundle:Frontend\Content:home }
 
 opifer_cms_login:
-    pattern:  /login
+    path:  /login
     defaults: { _controller: FOSUserBundle:Security:login }
 
 opifer_cms_auto_complete:
@@ -61,7 +61,7 @@ fos_user_register:
     prefix:   /register
 
 fos_user_change_password:
-    pattern:  /change-password
+    path:  /change-password
     defaults: { _controller: FOSUserBundle:ChangePassword:changePassword }
     methods:  [GET,POST]
 
@@ -73,13 +73,13 @@ _opifer_backend:
 # Block Services
 
 opifer_mailing_list_subscribe_block:
-    pattern: /subscribe/{id}
+    path: /subscribe/{id}
     defaults: { _controller: opifer.mailing_list.subscribe_block:subscribeAction }
 
 opifer_cookie_wall_block:
-    pattern: /accept-cookies/{id}
+    path: /accept-cookies/{id}
     defaults: { _controller: opifer.content.cookiewall_block:acceptCookiesAction }
 
 opifer_download_block:
-    pattern: /download/{filename}
+    path: /download/{filename}
     defaults: { _controller: opifer.content.downloads_block:downloadMediaAction }
