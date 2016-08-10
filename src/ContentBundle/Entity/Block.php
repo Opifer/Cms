@@ -73,7 +73,7 @@ abstract class Block implements BlockInterface, DraftInterface
     /**
      * @var ArrayCollection
      *
-     * @ORM\OneToMany(targetEntity="Opifer\ContentBundle\Entity\Block", mappedBy="parent", cascade={"detach", "persist", "remove"})
+     * @ORM\OneToMany(targetEntity="Opifer\ContentBundle\Entity\Block", mappedBy="parent", cascade={"detach", "persist"})
      * @ORM\OrderBy({"sort" = "ASC"})
      **/
     protected $children;

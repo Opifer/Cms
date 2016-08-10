@@ -289,15 +289,27 @@ class BlockManager
 
         $this->disableRevisionListener();
 
+        $deletes = array();
+
         foreach ($blocks as $block) {
             if (null !== $revision = $this->revisionManager->getDraftRevision($block)) {
                 try {
                     $this->revisionManager->revert($block, $revision);
                 } catch (DeletedException $e) {
-                    $this->em->remove($block);
+                    // $this->em->remove($block);
+                    $deletes[] = $block;
                 }
 
                 $this->em->flush($block);
+            }
+        }
+
+        // Cycle through all deleted blocks to perform cascades manually 
+        foreach ($deletes as $block) {
+            $descendants = $this->findDescendants($block, false);
+            foreach ($descendants as $descendant) {
+                $descendant->setDeletedAt(new \DateTime);
+                $this->em->flush($descendant);
             }
         }
 
@@ -452,7 +464,6 @@ class BlockManager
      */
     public function disableRevisionListener()
     {
-
         foreach ($this->em->getEventManager()->getListeners() as $event => $listeners) {
             foreach ($listeners as $hash => $listener) {
                 if ($listener instanceof RevisionListener) {
@@ -463,7 +474,7 @@ class BlockManager
         }
 
         if ($this->revisionListener) {
-            $this->em->getEventManager()->removeEventListener(array(Events::onFlush, Events::postPersist, Events::postUpdate, Events::postFlush, SoftDeleteableListener::PRE_SOFT_DELETE, SoftDeleteableListener::POST_SOFT_DELETE), $this->revisionListener);
+            $this->revisionListener->setActive(false);
         }
     }
 
@@ -476,7 +487,7 @@ class BlockManager
             throw new \Exception('Could not enable revision listener: instance not found');
         }
 
-        $this->em->getEventManager()->addEventListener(array(Events::onFlush, Events::postPersist, Events::postUpdate, Events::postFlush, SoftDeleteableListener::PRE_SOFT_DELETE, SoftDeleteableListener::POST_SOFT_DELETE), $this->revisionListener);
+        $this->revisionListener->setActive(true);
     }
 
 
