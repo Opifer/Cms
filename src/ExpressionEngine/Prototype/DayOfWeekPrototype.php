@@ -2,7 +2,7 @@
 
 namespace Opifer\ExpressionEngine\Prototype;
 
-use AppBundle\Expression\Constraint\IsDayOfWeek;
+use Opifer\ExpressionEngine\Constraint\DayOfWeek;
 
 class DayOfWeekPrototype extends Prototype
 {
@@ -11,7 +11,7 @@ class DayOfWeekPrototype extends Prototype
         parent::__construct($name, $selector);
 
         $this->setConstraints([
-            new Choice(IsDayOfWeek::class, 'Equals'),
+            new Choice(DayOfWeek::class, 'Equals'),
         ]);
         $this->setType(Prototype::TYPE_SELECT);
         $this->setChoices([
