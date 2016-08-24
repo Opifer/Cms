@@ -197,16 +197,22 @@ class Value implements ValueInterface
     /**
      * Set options
      *
-     * @param array $options
+     * @param OptionInterface|OptionInterface[] $options
+     *
+     * @return $this
      */
     public function setOptions($options)
     {
         if (!is_array($options)) {
-            $this->options = $options->toArray();
-        } else {
-            foreach ($options as $option) {
-                $this->addOption($option);
-            }
+            $options = [$options];
+        }
+
+        foreach ($this->options as $option) {
+            $this->removeOption($option);
+        }
+
+        foreach ($options as $option) {
+            $this->addOption($option);
         }
 
         return $this;
