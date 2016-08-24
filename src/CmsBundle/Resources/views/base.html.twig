@@ -9,7 +9,9 @@
 
     <title>{% block title %}CM – Opifer{% endblock %}</title>
 
-    <link rel="stylesheet" href="{{ asset('bundles/opifercms/css/app.css') }}"/>
+    {% block stylesheets %}
+        <link rel="stylesheet" href="{{ asset('bundles/opifercms/css/app.css') }}"/>
+    {% endblock stylesheets %}
 </head>
 <body class="{{ body_class|default }}">
     {% spaceless %}
