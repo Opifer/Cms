@@ -28,6 +28,8 @@ class CookieWallBlockService extends AbstractBlockService implements BlockServic
     /** @var array */
     protected $blockIds = [];
 
+    protected $esiEnabled = true;
+
     const SESSION_KEY = 'cookiewall-blocks';
 
     public function __construct(BlockRenderer $blockRenderer, Session $session, array $config)
