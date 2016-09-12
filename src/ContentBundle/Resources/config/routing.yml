@@ -4,3 +4,11 @@
 #    defaults: { _controller: OpiferContentBundle:Frontend/Block:view }
 #    requirements:
 #        id: \d+
+
+# TODO: Re-organize API routes
+opifer_content_api_content_view:
+    path: /api/content/{id}
+    defaults: { _controller: OpiferContentBundle:Api/Content:view }
+    methods: [GET]
+    options:
+        expose: true

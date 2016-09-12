@@ -42,6 +42,7 @@ abstract class CmsKernel extends BaseKernel
             new \Opifer\ContentBundle\OpiferContentBundle(),
             new \Opifer\EavBundle\OpiferEavBundle(),
             new \Opifer\FormBundle\OpiferFormBundle(),
+            new \Opifer\FormBlockBundle\OpiferFormBlockBundle(),
             new \Opifer\MediaBundle\OpiferMediaBundle(),
             new \Opifer\RedirectBundle\OpiferRedirectBundle(),
             new \Opifer\ReviewBundle\OpiferReviewBundle(),

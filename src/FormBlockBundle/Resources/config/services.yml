@@ -1,0 +1,18 @@
+services:
+    opifer.formblock.form_block:
+        class: 'Opifer\FormBlockBundle\Block\Service\FormBlockService'
+        arguments: ['@opifer.content.block_renderer', '@opifer.eav.eav_manager', '@opifer.form.form_manager', '%opifer_formblock.form_block_configuration%']
+        tags:
+            - { name: 'opifer.content.block_service', alias: 'form' }
+
+    opifer.formblock.form_field_block:
+        class: 'Opifer\FormBlockBundle\Block\Service\FormFieldBlockService'
+        arguments: ['@opifer.content.block_renderer', '@opifer.form.form_manager', '%opifer_formblock.form_field_block_configuration%']
+        tags:
+            - { name: 'opifer.content.block_service', alias: 'form_field' }
+
+    opifer.formblock.form_section_block:
+        class: 'Opifer\FormBlockBundle\Block\Service\FormSectionBlockService'
+        arguments: ['@opifer.content.block_renderer', '@opifer.form.form_manager', '%opifer_formblock.form_section_block_configuration%']
+        tags:
+            - { name: 'opifer.content.block_service', alias: 'form_section' }
