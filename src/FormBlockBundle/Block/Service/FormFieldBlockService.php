@@ -60,6 +60,7 @@ class FormFieldBlockService extends AbstractBlockService implements BlockService
                             'Text' => 'text',
                             'Textarea' => 'textarea',
                             'Email' => 'email',
+                            'Number' => 'number',
                             'Radio' => 'radio',
                         ],
                         'choices_as_values' => true,

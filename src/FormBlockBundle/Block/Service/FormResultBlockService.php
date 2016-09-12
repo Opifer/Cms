@@ -2,7 +2,7 @@
 
 namespace Opifer\FormBlockBundle\Block\Service;
 
-use Opifer\FormBlockBundle\Entity\FormSectionBlock;
+use Opifer\FormBlockBundle\Entity\FormResultBlock;
 use Opifer\ContentBundle\Block\BlockRenderer;
 use Opifer\ContentBundle\Block\Service\AbstractBlockService;
 use Opifer\ContentBundle\Block\Service\BlockServiceInterface;
@@ -10,17 +10,13 @@ use Opifer\ContentBundle\Block\Tool\Tool;
 use Opifer\ContentBundle\Block\Tool\ToolsetMemberInterface;
 use Opifer\ContentBundle\Model\BlockInterface;
 use Opifer\FormBundle\Model\FormManager;
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
-use Symfony\Component\Form\Extension\Core\Type\TextareaType;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\Extension\Core\Type\FormType;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 
 /**
- * Form Block Service.
+ * Form Result Block Service.
  */
-class FormSectionBlockService extends AbstractBlockService implements BlockServiceInterface, ToolsetMemberInterface
+class FormResultBlockService extends AbstractBlockService implements BlockServiceInterface, ToolsetMemberInterface
 {
     /** @var FormManager */
     protected $formManager;
@@ -49,22 +45,6 @@ class FormSectionBlockService extends AbstractBlockService implements BlockServi
 
         $propertiesForm = $builder->create('properties', FormType::class, ['label' => false, 'attr' => ['widget_col' => 12]]);
 
-        $propertiesForm
-            ->add('name', TextType::class)
-            ->add('navTitle', TextType::class)
-            ->add('description', TextareaType::class)
-        ;
-
-        if (isset($this->config['templates'])) {
-            //$propertiesForm->add('template', ChoiceType::class, [
-            //    'label' => 'label.template',
-            //    'placeholder' => 'placeholder.choice_optional',
-            //    'attr' => ['help_text' => 'help.block_template'],
-            //    'choices' => $this->config['templates'],
-            //    'required' => false,
-            //]);
-        }
-
         $builder->add(
             $builder->create('default', FormType::class, ['virtual' => true])
                 ->add($propertiesForm)
@@ -86,7 +66,7 @@ class FormSectionBlockService extends AbstractBlockService implements BlockServi
      */
     public function createBlock()
     {
-        return new FormSectionBlock();
+        return new FormResultBlock();
     }
 
     /**
@@ -94,11 +74,11 @@ class FormSectionBlockService extends AbstractBlockService implements BlockServi
      */
     public function getTool(BlockInterface $block = null)
     {
-        $tool = new Tool('Form Section', 'form_section');
+        $tool = new Tool('Form Result', 'form_result');
 
-        $tool->setIcon('linear_scale')
+        $tool->setIcon('show_chart')
             ->setGroup('Form')
-            ->setDescription('Include a form field');
+            ->setDescription('Show a form result');
 
         return $tool;
     }
