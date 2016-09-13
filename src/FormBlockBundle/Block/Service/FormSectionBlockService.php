@@ -47,7 +47,7 @@ class FormSectionBlockService extends AbstractBlockService implements BlockServi
     {
         parent::buildManageForm($builder, $options);
 
-        $propertiesForm = $builder->create('properties', FormType::class, ['label' => false, 'attr' => ['widget_col' => 12]]);
+        $propertiesForm = $builder->create('properties', FormType::class);
 
         $propertiesForm
             ->add('name', TextType::class)
@@ -65,10 +65,7 @@ class FormSectionBlockService extends AbstractBlockService implements BlockServi
             //]);
         }
 
-        $builder->add(
-            $builder->create('default', FormType::class, ['virtual' => true])
-                ->add($propertiesForm)
-        );
+        $builder->add($propertiesForm);
     }
 
     public function getViewParameters(BlockInterface $block)

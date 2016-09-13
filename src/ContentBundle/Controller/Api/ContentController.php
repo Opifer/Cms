@@ -90,7 +90,10 @@ class ContentController extends Controller
 
         $blocks = $this->get('jms_serializer')->serialize($blockTree, 'json', SerializationContext::create()->setGroups(['tree'])->enableMaxDepthChecks());
 
-        return new Response($blocks, 200, ['Content-Type' => 'application/json']);
+        $response = new Response($blocks, 200, ['Content-Type' => 'application/json']);
+        $response->headers->set('Access-Control-Allow-Origin', '*');
+
+        return $response;
     }
 
     /**

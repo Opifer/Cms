@@ -12,6 +12,7 @@ use Opifer\ContentBundle\Model\BlockInterface;
 use Opifer\FormBundle\Model\FormManager;
 use Opifer\FormBundle\Model\PostInterface;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\Extension\Core\Type\FormType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
@@ -52,7 +53,11 @@ class FormBlockService extends AbstractBlockService implements BlockServiceInter
     {
         parent::buildManageForm($builder, $options);
 
-        $propertiesForm = $builder->create('properties', FormType::class, ['label' => false, 'attr' => ['widget_col' => 12]]);
+        $propertiesForm = $builder->create('properties', FormType::class);
+
+        $propertiesForm->add('sections', NumberType::class, [
+            'empty_data' => 1,
+        ]);
 
         if (isset($this->config['templates'])) {
             $propertiesForm->add('template', ChoiceType::class, [
@@ -64,16 +69,7 @@ class FormBlockService extends AbstractBlockService implements BlockServiceInter
             ]);
         }
 
-        $builder->add(
-            $builder->create('default', FormType::class, ['virtual' => true])
-                ->add('form', EntityType::class, [
-                    'class' => 'OpiferCmsBundle:Form',
-                    'choice_label' => 'name',
-                    'label' => 'Form',
-                    'placeholder' => 'Choose Form',
-                ])
-                ->add($propertiesForm)
-        );
+        $builder->add($propertiesForm);
     }
 
     public function getViewParameters(BlockInterface $block)

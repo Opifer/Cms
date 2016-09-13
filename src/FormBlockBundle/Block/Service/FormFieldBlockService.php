@@ -62,6 +62,7 @@ class FormFieldBlockService extends AbstractBlockService implements BlockService
                             'Email' => 'email',
                             'Number' => 'number',
                             'Radio' => 'radio',
+                            'Radio Buttons' => 'radiobutton',
                         ],
                         'choices_as_values' => true,
                     ])
@@ -100,14 +101,7 @@ class FormFieldBlockService extends AbstractBlockService implements BlockService
             ])
         ;
 
-        if (isset($this->config['templates'])) {
-            // Set template
-        }
-
-        $builder->add(
-            $builder->create('default', FormType::class, ['virtual' => true])
-                ->add($propertiesForm)
-        );
+        $builder->add($propertiesForm);
     }
 
     public function getViewParameters(BlockInterface $block)
