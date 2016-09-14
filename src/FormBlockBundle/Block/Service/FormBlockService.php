@@ -2,6 +2,7 @@
 
 namespace Opifer\FormBlockBundle\Block\Service;
 
+use Opifer\ContentBundle\Block\Service\LayoutBlockServiceInterface;
 use Opifer\FormBlockBundle\Entity\FormBlock;
 use Opifer\ContentBundle\Block\BlockRenderer;
 use Opifer\ContentBundle\Block\Service\AbstractBlockService;
@@ -15,13 +16,12 @@ use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\Extension\Core\Type\FormType;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Opifer\EavBundle\Manager\EavManager;
 
 /**
  * Form Block Service.
  */
-class FormBlockService extends AbstractBlockService implements BlockServiceInterface, ToolsetMemberInterface
+class FormBlockService extends AbstractBlockService implements BlockServiceInterface, ToolsetMemberInterface, LayoutBlockServiceInterface
 {
     /** @var EavManager */
     protected $eavManager;
@@ -101,6 +101,23 @@ class FormBlockService extends AbstractBlockService implements BlockServiceInter
     protected function prefillPost(PostInterface $post)
     {
         // Override in child class
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getPlaceholders(BlockInterface $block = null)
+    {
+        $placeholders = [];
+
+        $properties = $block->getProperties();
+        $sections = (isset($properties['sections'])) ? $properties['sections'] : 1;
+
+        for ($i = 0; $i < $sections; ++$i) {
+            $placeholders[$i] = sprintf('Section %d', $i + 1);
+        }
+
+        return $placeholders;
     }
 
     /**

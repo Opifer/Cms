@@ -2,16 +2,11 @@
 
 namespace Opifer\ContentBundle\Block;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Opifer\ContentBundle\Model\BlockInterface;
 
-/**
- * Interface BlockContainerInterface
- *
- * @package Opifer\ContentBundle\Block
- */
 interface BlockContainerInterface extends BlockInterface
 {
-
     /**
      * @return ArrayCollection
      */
@@ -23,7 +18,7 @@ interface BlockContainerInterface extends BlockInterface
     public function setChildren($children);
 
     /**
-     * Add Block
+     * Add Block.
      *
      * @param BlockInterface $child
      *
@@ -32,7 +27,7 @@ interface BlockContainerInterface extends BlockInterface
     public function addChild(BlockInterface $child);
 
     /**
-     * Remove Block
+     * Remove Block.
      *
      * @param BlockInterface $child
      *
