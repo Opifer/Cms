@@ -98,6 +98,9 @@ abstract class Block implements BlockInterface, DraftInterface
     /**
      * @var int
      *
+     * @JMS\Expose
+     * @JMS\Groups({"tree", "detail", "list"})
+     *
      * @Revisions\Revised
      * @ORM\Column(type="integer", nullable=true)
      */
@@ -125,12 +128,18 @@ abstract class Block implements BlockInterface, DraftInterface
     /**
      * @var bool
      *
+     * @JMS\Expose
+     * @JMS\Groups({"tree", "detail", "list"})
+     *
      * @ORM\Column(type="boolean")
      */
     protected $shared = false;
 
     /**
      * @var string
+     *
+     * @JMS\Expose
+     * @JMS\Groups({"tree", "detail", "list"})
      *
      * @ORM\Column(type="string", nullable=true)
      * @GRID\Column(title="label.shared_name")
@@ -290,6 +299,16 @@ abstract class Block implements BlockInterface, DraftInterface
     public function setParent($parent)
     {
         $this->parent = $parent;
+    }
+
+    /**
+     * @JMS\VirtualProperty
+     * @JMS\SerializedName("parentId")
+     * @JMS\Groups({"tree", "detail", "list"})
+     */
+    public function getParentId()
+    {
+        return ($this->parent) ? $this->parent->getId() : null;
     }
 
     /**

@@ -21,7 +21,7 @@ use Opifer\EavBundle\Manager\EavManager;
 /**
  * Form Block Service.
  */
-class FormBlockService extends AbstractBlockService implements BlockServiceInterface, ToolsetMemberInterface, LayoutBlockServiceInterface
+class FormBlockService extends AbstractBlockService implements BlockServiceInterface, ToolsetMemberInterface
 {
     /** @var EavManager */
     protected $eavManager;
@@ -54,10 +54,6 @@ class FormBlockService extends AbstractBlockService implements BlockServiceInter
         parent::buildManageForm($builder, $options);
 
         $propertiesForm = $builder->create('properties', FormType::class);
-
-        $propertiesForm->add('sections', NumberType::class, [
-            'empty_data' => 1,
-        ]);
 
         if (isset($this->config['templates'])) {
             $propertiesForm->add('template', ChoiceType::class, [
@@ -101,23 +97,6 @@ class FormBlockService extends AbstractBlockService implements BlockServiceInter
     protected function prefillPost(PostInterface $post)
     {
         // Override in child class
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getPlaceholders(BlockInterface $block = null)
-    {
-        $placeholders = [];
-
-        $properties = $block->getProperties();
-        $sections = (isset($properties['sections'])) ? $properties['sections'] : 1;
-
-        for ($i = 0; $i < $sections; ++$i) {
-            $placeholders[$i] = sprintf('Section %d', $i + 1);
-        }
-
-        return $placeholders;
     }
 
     /**

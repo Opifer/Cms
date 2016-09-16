@@ -87,6 +87,7 @@ class ContentController extends Controller
         $environment->load();
 
         $blockTree = $environment->getRootBlocks();
+        $blockTree = ['blocks' => $blockTree];
 
         $blocks = $this->get('jms_serializer')->serialize($blockTree, 'json', SerializationContext::create()->setGroups(['tree'])->enableMaxDepthChecks());
 

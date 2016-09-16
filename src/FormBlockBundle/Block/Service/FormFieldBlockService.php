@@ -5,7 +5,6 @@ namespace Opifer\FormBlockBundle\Block\Service;
 use Braincrafted\Bundle\BootstrapBundle\Form\Type\BootstrapCollectionType;
 use Opifer\FormBlockBundle\Entity\FormFieldBlock;
 use Opifer\FormBlockBundle\Form\Type\FormFieldValidationType;
-use Opifer\FormBlockBundle\Form\Type\KeyValueType;
 use Opifer\ContentBundle\Block\BlockRenderer;
 use Opifer\ContentBundle\Block\Service\AbstractBlockService;
 use Opifer\ContentBundle\Block\Service\BlockServiceInterface;
@@ -13,7 +12,6 @@ use Opifer\ContentBundle\Block\Tool\Tool;
 use Opifer\ContentBundle\Block\Tool\ToolsetMemberInterface;
 use Opifer\ContentBundle\Model\BlockInterface;
 use Opifer\FormBundle\Model\FormManager;
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -22,7 +20,7 @@ use Symfony\Component\Form\Extension\Core\Type\FormType;
 /**
  * Form Block Service.
  */
-class FormFieldBlockService extends AbstractBlockService implements BlockServiceInterface, ToolsetMemberInterface
+abstract class FormFieldBlockService extends AbstractBlockService implements BlockServiceInterface, ToolsetMemberInterface
 {
     /** @var FormManager */
     protected $formManager;
@@ -53,45 +51,14 @@ class FormFieldBlockService extends AbstractBlockService implements BlockService
 
         $propertiesForm
             ->add('label', TextType::class)
-            ->add(
-                $builder->create('input', FormType::class)
-                    ->add('type', ChoiceType::class, [
-                        'choices' => [
-                            'Text' => 'text',
-                            'Textarea' => 'textarea',
-                            'Email' => 'email',
-                            'Number' => 'number',
-                            'Radio' => 'radio',
-                            'Radio Buttons' => 'radiobutton',
-                        ],
-                        'choices_as_values' => true,
-                    ])
-                    ->add('name', TextType::class, [
-                        'attr' => [
-                            'pattern' => '^[a-z_-]+$',
-                            'help_text' => 'A unique identifier for this form field. [a-z_-]',
-                        ]
-                    ])
-                    ->add('className', TextType::class, [
-                        'attr' => [
-                            'help_text' => 'Additional classnames',
-                        ]
-                    ])
-            )
-            ->add('unit', TextType::class, [
-                'required' => false,
+            ->add('name', TextType::class, [
                 'attr' => [
-                    'help_text' => 'An optional value unit (e.g. m2)',
-                ]
+                    'pattern' => '^[a-z_-]+$',
+                    'help_text' => 'A unique identifier for this form field. [a-z_-]',
+                ],
             ])
             ->add('helpText', TextareaType::class, [
                 'required' => false,
-            ])
-            ->add('options', BootstrapCollectionType::class, [
-                'required' => false,
-                'allow_add' => true,
-                'allow_delete' => true,
-                'type' => KeyValueType::class,
             ])
             ->add('validation', BootstrapCollectionType::class, [
                 'required' => false,
@@ -112,27 +79,5 @@ class FormFieldBlockService extends AbstractBlockService implements BlockService
         ];
 
         return $parameters;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function createBlock()
-    {
-        return new FormFieldBlock();
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getTool(BlockInterface $block = null)
-    {
-        $tool = new Tool('Form Field', 'form_field');
-
-        $tool->setIcon('input')
-            ->setGroup('Form')
-            ->setDescription('Include a form field');
-
-        return $tool;
     }
 }

@@ -1,10 +1,7 @@
-{% set section_count = block.properties.sections|default(1) %}
 <div {{ manage_tags() }}>
     <section class="form-holder p-t-sm p-b-lg">
         <div class="container">
-            {% for i in 0..section_count-1 %}
-                {{ render_placeholder(i, 'Section '~i) }}
-            {% endfor %}
+            {{ render_placeholder() }}
         </div>
     </section>
 </div>
