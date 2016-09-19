@@ -28,6 +28,7 @@ framework:
     trusted_proxies: ~
     session:
         save_path: null #%kernel.root_dir%/../var/sessions
+        cookie_lifetime: 604800
     fragments:       ~
     http_method_override: true
 
