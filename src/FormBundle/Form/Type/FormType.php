@@ -42,10 +42,11 @@ class FormType extends AbstractType
     {
         $builder
             ->add('name')
-            ->add('notificationEmail', EmailType::class, [
+            ->add('notificationEmail', TextType::class, [
                 'required' => false,
                 'attr' => [
-                    'placeholder' => 'example@email.com'
+                    'placeholder' => 'example@email.com',
+                    'help_text' => 'Comma-separate email address for multiple notification emails. e.g. "info@domain.com, support@domain.com"'
                 ]
             ])
             ->add('requiresConfirmation', ChoiceType::class, [

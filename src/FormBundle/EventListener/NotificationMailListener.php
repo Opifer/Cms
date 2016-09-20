@@ -104,18 +104,20 @@ class NotificationMailListener implements EventSubscriberInterface
     }
 
     /**
-     * @param $recipient
-     * @param $subject
-     * @param $body
+     * @param string $recipient
+     * @param string $subject
+     * @param string $body
      *
      * @return \Swift_Mime_Message
      */
     protected function createMessage($recipient, $subject, $body)
     {
+        $recipients = explode(',', trim($recipient));
+
         return \Swift_Message::newInstance()
             ->setSender($this->sender)
             ->setFrom($this->sender)
-            ->setTo($recipient)
+            ->setTo($recipients)
             ->setSubject($subject)
             ->setBody($body, 'text/html');
     }
