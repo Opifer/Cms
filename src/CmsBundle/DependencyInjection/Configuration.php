@@ -110,6 +110,7 @@ class Configuration implements ConfigurationInterface
                     ->end()
                 ->end()
 
+                ->scalarNode('google_tag_manager_key')->defaultNull()->end()
                 ->scalarNode('google_captcha_site_key')->defaultNull()->end()
                 ->scalarNode('google_captcha_secret')->defaultNull()->end()
 

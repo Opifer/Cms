@@ -158,6 +158,7 @@ twig:
     globals:
         config: '@opifer.cms.config_manager'
         content_type_manager: '@opifer.content.content_type_manager'
+        google_tag_manager_key: '%opifer_cms.google_tag_manager_key%'
 
 # Media
 opifer_media:

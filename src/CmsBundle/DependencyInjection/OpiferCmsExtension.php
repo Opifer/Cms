@@ -50,6 +50,7 @@ class OpiferCmsExtension extends Extension implements PrependExtensionInterface
             'opifer_cms.default_locale' => $config['default_locale'],
             'opifer_cms.google_captcha_site_key' => $config['google_captcha_site_key'],
             'opifer_cms.google_captcha_secret' => $config['google_captcha_secret'],
+            'opifer_cms.google_tag_manager_key' => $config['google_tag_manager_key'],
             'opifer_cms.database_driver' => $config['database']['driver'],
             'opifer_cms.database_host' => $config['database']['host'],
             'opifer_cms.database_name' => $config['database']['name'],
