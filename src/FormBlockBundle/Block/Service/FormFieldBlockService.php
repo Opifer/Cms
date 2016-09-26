@@ -66,6 +66,12 @@ abstract class FormFieldBlockService extends AbstractBlockService implements Blo
                 'allow_delete' => true,
                 'type' => FormFieldValidationType::class,
             ])
+            ->add('formula',TextAreaType::class, [
+                'required' => false,
+                'attr' => [
+                    'help_text' => 'Fill the value of this field with a formula'
+                ]
+            ])
         ;
 
         $builder->add($propertiesForm);
