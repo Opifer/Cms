@@ -17,6 +17,12 @@ services:
         tags:
             - { name: 'opifer.content.block_service', alias: 'form_section' }
 
+    opifer.formblock.form_nav_button_block:
+        class: 'Opifer\FormBlockBundle\Block\Service\FormNavButtonBlockService'
+        arguments: ['@opifer.content.block_renderer', '%opifer_formblock.form_nav_button_block_configuration%']
+        tags:
+            - { name: 'opifer.content.block_service', alias: 'form_nav_button' }
+
     opifer.formblock.form_progress_block:
         class: 'Opifer\FormBlockBundle\Block\Service\FormProgressBlockService'
         arguments: ['@opifer.content.block_renderer', '%opifer_formblock.form_progress_block_configuration%']
