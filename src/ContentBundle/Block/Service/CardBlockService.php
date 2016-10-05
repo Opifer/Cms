@@ -2,20 +2,21 @@
 
 namespace Opifer\ContentBundle\Block\Service;
 
-use Opifer\ContentBundle\Entity\AlertBlock;
+use Opifer\CmsBundle\Form\Type\CKEditorType;
 use Opifer\ContentBundle\Block\Tool\Tool;
 use Opifer\ContentBundle\Block\Tool\ToolsetMemberInterface;
-use Opifer\ContentBundle\Model\BlockInterface;
-use Symfony\Component\Form\Extension\Core\Type\TextareaType;
+use Opifer\ContentBundle\Entity\CardBlock;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\FormType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Opifer\MediaBundle\Form\Type\MediaPickerType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Opifer\ContentBundle\Model\BlockInterface;
 
 /**
- * Alert Block Service.
+ * Card Block Service
  */
-class AlertBlockService extends AbstractBlockService implements BlockServiceInterface, ToolsetMemberInterface
+class CardBlockService extends AbstractBlockService implements BlockServiceInterface, ToolsetMemberInterface
 {
     /**
      * {@inheritdoc}
@@ -26,11 +27,12 @@ class AlertBlockService extends AbstractBlockService implements BlockServiceInte
 
         $builder->add(
             $builder->create('default', FormType::Class, ['inherit_data' => true])
-                ->add('value', TextareaType::class, [
-                    'label' => 'Message',
-                    'attr' => [
-                        'help_text' => 'Show an alert message'
-                    ]
+                ->add('header', CKEditorType::class, ['label' => 'label.header', 'attr' => ['label_col' => 12, 'widget_col' => 12]])
+                ->add('value', CKEditorType::class, ['label' => 'label.body', 'attr' => ['label_col' => 12, 'widget_col' => 12]])
+                ->add('media', MediaPickerType::class, [
+                    'required'  => false,
+                    'multiple' => false,
+                    'attr' => array('label_col' => 12, 'widget_col' => 12),
                 ])
         );
 
@@ -52,22 +54,32 @@ class AlertBlockService extends AbstractBlockService implements BlockServiceInte
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
-    public function createBlock()
+    public function getManageFormTypeName()
     {
-        return new AlertBlock();
+        return 'content';
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
+     */
+    public function createBlock()
+    {
+        return new CardBlock;
+    }
+
+    /**
+     * {@inheritDoc}
      */
     public function getTool(BlockInterface $block = null)
     {
-        $tool = new Tool('Alert', 'alert');
+        $tool = new Tool($this->getName(), 'card');
 
-        $tool->setIcon('notifications')
-            ->setDescription('Add an alert message');
+        $tool
+            ->setIcon('video_label')
+            ->setGroup(Tool::GROUP_CONTENT)
+            ->setDescription('Flexible content block in card style');
 
         return $tool;
     }

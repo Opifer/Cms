@@ -4,6 +4,7 @@ parameters:
     opifer.content.carousel_slide_block.class: Opifer\ContentBundle\Block\Service\CarouselSlideBlockService
     opifer.content.collection_block.class: Opifer\ContentBundle\Block\Service\CollectionBlockService
     opifer.content.iframe_block.class: Opifer\ContentBundle\Block\Service\IFrameBlockService
+    opifer.content.card_block.class: Opifer\ContentBundle\Block\Service\CardBlockService
     opifer.content.column_block.class: Opifer\ContentBundle\Block\Service\ColumnBlockService
     opifer.content.container_block.class: Opifer\ContentBundle\Block\Service\ContainerBlockService
     opifer.content.section_block.class: Opifer\ContentBundle\Block\Service\SectionBlockService
@@ -28,7 +29,7 @@ parameters:
     opifer.content.search_results_block.class: Opifer\ContentBundle\Block\Service\SearchResultsBlockService
 
 services:
-    opifer.content.carousel_block:
+    opifer.content.alert_block:
         class: 'Opifer\ContentBundle\Block\Service\AlertBlockService'
         arguments: ['@opifer.content.block_renderer', '%opifer_content.alert_block_configuration%']
         tags:
@@ -39,8 +40,12 @@ services:
         arguments: ['@opifer.content.block_renderer', '%opifer_content.button_block_configuration%']
         tags:
             - { name: opifer.content.block_service, alias: button }
+
+    opifer.content.card_block:
+        class: '%opifer.content.card_block.class%'
+        arguments: ['@opifer.content.block_renderer', '%opifer_content.card_block_configuration%']
         tags:
-            - { name: opifer.content.block_service, alias: css }
+            - { name: opifer.content.block_service, alias: card }
 
     opifer.content.carousel_block:
         class: '%opifer.content.carousel_block.class%'
