@@ -9,6 +9,6 @@
 opifer_content_api_content_view:
     path: /api/content/{id}
     defaults: { _controller: OpiferContentBundle:Api/Content:view }
-    methods: [GET]
+    methods: [GET, OPTIONS]
     options:
         expose: true
