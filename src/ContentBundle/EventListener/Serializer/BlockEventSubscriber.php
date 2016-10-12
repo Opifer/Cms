@@ -36,13 +36,20 @@ class BlockEventSubscriber implements EventSubscriberInterface
      */
     public function preSerialize(PreSerializeEvent $event)
     {
-        $object = $event->getObject();
+        $block = $event->getObject();
 
-        if (!$object instanceof Block) {
+        if (!$block instanceof Block) {
             return;
         }
 
-        $service = $this->blockManager->getService($object);
-        $service->load($object);
+        $service = $this->blockManager->getService($block);
+        $service->load($block);
+
+        $properties = $block->getProperties();
+
+        if (isset($properties['displayLogic']) && !empty($properties['displayLogic'])) {
+            $properties['displayLogic'] = json_decode($properties['displayLogic'], true);
+            $block->setProperties($properties);
+        }
     }
 }

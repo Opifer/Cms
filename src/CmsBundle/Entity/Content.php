@@ -177,6 +177,11 @@ class Content extends BaseContent
     public function getPivotedAttributes()
     {
         $array = [];
+        
+        if ($this->getValueSet() === null) {
+            return $array;
+        }
+
         foreach ($this->getValueSet()->getValues() as $value) {
             switch (get_class($value)) {
                 case 'Opifer\EavBundle\Entity\CheckListValue':
