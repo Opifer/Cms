@@ -1,0 +1,10 @@
+
+help:
+    formula: Calculates the value of this field with an spreadsheet like formula
+    display_logic: Add conditional logic to this block when it should be displayed. Default becomes hidden when logic is present.
+    display_default_show: Check if you want to show this block by default when display logic applies.
+
+label:
+    formula: Formula
+    display_logic: Display Logic
+    display_default_show: Show Default

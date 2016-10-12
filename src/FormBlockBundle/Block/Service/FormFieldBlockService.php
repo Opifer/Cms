@@ -16,6 +16,7 @@ use Opifer\ContentBundle\Model\BlockInterface;
 use Opifer\FormBundle\Model\FormManager;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
@@ -78,11 +79,12 @@ abstract class FormFieldBlockService extends AbstractBlockService implements Blo
                 'allow_delete' => true,
                 'type' => FormFieldValidationType::class,
             ])
-            ->add('formula',TextAreaType::class, [
+            ->add('formula', TextAreaType::class, [
                 'required' => false,
+                'label' => 'label.formula',
                 'attr' => [
-                    'help_text' => 'Fill the value of this field with a formula'
-                ]
+                    'help_text' => 'help_text.formula'
+                ],
             ])
         ;
 
@@ -92,12 +94,22 @@ abstract class FormFieldBlockService extends AbstractBlockService implements Blo
             $block = $event->getData();
             $form = $event->getForm();
 
-            $form->get('properties')->add('displayLogic', ExpressionEngineType::class, [
-                'prototypes' => $this->getPrototypes($block),
-                'attr' => [
-                    'help_text' => 'Add conditional logic to this block when it should be displayed. Default becomes hidden when conditions apply.'
-                ]
-            ]);
+            $form->get('properties')
+                ->add('displayLogic', ExpressionEngineType::class, [
+                    'label' => 'label.display_logic',
+                    'prototypes' => $this->getPrototypes($block),
+                    'attr' => [
+                        'help_text' => 'help_text.display_logic'
+                    ]
+                ])
+                ->add('displayDefaultShow', CheckboxType::class, [
+                    'label' => 'label.display_default_show',
+                    'attr' => [
+                        'align_with_widget'     => true,
+                        'help_text'             => 'help_text.display_default_show',
+                    ],
+                ])
+            ;
         });
     }
 
