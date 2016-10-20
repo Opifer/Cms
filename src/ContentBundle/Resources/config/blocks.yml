@@ -27,6 +27,7 @@ parameters:
     opifer.content.breadcrumbs_block.class: Opifer\ContentBundle\Block\Service\BreadcrumbsBlockService
     opifer.content.avatar_block.class: Opifer\ContentBundle\Block\Service\AvatarBlockService
     opifer.content.search_results_block.class: Opifer\ContentBundle\Block\Service\SearchResultsBlockService
+    opifer.content.modal_block.class: Opifer\ContentBundle\Block\Service\ModalBlockService
 
 services:
     opifer.content.alert_block:
@@ -218,6 +219,12 @@ services:
         arguments: ['@opifer.content.block_renderer', '%opifer_content.avatar_block_configuration%']
         tags:
             - { name: opifer.content.block_service, alias: avatar }
+
+    opifer.content.modal_block:
+        class: '%opifer.content.modal_block.class%'
+        arguments: ['@opifer.content.block_renderer', '%opifer_content.modal_block_configuration%']
+        tags:
+            - { name: opifer.content.block_service, alias: modal }
 
     opifer.content.search_results_block:
         class: '%opifer.content.search_results_block.class%'
