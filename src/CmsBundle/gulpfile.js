@@ -94,9 +94,10 @@ gulp.task('react', function () {
     return gulp.src([
             '../ExpressionEngine/Resources/public/react/expression-engine.js'
         ])
+        .pipe(sourcemaps.init())
         .pipe(react())
         .pipe(concat('react.js'))
-        .pipe(sourcemaps.write('./'))
+        .pipe(sourcemaps.write('.'))
         .pipe(gulp.dest('Resources/public/js'));
 });
 
@@ -147,6 +148,7 @@ gulp.task('pagemanager-client-js', function () {
         .pipe(sourcemaps.write('./'))
         .pipe(gulp.dest('Resources/public/js'));
 });
+
 gulp.task('pagemanager-client-css', function () {
     return gulp.src([
         'Resources/public/less/pagemanager-client.less'
@@ -167,4 +169,5 @@ gulp.task('default', ['js', 'css', 'pagemanager']);
 gulp.task('watch', function() {
     gulp.watch('Resources/public/less/*.less', ['default']);
     gulp.watch('Resources/public/js/*.js', ['default']);
+    gulp.watch('../ExpressionEngine/Resources/public/react/expression-engine.js', ['default']);
 });

@@ -4,6 +4,7 @@ namespace Opifer\ContentBundle\Block\Service;
 
 use Opifer\CmsBundle\Form\Type\CKEditorType;
 use Opifer\ContentBundle\Entity\Block;
+use Opifer\ContentBundle\Entity\ButtonBlock;
 use Opifer\FormBlockBundle\Entity\FormFieldBlock;
 use Opifer\FormBlockBundle\Entity\ChoiceFieldBlock;
 use Opifer\FormBlockBundle\Form\Type\FormFieldValidationType;
@@ -28,6 +29,8 @@ use Opifer\ExpressionEngine\Prototype\OrXPrototype;
 use Opifer\ExpressionEngine\Prototype\Prototype;
 use Opifer\ExpressionEngine\Prototype\PrototypeCollection;
 use Opifer\ExpressionEngine\Prototype\SelectPrototype;
+use Opifer\ExpressionEngine\Prototype\TextPrototype;
+use Opifer\ExpressionEngine\Prototype\EventPrototype;
 
 /**
  * Modal Block Service
@@ -107,9 +110,12 @@ class ModalBlockService extends AbstractBlockService implements BlockServiceInte
         $collection = new PrototypeCollection([
             new OrXPrototype(),
             new AndXPrototype(),
+            new EventPrototype('Click Event', 'event.type.click'),
+            new TextPrototype('Event Element Id', 'event.target.id')
         ]);
 
         $owner = $block->getOwner();
+        $blockChoices = [];
 
         foreach ($owner->getBlocks() as $member) {
             if ($member instanceof ChoiceFieldBlock) {
@@ -120,7 +126,13 @@ class ModalBlockService extends AbstractBlockService implements BlockServiceInte
                 }
                 $collection->add(new SelectPrototype($properties['label'], $properties['name'], $choices));
             }
+
+            if (!empty($member->getName())) {
+                $blockChoices[] = new Choice($member->getName(), $member->getName());
+            }
         }
+
+        $collection->add(new SelectPrototype('Block name', 'block.name', $blockChoices));
 
         return $collection->all();
     }

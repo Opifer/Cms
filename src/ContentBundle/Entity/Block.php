@@ -49,6 +49,14 @@ abstract class Block implements BlockInterface, DraftInterface
     protected $id;
 
     /**
+     * @var string
+     *
+     * @Revisions\Revised
+     * @ORM\Column(type="string", nullable=true)
+     */
+    protected $name;
+
+    /**
      * @var BlockInterface
      *
      * @ORM\ManyToOne(targetEntity="Opifer\ContentBundle\Model\ContentInterface", inversedBy="blocks")
@@ -459,6 +467,25 @@ abstract class Block implements BlockInterface, DraftInterface
     public function getChildren()
     {
         return new ArrayCollection();
+    }
+
+    /**
+     * @return string
+     */
+    public function getName()
+    {
+        return $this->name;
+    }
+
+    /**
+     * @param string $name
+     *
+     * @return Block
+     */
+    public function setName($name)
+    {
+        $this->name = $name;
+        return $this;
     }
 
     /**

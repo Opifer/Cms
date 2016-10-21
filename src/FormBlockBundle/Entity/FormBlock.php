@@ -15,6 +15,14 @@ use Opifer\Revisions\Mapping\Annotation as Revisions;
 class FormBlock extends CompositeBlock
 {
     /**
+     * @var string
+     *
+     * @Revisions\Revised
+     * @ORM\Column(type="text", nullable=true)
+     */
+    protected $name;
+
+    /**
      * @var Form
      *
      * @Revisions\Revised

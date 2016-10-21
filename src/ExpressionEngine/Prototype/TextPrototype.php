@@ -14,6 +14,8 @@ class TextPrototype extends Prototype
         $this->setConstraints([
             new Choice(Equals::class, 'Equals'),
             new Choice(NotEquals::class, 'Not Equals'),
+            new Choice(Contains::class, 'Contains'),
+            new Choice(NotContains::class, 'Not Contains'),
         ]);
 
         $this->setType(Prototype::TYPE_TEXT);

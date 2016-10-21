@@ -12,6 +12,7 @@ button:
     block_share: Share block
 
 help:
+    block_name: Reference name to this block. Only for application purposes.
     active: Status of publication of the content item where inactive means the content is not public accessible
     alias: Enter a shortened url as alias for this page (optional)
     block_template: Pick a template to change how this block is displayed

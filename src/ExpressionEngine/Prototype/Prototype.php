@@ -9,6 +9,7 @@ class Prototype
     const TYPE_DATE = 'date';
     const TYPE_NUMBER = 'number';
     const TYPE_TEXT = 'text';
+    const TYPE_EVENT = 'event';
 
     /**
      * A unique key per type of Prototype. 

@@ -16,6 +16,7 @@ use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\Extension\Core\Type\FormType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Opifer\EavBundle\Manager\EavManager;
 
 /**
@@ -65,7 +66,12 @@ class FormBlockService extends AbstractBlockService implements BlockServiceInter
             ]);
         }
 
-        $builder->add($propertiesForm);
+        $builder->add(
+            $builder->create('default', FormType::class, ['inherit_data' => true])
+                ->add('name', TextType::class, ['attr' => ['help_text' => 'help.block_name']])
+        )->add(
+            $propertiesForm
+        );
     }
 
     public function getViewParameters(BlockInterface $block)

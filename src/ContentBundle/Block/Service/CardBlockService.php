@@ -34,6 +34,7 @@ class CardBlockService extends AbstractBlockService implements BlockServiceInter
                     'multiple' => false,
                     'attr' => array('label_col' => 12, 'widget_col' => 12),
                 ])
+                ->add('name', TextType::class, ['attr' => ['help_text' => 'help.block_name']])
         );
 
         $propertiesForm = $builder->create('properties', FormType::Class)
