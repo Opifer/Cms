@@ -111,7 +111,7 @@ class ModalBlockService extends AbstractBlockService implements BlockServiceInte
             new OrXPrototype(),
             new AndXPrototype(),
             new EventPrototype('Click Event', 'event.type.click'),
-            new TextPrototype('Event Element Id', 'event.target.id')
+            new TextPrototype('DOM Node Id', 'node.id')
         ]);
 
         $owner = $block->getOwner();
@@ -132,7 +132,7 @@ class ModalBlockService extends AbstractBlockService implements BlockServiceInte
             }
         }
 
-        $collection->add(new SelectPrototype('Block name', 'block.name', $blockChoices));
+        $collection->add(new SelectPrototype('Block Name', 'block.name', $blockChoices));
 
         return $collection->all();
     }

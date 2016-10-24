@@ -122,7 +122,7 @@ var ExpressionBuilder = React.createClass({
             id: Date.now(),
             key: prototype.key,
             selector: prototype.selector,
-            constraint: (typeof(constraints) !== 'undefined' && constraints.length) ? prototype.constraints[0].value : '',
+            constraint: (typeof(prototype.constraints) !== 'undefined' && prototype.constraints.length) ? prototype.constraints[0].value : '',
             value: (prototype.choices && prototype.choices.length > 0) ? prototype.choices[0].value : '',
             children: []
         };
