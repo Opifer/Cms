@@ -54,7 +54,14 @@ class ModalBlockService extends AbstractBlockService implements BlockServiceInte
 
         $propertiesForm = $builder->create('properties', FormType::Class)
             ->add('id', TextType::class, ['attr' => ['help_text' => 'help.html_id']])
-            ->add('extra_classes', TextType::class, ['attr' => ['help_text' => 'help.extra_classes']]);
+            ->add('extra_classes', TextType::class, ['attr' => ['help_text' => 'help.extra_classes']])
+            ->add('backdrop', CheckboxType::class, [
+                'label' => 'label.modal_backdrop',
+                'attr' => [
+                    'align_with_widget'     => true,
+                    'help_text'             => 'help_text.modal_backdrop',
+                ],
+            ]);
 
         if (isset($this->config['styles']) && count($this->config['styles'])) {
             $propertiesForm->add('styles', ChoiceType::class, [
