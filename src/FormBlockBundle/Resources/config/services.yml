@@ -5,6 +5,12 @@ services:
         tags:
             - { name: 'opifer.content.block_service', alias: 'choice_field' }
 
+    opifer.formblock.email_field_block:
+        class: 'Opifer\FormBlockBundle\Block\Service\EmailFieldBlockService'
+        arguments: ['@opifer.content.block_renderer', '@opifer.form.form_manager', '%opifer_formblock.text_field_block_configuration%']
+        tags:
+            - { name: 'opifer.content.block_service', alias: 'email_field' }
+
     opifer.formblock.form_block:
         class: 'Opifer\FormBlockBundle\Block\Service\FormBlockService'
         arguments: ['@opifer.content.block_renderer', '@opifer.eav.eav_manager', '@opifer.form.form_manager', '%opifer_formblock.form_block_configuration%']
