@@ -621,6 +621,16 @@ abstract class Block implements BlockInterface, DraftInterface
     }
 
     /**
+     * @JMS\VirtualProperty
+     * @JMS\SerializedName("contentId")
+     * @JMS\Groups({"tree", "detail", "list"})
+     */
+    public function getContentId()
+    {
+        return ($this->content) ? $this->content->getId() : null;
+    }
+
+    /**
      * @return bool
      */
     public function isDraft()
