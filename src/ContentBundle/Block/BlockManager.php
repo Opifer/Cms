@@ -807,7 +807,7 @@ class BlockManager
                             // Check if we inherit from this block
                             if ($item->getOwner()->getId() == $parentOwnerId && $item->getSort() == $block->getSortParent() &&
                                 // And check if we're in the same parent block on same position
-                                (($item->isInRoot() && $block->isInRoot() || $item->getParent()->getId() == $block->getParent()->getId()) && $item->getPosition() == $block->getPosition())) {
+                                (($item->isInRoot() && $block->isInRoot() || ($item->getParent() && $block->getParent() && $item->getParent()->getId() == $block->getParent()->getId())) && $item->getPosition() == $block->getPosition())) {
                                 break;
                             }
                         }
