@@ -5,6 +5,9 @@ namespace Opifer\ExpressionEngine\Constraint;
 use Webmozart\Expression\Expression;
 use Webmozart\Expression\Logic\Literal;
 
+/**
+ * @deprecated Use Webmozart\Expression\Constraint\Equals instead
+ */
 class Date extends Literal
 {
     /**
