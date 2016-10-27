@@ -3,20 +3,20 @@
 namespace Opifer\ContentBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use Opifer\ContentBundle\Block\BlockContainerInterface;
+use Opifer\Revisions\Mapping\Annotation as Revisions;
 
 /**
- * ContainerBlock
+ * ContentItem Block.
  *
  * @ORM\Entity
  */
-class ContainerBlock extends CompositeBlock implements BlockContainerInterface
+class ContentItemBlock extends Block
 {
     /**
      * @return string
      */
     public function getBlockType()
     {
-        return 'container';
+        return 'content_item';
     }
 }

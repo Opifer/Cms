@@ -252,6 +252,14 @@ class Content implements ContentInterface, EntityInterface, TemplatedInterface, 
     }
 
     /**
+     * @return string
+     */
+    public function __toString()
+    {
+        return (string) $this->id;
+    }
+
+    /**
      * Get id.
      *
      * @return int

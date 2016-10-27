@@ -66,6 +66,12 @@ services:
         tags:
             - { name: opifer.content.block_service, alias: collection }
 
+    opifer.content.content_item_block:
+        class: 'Opifer\ContentBundle\Block\Service\ContentItemBlockService'
+        arguments: ['@opifer.content.block_renderer', '%opifer_content.content_item_block_configuration%']
+        tags:
+            - { name: opifer.content.block_service, alias: content_item }
+
     opifer.content.gallery_block:
         class: '%opifer.content.gallery_block.class%'
         arguments: ['@opifer.content.block_renderer', '%opifer_content.gallery_block_configuration%', '@opifer.media.media_manager']
