@@ -2,7 +2,11 @@
 
 namespace Opifer\ExpressionEngine\Prototype;
 
-use Opifer\ExpressionEngine\Constraint\Date;
+use Webmozart\Expression\Constraint\Equals;
+use Webmozart\Expression\Constraint\GreaterThan;
+use Webmozart\Expression\Constraint\GreaterThanEqual;
+use Webmozart\Expression\Constraint\LessThan;
+use Webmozart\Expression\Constraint\LessThanEqual;
 
 class DatePrototype extends Prototype
 {
@@ -11,7 +15,11 @@ class DatePrototype extends Prototype
         parent::__construct($name, $selector);
 
         $this->setConstraints([
-            new Choice(Date::class, 'Equals'),
+            new Choice(Equals::class, 'Equals'),
+            new Choice(GreaterThan::class, 'Greater than'),
+            new Choice(GreaterThanEqual::class, 'Greater than or equal'),
+            new Choice(LessThan::class, 'Less than'),
+            new Choice(LessThanEqual::class, 'Less than or equal'),
         ]);
         $this->setType(Prototype::TYPE_DATE);
     }

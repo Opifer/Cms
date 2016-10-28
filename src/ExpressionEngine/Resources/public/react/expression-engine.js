@@ -123,6 +123,7 @@ var ExpressionBuilder = React.createClass({
             key: prototype.key,
             selector: prototype.selector,
             constraint: (typeof(prototype.constraints) !== 'undefined' && prototype.constraints.length) ? prototype.constraints[0].value : '',
+            type: prototype.type,
             value: (prototype.choices && prototype.choices.length > 0) ? prototype.choices[0].value : '',
             children: []
         };
@@ -150,6 +151,7 @@ var ExpressionBuilder = React.createClass({
         this.state.expressions[index].key = prototype.key;
         this.state.expressions[index].selector = prototype.selector;
         this.state.expressions[index].constraint = (prototype.constraints && prototype.constraints.length > 0) ? prototype.constraints[0].value : '';
+        this.state.expressions[index].type = prototype.type;
         this.state.expressions[index].value = (prototype.choices && prototype.choices.length > 0) ? prototype.choices[0].value : '';
 
         this.updateExpressions(this.state.expressions);

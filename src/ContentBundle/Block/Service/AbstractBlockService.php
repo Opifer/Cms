@@ -53,7 +53,7 @@ abstract class AbstractBlockService implements BlockServiceInterface
     {
         $partial = (isset($parameters['partial'])) ? $parameters['partial'] : false;
 
-        if (!$partial && $this->esiEnabled) {
+        if (!$partial && $this->isEsiEnabled($block)) {
             if (null === $response) {
                 $response = new Response();
             }
@@ -336,5 +336,15 @@ abstract class AbstractBlockService implements BlockServiceInterface
     protected function setResponseHeaders(BlockInterface $block, Response $response)
     {
         // Override in child class
+    }
+
+    /**
+     * Returns if ESI is enabled on the block service
+     *
+     * @return bool
+     */
+    public function isEsiEnabled(BlockInterface $block)
+    {
+        return $this->esiEnabled;
     }
 }

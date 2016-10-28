@@ -11,15 +11,12 @@ use Opifer\ContentBundle\Entity\Block;
 use Opifer\ContentBundle\Entity\PointerBlock;
 use Opifer\ContentBundle\Model\BlockInterface;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
-use Symfony\Bundle\FrameworkBundle\Templating\EngineInterface;
 use Symfony\Component\Form\Extension\Core\Type\FormType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
- * Class PointerBlockService
- *
- * @package Opifer\ContentBundle\Block
+ * Class PointerBlockService.
  */
 class PointerBlockService extends AbstractBlockService implements BlockServiceInterface, ToolsetMemberInterface
 {
@@ -28,8 +25,8 @@ class PointerBlockService extends AbstractBlockService implements BlockServiceIn
 
     /**
      * @param BlockRenderer $blockRenderer
-     * @param BlockManager    $blockManager
-     * @param array           $config
+     * @param BlockManager  $blockManager
+     * @param array         $config
      */
     public function __construct(BlockRenderer $blockRenderer, BlockManager $blockManager, array $config)
     {
@@ -48,7 +45,7 @@ class PointerBlockService extends AbstractBlockService implements BlockServiceIn
         $reference = null;
         if ($block->getReference()) {
             $service = $this->getReferenceService($block);
-            $reference = $this->environment->getBlock($block->getReference()->getId());
+            $reference = $block->getReference();
             $service->load($reference);
             $parameters = $service->getViewParameters($reference);
             $parameters['pointer'] = $block;
@@ -75,7 +72,7 @@ class PointerBlockService extends AbstractBlockService implements BlockServiceIn
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getName(BlockInterface $block = null)
     {
@@ -96,23 +93,21 @@ class PointerBlockService extends AbstractBlockService implements BlockServiceIn
      */
     public function buildManageForm(FormBuilderInterface $builder, array $options)
     {
-//        parent::buildManageForm($builder, $options);
-
         // Default panel
         $builder->add(
             $builder->create('default', FormType::class, ['inherit_data' => true])
                 ->add('reference', EntityType::class, [
-                    'required'      => false,
-                    'label'         => 'label.block',
-                    'class'         => 'OpiferContentBundle:Block',
-                    'property'      => 'sharedDisplayName', // Assuming that the entity has a "name" property
+                    'required' => false,
+                    'label' => 'label.block',
+                    'class' => 'OpiferContentBundle:Block',
+                    'property' => 'sharedDisplayName', // Assuming that the entity has a "name" property
                     'query_builder' => function (EntityRepository $blockRepository) {
                         return $blockRepository->createQueryBuilder('b')
                             ->add('orderBy', 'b.sharedDisplayName ASC')
-                            ->andWhere("b.shared = :shared")
-                            ->andWhere("b.content IS NULL")
-                            ->andWhere("b.template IS NULL")
-                            ->setParameter('shared', true);
+                            ->andWhere('b.shared = :shared')
+                            ->andWhere('b.content IS NULL')
+                            ->andWhere('b.template IS NULL')
+                            ->setParameter('shared', true)
                         ;
                     },
                 ])
@@ -120,7 +115,7 @@ class PointerBlockService extends AbstractBlockService implements BlockServiceIn
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getManageFormTypeName()
     {
@@ -128,19 +123,19 @@ class PointerBlockService extends AbstractBlockService implements BlockServiceIn
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function createBlock()
     {
-        return new PointerBlock;
+        return new PointerBlock();
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getTool(BlockInterface $block = null)
     {
-        if (is_null($block) || ! $block->getReference()) {
+        if (is_null($block) || !$block->getReference()) {
             $tool = new Tool('Shared block', 'pointer');
 
             $tool->setIcon('all_inclusive')
@@ -150,5 +145,31 @@ class PointerBlockService extends AbstractBlockService implements BlockServiceIn
         }
 
         return $this->getReferenceService($block)->getTool($block->getReference());
+    }
+
+    /**
+     * Sets the response headers defined on the reference service
+     *
+     * {@inheritdoc}
+     */
+    protected function setResponseHeaders(BlockInterface $block, Response $response)
+    {
+        if ($block && $block->getReference()) {
+            $this->getReferenceService($block)->setResponseHeaders($block->getReference(), $response);
+        }
+    }
+
+    /**
+     * Returns if ESI is enabled on the reference service.
+     *
+     * {@inheritdoc}
+     */
+    public function isEsiEnabled(BlockInterface $block)
+    {
+        if (!$block || !$block->getReference()) {
+            return $this->esiEnabled;
+        }
+
+        return $this->getReferenceService($block)->isEsiEnabled($block->getReference());
     }
 }

@@ -12,7 +12,6 @@ class ContentSuite extends AbstractDesignSuite
      */
     protected $contentManager;
 
-
     public function __construct(RouterInterface $router, ContentManager $contentManager)
     {
         $this->router = $router;
@@ -20,21 +19,21 @@ class ContentSuite extends AbstractDesignSuite
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function load($id = 0)
     {
         $this->subject = $this->contentManager->getRepository()->find($id);
 
         if (!$this->subject) {
-            throw $this->createNotFoundException('No content found for id ' . $id);
+            throw new \Exception(sprintf('Trying to load a content item with ID %d that does not exist.', $id));
         }
 
         return $this;
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getTitle()
     {
@@ -42,7 +41,7 @@ class ContentSuite extends AbstractDesignSuite
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getCaption()
     {
@@ -50,7 +49,7 @@ class ContentSuite extends AbstractDesignSuite
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getPermalink()
     {
@@ -58,7 +57,7 @@ class ContentSuite extends AbstractDesignSuite
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getPropertiesUrl()
     {
@@ -66,7 +65,7 @@ class ContentSuite extends AbstractDesignSuite
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getCancelUrl()
     {
@@ -74,13 +73,12 @@ class ContentSuite extends AbstractDesignSuite
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getCanvasUrl()
     {
         return $this->router->generate('opifer_content_contenteditor_view', ['owner' => 'content', 'ownerId' => $this->subject->getId()]);
     }
-
 
     public function saveSubject()
     {
@@ -90,11 +88,11 @@ class ContentSuite extends AbstractDesignSuite
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function postPublish()
     {
-        $this->subject->setUpdatedAt(new \DateTime);
+        $this->subject->setUpdatedAt(new \DateTime());
 
         $this->contentManager->save($this->subject);
 
