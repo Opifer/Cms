@@ -586,7 +586,7 @@ abstract class Block implements BlockInterface, DraftInterface
     /**
      * @return BlockInterface
      */
-    protected function getTemplate()
+    public function getTemplate()
     {
         return $this->template;
     }
@@ -596,7 +596,7 @@ abstract class Block implements BlockInterface, DraftInterface
      *
      * @return Block
      */
-    protected function setTemplate($template)
+    public function setTemplate($template)
     {
         $this->template = $template;
 

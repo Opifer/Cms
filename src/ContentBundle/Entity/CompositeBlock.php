@@ -74,12 +74,6 @@ abstract class CompositeBlock extends Block implements BlockContainerInterface, 
         return ($this->getChildren() && $this->getChildren()->count() > 0) ? true : false;
     }
 
-//
-//    public function accept(Visitor $visitor)
-//    {
-//
-//    }
-
     /**
      * {@inheritDoc}
      */

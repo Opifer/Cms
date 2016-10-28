@@ -3,11 +3,13 @@
 namespace Opifer\ContentBundle\Controller\Api;
 
 use JMS\Serializer\SerializationContext;
+use JMS\Serializer\SerializerBuilder;
 use Opifer\ContentBundle\Block\BlockManager;
 use Opifer\ContentBundle\Environment\Environment;
 use Opifer\ContentBundle\Model\ContentInterface;
 use Opifer\ContentBundle\Model\ContentManager;
 use Opifer\ContentBundle\Model\ContentManagerInterface;
+use Opifer\ContentBundle\Serializer\BlockExclusionStrategy;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -89,7 +91,9 @@ class ContentController extends Controller
         $blockTree = $environment->getRootBlocks();
         $blockTree = ['blocks' => $blockTree];
 
-        $blocks = $this->get('jms_serializer')->serialize($blockTree, 'json');
+        $context = SerializationContext::create()->addExclusionStrategy(new BlockExclusionStrategy($content));
+
+        $blocks = $this->get('jms_serializer')->serialize($blockTree, 'json', $context);
 
         return new JsonResponse(json_decode($blocks, true));
     }
