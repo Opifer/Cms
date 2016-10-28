@@ -117,6 +117,9 @@ abstract class Block implements BlockInterface, DraftInterface
     /**
      * @var null|int
      *
+     * @JMS\Expose
+     * @JMS\Groups({"tree", "detail", "list"})
+     *
      * @Revisions\Revised
      * @ORM\Column(type="integer", nullable=true, options={"default":null})
      */
@@ -598,6 +601,16 @@ abstract class Block implements BlockInterface, DraftInterface
         $this->template = $template;
 
         return $this;
+    }
+
+    /**
+     * @JMS\VirtualProperty
+     * @JMS\SerializedName("templateId")
+     * @JMS\Groups({"tree", "detail", "list"})
+     */
+    public function getTemplateId()
+    {
+        return ($this->template) ? $this->template->getId() : null;
     }
 
     /**
