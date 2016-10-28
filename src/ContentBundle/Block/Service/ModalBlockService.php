@@ -52,7 +52,7 @@ class ModalBlockService extends AbstractBlockService implements BlockServiceInte
                 ->add('footer', CKEditorType::class, ['label' => 'label.footer', 'attr' => ['label_col' => 12, 'widget_col' => 12]])
         );
 
-        $propertiesForm = $builder->create('properties', FormType::Class)
+        $builder->get('properties')
             ->add('id', TextType::class, ['attr' => ['help_text' => 'help.html_id']])
             ->add('extra_classes', TextType::class, ['attr' => ['help_text' => 'help.extra_classes']])
             ->add('backdrop', CheckboxType::class, [
@@ -64,7 +64,7 @@ class ModalBlockService extends AbstractBlockService implements BlockServiceInte
             ]);
 
         if (isset($this->config['styles']) && count($this->config['styles'])) {
-            $propertiesForm->add('styles', ChoiceType::class, [
+            $builder->get('properties')->add('styles', ChoiceType::class, [
                 'label' => 'label.styling',
                 'choices'  => $this->config['styles'],
                 'required' => false,
@@ -75,7 +75,7 @@ class ModalBlockService extends AbstractBlockService implements BlockServiceInte
         }
 
         if (isset($this->config['template']) && count($this->config['template'])) {
-            $propertiesForm->add('template', ChoiceType::class, [
+            $builder->get('properties')->add('template', ChoiceType::class, [
                 'label'       => 'label.template',
                 'placeholder' => 'placeholder.choice_optional',
                 'attr'        => ['help_text' => 'help.block_template'],
@@ -83,65 +83,6 @@ class ModalBlockService extends AbstractBlockService implements BlockServiceInte
                 'required'    => false,
             ]);
         }
-
-        $builder->add($propertiesForm);
-
-        $builder->addEventListener(FormEvents::PRE_SET_DATA, function (FormEvent $event) {
-            $block = $event->getData();
-            $form = $event->getForm();
-
-            $form->get('properties')
-                ->add('displayLogic', ExpressionEngineType::class, [
-                    'label' => 'label.display_logic',
-                    'prototypes' => $this->getPrototypes($block),
-                    'attr' => [
-                        'help_text' => 'help_text.display_logic'
-                    ]
-                ])
-                ->add('displayDefaultShow', CheckboxType::class, [
-                    'label' => 'label.display_default_show',
-                    'attr' => [
-                        'align_with_widget'     => true,
-                        'help_text'             => 'help_text.display_default_show',
-                    ],
-                ])
-            ;
-        });
-    }
-
-    /**
-     * @return \Opifer\ExpressionEngine\Prototype\Prototype[]
-     */
-    protected function getPrototypes(Block $block)
-    {
-        $collection = new PrototypeCollection([
-            new OrXPrototype(),
-            new AndXPrototype(),
-            new EventPrototype('Click Event', 'event.type.click'),
-            new TextPrototype('DOM Node Id', 'node.id')
-        ]);
-
-        $owner = $block->getOwner();
-        $blockChoices = [];
-
-        foreach ($owner->getBlocks() as $member) {
-            if ($member instanceof ChoiceFieldBlock) {
-                $properties = $member->getProperties();
-                $choices = [];
-                foreach ($properties['options'] as $option) {
-                    $choices[] = new Choice($option['key'], $option['value']);
-                }
-                $collection->add(new SelectPrototype($properties['label'], $properties['name'], $choices));
-            }
-
-            if (!empty($member->getName())) {
-                $blockChoices[] = new Choice($member->getName(), $member->getName());
-            }
-        }
-
-        $collection->add(new SelectPrototype('Block Name', 'block.name', $blockChoices));
-
-        return $collection->all();
     }
 
     /**

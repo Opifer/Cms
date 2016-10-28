@@ -6,6 +6,17 @@ use Opifer\ContentBundle\Block\BlockRenderer;
 use Opifer\ContentBundle\Entity\Block;
 use Opifer\ContentBundle\Environment\Environment;
 use Opifer\ContentBundle\Model\BlockInterface;
+use Opifer\ExpressionEngine\Form\Type\ExpressionEngineType;
+use Opifer\ExpressionEngine\Prototype\AndXPrototype;
+use Opifer\ExpressionEngine\Prototype\Choice;
+use Opifer\ExpressionEngine\Prototype\EventPrototype;
+use Opifer\ExpressionEngine\Prototype\OrXPrototype;
+use Opifer\ExpressionEngine\Prototype\PrototypeCollection;
+use Opifer\ExpressionEngine\Prototype\SelectPrototype;
+use Opifer\ExpressionEngine\Prototype\TextPrototype;
+use Opifer\FormBlockBundle\Entity\ChoiceFieldBlock;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Component\Form\Extension\Core\Type\FormType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
@@ -271,10 +282,31 @@ abstract class AbstractBlockService implements BlockServiceInterface
      */
     public function buildManageForm(FormBuilderInterface $builder, array $options)
     {
+        $propertiesForm = $builder->create('properties', FormType::class, ['label' => false, 'attr' => ['widget_col' => 12]]);
+
+        $builder->add($propertiesForm);
+
         $builder->addEventListener(FormEvents::PRE_SET_DATA, function (FormEvent $event) {
             /** @var Block $block */
             $block = $event->getData();
             $form = $event->getForm();
+
+            $form->get('properties')
+                ->add('displayLogic', ExpressionEngineType::class, [
+                    'label' => 'label.display_logic',
+                    'prototypes' => $this->getDisplayLogicPrototypes($block),
+                    'attr' => [
+                        'help_text' => 'help.display_logic'
+                    ]
+                ])
+                //->add('displayDefaultShow', CheckboxType::class, [
+                //    'label' => 'label.display_default_show',
+                //    'attr' => [
+                //        'align_with_widget'     => true,
+                //        'help_text'             => 'help.display_default_show',
+                //    ],
+                //])
+            ;
 
             if ($block->isShared()) {
                 $form
@@ -286,6 +318,41 @@ abstract class AbstractBlockService implements BlockServiceInterface
                     ]);
             }
         });
+    }
+
+    /**
+     * @return \Opifer\ExpressionEngine\Prototype\Prototype[]
+     */
+    protected function getDisplayLogicPrototypes(Block $block)
+    {
+        $collection = new PrototypeCollection([
+            new OrXPrototype(),
+            new AndXPrototype(),
+            new EventPrototype('Click Event', 'event.type.click'),
+            new TextPrototype('DOM Node Id', 'node.id')
+        ]);
+
+        $owner = $block->getOwner();
+        $blockChoices = [];
+
+        foreach ($owner->getBlocks() as $member) {
+            if ($member instanceof ChoiceFieldBlock) {
+                $properties = $member->getProperties();
+                $choices = [];
+                foreach ($properties['options'] as $option) {
+                    $choices[] = new Choice($option['key'], $option['value']);
+                }
+                $collection->add(new SelectPrototype($properties['label'], $properties['name'], $choices));
+            }
+
+            if (!empty($member->getName())) {
+                $blockChoices[] = new Choice($member->getName(), $member->getName());
+            }
+        }
+
+        $collection->add(new SelectPrototype('Block Name', 'block.name', $blockChoices));
+
+        return $collection->all();
     }
 
     /**

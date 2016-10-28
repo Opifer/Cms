@@ -36,6 +36,7 @@ help:
 
 label:
     block: Block
+    body: Body
     content: Content
     column.xs: xs
     column.sm: sm

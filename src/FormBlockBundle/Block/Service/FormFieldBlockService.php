@@ -60,9 +60,7 @@ abstract class FormFieldBlockService extends AbstractBlockService implements Blo
     {
         parent::buildManageForm($builder, $options);
 
-        $propertiesForm = $builder->create('properties', FormType::class, ['label' => false, 'attr' => ['widget_col' => 12]]);
-
-        $propertiesForm
+        $builder->get('properties')
             ->add('label', TextType::class)
             ->add('name', TextType::class, [
                 'attr' => [
@@ -87,30 +85,6 @@ abstract class FormFieldBlockService extends AbstractBlockService implements Blo
                 ],
             ])
         ;
-
-        $builder->add($propertiesForm);
-
-        $builder->addEventListener(FormEvents::PRE_SET_DATA, function (FormEvent $event) {
-            $block = $event->getData();
-            $form = $event->getForm();
-
-            $form->get('properties')
-                ->add('displayLogic', ExpressionEngineType::class, [
-                    'label' => 'label.display_logic',
-                    'prototypes' => $this->getPrototypes($block),
-                    'attr' => [
-                        'help_text' => 'help_text.display_logic'
-                    ]
-                ])
-                ->add('displayDefaultShow', CheckboxType::class, [
-                    'label' => 'label.display_default_show',
-                    'attr' => [
-                        'align_with_widget'     => true,
-                        'help_text'             => 'help_text.display_default_show',
-                    ],
-                ])
-            ;
-        });
     }
 
     /**

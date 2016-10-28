@@ -89,7 +89,7 @@ abstract class Block implements BlockInterface, DraftInterface
      *
      * @ORM\OneToMany(targetEntity="Opifer\ContentBundle\Entity\Block", mappedBy="parent", cascade={"detach", "persist"})
      * @ORM\OrderBy({"sort" = "ASC"})
-     **/
+     */
     protected $children;
 
     /**
