@@ -87,6 +87,7 @@ class Content extends BaseContent
     protected $site;
 
     /**
+     * @JMS\Expose
      */
     protected $children;
 

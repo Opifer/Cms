@@ -235,8 +235,7 @@ class ContentRepository extends NestedTreeRepository
     {
         $query = $this->createQueryBuilder('c');
 
-        if ($levels > 1) {
-            $levels = $levels - 1;
+        if ($levels > 0) {
             $selects = ['c'];
             for ($i = 1; $i <= $levels; $i++) {
                 $selects[] = 'c'.$i;
