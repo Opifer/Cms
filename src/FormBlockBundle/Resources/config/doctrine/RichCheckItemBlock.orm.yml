@@ -1,5 +1,8 @@
 Opifer\FormBlockBundle\Entity\RichCheckItemBlock:
   type: entity
+  fields:
+    title:
+      type: string
   manyToOne:
     media:
       targetEntity: Opifer\MediaBundle\Model\MediaInterface

@@ -8,20 +8,43 @@ use Opifer\MediaBundle\Model\MediaInterface;
 use Opifer\Revisions\Mapping\Annotation as Revisions;
 
 /**
- * Rich checkbox-like block
+ * Rich checkbox-like block.
  *
  * @ORM\Entity
  */
 class RichCheckItemBlock extends Block
 {
     /**
+     * @var string
+     */
+    protected $title;
+
+    /**
      * @var MediaInterface
      *
      * @Revisions\Revised
-     * @ORM\ManyToOne(targetEntity="Opifer\MediaBundle\Model\MediaInterface", fetch="EAGER")
-     * @ORM\JoinColumn(name="media_id", referencedColumnName="id", onDelete="SET NULL")
      */
     protected $media;
+
+    /**
+     * @return string
+     */
+    public function getTitle()
+    {
+        return $this->title;
+    }
+
+    /**
+     * @param string $title
+     *
+     * @return RichCheckItemBlock
+     */
+    public function setTitle($title)
+    {
+        $this->title = $title;
+
+        return $this;
+    }
 
     /**
      * @return MediaInterface

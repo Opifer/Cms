@@ -11,6 +11,7 @@ use Opifer\ContentBundle\Model\BlockInterface;
 use Opifer\MediaBundle\Form\Type\MediaPickerType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\FormType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 
 /**
@@ -27,12 +28,13 @@ class RichCheckItemBlockService extends FormFieldBlockService implements BlockSe
 
         $builder->add(
             $builder->create('default', FormType::class, ['inherit_data' => true])
+                ->add('title', TextType::class)
+                ->add('value', CKEditorType::class, ['label' => 'label.rich_text', 'attr' => ['label_col' => 12, 'widget_col' => 12]])
                 ->add('media', MediaPickerType::class, [
                     'required'  => false,
                     'multiple' => false,
                     'attr' => array('label_col' => 12, 'widget_col' => 12),
                 ])
-                ->add('value', CKEditorType::class, ['label' => 'label.rich_text', 'attr' => ['label_col' => 12, 'widget_col' => 12]])
         );
 
         if (isset($this->config['templates'])) {
