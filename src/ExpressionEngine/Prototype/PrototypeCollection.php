@@ -7,9 +7,6 @@ class PrototypeCollection
     /** @var Prototype[] */
     protected $collection = [];
 
-    /** @var int */
-    protected $i = 0;
-
     /**
      * Constructor.
      *
@@ -28,14 +25,16 @@ class PrototypeCollection
      * Adds a prototype to the collection and increments the count.
      *
      * @param Prototype $prototype
+     *
+     * @throws \Exception If the a prototype with the current key already exists
      */
     public function add(Prototype $prototype)
     {
-        $prototype->setKey($this->i);
+        if ($this->has($prototype->getKey())) {
+            throw new \Exception(sprintf('A prototype with the key %s already exists'));
+        }
 
         $this->collection[] = $prototype;
-
-        ++$this->i;
     }
 
     /**
@@ -46,5 +45,23 @@ class PrototypeCollection
     public function all()
     {
         return $this->collection;
+    }
+
+    /**
+     * Check if the collection has a prototype with the given key.
+     *
+     * @param string $key
+     *
+     * @return bool
+     */
+    public function has($key)
+    {
+        foreach ($this->collection as $prototype) {
+            if ($key == $prototype->getKey()) {
+                return true;
+            }
+        }
+
+        return false;
     }
 }

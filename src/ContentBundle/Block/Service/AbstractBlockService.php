@@ -10,11 +10,13 @@ use Opifer\ExpressionEngine\Form\Type\ExpressionEngineType;
 use Opifer\ExpressionEngine\Prototype\AndXPrototype;
 use Opifer\ExpressionEngine\Prototype\Choice;
 use Opifer\ExpressionEngine\Prototype\EventPrototype;
+use Opifer\ExpressionEngine\Prototype\NumberPrototype;
 use Opifer\ExpressionEngine\Prototype\OrXPrototype;
 use Opifer\ExpressionEngine\Prototype\PrototypeCollection;
 use Opifer\ExpressionEngine\Prototype\SelectPrototype;
 use Opifer\ExpressionEngine\Prototype\TextPrototype;
 use Opifer\FormBlockBundle\Entity\ChoiceFieldBlock;
+use Opifer\FormBlockBundle\Entity\NumberFieldBlock;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\FormType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -321,6 +323,8 @@ abstract class AbstractBlockService implements BlockServiceInterface
     }
 
     /**
+     * @param Block $block
+     *
      * @return \Opifer\ExpressionEngine\Prototype\Prototype[]
      */
     protected function getDisplayLogicPrototypes(Block $block)
@@ -328,8 +332,8 @@ abstract class AbstractBlockService implements BlockServiceInterface
         $collection = new PrototypeCollection([
             new OrXPrototype(),
             new AndXPrototype(),
-            new EventPrototype('Click Event', 'event.type.click'),
-            new TextPrototype('DOM Node Id', 'node.id')
+            new EventPrototype('click_event', 'Click Event', 'event.type.click'),
+            new TextPrototype('dom_node_id', 'DOM Node Id', 'node.id')
         ]);
 
         $owner = $block->getOwner();
@@ -342,7 +346,11 @@ abstract class AbstractBlockService implements BlockServiceInterface
                 foreach ($properties['options'] as $option) {
                     $choices[] = new Choice($option['key'], $option['value']);
                 }
-                $collection->add(new SelectPrototype($properties['label'], $properties['name'], $choices));
+                $collection->add(new SelectPrototype($properties['name'], $properties['label'], $properties['name'], $choices));
+            } elseif ($member instanceof NumberFieldBlock) {
+                $properties = $member->getProperties();
+
+                $collection->add(new NumberPrototype($properties['name'], $properties['label'], $properties['name']));
             }
 
             if (!empty($member->getName())) {
@@ -350,7 +358,7 @@ abstract class AbstractBlockService implements BlockServiceInterface
             }
         }
 
-        $collection->add(new SelectPrototype('Block Name', 'block.name', $blockChoices));
+        $collection->add(new SelectPrototype('block_name', 'Block Name', 'block.name', $blockChoices));
 
         return $collection->all();
     }

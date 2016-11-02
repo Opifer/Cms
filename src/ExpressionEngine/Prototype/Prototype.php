@@ -12,7 +12,7 @@ class Prototype
     const TYPE_EVENT = 'event';
 
     /**
-     * A unique key per type of Prototype. 
+     * A unique key that identifies the Prototype.
      *
      * @var string
      */
@@ -28,7 +28,7 @@ class Prototype
     protected $selector;
 
     /**
-     * A human readable representation of the prototype
+     * A human readable representation of the prototype.
      *
      * @var string
      */
@@ -40,7 +40,7 @@ class Prototype
     protected $constraints;
 
     /**
-     * The type defines the input fields that get rendered in the expression
+     * The type defines the input fields that get rendered in the expression.
      *
      * @var string
      */
@@ -54,11 +54,14 @@ class Prototype
     /**
      * Constructor.
      *
+     * @param string      $key
      * @param string|null $name
      * @param string|null $selector
      */
-    public function __construct($name = null, $selector = null)
+    public function __construct($key, $name = null, $selector = null)
     {
+        $this->key = $key;
+
         if ($name) {
             $this->setName($name);
         }

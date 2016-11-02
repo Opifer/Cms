@@ -8,7 +8,7 @@ var Expression = React.createClass({
 
         var self = this;
 
-        if (prototype.type == 'date') {
+        if (prototype && prototype.type == 'date') {
             $(ReactDOM.findDOMNode(this)).find('input.expression-date-picker').datetimepicker({
                 format: 'YYYY-MM-DD',
             }).on('dp.change', function(e) {
@@ -39,6 +39,10 @@ var Expression = React.createClass({
         var prototype = this.props.prototypes.filter(function(item) {
             return expression.key == item.key;
         })[0];
+
+        if (!prototype) {
+            return <div />;
+        }
 
         if (prototype.constraints && prototype.constraints.length > 0) {
             var constraints = prototype.constraints.map(function(constraint, i) {
