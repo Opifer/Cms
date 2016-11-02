@@ -106,7 +106,7 @@ abstract class FormFieldBlockService extends AbstractBlockService implements Blo
                 foreach ($properties['options'] as $option) {
                     $choices[] = new Choice($option['key'], $option['value']);
                 }
-                $collection->add(new SelectPrototype($properties['label'], $properties['name'], $choices));
+                $collection->add(new SelectPrototype($properties['name'], $properties['label'], $properties['name'], $choices));
             }
         }
 

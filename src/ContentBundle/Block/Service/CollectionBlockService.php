@@ -102,8 +102,8 @@ class CollectionBlockService extends AbstractBlockService implements BlockServic
         $collection = new PrototypeCollection([
             new OrXPrototype(),
             new AndXPrototype(),
-            new SelectPrototype('Content Type', 'contentType.id', $this->getContentTypeChoices()),
-            new SelectPrototype('Status', 'active', [
+            new SelectPrototype('contenttype_id', 'Content Type', 'contentType.id', $this->getContentTypeChoices()),
+            new SelectPrototype('status', 'Status', 'active', [
                 new Choice(true, 'Active'),
                 new Choice(false, 'Inactive'),
             ])
