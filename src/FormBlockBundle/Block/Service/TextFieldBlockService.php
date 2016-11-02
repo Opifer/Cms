@@ -22,9 +22,7 @@ class TextFieldBlockService extends FormFieldBlockService implements BlockServic
     {
         parent::buildManageForm($builder, $options);
 
-        $propertiesForm = $builder->get('properties');
-
-        $propertiesForm
+        $builder->get('properties')
             ->add('unit', TextType::class, [
                 'required' => false,
                 'attr' => [

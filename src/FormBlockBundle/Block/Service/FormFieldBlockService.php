@@ -87,32 +87,6 @@ abstract class FormFieldBlockService extends AbstractBlockService implements Blo
         ;
     }
 
-    /**
-     * @return \Opifer\ExpressionEngine\Prototype\Prototype[]
-     */
-    protected function getPrototypes(Block $block)
-    {
-        $collection = new PrototypeCollection([
-            new OrXPrototype(),
-            new AndXPrototype(),
-        ]);
-
-        $owner = $block->getOwner();
-
-        foreach ($owner->getBlocks() as $member) {
-            if ($member instanceof ChoiceFieldBlock) {
-                $properties = $member->getProperties();
-                $choices = [];
-                foreach ($properties['options'] as $option) {
-                    $choices[] = new Choice($option['key'], $option['value']);
-                }
-                $collection->add(new SelectPrototype($properties['name'], $properties['label'], $properties['name'], $choices));
-            }
-        }
-
-        return $collection->all();
-    }
-
     public function getViewParameters(BlockInterface $block)
     {
         $parameters = [

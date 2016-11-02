@@ -88,6 +88,20 @@ class Configuration implements ConfigurationInterface
                                 ->scalarNode('view')->defaultValue('OpiferFormBlockBundle:Block:Content/range_field.html.twig')->end()
                             ->end()
                         ->end()
+                        ->arrayNode('rich_check_item')
+                            ->addDefaultsIfNotSet()
+                            ->children()
+                                ->scalarNode('view')->defaultValue('OpiferFormBlockBundle:Block:Content/rich_check_item.html.twig')->end()
+                                ->arrayNode('templates')
+                                    ->prototype('scalar')->end()
+                                    ->normalizeKeys(false)
+                                    ->defaultValue([
+                                        'horizontal' => 'Horizontal',
+                                        'vertical' => 'Vertical',
+                                    ])
+                                ->end()
+                            ->end()
+                        ->end()
                         ->arrayNode('text_field')
                             ->addDefaultsIfNotSet()
                             ->children()

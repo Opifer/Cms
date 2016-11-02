@@ -1,0 +1,15 @@
+<div class="rtc-group rtc-group-{{ block.properties.template|default('horizontal') }} card clearfix" {{ manage_tags() }}>
+    <div class="rtc-media">
+        {% if block.media|default %}
+            <img src="{{ block.media.reference|imagine_filter(block.properties.filter) }}" class="img-fluid" />
+        {% else %}
+            <img src="http://placehold.it/800x538" alt="Placeholder" class="img-fluid" />
+        {% endif %}
+    </div>
+    <div class="rtc-content">
+        <div class="inner">
+            {{ block.value|raw }}
+        </div>
+        <button class="btn btn-block btn-default">Selected</button>
+    </div>
+</div>
