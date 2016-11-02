@@ -9,6 +9,8 @@ use Opifer\MediaBundle\Model\MediaInterface;
 use Opifer\MediaBundle\Routing\UrlGenerator;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\HttpFoundation\File\Exception\FileException;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\Routing\RouterInterface;
 use Symfony\Component\Translation\TranslatorInterface;
 
@@ -145,6 +147,10 @@ class FileProvider extends AbstractProvider
             return;
         }
 
+        if ($media->getFile() instanceof UploadedFile && !$media->getFile()->isValid()) {
+            $this->handleError($media->getFile()->getError());
+        }
+
         $adapter = $this->filesystem->getAdapter();
 
         if ($adapter instanceof AwsS3) {
@@ -165,6 +171,31 @@ class FileProvider extends AbstractProvider
 
         // clean up the file property as you won't need it anymore
         $media->setFile(null);
+    }
+
+    /**
+     * @param string $error
+     *
+     * @throws FileException When an error occurred during the file upload process
+     */
+    public function handleError($error)
+    {
+        switch($error) {
+            case UPLOAD_ERR_INI_SIZE:
+                throw new FileException('The uploaded file exceeds the upload_max_filesize directive in php.ini');
+            case UPLOAD_ERR_FORM_SIZE:
+                throw new FileException('The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the HTML form');
+            case UPLOAD_ERR_PARTIAL:
+                throw new FileException('The uploaded file was only partially uploaded');
+            case UPLOAD_ERR_NO_TMP_DIR:
+                throw new FileException('Missing a temporary folder');
+            case UPLOAD_ERR_CANT_WRITE:
+                throw new FileException('Failed to write file to disk');
+            case UPLOAD_ERR_EXTENSION:
+                throw new FileException('A PHP extension stopped the file upload. PHP does not provide a way to ascertain which extension caused the file upload to stop; examining the list of loaded extensions with phpinfo() may help');
+            default:
+                return;
+        }
     }
 
     /**
