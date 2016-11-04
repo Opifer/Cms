@@ -1,7 +1,7 @@
 <div class="rtc-group rtc-group-{{ block.properties.template|default('horizontal') }} card clearfix" {{ manage_tags() }}>
     <div class="rtc-media">
         {% if block.media|default %}
-            <img src="{{ block.media.reference|imagine_filter(block.properties.filter) }}" class="img-fluid" />
+            <img src="{{ block.media.reference|imagine_filter('medialibrary') }}" class="img-fluid" />
         {% else %}
             <img src="http://placehold.it/800x538" alt="Placeholder" class="img-fluid" />
         {% endif %}
