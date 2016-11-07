@@ -91,7 +91,10 @@ class ContentController extends Controller
         $blockTree = $environment->getRootBlocks();
         $blockTree = ['blocks' => $blockTree];
 
-        $context = SerializationContext::create()->addExclusionStrategy(new BlockExclusionStrategy($content));
+        $context = SerializationContext::create()
+            ->addExclusionStrategy(new BlockExclusionStrategy($content))
+            ->setGroups(['Default', 'tree', 'detail'])
+        ;
 
         $blocks = $this->get('jms_serializer')->serialize($blockTree, 'json', $context);
 

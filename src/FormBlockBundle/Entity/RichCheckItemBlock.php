@@ -3,6 +3,7 @@
 namespace Opifer\FormBlockBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use JMS\Serializer\Annotation as JMS;
 use Opifer\ContentBundle\Entity\Block;
 use Opifer\MediaBundle\Model\MediaInterface;
 use Opifer\Revisions\Mapping\Annotation as Revisions;
@@ -11,11 +12,15 @@ use Opifer\Revisions\Mapping\Annotation as Revisions;
  * Rich checkbox-like block.
  *
  * @ORM\Entity
+ * @JMS\ExclusionPolicy("all")
  */
 class RichCheckItemBlock extends Block
 {
     /**
      * @var string
+     *
+     * @JMS\Expose
+     * @JMS\Groups({"tree", "detail"})
      */
     protected $title;
 
@@ -23,6 +28,9 @@ class RichCheckItemBlock extends Block
      * @var MediaInterface
      *
      * @Revisions\Revised
+     *
+     * @JMS\Expose
+     * @JMS\Groups({"tree", "detail"})
      */
     protected $media;
 
