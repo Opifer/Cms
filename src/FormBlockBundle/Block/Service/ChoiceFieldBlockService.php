@@ -30,7 +30,6 @@ class ChoiceFieldBlockService extends FormFieldBlockService implements BlockServ
             ->add('type', ChoiceType::class, [
                 'choices' => [
                     'Buttons' => 'button',
-                    'Dropdown' => 'dropdown',
                     'Radio Buttons' => 'radiobutton',
                     'Select field' => 'select',
                 ],
