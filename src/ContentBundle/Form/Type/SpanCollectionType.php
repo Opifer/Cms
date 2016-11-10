@@ -26,7 +26,7 @@ class SpanCollectionType extends AbstractType
 
             if (empty($data) || !count($data)) {
                 $sizeKeys = range(0, $columnCount-1);
-                $data = array_fill_keys(['xs','sm', 'md', 'lg'], array_fill_keys($sizeKeys, 12/$columnCount));
+                $data = array_fill_keys(['xs','sm', 'md', 'lg', 'xl'], array_fill_keys($sizeKeys, 12/$columnCount));
                 $event->setData($data);
             }
         });

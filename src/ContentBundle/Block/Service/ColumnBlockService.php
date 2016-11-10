@@ -32,9 +32,9 @@ class ColumnBlockService extends AbstractBlockService implements LayoutBlockServ
         $parameters = parent::getViewParameters($block);
 
         $classes = array(
-            'column_classes'    => $this->getColumnClasses($block),
-            'offset_classes'    => $this->getOffsetClasses($block),
-            'gutter_classes'    => $this->getGutterClasses($block),
+            'column_classes' => $this->getColumnClasses($block),
+            'offset_classes' => $this->getOffsetClasses($block),
+            'gutter_classes' => $this->getGutterClasses($block),
         );
 
         return array_merge($parameters, $classes);
@@ -61,12 +61,22 @@ class ColumnBlockService extends AbstractBlockService implements LayoutBlockServ
             // @todo: Replace with a nice getDefaultOptions method
             $properties = $block->getProperties();
             if (!count($properties) ) {
-                $properties['styles'] = array();
-                $cols = array_merge(array(array_fill(0, $block->getColumnCount(), 12/$block->getColumnCount())), array_fill(0, 3, array_fill(0, $block->getColumnCount(), null)));
-                $keys = array('xs', 'sm', 'md', 'lg');
+                $properties['styles'] = [];
+                $cols = array_merge([array_fill(0, $block->getColumnCount(), 12/$block->getColumnCount())], array_fill(0, 4, array_fill(0, $block->getColumnCount(), null)));
+                $keys = ['xs', 'sm', 'md', 'lg', 'xl'];
                 $properties['spans'] = array_combine($keys, $cols);
-                $properties['offsets'] = array_combine($keys, array_fill(0, 4, array_fill(0, $block->getColumnCount(), null)));
+                $properties['offsets'] = array_combine($keys, array_fill(0, 5, array_fill(0, $block->getColumnCount(), null)));
                 $properties['gutters'] = array_combine($keys, $cols);
+                $block->setProperties($properties);
+            }
+
+            // Quickfix to set xl spans and offsets on already existing blocks
+            if (!isset($properties['spans']['xl'])) {
+                $properties['spans']['xl'] = [null, null];
+                $block->setProperties($properties);
+            }
+            if (!isset($properties['offsets']['xl'])) {
+                $properties['offsets']['xl'] = [null, null];
                 $block->setProperties($properties);
             }
 
@@ -78,7 +88,6 @@ class ColumnBlockService extends AbstractBlockService implements LayoutBlockServ
                 'multiple' => true,
                 'attr' => ['help_text' => 'help.html_styles'],
             ]);
-
 
             $form->get('properties')->add('spans', SpanCollectionType::class, ['column_count' => $block->getColumnCount(), 'label' => 'label.spans', 'attr' => ['help_text' => 'help.column_spans']]);
             $form->get('properties')->add('offsets', SpanCollectionType::class, ['column_count' => $block->getColumnCount(), 'label' => 'label.offsets', 'attr' => ['help_text' => 'help.column_offsets']]);
@@ -235,10 +244,10 @@ class ColumnBlockService extends AbstractBlockService implements LayoutBlockServ
             if (isset($properties['gutters']) && count($properties['gutters']) > 0) {
                 foreach ($properties['gutters'] as $screen => $cols) {
                     foreach ($cols as $col => $span) {
-                        if (empty($span)) {
+                        if ($span === null) {
                             continue;
                         }
-                        $gutterStyles[$col][] = "p-$screen-$span";
+                        $gutterStyles[$col][] = "px-$span";
                     }
                 }
             }
