@@ -29,7 +29,7 @@ class RichCheckItemBlockService extends FormFieldBlockService implements BlockSe
         $builder->add(
             $builder->create('default', FormType::class, ['inherit_data' => true])
                 ->add('title', TextType::class)
-                ->add('value', CKEditorType::class, ['label' => 'label.rich_text', 'attr' => ['label_col' => 12, 'widget_col' => 12]])
+                ->add('value', CKEditorType::class, ['label' => 'label.description', 'attr' => ['label_col' => 12, 'widget_col' => 12]])
                 ->add('media', MediaPickerType::class, [
                     'required'  => false,
                     'multiple' => false,
