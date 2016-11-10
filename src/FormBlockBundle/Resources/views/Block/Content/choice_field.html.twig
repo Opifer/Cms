@@ -1,15 +1,14 @@
 <div {{ manage_tags() }}>
     <fieldset class="form-group">
-        <label>{{ block.properties.label|default('Label') }}</label>
-        <div class="input-group">
-            <div class="btn-group paw-radio-group">
-                {% for option in block.properties.options|default([]) %}
-                    <label class="btn btn-secondary btn-lg ">
-                        <input type="radio" name="optionsRadios" value="{{ option.key }}" {% if loop.first %}checked{% endif %}> {{ option.value }}
-                    </label>
-                {% endfor %}
+        <legend>{{ block.properties.label|default('Label') }}</legend>
+        {% for option in block.properties.options|default([]) %}
+            <div class="form-check">
+                <label class="form-check-label">
+                    <input type="radio" class="form-check-input" name="optionsRadios" value="{{ option.key }}" {% if loop.first %}checked{% endif %}>
+                    {{ option.value }}
+                </label>
             </div>
-        </div>
+        {% endfor %}
         {% if block.properties.helpText|default %}
             <small class="form-text text-muted">{{ block.properties.helpText }}</small>
         {% endif %}
