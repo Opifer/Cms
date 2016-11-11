@@ -9,6 +9,7 @@ use Opifer\ContentBundle\Environment\Environment;
 use Opifer\ContentBundle\Model\ContentInterface;
 use Opifer\ContentBundle\Model\ContentManager;
 use Opifer\ContentBundle\Model\ContentManagerInterface;
+use Opifer\ContentBundle\Model\ContentRepository;
 use Opifer\ContentBundle\Serializer\BlockExclusionStrategy;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -74,7 +75,14 @@ class ContentController extends Controller
      */
     public function viewAction(Request $request, $id)
     {
-        $content = $this->get('opifer.content.content_manager')->getRepository()->find($id);
+        /** @var ContentRepository $contentRepository */
+        $contentRepository = $this->get('opifer.content.content_manager')->getRepository();
+        if (is_numeric($id)) {
+            $content = $contentRepository->find($id);
+        } else {
+            // TODO; Move the request by slug call to a separate method
+            $content = $contentRepository->findOneBySlug($id);
+        }
 
         $version = $request->query->get('_version');
 
