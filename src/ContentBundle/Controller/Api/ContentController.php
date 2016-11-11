@@ -97,7 +97,10 @@ class ContentController extends Controller
         $environment->load();
 
         $blockTree = $environment->getRootBlocks();
-        $blockTree = ['blocks' => $blockTree];
+        $blockTree = [
+            'id' => $content->getId(),
+            'blocks' => $blockTree,
+        ];
 
         $context = SerializationContext::create()
             ->addExclusionStrategy(new BlockExclusionStrategy($content))
