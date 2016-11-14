@@ -31,7 +31,7 @@ class PrototypeCollection
     public function add(Prototype $prototype)
     {
         if ($this->has($prototype->getKey())) {
-            throw new \Exception(sprintf('A prototype with the key %s already exists'));
+            throw new \Exception(sprintf('A prototype with the key %s already exists', $prototype->getKey()));
         }
 
         $this->collection[] = $prototype;

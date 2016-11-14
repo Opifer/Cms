@@ -344,11 +344,17 @@ abstract class AbstractBlockService implements BlockServiceInterface
                 $properties = $member->getProperties();
                 $choices = [];
                 foreach ($properties['options'] as $option) {
+                    if (empty($option['key'])) {
+                        continue;
+                    }
                     $choices[] = new Choice($option['key'], $option['value']);
                 }
                 $collection->add(new SelectPrototype($properties['name'], $properties['label'], $properties['name'], $choices));
             } elseif ($member instanceof NumberFieldBlock) {
                 $properties = $member->getProperties();
+                if (empty($properties['name'])) {
+                    continue;
+                }
 
                 $collection->add(new NumberPrototype($properties['name'], $properties['label'], $properties['name']));
             }
