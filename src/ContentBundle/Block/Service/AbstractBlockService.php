@@ -340,8 +340,12 @@ abstract class AbstractBlockService implements BlockServiceInterface
         $blockChoices = [];
 
         foreach ($owner->getBlocks() as $member) {
+            $properties = $member->getProperties();
+
             if ($member instanceof ChoiceFieldBlock) {
-                $properties = $member->getProperties();
+                if (!isset($properties['options'])) {
+                    continue;
+                }
                 $choices = [];
                 foreach ($properties['options'] as $option) {
                     if (empty($option['key'])) {
@@ -351,7 +355,6 @@ abstract class AbstractBlockService implements BlockServiceInterface
                 }
                 $collection->add(new SelectPrototype($properties['name'], $properties['label'], $properties['name'], $choices));
             } elseif ($member instanceof NumberFieldBlock) {
-                $properties = $member->getProperties();
                 if (empty($properties['name'])) {
                     continue;
                 }
