@@ -99,6 +99,7 @@ class ContentController extends Controller
         $blockTree = $environment->getRootBlocks();
         $blockTree = [
             'id' => $content->getId(),
+            'slug' => $content->getSlug(),
             'blocks' => $blockTree,
         ];
 
