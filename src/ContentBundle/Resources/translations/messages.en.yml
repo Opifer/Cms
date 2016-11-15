@@ -1,20 +1,21 @@
 
 button:
-    submit: Save
     add: Add new
     all: Show all
+    block_share: Share block
     cancel: Cancel
     delete: Delete
     design: Design
     details: Details
     edit: Edit
     publish: Publish
-    block_share: Share block
+    read_more: Read more
+    submit: Save
 
 help:
-    block_name: Reference name to this block. Only for application purposes.
     active: Status of publication of the content item where inactive means the content is not public accessible
     alias: Enter a shortened url as alias for this page (optional)
+    block_name: Reference name to this block. Only for application purposes.
     block_template: Pick a template to change how this block is displayed
     column_spans: Width of columns at a maximum of 16 units
     column_gutters: Width of spacing between columns (px)
@@ -42,6 +43,7 @@ label:
     column.sm: sm
     column.md: md
     column.lg: lg
+    column.xl: xl
     container_sizing: Container width
     container_fluid: Complete width (stretched)
     container_smooth: Fluid width (stretched)
@@ -53,6 +55,7 @@ label:
     gutter.sm: Gutter sm
     gutter.md: Gutter md
     gutter.lg: Gutter lg
+    gutter.xl: Gutter xl
     gutters: Gutter width
     header: Header
     indexable: Indexable
