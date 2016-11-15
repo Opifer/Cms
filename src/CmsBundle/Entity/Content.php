@@ -186,20 +186,11 @@ class Content extends BaseContent
         foreach ($this->getValueSet()->getValues() as $value) {
             switch (get_class($value)) {
                 case 'Opifer\EavBundle\Entity\CheckListValue':
-                    $array[$value->getAttribute()->getName()] = array();
+                    $array[$value->getAttribute()->getName()] = [];
                     foreach ($value->getOptions() as $option) {
                         $array[$value->getAttribute()->getName()][] = [
                             'id' => $option->getId(),
                             'name' => $option->getName(),
-                        ];
-                    }
-                    break;
-                case 'Opifer\EavBundle\Entity\MediaValue':
-                    $array[$value->getAttribute()->getName()] = array();
-                    foreach ($value->getMedias() as $media) {
-                        $array[$value->getAttribute()->getName()][] = [
-                            'name' => $media->getName(),
-                            'file' => $media->getFile(),
                         ];
                     }
                     break;
