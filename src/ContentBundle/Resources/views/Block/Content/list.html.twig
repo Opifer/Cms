@@ -12,7 +12,7 @@
                 <div class="card-block">
                     <h4 class="card-title">{{ content.title }}</h4>
                     <p class="card-text">{{ content.attributes.listCaption|default }}</p>
-                    <a href="{{ path('_content', {'slug': content.slug}) }}" class="btn btn-primary">Read more &rsaquo;</a>
+                    <a href="{{ path('_content', {'slug': content.slug}) }}" class="btn btn-primary">{{ 'button.read_more'|trans }} &rsaquo;</a>
                 </div>
             </div>
         </div>
