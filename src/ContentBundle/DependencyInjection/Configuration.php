@@ -283,7 +283,7 @@ class Configuration implements ConfigurationInterface
                                     ->prototype('scalar')->end()
                                     ->normalizeKeys(false)
                                     ->defaultValue([
-                                        'img-responsive' => 'Responsive image',
+                                        'img-fluid' => 'Responsive image',
                                         'img-rounded' => 'Rounded image',
                                         'img-circle' => 'Circular image',
                                         'img-thumbnail' => 'Thumbnail image',
@@ -324,15 +324,18 @@ class Configuration implements ConfigurationInterface
                                     ->prototype('scalar')->end()
                                     ->normalizeKeys(false)
                                     ->useAttributeAsKey('name')
+                                    ->defaultValue([
+                                        'cards-centered' => 'Cards centered',
+                                        'cards-transparent' => 'Cards transparent',
+                                    ])
                                 ->end()
                                 ->arrayNode('templates')
                                     ->prototype('scalar')->end()
                                     ->normalizeKeys(false)
                                     ->useAttributeAsKey('name')
                                     ->defaultValue([
-                                        'list_simple' => 'Simple list',
-                                        'tiles' => 'Tiles',
-                                        'tiles_text' => 'Tiles with description'
+                                        'cards-overlay' => 'Cards overlay',
+                                        'cards-listing' => 'Cards listing',
                                     ])
                                 ->end()
                             ->end()
