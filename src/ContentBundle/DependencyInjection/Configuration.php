@@ -245,7 +245,14 @@ class Configuration implements ConfigurationInterface
                                 ->arrayNode('styles')
                                     ->prototype('scalar')->end()
                                     ->normalizeKeys(false)
-                                    ->useAttributeAsKey('name')
+                                    ->defaultValue([
+                                        'py-1' => 'Small vertical padding',
+                                        'py-2' => 'Medium vertical padding',
+                                        'py-3' => 'Large vertical padding',
+                                        'my-1' => 'Small vertical margin',
+                                        'my-2' => 'Medium vertical margin',
+                                        'my-3' => 'Large vertical margin',
+                                    ])
                                 ->end()
                             ->end()
                         ->end()
