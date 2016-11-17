@@ -138,14 +138,19 @@ class Configuration implements ConfigurationInterface
                                     ->prototype('scalar')->end()
                                     ->normalizeKeys(false)
                                     ->defaultValue([
-                                        'img-overlay' => 'Image overlay',
-                                        'inverse' => 'Inverted text',
-                                        'primary' => 'Primary',
-                                        'success' => 'Success',
-                                        'info' => 'Info',
-                                        'warning' => 'Warning',
-                                        'danger' => 'Danger',
-                                        'outline' => 'Outline',
+                                        'cards-overlay' => 'Overlay',
+                                        'card-inverse' => 'Inverted text',
+                                        'card-primary' => 'Primary',
+                                        'card-success' => 'Success',
+                                        'card-info' => 'Info',
+                                        'card-warning' => 'Warning',
+                                        'card-danger' => 'Danger',
+                                        'card-outline-primary' => 'Primary Outline',
+                                        'card-outline-secondary' => 'Secondary Outline',
+                                        'card-outline-success' => 'Success Outline',
+                                        'card-outline-info' => 'Info Outline',
+                                        'card-outline-warning' => 'Warning Outline',
+                                        'card-outline-danger' => 'Danger Outline',
                                     ])
                                 ->end()
                             ->end()
