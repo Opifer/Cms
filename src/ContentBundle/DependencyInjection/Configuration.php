@@ -138,8 +138,8 @@ class Configuration implements ConfigurationInterface
                                     ->prototype('scalar')->end()
                                     ->normalizeKeys(false)
                                     ->defaultValue([
-                                        'cards-overlay' => 'Overlay',
-                                        'card-inverse' => 'Inverted text',
+                                        'card-img-bg' => 'Image Background',
+                                        'card-inverse' => 'Inverse',
                                         'card-primary' => 'Primary',
                                         'card-success' => 'Success',
                                         'card-info' => 'Info',
@@ -151,6 +151,9 @@ class Configuration implements ConfigurationInterface
                                         'card-outline-info' => 'Info Outline',
                                         'card-outline-warning' => 'Warning Outline',
                                         'card-outline-danger' => 'Danger Outline',
+                                        'card-xs-top' => 'Card text top',
+                                        'card-xs-middle' => 'Card text middle',
+                                        'card-xs-bottom' => 'Card text bottom',
                                     ])
                                 ->end()
                             ->end()
@@ -330,8 +333,12 @@ class Configuration implements ConfigurationInterface
                                     ->normalizeKeys(false)
                                     ->useAttributeAsKey('name')
                                     ->defaultValue([
-                                        'cards-centered' => 'Cards centered',
-                                        'cards-transparent' => 'Cards transparent',
+                                        'list-lg' => 'Cards large',
+                                        'list-md' => 'Cards medium',
+                                        'list-sm' => 'Cards small',
+                                        'list-xs-center' => 'Cards center',
+                                        'text-xs-center' => 'Cards text center',
+                                        'card-transparent' => 'Transparent',
                                     ])
                                 ->end()
                                 ->arrayNode('templates')
@@ -339,8 +346,8 @@ class Configuration implements ConfigurationInterface
                                     ->normalizeKeys(false)
                                     ->useAttributeAsKey('name')
                                     ->defaultValue([
-                                        'cards-overlay' => 'Cards overlay',
-                                        'cards-listing' => 'Cards listing',
+                                        'card-img-bg' => 'Image Background',
+                                        'card-list' => 'Listing',
                                     ])
                                 ->end()
                             ->end()

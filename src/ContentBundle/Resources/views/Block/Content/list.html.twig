@@ -1,4 +1,4 @@
-<div class="cards {{ block.properties.template|default }} {{ block.properties.styles|default|join(' ') }}" {{ manage_tags() }}>
+<div class="list list-cs {{ block.properties.template|default }} {{ block.properties.styles|default|join(' ') }}" {{ manage_tags() }}>
     {% for content in block.collection %}
         <div class="column">
             <div class="card">
