@@ -11,84 +11,147 @@ liip_imagine:
             quality: 80
             filters:
                 thumbnail: { size: [250, 250], mode: outbound }
+            post_processors:
+                jpegoptim: { max: 65 }
+                pngquant: {}
         md_11:
             quality: 80
             filters:
                 thumbnail: { size: [500, 500], mode: outbound }
+            post_processors:
+                jpegoptim: { max: 65 }
+                pngquant: {}
         lg_11:
             quality: 80
             filters:
                 thumbnail: { size: [1000, 1000], mode: outbound }
+            post_processors:
+                jpegoptim: { max: 65 }
+                pngquant: {}
         sm_43:
             quality: 80
             filters:
                 thumbnail: { size: [400, 300], mode: outbound }
+            post_processors:
+                jpegoptim: { max: 65 }
+                pngquant: {}
         md_43:
             quality: 80
             filters:
                 thumbnail: { size: [800, 600], mode: outbound }
+            post_processors:
+                jpegoptim: { max: 65 }
+                pngquant: {}
         lg_43:
             quality: 80
             filters:
                 thumbnail: { size: [1600, 1200], mode: outbound }
+            post_processors:
+                jpegoptim: { max: 65 }
+                pngquant: {}
         sm_34:
             quality: 80
             filters:
                 thumbnail: { size: [300, 400], mode: outbound }
+            post_processors:
+                jpegoptim: { max: 65 }
+                pngquant: {}
         md_34:
             quality: 80
             filters:
                 thumbnail: { size: [600, 800], mode: outbound }
+            post_processors:
+                jpegoptim: { max: 65 }
+                pngquant: {}
         lg_34:
             quality: 80
             filters:
                 thumbnail: { size: [1200, 1600], mode: outbound }
+            post_processors:
+                jpegoptim: { max: 65 }
+                pngquant: {}
         sm_32:
             quality: 80
             filters:
                 thumbnail: { size: [300, 200], mode: outbound }
+            post_processors:
+                jpegoptim: { max: 65 }
+                pngquant: {}
         md_32:
             quality: 80
             filters:
                 thumbnail: { size: [600, 400], mode: outbound }
+            post_processors:
+                jpegoptim: { max: 65 }
+                pngquant: {}
         lg_32:
             quality: 80
             filters:
                 thumbnail: { size: [1200, 800], mode: outbound }
+            post_processors:
+                jpegoptim: { max: 65 }
+                pngquant: {}
         sm_23:
             quality: 80
             filters:
                 thumbnail: { size: [200, 300], mode: outbound }
+            post_processors:
+                jpegoptim: { max: 65 }
+                pngquant: {}
         md_23:
             quality: 80
             filters:
                 thumbnail: { size: [400, 600], mode: outbound }
+            post_processors:
+                jpegoptim: { max: 65 }
+                pngquant: {}
         lg_23:
             quality: 80
             filters:
                 thumbnail: { size: [800, 1200], mode: outbound }
+            post_processors:
+                jpegoptim: { max: 65 }
+                pngquant: {}
         sm_169:
             quality: 80
             filters:
                 thumbnail: { size: [400, 275], mode: outbound }
+            post_processors:
+                jpegoptim: { max: 65 }
+                pngquant: {}
         md_169:
             quality: 80
             filters:
                 thumbnail: { size: [800, 450], mode: outbound }
+            post_processors:
+                jpegoptim: { max: 65 }
+                pngquant: {}
         lg_169:
             quality: 80
             filters:
                 thumbnail: { size: [1600, 900], mode: outbound }
+            post_processors:
+                jpegoptim: { max: 65 }
+                pngquant: {}
         sm_916:
             quality: 80
             filters:
                 thumbnail: { size: [275, 400], mode: outbound }
+            post_processors:
+                jpegoptim: { max: 65 }
+                pngquant: {}
         md_916:
             quality: 80
             filters:
                 thumbnail: { size: [450, 800], mode: outbound }
+            post_processors:
+                jpegoptim: { max: 65 }
+                pngquant: {}
         lg_916:
             quality: 80
             filters:
                 thumbnail: { size: [900, 1600], mode: outbound }
+            post_processors:
+                jpegoptim: { max: 65 }
+                pngquant: {}
                 
