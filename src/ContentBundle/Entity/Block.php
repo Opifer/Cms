@@ -51,6 +51,8 @@ abstract class Block implements BlockInterface, DraftInterface
     /**
      * @var string
      *
+     * @JMS\Expose
+     * @JMS\Groups({"tree"})
      * @Revisions\Revised
      * @ORM\Column(type="string", nullable=true)
      */
