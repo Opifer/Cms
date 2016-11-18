@@ -40,7 +40,7 @@ abstract class Block implements BlockInterface, DraftInterface
      * @var int
      *
      * @JMS\Expose
-     * @JMS\Groups({"tree"})
+     * @JMS\Groups({"tree", "details"})
      *
      * @ORM\Column(type="integer")
      * @ORM\Id
@@ -52,7 +52,7 @@ abstract class Block implements BlockInterface, DraftInterface
      * @var string
      *
      * @JMS\Expose
-     * @JMS\Groups({"tree"})
+     * @JMS\Groups({"tree", "details"})
      * @Revisions\Revised
      * @ORM\Column(type="string", nullable=true)
      */
@@ -98,7 +98,7 @@ abstract class Block implements BlockInterface, DraftInterface
      * @var int
      *
      * @JMS\Expose
-     * @JMS\Groups({"tree"})
+     * @JMS\Groups({"tree", "detail"})
      *
      * @Revisions\Revised
      * @ORM\Column(type="integer", nullable=true)
@@ -131,7 +131,7 @@ abstract class Block implements BlockInterface, DraftInterface
      * @var array
      *
      * @JMS\Expose
-     * @JMS\Groups({"tree"})
+     * @JMS\Groups({"tree", "detail"})
      *
      * @Revisions\Revised
      * @ORM\Column(type="json_array", nullable=true)
@@ -171,7 +171,7 @@ abstract class Block implements BlockInterface, DraftInterface
      * @var string
      *
      * @JMS\Expose
-     * @JMS\Groups({"tree"})
+     * @JMS\Groups({"tree", "detail"})
      *
      * @Revisions\Revised
      * @ORM\Column(type="text", name="value", nullable=true)
@@ -671,7 +671,7 @@ abstract class Block implements BlockInterface, DraftInterface
     }
 
     /**
-     * @JMS\Groups({"tree"})
+     * @JMS\Groups({"tree", "detail"})
      * @JMS\VirtualProperty
      * @JMS\SerializedName("type")
      *

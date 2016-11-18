@@ -7,8 +7,9 @@
 
 # TODO: Re-organize API routes
 opifer_content_api_content_view:
-    path: /api/content/{id}
-    defaults: { _controller: OpiferContentBundle:Api/Content:view }
+    path: /api/content/{id}/{structure}
+    defaults: { _controller: OpiferContentBundle:Api/Content:view, structure: tree }
+    requirements: {structure: "tree|flat"}
     methods: [GET, OPTIONS]
     options:
         expose: true

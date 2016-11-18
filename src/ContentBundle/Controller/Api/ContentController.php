@@ -73,7 +73,7 @@ class ContentController extends Controller
      *
      * @return JsonResponse
      */
-    public function viewAction(Request $request, $id)
+    public function viewAction(Request $request, $id, $structure = 'tree')
     {
         /** @var ContentRepository $contentRepository */
         $contentRepository = $this->get('opifer.content.content_manager')->getRepository();
@@ -85,6 +85,21 @@ class ContentController extends Controller
         }
 
         $version = $request->query->get('_version');
+        $debug = $this->getParameter('kernel.debug');
+
+        $contentDate = $content->getUpdatedAt();
+        $templateDate = $content->getTemplate()->getUpdatedAt();
+
+        $date = $contentDate > $templateDate ? $contentDate : $templateDate;
+
+        $response = new JsonResponse();
+        $response->setLastModified($date);
+        $response->setPublic();
+
+        if (null === $version && false == $debug && $response->isNotModified($request)) {
+            // return the 304 Response immediately
+            return $response;
+        }
 
         /** @var Environment $environment */
         $environment = $this->get('opifer.content.block_environment');
@@ -96,21 +111,37 @@ class ContentController extends Controller
 
         $environment->load();
 
-        $blockTree = $environment->getRootBlocks();
-        $blockTree = [
-            'id' => $content->getId(),
-            'slug' => $content->getSlug(),
-            'blocks' => $blockTree,
-        ];
-
         $context = SerializationContext::create()
             ->addExclusionStrategy(new BlockExclusionStrategy($content))
-            ->setGroups(['Default', 'tree', 'detail'])
+            // ->setGroups(['Default', 'detail'])
         ;
 
-        $blocks = $this->get('jms_serializer')->serialize($blockTree, 'json', $context);
+        if ($structure == 'tree') {
+            $blocks = $environment->getRootBlocks();
+            $context->setGroups(['Default', 'tree', 'detail']);
+        } else {
+            $blocks = $environment->getBlocks();
+            $context->setGroups(['Default', 'detail'])
+                ->enableMaxDepthChecks();
+        }
+        // foreach ($blocks as $block) {
+        //     var_dump($environment);
+        // }die();
 
-        return new JsonResponse(json_decode($blocks, true));
+        $contentItem = [
+            'id' => $content->getId(),
+            'title' => $content->getTitle(),
+            'shortTitle' => $content->getShortTitle(),
+            'description' => $content->getDescription(),
+            'slug' => $content->getSlug(),
+            'blocks' => $blocks,
+        ];
+
+        $json = $this->get('jms_serializer')->serialize($contentItem, 'json', $context);
+        
+        $response->setData(json_decode($json, true));
+
+        return $response;
     }
 
     /**
