@@ -84,7 +84,7 @@ class ListBlockService extends AbstractBlockService implements BlockServiceInter
                 'label' => 'label.list_display_type',
                 'choices'  => [
                     'list' => 'List',
-                    'card' => 'Cards',
+                    'cards' => 'Cards',
                     'table' => 'Table',
                 ],
                 'required' => true,
