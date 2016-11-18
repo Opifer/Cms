@@ -2,7 +2,7 @@
     {% for content in block.collection %}
         <div class="column">
             <div class="card">
-                {% if block.properties.template == 'cards-listing' %}
+                {% if block.properties.displayType|default == 'cards-listing' %}
                     <div class="card-img-block">
                         <img class="card-img img-fluid" src="{{ content.coverImage|default }}" alt="{{ content.title }}" />
                     </div>

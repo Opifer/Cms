@@ -33,8 +33,6 @@ class ContainerBlockService extends AbstractBlockService implements LayoutBlockS
             ->add('id', TextType::class, ['attr' => ['help_text' => 'help.html_id']])
             ->add('extra_classes', TextType::class, ['attr' => ['help_text' => 'help.extra_classes']]);
 
-        $builder->add($propertiesForm);
-
         $builder->addEventListener(FormEvents::PRE_SET_DATA, function (FormEvent $event) {
             $block = $event->getData();
 
@@ -56,6 +54,13 @@ class ContainerBlockService extends AbstractBlockService implements LayoutBlockS
                 'attr' => ['help_text' => 'help.container_sizing'],
             ]);
         });
+
+        $builder->add(
+            $builder->create('default', FormType::class, ['inherit_data' => true])
+                ->add('name', TextType::class, ['label' => 'label.name', 'attr' => ['help_text' => 'help.block_name']])
+        )->add(
+            $propertiesForm
+        );
     }
 
     /**

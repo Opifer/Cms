@@ -17,6 +17,7 @@ use Opifer\ExpressionEngine\Prototype\SelectPrototype;
 use Opifer\ExpressionEngine\Prototype\TextPrototype;
 use Opifer\FormBlockBundle\Entity\ChoiceFieldBlock;
 use Opifer\FormBlockBundle\Entity\NumberFieldBlock;
+use Opifer\FormBlockBundle\Entity\RangeFieldBlock;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\FormType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -343,6 +344,9 @@ abstract class AbstractBlockService implements BlockServiceInterface
             $properties = $member->getProperties();
 
             if ($member instanceof ChoiceFieldBlock) {
+                if (empty($member->getName())) {
+                    continue;
+                }
                 if (!isset($properties['options'])) {
                     continue;
                 }
@@ -353,13 +357,13 @@ abstract class AbstractBlockService implements BlockServiceInterface
                     }
                     $choices[] = new Choice($option['key'], $option['value']);
                 }
-                $collection->add(new SelectPrototype($properties['name'], $properties['label'], $properties['name'], $choices));
-            } elseif ($member instanceof NumberFieldBlock) {
-                if (empty($properties['name'])) {
+                $collection->add(new SelectPrototype($member->getName(), $properties['label'], $member->getName(), $choices));
+            } elseif ($member instanceof NumberFieldBlock || $member instanceof RangeFieldBlock) {
+                if (empty($member->getName())) {
                     continue;
                 }
 
-                $collection->add(new NumberPrototype($properties['name'], $properties['label'], $properties['name']));
+                $collection->add(new NumberPrototype($member->getName(), $properties['label'], $member->getName()));
             }
 
             if (!empty($member->getName())) {

@@ -929,7 +929,8 @@ $(document).ready(function() {
                 data: values,
                 success: function (data) {
                     callback(data);
-                    sortables();
+                    // sortables();
+                    loadToC(sortables);
                 }
             }).error(function(data){
                 showAPIError(data);

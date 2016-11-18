@@ -50,22 +50,17 @@ class FormSectionBlockService extends AbstractBlockService implements BlockServi
         $propertiesForm = $builder->create('properties', FormType::class);
 
         $propertiesForm
-            ->add('name', TextType::class)
             ->add('navTitle', TextType::class)
             ->add('description', TextareaType::class)
         ;
 
-        if (isset($this->config['templates'])) {
-            //$propertiesForm->add('template', ChoiceType::class, [
-            //    'label' => 'label.template',
-            //    'placeholder' => 'placeholder.choice_optional',
-            //    'attr' => ['help_text' => 'help.block_template'],
-            //    'choices' => $this->config['templates'],
-            //    'required' => false,
-            //]);
-        }
-
-        $builder->add($propertiesForm);
+        $builder->add(
+            $builder->create('default', FormType::class, ['inherit_data' => true])
+                ->add('name', TextType::class, ['label' => 'label.name', 'attr' => ['help_text' => 'help.block_name']])
+                // ->add('title', TextType::class, ['label' => 'label.title', 'attr' => ['help_text' => 'help.title']])
+        )->add(
+            $propertiesForm
+        );
     }
 
     public function getViewParameters(BlockInterface $block)

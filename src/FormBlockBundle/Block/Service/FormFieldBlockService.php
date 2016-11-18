@@ -60,14 +60,8 @@ abstract class FormFieldBlockService extends AbstractBlockService implements Blo
     {
         parent::buildManageForm($builder, $options);
 
-        $builder->get('properties')
+        $propertiesForm = $builder->create('properties', FormType::class)
             ->add('label', TextType::class)
-            ->add('name', TextType::class, [
-                'attr' => [
-                    'pattern' => '^[a-z_-]+$',
-                    'help_text' => 'A unique identifier for this form field. [a-z_-]',
-                ],
-            ])
             ->add('helpText', TextareaType::class, [
                 'required' => false,
             ])
@@ -85,6 +79,13 @@ abstract class FormFieldBlockService extends AbstractBlockService implements Blo
                 ],
             ])
         ;
+
+        $builder->add(
+            $builder->create('default', FormType::class, ['inherit_data' => true])
+                ->add('name', TextType::class, ['label' => 'label.name', 'attr' => ['help_text' => 'help.block_name']])
+        )->add(
+            $propertiesForm
+        );
     }
 
     public function getViewParameters(BlockInterface $block)

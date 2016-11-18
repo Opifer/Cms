@@ -339,23 +339,13 @@ class Configuration implements ConfigurationInterface
                                     ->prototype('scalar')->end()
                                     ->normalizeKeys(false)
                                     ->useAttributeAsKey('name')
-                                    ->defaultValue([
-                                        'list-lg' => 'Cards large',
-                                        'list-md' => 'Cards medium',
-                                        'list-sm' => 'Cards small',
-                                        'list-xs-center' => 'Cards center',
-                                        'text-xs-center' => 'Cards text center',
-                                        'card-transparent' => 'Transparent',
-                                    ])
+                                    ->defaultValue([])
                                 ->end()
                                 ->arrayNode('templates')
                                     ->prototype('scalar')->end()
                                     ->normalizeKeys(false)
                                     ->useAttributeAsKey('name')
-                                    ->defaultValue([
-                                        'card-img-bg' => 'Image Background',
-                                        'card-list' => 'Listing',
-                                    ])
+                                    ->defaultValue([])
                                 ->end()
                             ->end()
                         ->end()
