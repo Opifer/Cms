@@ -140,4 +140,3 @@ liip_imagine:
             post_processors:
                 jpegoptim: { strip_all: true, max: 70, progressive: true }
                 pngquant: { quality: "70-80" }
-                
