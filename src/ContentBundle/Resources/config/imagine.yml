@@ -5,153 +5,138 @@ liip_imagine:
                 upscale: { min: [1920, 1280] }
                 thumbnail: { size: [1920, 1280], mode: outbound, allow_upscale: true  }
             post_processors:
-                jpegoptim: { max: 65 }
-                pngquant: {}
+                jpegoptim: { strip_all: true, max: 70, progressive: true }
+                pngquant: { quality: "70-80" }
         sm_11:
-            quality: 80
             filters:
-                thumbnail: { size: [250, 250], mode: outbound }
+                thumbnail: { size: [250, 250], mode: outbound, allow_upscale: true }
             post_processors:
-                jpegoptim: { max: 65 }
-                pngquant: {}
+                jpegoptim: { strip_all: true, max: 70, progressive: true }
+                pngquant: { quality: "70-80" }
         md_11:
-            quality: 80
             filters:
-                thumbnail: { size: [500, 500], mode: outbound }
+                thumbnail: { size: [500, 500], mode: outbound, allow_upscale: true }
             post_processors:
-                jpegoptim: { max: 65 }
-                pngquant: {}
+                jpegoptim: { strip_all: true, max: 70, progressive: true }
+                pngquant: { quality: "70-80" }
         lg_11:
-            quality: 80
             filters:
-                thumbnail: { size: [1000, 1000], mode: outbound }
+                upscale: { min: [1000, 1000] }
+                thumbnail: { size: [1000, 1000], mode: outbound, allow_upscale: true  }
             post_processors:
-                jpegoptim: { max: 65 }
-                pngquant: {}
+                jpegoptim: { strip_all: true, max: 70, progressive: true }
+                pngquant: { quality: "70-80" }
         sm_43:
-            quality: 80
             filters:
-                thumbnail: { size: [400, 300], mode: outbound }
+                thumbnail: { size: [400, 300], mode: outbound, allow_upscale: true }
             post_processors:
-                jpegoptim: { max: 65 }
-                pngquant: {}
+                jpegoptim: { strip_all: true, max: 70, progressive: true }
+                pngquant: { quality: "70-80" }
         md_43:
-            quality: 80
             filters:
-                thumbnail: { size: [800, 600], mode: outbound }
+                thumbnail: { size: [800, 600], mode: outbound, allow_upscale: true }
             post_processors:
-                jpegoptim: { max: 65 }
-                pngquant: {}
+                jpegoptim: { strip_all: true, max: 70, progressive: true }
+                pngquant: { quality: "70-80" }
         lg_43:
-            quality: 80
             filters:
-                thumbnail: { size: [1600, 1200], mode: outbound }
+                upscale: { min: [1600, 1200] }
+                thumbnail: { size: [1600, 1200], mode: outbound, allow_upscale: true  }
             post_processors:
-                jpegoptim: { max: 65 }
-                pngquant: {}
+                jpegoptim: { strip_all: true, max: 70, progressive: true }
+                pngquant: { quality: "70-80" }
         sm_34:
-            quality: 80
             filters:
-                thumbnail: { size: [300, 400], mode: outbound }
+                thumbnail: { size: [300, 400], mode: outbound, allow_upscale: true }
             post_processors:
-                jpegoptim: { max: 65 }
-                pngquant: {}
+                jpegoptim: { strip_all: true, max: 70, progressive: true }
+                pngquant: { quality: "70-80" }
         md_34:
-            quality: 80
             filters:
-                thumbnail: { size: [600, 800], mode: outbound }
+                thumbnail: { size: [600, 800], mode: outbound, allow_upscale: true }
             post_processors:
-                jpegoptim: { max: 65 }
-                pngquant: {}
+                jpegoptim: { strip_all: true, max: 70, progressive: true }
+                pngquant: { quality: "70-80" }
         lg_34:
-            quality: 80
             filters:
-                thumbnail: { size: [1200, 1600], mode: outbound }
+                upscale: { min: [1200, 1600] }
+                thumbnail: { size: [1200, 1600], mode: outbound, allow_upscale: true  }
             post_processors:
-                jpegoptim: { max: 65 }
-                pngquant: {}
+                jpegoptim: { strip_all: true, max: 70, progressive: true }
+                pngquant: { quality: "70-80" }
         sm_32:
-            quality: 80
             filters:
-                thumbnail: { size: [300, 200], mode: outbound }
+                thumbnail: { size: [300, 200], mode: outbound, allow_upscale: true }
             post_processors:
-                jpegoptim: { max: 65 }
-                pngquant: {}
+                jpegoptim: { strip_all: true, max: 70, progressive: true }
+                pngquant: { quality: "70-80" }
         md_32:
-            quality: 80
             filters:
-                thumbnail: { size: [600, 400], mode: outbound }
+                thumbnail: { size: [600, 400], mode: outbound, allow_upscale: true }
             post_processors:
-                jpegoptim: { max: 65 }
-                pngquant: {}
+                jpegoptim: { strip_all: true, max: 70, progressive: true }
+                pngquant: { quality: "70-80" }
         lg_32:
-            quality: 80
             filters:
-                thumbnail: { size: [1200, 800], mode: outbound }
+                upscale: { min: [1200, 800] }
+                thumbnail: { size: [1200, 800], mode: outbound, allow_upscale: true  }
             post_processors:
-                jpegoptim: { max: 65 }
-                pngquant: {}
+                jpegoptim: { strip_all: true, max: 70, progressive: true }
+                pngquant: { quality: "70-80" }
         sm_23:
-            quality: 80
             filters:
-                thumbnail: { size: [200, 300], mode: outbound }
+                thumbnail: { size: [200, 300], mode: outbound, allow_upscale: true }
             post_processors:
-                jpegoptim: { max: 65 }
-                pngquant: {}
+                jpegoptim: { strip_all: true, max: 70, progressive: true }
+                pngquant: { quality: "70-80" }
         md_23:
-            quality: 80
             filters:
-                thumbnail: { size: [400, 600], mode: outbound }
+                thumbnail: { size: [400, 600], mode: outbound, allow_upscale: true }
             post_processors:
-                jpegoptim: { max: 65 }
-                pngquant: {}
+                jpegoptim: { strip_all: true, max: 70, progressive: true }
+                pngquant: { quality: "70-80" }
         lg_23:
-            quality: 80
             filters:
-                thumbnail: { size: [800, 1200], mode: outbound }
+                upscale: { min: [800, 1200] }
+                thumbnail: { size: [800, 1200], mode: outbound, allow_upscale: true  }
             post_processors:
-                jpegoptim: { max: 65 }
-                pngquant: {}
+                jpegoptim: { strip_all: true, max: 70, progressive: true }
+                pngquant: { quality: "70-80" }
         sm_169:
-            quality: 80
             filters:
-                thumbnail: { size: [400, 275], mode: outbound }
+                thumbnail: { size: [400, 275], mode: outbound, allow_upscale: true }
             post_processors:
-                jpegoptim: { max: 65 }
-                pngquant: {}
+                jpegoptim: { strip_all: true, max: 70, progressive: true }
+                pngquant: { quality: "70-80" }
         md_169:
-            quality: 80
             filters:
-                thumbnail: { size: [800, 450], mode: outbound }
+                thumbnail: { size: [800, 450], mode: outbound, allow_upscale: true }
             post_processors:
-                jpegoptim: { max: 65 }
-                pngquant: {}
+                jpegoptim: { strip_all: true, max: 70, progressive: true }
+                pngquant: { quality: "70-80" }
         lg_169:
-            quality: 80
             filters:
-                thumbnail: { size: [1600, 900], mode: outbound }
+                upscale: { min: [1600, 900] }
+                thumbnail: { size: [1600, 900], mode: outbound, allow_upscale: true  }
             post_processors:
-                jpegoptim: { max: 65 }
-                pngquant: {}
+                jpegoptim: { strip_all: true, max: 70, progressive: true }
+                pngquant: { quality: "70-80" }
         sm_916:
-            quality: 80
             filters:
-                thumbnail: { size: [275, 400], mode: outbound }
+                thumbnail: { size: [275, 400], mode: outbound, allow_upscale: true }
             post_processors:
-                jpegoptim: { max: 65 }
-                pngquant: {}
+                jpegoptim: { strip_all: true, max: 70, progressive: true }
+                pngquant: { quality: "70-80" }
         md_916:
-            quality: 80
             filters:
-                thumbnail: { size: [450, 800], mode: outbound }
+                thumbnail: { size: [450, 800], mode: outbound, allow_upscale: true }
             post_processors:
-                jpegoptim: { max: 65 }
-                pngquant: {}
+                jpegoptim: { strip_all: true, max: 70, progressive: true }
+                pngquant: { quality: "70-80" }
         lg_916:
-            quality: 80
             filters:
-                thumbnail: { size: [900, 1600], mode: outbound }
+                upscale: { min: [900, 1600] }
+                thumbnail: { size: [900, 1600], mode: outbound, allow_upscale: true  }
             post_processors:
-                jpegoptim: { max: 65 }
-                pngquant: {}
-                
+                jpegoptim: { strip_all: true, max: 70, progressive: true }
+                pngquant: { quality: "70-80" }
