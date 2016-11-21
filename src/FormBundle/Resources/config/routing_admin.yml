@@ -27,3 +27,7 @@ opifer_form_post_view:
 opifer_form_post_delete:
     path: /forms/posts/delete/{id}
     defaults: { _controller: OpiferFormBundle:Post:delete }
+
+opifer_form_post_notification:
+    path: /forms/posts/notification/{id}
+    defaults: { _controller: OpiferFormBundle:Post:notification }
