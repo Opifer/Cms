@@ -150,6 +150,9 @@ fos_user_security_login:
 fos_user_group:
     resource: "@FOSUserBundle/Resources/config/routing/group.xml"
     prefix:   /group
+    
+api_login_check:
+    path: /api/login_check
 
 # Overriden Bundle actions
 

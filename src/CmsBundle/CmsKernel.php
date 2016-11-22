@@ -36,6 +36,10 @@ abstract class CmsKernel extends BaseKernel
             new \Knp\Bundle\MenuBundle\KnpMenuBundle(),
             new \Liip\ImagineBundle\LiipImagineBundle(),
             new \Symfony\Cmf\Bundle\RoutingBundle\CmfRoutingBundle(),
+            new \Nelmio\CorsBundle\NelmioCorsBundle(),  
+            new \FOS\RestBundle\FOSRestBundle(),
+            new \Nelmio\ApiDocBundle\NelmioApiDocBundle(),
+            new \Lexik\Bundle\JWTAuthenticationBundle\LexikJWTAuthenticationBundle(),
 
             // Opifer bundles
             new \Opifer\CmsBundle\OpiferCmsBundle(),

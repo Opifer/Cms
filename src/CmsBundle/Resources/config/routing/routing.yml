@@ -56,6 +56,10 @@ opifer_cms_auto_complete:
 
 # Third party bundle routing fallbacks
 
+NelmioApiDocBundle:
+    resource: "@NelmioApiDocBundle/Resources/config/routing.yml"
+    prefix:   /api/doc
+
 fos_user_register:
     resource: "@FOSUserBundle/Resources/config/routing/registration.xml"
     prefix:   /register

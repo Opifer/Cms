@@ -95,3 +95,7 @@ opifer_content_api_contenteditor_discard:
     methods: [POST]
     options:
         expose: true
+
+opifer_content_api_dataview_index:
+    resource: "Opifer\ContentBundle\Controller\Api\DataViewController"
+    type:     rest
