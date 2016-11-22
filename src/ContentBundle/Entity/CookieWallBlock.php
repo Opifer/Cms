@@ -6,7 +6,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Opifer\Revisions\Mapping\Annotation as Revisions;
 
 /**
- * CookieWallBlock
+ * CookieWallBlock.
  *
  * @ORM\Entity
  */
@@ -19,6 +19,13 @@ class CookieWallBlock extends Block
      * @ORM\Column(type="text", nullable=true)
      */
     protected $value;
+
+    /**
+     * Defines if cookies are accepted by the user
+     *
+     * @var bool
+     */
+    protected $accepted = false;
 
     /**
      * @return string
@@ -36,6 +43,26 @@ class CookieWallBlock extends Block
     public function setValue($value)
     {
         $this->value = $value;
+
+        return $this;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isAccepted()
+    {
+        return $this->accepted;
+    }
+
+    /**
+     * @param bool $accepted
+     *
+     * @return CookieWallBlock
+     */
+    public function setAccepted($accepted)
+    {
+        $this->accepted = $accepted;
 
         return $this;
     }
