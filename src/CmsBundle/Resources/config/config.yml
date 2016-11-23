@@ -292,7 +292,7 @@ nelmio_cors:
         hosts: []
         origin_regex: false
     paths:
-        '^/(api|accept-cookies)':
+        '^/(admin/api|api|accept-cookies)':
             origin_regex: true
             allow_origin: ['^http://localhost:[0-9]+', '^http://127.0.0.1:[0-9]+', '^http://[a-z0-9-]+.dev:[0-9]+']
             allow_headers: ['origin', 'x-custom-auth', 'authorization', 'content-type', 'accept', 'x-requested-with']
@@ -301,8 +301,14 @@ nelmio_cors:
 
 
 # FOS Rest
-fos_rest:
-    body_listener: true
+fos_rest:    
+    body_listener:
+        decoders:
+            json: fos_rest.decoder.json
+    body_converter:
+        enabled: true
+        validate: true
+        validation_errors_argument: validationErrors # This is the default value
     format_listener:
         rules:
             - { path: '^/', priorities: ['json', 'html'], fallback_format: json, prefer_extension: false }

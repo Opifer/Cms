@@ -8,6 +8,10 @@ use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Validator\ConstraintViolationListInterface;
+use FOS\RestBundle\Controller\Annotations\Put;
+use FOS\RestBundle\Controller\Annotations\NoRoute;
+use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 
 class DataViewController extends FOSRestController
 {
@@ -36,34 +40,22 @@ class DataViewController extends FOSRestController
 
     /**
      * @ApiDoc()
+     * @Put("/dataviews")
      *
-     * @param Request $request
-     *
-     * @return DataView
+     * @ParamConverter("dataView", converter="fos_rest.request_body", options={"validator",{"groups"={"detail"}}})
      */
-    public function postDataviewsAction(Request $request)
+    public function putDataviewAction(DataView $dataView, ConstraintViolationListInterface $validationErrors)
     {
-        $dataView = new DataView();
-        $dataView->setText($request->request->get('text'));
-
-        $errors = $this->get('validator')->validate($dataView);
-        if (count($errors) > 0) {
-            $errorStrings = [];
-            foreach ($errors as $error) {
-                $errorStrings[] = $error->getMessage();
-            }
-            return $this->view(
-                [
-                    'error' => implode(',', $errorStrings)
-                ],
-                Response::HTTP_BAD_REQUEST
-            );
+        if (count($validationErrors) > 0) {
+            return $this->handleValidationErrors($validationErrors);
         }
 
-        $this->getDoctrine()->getManager()->persist($dataView);
-        $this->getDoctrine()->getManager()->flush();
+        $em = $this->getDoctrine()->getManager();
+        $em->persist($dataView);
+        $em->flush();
 
-        return $dataView;
+        $view = $this->view(['message' => 'saved.'], 200);
+        return $this->handleView($view);
     }
 
     /**
@@ -79,5 +71,49 @@ class DataViewController extends FOSRestController
         $this->getDoctrine()->getManager()->flush();
 
         return new Response('', Response::HTTP_NO_CONTENT);
+    }
+
+
+    private function handleValidationErrors(ConstraintViolationListInterface $validationErrors)
+    {
+        $errors = array();
+
+        foreach ($validationErrors as $validationError) {
+            $errors[$validationError->getPropertyPath()] = $validationError->getMessage();
+        }
+
+        $this->normalize($errors);
+        $view = $this->view(['errors' => $errors], 400);
+
+        return $this->handleView($view);
+    }
+
+
+    public function normalize(array &$data)
+    {
+        $normalizedData = array();
+
+        foreach ($data as $key => $val) {
+
+            $snakeCasedName = '';
+
+            $len = strlen($key);
+            for ($i = 0; $i < $len; ++$i) {
+                if (ctype_upper($key[$i])) {
+                    $snakeCasedName .= '_'.strtolower($key[$i]);
+                } else {
+                    $snakeCasedName .= strtolower($key[$i]);
+                }
+            }
+
+            $normalizedData[$snakeCasedName] = $val;
+            $key = $snakeCasedName;
+
+            if (is_array($val)) {
+                $this->normalize($normalizedData[$key]);
+            }
+        }
+
+        $data = $normalizedData;
     }
 }

@@ -234,3 +234,6 @@ services:
         arguments: ['@opifer.expression_engine']
         tags:
             - { name: 'form.type' }
+
+    jms_serializer.object_constructor:
+        alias: jms_serializer.doctrine_object_constructor

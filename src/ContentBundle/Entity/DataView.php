@@ -3,6 +3,8 @@
 namespace Opifer\ContentBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use JMS\Serializer\Annotation as JMS;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * DataView
@@ -24,6 +26,7 @@ class DataView
     /**
      * @var string
      *
+     * @Assert\NotBlank()
      * @ORM\Column(name="name", type="string", length=255, unique=true)
      */
     private $name;
@@ -31,6 +34,7 @@ class DataView
     /**
      * @var string
      *
+     * @Assert\NotBlank()
      * @ORM\Column(name="displayName", type="string", length=255, unique=true)
      */
     private $displayName;
