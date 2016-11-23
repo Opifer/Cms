@@ -45,6 +45,10 @@ class BlockPickerType extends AbstractType
                 return $entity;
             },
             function ($submitted) {
+                if (null == $submitted) {
+                    return null;
+                }
+
                 return $submitted->getId();
             }
         ));
