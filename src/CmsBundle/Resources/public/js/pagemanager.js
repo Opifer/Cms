@@ -1000,7 +1000,8 @@ $(document).ready(function() {
         var loadToC = function (callback) {
             $.ajax({
                 url: Routing.generate('opifer_content_contenteditor_toc', {owner: owner, ownerId: ownerId}),
-                cache: false
+                cache: false,
+                dataType: 'html',
             }).done(function (data) {
                 $('#pm-toc').html(data);
                 if (callback) callback();

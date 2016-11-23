@@ -341,33 +341,37 @@ abstract class AbstractBlockService implements BlockServiceInterface
         $blockChoices = [];
 
         foreach ($owner->getBlocks() as $member) {
-            $properties = $member->getProperties();
+            try {
+                $properties = $member->getProperties();
 
-            if ($member instanceof ChoiceFieldBlock) {
-                if (empty($member->getName())) {
-                    continue;
-                }
-                if (!isset($properties['options'])) {
-                    continue;
-                }
-                $choices = [];
-                foreach ($properties['options'] as $option) {
-                    if (empty($option['key'])) {
+                if ($member instanceof ChoiceFieldBlock) {
+                    if (empty($member->getName())) {
                         continue;
                     }
-                    $choices[] = new Choice($option['key'], $option['value']);
-                }
-                $collection->add(new SelectPrototype($member->getName(), $properties['label'], $member->getName(), $choices));
-            } elseif ($member instanceof NumberFieldBlock || $member instanceof RangeFieldBlock) {
-                if (empty($member->getName())) {
-                    continue;
+                    if (!isset($properties['options'])) {
+                        continue;
+                    }
+                    $choices = [];
+                    foreach ($properties['options'] as $option) {
+                        if (empty($option['key'])) {
+                            continue;
+                        }
+                        $choices[] = new Choice($option['key'], $option['value']);
+                    }
+                    $collection->add(new SelectPrototype($member->getName(), $properties['label'], $member->getName(), $choices));
+                } elseif ($member instanceof NumberFieldBlock || $member instanceof RangeFieldBlock) {
+                    if (empty($member->getName())) {
+                        continue;
+                    }
+
+                    $collection->add(new NumberPrototype($member->getName(), $properties['label'], $member->getName()));
                 }
 
-                $collection->add(new NumberPrototype($member->getName(), $properties['label'], $member->getName()));
-            }
-
-            if (!empty($member->getName())) {
-                $blockChoices[] = new Choice($member->getName(), $member->getName());
+                if (!empty($member->getName())) {
+                    $blockChoices[] = new Choice($member->getName(), $member->getName());
+                }
+            } catch (\Exception $e) {
+                // Avoid throwing exceptions here for now, since e.g. duplicate namesthis will cause all blocks to be uneditable.
             }
         }
 
