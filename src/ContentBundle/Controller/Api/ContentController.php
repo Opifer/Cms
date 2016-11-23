@@ -124,9 +124,6 @@ class ContentController extends Controller
             $context->setGroups(['Default', 'detail'])
                 ->enableMaxDepthChecks();
         }
-        // foreach ($blocks as $block) {
-        //     var_dump($environment);
-        // }die();
 
         $contentItem = [
             'id' => $content->getId(),

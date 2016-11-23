@@ -105,6 +105,12 @@ services:
         tags:
             - { name: opifer.eav.value_provider, alias: content_list }
 
+    opifer.content.form.block_picker_type:
+        class: 'Opifer\ContentBundle\Form\Type\BlockPickerType'
+        arguments: ['@opifer.content.block_manager']
+        tags:
+            - { name: form.type }
+
     opifer.content.form.contentpicker_type:
         class: '%opifer.content.form.contentpicker_type.class%'
         arguments: ['@opifer.content.content_manager']
