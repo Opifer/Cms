@@ -26,16 +26,14 @@ class RichCheckItemBlockService extends FormFieldBlockService implements BlockSe
     {
         parent::buildManageForm($builder, $options);
 
-        $builder->add(
-            $builder->create('default', FormType::class, ['inherit_data' => true])
-                ->add('title', TextType::class)
-                ->add('value', CKEditorType::class, ['label' => 'label.description', 'attr' => ['label_col' => 12, 'widget_col' => 12]])
-                ->add('media', MediaPickerType::class, [
-                    'required'  => false,
-                    'multiple' => false,
-                    'attr' => array('label_col' => 12, 'widget_col' => 12),
-                ])
-        );
+        $builder->get('default')
+            ->add('title', TextType::class)
+            ->add('value', CKEditorType::class, ['label' => 'label.description', 'attr' => ['label_col' => 12, 'widget_col' => 12]])
+            ->add('media', MediaPickerType::class, [
+                'required'  => false,
+                'multiple' => false,
+                'attr' => array('label_col' => 12, 'widget_col' => 12),
+            ]);
 
         if (isset($this->config['templates'])) {
             $builder->get('properties')->add('template', ChoiceType::class, [
