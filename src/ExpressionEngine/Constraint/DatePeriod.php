@@ -32,7 +32,7 @@ class DatePeriod extends Literal
         }
 
         foreach ($value as $day) {
-            if (strtolower($day->format($this->getDateFormat())) == strtolower($this->date)) {
+            if (strtolower($day->format($this->getDateFormat())) == strtolower($this->date->format($this->getDateFormat()))) {
                 return true;
             }
         }
