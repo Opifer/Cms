@@ -32,7 +32,7 @@ security:
                 failure_handler:          lexik_jwt_authentication.handler.authentication_failure
                 require_previous_session: false
         api:
-            pattern:   ^/admin/api
+            pattern:   ^/admin/api/(?!content|media|contenteditor|options|schemas)
             stateless: true
             guard:
                 authenticators:
