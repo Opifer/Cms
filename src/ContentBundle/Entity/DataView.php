@@ -27,6 +27,11 @@ class DataView
      * @var string
      *
      * @Assert\NotBlank()
+     * @Assert\Regex(
+     *     pattern="/^[a-zA-Z0-9\_]+$/",
+     *     match=true,
+     *     message="Your name may only contain letters, numbers and underscores _. No whitespace allowed"
+     * )
      * @ORM\Column(name="name", type="string", length=255, unique=true)
      */
     private $name;
