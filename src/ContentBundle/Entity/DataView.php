@@ -47,6 +47,14 @@ class DataView
     /**
      * @var string
      *
+     * @Assert\NotBlank()
+     * @ORM\Column(name="description", type="string", length=255, nullable=true)
+     */
+    private $description;
+
+    /**
+     * @var string
+     *
      * @ORM\Column(name="viewCode", type="text", nullable=true)
      */
     private $viewCode;
@@ -129,6 +137,30 @@ class DataView
     public function getDisplayName()
     {
         return $this->displayName;
+    }
+
+    /**
+     * Set description
+     *
+     * @param string $description
+     *
+     * @return DataView
+     */
+    public function setDescription($description)
+    {
+        $this->description = $description;
+
+        return $this;
+    }
+
+    /**
+     * Get description
+     *
+     * @return string
+     */
+    public function getDescription()
+    {
+        return $this->description;
     }
 
     /**

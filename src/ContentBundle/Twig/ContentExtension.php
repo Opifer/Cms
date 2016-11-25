@@ -187,7 +187,7 @@ class ContentExtension extends \Twig_Extension
 
         if (isset($context['block_service'])) {
             $service = $context['block_service'];
-            $tags .= sprintf(' data-pm-tool=\'%s\'', json_encode(array('icon' => $service->getTool()->getIcon())));
+            $tags .= sprintf(' data-pm-tool=\'%s\'', json_encode(array('icon' => $service->getTool($block)->getIcon())));
         }
 
         return $tags;

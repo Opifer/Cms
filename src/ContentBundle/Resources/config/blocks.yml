@@ -28,6 +28,7 @@ parameters:
     opifer.content.avatar_block.class: Opifer\ContentBundle\Block\Service\AvatarBlockService
     opifer.content.search_results_block.class: Opifer\ContentBundle\Block\Service\SearchResultsBlockService
     opifer.content.modal_block.class: Opifer\ContentBundle\Block\Service\ModalBlockService
+    opifer.content.data_view_block.class: Opifer\ContentBundle\Block\Service\DataViewBlockService
 
 services:
     opifer.content.alert_block:
@@ -239,3 +240,9 @@ services:
             - { name: opifer.content.block_service, alias: search_results }
         calls:
             - [setRequest, ['@request_stack']]
+
+    opifer.content.data_view_block:
+        class: '%opifer.content.data_view_block.class%'
+        arguments: ['@opifer.content.block_renderer', '@doctrine.orm.default_entity_manager', '%opifer_content.data_view_block_configuration%']
+        tags:
+            - { name: opifer.content.block_service, alias: data_view }
