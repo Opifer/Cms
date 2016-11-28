@@ -26,7 +26,7 @@ class FormSectionBlockService extends AbstractBlockService implements BlockServi
     protected $formManager;
 
     /** @var bool {@inheritdoc} */
-    protected $esiEnabled = true;
+    protected $esiEnabled = false;
 
     /**
      * @param BlockRenderer $blockRenderer
