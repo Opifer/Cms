@@ -20,6 +20,7 @@ use Opifer\FormBlockBundle\Entity\NumberFieldBlock;
 use Opifer\FormBlockBundle\Entity\RangeFieldBlock;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\FormType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
@@ -285,9 +286,12 @@ abstract class AbstractBlockService implements BlockServiceInterface
      */
     public function buildManageForm(FormBuilderInterface $builder, array $options)
     {
-        $propertiesForm = $builder->create('properties', FormType::class, ['label' => false, 'attr' => ['widget_col' => 12]]);
-
-        $builder->add($propertiesForm);
+        $builder->add(
+            $builder->create('default', FormType::class, ['inherit_data' => true])
+                ->add('name', TextType::class, ['label' => 'label.name', 'attr' => ['help_text' => 'help.block_name']])
+        )->add(
+            $builder->create('properties', FormType::class, ['label' => false, 'attr' => ['widget_col' => 12]])
+        );
 
         $builder->addEventListener(FormEvents::PRE_SET_DATA, function (FormEvent $event) {
             /** @var Block $block */
