@@ -3,9 +3,11 @@
 namespace Opifer\ContentBundle\EventListener\Serializer;
 
 use JMS\Serializer\EventDispatcher\EventSubscriberInterface;
+use JMS\Serializer\EventDispatcher\ObjectEvent;
 use JMS\Serializer\EventDispatcher\PreSerializeEvent;
 use Opifer\ContentBundle\Block\BlockManager;
 use Opifer\ContentBundle\Entity\Block;
+use Opifer\ContentBundle\Entity\DataViewBlock;
 
 class BlockEventSubscriber implements EventSubscriberInterface
 {

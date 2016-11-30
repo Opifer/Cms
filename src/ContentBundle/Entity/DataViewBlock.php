@@ -4,6 +4,7 @@ namespace Opifer\ContentBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Opifer\Revisions\Mapping\Annotation as Revisions;
+use JMS\Serializer\Annotation as JMS;
 
 /**
  * DataViewBlock
@@ -47,5 +48,21 @@ class DataViewBlock extends Block
         $this->dataView = $dataView;
 
         return $this;
+    }
+
+    /**
+     * @JMS\Groups({"tree", "detail"})
+     * @JMS\VirtualProperty
+     * @JMS\SerializedName("type")
+     *
+     * @return string
+     */
+    public function getDiscriminator()
+    {
+        if ($this->dataView->getViewReference()) {
+            return $this->dataView->getName();
+        }
+
+        return parent::getDiscriminator();
     }
 }
