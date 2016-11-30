@@ -60,6 +60,13 @@ class DataView
     private $viewCode;
 
     /**
+     * @var string
+     *
+     * @ORM\Column(name="view", type="string", length=255, nullable=true)
+     */
+    private $viewFile;
+
+    /**
      * @var \stdClass
      *
      * @ORM\Column(name="dataSources", type="object", nullable=true)
@@ -185,6 +192,30 @@ class DataView
     public function getViewCode()
     {
         return $this->viewCode;
+    }
+
+    /**
+     * Set viewFile
+     *
+     * @param string $viewFile
+     *
+     * @return DataView
+     */
+    public function setViewFile($viewFile)
+    {
+        $this->viewFile = $viewFile;
+
+        return $this;
+    }
+
+    /**
+     * Get viewFile
+     *
+     * @return string
+     */
+    public function getViewFile()
+    {
+        return $this->viewFile;
     }
 
     /**
