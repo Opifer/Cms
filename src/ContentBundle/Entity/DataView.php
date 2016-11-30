@@ -60,11 +60,11 @@ class DataView
     private $viewCode;
 
     /**
-     * @var string
+     * @var bool
      *
-     * @ORM\Column(name="view", type="string", length=255, nullable=true)
+     * @ORM\Column(name="viewReference", type="boolean")
      */
-    private $viewFile;
+    private $viewReference;
 
     /**
      * @var \stdClass
@@ -195,27 +195,27 @@ class DataView
     }
 
     /**
-     * Set viewFile
+     * Set viewReference
      *
-     * @param string $viewFile
+     * @param boolean $viewReference
      *
      * @return DataView
      */
-    public function setViewFile($viewFile)
+    public function setViewReference($viewReference)
     {
-        $this->viewFile = $viewFile;
+        $this->viewReference = $viewReference;
 
         return $this;
     }
 
     /**
-     * Get viewFile
+     * Get viewReference
      *
      * @return string
      */
-    public function getViewFile()
+    public function getViewReference()
     {
-        return $this->viewFile;
+        return $this->viewReference;
     }
 
     /**
