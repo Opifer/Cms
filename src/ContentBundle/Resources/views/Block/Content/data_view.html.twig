@@ -1,5 +1,5 @@
 <div class="card" {{ manage_tags() }}>
     <div class="card-block">
-        <span class="text-muted">{{block.dataView.displayName}} has no preview support</span>
+        <span class="text-muted"><i class="material-icons">{{block.dataView.iconType}}</i> {{ block.name|default ? block.name : block.dataView.displayName}} has no preview support</span>
     </div>
 </div>
