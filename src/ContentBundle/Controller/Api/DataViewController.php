@@ -54,7 +54,10 @@ class DataViewController extends FOSRestController
         $em->persist($dataView);
         $em->flush();
 
-        $view = $this->view(['message' => 'saved.'], 200);
+        $cacheDriver = $em->getConfiguration()->getResultCacheImpl();
+        $cacheDriver->deleteAll();
+
+        $view = $this->view(['message' => 'saved'], 200);
         return $this->handleView($view);
     }
 

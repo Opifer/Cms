@@ -18,7 +18,10 @@ use Symfony\Component\Form\Extension\Core\Type\FormType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Opifer\MediaBundle\Form\Type\MediaPickerType;
+use Opifer\ContentBundle\Form\Type\ContentPickerType;
+use Opifer\ContentBundle\Form\Type\ContentListPickerType;
 use Opifer\CmsBundle\Form\Type\CKEditorType;
 use Opifer\ContentBundle\Model\BlockInterface;
 use Doctrine\ORM\EntityManagerInterface;
@@ -65,6 +68,15 @@ class DataViewBlockService extends AbstractBlockService implements LayoutBlockSe
                         break;
                     case 'textarea':
                         $type = TextareaType::class;
+                        break;
+                    case 'contentItem':
+                        $type = ContentPickerType::class;
+                        break;
+                    case 'contentItems':
+                        $type = ContentPickerListType::class;
+                        break;
+                    case 'checkbox':
+                        $type = CheckboxType::class;
                         break;
                     case 'html':
                         $type = CKEditorType::class;
