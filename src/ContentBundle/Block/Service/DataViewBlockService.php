@@ -11,13 +11,22 @@ use Opifer\ContentBundle\Block\Service\BlockServiceInterface;
 use Opifer\ContentBundle\Block\Tool\Tool;
 use Opifer\ContentBundle\Block\Tool\ToolsetMemberInterface;
 use Symfony\Bundle\FrameworkBundle\Templating\EngineInterface;
+use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\FormEvent;
+use Symfony\Component\Form\FormEvents;
+use Symfony\Component\Form\Extension\Core\Type\FormType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
+use Symfony\Component\Form\Extension\Core\Type\NumberType;
+use Opifer\MediaBundle\Form\Type\MediaPickerType;
+use Opifer\CmsBundle\Form\Type\CKEditorType;
 use Opifer\ContentBundle\Model\BlockInterface;
 use Doctrine\ORM\EntityManagerInterface;
 
 /**
  * DataView Block Service
  */
-class DataViewBlockService extends AbstractBlockService implements BlockServiceInterface, ToolsetMemberInterface
+class DataViewBlockService extends AbstractBlockService implements LayoutBlockServiceInterface, BlockServiceInterface, ToolsetMemberInterface
 {
     /** @var EntityManagerInterface */
     protected $em;
@@ -32,6 +41,48 @@ class DataViewBlockService extends AbstractBlockService implements BlockServiceI
         
         $this->em = $em;
     }
+    /**
+     * {@inheritdoc}
+     */
+    public function buildManageForm(FormBuilderInterface $builder, array $options)
+    {
+        parent::buildManageForm($builder, $options);
+
+        $builder->addEventListener(FormEvents::PRE_SET_DATA, function (FormEvent $event) {
+            $block = $event->getData();
+            $dataView = $block->getDataView();
+            $fields = $dataView->getFields();
+
+            $form = $event->getForm();
+
+            foreach ($fields as $field) {
+                switch ($field['type']) {
+                    case 'text':
+                        $type = TextType::class;
+                        break;
+                    case 'number':
+                        $type = NumberType::class;
+                        break;
+                    case 'textarea':
+                        $type = TextareaType::class;
+                        break;
+                    case 'html':
+                        $type = CKEditorType::class;
+                        break;
+                    case 'media':
+                        $type = MediaPickerType::class;
+                        break;
+                    default:
+                        $type = TextType::class;
+                        break;
+                }
+                
+                $form->get('properties')->add($field['name'], $type, ['label' => $field['display_name']]);
+            }
+
+        });
+    }
+
 
     /**
      * {@inheritDoc}
@@ -78,5 +129,16 @@ class DataViewBlockService extends AbstractBlockService implements BlockServiceI
             ->setDescription($dataView->getDescription());
 
         return $tool;
+    }
+
+    public function getPlaceholders(BlockInterface $block = null)
+    {
+        $placeholders = $block->getDataView()->getPlaceholders();
+
+        if (empty($placeholders)) return [];
+
+        return array_map(function($value) {
+            return $value['name'];
+        }, $placeholders);
     }
 }

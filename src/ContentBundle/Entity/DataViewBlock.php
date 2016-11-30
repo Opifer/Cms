@@ -11,7 +11,7 @@ use JMS\Serializer\Annotation as JMS;
  *
  * @ORM\Entity
  */
-class DataViewBlock extends Block
+class DataViewBlock extends CompositeBlock
 {
     /**
      * @var DataView

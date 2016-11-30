@@ -53,6 +53,20 @@ class DataView
     private $description;
 
     /**
+     * @var array
+     *
+     * @ORM\Column(type="json_array", nullable=true)
+     */
+    protected $placeholders;
+
+    /**
+     * @var array
+     *
+     * @ORM\Column(type="json_array", nullable=true)
+     */
+    protected $fields;
+
+    /**
      * @var string
      *
      * @ORM\Column(name="viewCode", type="text", nullable=true)
@@ -168,6 +182,38 @@ class DataView
     public function getDescription()
     {
         return $this->description;
+    }
+
+    /**
+     * @return array
+     */
+    public function getPlaceholders()
+    {
+        return $this->placeholders;
+    }
+
+    /**
+     * @param array $placeholders
+     */
+    public function setPlaceholders($placeholders)
+    {
+        $this->placeholders = $placeholders;
+    }
+
+    /**
+     * @return array
+     */
+    public function getFields()
+    {
+        return $this->fields;
+    }
+
+    /**
+     * @param array $fields
+     */
+    public function setFields($fields)
+    {
+        $this->fields = $fields;
     }
 
     /**
