@@ -78,7 +78,7 @@ class DataView
      *
      * @ORM\Column(name="viewReference", type="boolean")
      */
-    private $viewReference;
+    private $viewReference = false;
 
     /**
      * @var \stdClass
