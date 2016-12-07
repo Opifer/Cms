@@ -6,10 +6,18 @@
 #        id: \d+
 
 # TODO: Re-organize API routes
+opifer_content_api_content_view_flat:
+    path: /api/content/flat/{id}
+    defaults: { _controller: OpiferContentBundle:Api/Content:view, structure: "flat" }
+    requirements: { id: ".+", structure: "tree|flat" }
+    methods: [GET, OPTIONS]
+    options:
+        expose: true
+
 opifer_content_api_content_view:
-    path: /api/content/{id}/{structure}
-    defaults: { _controller: OpiferContentBundle:Api/Content:view, structure: tree }
-    requirements: {structure: "tree|flat"}
+    path: /api/content/{id}
+    defaults: { _controller: OpiferContentBundle:Api/Content:view, structure: "tree" }
+    requirements: { id: ".+", structure: "tree|flat" }
     methods: [GET, OPTIONS]
     options:
         expose: true
