@@ -1,5 +1,6 @@
 
 help:
+    form_section_value: The form to which the fields should be mapped to. For multi-section forms define the same name on each section
     formula: Calculates the value of this field with an spreadsheet like formula
     display_logic: Add conditional logic to this block when it should be displayed. Default becomes hidden when logic is present.
     display_default_show: Check if you want to show this block by default when display logic applies.
@@ -11,6 +12,7 @@ help:
 label:
     display_logic: Display Logic
     display_default_show: Show Default
+    form_section_value: Form
     formula: Formula
     from: From
     required: Required

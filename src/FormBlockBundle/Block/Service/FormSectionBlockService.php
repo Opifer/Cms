@@ -57,7 +57,13 @@ class FormSectionBlockService extends AbstractBlockService implements BlockServi
         $builder->add(
             $builder->create('default', FormType::class, ['inherit_data' => true])
                 ->add('name', TextType::class, ['label' => 'label.name', 'attr' => ['help_text' => 'help.block_name']])
-                // ->add('title', TextType::class, ['label' => 'label.title', 'attr' => ['help_text' => 'help.title']])
+                ->add('value', TextType::class, [
+                    'required' => true,
+                    'label' => 'label.form_section_value',
+                    'attr' => [
+                        'help_text' => 'help.form_section_value',
+                    ],
+                ])
         )->add(
             $propertiesForm
         );
