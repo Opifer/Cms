@@ -44,6 +44,16 @@ class RichCheckItemBlockService extends FormFieldBlockService implements BlockSe
                 'required'    => false,
             ]);
         }
+
+        $builder->get('properties')
+            ->add('long_description', CKEditorType::class, [
+                'label' => 'label.long_description',
+                'attr' => [
+                    'label_col' => 12,
+                    'widget_col' => 12
+                ]
+            ])
+        ;
     }
 
     /**
