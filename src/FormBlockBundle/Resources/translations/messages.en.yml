@@ -6,11 +6,13 @@ help:
     range_from: The minimum value or start value of the range
     range_to: The maximum value or end value of the range
     range_step_size: Each tick of the slider increases the value with this size. For example 0.5 as step size results in values increasing like 1.5, 2.0, 2.5.
+    required: Defines if a user is required to fill in this form field
 
 label:
-    from: From
-    to: To
-    step_size: Step size
-    formula: Formula
     display_logic: Display Logic
     display_default_show: Show Default
+    formula: Formula
+    from: From
+    required: Required
+    step_size: Step size
+    to: To

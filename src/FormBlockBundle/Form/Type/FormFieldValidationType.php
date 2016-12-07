@@ -19,10 +19,8 @@ class FormFieldValidationType extends AbstractType
         $builder
             ->add('type', ChoiceType::class, [
                 'choices' => [
-                    'Required' => 'required',
                     'Greater than / Equals' => 'gte',
                     'Lower than / Equals' => 'lte',
-                    'Regex' => 'regex',
                 ],
                 'choices_as_values' => true
             ])
@@ -37,9 +35,6 @@ class FormFieldValidationType extends AbstractType
             function($submitted) {
                 if ($submitted) {
                     switch ($submitted['type']) {
-                        case 'required':
-                            $submitted['value'] = ($submitted['value'] === 'true') ? true : false;
-                            break;
                         case 'gte':
                         case 'lte':
                             $submitted['value'] = (int) $submitted['value'];

@@ -11,6 +11,7 @@ use Opifer\ContentBundle\Block\Service\BlockServiceInterface;
 use Opifer\ContentBundle\Block\Tool\ToolsetMemberInterface;
 use Opifer\ContentBundle\Model\BlockInterface;
 use Opifer\FormBundle\Model\FormManager;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -50,6 +51,17 @@ abstract class FormFieldBlockService extends AbstractBlockService implements Blo
             ->add('helpText', TextareaType::class, [
                 'required' => false,
             ])
+            ->add('required', ChoiceType::class, [
+                'label' => 'label.required',
+                'choices' => [
+                    'Not required' => false,
+                    'Required' => true,
+                ],
+                'choices_as_values' => true,
+                'attr' => [
+                    'help_text' => 'help.required',
+                ],
+            ])
             ->add('validation', BootstrapCollectionType::class, [
                 'required' => false,
                 'allow_add' => true,
@@ -60,7 +72,7 @@ abstract class FormFieldBlockService extends AbstractBlockService implements Blo
                 'required' => false,
                 'label' => 'label.formula',
                 'attr' => [
-                    'help_text' => 'help_text.formula',
+                    'help_text' => 'help.formula',
                 ],
             ])
             ->add('help_modal', BlockPickerType::class, [
