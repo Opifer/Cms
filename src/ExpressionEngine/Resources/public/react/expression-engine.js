@@ -113,7 +113,7 @@ var ExpressionBuilder = React.createClass({
             prototypes: this.props.prototypes
         };
     },
-    updateExpressions(expressions) {
+    updateExpressions: function(expressions) {
         this.setState({expressions: expressions});
         if (typeof(this.props.changeChildren) != 'undefined') {
             this.props.changeChildren(expressions);

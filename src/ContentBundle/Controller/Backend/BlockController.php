@@ -2,12 +2,7 @@
 
 namespace Opifer\ContentBundle\Controller\Backend;
 
-use Doctrine\Common\Collections\ArrayCollection;
-use Opifer\ContentBundle\Form\Type\ContentTypeType;
-use Opifer\ContentBundle\Model\ContentTypeInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\HttpFoundation\RedirectResponse;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 class BlockController extends Controller

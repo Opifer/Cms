@@ -23,6 +23,7 @@
                                 <td>{{ post.submittedAt|date('d-m-Y') }}</td>
                                 <td>
                                     <a href="{{ path('opifer_form_post_view', {'id': post.id}) }}"><i class="fa fa-eye"></i> View</a>
+                                    <a href="{{ path('opifer_form_post_notification', {'id': post.id}) }}"><i class="fa fa-eye"></i> Re-send</a>
                                     <a href="{{ path('opifer_form_post_delete', {'id': post.id}) }}"><i class="fa fa-remove"></i> Delete</a>
                                 </td>
                             </tr>
