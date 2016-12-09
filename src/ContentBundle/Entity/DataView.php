@@ -99,8 +99,7 @@ class DataView
      *
      * @ORM\Column(name="active", type="boolean")
      */
-    private $active;
-
+    private $active = false;
 
     /**
      * Get id
