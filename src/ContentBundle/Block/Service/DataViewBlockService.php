@@ -3,18 +3,13 @@
 namespace Opifer\ContentBundle\Block\Service;
 
 use Opifer\ContentBundle\Block\BlockRenderer;
-use Opifer\ContentBundle\Model\Content;
 use Opifer\ContentBundle\Model\ContentManagerInterface;
 use Opifer\ContentBundle\Entity\DataViewBlock;
-use Opifer\ContentBundle\Block\Service\AbstractBlockService;
-use Opifer\ContentBundle\Block\Service\BlockServiceInterface;
 use Opifer\ContentBundle\Block\Tool\Tool;
 use Opifer\ContentBundle\Block\Tool\ToolsetMemberInterface;
-use Symfony\Bundle\FrameworkBundle\Templating\EngineInterface;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
-use Symfony\Component\Form\Extension\Core\Type\FormType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
@@ -27,7 +22,7 @@ use Opifer\ContentBundle\Model\BlockInterface;
 use Doctrine\ORM\EntityManagerInterface;
 
 /**
- * DataView Block Service
+ * DataView Block Service.
  */
 class DataViewBlockService extends AbstractBlockService implements LayoutBlockServiceInterface, BlockServiceInterface, ToolsetMemberInterface
 {
@@ -35,13 +30,13 @@ class DataViewBlockService extends AbstractBlockService implements LayoutBlockSe
     protected $em;
 
     /**
-     * @param BlockRenderer $blockRenderer
+     * @param BlockRenderer           $blockRenderer
      * @param ContentManagerInterface $contentManager
      */
     public function __construct(BlockRenderer $blockRenderer, EntityManagerInterface $em, array $config)
     {
         parent::__construct($blockRenderer, $config);
-        
+
         $this->em = $em;
     }
     /**
@@ -57,8 +52,10 @@ class DataViewBlockService extends AbstractBlockService implements LayoutBlockSe
             $fields = $dataView->getFields();
 
             $form = $event->getForm();
-
             foreach ($fields as $field) {
+                $options = [
+                    'label' => $field['display_name'],
+                ];
                 switch ($field['type']) {
                     case 'text':
                         $type = TextType::class;
@@ -73,7 +70,7 @@ class DataViewBlockService extends AbstractBlockService implements LayoutBlockSe
                         $type = ContentPickerType::class;
                         break;
                     case 'contentItems':
-                        $type = ContentPickerListType::class;
+                        $type = ContentListPickerType::class;
                         break;
                     case 'checkbox':
                         $type = CheckboxType::class;
@@ -83,21 +80,23 @@ class DataViewBlockService extends AbstractBlockService implements LayoutBlockSe
                         break;
                     case 'media':
                         $type = MediaPickerType::class;
+                        $options['to_json'] = true;
+                        $options['multiple'] = false;
+                        $options['required'] = false;
                         break;
                     default:
                         $type = TextType::class;
                         break;
                 }
-                
-                $form->get('properties')->add($field['name'], $type, ['label' => $field['display_name']]);
+
+                $form->get('properties')->add($field['name'], $type, $options);
             }
 
         });
     }
 
-
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function createBlock($args)
     {
@@ -110,7 +109,7 @@ class DataViewBlockService extends AbstractBlockService implements LayoutBlockSe
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getTool(BlockInterface $block = null)
     {
@@ -147,9 +146,11 @@ class DataViewBlockService extends AbstractBlockService implements LayoutBlockSe
     {
         $placeholders = $block->getDataView()->getPlaceholders();
 
-        if (empty($placeholders)) return [];
+        if (empty($placeholders)) {
+            return [];
+        }
 
-        return array_map(function($value) {
+        return array_map(function ($value) {
             return $value['name'];
         }, $placeholders);
     }
