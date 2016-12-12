@@ -132,6 +132,7 @@ class ContentController extends Controller
             'description' => $content->getDescription(),
             'slug' => $content->getSlug(),
             'blocks' => $blocks,
+            'attributes' => $content->getPivotedAttributes(),
         ];
 
         $json = $this->get('jms_serializer')->serialize($contentItem, 'json', $context);
