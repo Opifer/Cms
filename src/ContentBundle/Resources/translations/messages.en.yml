@@ -15,6 +15,7 @@ button:
 help:
     active: Status of publication of the content item where inactive means the content is not public accessible
     alias: Enter a shortened url as alias for this page (optional)
+    block_display_name: The human readable reference name of this block
     block_name: Reference name to this block. Only for application purposes.
     block_template: Pick a template to change how this block is displayed
     column_spans: Width of columns at a maximum of 16 units
@@ -53,6 +54,7 @@ label:
     container_fixed: Fixed width (fixed)
     custom: Custom
     description: Description
+    display_name: Display Name
     footer: Footer
     gutter.xs: Gutter xs
     gutter.sm: Gutter sm

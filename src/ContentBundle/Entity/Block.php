@@ -59,6 +59,16 @@ abstract class Block implements BlockInterface, DraftInterface
     protected $name;
 
     /**
+     * @var string
+     *
+     * @JMS\Expose
+     * @JMS\Groups({"tree", "details"})
+     * @Revisions\Revised
+     * @ORM\Column(name="display_name", type="string", nullable=true)
+     */
+    protected $displayName;
+
+    /**
      * @var BlockInterface
      *
      * @ORM\ManyToOne(targetEntity="Opifer\ContentBundle\Model\ContentInterface", inversedBy="blocks")
@@ -390,7 +400,6 @@ abstract class Block implements BlockInterface, DraftInterface
 
     /**
      * @param string $key
-     * @return null
      */
     public function getProperty($key)
     {
@@ -490,6 +499,31 @@ abstract class Block implements BlockInterface, DraftInterface
     public function setName($name)
     {
         $this->name = $name;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getDisplayName()
+    {
+        if (!$this->displayName) {
+            return ucfirst(str_replace('_', ' ', $this->name));
+        }
+
+        return $this->displayName;
+    }
+
+    /**
+     * @param string $displayName
+     *
+     * @return Block
+     */
+    public function setDisplayName($displayName)
+    {
+        $this->displayName = $displayName;
+
         return $this;
     }
 
