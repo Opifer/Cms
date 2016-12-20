@@ -79,7 +79,7 @@ class MediaPickerType extends AbstractType
             } else {
                 $builder->addModelTransformer(new CallbackTransformer(
                     function ($original) {
-                        if (null === $original) {
+                        if (null === $original || empty($original)) {
                             return null;
                         }
 

@@ -2,6 +2,7 @@
 
 namespace Opifer\ContentBundle\Block\Service;
 
+use Opifer\CmsBundle\Entity\Media;
 use Opifer\ContentBundle\Block\BlockRenderer;
 use Opifer\ContentBundle\Model\ContentManagerInterface;
 use Opifer\ContentBundle\Entity\DataViewBlock;
@@ -92,6 +93,24 @@ class DataViewBlockService extends AbstractBlockService implements LayoutBlockSe
                 $form->get('properties')->add($field['name'], $type, $options);
             }
 
+        });
+
+        // Manually map the media items from the properties to the `medias` property, to store medias as an association
+        $builder->addEventListener(FormEvents::SUBMIT, function (FormEvent $event) {
+            $block = $event->getData();
+            $properties = $block->getProperties();
+            $fields = $block->getDataView()->getFields();
+
+            $ids = [];
+            foreach ($fields as $field) {
+                if ($field['type'] == 'media') {
+                    $ids[] = $properties[$field['name']];
+                }
+            }
+
+            // TODO: Get repository from MediaManager
+            $medias = $this->em->getRepository(Media::class)->findByIds($ids);
+            $block->setMedias($medias);
         });
     }
 
