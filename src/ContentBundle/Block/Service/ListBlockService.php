@@ -80,7 +80,8 @@ class ListBlockService extends AbstractBlockService implements BlockServiceInter
             ]);
         }
         
-        $propertiesForm->add('displayType', ChoiceType::class, [
+        $propertiesForm
+            ->add('displayType', ChoiceType::class, [
                 'label' => 'label.list_display_type',
                 'choices'  => [
                     'list' => 'List',

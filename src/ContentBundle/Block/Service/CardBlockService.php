@@ -25,33 +25,58 @@ class CardBlockService extends AbstractBlockService implements BlockServiceInter
     {
         parent::buildManageForm($builder, $options);
 
-        $builder->add(
-            $builder->create('default', FormType::Class, ['inherit_data' => true])
-                ->add('header', CKEditorType::class, ['label' => 'label.header', 'attr' => ['label_col' => 12, 'widget_col' => 12]])
-                ->add('value', CKEditorType::class, ['label' => 'label.body', 'attr' => ['label_col' => 12, 'widget_col' => 12]])
-                ->add('media', MediaPickerType::class, [
-                    'required'  => false,
-                    'multiple' => false,
-                    'attr' => array('label_col' => 12, 'widget_col' => 12),
-                ])
-                ->add('name', TextType::class, ['attr' => ['help_text' => 'help.block_name']])
-        );
+        $builder->get('default')
+            ->add('header', CKEditorType::class, ['label' => 'label.header', 'attr' => ['label_col' => 12, 'widget_col' => 12]])
+            ->add('value', CKEditorType::class, ['label' => 'label.body', 'attr' => ['label_col' => 12, 'widget_col' => 12]])
+            ->add('media', MediaPickerType::class, [
+                'required'  => false,
+                'multiple' => false,
+                'attr' => array('label_col' => 12, 'widget_col' => 12),
+            ])
+        ;
 
-        $propertiesForm = $builder->create('properties', FormType::Class)
+        $builder->get('properties')
             ->add('id', TextType::class, ['attr' => ['help_text' => 'help.html_id']])
-            ->add('extra_classes', TextType::class, ['attr' => ['help_text' => 'help.extra_classes']]);
-
-
-        $propertiesForm->add('styles', ChoiceType::class, [
+            ->add('extra_classes', TextType::class, ['attr' => ['help_text' => 'help.extra_classes']])
+            ->add('styles', ChoiceType::class, [
                 'label' => 'label.styling',
                 'choices'  => $this->config['styles'],
                 'required' => false,
                 'expanded' => true,
                 'multiple' => true,
                 'attr' => ['help_text' => 'help.html_styles'],
-            ]);
-
-        $builder->add($propertiesForm);
+            ])
+            ->add('displaySize', ChoiceType::class, [
+                'label' => 'label.list_display_size',
+                'choices'  => [
+                    null => 'Default',
+                    'sm' => 'Small',
+                    'md' => 'Medium',
+                    'lg' => 'Large',
+                ],
+                'required' => true,
+                'expanded' => false,
+                'multiple' => false,
+                'attr' => ['help_text' => 'help.list_display_size'],
+            ])
+            ->add('imageRatio', ChoiceType::class, [
+                'label' => 'label.list_image_ratio',
+                'choices'  => [
+                    null => 'No image',
+                    '11' => '1:1',
+                    '43' => '4:3',
+                    '34' => '3:4 (portrait)',
+                    '32' => '3:2',
+                    '23' => '2:3 (portrait)',
+                    '169'=> '16:9',
+                    '916'=> '9:16 (portrait)',
+                ],
+                'required' => true,
+                'expanded' => false,
+                'multiple' => false,
+                'attr' => ['help_text' => 'help.list_image_ratio']
+            ])
+        ;
     }
 
     /**
