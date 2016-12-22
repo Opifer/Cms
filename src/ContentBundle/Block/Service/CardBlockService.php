@@ -70,6 +70,7 @@ class CardBlockService extends AbstractBlockService implements BlockServiceInter
                     '23' => '2:3 (portrait)',
                     '169'=> '16:9',
                     '916'=> '9:16 (portrait)',
+                    'bg' => 'Background cover',
                 ],
                 'required' => true,
                 'expanded' => false,
