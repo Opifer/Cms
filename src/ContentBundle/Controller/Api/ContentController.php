@@ -2,8 +2,11 @@
 
 namespace Opifer\ContentBundle\Controller\Api;
 
+use FOS\RestBundle\Controller\Annotations\QueryParam;
+use FOS\RestBundle\Request\ParamFetcher;
 use JMS\Serializer\SerializationContext;
 use JMS\Serializer\SerializerBuilder;
+use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Opifer\ContentBundle\Block\BlockManager;
 use Opifer\ContentBundle\Environment\Environment;
 use Opifer\ContentBundle\Model\ContentInterface;
@@ -18,6 +21,26 @@ use Symfony\Component\HttpFoundation\Response;
 
 class ContentController extends Controller
 {
+    /**
+     * @ApiDoc()
+     *
+     * @QueryParam(map=true, name="ids", requirements="\d+", description="The list of ids")
+     *
+     * TODO: Extend with more filters
+     *
+     * @return ContentInterface[]
+     */
+    public function getContentsAction(ParamFetcher $paramFetcher)
+    {
+        $ids = $paramFetcher->get('ids');
+
+        $items = $this->get('opifer.content.content_manager')
+            ->getRepository()
+            ->findOrderedByIds($ids);
+
+        return $items;
+    }
+
     /**
      * Index
      *

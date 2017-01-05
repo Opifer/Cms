@@ -21,3 +21,8 @@ opifer_content_api_content_view:
     methods: [GET, OPTIONS]
     options:
         expose: true
+
+opifer_content_api_content:
+    resource: "Opifer\ContentBundle\Controller\Api\ContentController"
+    type:     rest
+    prefix: /api
