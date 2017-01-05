@@ -285,6 +285,7 @@ opifer_review:
 nelmio_cors:
     paths:
         '^/(admin/api|api|accept-cookies)':
+            allow_credentials: true
             origin_regex: true
             allow_origin: ['^http://localhost:[0-9]+', '^http://127.0.0.1:[0-9]+', '^http://[a-z0-9-]+.dev:[0-9]+']
             allow_headers: ['origin', 'x-custom-auth', 'authorization', 'content-type', 'accept', 'x-requested-with']
