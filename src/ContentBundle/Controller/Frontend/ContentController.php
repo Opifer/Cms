@@ -44,6 +44,8 @@ class ContentController extends Controller
         $date = $contentDate > $templateDate ? $contentDate : $templateDate;
 
         $response = new Response();
+        // Force the Content-Type to be text/html to avoid caching with incorrect Content-Type.
+        $response->headers->set('Content-Type', 'text/html; charset=UTF-8');
         $response->setLastModified($date);
         $response->setPublic();
 

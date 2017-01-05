@@ -303,7 +303,9 @@ fos_rest:
         validation_errors_argument: validationErrors # This is the default value
     format_listener:
         rules:
-            - { path: '^/', priorities: ['json', 'html'], fallback_format: json, prefer_extension: false }
+            - { path: '^/admin/api', priorities: ['json', 'html'], fallback_format: json, prefer_extension: false }
+            - { path: '^/api', priorities: ['json', 'html'], fallback_format: json, prefer_extension: false }
+            - { path: '^/', stop: true }
     param_fetcher_listener: true
     view:
         view_response_listener: 'force'
