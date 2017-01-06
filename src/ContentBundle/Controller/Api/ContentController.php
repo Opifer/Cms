@@ -7,6 +7,7 @@ use FOS\RestBundle\Request\ParamFetcher;
 use JMS\Serializer\SerializationContext;
 use JMS\Serializer\SerializerBuilder;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
+use Opifer\CmsBundle\Entity\Content;
 use Opifer\ContentBundle\Block\BlockManager;
 use Opifer\ContentBundle\Environment\Environment;
 use Opifer\ContentBundle\Model\ContentInterface;
@@ -23,22 +24,42 @@ class ContentController extends Controller
 {
     /**
      * @ApiDoc()
-     *
      * @QueryParam(map=true, name="ids", requirements="\d+", description="The list of ids")
      *
      * TODO: Extend with more filters
      *
      * @return ContentInterface[]
      */
-    public function getContentsAction(ParamFetcher $paramFetcher)
+    public function getContentsAction(Request $request, ParamFetcher $paramFetcher)
     {
         $ids = $paramFetcher->get('ids');
 
+        /** @var Content[] $items */
         $items = $this->get('opifer.content.content_manager')
             ->getRepository()
             ->findOrderedByIds($ids);
 
-        return $items;
+        $lastUpdatedAt = null;
+        foreach ($items as $item) {
+            if ($item->getUpdatedAt() > $lastUpdatedAt) {
+                $lastUpdatedAt = $item->getUpdatedAt();
+            }
+        }
+
+        $response = new JsonResponse();
+        $response->setLastModified($lastUpdatedAt);
+        $response->setPublic();
+
+        if ($response->isNotModified($request)) {
+            return $response;
+        }
+
+        $context = SerializationContext::create()->setGroups(['Default', 'detail'])->enableMaxDepthChecks();
+        $json = $this->get('jms_serializer')->serialize($items, 'json', $context);
+
+        $response->setData(json_decode($json, true));
+
+        return $response;
     }
 
     /**
