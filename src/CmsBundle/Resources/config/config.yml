@@ -179,6 +179,7 @@ opifer_media:
             secret: '%amazon_s3_secret%'
             region: '%amazon_s3_region%'
             bucket: '%amazon_s3_bucket%'
+    cache_provider: 'Doctrine\Common\Cache\ApcuCache'
 
 liip_imagine:
     filter_sets:

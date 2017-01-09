@@ -30,7 +30,11 @@ services:
     # Serializer
     opifer.media.handler.serialization:
         class: '%opifer.media.handler.serialization.class%'
-        arguments: ['@liip_imagine.cache.manager', '@liip_imagine.filter.configuration', '@opifer.media.provider.pool']
+        arguments:
+            - '@liip_imagine.cache.manager'
+            - '@liip_imagine.filter.configuration'
+            - '@opifer.media.provider.pool'
+            - '@opifer.media.cache_provider'
         tags:
             - { name: jms_serializer.event_subscriber }
 
