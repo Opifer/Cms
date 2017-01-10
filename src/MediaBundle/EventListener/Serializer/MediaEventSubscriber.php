@@ -96,7 +96,8 @@ class MediaEventSubscriber implements EventSubscriberInterface
      */
     public function getImages(MediaInterface $media)
     {
-        if (!$images = $this->cache->fetch($media->getImagesCacheKey())) {
+        $key = $media->getImagesCacheKey();
+        if (!$images = $this->cache->fetch($key)) {
             $provider = $this->getProvider($media);
 
             $reference = $provider->getThumb($media);
@@ -111,6 +112,8 @@ class MediaEventSubscriber implements EventSubscriberInterface
                     $images[$filter] = $this->cacheManager->getBrowserPath($reference, $filter);
                 }
             }
+
+            $this->cache->save($key, $images, 0);
         }
 
         return $images;
