@@ -5,11 +5,23 @@ services:
         tags:
             - { name: 'opifer.content.block_service', alias: 'choice_field' }
 
+    opifer.formblock.date_field_block:
+        class: 'Opifer\FormBlockBundle\Block\Service\DateFieldBlockService'
+        arguments: ['@opifer.content.block_renderer', '@opifer.form.form_manager', '%opifer_formblock.date_field_block_configuration%']
+        tags:
+            - { name: 'opifer.content.block_service', alias: 'date_field' }
+
     opifer.formblock.email_field_block:
         class: 'Opifer\FormBlockBundle\Block\Service\EmailFieldBlockService'
         arguments: ['@opifer.content.block_renderer', '@opifer.form.form_manager', '%opifer_formblock.text_field_block_configuration%']
         tags:
             - { name: 'opifer.content.block_service', alias: 'email_field' }
+
+    opifer.formblock.file_field_block:
+        class: 'Opifer\FormBlockBundle\Block\Service\FileFieldBlockService'
+        arguments: ['@opifer.content.block_renderer', '@opifer.form.form_manager', '%opifer_formblock.file_field_block_configuration%']
+        tags:
+            - { name: 'opifer.content.block_service', alias: 'file_field' }
 
     opifer.formblock.form_block:
         class: 'Opifer\FormBlockBundle\Block\Service\FormBlockService'
@@ -58,9 +70,3 @@ services:
         arguments: ['@opifer.content.block_renderer', '@opifer.form.form_manager', '%opifer_formblock.text_field_block_configuration%']
         tags:
             - { name: 'opifer.content.block_service', alias: 'text_field' }
-
-    opifer.formblock.date_field_block:
-        class: 'Opifer\FormBlockBundle\Block\Service\DateFieldBlockService'
-        arguments: ['@opifer.content.block_renderer', '@opifer.form.form_manager', '%opifer_formblock.date_field_block_configuration%']
-        tags:
-            - { name: 'opifer.content.block_service', alias: 'date_field' }
