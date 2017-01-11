@@ -347,6 +347,15 @@ class Configuration implements ConfigurationInterface
                                     ->useAttributeAsKey('name')
                                     ->defaultValue([])
                                 ->end()
+                                ->arrayNode('display_types')
+                                    ->prototype('scalar')->end()
+                                    ->normalizeKeys(false)
+                                    ->defaultValue([
+                                        'list' => 'List',
+                                        'cards' => 'Cards',
+                                        'table' => 'Table',
+                                    ])
+                                ->end()
                             ->end()
                         ->end()
                         ->arrayNode('modal')

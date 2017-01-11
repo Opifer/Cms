@@ -83,11 +83,7 @@ class ListBlockService extends AbstractBlockService implements BlockServiceInter
         $propertiesForm
             ->add('displayType', ChoiceType::class, [
                 'label' => 'label.list_display_type',
-                'choices' => [
-                    'list' => 'List',
-                    'cards' => 'Cards',
-                    'table' => 'Table',
-                ],
+                'choices' => $this->config['display_types'],
                 'required' => true,
                 'expanded' => false,
                 'multiple' => false,
