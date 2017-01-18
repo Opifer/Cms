@@ -3,6 +3,7 @@
 namespace Opifer\ContentBundle\Controller\Frontend;
 
 use Opifer\ContentBundle\Block\BlockManager;
+use Opifer\ContentBundle\Environment\Environment;
 use Opifer\ContentBundle\Model\BlockInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
@@ -35,9 +36,16 @@ class BlockController extends Controller
 
         $response = new Response();
 
+        /** @var Environment $environment */
+        $environment = $this->get('opifer.content.block_environment');
+        $environment->setObject($block->getOwner());
+
         $service = $manager->getService($block);
 
-        $response = $service->execute($block, $response, ['partial' => true]);
+        $response = $service->execute($block, $response, [
+            'partial' => true,
+            'environment' => $environment
+        ]);
 
         return $response;
     }

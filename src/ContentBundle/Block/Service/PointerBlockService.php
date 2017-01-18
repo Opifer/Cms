@@ -24,6 +24,13 @@ class PointerBlockService extends AbstractBlockService implements BlockServiceIn
     protected $blockManager;
 
     /**
+     * Make sure ESI is always enabled on PointerBlock's to avoid having to publish each content item
+     *
+     * @var bool
+     */
+    protected $esiEnabled = true;
+
+    /**
      * @param BlockRenderer $blockRenderer
      * @param BlockManager  $blockManager
      * @param array         $config
@@ -93,25 +100,20 @@ class PointerBlockService extends AbstractBlockService implements BlockServiceIn
      */
     public function buildManageForm(FormBuilderInterface $builder, array $options)
     {
-        // Default panel
-        $builder->add(
-            $builder->create('default', FormType::class, ['inherit_data' => true])
-                ->add('reference', EntityType::class, [
-                    'required' => false,
-                    'label' => 'label.block',
-                    'class' => 'OpiferContentBundle:Block',
-                    'property' => 'sharedDisplayName', // Assuming that the entity has a "name" property
-                    'query_builder' => function (EntityRepository $blockRepository) {
-                        return $blockRepository->createQueryBuilder('b')
-                            ->add('orderBy', 'b.sharedDisplayName ASC')
-                            ->andWhere('b.shared = :shared')
-                            ->andWhere('b.content IS NULL')
-                            ->andWhere('b.template IS NULL')
-                            ->setParameter('shared', true)
-                        ;
-                    },
-                ])
-        );
+        $builder->get('default')->add('reference', EntityType::class, [
+            'required' => false,
+            'label' => 'label.block',
+            'class' => 'OpiferContentBundle:Block',
+            'property' => 'sharedDisplayName', // Assuming that the entity has a "name" property
+            'query_builder' => function (EntityRepository $blockRepository) {
+                return $blockRepository->createQueryBuilder('b')
+                    ->add('orderBy', 'b.sharedDisplayName ASC')
+                    ->andWhere('b.shared = :shared')
+                    ->andWhere('b.content IS NULL')
+                    ->andWhere('b.template IS NULL')
+                    ->setParameter('shared', true);
+            },
+        ]);
     }
 
     /**
@@ -155,21 +157,12 @@ class PointerBlockService extends AbstractBlockService implements BlockServiceIn
     protected function setResponseHeaders(BlockInterface $block, Response $response)
     {
         if ($block && $block->getReference()) {
-            $this->getReferenceService($block)->setResponseHeaders($block->getReference(), $response);
+            if ($this->getReferenceService($block)->isEsiEnabled($block->getReference())) {
+                $this->getReferenceService($block)->setResponseHeaders($block->getReference(), $response);
+            } else {
+                $response->setLastModified($block->getReference()->getUpdatedAt());
+                $response->setPublic();
+            }
         }
-    }
-
-    /**
-     * Returns if ESI is enabled on the reference service.
-     *
-     * {@inheritdoc}
-     */
-    public function isEsiEnabled(BlockInterface $block)
-    {
-        if (!$block || !$block->getReference()) {
-            return $this->esiEnabled;
-        }
-
-        return $this->getReferenceService($block)->isEsiEnabled($block->getReference());
     }
 }
