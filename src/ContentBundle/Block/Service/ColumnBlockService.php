@@ -14,17 +14,14 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
- * Class ColumnBlockService
- *
- * @package Opifer\ContentBundle\Block
+ * Class ColumnBlockService.
  */
 class ColumnBlockService extends AbstractBlockService implements LayoutBlockServiceInterface, BlockServiceInterface, ToolsetMemberInterface
 {
-    /** @var integer */
+    /** @var int */
     protected $columnCount = 1;
 
     public function getViewParameters(BlockInterface $block)
@@ -60,9 +57,9 @@ class ColumnBlockService extends AbstractBlockService implements LayoutBlockServ
 
             // @todo: Replace with a nice getDefaultOptions method
             $properties = $block->getProperties();
-            if (!count($properties) ) {
+            if (!count($properties)) {
                 $properties['styles'] = [];
-                $cols = array_merge([array_fill(0, $block->getColumnCount(), 12/$block->getColumnCount())], array_fill(0, 4, array_fill(0, $block->getColumnCount(), null)));
+                $cols = array_merge([array_fill(0, $block->getColumnCount(), 12 / $block->getColumnCount())], array_fill(0, 4, array_fill(0, $block->getColumnCount(), null)));
                 $keys = ['xs', 'sm', 'md', 'lg', 'xl'];
                 $properties['spans'] = array_combine($keys, $cols);
                 $properties['offsets'] = array_combine($keys, array_fill(0, 5, array_fill(0, $block->getColumnCount(), null)));
@@ -82,29 +79,41 @@ class ColumnBlockService extends AbstractBlockService implements LayoutBlockServ
 
             $form->get('properties')->add('styles', ChoiceType::class, [
                 'label' => 'label.styling',
-                'choices'  => $this->config['styles'],
+                'choices' => $this->config['styles'],
                 'required' => false,
                 'expanded' => true,
                 'multiple' => true,
                 'attr' => ['help_text' => 'help.html_styles'],
             ]);
 
-            $form->get('properties')->add('spans', SpanCollectionType::class, ['column_count' => $block->getColumnCount(), 'label' => 'label.spans', 'attr' => ['help_text' => 'help.column_spans']]);
-            $form->get('properties')->add('offsets', SpanCollectionType::class, ['column_count' => $block->getColumnCount(), 'label' => 'label.offsets', 'attr' => ['help_text' => 'help.column_offsets']]);
-            $form->get('properties')->add('gutters', GutterCollectionType::class, ['column_count' => $block->getColumnCount(), 'label' => 'label.gutters', 'attr' => ['help_text' => 'help.column_gutters']]);
+            $form->get('properties')->add('spans', SpanCollectionType::class, [
+                'column_count' => $block->getColumnCount(),
+                'label' => 'label.spans',
+                'attr' => ['help_text' => 'help.column_spans'],
+            ]);
+            $form->get('properties')->add('offsets', SpanCollectionType::class, [
+                'column_count' => $block->getColumnCount(),
+                'label' => 'label.offsets',
+                'attr' => ['help_text' => 'help.column_offsets'],
+            ]);
+            $form->get('properties')->add('gutters', GutterCollectionType::class, [
+                'column_count' => $block->getColumnCount(),
+                'label' => 'label.gutters',
+                'attr' => ['help_text' => 'help.column_gutters'],
+            ]);
 
         });
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function configureManageOptions(OptionsResolver $resolver)
     {
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getManageFormTypeName()
     {
@@ -112,7 +121,7 @@ class ColumnBlockService extends AbstractBlockService implements LayoutBlockServ
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function createBlock($args)
     {
@@ -130,7 +139,7 @@ class ColumnBlockService extends AbstractBlockService implements LayoutBlockServ
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getTool(BlockInterface $block = null)
     {
@@ -146,13 +155,13 @@ class ColumnBlockService extends AbstractBlockService implements LayoutBlockServ
         $tool->setData(['columnCount' => $this->columnCount])
             ->setGroup(Tool::GROUP_LAYOUT)
             ->setIcon('view_column')
-            ->setDescription('Inserts ' . $this->columnCount . ' columns equal in width');
+            ->setDescription('Inserts '.$this->columnCount.' columns equal in width');
 
         return $tool;
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getName(BlockInterface $block = null)
     {
@@ -197,7 +206,7 @@ class ColumnBlockService extends AbstractBlockService implements LayoutBlockServ
                 }
             } else {
                 $columnCount = $block->getColumnCount();
-                $spanStyles = array_fill_keys(range(0, $columnCount), 'col-xs-'. (12/$columnCount));
+                $spanStyles = array_fill_keys(range(0, $columnCount), 'col-xs-'.(12 / $columnCount));
             }
         }
 
@@ -247,7 +256,7 @@ class ColumnBlockService extends AbstractBlockService implements LayoutBlockServ
                         if ($span === null) {
                             continue;
                         }
-                        $gutterStyles[$col][] = "px-$span";
+                        $gutterStyles[$col][] = "px-$screen-$span";
                     }
                 }
             }
@@ -260,8 +269,8 @@ class ColumnBlockService extends AbstractBlockService implements LayoutBlockServ
     {
         $placeholders = [];
 
-        for($i=0;$i<$block->getColumnCount();$i++) {
-            $placeholders[$i] = sprintf('Column %d', $i+1);
+        for ($i = 0;$i < $block->getColumnCount();++$i) {
+            $placeholders[$i] = sprintf('Column %d', $i + 1);
         }
 
         return $placeholders;
