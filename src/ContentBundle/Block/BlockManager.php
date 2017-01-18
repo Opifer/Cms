@@ -204,17 +204,23 @@ class BlockManager
         return $blocks;
     }
 
-    public function findDescendants(CompositeBlock $parent, $draft = true)
+    /**
+     * Finds the block and all its children recursively
+     *
+     * @param BlockInterface $parent
+     * @param bool $draft
+     * @return BlockInterface[]
+     */
+    public function findDescendants($parent, $draft = true)
     {
         $this->setDraftVersionFilter(! $draft);
-
-        $blocks = [];
-
+        
         $iterator = new \RecursiveIteratorIterator(
             new RecursiveBlockIterator([$parent]),
             \RecursiveIteratorIterator::SELF_FIRST
         );
 
+        $blocks = [];
         foreach ($iterator as $descendant) {
             $blocks[] = $descendant;
         }
