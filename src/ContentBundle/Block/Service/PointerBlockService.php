@@ -100,20 +100,22 @@ class PointerBlockService extends AbstractBlockService implements BlockServiceIn
      */
     public function buildManageForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->get('default')->add('reference', EntityType::class, [
-            'required' => false,
-            'label' => 'label.block',
-            'class' => 'OpiferContentBundle:Block',
-            'property' => 'sharedDisplayName', // Assuming that the entity has a "name" property
-            'query_builder' => function (EntityRepository $blockRepository) {
-                return $blockRepository->createQueryBuilder('b')
-                    ->add('orderBy', 'b.sharedDisplayName ASC')
-                    ->andWhere('b.shared = :shared')
-                    ->andWhere('b.content IS NULL')
-                    ->andWhere('b.template IS NULL')
-                    ->setParameter('shared', true);
-            },
-        ]);
+        $builder->add($builder->create('default', FormType::class, ['inherit_data' => true])
+            ->add('reference', EntityType::class, [
+                'required' => false,
+                'label' => 'label.block',
+                'class' => 'OpiferContentBundle:Block',
+                'property' => 'sharedDisplayName', // Assuming that the entity has a "name" property
+                'query_builder' => function (EntityRepository $blockRepository) {
+                    return $blockRepository->createQueryBuilder('b')
+                        ->add('orderBy', 'b.sharedDisplayName ASC')
+                        ->andWhere('b.shared = :shared')
+                        ->andWhere('b.content IS NULL')
+                        ->andWhere('b.template IS NULL')
+                        ->setParameter('shared', true);
+                },
+            ])
+        );
     }
 
     /**

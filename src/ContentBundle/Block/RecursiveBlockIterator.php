@@ -7,11 +7,6 @@ use Doctrine\Common\Collections\Collection;
 use Opifer\ContentBundle\Entity\CompositeBlock;
 use Opifer\ContentBundle\Model\BlockInterface;
 
-/**
- * Class RecursiveBlockIterator
- *
- * @package Opifer\ContentBundle\Designer
- */
 class RecursiveBlockIterator extends \RecursiveArrayIterator implements \RecursiveIterator
 {
     public function __construct($array)

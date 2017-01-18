@@ -9,15 +9,14 @@ use Opifer\ContentBundle\Block\VisitorInterface;
 use Opifer\ContentBundle\Model\BlockInterface;
 
 /**
- * CompositeBlock
+ * CompositeBlock.
  *
  * @ORM\Entity
  */
 abstract class CompositeBlock extends Block implements BlockContainerInterface, \IteratorAggregate
 {
-
     /**
-     * Constructor
+     * Constructor.
      */
     public function __construct()
     {
@@ -43,7 +42,7 @@ abstract class CompositeBlock extends Block implements BlockContainerInterface, 
     }
 
     /**
-     * Add child
+     * Add child.
      *
      * @param BlockInterface $block
      *
@@ -57,7 +56,7 @@ abstract class CompositeBlock extends Block implements BlockContainerInterface, 
     }
 
     /**
-     * Remove child
+     * Remove child.
      *
      * @param BlockInterface $block
      */
@@ -67,30 +66,23 @@ abstract class CompositeBlock extends Block implements BlockContainerInterface, 
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function hasChildren()
     {
         return ($this->getChildren() && $this->getChildren()->count() > 0) ? true : false;
     }
 
-//
-//    public function accept(Visitor $visitor)
-//    {
-//
-//    }
-
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getIterator()
     {
         return $this->getChildren();
     }
 
-
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function first()
     {
@@ -98,7 +90,7 @@ abstract class CompositeBlock extends Block implements BlockContainerInterface, 
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function last()
     {
@@ -106,7 +98,7 @@ abstract class CompositeBlock extends Block implements BlockContainerInterface, 
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function key()
     {
@@ -114,7 +106,7 @@ abstract class CompositeBlock extends Block implements BlockContainerInterface, 
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function current()
     {
@@ -122,13 +114,12 @@ abstract class CompositeBlock extends Block implements BlockContainerInterface, 
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function next()
     {
         return $this->getIterator()->next();
     }
-
 
     /**
      * @param VisitorInterface $visitor
