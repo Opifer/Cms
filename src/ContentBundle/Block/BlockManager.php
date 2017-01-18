@@ -22,13 +22,11 @@ use Opifer\Revisions\Exception\DeletedException;
 use Opifer\Revisions\RevisionManager;
 
 /**
- * Class BlockManager
+ * Block Manager
  *
  * This class provides methods mainly for managing blocks inside of the editor at a specific
  * version. It takes care of applying the changeset from BlockLogEntry to create a real-time
  * state of the Block instance before publishing/persisting it.
- *
- * @package Opifer\ContentBundle\Manager
  */
 class BlockManager
 {
@@ -210,10 +208,10 @@ class BlockManager
     {
         $this->setDraftVersionFilter(! $draft);
 
-        $blocks = array();
+        $blocks = [];
 
         $iterator = new \RecursiveIteratorIterator(
-            new RecursiveBlockIterator(array($parent)),
+            new RecursiveBlockIterator([$parent]),
             \RecursiveIteratorIterator::SELF_FIRST
         );
 
