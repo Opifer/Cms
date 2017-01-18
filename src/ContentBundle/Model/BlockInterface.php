@@ -2,6 +2,8 @@
 
 namespace Opifer\ContentBundle\Model;
 
+use Doctrine\Common\Collections\ArrayCollection;
+
 interface BlockInterface
 {
     public function getId();
@@ -57,4 +59,9 @@ interface BlockInterface
      * @return \DateTime
      */
     public function getUpdatedAt();
+
+    /**
+     * @return ArrayCollection|BlockInterface[]
+     */
+    public function getChildren();
 }
