@@ -47,4 +47,14 @@ interface BlockInterface
      * @return ContentInterface
      */
     public function getContent();
+
+    /**
+     * @return \DateTime
+     */
+    public function getCreatedAt();
+
+    /**
+     * @return \DateTime
+     */
+    public function getUpdatedAt();
 }
