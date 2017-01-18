@@ -18,7 +18,7 @@ class Configuration implements ConfigurationInterface
     public function getConfigTreeBuilder()
     {
         $builder = new TreeBuilder();
-        $rootNode = $builder->root('opifer_formblock');
+        $rootNode = $builder->root('opifer_form_block');
 
         $rootNode
             ->addDefaultsIfNotSet()

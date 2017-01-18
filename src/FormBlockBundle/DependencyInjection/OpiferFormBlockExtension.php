@@ -24,7 +24,7 @@ class OpiferFormBlockExtension extends Extension
 
         // Block configuration
         foreach ($config['blocks'] as $block => $blockConfig) {
-            $container->setParameter('opifer_formblock.'.$block.'_block_configuration', $blockConfig);
+            $container->setParameter('opifer_form_block.'.$block.'_block_configuration', $blockConfig);
         }
 
         $loader = new Loader\YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
