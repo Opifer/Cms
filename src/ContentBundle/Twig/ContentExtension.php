@@ -135,9 +135,8 @@ class ContentExtension extends \Twig_Extension
         $content = '';
 
         if ($this->blockEnvironment instanceof Environment) {
-            /* @var BlockInterface $container */
-
             if (isset($context['block'])) {
+                /* @var BlockInterface $container */
                 $container = $context['block'];
                 if ($container instanceof CompositeBlock) {
                     $blocks = $this->blockEnvironment->getBlockChildren($container);

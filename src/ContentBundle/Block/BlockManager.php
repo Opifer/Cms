@@ -22,13 +22,11 @@ use Opifer\Revisions\Exception\DeletedException;
 use Opifer\Revisions\RevisionManager;
 
 /**
- * Class BlockManager
+ * Block Manager
  *
  * This class provides methods mainly for managing blocks inside of the editor at a specific
  * version. It takes care of applying the changeset from BlockLogEntry to create a real-time
  * state of the Block instance before publishing/persisting it.
- *
- * @package Opifer\ContentBundle\Manager
  */
 class BlockManager
 {
@@ -210,10 +208,10 @@ class BlockManager
     {
         $this->setDraftVersionFilter(! $draft);
 
-        $blocks = array();
+        $blocks = [];
 
         $iterator = new \RecursiveIteratorIterator(
-            new RecursiveBlockIterator(array($parent)),
+            new RecursiveBlockIterator([$parent]),
             \RecursiveIteratorIterator::SELF_FIRST
         );
 
@@ -270,7 +268,7 @@ class BlockManager
      *
      * TODO: cleanup created and deleted blocks in revision that were never published.
      *
-     * @param BlockInterface|array $blocks
+     * @param BlockInterface|BlockInterface[]|array $blocks
      */
     public function publish($blocks)
     {
@@ -284,12 +282,12 @@ class BlockManager
         }
 
         if (! is_array($blocks)) {
-            $blocks = array($blocks);
+            $blocks = [$blocks];
         }
 
         $this->disableRevisionListener();
 
-        $deletes = array();
+        $deletes = [];
 
         foreach ($blocks as $block) {
             if (null !== $revision = $this->revisionManager->getDraftRevision($block)) {
@@ -299,10 +297,10 @@ class BlockManager
                     // $this->em->remove($block);
                     $deletes[] = $block;
                 }
-
-                $this->em->flush($block);
             }
         }
+
+        $this->em->flush();
 
         // Cycle through all deleted blocks to perform cascades manually 
         foreach ($deletes as $block) {
@@ -320,7 +318,6 @@ class BlockManager
 
         $cacheDriver = $this->em->getConfiguration()->getResultCacheImpl();
         $cacheDriver->deleteAll();
-
 
         $this->enableRevisionListener();
     }

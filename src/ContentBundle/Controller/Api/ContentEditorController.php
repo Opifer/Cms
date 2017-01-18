@@ -242,6 +242,7 @@ class ContentEditorController extends Controller
 
         try {
             $block = $manager->find($id, true);
+            $block->setUpdatedAt(new \DateTime());
             $manager->publish($block);
 
             if ($block instanceof CompositeBlock) {
