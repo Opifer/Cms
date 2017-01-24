@@ -2,10 +2,12 @@
 
 namespace Opifer\ContentBundle\Block\Service;
 
+use Braincrafted\Bundle\BootstrapBundle\Form\Type\BootstrapCollectionType;
 use Opifer\ContentBundle\Block\BlockRenderer;
 use Opifer\ContentBundle\Block\Tool\Tool;
 use Opifer\ContentBundle\Block\Tool\ToolsetMemberInterface;
 use Opifer\ContentBundle\Entity\CollectionBlock;
+use Opifer\ContentBundle\Form\Type\FilterType;
 use Opifer\ContentBundle\Model\BlockInterface;
 use Opifer\ContentBundle\Model\ContentManagerInterface;
 use Opifer\ContentBundle\Model\ContentTypeInterface;
@@ -15,16 +17,13 @@ use Opifer\ExpressionEngine\Form\Type\ExpressionEngineType;
 use Opifer\ExpressionEngine\Prototype\AndXPrototype;
 use Opifer\ExpressionEngine\Prototype\Choice;
 use Opifer\ExpressionEngine\Prototype\OrXPrototype;
-use Opifer\ExpressionEngine\Prototype\Prototype;
 use Opifer\ExpressionEngine\Prototype\PrototypeCollection;
 use Opifer\ExpressionEngine\Prototype\SelectPrototype;
-use Symfony\Bundle\FrameworkBundle\Templating\EngineInterface;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\FormType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Webmozart\Expression\Constraint\Equals;
-use Webmozart\Expression\Constraint\NotEquals;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Content Collection Block Service.
@@ -41,7 +40,7 @@ class CollectionBlockService extends AbstractBlockService implements BlockServic
     protected $expressionEngine;
 
     /**
-     * @param BlockRenderer         $blockRenderer
+     * @param BlockRenderer           $blockRenderer
      * @param ContentManagerInterface $contentManager
      * @param array                   $config
      */
@@ -65,7 +64,7 @@ class CollectionBlockService extends AbstractBlockService implements BlockServic
         $builder->add(
             $builder->create('properties', FormType::class)
                 ->add('conditions', ExpressionEngineType::class, [
-                    'prototypes' => $this->getPrototypes()
+                    'prototypes' => $this->getPrototypes(),
                 ])
                 ->add('order_by', ChoiceType::class, [
                     'label' => 'Order by',
@@ -84,6 +83,12 @@ class CollectionBlockService extends AbstractBlockService implements BlockServic
                     'choices_as_values' => true,
                 ])
                 ->add('limit', IntegerType::class)
+                ->add('filters', BootstrapCollectionType::class, [
+                    'allow_add' => true,
+                    'allow_delete' => true,
+                    'type' => FilterType::class,
+                    'attr' => ['help_text' => 'Filters the user can use to search the collection'],
+                ])
                 ->add('template', ChoiceType::class, [
                     'label' => 'label.template',
                     'placeholder' => 'placeholder.choice_optional',
@@ -106,7 +111,7 @@ class CollectionBlockService extends AbstractBlockService implements BlockServic
             new SelectPrototype('status', 'Status', 'active', [
                 new Choice(true, 'Active'),
                 new Choice(false, 'Inactive'),
-            ])
+            ]),
         ]);
 
         return $collection->all();
@@ -127,15 +132,20 @@ class CollectionBlockService extends AbstractBlockService implements BlockServic
     }
 
     /**
-     * @param BlockInterface $block
+     * We load the collection on the Execute instead of the Load method to avoid loading the collection
+     * on API serialisation.
+     *
+     * {@inheritdoc}
      */
-    public function load(BlockInterface $block)
+    public function execute(BlockInterface $block, Response $response = null, array $parameters = [])
     {
         $this->loadCollection($block);
+
+        return parent::execute($block, $response, $parameters);
     }
 
     /**
-     * Load the collection if any conditions are defined
+     * Load the collection if any conditions are defined.
      *
      * @param BlockInterface $block
      */
