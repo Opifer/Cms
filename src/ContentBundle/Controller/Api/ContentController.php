@@ -2,6 +2,7 @@
 
 namespace Opifer\ContentBundle\Controller\Api;
 
+use Doctrine\ORM\QueryBuilder;
 use FOS\RestBundle\Controller\Annotations\QueryParam;
 use FOS\RestBundle\Request\ParamFetcher;
 use JMS\Serializer\SerializationContext;
@@ -25,19 +26,37 @@ class ContentController extends Controller
     /**
      * @ApiDoc()
      * @QueryParam(map=true, name="ids", requirements="\d+", description="The list of ids")
-     *
-     * TODO: Extend with more filters
+     * @QueryParam(name="expr", description="A expressionengine expression")
+     * @QueryParam(name="order_by", description="Define the order")
+     * @QueryParam(name="direction", description="Define the order direction", default="asc")
+     * @QueryParam(name="limit", requirements="\d+", description="The amount of results to return", default="10")
      *
      * @return ContentInterface[]
      */
     public function getContentsAction(Request $request, ParamFetcher $paramFetcher)
     {
-        $ids = $paramFetcher->get('ids');
+        $items = [];
+        if ($ids = $paramFetcher->get('ids')) {
+            /** @var Content[] $items */
+            $items = $this->get('opifer.content.content_manager')
+                ->getRepository()
+                ->findOrderedByIds($ids);
+        } elseif ($expr = $paramFetcher->get('expr')) {
+            $conditions = $this->get('opifer.doctrine_expression_engine')->deserialize($expr);
 
-        /** @var Content[] $items */
-        $items = $this->get('opifer.content.content_manager')
-            ->getRepository()
-            ->findOrderedByIds($ids);
+            if (!empty($conditions)) {
+                /** @var QueryBuilder $qb */
+                $qb = $this->get('opifer.doctrine_expression_engine')->toQueryBuilder($conditions, $this->get('opifer.content.content_manager')->getClass());
+
+                if ($orderBy = $paramFetcher->get('order_by')) {
+                    $qb->orderBy('a.'.$orderBy, $paramFetcher->get('direction'));
+                }
+
+                $qb->setMaxResults($paramFetcher->get('limit'));
+
+                $items = $qb->getQuery()->getResult();
+            }
+        }
 
         $lastUpdatedAt = null;
         foreach ($items as $item) {
