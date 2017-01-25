@@ -34,6 +34,11 @@ opifer_cms_sitemap_sitemap:
     defaults: { _controller: OpiferCmsBundle:Frontend\Sitemap:sitemap, _format: xml }
     methods: [GET]
 
+opifer_cms_api:
+    resource: "@OpiferCmsBundle/Controller/Api"
+    type: rest
+    prefix: /api
+
 opifer_content:
     resource: "@OpiferContentBundle/Resources/config/routing.yml"
 
