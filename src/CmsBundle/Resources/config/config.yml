@@ -160,6 +160,7 @@ twig:
         config: '@opifer.cms.config_manager'
         content_type_manager: '@opifer.content.content_type_manager'
         google_tag_manager_key: '%opifer_cms.google_tag_manager_key%'
+        recaptcha_site_key: '%opifer_form.recaptcha_site_key%'
 
 # Media
 opifer_media:

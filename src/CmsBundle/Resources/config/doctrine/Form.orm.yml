@@ -42,6 +42,9 @@ Opifer\CmsBundle\Entity\Form:
         deletedAt:
             type: datetime
             nullable: true
+        recaptchaEnabled:
+            type: boolean
+            column: recaptcha_enabled
     manyToOne:
         schema:
             targetEntity: Opifer\CmsBundle\Entity\Schema

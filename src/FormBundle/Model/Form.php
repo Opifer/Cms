@@ -93,6 +93,13 @@ class Form implements FormInterface
     protected $deletedAt;
 
     /**
+     * @var bool
+     *
+     * @ORM\Column(name="recaptcha_enabled", type="boolean")
+     */
+    protected $recaptchaEnabled = false;
+
+    /**
      * Constructor.
      */
     public function __construct()
@@ -282,5 +289,25 @@ class Form implements FormInterface
     public function setDeletedAt($deletedAt)
     {
         $this->deletedAt = $deletedAt;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isRecaptchaEnabled()
+    {
+        return $this->recaptchaEnabled;
+    }
+
+    /**
+     * @param bool $recaptchaEnabled
+     *
+     * @return Form
+     */
+    public function setRecaptchaEnabled($recaptchaEnabled)
+    {
+        $this->recaptchaEnabled = $recaptchaEnabled;
+
+        return $this;
     }
 }
