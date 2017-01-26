@@ -2,6 +2,7 @@
 
 namespace Opifer\FormBlockBundle\Block\Service;
 
+use Nelmio\ApiDocBundle\Tests\Fixtures\Form\EntityType;
 use Opifer\ContentBundle\Block\Service\LayoutBlockServiceInterface;
 use Opifer\FormBlockBundle\Entity\FormBlock;
 use Opifer\ContentBundle\Block\BlockRenderer;
@@ -54,10 +55,15 @@ class FormBlockService extends AbstractBlockService implements BlockServiceInter
     {
         parent::buildManageForm($builder, $options);
 
-        $propertiesForm = $builder->create('properties', FormType::class);
+        $builder->get('default')->add('form', EntityType::class, [
+            'class' => 'OpiferCmsBundle:Form',
+            'choice_label' => 'name',
+            'label' => 'Form',
+            'placeholder' => 'Choose Form',
+        ]);
 
         if (isset($this->config['templates'])) {
-            $propertiesForm->add('template', ChoiceType::class, [
+            $builder->get('properties')->add('template', ChoiceType::class, [
                 'label' => 'label.template',
                 'placeholder' => 'placeholder.choice_optional',
                 'attr' => ['help_text' => 'help.block_template'],
@@ -65,13 +71,6 @@ class FormBlockService extends AbstractBlockService implements BlockServiceInter
                 'required' => false,
             ]);
         }
-
-        $builder->add(
-            $builder->create('default', FormType::class, ['inherit_data' => true])
-                ->add('name', TextType::class, ['attr' => ['help_text' => 'help.block_name']])
-        )->add(
-            $propertiesForm
-        );
     }
 
     public function getViewParameters(BlockInterface $block)
