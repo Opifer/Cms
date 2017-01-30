@@ -25,37 +25,47 @@ class ContentController extends Controller
 {
     /**
      * @ApiDoc()
-     * @QueryParam(map=true, name="ids", requirements="\d+", description="The list of ids")
-     * @QueryParam(name="expr", description="A expressionengine expression")
-     * @QueryParam(name="order_by", description="Define the order")
+     *
      * @QueryParam(name="direction", description="Define the order direction", default="asc")
+     * @QueryParam(name="expr", description="A expressionengine expression")
+     * @QueryParam(name="ids", map=true, requirements="\d+", description="The list of ids")
      * @QueryParam(name="limit", requirements="\d+", description="The amount of results to return", default="10")
+     * @QueryParam(name="options", map=true, description="A list of option ids")
+     * @QueryParam(name="order_by", description="Define the order")
      *
      * @return ContentInterface[]
      */
     public function getContentsAction(Request $request, ParamFetcher $paramFetcher)
     {
-        $items = [];
         if ($ids = $paramFetcher->get('ids')) {
             /** @var Content[] $items */
             $items = $this->get('opifer.content.content_manager')
                 ->getRepository()
                 ->findOrderedByIds($ids);
-        } elseif ($expr = $paramFetcher->get('expr')) {
-            $conditions = $this->get('opifer.doctrine_expression_engine')->deserialize($expr);
+        } else {
+            $qb = $this->get('opifer.content.content_manager')
+                ->getRepository()
+                ->createValuedQueryBuilder('c');
 
-            if (!empty($conditions)) {
-                /** @var QueryBuilder $qb */
-                $qb = $this->get('opifer.doctrine_expression_engine')->toQueryBuilder($conditions, $this->get('opifer.content.content_manager')->getClass());
-
-                if ($orderBy = $paramFetcher->get('order_by')) {
-                    $qb->orderBy('a.'.$orderBy, $paramFetcher->get('direction'));
+            if ($expr = $paramFetcher->get('expr')) {
+                $conditions = $this->get('opifer.doctrine_expression_engine')->deserialize($expr);
+                if (!empty($conditions)) {
+                    /** @var QueryBuilder $qb */
+                    $qb = $this->get('opifer.doctrine_expression_engine')->toQueryBuilder($conditions, $this->get('opifer.content.content_manager')->getClass());
                 }
-
-                $qb->setMaxResults($paramFetcher->get('limit'));
-
-                $items = $qb->getQuery()->getResult();
             }
+
+            if ($options = $paramFetcher->get('options')) {
+                $qb->where('p.id IN (:options)')->setParameter('options', $options);
+            }
+
+            if ($orderBy = $paramFetcher->get('order_by')) {
+                $qb->orderBy('a.'.$orderBy, $paramFetcher->get('direction'));
+            }
+
+            $qb->setMaxResults($paramFetcher->get('limit'));
+
+            $items = $qb->getQuery()->getResult();
         }
 
         $lastUpdatedAt = null;

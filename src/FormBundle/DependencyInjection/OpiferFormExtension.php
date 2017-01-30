@@ -77,6 +77,9 @@ class OpiferFormExtension extends Extension implements PrependExtensionInterface
             'opifer_form.post_class' => $config['post']['class'],
             'opifer_form.post_index_view' => $config['post']['views']['index'],
             'opifer_form.post_view_view' => $config['post']['views']['view'],
+
+            'opifer_form.recaptcha_site_key' => $config['recaptcha']['site_key'],
+            'opifer_form.recaptcha_secret_key' => $config['recaptcha']['secret_key'],
         ];
 
         return $params;
