@@ -254,6 +254,14 @@ class Configuration implements ConfigurationInterface
                                         'my-3' => 'Large vertical margin',
                                     ])
                                 ->end()
+                                ->arrayNode('spacing_box_model')
+                                    ->prototype('scalar')->end()
+                                    ->normalizeKeys(false)
+                                    ->defaultValue([
+                                        'm' => 'Spacing outside (margin)',
+                                        'p' => 'Spacing inside (padding)',
+                                    ])
+                                ->end()
                             ->end()
                         ->end()
                         ->arrayNode('gallery')

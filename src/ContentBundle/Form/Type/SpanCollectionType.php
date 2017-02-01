@@ -10,7 +10,7 @@ use Symfony\Component\Form\FormEvents;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
- * Span Collection Type
+ * Span Collection Type.
  */
 class SpanCollectionType extends AbstractType
 {
@@ -25,15 +25,14 @@ class SpanCollectionType extends AbstractType
             $data = $event->getData();
 
             if (empty($data) || !count($data)) {
-                $sizeKeys = range(0, $columnCount-1);
-                $data = array_fill_keys(['xs','sm', 'md', 'lg', 'xl'], array_fill_keys($sizeKeys, 12/$columnCount));
+                $sizeKeys = range(0, $columnCount - 1);
+                $data = array_fill_keys(['xs', 'sm', 'md', 'lg', 'xl'], array_fill_keys($sizeKeys, 12 / $columnCount));
                 $event->setData($data);
             }
         });
 
         parent::buildForm($builder, $options);
     }
-
 
     /**
      * {@inheritdoc}
@@ -50,7 +49,7 @@ class SpanCollectionType extends AbstractType
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getBlockPrefix()
     {
@@ -58,7 +57,7 @@ class SpanCollectionType extends AbstractType
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getParent()
     {

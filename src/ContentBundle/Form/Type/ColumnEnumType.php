@@ -8,34 +8,29 @@ use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 
 /**
- * Class ColumnEnumType
- *
- * @package Opifer\ContentBundle\Form\Type
+ * Column Enum Type.
  */
 class ColumnEnumType extends AbstractType
 {
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-
         $builder->addEventListener(FormEvents::PRE_SET_DATA, function (FormEvent $event) {
             $form = $event->getForm();
             $columnCount = $form->getParent()->getConfig()->getOption('column_count');
 
-            for ($i = 0; $i < $columnCount; $i++) {
+            for ($i = 0; $i < $columnCount; ++$i) {
                 $form->add($i, 'number');
             }
         });
 
         parent::buildForm($builder, $options);
-
-
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getBlockPrefix()
     {
