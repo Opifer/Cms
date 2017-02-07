@@ -76,6 +76,12 @@ services:
         tags:
             - { name: form.type }
 
+    opifer.content.nav_link_type:
+        class: Opifer\ContentBundle\Form\Type\NavLinkType
+        arguments: ['@opifer.content.content_manager']
+        tags:
+            - { name: form.type }
+
     # Router
 
     opifer.content.content_router:

@@ -103,11 +103,26 @@ services:
         tags:
             - { name: opifer.content.block_service, alias: list }
 
+    opifer.content.navbar_block:
+        class: 'Opifer\ContentBundle\Block\Service\NavBarBlockService'
+        arguments: ['@opifer.content.block_renderer', '%opifer_content.navbar_block_configuration%']
+        tags:
+            - { name: opifer.content.block_service, alias: navbar }
+
     opifer.content.navigation_block:
         class: '%opifer.content.navigation_block.class%'
         arguments: ['@opifer.content.block_renderer', '@opifer.content.content_manager', '%opifer_content.navigation_block_configuration%']
         tags:
             - { name: opifer.content.block_service, alias: navigation }
+
+    opifer.content.navlink_block:
+        class: 'Opifer\ContentBundle\Block\Service\NavLinkBlockService'
+        arguments:
+            - '@opifer.content.block_renderer'
+            - '@router'
+            - '%opifer_content.navlink_block_configuration%'
+        tags:
+            - { name: opifer.content.block_service, alias: navlink }
 
     opifer.content_iframe_block:
         class: '%opifer.content.iframe_block.class%'

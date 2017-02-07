@@ -142,6 +142,10 @@ class Environment
 
         $blocks = array();
 
+        if (!isset($this->blockCache[$cacheKey])) {
+            return $blocks;
+        }
+
         /** @var BlockInterface $block */
         foreach ($this->blockCache[$cacheKey] as $block) {
             if ($block->getParent() === null && $block->getOwner() !== null) {
