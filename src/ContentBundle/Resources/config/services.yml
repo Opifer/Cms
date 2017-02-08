@@ -65,19 +65,25 @@ services:
     # Form types
 
     opifer.content.content_type:
-        class: Opifer\ContentBundle\Form\Type\ContentType
+        class: 'Opifer\ContentBundle\Form\Type\ContentType'
         arguments: ['%opifer_content.content_class%']
         tags:
             - { name: form.type }
 
     opifer.content.content_parent_type:
-        class: Opifer\ContentBundle\Form\Type\ContentParentType
+        class: 'Opifer\ContentBundle\Form\Type\ContentParentType'
         arguments: ['@opifer.content.content_manager']
         tags:
             - { name: form.type }
 
+    opifer.content.filter_name_type:
+        class: 'Opifer\ContentBundle\Form\Type\FilterNameType'
+        arguments: ['@opifer.eav.attribute_manager']
+        tags:
+            - { name: form.type }
+
     opifer.content.nav_link_type:
-        class: Opifer\ContentBundle\Form\Type\NavLinkType
+        class: 'Opifer\ContentBundle\Form\Type\NavLinkType'
         arguments: ['@opifer.content.content_manager']
         tags:
             - { name: form.type }

@@ -18,12 +18,9 @@ class FilterType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('name', TextType::class, [
-                'label' => 'Name',
-                'attr' => [
-                    'placeholder' => 'name',
-                    'help_text' => 'A name for internal usage. only lowercase and dots are allowed',
-                ],
+            // TODO: Rename `name` property to `filter`
+            ->add('name', FilterNameType::class, [
+                'label' => 'Filter',
             ])
             ->add('displayName', TextType::class, [
                 'label' => 'displayName',

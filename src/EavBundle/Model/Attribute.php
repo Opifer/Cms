@@ -293,6 +293,11 @@ class Attribute implements AttributeInterface
         return $this->values;
     }
 
+    public function hasOptions()
+    {
+        return (count($this->getOptions()) > 0);
+    }
+
     /**
      * Get options.
      *
