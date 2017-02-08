@@ -255,4 +255,16 @@ Opifer\CmsBundle\Entity\Content:
             orphanRemoval: false
             orderBy:
                 lft: ASC
+    manyToMany:
+        medias:
+            targetEntity: Opifer\MediaBundle\Model\MediaInterface
+            joinTable:
+                name: opifer_content_media
+                joinColumns:
+                    content_id:
+                        referencedColumnName: id
+                inversedJoinColumns:
+                    media_id:
+                        referencedColumnName: id
+                        onDelete: CASCADE
     lifecycleCallbacks: {  }

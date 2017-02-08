@@ -3,9 +3,11 @@
 namespace Opifer\CmsBundle\Entity;
 
 use APY\DataGridBundle\Grid\Mapping as GRID;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use JMS\Serializer\Annotation as JMS;
+use Opifer\MediaBundle\Model\MediaInterface;
 use Opifer\Revisions\Mapping\Annotation as Revisions;
 use Opifer\ContentBundle\Model\Content as BaseContent;
 use Opifer\ContentBundle\Model\ContentTypeInterface;
@@ -69,6 +71,13 @@ class Content extends BaseContent
     protected $description;
 
     /**
+     * @var MediaInterface[]
+     *
+     * @JMS\Expose
+     */
+    protected $medias;
+
+    /**
      * @var bool
      *
      * @GRID\Column(title="Indexable", type="boolean", visible=false)
@@ -118,6 +127,16 @@ class Content extends BaseContent
     protected $locale;
 
     /**
+     * Constructor.
+     */
+    public function __construct()
+    {
+        parent::__construct();
+
+        $this->medias = new ArrayCollection();
+    }
+
+    /**
      * Sets an author on for the content.
      *
      * @var User
@@ -164,6 +183,50 @@ class Content extends BaseContent
     }
 
     /**
+     * @return MediaInterface[]|ArrayCollection
+     */
+    public function getMedias()
+    {
+        return $this->medias;
+    }
+
+    /**
+     * @param MediaInterface[]|ArrayCollection $medias
+     *
+     * @return Content
+     */
+    public function setMedias($medias)
+    {
+        $this->medias = $medias;
+
+        return $this;
+    }
+
+    /**
+     * @param MediaInterface $media
+     *
+     * @return Content
+     */
+    public function addMedia(MediaInterface $media)
+    {
+        $this->medias[] = $media;
+
+        return $this;
+    }
+
+    /**
+     * @param MediaInterface $media
+     *
+     * @return Content
+     */
+    public function removeMedia(MediaInterface $media)
+    {
+        $this->medias->removeElement($media);
+
+        return $this;
+    }
+
+    /**
      * @todo clean this mess up
      *
      * Gets the attributes and places them in an (by Twig) easily accessible array
@@ -178,7 +241,7 @@ class Content extends BaseContent
     public function getPivotedAttributes()
     {
         $array = [];
-        
+
         if ($this->getValueSet() === null) {
             return $array;
         }

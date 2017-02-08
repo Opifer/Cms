@@ -89,6 +89,11 @@ services:
 
     # Form Type Extensions
 
+    opifer.cms.content_type_extension:
+        class: 'Opifer\CmsBundle\Form\Extension\ContentTypeExtension'
+        tags:
+            - { name: 'form.type_extension', extended_type: 'Opifer\ContentBundle\Form\Type\ContentType' }
+
     opifer.cms.redirect_type_extension:
         class: 'Opifer\CmsBundle\Form\Extension\RedirectTypeExtension'
         tags:
