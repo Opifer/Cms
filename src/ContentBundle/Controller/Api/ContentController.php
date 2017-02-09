@@ -16,6 +16,7 @@ use Opifer\ContentBundle\Model\ContentManager;
 use Opifer\ContentBundle\Model\ContentManagerInterface;
 use Opifer\ContentBundle\Model\ContentRepository;
 use Opifer\ContentBundle\Serializer\BlockExclusionStrategy;
+use Opifer\ExpressionEngine\Visitor\QueryBuilderVisitor;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -45,7 +46,7 @@ class ContentController extends Controller
         } else {
             $qb = $this->get('opifer.content.content_manager')
                 ->getRepository()
-                ->createValuedQueryBuilder('c');
+                ->createQueryBuilder('a');
 
             if ($expr = $paramFetcher->get('expr')) {
                 $conditions = $this->get('opifer.doctrine_expression_engine')->deserialize($expr);
@@ -56,7 +57,9 @@ class ContentController extends Controller
             }
 
             if ($options = $paramFetcher->get('options')) {
-                $qb->where('p.id IN (:options)')->setParameter('options', $options);
+                $exprVisitor = new QueryBuilderVisitor($qb);
+                $prefix = $exprVisitor->shouldJoin('valueSet.values.options.id');
+                $qb->andWhere($prefix.' IN (:options)')->setParameter('options', $options);
             }
 
             if ($orderBy = $paramFetcher->get('order_by')) {

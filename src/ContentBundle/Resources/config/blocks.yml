@@ -63,7 +63,13 @@ services:
 
     opifer.content.collection_block:
         class: '%opifer.content.collection_block.class%'
-        arguments: ['@opifer.content.block_renderer', '@opifer.doctrine_expression_engine', '@opifer.content.content_manager', '@opifer.content.content_type_manager', '%opifer_content.collection_block_configuration%']
+        arguments:
+            - '@opifer.content.block_renderer'
+            - '@opifer.doctrine_expression_engine'
+            - '@opifer.content.content_manager'
+            - '@opifer.content.content_type_manager'
+            - '@opifer.eav.attribute_manager'
+            - '%opifer_content.collection_block_configuration%'
         tags:
             - { name: opifer.content.block_service, alias: collection }
 

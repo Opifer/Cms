@@ -12,6 +12,8 @@ use Opifer\ContentBundle\Model\BlockInterface;
 use Opifer\ContentBundle\Model\ContentManagerInterface;
 use Opifer\ContentBundle\Model\ContentTypeInterface;
 use Opifer\ContentBundle\Model\ContentTypeManager;
+use Opifer\EavBundle\Model\Attribute;
+use Opifer\EavBundle\Model\AttributeManager;
 use Opifer\ExpressionEngine\DoctrineExpressionEngine;
 use Opifer\ExpressionEngine\Form\Type\ExpressionEngineType;
 use Opifer\ExpressionEngine\Prototype\AndXPrototype;
@@ -36,21 +38,36 @@ class CollectionBlockService extends AbstractBlockService implements BlockServic
     /** @var ContentTypeManager */
     protected $contentTypeManager;
 
+    /** @var AttributeManager */
+    protected $attributeManager;
+
     /** @var DoctrineExpressionEngine */
     protected $expressionEngine;
 
     /**
-     * @param BlockRenderer           $blockRenderer
+     * Constructor
+     *
+     * @param BlockRenderer $blockRenderer
+     * @param DoctrineExpressionEngine $expressionEngine
      * @param ContentManagerInterface $contentManager
-     * @param array                   $config
+     * @param ContentTypeManager $contentTypeManager
+     * @param AttributeManager $attributeManager
+     * @param array $config
      */
-    public function __construct(BlockRenderer $blockRenderer, DoctrineExpressionEngine $expressionEngine, ContentManagerInterface $contentManager, ContentTypeManager $contentTypeManager, array $config)
+    public function __construct(
+        BlockRenderer $blockRenderer,
+        DoctrineExpressionEngine $expressionEngine,
+        ContentManagerInterface $contentManager,
+        ContentTypeManager $contentTypeManager,
+        AttributeManager $attributeManager,
+        array $config)
     {
         parent::__construct($blockRenderer, $config);
 
         $this->expressionEngine = $expressionEngine;
         $this->contentManager = $contentManager;
         $this->contentTypeManager = $contentTypeManager;
+        $this->attributeManager = $attributeManager;
     }
 
     /**
@@ -114,9 +131,40 @@ class CollectionBlockService extends AbstractBlockService implements BlockServic
             ]),
         ]);
 
+        $this->addAttributeChoices($collection);
+
         return $collection->all();
     }
 
+    /**
+     * @param PrototypeCollection $collection
+     * @throws \Exception
+     */
+    protected function addAttributeChoices(PrototypeCollection $collection)
+    {
+        /** @var Attribute $attribute */
+        foreach ($this->attributeManager->getRepository()->findAll() as $attribute) {
+            if (!$attribute->hasOptions()) {
+                continue;
+            }
+
+            $options = [];
+            foreach ($attribute->getOptions() as $option) {
+                $options[] = new Choice($option->getId(), $option->getDisplayName());
+            }
+
+            $collection->add(new SelectPrototype(
+                'attribute_'.$attribute->getId(),
+                $attribute->getDisplayName(),
+                'valueSet.values.options.id',
+                $options
+            ));
+        }
+    }
+
+    /**
+     * @return array
+     */
     protected function getContentTypeChoices()
     {
         $choices = [];
