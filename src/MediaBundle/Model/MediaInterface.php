@@ -25,4 +25,9 @@ interface MediaInterface
      * @return string
      */
     public function getImagesCacheKey();
+
+    /**
+     * @return array
+     */
+    public function getMetadata();
 }
