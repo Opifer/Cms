@@ -2,8 +2,6 @@
 
 namespace Opifer\FormBlockBundle\Block\Service;
 
-use Nelmio\ApiDocBundle\Tests\Fixtures\Form\EntityType;
-use Opifer\ContentBundle\Block\Service\LayoutBlockServiceInterface;
 use Opifer\FormBlockBundle\Entity\FormBlock;
 use Opifer\ContentBundle\Block\BlockRenderer;
 use Opifer\ContentBundle\Block\Service\AbstractBlockService;
@@ -13,11 +11,9 @@ use Opifer\ContentBundle\Block\Tool\ToolsetMemberInterface;
 use Opifer\ContentBundle\Model\BlockInterface;
 use Opifer\FormBundle\Model\FormManager;
 use Opifer\FormBundle\Model\PostInterface;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
-use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\Form\Extension\Core\Type\FormType;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Opifer\EavBundle\Manager\EavManager;
 
 /**
