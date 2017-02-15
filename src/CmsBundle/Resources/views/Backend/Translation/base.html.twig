@@ -1,0 +1,36 @@
+{% extends 'OpiferCmsBundle:Backend:base.html.twig' %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    {% block lexik_stylesheets %}
+        <link rel="stylesheet" href="{{ asset('bundles/lexiktranslation/ng-table/ng-table.min.css') }}">
+    {% endblock lexik_stylesheets %}
+{% endblock stylesheets %}
+
+{% block body %}
+    {% block lexik_flash_message %}
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    {% set flashes = app.session.flashbag.all() %}
+                    {% if flashes | length > 0 %}
+                        {% for type, messages in flashes %}
+                            {% for message in messages %}
+                                <div class="alert alert-{{ type }}">{{ message }}</div>
+                            {% endfor %}
+                        {% endfor %}
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    {% endblock lexik_flash_message %}
+    {% block lexik_content '' %}
+{% endblock body %}
+
+{% block javascripts %}
+    {{ parent() }}
+    {% block lexik_javascript_footer %}
+        <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.13/angular.min.js"></script>
+        <script src="{{ asset('bundles/lexiktranslation/ng-table/ng-table.min.js') }}"></script>
+    {% endblock lexik_javascript_footer %}
+{% endblock javascripts %}

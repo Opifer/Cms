@@ -191,3 +191,16 @@ opifer_form_post_index:
 opifer_review_review_index:
     path: /review
     defaults: { _controller: OpiferCmsBundle:Backend/Review:index }
+
+opifer_cms_locale_create:
+    path: /locale/create
+    defaults: { _controller: OpiferCmsBundle:Backend/Locale:create}
+
+opifer_cms_locale_edit:
+    path: /locale/edit/{id}
+    defaults: { _controller: OpiferCmsBundle:Backend/Locale:edit}
+
+lexik_translation_edition:
+    resource: "@LexikTranslationBundle/Resources/config/routing.yml"
+    prefix:   /translate
+

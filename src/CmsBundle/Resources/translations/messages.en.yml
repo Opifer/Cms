@@ -6,6 +6,8 @@ title:
     mailing_list: Mailing List
     mailing_list_plural: Mailing Lists
     review: Reviews
+    translations: translations
+    locale: languages
 
 # Base
 base:

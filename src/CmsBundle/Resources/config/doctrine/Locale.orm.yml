@@ -1,0 +1,18 @@
+Opifer\CmsBundle\Entity\Locale:
+  type: entity
+  table: locale
+
+  id:
+    id:
+        type: integer
+        id: true
+        generator:
+            strategy: IDENTITY
+
+  fields:
+          locale:
+              type: string
+          name:
+              type: string
+          english_name:
+              type: string
