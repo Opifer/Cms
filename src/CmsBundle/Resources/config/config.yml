@@ -330,4 +330,3 @@ lexik_translation:
     fallback_locale: [en]         # (required) default locale(s) to use
     managed_locales: [en, nl] # (required) locales that the bundle has to manage
     base_layout: 'OpiferCmsBundle:Backend/Translation:base.html.twig'
-    
