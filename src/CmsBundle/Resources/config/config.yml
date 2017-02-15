@@ -288,6 +288,8 @@ opifer_review:
 
 # Nelmio CORS
 nelmio_cors:
+    defaults:
+        forced_allow_origin_value: '*'
     paths:
         '^/(admin/api|api|accept-cookies)':
             allow_credentials: true
