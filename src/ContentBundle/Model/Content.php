@@ -1088,6 +1088,19 @@ class Content implements ContentInterface, EntityInterface, TemplatedInterface, 
     }
 
     /**
+     * @return \DateTime
+     */
+    public function getLastUpdateDate()
+    {
+        $contentDate = $this->getUpdatedAt();
+        $templateDate = $this->getTemplate()->getUpdatedAt();
+
+        $date = $contentDate > $templateDate ? $contentDate : $templateDate;
+
+        return $date;
+    }
+
+    /**
      * @return string
      */
     public function getCoverImageCacheKey()
