@@ -41,7 +41,7 @@
         "liip/imagine-bundle": "~1.6",
         "mtdowling/cron-expression": "1.0.*",
         "nelmio/api-doc-bundle": "^2.13",
-        "nelmio/cors-bundle": "^1.4",
+        "nelmio/cors-bundle": "^1.5",
         "opifer/revisions": "@dev",
         "pagerfanta/pagerfanta": "^1.0.3",
         "symfony-cmf/routing-bundle": "~1.3",
