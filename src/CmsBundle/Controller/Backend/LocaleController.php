@@ -58,7 +58,6 @@ class LocaleController extends Controller
         $em = $this->getDoctrine()->getManager();
 
         if (is_numeric($id)) {
-
             $locale = $em->getRepository('OpiferCmsBundle:Locale')->find($id);
         } else {
             $locale = $em->getRepository('OpiferCmsBundle:Locale')->findOneByLocale($id);
@@ -81,18 +80,4 @@ class LocaleController extends Controller
             'form' => $form->createView()
         ]);
     }
-
-    //public function deleteAction($id)
-    //{
-    //    $this->denyAccessUnlessGranted('ROLE_SUPER_ADMIN');
-    //
-    //    $event = $this->getDoctrine()->getRepository('AppBundle:Event')
-    //        ->find($id);
-    //
-    //    $em = $this->getDoctrine()->getManager();
-    //    $em->remove($event);
-    //    $em->flush();
-    //
-    //    return $this->redirectToRoute('event_index');
-    //}
 }

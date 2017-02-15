@@ -326,8 +326,8 @@ lexik_jwt_authentication:
     pass_phrase:      '%jwt_key_pass_phrase%'
     token_ttl:        '%jwt_token_ttl%'
 
-
 lexik_translation:
     fallback_locale: [en]         # (required) default locale(s) to use
     managed_locales: [en, nl] # (required) locales that the bundle has to manage
     base_layout: 'OpiferCmsBundle:Backend/Translation:base.html.twig'
+    
