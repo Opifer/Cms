@@ -266,7 +266,7 @@ class Content extends BaseContent
     }
 
     /**
-     * @return mixed
+     * @return \Opifer\CmsBundle\Entity\Locale
      */
     public function getLocale()
     {
