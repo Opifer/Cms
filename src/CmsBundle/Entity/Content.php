@@ -265,7 +265,20 @@ class Content extends BaseContent
         return $array;
     }
 
+    /**
+     * @return mixed
+     */
     public function getLocale(){
         return $this->locale;
+    }
+
+    /**
+     * @param Locale $locale
+     * @return $this
+     */
+    public function setLocale(Locale $locale){
+        $this->locale = $locale;
+
+        return $this;
     }
 }
