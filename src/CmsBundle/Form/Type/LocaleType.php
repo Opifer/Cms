@@ -2,6 +2,7 @@
 
 namespace Opifer\CmsBundle\Form\Type;
 
+use Opifer\CmsBundle\Entity\Locale;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\LocaleType as SymfonyLocaleType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -38,7 +39,7 @@ class LocaleType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'data_class' => 'Opifer\CmsBundle\Entity\Locale',
+            'data_class' => Locale::class,
         ]);
     }
 
