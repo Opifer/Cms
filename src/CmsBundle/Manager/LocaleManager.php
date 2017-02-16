@@ -4,9 +4,10 @@ namespace Opifer\CmsBundle\Manager;
 
 use Doctrine\ORM\EntityManager;
 use Lexik\Bundle\TranslationBundle\Manager\LocaleManager as BaseLocaleManager;
+use Opifer\CmsBundle\Entity\Locale;
 
 /**
- * Manager for translations files.
+ * Locale Manager.
  */
 class LocaleManager extends BaseLocaleManager
 {
@@ -16,19 +17,19 @@ class LocaleManager extends BaseLocaleManager
     protected $em;
 
     /**
-     * @var array
+     * @var Locale[]
      */
     protected $locales;
 
     /**
-     * Constructor
+     * The entity manager is being passed to this manager by a compiler pass.
      *
-     * @param array $managedLocales
+     * @see Opifer\CmsBundle\DependencyInjection\Compiler\VendorCompilerPass
+     *
+     * @param EntityManager $em
      */
-    public function __construct(array $managedLocales, EntityManager $em)
+    public function setEntityManager(EntityManager $em)
     {
-        parent::__construct($managedLocales);
-
         $this->em = $em;
     }
 
@@ -38,7 +39,8 @@ class LocaleManager extends BaseLocaleManager
     public function getLocales()
     {
         if ($this->locales == null) {
-            $dynamicLocales = $this->em->getRepository('Opifer\CmsBundle\Entity\Locale')->findAll();
+            /** @var Locale[] $dynamicLocales */
+            $dynamicLocales = $this->em->getRepository(Locale::class)->findAll();
 
             $this->locales = [];
             foreach ($dynamicLocales as $locale) {
