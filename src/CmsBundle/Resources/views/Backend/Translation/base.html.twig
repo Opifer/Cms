@@ -29,8 +29,6 @@
 
 {% block javascripts %}
     {{ parent() }}
-    {% block lexik_javascript_footer %}
+    {% block lexik_javascript_footer %}{% endblock lexik_javascript_footer %}
 
-        <script src="{{ asset('bundles/lexiktranslation/ng-table/ng-table.min.js') }}"></script>
-    {% endblock lexik_javascript_footer %}
 {% endblock javascripts %}
