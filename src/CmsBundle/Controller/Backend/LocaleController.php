@@ -12,6 +12,17 @@ use Symfony\Component\HttpFoundation\Response;
 
 class LocaleController extends Controller
 {
+
+    public function indexAction(){
+        $em = $this->getDoctrine()->getManager();
+
+        $locale = $em->getRepository('OpiferCmsBundle:Locale')->findAll();
+
+        return $this->render('OpiferCmsBundle:Backend/Locale:index.html.twig', [
+            'locale' => $locale
+        ]);
+    }
+
     /**
      * Create an event
      *

@@ -31,6 +31,11 @@ class Locale
     protected $english_name;
 
     /**
+     * @var bool
+     */
+    protected $active;
+
+    /**
      * @return int
      */
     public function getId()
@@ -91,4 +96,21 @@ class Locale
 
         return $this;
     }
+
+    /**
+     * @return bool
+     */
+    public function isActive()
+    {
+        return $this->active;
+    }
+
+    /**
+     * @param bool $active
+     */
+    public function setActive($active)
+    {
+        $this->active = $active;
+    }
+
 }

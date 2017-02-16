@@ -16,3 +16,5 @@ Opifer\CmsBundle\Entity\Locale:
               type: string
           english_name:
               type: string
+          active:
+              type: boolean

@@ -3,6 +3,7 @@
 namespace Opifer\CmsBundle\Form\Type;
 
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\LocaleType as SymfonyLocaleType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -28,6 +29,13 @@ class LocaleType extends AbstractType
                 'attr' => [
                     'help_text' => 'The english language name'
                 ]
+            ])
+            ->add('active', CheckboxType::class, [
+                'label' => 'active',
+                'attr' => [
+                    'help_text' => 'Is this language active'
+                ],
+                'required' => false,
             ])
         ;
     }
