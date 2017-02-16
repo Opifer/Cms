@@ -39,6 +39,8 @@ class ContentController extends Controller
         $version = $request->query->get('_version');
         $debug = $this->getParameter('kernel.debug');
 
+        $request->setLocale($content->getLocale()->getLocale());
+
         $contentDate = $content->getUpdatedAt();
         $templateDate = $content->getTemplate()->getUpdatedAt();
 
