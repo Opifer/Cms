@@ -2,9 +2,10 @@
 
 namespace Opifer\CmsBundle\Controller\Backend;
 
+use APY\DataGridBundle\Grid\Action\RowAction;
+use APY\DataGridBundle\Grid\Source\Entity;
 use Opifer\CmsBundle\Entity\Locale;
 use Opifer\CmsBundle\Form\Type\LocaleType;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -13,14 +14,25 @@ use Symfony\Component\HttpFoundation\Response;
 class LocaleController extends Controller
 {
 
-    public function indexAction(){
-        $em = $this->getDoctrine()->getManager();
+    /**
+     * @return Response
+     */
+    public function indexAction()
+    {
+        $source = new Entity(Locale::class);
 
-        $locale = $em->getRepository('OpiferCmsBundle:Locale')->findAll();
+        $editAction = new RowAction('button.edit', 'opifer_cms_locale_edit');
+        $editAction->setRouteParameters(['id']);
 
-        return $this->render('OpiferCmsBundle:Backend/Locale:index.html.twig', [
-            'locale' => $locale
-        ]);
+        /* @var $grid \APY\DataGridBundle\Grid\Grid */
+        $grid = $this->get('grid');
+        $grid->setId('locale')
+            ->setSource($source)
+            ->addRowAction($editAction)
+          ;
+
+
+        return $grid->getGridResponse('OpiferCmsBundle:Backend/Locale:index.html.twig');
     }
 
     /**

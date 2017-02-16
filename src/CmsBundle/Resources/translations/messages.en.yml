@@ -191,3 +191,8 @@ confirmation:
 schema:
     delete:
         warning: "We're unable to remove this template. It might still be in use by content items."
+
+locale:
+    details: "Locale details"
+    edit: "Edit locale"
+    new: "Create locale"
