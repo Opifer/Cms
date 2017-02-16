@@ -57,13 +57,6 @@
                                 </li>
                                 <li><a href="{{ path('opifer_mailing_list_mailing_list_index') }}">{{ "nav.mailing_lists"|trans|capitalize }}</a></li>
                                 <li><a href="{{ path('opifer_review_review_index') }}">{{ 'title.review'|trans|capitalize }}</a></li>
-                                <li class="dropdown">
-                                    <a class="dropdown-toggle" data-toggle="dropdown">{{ "title.translations"|trans|capitalize }} <i class="material-icons md-18">keyboard_arrow_down</i></a>
-                                    <ul class="dropdown-menu">
-                                        <li><a href="{{ path('lexik_translation_grid') }}">{{ 'title.translations'|trans|capitalize }}</a></li>
-                                        <li><a href="{{ path('opifer_cms_locale_index') }}">{{ 'title.locale'|trans|capitalize }}</a></li>
-                                    </ul>
-                                </li>
 
                                 {% block navigation_left %}{% endblock %}
                             </ul>
@@ -91,6 +84,7 @@
                                             <li class="divider"></li>
                                             <li role="presentation" class="dropdown-header">{{ 'base.content'|trans|capitalize }}</li>
                                             <li><a href="{{ path('opifer_cms_site_index') }}">{{ 'base.sites'|trans|capitalize }}</a></li>
+                                            <li><a href="{{ path('lexik_translation_grid') }}">{{ 'title.translations'|trans|capitalize }}</a></li>
                                         </ul>
                                     </li>
                                 {% endif %}

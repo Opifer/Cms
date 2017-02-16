@@ -2,16 +2,13 @@
 
 namespace Opifer\CmsBundle\Entity;
 
-use Doctrine\ORM\Mapping as ORM;
-
 /**
- * Locale
+ * Locale.
  */
 class Locale
 {
     /**
      * @var int
-     *
      */
     protected $id;
 
@@ -28,12 +25,12 @@ class Locale
     /**
      * @var string
      */
-    protected $english_name;
+    protected $englishName;
 
     /**
      * @var bool
      */
-    protected $active;
+    protected $active = true;
 
     /**
      * @return int
@@ -44,7 +41,7 @@ class Locale
     }
 
     /**
-     * @return mixed
+     * @return string
      */
     public function getLocale()
     {
@@ -52,7 +49,9 @@ class Locale
     }
 
     /**
-     * @param mixed $locale
+     * @param string $locale
+     *
+     * @return Locale
      */
     public function setLocale($locale)
     {
@@ -62,7 +61,7 @@ class Locale
     }
 
     /**
-     * @return mixed
+     * @return string
      */
     public function getName()
     {
@@ -70,7 +69,9 @@ class Locale
     }
 
     /**
-     * @param mixed $name
+     * @param string $name
+     *
+     * @return Locale
      */
     public function setName($name)
     {
@@ -80,19 +81,21 @@ class Locale
     }
 
     /**
-     * @return mixed
+     * @return string
      */
     public function getEnglishName()
     {
-        return $this->english_name;
+        return $this->englishName;
     }
 
     /**
-     * @param mixed $englishName
+     * @param string $englishName
+     *
+     * @return Locale
      */
-    public function setEnglishName($english_name)
+    public function setEnglishName($englishName)
     {
-        $this->english_name = $english_name;
+        $this->englishName = $englishName;
 
         return $this;
     }
@@ -112,5 +115,4 @@ class Locale
     {
         $this->active = $active;
     }
-
 }

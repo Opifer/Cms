@@ -8,6 +8,17 @@
 {% endblock stylesheets %}
 
 {% block body %}
+    <div class="col-xs-12">
+        <div class="page-header">
+            <a href="{{ path('opifer_cms_locale_create') }}" class="btn btn-link pull-right">
+                <i class="material-icons">add</i> {{ 'button.language_new'|trans({}, 'OpiferCmsBundle') }}
+            </a>
+            <a href="{{ path('opifer_cms_locale_index') }}" class="btn btn-link pull-right">
+                <i class="material-icons">list</i> {{ 'button.language_all'|trans({}, 'OpiferCmsBundle') }}
+            </a>
+            <h1>{{ 'translations.page_title'|trans({}, 'LexikTranslationBundle') }}</h1>
+        </div>
+    </div>
     {% block lexik_flash_message %}
         <div class="container">
             <div class="row">
@@ -24,7 +35,11 @@
             </div>
         </div>
     {% endblock lexik_flash_message %}
-    {% block lexik_content '' %}
+    <div class="col-xs-12">
+        {% block lexik_data_grid %}
+            {% include 'LexikTranslationBundle:Translation:_ngGrid.html.twig' %}
+        {% endblock lexik_data_grid %}
+    </div>
 {% endblock body %}
 
 {% block javascripts %}

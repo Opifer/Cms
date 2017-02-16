@@ -44,6 +44,10 @@ class LocaleManager extends BaseLocaleManager
 
             $this->locales = [];
             foreach ($dynamicLocales as $locale) {
+                if (!$locale->isActive()) {
+                    continue;
+                }
+
                 $this->locales[] = $locale->getLocale();
             }
         }
