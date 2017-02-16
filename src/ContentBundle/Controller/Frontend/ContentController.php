@@ -35,6 +35,7 @@ class ContentController extends Controller
      */
     public function viewAction(Request $request, ContentInterface $content, $statusCode = 200)
     {
+
         $version = $request->query->get('_version');
         $debug = $this->getParameter('kernel.debug');
 

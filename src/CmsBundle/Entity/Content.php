@@ -264,4 +264,8 @@ class Content extends BaseContent
 
         return $array;
     }
+
+    public function getLocale(){
+        return $this->locale;
+    }
 }
