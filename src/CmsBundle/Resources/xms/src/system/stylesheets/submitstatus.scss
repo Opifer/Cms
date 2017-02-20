@@ -1,0 +1,44 @@
+
+.submit-status-success,
+.submit-status-fail {
+  opacity: 0;
+}
+
+.submit-status-enter {
+  opacity: 0.01;
+
+  &.submit-status-success,
+  &.submit-status-fail {
+    opacity: 1;
+    transition: opacity 0s;
+  }
+
+  &.submit-status-enter-active {
+    opacity: 1;
+    transition: opacity 500ms ease-in;
+
+
+    &.submit-status-success,
+    &.submit-status-fail {
+      opacity: 0;
+      transition: opacity 5000ms linear;
+    }
+  }
+}
+
+.submit-status-leave {
+  // opacity: 1;
+  display: none;
+  opacity: 0;
+
+  // &.submit-status-progress {
+  //   display: none;
+  //   opacity: 0;
+  //   transition: opacity 0s;
+  // }
+
+  // &.submit-status-leave-active {
+  //   opacity: 0.01;
+  //   transition: opacity 300ms ease-in;
+  // }
+}
