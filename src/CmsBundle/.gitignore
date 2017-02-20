@@ -4,5 +4,7 @@ phpunit.xml
 Resources/public/components/*
 Resources/public/js/app.js
 Resources/public/js/client.js
+Resources/public/dist/*
+!Resources/public/dist/.gitkeep
 Resources/public/css/*
 vendor/
