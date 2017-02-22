@@ -38,6 +38,12 @@ class CardBlockService extends AbstractBlockService implements BlockServiceInter
         $builder->get('properties')
             ->add('id', TextType::class, ['attr' => ['help_text' => 'help.html_id']])
             ->add('extra_classes', TextType::class, ['attr' => ['help_text' => 'help.extra_classes']])
+            ->add('preset', ChoiceType::class, [
+                'label'       => 'Preset',
+                'attr'        => ['help_text' => 'Pick a preset'],
+                'choices'     => $this->config['presets'],
+                'required'    => true,
+            ])
             ->add('styles', ChoiceType::class, [
                 'label' => 'label.styling',
                 'choices'  => $this->config['styles'],
