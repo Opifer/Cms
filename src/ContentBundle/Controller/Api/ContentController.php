@@ -33,6 +33,7 @@ class ContentController extends Controller
      * @QueryParam(name="options", map=true, description="A list of option ids")
      * @QueryParam(name="order_by", description="Define the order")
      * @QueryParam(name="search", description="Search on any field")
+     * @QueryParam(name="page", description="Used for pagination", default="1")
      *
      * @param Request      $request
      * @param ParamFetcher $paramFetcher
@@ -89,6 +90,9 @@ class ContentController extends Controller
                 $qb->orderBy('a.'.$orderBy, $paramFetcher->get('direction'));
             }
 
+            // Pagination
+            $offset = ($paramFetcher->get('page') - 1) * $paramFetcher->get('limit');
+            $qb->setFirstResult($offset);
             $qb->setMaxResults($paramFetcher->get('limit'));
 
             $items = $qb->getQuery()->getResult();
