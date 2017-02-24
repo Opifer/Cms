@@ -5,9 +5,8 @@
   "private": true,
   "main": "index.js",
   "scripts": {
-    "start": "node server-dev.js",
-    "dev": "webpack -d --watch",
-    "build": "webpack -p --config webpack.config.dist.js"
+    "start": "node Resources/xms/server-dev.js",
+    "build": "webpack -p --config Resources/xms/webpack.config.dist.js"
   },
   "dependencies": {
     "autoprefixer": "^6.4.0",

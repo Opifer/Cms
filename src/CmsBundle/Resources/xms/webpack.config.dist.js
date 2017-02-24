@@ -3,8 +3,8 @@ const path = require('path');
 const autoprefixer = require('autoprefixer');
 // const CopyWebpackPlugin = require('copy-webpack-plugin');
 
-const BUILD_DIR = path.resolve(__dirname, 'Resources/public/dist');
-const APP_DIR = path.resolve(__dirname, 'Resources/xms/src');
+const BUILD_DIR = path.resolve(__dirname, '../public/dist');
+const APP_DIR = path.resolve(__dirname, './src');
 
 module.exports = {
   debug: false,
@@ -13,7 +13,7 @@ module.exports = {
   ],
   output: {
     path: BUILD_DIR,
-    filename: 'bundle.js',
+    filename: 'xms.js',
     publicPath: '/dist/',
   },
   plugins: [

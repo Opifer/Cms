@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { Field, FieldArray, reduxForm } from 'redux-form';
 
 import { Header, FormActions } from '../../system/components';
-import { CodeField, TextField, CheckboxField } from '../../formFields/components';
+import { CodeField, TextField, CheckboxField, SelectField } from '../../formFields/components';
 import { fetchDataViewsIfNeeded, saveDataView } from '../actions';
 import { selectEditItem, getDisplayName, getEditId } from '../selectors';
 import * as c from '../constants';
@@ -38,7 +38,7 @@ const viewPlaceholders = ({ fields, meta: { touched, error } }) => (
       </div>
     </div>
   </div>
-);
+);          
 
 const viewFields = ({ fields, meta: { touched, error } }) => (
   <div>
@@ -47,10 +47,21 @@ const viewFields = ({ fields, meta: { touched, error } }) => (
         <div className="form-group">
           <Field
             name={`${field}.type`}
-            type="text"
-            component={TextField}
+            component={SelectField}
+            options={{
+              text: 'Text',
+              number: 'Number',
+              textarea: 'Textarea',
+              checkbox: 'Checkbox',
+              html: 'HTML',
+              // select: 'Select',
+              media: 'Media',
+              contentItem: 'Content Item',
+              contentItems: 'Content Items',
+            }}
             label="Type"
             inputAttributes={{ placeholder: 'Type' }}
+            className="form-control"
             labelClassName="sr-only"
           />{' '}
           <Field
@@ -77,6 +88,7 @@ const viewFields = ({ fields, meta: { touched, error } }) => (
             inputAttributes={{ placeholder: 'Sort', size: 5 }}
             labelClassName="sr-only"
           />{' '}
+          {}
           <button
             type="button"
             className="btn btn-link text-danger btn-sm"
