@@ -60,6 +60,8 @@ gulp.task('js', ['react'], function () {
         'Resources/public/js/pagemanager.js',
         'Resources/public/angular/app.js',
 
+        '../../../../lexik/translation-bundle/Resources/public/ng-table/ng-table.min.js',
+        '../../../../lexik/translation-bundle/Resources/public/js/translation.js',
         '../ContentBundle/Resources/public/js/app.js',
         '../ContentBundle/Resources/public/app/content/content.js',
         '../MediaBundle/Resources/public/app/modal/modal.js',

@@ -15,7 +15,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Content.
- * 
+ *
  * @JMS\ExclusionPolicy("all")
  * @GRID\Source(columns="id, title, slug, alias, active, updatedAt, indexable, searchable")
  */
@@ -263,5 +263,24 @@ class Content extends BaseContent
         }
 
         return $array;
+    }
+
+    /**
+     * @return \Opifer\CmsBundle\Entity\Locale
+     */
+    public function getLocale()
+    {
+        return $this->locale;
+    }
+
+    /**
+     * @param Locale $locale
+     * @return $this
+     */
+    public function setLocale(Locale $locale)
+    {
+        $this->locale = $locale;
+
+        return $this;
     }
 }
