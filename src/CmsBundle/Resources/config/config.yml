@@ -120,6 +120,9 @@ fos_user:
             type:              public_registration_form
             name:              public_registration
             validation_groups: []
+    from_email:
+        address: noreply@jstack.eu
+        sender_name: jstack CMS
 
 # Menus
 knp_menu:
@@ -287,6 +290,8 @@ opifer_review:
 
 # Nelmio CORS
 nelmio_cors:
+    defaults:
+        forced_allow_origin_value: '*'
     paths:
         '^/(admin/api|api|accept-cookies)':
             allow_credentials: true

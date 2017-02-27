@@ -6,7 +6,6 @@ use Doctrine\ORM\QueryBuilder;
 use FOS\RestBundle\Controller\Annotations\QueryParam;
 use FOS\RestBundle\Request\ParamFetcher;
 use JMS\Serializer\SerializationContext;
-use JMS\Serializer\SerializerBuilder;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Opifer\CmsBundle\Entity\Content;
 use Opifer\ContentBundle\Block\BlockManager;
@@ -33,6 +32,11 @@ class ContentController extends Controller
      * @QueryParam(name="limit", requirements="\d+", description="The amount of results to return", default="10")
      * @QueryParam(name="options", map=true, description="A list of option ids")
      * @QueryParam(name="order_by", description="Define the order")
+     * @QueryParam(name="search", description="Search on any field")
+     * @QueryParam(name="page", description="Used for pagination", default="1")
+     *
+     * @param Request      $request
+     * @param ParamFetcher $paramFetcher
      *
      * @return ContentInterface[]
      */
@@ -56,8 +60,28 @@ class ContentController extends Controller
                 }
             }
 
+            $exprVisitor = new QueryBuilderVisitor($qb);
+
+            // Adds filtering on a search parameter
+            if ($search = $paramFetcher->get('search')) {
+                // TODO: Add filtering on possible dynamic attributes
+                $value = $exprVisitor->shouldJoin('valueSet.values.value');
+                $qb->andWhere($qb->expr()->orX(
+                    $qb->expr()->like('a.title', ':search'),
+                    $qb->expr()->like('a.shortTitle', ':search'),
+                    $qb->expr()->like('a.description', ':search'),
+                    $qb->expr()->like($value, ':search')
+                ))->setParameter('search', '%'.$search.'%');
+
+                // Give the title priority over other matches if no specific order is given
+                if (!$orderBy = $paramFetcher->get('order_by')) {
+                    $qb->addSelect('(CASE WHEN a.title LIKE \'%'.$search.'%\' THEN 0 ELSE 1 END) AS HIDDEN PRIO');
+                    $qb->orderBy('PRIO', 'ASC');
+                }
+            }
+
+            // Adds filtering on options
             if ($options = $paramFetcher->get('options')) {
-                $exprVisitor = new QueryBuilderVisitor($qb);
                 $prefix = $exprVisitor->shouldJoin('valueSet.values.options.id');
                 $qb->andWhere($prefix.' IN (:options)')->setParameter('options', $options);
             }
@@ -66,6 +90,9 @@ class ContentController extends Controller
                 $qb->orderBy('a.'.$orderBy, $paramFetcher->get('direction'));
             }
 
+            // Pagination
+            $offset = ($paramFetcher->get('page') - 1) * $paramFetcher->get('limit');
+            $qb->setFirstResult($offset);
             $qb->setMaxResults($paramFetcher->get('limit'));
 
             $items = $qb->getQuery()->getResult();
@@ -95,7 +122,7 @@ class ContentController extends Controller
     }
 
     /**
-     * Index
+     * Index.
      *
      * @param Request $request
      *
@@ -111,15 +138,15 @@ class ContentController extends Controller
         $contents = $this->get('jms_serializer')->serialize(iterator_to_array($contents), 'json', SerializationContext::create()->setGroups(['list'])->enableMaxDepthChecks());
 
         $data = [
-            'results'       => json_decode($contents, true),
-            'total_results' => $paginator->getNbResults()
+            'results' => json_decode($contents, true),
+            'total_results' => $paginator->getNbResults(),
         ];
 
         return new JsonResponse($data);
     }
 
     /**
-     * Get a content items by a list of ids
+     * Get a content items by a list of ids.
      *
      * @param string $ids
      *
@@ -134,42 +161,38 @@ class ContentController extends Controller
         $contents = $this->get('jms_serializer')->serialize($items, 'json', SerializationContext::create()->setGroups(['list'])->enableMaxDepthChecks());
 
         $data = [
-            'results'       => json_decode($contents, true),
-            'total_results' => count($items)
+            'results' => json_decode($contents, true),
+            'total_results' => count($items),
         ];
 
         return new JsonResponse($data);
     }
 
     /**
-     * View
+     * Get a single content item.
      *
      * @param Request $request
-     * @param integer $id
+     * @param int     $id
+     * @param string  $structure
      *
      * @return JsonResponse
      */
     public function viewAction(Request $request, $id, $structure = 'tree')
     {
+        $response = new JsonResponse();
+
         /** @var ContentRepository $contentRepository */
         $contentRepository = $this->get('opifer.content.content_manager')->getRepository();
-        if (is_numeric($id)) {
-            $content = $contentRepository->find($id);
-        } else {
-            // TODO; Move the request by slug call to a separate method
-            $content = $contentRepository->findOneBySlug($id);
+        $content = $contentRepository->findOneByIdOrSlug($id, true);
+        if ($content->getSlug() === '404') {
+            // If the original content was not found and the 404 page was returned, set the correct status code
+            $response->setStatusCode(404);
         }
 
         $version = $request->query->get('_version');
         $debug = $this->getParameter('kernel.debug');
 
-        $contentDate = $content->getUpdatedAt();
-        $templateDate = $content->getTemplate()->getUpdatedAt();
-
-        $date = $contentDate > $templateDate ? $contentDate : $templateDate;
-
-        $response = new JsonResponse();
-        $response->setLastModified($date);
+        $response->setLastModified($content->getLastUpdateDate());
         $response->setPublic();
 
         if (null === $version && false == $debug && $response->isNotModified($request)) {
@@ -212,16 +235,16 @@ class ContentController extends Controller
         ];
 
         $json = $this->get('jms_serializer')->serialize($contentItem, 'json', $context);
-        
+
         $response->setData(json_decode($json, true));
 
         return $response;
     }
 
     /**
-     * Delete content
+     * Delete content.
      *
-     * @param integer $id
+     * @param int $id
      *
      * @return Response
      */
@@ -237,7 +260,7 @@ class ContentController extends Controller
     }
 
     /**
-     * Duplicates content based on their id
+     * Duplicates content based on their id.
      *
      * @param Request $request
      *
@@ -253,12 +276,12 @@ class ContentController extends Controller
 
         /** @var ContentManagerInterface $contentManager */
         $contentManager = $this->get('opifer.content.content_manager');
-        $content        = $contentManager->getRepository()->find($params['id']);
-        $response       = new JsonResponse;
+        $content = $contentManager->getRepository()->find($params['id']);
+        $response = new JsonResponse();
 
         try {
-            if ( ! $content) {
-                throw $this->createNotFoundException('No content found for id ' . $params['id']);
+            if (!$content) {
+                throw $this->createNotFoundException('No content found for id '.$params['id']);
             }
 
             /** @var BlockManager $blockManager */
