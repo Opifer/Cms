@@ -50,12 +50,12 @@ class RangeFieldBlockService extends FormFieldBlockService implements BlockServi
                     'help_text' => 'help.range_step_size',
                 ],
             ])
-            //->add('unit', TextType::class, [
-            //    'required' => false,
-            //    'attr' => [
-            //        'help_text' => 'An optional value unit (e.g. m2)',
-            //    ],
-            //])
+            ->add('unit', TextType::class, [
+               'required' => false,
+               'attr' => [
+                   'help_text' => 'An optional value unit (e.g. m2)',
+               ],
+            ])
         ;
     }
 
