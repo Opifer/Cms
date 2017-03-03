@@ -300,6 +300,11 @@ $(document).ready(function() {
                 publishShared($(this).closest('form').attr('data-pm-block-id'));
             });
 
+            $(document).on('click', '.pm-btn-delete-block', function (e) {
+                e.preventDefault();
+                deleteBlock($(this).closest('form').attr('data-pm-block-id'));
+            });
+
             var cookieSettings = Cookies.getJSON('pmSettings');
             jQuery.extend(settings, cookieSettings);
 

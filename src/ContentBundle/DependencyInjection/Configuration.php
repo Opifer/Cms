@@ -146,6 +146,14 @@ class Configuration implements ConfigurationInterface
                                         'news' => 'News',
                                     ])
                                 ->end()
+                                ->arrayNode('backgrounds')
+                                    ->prototype('scalar')->end()
+                                    ->normalizeKeys(false)
+                                    ->useAttributeAsKey('name')
+                                    ->defaultValue([
+                                        'default' => 'Default',
+                                    ])
+                                ->end()
                                 ->arrayNode('styles')
                                     ->prototype('scalar')->end()
                                     ->normalizeKeys(false)

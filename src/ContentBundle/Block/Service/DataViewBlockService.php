@@ -32,7 +32,8 @@ class DataViewBlockService extends AbstractBlockService implements LayoutBlockSe
 
     /**
      * @param BlockRenderer           $blockRenderer
-     * @param ContentManagerInterface $contentManager
+     * @param EntityManagerInterface $em
+     * @param array $config
      */
     public function __construct(BlockRenderer $blockRenderer, EntityManagerInterface $em, array $config)
     {
@@ -57,6 +58,7 @@ class DataViewBlockService extends AbstractBlockService implements LayoutBlockSe
                 $options = [
                     'label' => $field['display_name'],
                 ];
+
                 switch ($field['type']) {
                     case 'text':
                         $type = TextType::class;
