@@ -2,6 +2,7 @@
 
 namespace Opifer\MediaBundle\Form\Type;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\EntityRepository;
 use Opifer\MediaBundle\Model\Media;
 use Opifer\MediaBundle\Model\MediaManager;
@@ -62,9 +63,9 @@ class MediaPickerType extends AbstractType
                         return array_values($items);
                     },
                     function ($submitted) {
-                        if (!is_array($submitted) && $submitted instanceof Media) {
+                        if ($submitted instanceof Media) {
                             $submitted = [$submitted];
-                        } elseif (!is_array($submitted)) {
+                        } elseif (!is_array($submitted) && !$submitted instanceof ArrayCollection) {
                             $submitted = [];
                         }
 
