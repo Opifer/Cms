@@ -36,7 +36,7 @@ SelectField.propTypes = {
   labelClassName: PropTypes.string,
   meta: PropTypes.object,
   name: PropTypes.string,
-  options: PropTypes.array,
+  options: PropTypes.object,
   placeholder: PropTypes.string,
 };
 

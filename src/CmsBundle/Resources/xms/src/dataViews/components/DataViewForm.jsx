@@ -38,7 +38,47 @@ const viewPlaceholders = ({ fields, meta: { touched, error } }) => (
       </div>
     </div>
   </div>
-);          
+);
+
+const optionFields = ({ fields, meta: { touched, error } }) => (
+  <div className="pl-2">
+    {fields.map((field, index) =>
+      <div className="form-inline" key={index}>
+        <div className="form-group">
+          <Field
+            name={`${field}.key`}
+            type="text"
+            component={TextField}
+            label="Key"
+            inputAttributes={{ placeholder: 'Key' }}
+            labelClassName="sr-only"
+          />{' '}
+          <Field
+            name={`${field}.value`}
+            type="text"
+            component={TextField}
+            label="Value"
+            inputAttributes={{ placeholder: 'Value' }}
+            labelClassName="sr-only"
+          />{' '}
+          <button
+            type="button"
+            className="btn btn-link text-danger btn-sm"
+            onClick={() => fields.remove(index)}
+          >
+            Remove
+          </button>
+        </div>
+      </div>
+    )}
+    <div className="row mb-2">
+      <div className="col-xs-12">
+        <button type="button" onClick={() => fields.push({})} className="btn btn-sm btn-outline-primary">Add option</button>
+        {touched && error && <span>{error}</span>}
+      </div>
+    </div>
+  </div>
+);     
 
 const viewFields = ({ fields, meta: { touched, error } }) => (
   <div>
@@ -54,7 +94,7 @@ const viewFields = ({ fields, meta: { touched, error } }) => (
               textarea: 'Textarea',
               checkbox: 'Checkbox',
               html: 'HTML',
-              // select: 'Select',
+              select: 'Select',
               media: 'Media',
               contentItem: 'Content Item',
               contentItems: 'Content Items',
@@ -88,7 +128,6 @@ const viewFields = ({ fields, meta: { touched, error } }) => (
             inputAttributes={{ placeholder: 'Sort', size: 5 }}
             labelClassName="sr-only"
           />{' '}
-          {}
           <button
             type="button"
             className="btn btn-link text-danger btn-sm"
@@ -96,6 +135,12 @@ const viewFields = ({ fields, meta: { touched, error } }) => (
           >
             Remove
           </button>
+          {fields.get(index).type === 'select' && (
+            <FieldArray
+              name={`${field}.options`}
+              component={optionFields}
+            />
+          )}
         </div>
       </div>
     )}
