@@ -37,7 +37,6 @@ class CardBlockService extends AbstractBlockService implements BlockServiceInter
         ;
 
         $builder->get('properties')
-            ->add('title', TextType::class)
             ->add('id', TextType::class, ['attr' => ['help_text' => 'help.html_id']])
             ->add('extra_classes', TextType::class, ['attr' => ['help_text' => 'help.extra_classes']])
             ->add('preset', ChoiceType::class, [
