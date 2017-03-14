@@ -292,6 +292,8 @@ abstract class AbstractBlockService implements BlockServiceInterface
                 ->add('displayName', TextType::class, ['label' => 'label.display_name', 'attr' => ['help_text' => 'help.block_display_name']])
         )->add(
             $builder->create('properties', FormType::class, ['label' => false, 'attr' => ['widget_col' => 12]])
+        )->add(
+            $builder->create('styles', FormType::class, ['label' => false, 'attr' => ['widget_col' => 12]])
         );
 
         $builder->addEventListener(FormEvents::PRE_SET_DATA, function (FormEvent $event) {

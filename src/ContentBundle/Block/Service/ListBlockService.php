@@ -60,7 +60,7 @@ class ListBlockService extends AbstractBlockService implements BlockServiceInter
         )->add($propertiesForm);
 
         if ($this->config['templates'] && count($this->config['templates'])) {
-            $propertiesForm->add('template', ChoiceType::class, [
+            $builder->get('styles')->add('template', ChoiceType::class, [
                 'label' => 'label.template',
                 'placeholder' => 'placeholder.choice_optional',
                 'attr' => ['help_text' => 'This setting is deprecated, set individual desktop and mobile styles separately'],
@@ -71,7 +71,7 @@ class ListBlockService extends AbstractBlockService implements BlockServiceInter
         }
 
         if ($this->config['styles']) {
-            $propertiesForm->add('styles', ChoiceType::class, [
+            $builder->get('styles')->add('styles', ChoiceType::class, [
                 'label' => 'label.styling',
                 'choices' => $this->config['styles'],
                 'required' => false,
@@ -81,13 +81,7 @@ class ListBlockService extends AbstractBlockService implements BlockServiceInter
             ]);
         }
 
-        $propertiesForm
-            ->add('preset', ChoiceType::class, [
-                'label'       => 'Preset',
-                'attr'        => ['help_text' => 'Pick a preset'],
-                'choices'     => $this->config['presets'],
-                'required'    => true,
-            ])
+        $builder->get('styles')
             ->add('displayType', ChoiceType::class, [
                 'label' => 'label.list_display_type',
                 'choices' => $this->config['display_types'],
@@ -126,6 +120,15 @@ class ListBlockService extends AbstractBlockService implements BlockServiceInter
                 'multiple' => false,
                 'attr' => ['help_text' => 'help.list_image_ratio'],
             ]);
+
+        $propertiesForm
+            ->add('preset', ChoiceType::class, [
+                'label'       => 'Preset',
+                'attr'        => ['help_text' => 'Pick a preset'],
+                'choices'     => $this->config['presets'],
+                'required'    => true,
+            ])
+            ;
     }
 
     /**

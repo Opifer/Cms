@@ -35,13 +35,14 @@ class ButtonBlockService extends AbstractBlockService implements BlockServiceInt
 
 
         if ($this->config['styles']) {
-            $propertiesForm->add('styles', ChoiceType::class, [
-                'label' => 'label.styling',
-                'choices'  => $this->config['styles'],
-                'required' => false,
-                'expanded' => true,
-                'multiple' => true,
-            ]);
+            $builder->get('styles')
+                ->add('styles', ChoiceType::class, [
+                    'label' => 'label.styling',
+                    'choices'  => $this->config['styles'],
+                    'required' => false,
+                    'expanded' => true,
+                    'multiple' => true,
+                ]);
         }
 
         $builder->add(

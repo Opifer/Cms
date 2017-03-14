@@ -35,24 +35,7 @@ class CardBlockService extends AbstractBlockService implements BlockServiceInter
                 'attr' => array('label_col' => 12, 'widget_col' => 12),
             ])
         ;
-
-        $builder->get('properties')
-            ->add('id', TextType::class, ['attr' => ['help_text' => 'help.html_id']])
-            ->add('extra_classes', TextType::class, ['attr' => ['help_text' => 'help.extra_classes']])
-            ->add('preset', ChoiceType::class, [
-                'label'       => 'Preset',
-                'attr'        => ['help_text' => 'Pick a preset'],
-                'choices'     => $this->config['presets'],
-                'required'    => true,
-            ])
-            ->add('styles', ChoiceType::class, [
-                'label' => 'label.styling',
-                'choices'  => $this->config['styles'],
-                'required' => false,
-                'expanded' => true,
-                'multiple' => true,
-                'attr' => ['help_text' => 'help.html_styles'],
-            ])
+        $builder->get('styles')
             ->add('displaySize', ChoiceType::class, [
                 'label' => 'label.list_display_size',
                 'choices'  => [
@@ -65,6 +48,35 @@ class CardBlockService extends AbstractBlockService implements BlockServiceInter
                 'expanded' => false,
                 'multiple' => false,
                 'attr' => ['help_text' => 'help.list_display_size'],
+            ])
+            ->add('preset', ChoiceType::class, [
+                'label'       => 'Preset',
+                'attr'        => ['help_text' => 'Pick a preset'],
+                'choices'     => $this->config['presets'],
+                'required'    => true,
+            ])
+
+            ->add('background', ChoiceType::class, [
+                'required' => false,
+                'label' => 'label.background_color',
+                'choices' => $this->config['backgrounds']
+            ])
+            ->add('styles', ChoiceType::class, [
+                'label' => 'label.styling',
+                'choices'  => $this->config['styles'],
+                'required' => false,
+                'expanded' => true,
+                'multiple' => true,
+                'attr' => ['help_text' => 'help.html_styles'],
+            ])
+        ;
+
+        $builder->get('properties')
+            ->add('id', TextType::class, ['attr' => ['help_text' => 'help.html_id']])
+            ->add('extra_classes', TextType::class, ['attr' => ['help_text' => 'help.extra_classes']])
+            ->add('content',  ContentPickerType::class, [
+                'as_object' => false,
+                'label' => 'label.content',
             ])
             ->add('imageRatio', ChoiceType::class, [
                 'label' => 'label.list_image_ratio',
@@ -83,15 +95,6 @@ class CardBlockService extends AbstractBlockService implements BlockServiceInter
                 'expanded' => false,
                 'multiple' => false,
                 'attr' => ['help_text' => 'help.list_image_ratio']
-            ])
-            ->add('content',  ContentPickerType::class, [
-                'as_object' => false,
-                'label' => 'label.content',
-            ])
-            ->add('background', ChoiceType::class, [
-                'required' => false,
-                'label' => 'label.background_color',
-                'choices' => $this->config['backgrounds']
             ])
         ;
     }
