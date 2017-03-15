@@ -140,9 +140,6 @@ abstract class Block implements BlockInterface, DraftInterface
     /**
      * @var array
      *
-     * @JMS\Expose
-     * @JMS\Groups({"tree", "detail"})
-     *
      * @Revisions\Revised
      * @ORM\Column(type="json_array", nullable=true)
      */
@@ -150,9 +147,6 @@ abstract class Block implements BlockInterface, DraftInterface
 
     /**
      * @var array
-     *
-     * @JMS\Expose
-     * @JMS\Groups({"tree", "detail"})
      *
      * @Revisions\Revised
      * @ORM\Column(type="json_array", nullable=true)
@@ -394,6 +388,9 @@ abstract class Block implements BlockInterface, DraftInterface
     }
 
     /**
+     * @JMS\VirtualProperty
+     * @JMS\SerializedName("properties")
+     *
      * @return array
      */
     public function getProperties()
@@ -402,8 +399,6 @@ abstract class Block implements BlockInterface, DraftInterface
     }
 
     /**
-     * @JMS\VirtualProperty
-     * @JMS\SerializedName("properties")
      *
      * @param array $properties
      */
