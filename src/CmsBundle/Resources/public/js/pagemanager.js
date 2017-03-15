@@ -345,10 +345,15 @@ $(document).ready(function() {
         };
 
         var refreshBlock = function (id) {
-            $.get(Routing.generate('opifer_content_api_contenteditor_view_block', {owner: owner, ownerId: ownerId, id: id})).done(function (data) {
-                getBlockElement(id).replaceWith(data.view);
-                showToolbars();
-            });
+            if (iFrame.contents().find('#app').length) {
+                // Refresh the whole iFrame when the page is a react/angular app.
+                iFrame[0].contentWindow.location.reload();
+            } else {
+                $.get(Routing.generate('opifer_content_api_contenteditor_view_block', {owner: owner, ownerId: ownerId, id: id})).done(function (data) {
+                    getBlockElement(id).replaceWith(data.view);
+                    showToolbars();
+                });
+            }
         };
 
         var loadRunButton = function () {
