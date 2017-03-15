@@ -14,13 +14,10 @@ use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 
 /**
- * Class ColumnBlockService
- *
- * @package Opifer\ContentBundle\Block
+ * Container block service
  */
 class ContainerBlockService extends AbstractBlockService implements LayoutBlockServiceInterface, BlockServiceInterface, ToolsetMemberInterface
 {
-
     /**
      * {@inheritdoc}
      */
@@ -28,14 +25,14 @@ class ContainerBlockService extends AbstractBlockService implements LayoutBlockS
     {
         parent::buildManageForm($builder, $options);
 
+        $builder->get('default')
+            ->add('name', TextType::class, ['label' => 'label.name', 'attr' => ['help_text' => 'help.block_name']]);
 
-        $propertiesForm = $builder->create('properties', FormType::class)
+        $builder->get('properties')
             ->add('id', TextType::class, ['attr' => ['help_text' => 'help.html_id']])
             ->add('extra_classes', TextType::class, ['attr' => ['help_text' => 'help.extra_classes']]);
 
         $builder->addEventListener(FormEvents::PRE_SET_DATA, function (FormEvent $event) {
-            $block = $event->getData();
-
             $form = $event->getForm();
 
             $form->get('properties')->add('styles', ChoiceType::class, [
@@ -54,17 +51,10 @@ class ContainerBlockService extends AbstractBlockService implements LayoutBlockS
                 'attr' => ['help_text' => 'help.container_sizing'],
             ]);
         });
-
-        $builder->add(
-            $builder->create('default', FormType::class, ['inherit_data' => true])
-                ->add('name', TextType::class, ['label' => 'label.name', 'attr' => ['help_text' => 'help.block_name']])
-        )->add(
-            $propertiesForm
-        );
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getManageFormTypeName()
     {
@@ -72,7 +62,7 @@ class ContainerBlockService extends AbstractBlockService implements LayoutBlockS
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function createBlock()
     {
@@ -80,7 +70,7 @@ class ContainerBlockService extends AbstractBlockService implements LayoutBlockS
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getTool(BlockInterface $block = null)
     {
@@ -95,7 +85,7 @@ class ContainerBlockService extends AbstractBlockService implements LayoutBlockS
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getPlaceholders(BlockInterface $block = null)
     {
