@@ -77,30 +77,44 @@ class ColumnBlockService extends AbstractBlockService implements LayoutBlockServ
                 $block->setProperties($properties);
             }
 
-            $form->get('styles')->add('styles', ChoiceType::class, [
-                'label' => 'label.styling',
-                'choices' => $this->config['styles'],
-                'required' => false,
-                'expanded' => true,
-                'multiple' => true,
-                'attr' => ['help_text' => 'help.html_styles'],
-            ]);
-
-            $form->get('styles')->add('spans', SpanCollectionType::class, [
-                'column_count' => $block->getColumnCount(),
-                'label' => 'label.spans',
-                'attr' => ['help_text' => 'help.column_spans'],
-            ]);
-            $form->get('styles')->add('offsets', SpanCollectionType::class, [
-                'column_count' => $block->getColumnCount(),
-                'label' => 'label.offsets',
-                'attr' => ['help_text' => 'help.column_offsets'],
-            ]);
-            $form->get('styles')->add('gutters', GutterCollectionType::class, [
-                'column_count' => $block->getColumnCount(),
-                'label' => 'label.gutters',
-                'attr' => ['help_text' => 'help.column_gutters'],
-            ]);
+            $form->get('styles')
+                ->add('styles', ChoiceType::class, [
+                    'label' => 'label.styling',
+                    'choices' => $this->config['styles'],
+                    'required' => false,
+                    'expanded' => true,
+                    'multiple' => true,
+                    'attr' => ['help_text' => 'help.html_styles'],
+                ])
+                ->add('column_count', ChoiceType::class, [
+                    'label' => 'label.column_count',
+                    'choices' => [
+                        '1' => '1',
+                        '2' => '2',
+                        '3' => '3',
+                        '4' => '4',
+                    ],
+                    'required' => false,
+                    'expanded' => true,
+                    'multiple' => false,
+                    'attr' => ['help_text' => 'help.html_styles', 'class'=>'btn-toolbar'],
+                ])
+                ->add('spans', SpanCollectionType::class, [
+                    'column_count' => $block->getColumnCount(),
+                    'label' => 'label.spans',
+                    'attr' => ['help_text' => 'help.column_spans'],
+                ])
+                ->add('offsets', SpanCollectionType::class, [
+                    'column_count' => $block->getColumnCount(),
+                    'label' => 'label.offsets',
+                    'attr' => ['help_text' => 'help.column_offsets'],
+                ])
+                ->add('gutters', GutterCollectionType::class, [
+                    'column_count' => $block->getColumnCount(),
+                    'label' => 'label.gutters',
+                    'attr' => ['help_text' => 'help.column_gutters'],
+                ])
+            ;
 
         });
     }
