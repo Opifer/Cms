@@ -9,9 +9,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
- * Class SchemaController
- *
- * @package Opifer\EavBundle\Controller
+ * Schema Controller
  */
 class SchemaController extends Controller
 {

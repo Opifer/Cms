@@ -12,8 +12,6 @@ class Entity implements EntityInterface
 
     protected $schema;
 
-    protected $nestedSort;
-
     public function setValueSet(ValueSetInterface $valueSet)
     {
         $this->valueSet = $valueSet;
