@@ -5,6 +5,7 @@ namespace Opifer\RedirectBundle\Form\Type;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 
@@ -39,9 +40,15 @@ class RedirectType extends AbstractType
                 'allow_delete' => true,
                 'by_reference' => false,
                 'label' =>'opifer_redirect.form.requirements.label',
+            ])
+            ->add('save', SubmitType::class, [
+                'label' => 'opifer_redirect.form.save',
                 'attr' => [
-                    'help_text' => 'opifer_redirect.form.requirements.help_text',
+
                 ]
+            ])
+            ->add('saveAndAdd', SubmitType::class, [
+                'label' => 'opifer_redirect.form.save_and_add',
             ])
         ;
     }
