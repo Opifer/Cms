@@ -118,7 +118,7 @@ class Content implements ContentInterface, EntityInterface, TemplatedInterface, 
      * @JMS\Expose
      * @JMS\Groups({"detail", "list"})
      * @Gedmo\Slug(handlers={
-     *      @Gedmo\SlugHandler(class="Gedmo\Sluggable\Handler\RelativeSlugHandler", options={
+     *      @Gedmo\SlugHandler(class="Opifer\ContentBundle\Handler\RelativeSlugHandler", options={
      *          @Gedmo\SlugHandlerOption(name="relationField", value="parent"),
      *          @Gedmo\SlugHandlerOption(name="relationSlugField", value="slug"),
      *          @Gedmo\SlugHandlerOption(name="separator", value="/")

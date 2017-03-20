@@ -149,12 +149,11 @@ Opifer\CmsBundle\Entity\Content:
                 fields:
                   - title
                 handlers:
-                  Gedmo\Sluggable\Handler\RelativeSlugHandler:
+                  Opifer\ContentBundle\Handler\RelativeSlugHandler:
                     relationField: parent
                     relationSlugField: slug
                     separator: /
                 unique_base: deletedAt
-                updatable: false
 
         deletedAt:
             type: datetime
