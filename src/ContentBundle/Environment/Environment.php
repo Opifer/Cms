@@ -142,10 +142,6 @@ class Environment
 
         $blocks = array();
 
-        if (!isset($this->blockCache[$cacheKey])) {
-            return $blocks;
-        }
-
         /** @var BlockInterface $block */
         foreach ($this->blockCache[$cacheKey] as $block) {
             if ($block->getParent() === null && $block->getOwner() !== null) {
@@ -167,10 +163,6 @@ class Environment
 
         $children = array();
         $cacheKey = $this->getCacheKey();
-
-        if (!isset($this->blockCache[$cacheKey])) {
-            return $children;
-        }
 
         foreach ($this->blockCache[$cacheKey] as $member) {
             if ($member->getParent() == null) {
@@ -197,7 +189,7 @@ class Environment
      */
     public function load()
     {
-        if ($this->isLoaded) {
+        if ($this->isLoaded && isset($this->blockCache[$this->getCacheKey()])) {
             return;
         }
 
