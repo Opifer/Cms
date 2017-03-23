@@ -65,7 +65,7 @@ class ModalBlockService extends AbstractBlockService implements BlockServiceInte
             ]);
 
         if (isset($this->config['styles']) && count($this->config['styles'])) {
-            $builder->get('properties')->add('styles', ChoiceType::class, [
+            $builder->get('styles')->add('styles', ChoiceType::class, [
                 'label' => 'label.styling',
                 'choices'  => $this->config['styles'],
                 'required' => false,
@@ -76,7 +76,7 @@ class ModalBlockService extends AbstractBlockService implements BlockServiceInte
         }
 
         if (isset($this->config['template']) && count($this->config['template'])) {
-            $builder->get('properties')->add('template', ChoiceType::class, [
+            $builder->get('styles')->add('template', ChoiceType::class, [
                 'label'       => 'label.template',
                 'placeholder' => 'placeholder.choice_optional',
                 'attr'        => ['help_text' => 'help.block_template'],

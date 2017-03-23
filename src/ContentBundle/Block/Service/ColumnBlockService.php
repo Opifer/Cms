@@ -77,7 +77,7 @@ class ColumnBlockService extends AbstractBlockService implements LayoutBlockServ
                 $block->setProperties($properties);
             }
 
-            $form->get('properties')->add('styles', ChoiceType::class, [
+            $form->get('styles')->add('styles', ChoiceType::class, [
                 'label' => 'label.styling',
                 'choices' => $this->config['styles'],
                 'required' => false,
@@ -86,17 +86,17 @@ class ColumnBlockService extends AbstractBlockService implements LayoutBlockServ
                 'attr' => ['help_text' => 'help.html_styles'],
             ]);
 
-            $form->get('properties')->add('spans', SpanCollectionType::class, [
+            $form->get('styles')->add('spans', SpanCollectionType::class, [
                 'column_count' => $block->getColumnCount(),
                 'label' => 'label.spans',
                 'attr' => ['help_text' => 'help.column_spans'],
             ]);
-            $form->get('properties')->add('offsets', SpanCollectionType::class, [
+            $form->get('styles')->add('offsets', SpanCollectionType::class, [
                 'column_count' => $block->getColumnCount(),
                 'label' => 'label.offsets',
                 'attr' => ['help_text' => 'help.column_offsets'],
             ]);
-            $form->get('properties')->add('gutters', GutterCollectionType::class, [
+            $form->get('styles')->add('gutters', GutterCollectionType::class, [
                 'column_count' => $block->getColumnCount(),
                 'label' => 'label.gutters',
                 'attr' => ['help_text' => 'help.column_gutters'],

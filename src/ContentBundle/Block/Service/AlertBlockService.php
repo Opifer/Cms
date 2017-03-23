@@ -39,14 +39,15 @@ class AlertBlockService extends AbstractBlockService implements BlockServiceInte
             ->add('extra_classes', TextType::class, ['attr' => ['help_text' => 'help.extra_classes']]);
 
 
-        $propertiesForm->add('styles', ChoiceType::class, [
-            'label' => 'label.styling',
-            'choices'  => $this->config['styles'],
-            'required' => false,
-            'expanded' => true,
-            'multiple' => true,
-            'attr' => ['help_text' => 'help.html_styles'],
-        ]);
+        $builder->get('styles')
+            ->add('styles', ChoiceType::class, [
+                'label' => 'label.styling',
+                'choices'  => $this->config['styles'],
+                'required' => false,
+                'expanded' => true,
+                'multiple' => true,
+                'attr' => ['help_text' => 'help.html_styles'],
+            ]);
 
         $builder->add($propertiesForm);
     }

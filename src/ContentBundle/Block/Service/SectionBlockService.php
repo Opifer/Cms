@@ -34,6 +34,9 @@ class SectionBlockService extends AbstractBlockService implements BlockServiceIn
             ->add('sectionName', TextType::class, ['attr' => ['help_text' => 'help.section_name']])
             ->add('id', TextType::class, ['attr' => ['help_text' => 'help.html_id']])
             ->add('extra_classes', TextType::class, ['attr' => ['help_text' => 'help.extra_classes']])
+        ;
+
+        $builder->get('styles')
             ->add('styles', ChoiceType::class, [
                 'label' => 'label.styling',
                 'choices'  => $this->config['styles'],

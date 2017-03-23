@@ -89,14 +89,17 @@ class NavigationBlockService extends AbstractBlockService implements BlockServic
                                 'widget_col' => 9,
                             ],
                         ])
-                        ->add('template', ChoiceType::class, [
-                            'label' => 'label.template',
-                            'attr' => ['help_text' => 'help.block_template', 'widget_col' => 9],
-                            'choices' => $this->config['templates'],
-                            'required' => true,
-                        ])
                 )
         );
+
+        $builder->get('styles')
+            ->add('template', ChoiceType::class, [
+                'label' => 'label.template',
+                'attr' => ['help_text' => 'help.block_template', 'widget_col' => 9],
+                'choices' => $this->config['templates'],
+                'required' => true,
+            ])
+        ;
     }
 
     /**
@@ -113,7 +116,6 @@ class NavigationBlockService extends AbstractBlockService implements BlockServic
             $collection = $this->contentManager->getRepository()->findByLevels($levels, $ids);
 
             $block->setTree($collection);
-
         } elseif ($block->getValue() == NavigationBlock::CHOICE_TOP_LEVEL) {
             $collection = $this->contentManager->getRepository()->findByLevels($levels);
 
