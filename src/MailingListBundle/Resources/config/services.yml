@@ -16,6 +16,12 @@ services:
         tags:
             - { name: opifer.mailinglist.provider, alias: mailplus }
 
+    opifer.mailinglist.activecampaign_provider:
+            class: Opifer\MailingListBundle\Provider\ActiveCampaignProvider
+            arguments: ['@opifer.mailinglist.subscription_manager', '%activecampain_url%', '%activecampain_key%']
+            tags:
+                - { name: opifer.mailinglist.provider, alias: activecampaign }
+
     opifer.mailinglist.mailchimp_provider:
         class: Opifer\MailingListBundle\Provider\MailChimpProvider
         arguments: ['@opifer.mailinglist.subscription_manager', '@opifer.cms.config_manager']
