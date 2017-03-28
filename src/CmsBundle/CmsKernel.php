@@ -40,6 +40,7 @@ abstract class CmsKernel extends BaseKernel
             new \FOS\RestBundle\FOSRestBundle(),
             new \Nelmio\ApiDocBundle\NelmioApiDocBundle(),
             new \Lexik\Bundle\JWTAuthenticationBundle\LexikJWTAuthenticationBundle(),
+            new \Lexik\Bundle\TranslationBundle\LexikTranslationBundle(),
 
             // Opifer bundles
             new \Opifer\CmsBundle\OpiferCmsBundle(),

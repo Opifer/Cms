@@ -25,9 +25,11 @@ class ListBlockService extends AbstractBlockService implements BlockServiceInter
     protected $contentManager;
 
     /**
-     * @param BlockRenderer $blockRenderer
-     * @param EntityManager $em
-     * @param array         $config
+     * Constructor
+     *
+     * @param BlockRenderer           $blockRenderer
+     * @param ContentManagerInterface $contentManager
+     * @param array                   $config
      */
     public function __construct(BlockRenderer $blockRenderer, ContentManagerInterface $contentManager, array $config)
     {
@@ -63,9 +65,10 @@ class ListBlockService extends AbstractBlockService implements BlockServiceInter
             $propertiesForm->add('template', ChoiceType::class, [
                 'label' => 'label.template',
                 'placeholder' => 'placeholder.choice_optional',
-                'attr' => ['help_text' => 'help.block_template'],
+                'attr' => ['help_text' => 'This setting is deprecated, set individual desktop and mobile styles separately'],
                 'choices' => $this->config['templates'],
                 'required' => false,
+                'disabled' => true,
             ]);
         }
 
@@ -81,6 +84,12 @@ class ListBlockService extends AbstractBlockService implements BlockServiceInter
         }
 
         $propertiesForm
+            ->add('preset', ChoiceType::class, [
+                'label'       => 'Preset',
+                'attr'        => ['help_text' => 'Pick a preset'],
+                'choices'     => $this->config['presets'],
+                'required'    => true,
+            ])
             ->add('displayType', ChoiceType::class, [
                 'label' => 'label.list_display_type',
                 'choices' => $this->config['display_types'],

@@ -21,6 +21,7 @@ use Opifer\ExpressionEngine\Prototype\Choice;
 use Opifer\ExpressionEngine\Prototype\OrXPrototype;
 use Opifer\ExpressionEngine\Prototype\PrototypeCollection;
 use Opifer\ExpressionEngine\Prototype\SelectPrototype;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\FormType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
@@ -112,6 +113,14 @@ class CollectionBlockService extends AbstractBlockService implements BlockServic
                     'attr' => ['help_text' => 'help.block_template'],
                     'choices' => $this->config['templates'],
                     'required' => false,
+                ])
+                ->add('load_more', CheckboxType::class, [
+                    'label' => 'Load more',
+                    'required' => false,
+                    'attr' => [
+                        'align_with_widget' => true,
+                        'help_text' => 'Adds a `load more` button to the block'
+                    ],
                 ])
         );
     }

@@ -16,7 +16,7 @@ use Opifer\ContentBundle\Model\BlockInterface;
 /**
  * Section Block Service
  */
-class SectionBlockService extends AbstractBlockService implements BlockServiceInterface, ToolsetMemberInterface
+class SectionBlockService extends AbstractBlockService implements BlockServiceInterface, LayoutBlockServiceInterface, ToolsetMemberInterface
 {
     /**
      * {@inheritdoc}
@@ -27,7 +27,8 @@ class SectionBlockService extends AbstractBlockService implements BlockServiceIn
 
         $builder->get('default')
             ->add('header', CKEditorType::class, ['label' => 'label.header', 'attr' => ['label_col' => 12, 'widget_col' => 12]])
-            ->add('footer', CKEditorType::class, ['label' => 'label.footer', 'attr' => ['label_col' => 12, 'widget_col' => 12]]);
+            ->add('footer', CKEditorType::class, ['label' => 'label.footer', 'attr' => ['label_col' => 12, 'widget_col' => 12]])
+        ;
 
         $builder->get('properties')
             ->add('sectionName', TextType::class, ['attr' => ['help_text' => 'help.section_name']])
@@ -63,7 +64,7 @@ class SectionBlockService extends AbstractBlockService implements BlockServiceIn
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getManageFormTypeName()
     {
@@ -71,7 +72,7 @@ class SectionBlockService extends AbstractBlockService implements BlockServiceIn
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function createBlock()
     {
@@ -79,7 +80,7 @@ class SectionBlockService extends AbstractBlockService implements BlockServiceIn
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getTool(BlockInterface $block = null)
     {
@@ -91,5 +92,13 @@ class SectionBlockService extends AbstractBlockService implements BlockServiceIn
             ->setDescription('Section element to hold columns or content in');
 
         return $tool;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getPlaceholders(BlockInterface $block = null)
+    {
+        return [0 => 'children'];
     }
 }

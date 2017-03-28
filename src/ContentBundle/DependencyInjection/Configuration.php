@@ -134,6 +134,26 @@ class Configuration implements ConfigurationInterface
                             ->addDefaultsIfNotSet()
                             ->children()
                                 ->scalarNode('view')->defaultValue('OpiferContentBundle:Block:Content/card.html.twig')->end()
+                                ->arrayNode('presets')
+                                    ->prototype('scalar')->end()
+                                    ->normalizeKeys(false)
+                                    ->useAttributeAsKey('name')
+                                    ->defaultValue([
+                                        'default' => 'Default',
+                                        'card' => 'Card',
+                                        'card-overlay' => 'Card overlay',
+                                        'list' => 'List',
+                                        'news' => 'News',
+                                    ])
+                                ->end()
+                                ->arrayNode('backgrounds')
+                                    ->prototype('scalar')->end()
+                                    ->normalizeKeys(false)
+                                    ->useAttributeAsKey('name')
+                                    ->defaultValue([
+                                        'default' => 'Default',
+                                    ])
+                                ->end()
                                 ->arrayNode('styles')
                                     ->prototype('scalar')->end()
                                     ->normalizeKeys(false)
@@ -353,7 +373,25 @@ class Configuration implements ConfigurationInterface
                                     ->prototype('scalar')->end()
                                     ->normalizeKeys(false)
                                     ->useAttributeAsKey('name')
-                                    ->defaultValue([])
+                                    ->defaultValue([
+                                        'default' => 'Default',
+                                        'card' => 'Card',
+                                        'card-overlay' => 'Card overlay',
+                                        'list' => 'List',
+                                        'news' => 'News',
+                                    ])
+                                ->end()
+                                ->arrayNode('presets')
+                                    ->prototype('scalar')->end()
+                                    ->normalizeKeys(false)
+                                    ->useAttributeAsKey('name')
+                                    ->defaultValue([
+                                        'default' => 'Default',
+                                        'card' => 'Card',
+                                        'card-overlay' => 'Card overlay',
+                                        'list' => 'List',
+                                        'news' => 'News',
+                                    ])
                                 ->end()
                                 ->arrayNode('display_types')
                                     ->prototype('scalar')->end()

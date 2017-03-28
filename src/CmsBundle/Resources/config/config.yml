@@ -120,6 +120,9 @@ fos_user:
             type:              public_registration_form
             name:              public_registration
             validation_groups: []
+    from_email:
+        address: noreply@jstack.eu
+        sender_name: jstack CMS
 
 # Menus
 knp_menu:
@@ -283,8 +286,12 @@ opifer_review:
             create: 'OpiferCmsBundle:Backend/Review:create.html.twig'
             edit: 'OpiferCmsBundle:Backend/Review:edit.html.twig'
 
+
+
 # Nelmio CORS
 nelmio_cors:
+    defaults:
+        forced_allow_origin_value: '*'
     paths:
         '^/(admin/api|api|accept-cookies)':
             allow_credentials: true
@@ -323,3 +330,8 @@ lexik_jwt_authentication:
     public_key_path:  '%jwt_public_key_path%'
     pass_phrase:      '%jwt_key_pass_phrase%'
     token_ttl:        '%jwt_token_ttl%'
+
+lexik_translation:
+    fallback_locale: [en]         # (required) default locale(s) to use
+    managed_locales: [en, nl] # (required) locales that the bundle has to manage
+    base_layout: 'OpiferCmsBundle:Backend/Translation:base.html.twig'

@@ -45,6 +45,7 @@
                                         <li class="divider"></li>
                                         <li><a href="{{ path('opifer_cms_template_index') }}">{{ 'base.templates'|trans|capitalize }}</a></li>
                                         <li><a href="{{ path('opifer_content_contenttype_index') }}">Content types</a></li>
+                                        <li><a href="{{ path('opifer_content_dataview_index') }}">{{ 'title.dataviews'|trans({}, 'OpiferCmsBundle')|capitalize }}</a></li>
                                     </ul>
                                 </li>
                                 <li><a href="{{ path('opifer_media_media_index') }}">{{ "nav.media"|trans|capitalize }}</a></li>
@@ -57,6 +58,7 @@
                                 </li>
                                 <li><a href="{{ path('opifer_mailing_list_mailing_list_index') }}">{{ "nav.mailing_lists"|trans|capitalize }}</a></li>
                                 <li><a href="{{ path('opifer_review_review_index') }}">{{ 'title.review'|trans|capitalize }}</a></li>
+
                                 {% block navigation_left %}{% endblock %}
                             </ul>
 
@@ -83,6 +85,7 @@
                                             <li class="divider"></li>
                                             <li role="presentation" class="dropdown-header">{{ 'base.content'|trans|capitalize }}</li>
                                             <li><a href="{{ path('opifer_cms_site_index') }}">{{ 'base.sites'|trans|capitalize }}</a></li>
+                                            <li><a href="{{ path('lexik_translation_grid') }}">{{ 'title.translations'|trans|capitalize }}</a></li>
                                         </ul>
                                     </li>
                                 {% endif %}

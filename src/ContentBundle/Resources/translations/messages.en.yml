@@ -25,6 +25,7 @@ help:
     content_description: Describe your page in a few important keywords
     content_short_title: Short version of the title, used in navigation
     content_title: The title of the page is displayed in the browser tab and in searchengines
+    content_language: The content language
     extra_classes: Apply custom CSS classes to the block
     html_id: 'Set an html #id to the block'
     html_styles: Apply extra (css) styles to this block
@@ -77,6 +78,7 @@ label:
     title: Title
     caption: Caption
     message: Message
+    language: language
     code: Code
     tabs: Tabs
     width: Width

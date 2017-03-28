@@ -32,6 +32,8 @@ class ContentController extends Controller
      * @QueryParam(name="limit", requirements="\d+", description="The amount of results to return", default="10")
      * @QueryParam(name="options", map=true, description="A list of option ids")
      * @QueryParam(name="order_by", description="Define the order")
+     * @QueryParam(name="search", description="Search on any field")
+     * @QueryParam(name="page", description="Used for pagination", default="1")
      *
      * @param Request      $request
      * @param ParamFetcher $paramFetcher
@@ -58,8 +60,28 @@ class ContentController extends Controller
                 }
             }
 
+            $exprVisitor = new QueryBuilderVisitor($qb);
+
+            // Adds filtering on a search parameter
+            if ($search = $paramFetcher->get('search')) {
+                // TODO: Add filtering on possible dynamic attributes
+                $value = $exprVisitor->shouldJoin('valueSet.values.value');
+                $qb->andWhere($qb->expr()->orX(
+                    $qb->expr()->like('a.title', ':search'),
+                    $qb->expr()->like('a.shortTitle', ':search'),
+                    $qb->expr()->like('a.description', ':search'),
+                    $qb->expr()->like($value, ':search')
+                ))->setParameter('search', '%'.$search.'%');
+
+                // Give the title priority over other matches if no specific order is given
+                if (!$orderBy = $paramFetcher->get('order_by')) {
+                    $qb->addSelect('(CASE WHEN a.title LIKE \'%'.$search.'%\' THEN 0 ELSE 1 END) AS HIDDEN PRIO');
+                    $qb->orderBy('PRIO', 'ASC');
+                }
+            }
+
+            // Adds filtering on options
             if ($options = $paramFetcher->get('options')) {
-                $exprVisitor = new QueryBuilderVisitor($qb);
                 $prefix = $exprVisitor->shouldJoin('valueSet.values.options.id');
                 $qb->andWhere($prefix.' IN (:options)')->setParameter('options', $options);
             }
@@ -68,6 +90,9 @@ class ContentController extends Controller
                 $qb->orderBy('a.'.$orderBy, $paramFetcher->get('direction'));
             }
 
+            // Pagination
+            $offset = ($paramFetcher->get('page') - 1) * $paramFetcher->get('limit');
+            $qb->setFirstResult($offset);
             $qb->setMaxResults($paramFetcher->get('limit'));
 
             $items = $qb->getQuery()->getResult();

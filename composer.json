@@ -46,7 +46,8 @@
         "pagerfanta/pagerfanta": "^1.0.3",
         "symfony-cmf/routing-bundle": "~1.3",
         "webmozart/expression": "^1.0",
-        "willdurand/js-translation-bundle": "~2.2"
+        "willdurand/js-translation-bundle": "~2.2",
+        "lexik/translation-bundle": "^4.0"
     },
     "require-dev": {
         "phpunit/phpunit": "~4.1",

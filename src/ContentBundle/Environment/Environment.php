@@ -142,10 +142,6 @@ class Environment
 
         $blocks = array();
 
-        if (!isset($this->blockCache[$cacheKey])) {
-            return $blocks;
-        }
-
         /** @var BlockInterface $block */
         foreach ($this->blockCache[$cacheKey] as $block) {
             if ($block->getParent() === null && $block->getOwner() !== null) {
@@ -176,8 +172,8 @@ class Environment
             if ($member->getParent()->getId() == $block->getId()) { // direct child
                 array_push($children, $member);
             } elseif ($member->getOwner() &&
-                        $member->getParent()->getId() == $member->getOwner()->getId() &&
-                        $block instanceof BlockOwnerInterface) {
+                $member->getParent()->getId() == $member->getOwner()->getId() &&
+                $block instanceof BlockOwnerInterface) {
                 array_push($children, $member);
             }
         }
@@ -193,7 +189,7 @@ class Environment
      */
     public function load()
     {
-        if ($this->isLoaded) {
+        if ($this->isLoaded && isset($this->blockCache[$this->getCacheKey()])) {
             return;
         }
 

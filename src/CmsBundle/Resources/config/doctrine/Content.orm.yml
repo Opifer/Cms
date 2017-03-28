@@ -149,12 +149,11 @@ Opifer\CmsBundle\Entity\Content:
                 fields:
                   - title
                 handlers:
-                  Gedmo\Sluggable\Handler\RelativeSlugHandler:
+                  Opifer\ContentBundle\Handler\RelativeSlugHandler:
                     relationField: parent
                     relationSlugField: slug
                     separator: /
                 unique_base: deletedAt
-                updatable: false
 
         deletedAt:
             type: datetime
@@ -181,6 +180,16 @@ Opifer\CmsBundle\Entity\Content:
             inversedBy: null
             joinColumns:
                 site_id:
+                    referencedColumnName: id
+            orphanRemoval: false
+        locale:
+            targetEntity: Opifer\CmsBundle\Entity\Locale
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                locale_id:
                     referencedColumnName: id
             orphanRemoval: false
         template:

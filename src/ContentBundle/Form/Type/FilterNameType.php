@@ -39,7 +39,9 @@ class FilterNameType extends AbstractType
 
     protected function getChoices()
     {
-        $choices = [];
+        $choices = [
+            'Any field' => 'search',
+        ];
 
         /** @var AttributeInterface $attribute */
         foreach ($this->attributeManager->getRepository()->findAll() as $attribute) {

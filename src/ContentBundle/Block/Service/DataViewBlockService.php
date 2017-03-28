@@ -8,6 +8,7 @@ use Opifer\ContentBundle\Model\ContentManagerInterface;
 use Opifer\ContentBundle\Entity\DataViewBlock;
 use Opifer\ContentBundle\Block\Tool\Tool;
 use Opifer\ContentBundle\Block\Tool\ToolsetMemberInterface;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
@@ -32,7 +33,8 @@ class DataViewBlockService extends AbstractBlockService implements LayoutBlockSe
 
     /**
      * @param BlockRenderer           $blockRenderer
-     * @param ContentManagerInterface $contentManager
+     * @param EntityManagerInterface $em
+     * @param array $config
      */
     public function __construct(BlockRenderer $blockRenderer, EntityManagerInterface $em, array $config)
     {
@@ -57,9 +59,21 @@ class DataViewBlockService extends AbstractBlockService implements LayoutBlockSe
                 $options = [
                     'label' => $field['display_name'],
                 ];
+
                 switch ($field['type']) {
                     case 'text':
                         $type = TextType::class;
+                        break;
+                    case 'select':
+                        $type = ChoiceType::class;
+                        if (isset($field['options'])) {
+                            $choices = [];
+                            foreach ($field['options'] as $option) {
+                                $choices[$option['value']] = $option['key'];
+                            }
+                            $options['choices'] = $choices;
+                            $options['choices_as_values'] = true;
+                        }
                         break;
                     case 'number':
                         $type = NumberType::class;

@@ -41,9 +41,9 @@
         "pagerfanta/pagerfanta": "~1.0.3",
         "symfony-cmf/routing-bundle": "~1.2",
         "willdurand/js-translation-bundle": "~2.2",
-        "nelmio/cors-bundle": "^1.4",
         "friendsofsymfony/rest-bundle": "^2.1",
         "nelmio/api-doc-bundle": "^2.13",
+        "nelmio/cors-bundle": "^1.5",
         "lexik/jwt-authentication-bundle": "^2.0"
     },
     "require-dev": {

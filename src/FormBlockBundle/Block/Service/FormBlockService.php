@@ -27,8 +27,12 @@ class FormBlockService extends AbstractBlockService implements BlockServiceInter
     /** @var FormManager */
     protected $formManager;
 
-    /** @var bool {@inheritdoc} */
-    protected $esiEnabled = false;
+    /**
+     * ESI should be enabled, since the configuration of Twig forms is handled outside the block configuration
+     *
+     * @var bool {@inheritdoc}
+     */
+    protected $esiEnabled = true;
 
     /**
      * @param BlockRenderer $blockRenderer

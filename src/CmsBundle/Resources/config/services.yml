@@ -18,6 +18,7 @@ parameters:
     opifer.cms.slug_form_type.class: 'Opifer\CmsBundle\Form\Type\SlugType'
     opifer.cms.tableprefix_listener.class: 'Opifer\CmsBundle\EventListener\TablePrefixSubscriber'
     twig.extension.intl.class: 'Twig_Extensions_Extension_Intl'
+    lexik_translation.locale.manager.class: 'Opifer\CmsBundle\Manager\LocaleManager'
 
 services:
 
@@ -242,3 +243,4 @@ services:
 
     jms_serializer.object_constructor:
         alias: jms_serializer.doctrine_object_constructor
+
