@@ -5,6 +5,7 @@ namespace Opifer\CmsBundle\Repository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\EntityRepository;
 use Opifer\CmsBundle\Entity\Cron;
+use Symfony\Component\Validator\Constraints\DateTime;
 
 /**
  * CronRepository.
@@ -21,14 +22,18 @@ class CronRepository extends EntityRepository
      */
     public function findDue()
     {
+
+        $createdTime = new \DateTime('-67 minutes');
+
         /** @var Cron[] $active */
         $active = $this->createQueryBuilder('c')
             ->where('c.state <> :canceled')
-            ->andWhere('c.state <> :running')
+            ->andWhere('c.state <> :running OR (c.state = :running AND c.startedAt < :startedAt)')
             ->orderBy('c.priority', 'DESC')
             ->setParameters([
                 'canceled' => Cron::STATE_CANCELED,
                 'running' => Cron::STATE_RUNNING,
+                'startedAt' => $createdTime->format('Y-m-d H:i:s'),
             ])
             ->getQuery()
             ->getResult()
