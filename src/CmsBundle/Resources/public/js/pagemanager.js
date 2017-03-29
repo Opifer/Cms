@@ -300,6 +300,11 @@ $(document).ready(function() {
                 publishShared($(this).closest('form').attr('data-pm-block-id'));
             });
 
+            $(document).on('click', '.pm-btn-delete-block', function (e) {
+                e.preventDefault();
+                deleteBlock($(this).closest('form').attr('data-pm-block-id'));
+            });
+
             var cookieSettings = Cookies.getJSON('pmSettings');
             jQuery.extend(settings, cookieSettings);
 
@@ -340,10 +345,15 @@ $(document).ready(function() {
         };
 
         var refreshBlock = function (id) {
-            $.get(Routing.generate('opifer_content_api_contenteditor_view_block', {owner: owner, ownerId: ownerId, id: id})).done(function (data) {
-                getBlockElement(id).replaceWith(data.view);
-                showToolbars();
-            });
+            if (iFrame.contents().find('#app').length) {
+                // Refresh the whole iFrame when the page is a react/angular app.
+                iFrame[0].contentWindow.location.reload();
+            } else {
+                $.get(Routing.generate('opifer_content_api_contenteditor_view_block', {owner: owner, ownerId: ownerId, id: id})).done(function (data) {
+                    getBlockElement(id).replaceWith(data.view);
+                    showToolbars();
+                });
+            }
         };
 
         var loadRunButton = function () {

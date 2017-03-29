@@ -25,9 +25,11 @@ class ListBlockService extends AbstractBlockService implements BlockServiceInter
     protected $contentManager;
 
     /**
-     * @param BlockRenderer $blockRenderer
-     * @param EntityManager $em
-     * @param array         $config
+     * Constructor
+     *
+     * @param BlockRenderer           $blockRenderer
+     * @param ContentManagerInterface $contentManager
+     * @param array                   $config
      */
     public function __construct(BlockRenderer $blockRenderer, ContentManagerInterface $contentManager, array $config)
     {

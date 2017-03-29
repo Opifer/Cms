@@ -38,6 +38,10 @@ class ContentController extends Controller
 
         $version = $request->query->get('_version');
         $debug = $this->getParameter('kernel.debug');
+        
+        if ($content->getLocale()) {
+            $request->setLocale($content->getLocale()->getLocale());
+        }
 
         $request->setLocale($content->getLocale()->getLocale());
 

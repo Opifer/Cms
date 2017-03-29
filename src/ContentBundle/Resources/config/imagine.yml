@@ -26,6 +26,44 @@ liip_imagine:
             post_processors:
                 jpegoptim: { strip_all: true, max: 70, progressive: true }
                 pngquant: { quality: "70-80" }
+        sm_24:
+            filters:
+                thumbnail: { size: [200, 400], mode: outbound, allow_upscale: true }
+            post_processors:
+                jpegoptim: { strip_all: true, max: 70, progressive: true }
+                pngquant: { quality: "70-80" }
+        md_24:
+            filters:
+                thumbnail: { size: [400, 800], mode: outbound, allow_upscale: true }
+            post_processors:
+                jpegoptim: { strip_all: true, max: 70, progressive: true }
+                pngquant: { quality: "70-80" }
+        lg_24:
+            filters:
+                upscale: { min: [800, 1600] }
+                thumbnail: { size: [800, 1600], mode: outbound, allow_upscale: true  }
+            post_processors:
+                jpegoptim: { strip_all: true, max: 70, progressive: true }
+                pngquant: { quality: "70-80" }
+        sm_42:
+            filters:
+                thumbnail: { size: [400, 200], mode: outbound, allow_upscale: true }
+            post_processors:
+                jpegoptim: { strip_all: true, max: 70, progressive: true }
+                pngquant: { quality: "70-80" }
+        md_42:
+            filters:
+                thumbnail: { size: [800, 400], mode: outbound, allow_upscale: true }
+            post_processors:
+                jpegoptim: { strip_all: true, max: 70, progressive: true }
+                pngquant: { quality: "70-80" }
+        lg_42:
+            filters:
+                upscale: { min: [1600, 800] }
+                thumbnail: { size: [1600, 800], mode: outbound, allow_upscale: true  }
+            post_processors:
+                jpegoptim: { strip_all: true, max: 70, progressive: true }
+                pngquant: { quality: "70-80" }
         sm_43:
             filters:
                 thumbnail: { size: [500, 375], mode: outbound, allow_upscale: true }

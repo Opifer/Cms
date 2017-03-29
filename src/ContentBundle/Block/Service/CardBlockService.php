@@ -6,6 +6,7 @@ use Opifer\CmsBundle\Form\Type\CKEditorType;
 use Opifer\ContentBundle\Block\Tool\Tool;
 use Opifer\ContentBundle\Block\Tool\ToolsetMemberInterface;
 use Opifer\ContentBundle\Entity\CardBlock;
+use Opifer\ContentBundle\Form\Type\ContentPickerType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\FormType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -82,6 +83,15 @@ class CardBlockService extends AbstractBlockService implements BlockServiceInter
                 'expanded' => false,
                 'multiple' => false,
                 'attr' => ['help_text' => 'help.list_image_ratio']
+            ])
+            ->add('content',  ContentPickerType::class, [
+                'as_object' => false,
+                'label' => 'label.content',
+            ])
+            ->add('background', ChoiceType::class, [
+                'required' => false,
+                'label' => 'label.background_color',
+                'choices' => $this->config['backgrounds']
             ])
         ;
     }
