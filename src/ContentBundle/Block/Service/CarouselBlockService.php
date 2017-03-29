@@ -72,7 +72,7 @@ class CarouselBlockService extends AbstractBlockService implements BlockServiceI
      * @param BlockInterface $block
      * @return string
      */
-    public function getDescription(BlockInterface $block)
+    public function getDescription(BlockInterface $block = null)
     {
         return 'Create a carousel of two or more slides';
     }

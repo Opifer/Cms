@@ -131,7 +131,7 @@ class CardBlockService extends AbstractBlockService implements BlockServiceInter
      * @param BlockInterface $block
      * @return mixed
      */
-    public function getDescription(BlockInterface $block)
+    public function getDescription(BlockInterface $block = null)
     {
         return 'Flexible content block in card style';
     }

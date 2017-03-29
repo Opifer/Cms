@@ -451,7 +451,7 @@ abstract class AbstractBlockService implements BlockServiceInterface
      * @param BlockInterface $block
      * @return string
      */
-    public function getDescription(BlockInterface $block)
+    public function getDescription(BlockInterface $block = null)
     {
         return '';
     }

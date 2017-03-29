@@ -86,7 +86,7 @@ class ButtonBlockService extends AbstractBlockService implements BlockServiceInt
      * @param BlockInterface $block
      * @return string
      */
-    public function getDescription(BlockInterface $block)
+    public function getDescription(BlockInterface $block = null)
     {
         return 'This creates a link to a (external) page or content';
     }

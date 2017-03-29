@@ -131,7 +131,7 @@ class CookieWallBlockService extends AbstractBlockService implements BlockServic
      * @param BlockInterface $block
      * @return string
      */
-    public function getDescription(BlockInterface $block)
+    public function getDescription(BlockInterface $block = null)
     {
         return 'Dismissable message regarding EU cookies regulation';
     }

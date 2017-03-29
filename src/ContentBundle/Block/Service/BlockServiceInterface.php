@@ -31,7 +31,7 @@ interface BlockServiceInterface
      *
      * @return mixed
      */
-    public function getDescription(BlockInterface $block);
+    public function getDescription(BlockInterface $block = null);
 
     /**
      * @param BlockInterface $block

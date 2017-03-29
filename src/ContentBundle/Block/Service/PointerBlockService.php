@@ -172,7 +172,7 @@ class PointerBlockService extends AbstractBlockService implements BlockServiceIn
      * @param BlockInterface $block
      * @return string
      */
-    public function getDescription(BlockInterface $block)
+    public function getDescription(BlockInterface $block = null)
     {
         return 'This block will load a shared block';
     }

@@ -71,7 +71,7 @@ class HtmlBlockService extends AbstractBlockService implements BlockServiceInter
      * @param BlockInterface $block
      * @return string
      */
-    public function getDescription(BlockInterface $block)
+    public function getDescription(BlockInterface $block = null)
     {
         return 'Rich content editable through WYSIWYG editor.';
     }

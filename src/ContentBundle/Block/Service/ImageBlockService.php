@@ -148,7 +148,7 @@ class ImageBlockService extends AbstractBlockService implements BlockServiceInte
      * @param BlockInterface $block
      * @return string
      */
-    public function getDescription(BlockInterface $block)
+    public function getDescription(BlockInterface $block = null)
     {
         return 'Provides an image from the library in the right size.';
     }

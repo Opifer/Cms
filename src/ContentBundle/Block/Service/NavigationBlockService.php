@@ -237,7 +237,7 @@ class NavigationBlockService extends AbstractBlockService implements BlockServic
      * @param BlockInterface $block
      * @return string
      */
-    public function getDescription(BlockInterface $block)
+    public function getDescription(BlockInterface $block = null)
     {
         return 'Create different kinds of navigation lists';
     }

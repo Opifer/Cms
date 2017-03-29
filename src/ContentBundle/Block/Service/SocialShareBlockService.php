@@ -112,7 +112,7 @@ class SocialShareBlockService extends AbstractBlockService implements BlockServi
      * @param BlockInterface $block
      * @return string
      */
-    public function getDescription(BlockInterface $block)
+    public function getDescription(BlockInterface $block = null)
     {
         return 'This adds buttons to share content on social media';
     }

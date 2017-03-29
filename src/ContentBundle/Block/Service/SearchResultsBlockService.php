@@ -105,7 +105,7 @@ class SearchResultsBlockService extends AbstractBlockService implements BlockSer
      * @param BlockInterface $block
      * @return string
      */
-    public function getDescription(BlockInterface $block)
+    public function getDescription(BlockInterface $block = null)
     {
         return 'Lists search results from a user query';
     }

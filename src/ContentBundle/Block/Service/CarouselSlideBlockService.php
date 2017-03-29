@@ -95,7 +95,7 @@ class CarouselSlideBlockService extends AbstractBlockService implements BlockSer
      * @param BlockInterface $block
      * @return string
      */
-    public function getDescription(BlockInterface $block)
+    public function getDescription(BlockInterface $block = null)
     {
         return 'A basic carousel slide';
     }

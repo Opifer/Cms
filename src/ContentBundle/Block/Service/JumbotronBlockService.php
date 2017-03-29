@@ -99,7 +99,7 @@ class JumbotronBlockService extends AbstractBlockService implements BlockService
      * @param BlockInterface $block
      * @return string
      */
-    public function getDescription(BlockInterface $block)
+    public function getDescription(BlockInterface $block = null)
     {
         return 'This creates a Jumbotron. Large piece of content with bigger font and optional background image.';
     }

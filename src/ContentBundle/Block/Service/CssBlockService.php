@@ -54,7 +54,7 @@ class CssBlockService extends AbstractBlockService implements BlockServiceInterf
      * @param BlockInterface $block
      * @return string
      */
-    public function getDescription(BlockInterface $block)
+    public function getDescription(BlockInterface $block = null)
     {
         return 'Implement custom CSS styles to use';
     }

@@ -230,7 +230,7 @@ class TabNavBlockService extends AbstractBlockService implements LayoutBlockServ
      * @param BlockInterface $block
      * @return string
      */
-    public function getDescription(BlockInterface $block)
+    public function getDescription(BlockInterface $block = null)
     {
         return 'This inserts tab navigation to control tabbed content';
     }

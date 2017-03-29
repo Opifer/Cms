@@ -192,8 +192,8 @@ class DataViewBlockService extends AbstractBlockService implements LayoutBlockSe
      * @param BlockInterface $block
      * @return string
      */
-    public function getDescription(BlockInterface $block)
+    public function getDescription(BlockInterface $block = null)
     {
-        return $this->getDataViewTool($block->getDescription());
+        return '';
     }
 }

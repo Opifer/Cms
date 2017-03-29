@@ -96,7 +96,7 @@ class ContainerBlockService extends AbstractBlockService implements LayoutBlockS
      * @param BlockInterface $block
      * @return string
      */
-    public function getDescription(BlockInterface $block)
+    public function getDescription(BlockInterface $block = null)
     {
         return 'Container element to hold columns or other blocks in';
     }

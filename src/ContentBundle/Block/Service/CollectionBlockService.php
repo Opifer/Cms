@@ -260,7 +260,7 @@ class CollectionBlockService extends AbstractBlockService implements BlockServic
      * @param BlockInterface $block
      * @return string
      */
-    public function getDescription(BlockInterface $block)
+    public function getDescription(BlockInterface $block = null)
     {
         return 'Adds references to a collection of content items';
     }

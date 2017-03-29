@@ -76,7 +76,7 @@ class AlertBlockService extends AbstractBlockService implements BlockServiceInte
      * @param BlockInterface $block
      * @return mixed
      */
-    public function getDescription(BlockInterface $block)
+    public function getDescription(BlockInterface $block = null)
     {
         return 'Add an alert message';
     }
