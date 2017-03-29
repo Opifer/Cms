@@ -111,4 +111,13 @@ class GalleryBlockService extends AbstractBlockService implements BlockServiceIn
 
         return $tool;
     }
+
+    /**
+     * @param BlockInterface $block
+     * @return string
+     */
+    public function getDescription(BlockInterface $block = null)
+    {
+        return 'A collection of media thumbnails';
+    }
 }

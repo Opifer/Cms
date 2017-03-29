@@ -275,4 +275,13 @@ class ColumnBlockService extends AbstractBlockService implements LayoutBlockServ
 
         return $placeholders;
     }
+
+    /**
+     * @param BlockInterface $block
+     * @return string
+     */
+    public function getDescription(BlockInterface $block = null)
+    {
+        return 'Inserts columns';
+    }
 }

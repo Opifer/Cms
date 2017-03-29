@@ -28,6 +28,13 @@ interface BlockServiceInterface
 
     /**
      * @param BlockInterface $block
+     *
+     * @return mixed
+     */
+    public function getDescription(BlockInterface $block = null);
+
+    /**
+     * @param BlockInterface $block
      * @param Response|null  $response
      * @param array          $parameters
      *
