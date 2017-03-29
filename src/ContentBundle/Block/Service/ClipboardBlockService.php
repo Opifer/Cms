@@ -15,7 +15,7 @@ use Symfony\Component\HttpFoundation\Session\Session;
 /**
  * Clipboard Block Service.
  */
-class ClipboardBlockService implements BlockServiceInterface, ToolsetMemberInterface
+class ClipboardBlockService extends AbstractBlockService implements BlockServiceInterface, ToolsetMemberInterface
 {
     /** @var BlockManager */
     protected $blockManager;

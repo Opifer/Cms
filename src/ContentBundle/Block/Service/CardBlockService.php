@@ -84,7 +84,7 @@ class CardBlockService extends AbstractBlockService implements BlockServiceInter
                 'multiple' => false,
                 'attr' => ['help_text' => 'help.list_image_ratio']
             ])
-            ->add('content',  ContentPickerType::class, [
+            ->add('content', ContentPickerType::class, [
                 'as_object' => false,
                 'label' => 'label.content',
             ])
@@ -125,5 +125,14 @@ class CardBlockService extends AbstractBlockService implements BlockServiceInter
             ->setDescription('Flexible content block in card style');
 
         return $tool;
+    }
+
+    /**
+     * @param BlockInterface $block
+     * @return mixed
+     */
+    public function getDescription(BlockInterface $block)
+    {
+        return 'Flexible content block in card style';
     }
 }

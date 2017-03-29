@@ -167,4 +167,13 @@ class ListBlockService extends AbstractBlockService implements BlockServiceInter
 
         return $tool;
     }
+
+    /**
+     * @param BlockInterface $block
+     * @return string
+     */
+    public function getDescription(BlockInterface $block)
+    {
+        return 'Adds references to a collection of content items';
+    }
 }

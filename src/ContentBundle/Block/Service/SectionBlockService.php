@@ -101,4 +101,13 @@ class SectionBlockService extends AbstractBlockService implements BlockServiceIn
     {
         return [0 => 'children'];
     }
+
+    /**
+     * @param BlockInterface $block
+     * @return string
+     */
+    public function getDescription(BlockInterface $block)
+    {
+        return 'Section element to hold columns or content in';
+    }
 }

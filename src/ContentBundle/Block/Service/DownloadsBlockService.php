@@ -124,4 +124,13 @@ class DownloadsBlockService extends AbstractBlockService implements BlockService
 
         return $tool;
     }
+
+    /**
+     * @param BlockInterface $block
+     * @return string
+     */
+    public function getDescription(BlockInterface $block)
+    {
+        return 'List of media items available for download';
+    }
 }

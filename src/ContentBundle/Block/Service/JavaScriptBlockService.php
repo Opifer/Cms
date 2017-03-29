@@ -50,4 +50,13 @@ class JavaScriptBlockService extends AbstractBlockService implements BlockServic
 
         return $tool;
     }
+
+    /**
+     * @param BlockInterface $block
+     * @return string
+     */
+    public function getDescription(BlockInterface $block)
+    {
+        return 'Include custom JavaScript code block';
+    }
 }

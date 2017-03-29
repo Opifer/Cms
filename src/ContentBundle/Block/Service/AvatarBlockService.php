@@ -81,4 +81,13 @@ class AvatarBlockService extends AbstractBlockService implements BlockServiceInt
 
         return $tool;
     }
+
+    /**
+     * @param BlockInterface $block
+     * @return mixed
+     */
+    public function getDescription(BlockInterface $block)
+    {
+        return 'Shows logged user data or login/register button';
+    }
 }

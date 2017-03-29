@@ -70,4 +70,13 @@ class VideoBlockService extends AbstractBlockService implements BlockServiceInte
 
         return $tool;
     }
+
+    /**
+     * @param BlockInterface $block
+     * @return string
+     */
+    public function getDescription(BlockInterface $block)
+    {
+        return 'This shows a Youtube videoplayer';
+    }
 }

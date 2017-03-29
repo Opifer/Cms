@@ -38,4 +38,13 @@ class NavBarBlockService extends AbstractBlockService implements BlockServiceInt
 
         return $tool;
     }
+
+    /**
+     * @param BlockInterface $block
+     * @return string
+     */
+    public function getDescription(BlockInterface $block)
+    {
+        return 'A navigation bar';
+    }
 }

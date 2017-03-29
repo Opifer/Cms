@@ -100,4 +100,13 @@ class SearchResultsBlockService extends AbstractBlockService implements BlockSer
     {
         return $this->requestStack->getCurrentRequest();
     }
+
+    /**
+     * @param BlockInterface $block
+     * @return string
+     */
+    public function getDescription(BlockInterface $block)
+    {
+        return 'Lists search results from a user query';
+    }
 }
