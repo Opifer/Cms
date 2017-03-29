@@ -21,8 +21,6 @@ class CronRepository extends EntityRepository
      */
     public function findDue()
     {
-        $hourAgo = new \DateTime('-67 minutes');
-
         /** @var Cron[] $active */
         $active = $this->createQueryBuilder('c')
             ->where('c.state <> :canceled')
@@ -31,7 +29,7 @@ class CronRepository extends EntityRepository
             ->setParameters([
                 'canceled' => Cron::STATE_CANCELED,
                 'running' => Cron::STATE_RUNNING,
-                'hourAgo' => $hourAgo->format('Y-m-d H:i:s'),
+                'hourAgo' => new \DateTime('-67 minutes'),
             ])
             ->getQuery()
             ->getResult()
