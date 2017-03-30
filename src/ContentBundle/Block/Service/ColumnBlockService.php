@@ -86,19 +86,19 @@ class ColumnBlockService extends AbstractBlockService implements LayoutBlockServ
                     'multiple' => true,
                     'attr' => ['help_text' => 'help.html_styles'],
                 ])
-                ->add('column_count', ChoiceType::class, [
-                    'label' => 'label.column_count',
-                    'choices' => [
-                        '1' => '1',
-                        '2' => '2',
-                        '3' => '3',
-                        '4' => '4',
-                    ],
-                    'required' => false,
-                    'expanded' => true,
-                    'multiple' => false,
-                    'attr' => ['help_text' => 'help.html_styles', 'class'=>'btn-toolbar'],
-                ])
+//                ->add('column_count', ChoiceType::class, [
+//                    'label' => 'label.column_count',
+//                    'choices' => [
+//                        '1' => '1',
+//                        '2' => '2',
+//                        '3' => '3',
+//                        '4' => '4',
+//                    ],
+//                    'required' => false,
+//                    'expanded' => true,
+//                    'multiple' => false,
+//                    'attr' => ['help_text' => 'help.html_styles', 'class'=>'btn-toolbar'],
+//                ])
                 ->add('spans', SpanCollectionType::class, [
                     'column_count' => $block->getColumnCount(),
                     'label' => 'label.spans',
