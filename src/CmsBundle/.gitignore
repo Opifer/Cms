@@ -2,6 +2,4 @@ composer.lock
 node_modules/
 phpunit.xml
 Resources/public/components/*
-Resources/public/dist/*
-!Resources/public/dist/.gitkeep
 vendor/
