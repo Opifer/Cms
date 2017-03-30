@@ -94,7 +94,7 @@ class CardBlockService extends AbstractBlockService implements BlockServiceInter
                 'required' => true,
                 'expanded' => true,
                 'multiple' => false,
-                'attr' => ['help_text' => 'help.list_image_ratio', 'class' => 'btn-radio']
+                'attr' => ['help_text' => 'help.list_image_ratio']
             ])
         ;
     }
@@ -128,5 +128,14 @@ class CardBlockService extends AbstractBlockService implements BlockServiceInter
             ->setDescription('Flexible content block in card style');
 
         return $tool;
+    }
+
+    /**
+     * @param BlockInterface $block
+     * @return mixed
+     */
+    public function getDescription(BlockInterface $block = null)
+    {
+        return 'Flexible content block in card style';
     }
 }

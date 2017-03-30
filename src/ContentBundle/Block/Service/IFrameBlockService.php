@@ -67,8 +67,17 @@ class IFrameBlockService extends AbstractBlockService implements BlockServiceInt
         $tool = new Tool('iFrame', 'iframe');
 
         $tool->setIcon('web_asset')
-            ->setDescription('Include a iframe with url of choice');
+            ->setDescription('Include an iframe with url of choice');
 
         return $tool;
+    }
+
+    /**
+     * @param BlockInterface $block
+     * @return string
+     */
+    public function getDescription(BlockInterface $block = null)
+    {
+        return 'Creates an iframe with url of choice';
     }
 }

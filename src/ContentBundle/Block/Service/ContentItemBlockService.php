@@ -52,4 +52,13 @@ class ContentItemBlockService extends AbstractBlockService implements BlockServi
 
         return $tool;
     }
+
+    /**
+     * @param BlockInterface $block
+     * @return string
+     */
+    public function getDescription(BlockInterface $block = null)
+    {
+        return 'Include another page inside the current page';
+    }
 }

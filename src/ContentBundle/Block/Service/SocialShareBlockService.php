@@ -107,4 +107,13 @@ class SocialShareBlockService extends AbstractBlockService implements BlockServi
     {
         return sprintf('%s%s', $this->getRequest()->getSchemeAndHttpHost(), $this->getRequest()->getRequestUri());
     }
+
+    /**
+     * @param BlockInterface $block
+     * @return string
+     */
+    public function getDescription(BlockInterface $block = null)
+    {
+        return 'This adds buttons to share content on social media';
+    }
 }

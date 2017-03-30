@@ -448,4 +448,13 @@ abstract class AbstractBlockService implements BlockServiceInterface
     {
         return $this->esiEnabled;
     }
+
+    /**
+     * @param BlockInterface $block
+     * @return string
+     */
+    public function getDescription(BlockInterface $block = null)
+    {
+        return '';
+    }
 }

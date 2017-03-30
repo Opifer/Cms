@@ -25,9 +25,11 @@ class ListBlockService extends AbstractBlockService implements BlockServiceInter
     protected $contentManager;
 
     /**
-     * @param BlockRenderer $blockRenderer
-     * @param EntityManager $em
-     * @param array         $config
+     * Constructor
+     *
+     * @param BlockRenderer           $blockRenderer
+     * @param ContentManagerInterface $contentManager
+     * @param array                   $config
      */
     public function __construct(BlockRenderer $blockRenderer, ContentManagerInterface $contentManager, array $config)
     {
@@ -167,5 +169,14 @@ class ListBlockService extends AbstractBlockService implements BlockServiceInter
             ->setDescription('Adds references to a collection of content items');
 
         return $tool;
+    }
+
+    /**
+     * @param BlockInterface $block
+     * @return string
+     */
+    public function getDescription(BlockInterface $block = null)
+    {
+        return 'Adds references to a collection of content items';
     }
 }

@@ -116,4 +116,13 @@ class ModalBlockService extends AbstractBlockService implements BlockServiceInte
 
         return $tool;
     }
+
+    /**
+     * @param BlockInterface $block
+     * @return string
+     */
+    public function getDescription(BlockInterface $block = null)
+    {
+        return 'Modal Window in popup style';
+    }
 }
