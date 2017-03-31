@@ -107,13 +107,6 @@ class CollectionBlockService extends AbstractBlockService implements BlockServic
                     'type' => FilterType::class,
                     'attr' => ['help_text' => 'Filters the user can use to search the collection'],
                 ])
-                ->add('template', ChoiceType::class, [
-                    'label' => 'label.template',
-                    'placeholder' => 'placeholder.choice_optional',
-                    'attr' => ['help_text' => 'help.block_template'],
-                    'choices' => $this->config['templates'],
-                    'required' => false,
-                ])
                 ->add('load_more', CheckboxType::class, [
                     'label' => 'Load more',
                     'required' => false,
@@ -123,6 +116,15 @@ class CollectionBlockService extends AbstractBlockService implements BlockServic
                     ],
                 ])
         );
+
+        $builder->get('styles')
+            ->add('template', ChoiceType::class, [
+                'label' => 'label.template',
+                'placeholder' => 'placeholder.choice_optional',
+                'attr' => ['help_text' => 'help.block_template'],
+                'choices' => $this->config['templates'],
+                'required' => false,
+            ]);
     }
 
     /**

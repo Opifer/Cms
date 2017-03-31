@@ -73,7 +73,7 @@ class TabNavBlockService extends AbstractBlockService implements LayoutBlockServ
             ->add('extra_classes', TextType::class, ['attr' => ['help_text' => 'help.extra_classes']]);
 
         if ($this->config['styles']) {
-            $propertiesForm
+            $builder->get('styles')
                 ->add('styles', ChoiceType::class, [
                     'label' => 'label.styling',
                     'choices'  => $this->config['styles'],

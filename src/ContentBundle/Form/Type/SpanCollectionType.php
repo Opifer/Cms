@@ -44,6 +44,7 @@ class SpanCollectionType extends AbstractType
         $resolver->setDefaults(array(
             'type' => new ColumnEnumType(),
             'column_count' => 1,
+            'choices' => [0, 1, 2, 3, 4, 5],
             'options' => ['label' => false],
         ));
     }

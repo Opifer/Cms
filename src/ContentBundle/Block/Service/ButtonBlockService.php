@@ -35,13 +35,14 @@ class ButtonBlockService extends AbstractBlockService implements BlockServiceInt
 
 
         if ($this->config['styles']) {
-            $propertiesForm->add('styles', ChoiceType::class, [
-                'label' => 'label.styling',
-                'choices'  => $this->config['styles'],
-                'required' => false,
-                'expanded' => true,
-                'multiple' => true,
-            ]);
+            $builder->get('styles')
+                ->add('styles', ChoiceType::class, [
+                    'label' => 'label.styling',
+                    'choices'  => $this->config['styles'],
+                    'required' => false,
+                    'expanded' => true,
+                    'multiple' => true,
+                ]);
         }
 
         $builder->add(
@@ -80,14 +81,5 @@ class ButtonBlockService extends AbstractBlockService implements BlockServiceInt
             ->setDescription('Creates a link to a (external) page or content');
 
         return $tool;
-    }
-
-    /**
-     * @param BlockInterface $block
-     * @return string
-     */
-    public function getDescription(BlockInterface $block = null)
-    {
-        return 'This creates a link to a (external) page or content';
     }
 }

@@ -28,23 +28,26 @@ class IFrameBlockService extends AbstractBlockService implements BlockServiceInt
         $builder->add(
             $propertiesForm
                 ->add('url', TextType::class, ['attr' => ['help_text' => 'help.iframe_url']])
-                ->add('width', TextType::class, ['attr' => []])
-                ->add('height', TextType::class, ['attr' => []])
         )->add(
             $propertiesForm->add('id', TextType::class, ['attr' => ['help_text' => 'help.html_id']])
                 ->add('extra_classes', TextType::class, ['attr' => ['help_text' => 'help.extra_classes']])
 
         );
 
+        $builder->get('styles')
+            ->add('width', TextType::class, ['attr' => []])
+            ->add('height', TextType::class, ['attr' => []]);
+
         if ($this->config['styles']) {
-            $propertiesForm->add('styles', ChoiceType::class, [
-                'label' => 'label.styling',
-                'choices' => $this->config['styles'],
-                'required' => false,
-                'expanded' => true,
-                'multiple' => true,
-                'attr' => ['help_text' => 'help.html_styles'],
-            ]);
+            $builder->get('styles')
+                ->add('styles', ChoiceType::class, [
+                    'label' => 'label.styling',
+                    'choices' => $this->config['styles'],
+                    'required' => false,
+                    'expanded' => true,
+                    'multiple' => true,
+                    'attr' => ['help_text' => 'help.html_styles'],
+                ]);
         }
     }
 
