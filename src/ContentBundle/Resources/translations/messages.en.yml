@@ -39,6 +39,8 @@ help:
     list_display_type: Choose list if you want items displayed as rows, and cards if you want your items to resemble tiles.
     list_display_size: Sizing of each list item
     list_image_ratio: Ratio defines in which proportions your image will be cropped and displayed.
+    block_social_title: Custom title for sharing by mail
+    block_social_text: Custom text for sharing by mail
 
 label:
     block: Block
@@ -94,6 +96,8 @@ label:
     list_display_type: Display type
     list_display_size: Display size
     list_image_ratio: Image ratio
+    social_title: E-mail title
+    social_text: E-mail text
 
 link:
     default: Default
