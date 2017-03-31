@@ -94,20 +94,7 @@ class CardBlockService extends AbstractBlockService implements BlockServiceInter
                 'required' => true,
                 'expanded' => true,
                 'multiple' => false,
-<<<<<<< HEAD
                 'attr' => ['help_text' => 'help.list_image_ratio', 'class' => 'btn-radio']
-=======
-                'attr' => ['help_text' => 'help.list_image_ratio']
-            ])
-            ->add('content', ContentPickerType::class, [
-                'as_object' => false,
-                'label' => 'label.content',
-            ])
-            ->add('background', ChoiceType::class, [
-                'required' => false,
-                'label' => 'label.background_color',
-                'choices' => $this->config['backgrounds']
->>>>>>> 785d17d4394b5720c01188287702d1c8d90f0f1e
             ])
         ;
     }
