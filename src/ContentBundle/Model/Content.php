@@ -6,6 +6,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use JMS\Serializer\Annotation as JMS;
+use Opifer\CmsBundle\Entity\Locale;
 use Opifer\CmsBundle\Entity\Media;
 use Opifer\ContentBundle\Block\BlockOwnerInterface;
 use Opifer\ContentBundle\Entity\Template;
@@ -249,6 +250,14 @@ class Content implements ContentInterface, EntityInterface, TemplatedInterface, 
     public function __construct()
     {
         $this->attributeValues = new ArrayCollection();
+    }
+
+    /**
+     * @return string
+     */
+    public function __toString()
+    {
+        return (string) $this->id;
     }
 
     /**
@@ -966,20 +975,6 @@ class Content implements ContentInterface, EntityInterface, TemplatedInterface, 
     }
 
     /**
-     * Returns name of the Schema for the ValueSet.
-     *
-     * @JMS\VirtualProperty
-     * @JMS\SerializedName("schemaName")
-     * @JMS\Groups({"detail"})
-     *
-     * @return array
-     */
-    public function getSchemaName()
-    {
-        return $this->getValueSet()->getSchema()->getName();
-    }
-
-    /**
      * Get breadcrumbs.
      *
      * Loops through all parents to determine the breadcrumbs and stores them in
@@ -1091,6 +1086,19 @@ class Content implements ContentInterface, EntityInterface, TemplatedInterface, 
         }
 
         return false;
+    }
+
+    /**
+     * @return \DateTime
+     */
+    public function getLastUpdateDate()
+    {
+        $contentDate = $this->getUpdatedAt();
+        $templateDate = $this->getTemplate()->getUpdatedAt();
+
+        $date = $contentDate > $templateDate ? $contentDate : $templateDate;
+
+        return $date;
     }
 
     /**

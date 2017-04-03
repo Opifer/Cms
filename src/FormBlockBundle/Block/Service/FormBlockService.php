@@ -1,8 +1,8 @@
 <?php
 
-namespace Opifer\CmsBundle\Block\Service;
+namespace Opifer\FormBlockBundle\Block\Service;
 
-use Opifer\CmsBundle\Entity\FormBlock;
+use Opifer\FormBlockBundle\Entity\FormBlock;
 use Opifer\ContentBundle\Block\BlockRenderer;
 use Opifer\ContentBundle\Block\Service\AbstractBlockService;
 use Opifer\ContentBundle\Block\Service\BlockServiceInterface;
@@ -11,10 +11,9 @@ use Opifer\ContentBundle\Block\Tool\ToolsetMemberInterface;
 use Opifer\ContentBundle\Model\BlockInterface;
 use Opifer\FormBundle\Model\FormManager;
 use Opifer\FormBundle\Model\PostInterface;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\Form\Extension\Core\Type\FormType;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Opifer\EavBundle\Manager\EavManager;
 
 /**
@@ -28,7 +27,11 @@ class FormBlockService extends AbstractBlockService implements BlockServiceInter
     /** @var FormManager */
     protected $formManager;
 
-    /** @var bool {@inheritdoc} */
+    /**
+     * ESI should be enabled, since the configuration of Twig forms is handled outside the block configuration
+     *
+     * @var bool {@inheritdoc}
+     */
     protected $esiEnabled = true;
 
     /**
@@ -52,10 +55,15 @@ class FormBlockService extends AbstractBlockService implements BlockServiceInter
     {
         parent::buildManageForm($builder, $options);
 
-        $propertiesForm = $builder->create('properties', FormType::class, ['label' => false, 'attr' => ['widget_col' => 12]]);
+        $builder->get('default')->add('form', EntityType::class, [
+            'class' => 'OpiferCmsBundle:Form',
+            'choice_label' => 'name',
+            'label' => 'Form',
+            'placeholder' => 'Choose Form',
+        ]);
 
         if (isset($this->config['templates'])) {
-            $propertiesForm->add('template', ChoiceType::class, [
+            $builder->get('properties')->add('template', ChoiceType::class, [
                 'label' => 'label.template',
                 'placeholder' => 'placeholder.choice_optional',
                 'attr' => ['help_text' => 'help.block_template'],
@@ -63,17 +71,6 @@ class FormBlockService extends AbstractBlockService implements BlockServiceInter
                 'required' => false,
             ]);
         }
-
-        $builder->add(
-            $builder->create('default', FormType::class, ['virtual' => true])
-                ->add('form', EntityType::class, [
-                    'class' => 'OpiferCmsBundle:Form',
-                    'choice_label' => 'name',
-                    'label' => 'Form',
-                    'placeholder' => 'Choose Form',
-                ])
-                ->add($propertiesForm)
-        );
     }
 
     public function getViewParameters(BlockInterface $block)
@@ -123,6 +120,7 @@ class FormBlockService extends AbstractBlockService implements BlockServiceInter
         $tool = new Tool('Form', 'form');
 
         $tool->setIcon('receipt')
+            ->setGroup('Form')
             ->setDescription('Include a form created in Forms');
 
         return $tool;

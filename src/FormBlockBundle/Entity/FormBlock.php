@@ -1,18 +1,27 @@
 <?php
 
-namespace Opifer\CmsBundle\Entity;
+namespace Opifer\FormBlockBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Opifer\CmsBundle\Entity\Form;
+use Opifer\ContentBundle\Entity\CompositeBlock;
 use Opifer\Revisions\Mapping\Annotation as Revisions;
-use Opifer\ContentBundle\Entity\Block;
 
 /**
  * FormBlock
  *
  * @ORM\Entity
  */
-class FormBlock extends Block
+class FormBlock extends CompositeBlock
 {
+    /**
+     * @var string
+     *
+     * @Revisions\Revised
+     * @ORM\Column(type="text", nullable=true)
+     */
+    protected $name;
+
     /**
      * @var Form
      *

@@ -43,6 +43,14 @@ class ContentType extends AbstractType
                     'help_text' => 'help.template'
                 ],
             ])
+            ->add('locale', EntityType::class, [
+                'label' => 'label.language',
+                'class'    => 'OpiferCmsBundle:Locale',
+                'property' => 'name',
+                'attr'     => [
+                    'help_text'   => 'help.content_language',
+                ],
+            ])
             ->add('title', TextType::class, [
                 'label' => 'label.title',
                 'attr'  => [

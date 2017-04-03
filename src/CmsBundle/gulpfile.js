@@ -60,6 +60,8 @@ gulp.task('js', ['react'], function () {
         'Resources/public/js/pagemanager.js',
         'Resources/public/angular/app.js',
 
+        '../../../../lexik/translation-bundle/Resources/public/ng-table/ng-table.min.js',
+        '../../../../lexik/translation-bundle/Resources/public/js/translation.js',
         '../ContentBundle/Resources/public/js/app.js',
         '../ContentBundle/Resources/public/app/content/content.js',
         '../MediaBundle/Resources/public/app/modal/modal.js',
@@ -94,9 +96,10 @@ gulp.task('react', function () {
     return gulp.src([
             '../ExpressionEngine/Resources/public/react/expression-engine.js'
         ])
+        .pipe(sourcemaps.init())
         .pipe(react())
         .pipe(concat('react.js'))
-        .pipe(sourcemaps.write('./'))
+        .pipe(sourcemaps.write('.'))
         .pipe(gulp.dest('Resources/public/js'));
 });
 
@@ -147,6 +150,7 @@ gulp.task('pagemanager-client-js', function () {
         .pipe(sourcemaps.write('./'))
         .pipe(gulp.dest('Resources/public/js'));
 });
+
 gulp.task('pagemanager-client-css', function () {
     return gulp.src([
         'Resources/public/less/pagemanager-client.less'
@@ -167,4 +171,5 @@ gulp.task('default', ['js', 'css', 'pagemanager']);
 gulp.task('watch', function() {
     gulp.watch('Resources/public/less/*.less', ['default']);
     gulp.watch('Resources/public/js/*.js', ['default']);
+    gulp.watch('../ExpressionEngine/Resources/public/react/expression-engine.js', ['default']);
 });

@@ -49,32 +49,34 @@ class ConfigType extends AbstractType
 
         /** @var ConfigurationFormTypeInterface $form */
         foreach ($forms as $name => $form) {
-            $builder->add($name, get_class($form), [
-                'label' => $form->getLabel(),
-                'data' => $this->configManager->keyValues()
-            ]);
+            $builder->add(
+                $builder
+                    ->create($name, get_class($form), [
+                        'label' => $form->getLabel(),
+                        'data' => $this->configManager->keyValues($form)
+                    ])
+                    ->addModelTransformer(new CallbackTransformer(
+                        function ($original) {
+                            $transformed = [];
+                            foreach ($original as $key => $object) {
+                                $transformed[$key] = $object->Value;
+                            }
 
-            $builder->get($name)->addModelTransformer(new CallbackTransformer(
-                function ($original) {
-                    $transformed = [];
-                    foreach ($original as $key => $object) {
-                        $transformed[$key] = $object->Value;
-                    }
+                            return $transformed;
+                        },
+                        function ($submitted) {
+                            $transformed = [];
+                            foreach ($submitted as $key => $value) {
+                                $object = new \stdClass();
+                                $object->Value = $value;
 
-                    return $transformed;
-                },
-                function ($submitted) {
-                    $transformed = [];
-                    foreach ($submitted as $key => $value) {
-                        $object = new \stdClass();
-                        $object->Value = $value;
+                                $transformed[$key] = $object;
+                            }
 
-                        $transformed[$key] = $object;
-                    }
-
-                    return $transformed;
-                }
-            ));
+                            return $transformed;
+                        }
+                    ))
+            );
         }
     }
 }

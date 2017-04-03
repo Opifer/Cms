@@ -1,0 +1,13 @@
+Opifer\FormBlockBundle\Entity\RichCheckItemBlock:
+  type: entity
+  fields:
+    title:
+      type: string
+  manyToOne:
+    media:
+      targetEntity: Opifer\MediaBundle\Model\MediaInterface
+      fetch: EAGER
+      joinColumn:
+        name: media_id
+        referencedColumnName: id
+        onDelete: SET NULL

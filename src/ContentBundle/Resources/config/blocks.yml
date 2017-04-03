@@ -4,6 +4,7 @@ parameters:
     opifer.content.carousel_slide_block.class: Opifer\ContentBundle\Block\Service\CarouselSlideBlockService
     opifer.content.collection_block.class: Opifer\ContentBundle\Block\Service\CollectionBlockService
     opifer.content.iframe_block.class: Opifer\ContentBundle\Block\Service\IFrameBlockService
+    opifer.content.card_block.class: Opifer\ContentBundle\Block\Service\CardBlockService
     opifer.content.column_block.class: Opifer\ContentBundle\Block\Service\ColumnBlockService
     opifer.content.container_block.class: Opifer\ContentBundle\Block\Service\ContainerBlockService
     opifer.content.section_block.class: Opifer\ContentBundle\Block\Service\SectionBlockService
@@ -26,15 +27,27 @@ parameters:
     opifer.content.breadcrumbs_block.class: Opifer\ContentBundle\Block\Service\BreadcrumbsBlockService
     opifer.content.avatar_block.class: Opifer\ContentBundle\Block\Service\AvatarBlockService
     opifer.content.search_results_block.class: Opifer\ContentBundle\Block\Service\SearchResultsBlockService
+    opifer.content.modal_block.class: Opifer\ContentBundle\Block\Service\ModalBlockService
+    opifer.content.data_view_block.class: Opifer\ContentBundle\Block\Service\DataViewBlockService
 
 services:
+    opifer.content.alert_block:
+        class: 'Opifer\ContentBundle\Block\Service\AlertBlockService'
+        arguments: ['@opifer.content.block_renderer', '%opifer_content.alert_block_configuration%']
+        tags:
+            - { name: opifer.content.block_service, alias: alert }
+
     opifer.content.button_block:
         class: '%opifer.content.button_block.class%'
         arguments: ['@opifer.content.block_renderer', '%opifer_content.button_block_configuration%']
         tags:
             - { name: opifer.content.block_service, alias: button }
+
+    opifer.content.card_block:
+        class: '%opifer.content.card_block.class%'
+        arguments: ['@opifer.content.block_renderer', '%opifer_content.card_block_configuration%']
         tags:
-            - { name: opifer.content.block_service, alias: css }
+            - { name: opifer.content.block_service, alias: card }
 
     opifer.content.carousel_block:
         class: '%opifer.content.carousel_block.class%'
@@ -50,9 +63,21 @@ services:
 
     opifer.content.collection_block:
         class: '%opifer.content.collection_block.class%'
-        arguments: ['@opifer.content.block_renderer', '@opifer.doctrine_expression_engine', '@opifer.content.content_manager', '@opifer.content.content_type_manager', '%opifer_content.collection_block_configuration%']
+        arguments:
+            - '@opifer.content.block_renderer'
+            - '@opifer.doctrine_expression_engine'
+            - '@opifer.content.content_manager'
+            - '@opifer.content.content_type_manager'
+            - '@opifer.eav.attribute_manager'
+            - '%opifer_content.collection_block_configuration%'
         tags:
             - { name: opifer.content.block_service, alias: collection }
+
+    opifer.content.content_item_block:
+        class: 'Opifer\ContentBundle\Block\Service\ContentItemBlockService'
+        arguments: ['@opifer.content.block_renderer', '%opifer_content.content_item_block_configuration%']
+        tags:
+            - { name: opifer.content.block_service, alias: content_item }
 
     opifer.content.gallery_block:
         class: '%opifer.content.gallery_block.class%'
@@ -84,11 +109,26 @@ services:
         tags:
             - { name: opifer.content.block_service, alias: list }
 
+    opifer.content.navbar_block:
+        class: 'Opifer\ContentBundle\Block\Service\NavBarBlockService'
+        arguments: ['@opifer.content.block_renderer', '%opifer_content.navbar_block_configuration%']
+        tags:
+            - { name: opifer.content.block_service, alias: navbar }
+
     opifer.content.navigation_block:
         class: '%opifer.content.navigation_block.class%'
         arguments: ['@opifer.content.block_renderer', '@opifer.content.content_manager', '%opifer_content.navigation_block_configuration%']
         tags:
             - { name: opifer.content.block_service, alias: navigation }
+
+    opifer.content.navlink_block:
+        class: 'Opifer\ContentBundle\Block\Service\NavLinkBlockService'
+        arguments:
+            - '@opifer.content.block_renderer'
+            - '@router'
+            - '%opifer_content.navlink_block_configuration%'
+        tags:
+            - { name: opifer.content.block_service, alias: navlink }
 
     opifer.content_iframe_block:
         class: '%opifer.content.iframe_block.class%'
@@ -208,6 +248,12 @@ services:
         tags:
             - { name: opifer.content.block_service, alias: avatar }
 
+    opifer.content.modal_block:
+        class: '%opifer.content.modal_block.class%'
+        arguments: ['@opifer.content.block_renderer', '%opifer_content.modal_block_configuration%']
+        tags:
+            - { name: opifer.content.block_service, alias: modal }
+
     opifer.content.search_results_block:
         class: '%opifer.content.search_results_block.class%'
         arguments: ['@opifer.content.block_renderer', '@opifer.content.content_manager', '%opifer_content.search_results_block_configuration%']
@@ -215,3 +261,9 @@ services:
             - { name: opifer.content.block_service, alias: search_results }
         calls:
             - [setRequest, ['@request_stack']]
+
+    opifer.content.data_view_block:
+        class: '%opifer.content.data_view_block.class%'
+        arguments: ['@opifer.content.block_renderer', '@doctrine.orm.default_entity_manager', '%opifer_content.data_view_block_configuration%']
+        tags:
+            - { name: opifer.content.block_service, alias: data_view }

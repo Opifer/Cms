@@ -39,11 +39,34 @@ abstract class Block implements BlockInterface, DraftInterface
     /**
      * @var int
      *
+     * @JMS\Expose
+     * @JMS\Groups({"tree", "details"})
+     *
      * @ORM\Column(type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     protected $id;
+
+    /**
+     * @var string
+     *
+     * @JMS\Expose
+     * @JMS\Groups({"tree", "details"})
+     * @Revisions\Revised
+     * @ORM\Column(type="string", nullable=true)
+     */
+    protected $name;
+
+    /**
+     * @var string
+     *
+     * @JMS\Expose
+     * @JMS\Groups({"tree", "details"})
+     * @Revisions\Revised
+     * @ORM\Column(name="display_name", type="string", nullable=true)
+     */
+    protected $displayName;
 
     /**
      * @var BlockInterface
@@ -73,13 +96,19 @@ abstract class Block implements BlockInterface, DraftInterface
     /**
      * @var ArrayCollection
      *
+     * @JMS\Expose
+     * @JMS\Groups({"tree"})
+     *
      * @ORM\OneToMany(targetEntity="Opifer\ContentBundle\Entity\Block", mappedBy="parent", cascade={"detach", "persist"})
      * @ORM\OrderBy({"sort" = "ASC"})
-     **/
+     */
     protected $children;
 
     /**
      * @var int
+     *
+     * @JMS\Expose
+     * @JMS\Groups({"tree", "detail"})
      *
      * @Revisions\Revised
      * @ORM\Column(type="integer", nullable=true)
@@ -89,6 +118,9 @@ abstract class Block implements BlockInterface, DraftInterface
     /**
      * @var int
      *
+     * @JMS\Expose
+     * @JMS\Groups({"tree", "detail", "list"})
+     *
      * @Revisions\Revised
      * @ORM\Column(type="integer", nullable=true)
      */
@@ -96,6 +128,9 @@ abstract class Block implements BlockInterface, DraftInterface
 
     /**
      * @var null|int
+     *
+     * @JMS\Expose
+     * @JMS\Groups({"tree", "detail", "list"})
      *
      * @Revisions\Revised
      * @ORM\Column(type="integer", nullable=true, options={"default":null})
@@ -111,7 +146,18 @@ abstract class Block implements BlockInterface, DraftInterface
     protected $properties;
 
     /**
+     * @var array
+     *
+     * @Revisions\Revised
+     * @ORM\Column(type="json_array", nullable=true)
+     */
+    protected $styles;
+
+    /**
      * @var bool
+     *
+     * @JMS\Expose
+     * @JMS\Groups({"tree", "detail", "list"})
      *
      * @ORM\Column(type="boolean")
      */
@@ -119,6 +165,9 @@ abstract class Block implements BlockInterface, DraftInterface
 
     /**
      * @var string
+     *
+     * @JMS\Expose
+     * @JMS\Groups({"tree", "detail", "list"})
      *
      * @ORM\Column(type="string", nullable=true)
      * @GRID\Column(title="label.shared_name")
@@ -135,6 +184,9 @@ abstract class Block implements BlockInterface, DraftInterface
 
     /**
      * @var string
+     *
+     * @JMS\Expose
+     * @JMS\Groups({"tree", "detail"})
      *
      * @Revisions\Revised
      * @ORM\Column(type="text", name="value", nullable=true)
@@ -278,6 +330,16 @@ abstract class Block implements BlockInterface, DraftInterface
     }
 
     /**
+     * @JMS\VirtualProperty
+     * @JMS\SerializedName("parentId")
+     * @JMS\Groups({"tree", "detail", "list"})
+     */
+    public function getParentId()
+    {
+        return ($this->parent) ? $this->parent->getId() : null;
+    }
+
+    /**
      * @return mixed
      */
     public function getPosition()
@@ -326,19 +388,52 @@ abstract class Block implements BlockInterface, DraftInterface
     }
 
     /**
+     * @JMS\VirtualProperty
+     * @JMS\SerializedName("properties")
+     *
      * @return array
      */
     public function getProperties()
     {
-        return $this->properties;
+        return array_merge($this->styles, $this->properties);
     }
 
     /**
+     *
      * @param array $properties
      */
     public function setProperties($properties)
     {
         $this->properties = $properties;
+    }
+
+    /**
+     * @param string $key
+     */
+    public function getProperty($key)
+    {
+        return (isset($this->properties[$key])) ? $this->properties[$key] : null;
+    }
+
+    /**
+     * @JMS\VirtualProperty
+     * @JMS\SerializedName("styles")
+     *
+     * @return array
+     */
+    public function getStyles()
+    {
+        return array_merge($this->styles, $this->properties);
+    }
+
+    /**
+     * @param array $styles
+     * @return Block
+     */
+    public function setStyles($styles)
+    {
+        $this->styles = $styles;
+        return $this;
     }
 
     /**
@@ -416,6 +511,50 @@ abstract class Block implements BlockInterface, DraftInterface
     public function getChildren()
     {
         return new ArrayCollection();
+    }
+
+    /**
+     * @return string
+     */
+    public function getName()
+    {
+        return $this->name;
+    }
+
+    /**
+     * @param string $name
+     *
+     * @return Block
+     */
+    public function setName($name)
+    {
+        $this->name = $name;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getDisplayName()
+    {
+        if (!$this->displayName) {
+            return ucfirst(str_replace('_', ' ', $this->name));
+        }
+
+        return $this->displayName;
+    }
+
+    /**
+     * @param string $displayName
+     *
+     * @return Block
+     */
+    public function setDisplayName($displayName)
+    {
+        $this->displayName = $displayName;
+
+        return $this;
     }
 
     /**
@@ -513,7 +652,7 @@ abstract class Block implements BlockInterface, DraftInterface
     /**
      * @return BlockInterface
      */
-    protected function getTemplate()
+    public function getTemplate()
     {
         return $this->template;
     }
@@ -523,11 +662,21 @@ abstract class Block implements BlockInterface, DraftInterface
      *
      * @return Block
      */
-    protected function setTemplate($template)
+    public function setTemplate($template)
     {
         $this->template = $template;
 
         return $this;
+    }
+
+    /**
+     * @JMS\VirtualProperty
+     * @JMS\SerializedName("templateId")
+     * @JMS\Groups({"tree", "detail", "list"})
+     */
+    public function getTemplateId()
+    {
+        return ($this->template) ? $this->template->getId() : null;
     }
 
     /**
@@ -548,6 +697,16 @@ abstract class Block implements BlockInterface, DraftInterface
         $this->content = $content;
 
         return $this;
+    }
+
+    /**
+     * @JMS\VirtualProperty
+     * @JMS\SerializedName("contentId")
+     * @JMS\Groups({"tree", "detail", "list"})
+     */
+    public function getContentId()
+    {
+        return ($this->content) ? $this->content->getId() : null;
     }
 
     /**
@@ -573,5 +732,17 @@ abstract class Block implements BlockInterface, DraftInterface
     public function hasChildren()
     {
         return false;
+    }
+
+    /**
+     * @JMS\Groups({"tree", "detail"})
+     * @JMS\VirtualProperty
+     * @JMS\SerializedName("type")
+     *
+     * @return string
+     */
+    public function getDiscriminator()
+    {
+        return (new \ReflectionClass($this))->getShortName();
     }
 }

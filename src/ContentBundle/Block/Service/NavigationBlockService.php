@@ -83,20 +83,23 @@ class NavigationBlockService extends AbstractBlockService implements BlockServic
                         //])
                         ->add('levels', ChoiceType::class, [
                             'label' => 'label.levels',
-                            'choices' => [1 => 1, 2 => 2, 3 => 3, 4 => 4, 5 => 5],
+                            'choices' => [0 => 0, 1 => 1, 2 => 2, 3 => 3, 4 => 4, 5 => 5],
                             'attr' => [
                                 'help_text' => 'help.levels',
                                 'widget_col' => 9,
                             ],
                         ])
-                        ->add('template', ChoiceType::class, [
-                            'label' => 'label.template',
-                            'attr' => ['help_text' => 'help.block_template', 'widget_col' => 9],
-                            'choices' => $this->config['templates'],
-                            'required' => true,
-                        ])
                 )
         );
+
+        $builder->get('styles')
+            ->add('template', ChoiceType::class, [
+                'label' => 'label.template',
+                'attr' => ['help_text' => 'help.block_template', 'widget_col' => 9],
+                'choices' => $this->config['templates'],
+                'required' => true,
+            ])
+        ;
     }
 
     /**
@@ -110,10 +113,9 @@ class NavigationBlockService extends AbstractBlockService implements BlockServic
         if ($block->getValue() == NavigationBlock::CHOICE_CUSTOM && isset($block->getProperties()['content'])) {
             $ids = json_decode($block->getProperties()['content'], true);
 
-            $collection = $this->contentManager->getRepository()->findOrderedByIds($ids);
+            $collection = $this->contentManager->getRepository()->findByLevels($levels, $ids);
 
             $block->setTree($collection);
-
         } elseif ($block->getValue() == NavigationBlock::CHOICE_TOP_LEVEL) {
             $collection = $this->contentManager->getRepository()->findByLevels($levels);
 
@@ -146,28 +148,6 @@ class NavigationBlockService extends AbstractBlockService implements BlockServic
         }
 
         return $ordered;
-    }
-
-    /**
-     * @param  string $json
-     * @return array
-     */
-    public function getCustomTree($json)
-    {
-        $simpleTree = json_decode($json, true);
-        if (!$simpleTree) {
-            return [];
-        }
-
-        $collection = $this->contentManager->getRepository()
-            ->createQueryBuilder('c')
-            ->where('c.id IN (:ids)')->setParameter('ids', $this->gatherIds($simpleTree))
-            ->getQuery()
-            ->getArrayResult(); // TODO Serialize instead of transforming the complete object to array
-
-        $this->setCollection($collection);
-
-        return $this->buildTree($simpleTree);
     }
 
     /**

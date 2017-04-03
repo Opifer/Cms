@@ -274,3 +274,7 @@ schema:
     post_notify: E-mail notificatie
     delete:
         warning: 'Dit template kan niet worden verwijderd. Het kan zijn dat deze nog gebruikt wordt door content items.'
+
+title:
+    translations: translations
+    locale: languages

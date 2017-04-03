@@ -150,6 +150,14 @@ abstract class Media implements MediaInterface
     protected $original;
 
     /**
+     * {@inheritdoc}
+     */
+    public function getImagesCacheKey()
+    {
+        return sha1(__FILE__).'_'.$this->id.'_images';
+    }
+
+    /**
      * Sets file.
      *
      * @param UploadedFile $file

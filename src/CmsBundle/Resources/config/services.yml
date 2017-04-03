@@ -18,6 +18,7 @@ parameters:
     opifer.cms.slug_form_type.class: 'Opifer\CmsBundle\Form\Type\SlugType'
     opifer.cms.tableprefix_listener.class: 'Opifer\CmsBundle\EventListener\TablePrefixSubscriber'
     twig.extension.intl.class: 'Twig_Extensions_Extension_Intl'
+    lexik_translation.locale.manager.class: 'Opifer\CmsBundle\Manager\LocaleManager'
 
 services:
 
@@ -88,6 +89,11 @@ services:
             - { name: 'form.type' }
 
     # Form Type Extensions
+
+    opifer.cms.content_type_extension:
+        class: 'Opifer\CmsBundle\Form\Extension\ContentTypeExtension'
+        tags:
+            - { name: 'form.type_extension', extended_type: 'Opifer\ContentBundle\Form\Type\ContentType' }
 
     opifer.cms.redirect_type_extension:
         class: 'Opifer\CmsBundle\Form\Extension\RedirectTypeExtension'
@@ -198,12 +204,6 @@ services:
 
     # Block Services
 
-    opifer.cms.form_block:
-        class: 'Opifer\CmsBundle\Block\Service\FormBlockService'
-        arguments: ['@opifer.content.block_renderer', '@opifer.eav.eav_manager', '@opifer.form.form_manager', '%opifer_cms.form_block_configuration%']
-        tags:
-            - { name: 'opifer.content.block_service', alias: 'form' }
-
     opifer.mailing_list.subscribe_block:
         class: 'Opifer\MailingListBundle\Block\Service\SubscribeBlockService'
         arguments: ['@opifer.content.block_renderer', '%opifer_mailing_list.subscribe_block_configuration%', '@form.factory', '@router', '@doctrine.orm.default_entity_manager', '@opifer.content.content_manager', '@opifer.mailinglist.subscription_manager']
@@ -240,3 +240,7 @@ services:
         arguments: ['@opifer.expression_engine']
         tags:
             - { name: 'form.type' }
+
+    jms_serializer.object_constructor:
+        alias: jms_serializer.doctrine_object_constructor
+

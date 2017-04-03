@@ -6,9 +6,9 @@ use Opifer\ExpressionEngine\Constraint\DatePeriod;
 
 class DatePeriodPrototype extends Prototype
 {
-    public function __construct($name, $selector)
+    public function __construct($key, $name, $selector)
     {
-        parent::__construct($name, $selector);
+        parent::__construct($key, $name, $selector);
 
         $this->setConstraints([
             new Choice(DatePeriod::class, 'Has'),

@@ -126,6 +126,14 @@ class Environment
         throw new \Exception('Could not find block in loaded Environment');
     }
 
+    public function getBlocks()
+    {
+        $this->load();
+        $cacheKey = $this->getCacheKey();
+
+        return $this->blockCache[$cacheKey];
+    }
+
     public function getRootBlocks()
     {
         $this->load();
@@ -133,6 +141,10 @@ class Environment
         $cacheKey = $this->getCacheKey();
 
         $blocks = array();
+
+        if (!isset($this->blockCache[$cacheKey])) {
+            return $blocks;
+        }
 
         /** @var BlockInterface $block */
         foreach ($this->blockCache[$cacheKey] as $block) {

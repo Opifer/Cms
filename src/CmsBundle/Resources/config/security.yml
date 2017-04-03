@@ -16,8 +16,24 @@ security:
             id: fos_user.user_provider.username_email
 
     firewalls:
+        login:
+            pattern:  ^/admin/api/login
+            stateless: true
+            anonymous: true
+            form_login:
+                check_path:               /admin/api/login_check
+                success_handler:          lexik_jwt_authentication.handler.authentication_success
+                failure_handler:          lexik_jwt_authentication.handler.authentication_failure
+                require_previous_session: false
+        api:
+            pattern:   ^/admin/api/(?!content|media|contenteditor|options|schemas)
+            stateless: true
+            guard:
+                authenticators:
+                    - lexik_jwt_authentication.jwt_token_authenticator
         staging:
             host: ^staging\.
+            methods: [GET, POST, DELETE, PUT, PATCH, OPTIONS]
             http_basic:
                 provider: fos_userbundle
             anonymous: false

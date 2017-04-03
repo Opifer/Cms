@@ -45,12 +45,21 @@ class GalleryBlockService extends AbstractBlockService implements BlockServiceIn
     {
         parent::buildManageForm($builder, $options);
 
-        $propertiesForm = $builder->create('properties', FormType::class)
+        $builder->get('default')
+            ->add('value',  MediaPickerType::class, [
+                'to_json' => true,
+                'multiple' => true,
+                'label'    => 'Media',
+            ])
+        ;
+
+        $builder->get('properties')
             ->add('id', TextType::class, ['attr' => ['help_text' => 'help.html_id']])
-            ->add('extra_classes', TextType::class, ['attr' => ['help_text' => 'help.extra_classes']]);
+            ->add('extra_classes', TextType::class, ['attr' => ['help_text' => 'help.extra_classes']])
+        ;
 
         if (isset($this->config['templates'])) {
-            $propertiesForm->add('template', ChoiceType::class, [
+            $builder->get('styles')->add('template', ChoiceType::class, [
                 'label'       => 'label.template',
                 'placeholder' => 'placeholder.choice_optional',
                 'attr'        => ['help_text' => 'help.block_template'],
@@ -58,17 +67,6 @@ class GalleryBlockService extends AbstractBlockService implements BlockServiceIn
                 'required'    => false,
             ]);
         }
-
-        $builder->add(
-             $builder->create('default', FormType::class, ['virtual' => true])
-                 ->add('value',  MediaPickerType::class, [
-                     'to_json' => true,
-                     'multiple' => true,
-                     'label'    => 'label.media',
-                 ])
-         )->add(
-            $propertiesForm
-        );
     }
 
     /**

@@ -12,6 +12,13 @@ interface AttributeInterface
     public function getName();
 
     /**
+     * Get the display name
+     *
+     * @return string
+     */
+    public function getDisplayName();
+
+    /**
      * Get valueType
      *
      * @return string

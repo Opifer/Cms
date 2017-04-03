@@ -300,6 +300,11 @@ $(document).ready(function() {
                 publishShared($(this).closest('form').attr('data-pm-block-id'));
             });
 
+            $(document).on('click', '.pm-btn-delete-block', function (e) {
+                e.preventDefault();
+                deleteBlock($(this).closest('form').attr('data-pm-block-id'));
+            });
+
             var cookieSettings = Cookies.getJSON('pmSettings');
             jQuery.extend(settings, cookieSettings);
 
@@ -929,7 +934,8 @@ $(document).ready(function() {
                 data: values,
                 success: function (data) {
                     callback(data);
-                    sortables();
+                    // sortables();
+                    loadToC(sortables);
                 }
             }).error(function(data){
                 showAPIError(data);
@@ -999,7 +1005,8 @@ $(document).ready(function() {
         var loadToC = function (callback) {
             $.ajax({
                 url: Routing.generate('opifer_content_contenteditor_toc', {owner: owner, ownerId: ownerId}),
-                cache: false
+                cache: false,
+                dataType: 'html',
             }).done(function (data) {
                 $('#pm-toc').html(data);
                 if (callback) callback();

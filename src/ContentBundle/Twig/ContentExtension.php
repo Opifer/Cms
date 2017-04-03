@@ -186,7 +186,7 @@ class ContentExtension extends \Twig_Extension
 
         if (isset($context['block_service'])) {
             $service = $context['block_service'];
-            $tags .= sprintf(' data-pm-tool=\'%s\'', json_encode(array('icon' => $service->getTool()->getIcon())));
+            $tags .= sprintf(' data-pm-tool=\'%s\'', json_encode(array('icon' => $service->getTool($block)->getIcon())));
         }
 
         return $tags;
@@ -256,6 +256,16 @@ class ContentExtension extends \Twig_Extension
         $parents = $child->getParents();
         foreach ($parents as $parent) {
             if (is_string($content)) {
+                // Strip the dev front controller if its defined
+                if (strpos($content, '/app_dev.php') !== false) {
+                    $content = substr($content, strlen('/app_dev.php'));
+                }
+
+                // Strip the first character if it's a slash
+                if (substr($content, 0, 1) === '/') {
+                    $content = ltrim($content, '/');
+                }
+
                 if (substr($content, 0, strlen($parent->getSlug())) === $parent->getSlug()) {
                     return true;
                 }

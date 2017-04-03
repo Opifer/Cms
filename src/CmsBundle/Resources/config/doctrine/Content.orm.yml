@@ -183,6 +183,16 @@ Opifer\CmsBundle\Entity\Content:
                 site_id:
                     referencedColumnName: id
             orphanRemoval: false
+        locale:
+            targetEntity: Opifer\CmsBundle\Entity\Locale
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                locale_id:
+                    referencedColumnName: id
+            orphanRemoval: false
         template:
             targetEntity: Opifer\ContentBundle\Entity\Template
             cascade: {  }
@@ -255,4 +265,16 @@ Opifer\CmsBundle\Entity\Content:
             orphanRemoval: false
             orderBy:
                 lft: ASC
+    manyToMany:
+        medias:
+            targetEntity: Opifer\MediaBundle\Model\MediaInterface
+            joinTable:
+                name: opifer_content_media
+                joinColumns:
+                    content_id:
+                        referencedColumnName: id
+                inversedJoinColumns:
+                    media_id:
+                        referencedColumnName: id
+                        onDelete: CASCADE
     lifecycleCallbacks: {  }

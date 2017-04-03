@@ -10,6 +10,7 @@
         <div class="row row-space-top-2 row-space-2">
             <ul class="nav nav-tabs nav-tabs-spill">
                 {% if form.default|default %}<li role="presentation" class="active"><a href="#block-general" data-toggle="tab">General</a></li>{% endif %}
+                {% if form.styles is defined %}<li role="presentation" {% if not form.default|default %}class="active"{% endif %}><a href="#block-styles" data-toggle="tab">Styling</a></li>{% endif %}
                 {% if form.properties is defined %}<li role="presentation" {% if not form.default|default %}class="active"{% endif %}><a href="#block-properties" data-toggle="tab">Properties</a></li>{% endif %}
                 {% if block.isShared %}<li role="presentation"><a href="#block-shared" data-toggle="tab">Shared</a></li>{% endif %}
                 <li class="dropdown pull-right">
@@ -23,6 +24,7 @@
                         {% if block.isShared %}
                             <li><a href="#" class="pm-btn-publish-shared"><i class="material-icons md-18">publish</i> {{ "button.publish"|trans }}</a></li>
                         {% endif %}
+                        <li><a href="#" class="pm-btn-delete-block"><i class="material-icons md-18">delete</i> {{ "button.delete"|trans }}</a></li>
                     </ul>
 
                 </li>
@@ -42,6 +44,13 @@
                     <div class="tab-pane{% if not form.default|default %} active{% endif %}" id="block-properties">
                         {% if form.properties|default %}
                             {% for type in form.properties %}
+                                {{ form_row(type) }}
+                            {% endfor %}
+                        {% endif %}
+                    </div>
+                    <div class="tab-pane{% if not form.default|default %} active{% endif %}" id="block-styles">
+                        {% if form.styles|default %}
+                            {% for type in form.styles %}
                                 {{ form_row(type) }}
                             {% endfor %}
                         {% endif %}
