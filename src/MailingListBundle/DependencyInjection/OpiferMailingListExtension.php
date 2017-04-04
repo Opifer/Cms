@@ -39,6 +39,8 @@ class OpiferMailingListExtension extends Extension implements PrependExtensionIn
         $params = [
             'opifer_mailing_list.mailplus.consumer_key' => (isset($config['mailplus'])) ? $config['mailplus']['consumer_key'] : '',
             'opifer_mailing_list.mailplus.consumer_secret' => (isset($config['mailplus'])) ? $config['mailplus']['consumer_secret'] : '',
+            'opifer_mailing_list.activecampaign.activecampaign_key' => (isset($config['activecampaign'])) ? $config['activecampaign']['activecampaign_key'] : '',
+            'opifer_mailing_list.activecampaign.activecampaign_url' => (isset($config['activecampaign'])) ? $config['activecampaign']['activecampaign_url'] : '',
         ];
 
         // Block configuration
