@@ -63,7 +63,7 @@ class ActiveCampaignProvider implements MailingListProviderInterface
             }
 
             // successful request
-            $this->subscriptionManager->updateStatus($subscription, Subscription::STATUS_SYNCED);
+            $this->subscriptionManager->updateStatus($subscription, Subscription::STATUS_SUBSCRIBED);
 
             return true;
         } catch (\Exception $e) {
@@ -76,6 +76,13 @@ class ActiveCampaignProvider implements MailingListProviderInterface
     public function synchroniseList(MailingList $list, \Closure $logger)
     {
         // TODO: Implement synchroniseList() method.
+        //get all subscribers
+
+        $subscriptions = $this->subscriptionManager->getRepository()->findBy(['mailingList' => $list->getId(), 'syncedAt' => null]);
+
+        foreach ($subscriptions as $subscription){
+            $this->synchronise($subscription);
+        }
     }
 
     /**
