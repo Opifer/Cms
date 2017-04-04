@@ -75,9 +75,6 @@ class ActiveCampaignProvider implements MailingListProviderInterface
 
     public function synchroniseList(MailingList $list, \Closure $logger)
     {
-        // TODO: Implement synchroniseList() method.
-        //get all subscribers
-
         $subscriptions = $this->subscriptionManager->getRepository()->findBy(['mailingList' => $list->getId(), 'syncedAt' => null]);
 
         foreach ($subscriptions as $subscription){
