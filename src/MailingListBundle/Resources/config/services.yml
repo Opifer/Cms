@@ -18,7 +18,7 @@ services:
 
     opifer.mailinglist.activecampaign_provider:
             class: Opifer\MailingListBundle\Provider\ActiveCampaignProvider
-            arguments: ['@opifer.mailinglist.subscription_manager', '%opifer_mailing_list.activecampaign.activecampaign_url%', '%opifer_mailing_list.activecampaign.activecampaign_key%']
+            arguments: ['@opifer.mailinglist.subscription_manager', '%opifer_mailing_list.activecampaign.url%', '%opifer_mailing_list.activecampaign.key%']
             tags:
                 - { name: opifer.mailinglist.provider, alias: activecampaign }
 
