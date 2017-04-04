@@ -96,7 +96,7 @@ label:
     list_display_type: Display type
     list_display_size: Display size
     list_image_ratio: Image ratio
-    social_title: E-mail title
+    social_title: E-mail subject
     social_text: E-mail text
 
 link:
