@@ -51,46 +51,46 @@ class NavigationBlockService extends AbstractBlockService implements BlockServic
         }
 
         // Default panel
-        $builder->add(
-            $builder->create('default', FormType::class, ['virtual' => true])
-                ->add('value', ChoiceType::class, [
-                    'label' => 'label.navigation_block_value',
-                    'choices' => [
-                        'Top level pages' => NavigationBlock::CHOICE_TOP_LEVEL,
-                        'Custom selection' => NavigationBlock::CHOICE_CUSTOM
-                    ],
-                    'choices_as_values' => true,
-                    'attr' => ['class' => 'toggle-content-picker']
-                ])
-                ->add(
-                    $builder->create('properties', FormType::class, ['label' => false, 'attr' => ['widget_col' => 12]])
-                        ->add('content', ContentListPickerType::class, [
-                            'label' => 'label.custom',
-                            'attr' => [
-                                'widget_col' => 9,
-                                'form_group' => [
-                                    'styles' => ($showContentPicker === false) ? 'display:none;' : ''
-                                ]
-                            ]
-                        ])
-                        //->add('tree', ContentTreePickerType::class, [
-                        //    'label' => 'label.custom',
-                        //    'attr' => [
-                        //        'form-group' => [
-                        //            'styles' => ($showContentPicker === false) ? 'display:none;' : ''
-                        //        ]
-                        //    ]
-                        //])
-                        ->add('levels', ChoiceType::class, [
-                            'label' => 'label.levels',
-                            'choices' => [0 => 0, 1 => 1, 2 => 2, 3 => 3, 4 => 4, 5 => 5],
-                            'attr' => [
-                                'help_text' => 'help.levels',
-                                'widget_col' => 9,
-                            ],
-                        ])
-                )
-        );
+
+        $builder->get('default')
+            ->add('value', ChoiceType::class, [
+                'label' => 'label.navigation_block_value',
+                'choices' => [
+                    'Top level pages' => NavigationBlock::CHOICE_TOP_LEVEL,
+                    'Custom selection' => NavigationBlock::CHOICE_CUSTOM
+                ],
+                'choices_as_values' => true,
+                'attr' => ['class' => 'toggle-content-picker']
+            ])
+        ;
+
+        $builder->get('properties')
+            ->add('content', ContentListPickerType::class, [
+                'label' => 'label.custom',
+                'attr' => [
+                    'widget_col' => 9,
+                    'form_group' => [
+                        'styles' => ($showContentPicker === false) ? 'display:none;' : ''
+                    ]
+                ]
+            ])
+            //->add('tree', ContentTreePickerType::class, [
+            //    'label' => 'label.custom',
+            //    'attr' => [
+            //        'form-group' => [
+            //            'styles' => ($showContentPicker === false) ? 'display:none;' : ''
+            //        ]
+            //    ]
+            //])
+            ->add('levels', ChoiceType::class, [
+                'label' => 'label.levels',
+                'choices' => [0 => 0, 1 => 1, 2 => 2, 3 => 3, 4 => 4, 5 => 5],
+                'attr' => [
+                    'help_text' => 'help.levels',
+                    'widget_col' => 9,
+                ],
+            ])
+        ;
 
         $builder->get('styles')
             ->add('template', ChoiceType::class, [
