@@ -171,8 +171,6 @@ services:
         arguments: ['@opifer.content.block_renderer', '%opifer_content.column_block_configuration%', '@doctrine.orm.entity_manager']
         tags:
             - { name: opifer.content.block_service, alias: column }
-        calls:
-            - [getColumnCount]
 
     opifer.content.tabnav_block:
         class: '%opifer.content.tabnav_block.class%'

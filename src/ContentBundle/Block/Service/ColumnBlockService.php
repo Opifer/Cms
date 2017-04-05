@@ -26,8 +26,18 @@ class ColumnBlockService extends AbstractBlockService implements LayoutBlockServ
     /** @var int */
     protected $columnCount = 1;
 
+    /**
+     * @var EntityManager
+     */
     protected $em;
 
+    /**
+     * ColumnBlockService constructor.
+     *
+     * @param BlockRenderer $blockRenderer
+     * @param array         $config
+     * @param EntityManager $entityManager
+     */
     public function __construct(BlockRenderer $blockRenderer, array $config, EntityManager $entityManager)
     {
         $this->em = $entityManager;
@@ -141,7 +151,6 @@ class ColumnBlockService extends AbstractBlockService implements LayoutBlockServ
             if ($child->getPosition() > ($block->getColumnCount() -1)) {
                 $child->setPosition(($block->getColumnCount() -1));
                 $this->em->persist($child);
-                $this->em->flush($child);
             }
         }
     }
