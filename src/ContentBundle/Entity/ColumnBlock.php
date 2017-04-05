@@ -32,18 +32,7 @@ class ColumnBlock extends CompositeBlock implements BlockContainerInterface
      */
     public function getBlockType()
     {
-        switch ($this->columnCount) {
-            case 1:
-                return 'column_one';
-            case 2:
-                return 'column_two';
-            case 3:
-                return 'column_three';
-            case 4:
-                return 'column_four';
-        }
-
-        return 'column_one';
+        return 'column';
     }
 
     /**
@@ -51,6 +40,9 @@ class ColumnBlock extends CompositeBlock implements BlockContainerInterface
      */
     public function getColumnCount()
     {
+        if(!$this->columnCount){
+            $this->setColumnCount(1);
+        }
         return $this->columnCount;
     }
 
