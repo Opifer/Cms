@@ -24,16 +24,19 @@
                 {% endfor %}
                 </div>
 
-                <div class="list-group">
+                <div class="row">
                     <h2>From Layout</h2>
                     {% for layout in layouts %}
-                        <a href="{{ path('opifer_content_content_create_layout', {'layoutId': layout.id}) }}">
-                            {% if layout.layoutPreview|default %}
-                                <img src="{{ layout.layoutPreview.reference|imagine_filter('thumbnail_xs') }}">
-                            {% else  %}
-                                {{ layout.title }}
-                            {% endif %}
-                        </a>
+                        <div class="col-xs-12 col-md-3 m-y-lg">
+                            <div class="panel panel-default">
+                                <a href="{{ path('opifer_content_content_create_layout', {'layoutId': layout.id}) }}">
+                                    {% if layout.layoutPreview|default %}
+                                        <img src="{{ layout.layoutPreview.reference|imagine_filter('medialibrary') }}" class="img-responsive" style="width: 100%;" />
+                                    {% endif %}
+                                    <div class="text-center panel-heading h4">{{ layout.title }}</div>
+                                </a>
+                            </div>
+                        </div>
                     {% endfor %}
                 </div>
             </div>

@@ -48,6 +48,7 @@ class LayoutController extends Controller
 
         /* @var $grid \APY\DataGridBundle\Grid\Grid */
         $grid->setId('layout')
+//            ->showColumns(['title', 'active'])
             ->setSource($source)
             ->addRowAction($editAction)
             ->addRowAction($deleteAction)
@@ -79,6 +80,10 @@ class LayoutController extends Controller
         $form->handleRequest($request);
 
         if ($form->isValid()) {
+            //setSlug because slugListner will create one based on title
+            $content->setSlug(sha1(date('y-m-d h:i:s')));
+            $content->setAlias(sha1(date('y-m-d h:i:s')));
+
             $manager->save($content);
 
             return $this->redirectToRoute('opifer_content_contenteditor_design', [
