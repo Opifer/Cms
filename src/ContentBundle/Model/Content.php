@@ -13,6 +13,7 @@ use Opifer\ContentBundle\Entity\Template;
 use Opifer\EavBundle\Entity\Value;
 use Opifer\EavBundle\Entity\MediaValue;
 use Opifer\EavBundle\Model\EntityInterface;
+use Opifer\EavBundle\Model\MediaInterface;
 use Opifer\EavBundle\Model\SchemaInterface;
 use Opifer\EavBundle\Model\ValueSetInterface;
 use Opifer\Revisions\Mapping\Annotation as Revisions;
@@ -150,9 +151,10 @@ class Content implements ContentInterface, EntityInterface, TemplatedInterface, 
     protected $layout = false;
 
     /**
-     * @var string
+     * @var MediaInterface
      *
-     * @ORM\Column(name="layout_preview", type="string", length=255)
+     * @ORM\ManyToOne(targetEntity="Opifer\MediaBundle\Model\MediaInterface")
+     * @ORM\JoinColumn(name="layoutPreview", referencedColumnName="id", onDelete="SET NULL")
      */
     protected $layoutPreview;
 
@@ -1124,6 +1126,26 @@ class Content implements ContentInterface, EntityInterface, TemplatedInterface, 
         }
 
         return false;
+    }
+
+    /**
+     * @return MediaInterface
+     */
+    public function getLayoutPreview()
+    {
+       return $this->layoutPreview;
+    }
+
+    /**
+     * @param MediaInterface $layoutPreview
+     *
+     * @return Layout
+     */
+    public function setLayoutPreview(MediaInterface $layoutPreview)
+    {
+        $this->layoutPreview = $layoutPreview;
+
+        return $this;
     }
 
     /**

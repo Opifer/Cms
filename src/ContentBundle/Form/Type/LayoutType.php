@@ -4,6 +4,8 @@ namespace Opifer\ContentBundle\Form\Type;
 
 use Opifer\ContentBundle\Form\DataTransformer\SlugTransformer;
 use Opifer\EavBundle\Form\Type\ValueSetType;
+use Opifer\MediaBundle\Form\Type\MediaPickerType;
+use Opifer\MediaBundle\Form\Type\MediaType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
@@ -87,6 +89,9 @@ class LayoutType extends AbstractType
                 'attr' => [
                     'value' => 1
                 ],
+            ])
+            ->add('layoutPreview', MediaPickerType::class, [
+                'multiple' => false,
             ])
         ;
 
