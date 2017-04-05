@@ -148,6 +148,8 @@ abstract class Block implements BlockInterface, DraftInterface
     /**
      * @var array
      *
+     * @JMS\Expose
+     *
      * @Revisions\Revised
      * @ORM\Column(type="json_array", nullable=true)
      */
@@ -416,14 +418,11 @@ abstract class Block implements BlockInterface, DraftInterface
     }
 
     /**
-     * @JMS\VirtualProperty
-     * @JMS\SerializedName("styles")
-     *
      * @return array
      */
     public function getStyles()
     {
-        return array_merge($this->styles, $this->properties);
+        return $this->styles;
     }
 
     /**
