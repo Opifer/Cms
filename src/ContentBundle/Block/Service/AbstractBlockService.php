@@ -5,6 +5,7 @@ namespace Opifer\ContentBundle\Block\Service;
 use Opifer\ContentBundle\Block\BlockRenderer;
 use Opifer\ContentBundle\Entity\Block;
 use Opifer\ContentBundle\Environment\Environment;
+use Opifer\ContentBundle\Form\Type\DisplayLogicType;
 use Opifer\ContentBundle\Model\BlockInterface;
 use Opifer\ExpressionEngine\Form\Type\ExpressionEngineType;
 use Opifer\ExpressionEngine\Prototype\AndXPrototype;
@@ -302,20 +303,9 @@ abstract class AbstractBlockService implements BlockServiceInterface
             $form = $event->getForm();
 
             $form->get('properties')
-                ->add('displayLogic', ExpressionEngineType::class, [
-                    'label' => 'label.display_logic',
-                    'prototypes' => $this->getDisplayLogicPrototypes($block),
-                    'attr' => [
-                        'help_text' => 'help.display_logic'
-                    ]
+                ->add('displayLogic', DisplayLogicType::class, [
+                    'block' => $block
                 ])
-                //->add('displayDefaultShow', CheckboxType::class, [
-                //    'label' => 'label.display_default_show',
-                //    'attr' => [
-                //        'align_with_widget'     => true,
-                //        'help_text'             => 'help.display_default_show',
-                //    ],
-                //])
             ;
 
             if ($block->isShared()) {
@@ -325,68 +315,10 @@ abstract class AbstractBlockService implements BlockServiceInterface
                     ])
                     ->add('sharedDisplayName', 'text', [
                         'label' => 'block.shared_displayname.label',
-                    ]);
+                    ])
+                ;
             }
         });
-    }
-
-    /**
-     * @param Block $block
-     *
-     * @return \Opifer\ExpressionEngine\Prototype\Prototype[]
-     */
-    protected function getDisplayLogicPrototypes(Block $block)
-    {
-        $collection = new PrototypeCollection([
-            new OrXPrototype(),
-            new AndXPrototype(),
-            new EventPrototype('click_event', 'Click Event', 'event.type.click'),
-            new TextPrototype('dom_node_id', 'DOM Node Id', 'node.id')
-        ]);
-
-        $owner = $block->getOwner();
-        // Avoid trying to add display logic for blocks when the current block has no owner (e.g. shared blocks)
-        if ($owner) {
-            $blockChoices = [];
-            foreach ($owner->getBlocks() as $member) {
-                try {
-                    $properties = $member->getProperties();
-
-                    if ($member instanceof ChoiceFieldBlock) {
-                        if (empty($member->getName())) {
-                            continue;
-                        }
-                        if (!isset($properties['options'])) {
-                            continue;
-                        }
-                        $choices = [];
-                        foreach ($properties['options'] as $option) {
-                            if (empty($option['key'])) {
-                                continue;
-                            }
-                            $choices[] = new Choice($option['key'], $option['value']);
-                        }
-                        $collection->add(new SelectPrototype($member->getName(), $properties['label'], $member->getName(), $choices));
-                    } elseif ($member instanceof NumberFieldBlock || $member instanceof RangeFieldBlock) {
-                        if (empty($member->getName())) {
-                            continue;
-                        }
-
-                        $collection->add(new NumberPrototype($member->getName(), $properties['label'], $member->getName()));
-                    }
-
-                    if (!empty($member->getName())) {
-                        $blockChoices[] = new Choice($member->getName(), $member->getName());
-                    }
-                } catch (\Exception $e) {
-                    // Avoid throwing exceptions here for now, since e.g. duplicate namesthis will cause all blocks to be uneditable.
-                }
-            }
-
-            $collection->add(new SelectPrototype('block_name', 'Block Name', 'block.name', $blockChoices));
-        }
-
-        return $collection->all();
     }
 
     /**

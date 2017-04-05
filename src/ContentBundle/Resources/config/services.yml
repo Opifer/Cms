@@ -76,6 +76,12 @@ services:
         tags:
             - { name: form.type }
 
+    opifer.content.display_logic_type:
+        class: 'Opifer\ContentBundle\Form\Type\DisplayLogicType'
+        arguments: ['@opifer.expression_engine']
+        tags:
+            - { name: form.type }
+
     opifer.content.filter_name_type:
         class: 'Opifer\ContentBundle\Form\Type\FilterNameType'
         arguments: ['@opifer.eav.attribute_manager']
