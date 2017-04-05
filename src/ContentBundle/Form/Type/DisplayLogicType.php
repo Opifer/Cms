@@ -20,10 +20,15 @@ use Symfony\Component\Form\FormView;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
- * Filter Form Type.
+ * Display logic type
+ *
+ * Renders an expression editor to define display logic for blocks
  */
 class DisplayLogicType extends ExpressionEngineType
 {
+    /**
+     * {@inheritdoc}
+     */
     public function buildView(FormView $view, FormInterface $form, array $options)
     {
         $defaultPrototypes = $this->getDisplayLogicPrototypes($options['block']);
@@ -34,7 +39,7 @@ class DisplayLogicType extends ExpressionEngineType
     }
 
     /**
-     * @param OptionsResolver $resolver
+     * {@inheritdoc}
      */
     public function configureOptions(OptionsResolver $resolver)
     {
@@ -51,6 +56,8 @@ class DisplayLogicType extends ExpressionEngineType
     }
 
     /**
+     * Builds the default display condition prototypes
+     *
      * @param BlockInterface $block
      *
      * @return \Opifer\ExpressionEngine\Prototype\Prototype[]
