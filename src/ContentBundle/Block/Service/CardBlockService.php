@@ -47,7 +47,8 @@ class CardBlockService extends AbstractBlockService implements BlockServiceInter
                 'required' => true,
                 'expanded' => true,
                 'multiple' => false,
-                'attr' => ['help_text' => 'help.list_display_size', 'class' => 'btn-radio'],
+                'attr' => ['help_text' => 'help.list_display_size', 'class' => 'btn-group', 'data-toggle' => 'buttons'],
+                'label_attr' => ['class' => 'btn'],
             ])
             ->add('preset', ChoiceType::class, [
                 'label'       => 'Preset',
