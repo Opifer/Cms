@@ -140,7 +140,6 @@ class CollectionBlockService extends AbstractBlockService implements BlockServic
         $builder->get('styles')
             ->add('template', ChoiceType::class, [
                 'label' => 'label.template',
-                'placeholder' => 'placeholder.choice_optional',
                 'attr' => [
                     'help_text' => 'Pick a template to change how an item in the collection is displayed',
                 ],
