@@ -27,8 +27,12 @@
                 <div class="list-group">
                     <h2>From Layout</h2>
                     {% for layout in layouts %}
-                        <a href="{{ path('opifer_content_content_create_layout', {'layoutId': layout.id}) }}" class="list-group-item">
-                            {{ layout.title }}
+                        <a href="{{ path('opifer_content_content_create_layout', {'layoutId': layout.id}) }}">
+                            {% if layout.layoutPreview|default %}
+                                <img src="{{ layout.layoutPreview.reference|imagine_filter('thumbnail_xs') }}">
+                            {% else  %}
+                                {{ layout.title }}
+                            {% endif %}
                         </a>
                     {% endfor %}
                 </div>
