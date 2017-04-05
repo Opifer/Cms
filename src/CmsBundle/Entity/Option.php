@@ -4,6 +4,7 @@ namespace Opifer\CmsBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation as JMS;
+use Opifer\EavBundle\Model\AttributeInterface;
 use Opifer\EavBundle\Model\Option as BaseOption;
 
 /**
@@ -33,4 +34,11 @@ class Option extends BaseOption
      * @JMS\Expose
      */
     protected $sort;
+
+    /**
+     * @var AttributeInterface
+     *
+     * @JMS\Expose
+     */
+    protected $attribute;
 }
