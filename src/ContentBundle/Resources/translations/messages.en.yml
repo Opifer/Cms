@@ -41,6 +41,7 @@ help:
     list_image_ratio: Ratio defines in which proportions your image will be cropped and displayed.
     block_social_title: Custom title for sharing by mail
     block_social_text: Custom text for sharing by mail
+    column_count: Number of columns for this block.
 
 label:
     block: Block
@@ -98,6 +99,7 @@ label:
     list_image_ratio: Image ratio
     social_title: E-mail subject
     social_text: E-mail text
+    column_count: Columns
 
 link:
     default: Default
