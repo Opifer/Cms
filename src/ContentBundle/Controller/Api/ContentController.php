@@ -20,6 +20,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Doctrine\ORM\Tools\Pagination\Paginator;
 
 class ContentController extends Controller
 {
@@ -47,6 +48,7 @@ class ContentController extends Controller
             $items = $this->get('opifer.content.content_manager')
                 ->getRepository()
                 ->findOrderedByIds($ids);
+            $count = count($items);
         } else {
             $qb = $this->get('opifer.content.content_manager')
                 ->getRepository()
@@ -95,6 +97,9 @@ class ContentController extends Controller
             $qb->setFirstResult($offset);
             $qb->setMaxResults($paramFetcher->get('limit'));
 
+            $paginator = new Paginator($qb);
+
+            $count = count($paginator);
             $items = $qb->getQuery()->getResult();
         }
 
@@ -114,7 +119,10 @@ class ContentController extends Controller
         }
 
         $context = SerializationContext::create()->setGroups(['Default', 'detail'])->enableMaxDepthChecks();
-        $json = $this->get('jms_serializer')->serialize($items, 'json', $context);
+        $json = $this->get('jms_serializer')->serialize([
+            'results' => $items,
+            'total_results' => $count
+        ], 'json', $context);
 
         $response->setData(json_decode($json, true));
 
