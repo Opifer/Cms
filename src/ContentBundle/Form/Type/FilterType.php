@@ -21,12 +21,14 @@ class FilterType extends AbstractType
             // TODO: Rename `name` property to `filter`
             ->add('name', FilterNameType::class, [
                 'label' => 'Filter',
+                'attr' => [
+                    'help_text' => 'What should be filtered on?',
+                ],
             ])
             ->add('displayName', TextType::class, [
                 'label' => 'displayName',
                 'attr' => [
-                    'placeholder' => 'displayName',
-                    'help_text' => 'The name shown to the user',
+                    'help_text' => 'The field label shown to the user',
                 ],
             ])
             ->add('type', ChoiceType::class, [
@@ -35,6 +37,9 @@ class FilterType extends AbstractType
                     'Buttons' => 'buttons',
                 ],
                 'choices_as_values' => true,
+                'attr' => [
+                    'help_text' => 'How should we display the filter?',
+                ],
             ])
         ;
     }
