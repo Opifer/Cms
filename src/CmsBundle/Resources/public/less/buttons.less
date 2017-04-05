@@ -175,3 +175,53 @@
         }
     }
 }
+
+.btn-group {
+  position: relative;
+  display: inline-flex;
+  vertical-align: middle;
+
+		.radio {
+			display: inline-block;
+			font-weight: 400;
+			line-height: 1.25;
+			text-align: center;
+			white-space: nowrap;
+			vertical-align: middle;
+			user-select: none;
+			border: 1px solid transparent;
+			font-size: 1rem;
+			transition: all .2s ease-in-out;
+			padding-top:0px;
+			margin-right:5px;
+			color: #fff;
+			background-color: #0275d8;
+			border-color: #0275d8;
+
+			label{
+				padding-right: 1rem;
+				padding-left: 1rem;	
+			}
+
+				label.btn.required.active {
+					color: #fff;
+					background-color: #286090;
+					border-color: #204d74;
+				}
+
+				label.btn.required:hover {
+					color: #fff;
+					background-color: #286090;
+					border-color: #204d74;
+				}
+			
+				input[type="radio"] {
+					position: absolute;
+					clip: rect(0,0,0,0)!important;
+					pointer-events: none!important;
+				}		
+				input[type="radio"]:checked {
+					color:green!important
+				}
+		}
+}
