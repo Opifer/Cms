@@ -92,6 +92,18 @@ class Content extends BaseContent
     protected $searchable = true;
 
     /**
+     * @var bool
+
+     * @GRID\Column(title="Layout", type="boolean", visible=false)
+     */
+    protected $layout = false;
+
+    /**
+     * @var string
+     */
+    protected $layoutPreview;
+
+    /**
      */
     protected $site;
 

@@ -143,6 +143,20 @@ class Content implements ContentInterface, EntityInterface, TemplatedInterface, 
     protected $searchable = true;
 
     /**
+     * @var bool
+     *
+     * @ORM\Column(name="layout", type="boolean")
+     */
+    protected $layout = false;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="layout_preview", type="string", length=255)
+     */
+    protected $layoutPreview;
+
+    /**
      * @Gedmo\TreeLeft
      * @ORM\Column(name="lft", type="integer")
      */
@@ -404,6 +418,30 @@ class Content implements ContentInterface, EntityInterface, TemplatedInterface, 
     public function getActive()
     {
         return $this->active;
+    }
+
+    /**
+     * Set layout.
+     *
+     * @param bool $layout
+     *
+     * @return Content
+     */
+    public function setLayout($layout)
+    {
+        $this->layout = $layout;
+
+        return $this;
+    }
+
+    /**
+     * Get layout.
+     *
+     * @return bool
+     */
+    public function getLayout()
+    {
+        return $this->layout;
     }
 
     /**

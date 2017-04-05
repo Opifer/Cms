@@ -41,6 +41,20 @@ Opifer\CmsBundle\Entity\Content:
             unique: false
             nullable: false
             precision: 0
+        layout:
+            type: boolean
+            scale: 0
+            length: null
+            unique: false
+            nullable: false
+            precision: 0
+        layoutPreview:
+            type: string
+            scale: 0
+            length: 255
+            unique: false
+            nullable: true
+            precision: 0
         title:
             type: string
             scale: 0

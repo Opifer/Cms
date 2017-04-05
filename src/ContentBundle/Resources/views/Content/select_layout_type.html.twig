@@ -14,21 +14,12 @@
                 </div>
 
                 <div class="list-group">
-                    <a href="{{ path('opifer_content_content_create') }}" class="list-group-item">
+                    <a href="{{ path('opifer_cms_layout_create') }}" class="list-group-item">
                         {{ "link.default"|trans }}
                     </a>
-                {% for content_type in content_types %}
-                        <a href="{{ path('opifer_content_content_create', {'type': content_type.id}) }}" class="list-group-item">
+                    {% for content_type in content_types %}
+                        <a href="{{ path('opifer_cms_layout_create', {'type': content_type.id}) }}" class="list-group-item">
                             {{ content_type.name }}
-                        </a>
-                {% endfor %}
-                </div>
-
-                <div class="list-group">
-                    <h2>From Layout</h2>
-                    {% for layout in layouts %}
-                        <a href="{{ path('opifer_content_content_create_layout', {'layoutId': layout.id}) }}" class="list-group-item">
-                            {{ layout.title }}
                         </a>
                     {% endfor %}
                 </div>

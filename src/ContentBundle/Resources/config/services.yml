@@ -70,6 +70,12 @@ services:
         tags:
             - { name: form.type }
 
+    opifer.content.layout_type:
+        class: 'Opifer\ContentBundle\Form\Type\LayoutType'
+        arguments: ['%opifer_content.content_class%']
+        tags:
+            - { name: form.type }
+
     opifer.content.content_parent_type:
         class: 'Opifer\ContentBundle\Form\Type\ContentParentType'
         arguments: ['@opifer.content.content_manager']
