@@ -46,7 +46,7 @@ class IFrameBlockService extends AbstractBlockService implements BlockServiceInt
                     'required' => false,
                     'expanded' => true,
                     'multiple' => true,
-                    'attr' => ['help_text' => 'help.html_styles', 'tag' => 'styles'],
+                    'attr' => ['help_text' => 'help.html_styles', 'tag' => 'styling'],
                 ]);
         }
     }
