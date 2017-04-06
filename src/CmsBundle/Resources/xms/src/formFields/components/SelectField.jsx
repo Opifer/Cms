@@ -35,6 +35,7 @@ const SelectField = (props) => {
   );
 };
 
+SelectField.propTypes = {
   input: PropTypes.object,
   block: PropTypes.object,
   meta: PropTypes.object,
@@ -43,7 +44,6 @@ const SelectField = (props) => {
   options: PropTypes.object,
   helpText: PropTypes.string,
   labelClassName: PropTypes.string,
-SelectField.propTypes = {
   inputAttributes: PropTypes.object,
   inputClassNames: PropTypes.object,
 };
