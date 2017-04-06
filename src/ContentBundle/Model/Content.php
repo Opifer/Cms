@@ -154,9 +154,9 @@ class Content implements ContentInterface, EntityInterface, TemplatedInterface, 
      * @var MediaInterface
      *
      * @ORM\ManyToOne(targetEntity="Opifer\MediaBundle\Model\MediaInterface")
-     * @ORM\JoinColumn(name="layoutPreview", referencedColumnName="id", onDelete="SET NULL")
+     * @ORM\JoinColumn(name="preview", referencedColumnName="id", onDelete="SET NULL")
      */
-    protected $layoutPreview;
+    protected $preview;
 
     /**
      * @Gedmo\TreeLeft
@@ -1131,19 +1131,19 @@ class Content implements ContentInterface, EntityInterface, TemplatedInterface, 
     /**
      * @return MediaInterface
      */
-    public function getLayoutPreview()
+    public function getPreview()
     {
-       return $this->layoutPreview;
+       return $this->preview;
     }
 
     /**
-     * @param MediaInterface $layoutPreview
+     * @param MediaInterface $preview
      *
      * @return Layout
      */
-    public function setLayoutPreview(MediaInterface $layoutPreview)
+    public function setPreview(MediaInterface $preview)
     {
-        $this->layoutPreview = $layoutPreview;
+        $this->preview = $preview;
 
         return $this;
     }

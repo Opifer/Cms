@@ -101,7 +101,7 @@ class Content extends BaseContent
     /**
      * @var string
      */
-    protected $layoutPreview;
+    protected $preview;
 
     /**
      */

@@ -179,7 +179,7 @@ Opifer\CmsBundle\Entity\Content:
             precision: 0
             column: show_in_navigation
     manyToOne:
-        layoutPreview:
+        preview:
             targetEntity: Opifer\MediaBundle\Model\MediaInterface
             cascade: {  }
             fetch: LAZY

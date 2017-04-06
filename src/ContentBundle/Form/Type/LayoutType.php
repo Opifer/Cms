@@ -90,7 +90,7 @@ class LayoutType extends AbstractType
                     'value' => 1
                 ],
             ])
-            ->add('layoutPreview', MediaPickerType::class, [
+            ->add('preview', MediaPickerType::class, [
                 'multiple' => false,
             ])
         ;

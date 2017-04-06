@@ -223,7 +223,7 @@ class ContentController extends Controller
      * @return Response
      */
     public function editAction(Request $request, $id)
-    {die('a');
+    {
         /** @var ContentManager $manager */
         $manager = $this->get('opifer.content.content_manager');
         $content = $manager->getRepository()->find($id);

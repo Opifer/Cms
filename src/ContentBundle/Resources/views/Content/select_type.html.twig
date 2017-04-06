@@ -30,8 +30,8 @@
                         <div class="col-xs-12 col-md-3 m-y-lg">
                             <div class="panel panel-default">
                                 <a href="{{ path('opifer_content_content_create_layout', {'layoutId': layout.id}) }}">
-                                    {% if layout.layoutPreview|default %}
-                                        <img src="{{ layout.layoutPreview.reference|imagine_filter('medialibrary') }}" class="img-responsive" style="width: 100%;" />
+                                    {% if layout.preview|default %}
+                                        <img src="{{ layout.preview.reference|imagine_filter('medialibrary') }}" class="img-responsive" style="width: 100%;" />
                                     {% endif %}
                                     <div class="text-center panel-heading h4">{{ layout.title }}</div>
                                 </a>
