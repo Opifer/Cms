@@ -82,7 +82,7 @@ class GalleryBlockService extends AbstractBlockService implements BlockServiceIn
 
         $gallery = $this->mediaManager->getRepository()->findByIds($ids);
 
-        uasort($gallery, function ($a, $b) use ($ids) {
+        usort($gallery, function ($a, $b) use ($ids) {
             return (array_search($a->getId(), $ids) > array_search($b->getId(), $ids));
         });
 
