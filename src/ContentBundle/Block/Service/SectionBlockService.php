@@ -31,7 +31,6 @@ class SectionBlockService extends AbstractBlockService implements BlockServiceIn
         ;
 
         $builder->get('properties')
-            ->add('sectionName', TextType::class, ['attr' => ['help_text' => 'help.section_name']])
             ->add('id', TextType::class, ['attr' => ['help_text' => 'help.html_id']])
             ->add('extra_classes', TextType::class, ['attr' => ['help_text' => 'help.extra_classes']])
         ;
@@ -43,25 +42,27 @@ class SectionBlockService extends AbstractBlockService implements BlockServiceIn
                 'required' => false,
                 'expanded' => true,
                 'multiple' => true,
-                'attr' => ['help_text' => 'help.html_styles','tag' => 'styles'],
+                'attr' => ['help_text' => 'help.html_styles', 'tag' => 'styles'],
             ])
             ->add('padding', BoxModelType::class, [
                 'type' => 'padding',
                 'attr' => [
                     'help_text' => 'Spacing inside',
+                    'tag' => 'styles',
                 ]
             ])
             ->add('margin', BoxModelType::class, [
                 'type' => 'margin',
                 'attr' => [
                     'help_text' => 'Spacing outside',
+                    'tag' => 'styles',
                 ]
             ])
             ->add('container_size', ChoiceType::class, [
                 'label' => 'label.container_sizing',
                 'choices' => ['fluid' => 'label.container_fluid', '' => 'label.container_fixed', 'smooth' => 'label.container_smooth'],
                 'required' => true,
-                'attr' => ['help_text' => 'help.container_sizing'],
+                'attr' => ['help_text' => 'help.container_sizing', 'tag' => 'styles'],
             ])
         ;
     }

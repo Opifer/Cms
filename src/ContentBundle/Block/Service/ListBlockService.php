@@ -52,9 +52,10 @@ class ListBlockService extends AbstractBlockService implements BlockServiceInter
         // Default panel
         $builder->add(
             $builder->create('default', FormType::class, ['virtual' => true])
-                ->add('name', TextType::class)
+                ->add('name', TextType::class, ['attr' => ['help_text' => 'help.name', 'tag' => 'properties']])
                 ->add('title',  'text', [
                     'label' => 'label.title',
+                    'attr' => ['help_text' => 'help.title', 'tag' => 'properties']
                 ])
                 ->add('value',  ContentListPickerType::class, [
                     'label' => 'label.content',
@@ -66,10 +67,9 @@ class ListBlockService extends AbstractBlockService implements BlockServiceInter
                 ->add('template', ChoiceType::class, [
                     'label' => 'label.template',
                     'placeholder' => 'placeholder.choice_optional',
-                    'attr' => ['help_text' => 'This setting is deprecated, set individual desktop and mobile styles separately'],
+                    'attr' => ['help_text' => 'help.template'],
                     'choices' => $this->config['templates'],
                     'required' => false,
-                    'disabled' => true,
                     'attr' => ['tag' => 'styles'],
             ]);
         }
@@ -81,67 +81,9 @@ class ListBlockService extends AbstractBlockService implements BlockServiceInter
                 'required' => false,
                 'expanded' => true,
                 'multiple' => true,
-                'attr' => ['help_text' => 'help.html_styles','tag' => 'styles'],
+                'attr' => ['help_text' => 'help.html_styles', 'tag' => 'styles'],
             ]);
         }
-
-
-        $builder->get('properties')
-            ->add('horizontalScroll', ChoiceType::class, [
-                'label' => 'label.list_horizontal_scroll',
-                'choices' => ['Enabled' => '1', 'Disabled' => '0'],
-                'required' => true,
-                'expanded' => true,
-                'multiple' => false,
-                'attr' => ['help_text' => 'help.list_horizontal_scroll','tag' => 'styles'],
-            ])
-            ->add('displayType', ChoiceType::class, [
-                'label' => 'label.list_display_type',
-                'choices' => $this->config['display_types'],
-                'required' => true,
-                'expanded' => false,
-                'multiple' => false,
-                'attr' => ['help_text' => 'help.list_display_type','tag' => 'styles'],
-            ])
-            ->add('displaySize', ChoiceType::class, [
-                'label' => 'label.list_display_size',
-                'choices' => [
-                    null => 'Default',
-                    'sm' => 'Small',
-                    'md' => 'Medium',
-                    'lg' => 'Large',
-                ],
-                'required' => true,
-                'expanded' => false,
-                'multiple' => false,
-                'attr' => ['help_text' => 'help.list_display_size'],
-            ])
-            ->add('imageRatio', ChoiceType::class, [
-                'label' => 'label.list_image_ratio',
-                'choices' => [
-                    null => 'No image',
-                    '11' => '1:1',
-                    '43' => '4:3',
-                    '34' => '3:4 (portrait)',
-                    '32' => '3:2',
-                    '23' => '2:3 (portrait)',
-                    '169' => '16:9',
-                    '916' => '9:16 (portrait)',
-                ],
-                'required' => true,
-                'expanded' => false,
-                'multiple' => false,
-                'attr' => ['help_text' => 'help.list_image_ratio'],
-            ]);
-
-        $propertiesForm
-            ->add('preset', ChoiceType::class, [
-                'label'       => 'Preset',
-                'attr'        => ['help_text' => 'Pick a preset'],
-                'choices'     => $this->config['presets'],
-                'required'    => true,
-            ])
-            ;
     }
 
     /**
