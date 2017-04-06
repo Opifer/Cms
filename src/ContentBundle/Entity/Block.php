@@ -146,16 +146,6 @@ abstract class Block implements BlockInterface, DraftInterface
     protected $properties;
 
     /**
-     * @var array
-     *
-     * @JMS\Expose
-     *
-     * @Revisions\Revised
-     * @ORM\Column(type="json_array", nullable=true)
-     */
-    protected $styles;
-
-    /**
      * @var bool
      *
      * @JMS\Expose
@@ -397,7 +387,7 @@ abstract class Block implements BlockInterface, DraftInterface
      */
     public function getProperties()
     {
-        return array_merge($this->styles, $this->properties);
+        return array_merge($this->properties);
     }
 
     /**
@@ -415,24 +405,6 @@ abstract class Block implements BlockInterface, DraftInterface
     public function getProperty($key)
     {
         return (isset($this->properties[$key])) ? $this->properties[$key] : null;
-    }
-
-    /**
-     * @return array
-     */
-    public function getStyles()
-    {
-        return $this->styles;
-    }
-
-    /**
-     * @param array $styles
-     * @return Block
-     */
-    public function setStyles($styles)
-    {
-        $this->styles = $styles;
-        return $this;
     }
 
     /**

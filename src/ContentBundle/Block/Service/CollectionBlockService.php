@@ -137,11 +137,12 @@ class CollectionBlockService extends AbstractBlockService implements BlockServic
                 ])
         );
 
-        $builder->get('styles')
+        $builder->get('properties')
             ->add('template', ChoiceType::class, [
                 'label' => 'label.template',
                 'attr' => [
                     'help_text' => 'Pick a template to change how an item in the collection is displayed',
+                    'tag' => 'styles',
                 ],
                 'choices' => $this->config['templates'],
             ])

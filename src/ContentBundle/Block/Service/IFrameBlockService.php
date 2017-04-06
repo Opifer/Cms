@@ -34,19 +34,19 @@ class IFrameBlockService extends AbstractBlockService implements BlockServiceInt
 
         );
 
-        $builder->get('styles')
-            ->add('width', TextType::class, ['attr' => []])
-            ->add('height', TextType::class, ['attr' => []]);
+        $builder->get('properties')
+            ->add('width', TextType::class, ['attr' => ['tag' => 'styles']])
+            ->add('height', TextType::class, ['attr' => ['tag' => 'styles']]);
 
         if ($this->config['styles']) {
-            $builder->get('styles')
+            $builder->get('properties')
                 ->add('styles', ChoiceType::class, [
                     'label' => 'label.styling',
                     'choices' => $this->config['styles'],
                     'required' => false,
                     'expanded' => true,
                     'multiple' => true,
-                    'attr' => ['help_text' => 'help.html_styles'],
+                    'attr' => ['help_text' => 'help.html_styles', 'tag' => 'styles'],
                 ]);
         }
     }
