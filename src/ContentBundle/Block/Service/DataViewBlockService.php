@@ -196,4 +196,9 @@ class DataViewBlockService extends AbstractBlockService implements LayoutBlockSe
     {
         return '';
     }
+
+    public function getName(BlockInterface $block = null)
+    {
+        return $block->getDataView()->getDisplayName();
+    }
 }
