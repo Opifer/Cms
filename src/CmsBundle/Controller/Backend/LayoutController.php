@@ -48,11 +48,11 @@ class LayoutController extends Controller
 
         /* @var $grid \APY\DataGridBundle\Grid\Grid */
         $grid->setId('layout')
-//            ->showColumns(['title', 'active'])
             ->setSource($source)
             ->addRowAction($editAction)
             ->addRowAction($deleteAction)
             ->addRowAction($designAction)
+            ->setVisibleColumns(['id', 'title', 'updatedAt']);
         ;
 
         return $grid->getGridResponse('OpiferCmsBundle:Backend/Layout:index.html.twig');
