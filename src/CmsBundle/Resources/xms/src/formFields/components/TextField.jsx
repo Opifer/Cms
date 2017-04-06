@@ -2,11 +2,17 @@ import React, { PropTypes } from 'react';
 import classNames from 'classnames';
 
 const TextField = (props) => {
-  const { input, name, label, labelClassName, inputAttributes, meta: { touched, error }, helpText, unitOfMeasure } = props;
+  const { input, name, label, labelClassName, inputClassNames, inputAttributes, meta: { touched, error }, helpText, unitOfMeasure } = props;
 
   const classNameInputGroup = classNames({
     'input-group': true,
     'input-group-has-addon': unitOfMeasure,
+  });
+
+  const classNameFormControl = classNames({
+    ...inputClassNames,
+    'form-control-danger': (touched && error),
+    'form-control': true,
   });
 
   return (
@@ -17,7 +23,7 @@ const TextField = (props) => {
           type="text"
           {...input}
           {...inputAttributes}
-          className={(touched && error) ? 'form-control form-control-danger' : 'form-control'}
+          className={classNameFormControl}
           name={name}
         />
         {unitOfMeasure && <div className="input-group-addon">{unitOfMeasure}</div>}
@@ -37,6 +43,8 @@ TextField.propTypes = {
   unitOfMeasure: PropTypes.string,
   helpText: PropTypes.string,
   labelClassName: PropTypes.string,
+  inputAttributes: PropTypes.object,
+  inputClassNames: PropTypes.object,
 };
 
 export default TextField;
