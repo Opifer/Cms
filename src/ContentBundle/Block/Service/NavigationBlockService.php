@@ -98,7 +98,7 @@ class NavigationBlockService extends AbstractBlockService implements BlockServic
                 'attr' => [
                     'help_text' => 'help.block_template',
                     'widget_col' => 9,
-                    'tag' => 'styling'
+                    'tag' => 'styles'
                 ],
                 'choices' => $this->config['templates'],
                 'required' => true,

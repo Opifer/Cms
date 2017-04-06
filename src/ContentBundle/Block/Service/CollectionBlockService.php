@@ -142,7 +142,7 @@ class CollectionBlockService extends AbstractBlockService implements BlockServic
                 'label' => 'label.template',
                 'attr' => [
                     'help_text' => 'Pick a template to change how an item in the collection is displayed',
-                    'tag' => 'styling',
+                    'tag' => 'styles',
                 ],
                 'choices' => $this->config['templates'],
             ])

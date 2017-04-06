@@ -120,22 +120,22 @@ class ColumnBlockService extends AbstractBlockService implements LayoutBlockServ
                     'required' => false,
                     'expanded' => true,
                     'multiple' => true,
-                    'attr' => ['help_text' => 'help.html_styles','tag' => 'styling'],
+                    'attr' => ['help_text' => 'help.html_styles','tag' => 'styles'],
                 ])
                 ->add('spans', SpanCollectionType::class, [
                     'column_count' => $block->getColumnCount(),
                     'label' => 'label.spans',
-                    'attr' => ['help_text' => 'help.column_spans','tag' => 'styling'],
+                    'attr' => ['help_text' => 'help.column_spans','tag' => 'styles'],
                 ])
                 ->add('offsets', SpanCollectionType::class, [
                     'column_count' => $block->getColumnCount(),
                     'label' => 'label.offsets',
-                    'attr' => ['help_text' => 'help.column_offsets','tag' => 'styling'],
+                    'attr' => ['help_text' => 'help.column_offsets','tag' => 'styles'],
                 ])
                 ->add('gutters', GutterCollectionType::class, [
                     'column_count' => $block->getColumnCount(),
                     'label' => 'label.gutters',
-                    'attr' => ['help_text' => 'help.column_gutters','tag' => 'styling'],
+                    'attr' => ['help_text' => 'help.column_gutters','tag' => 'styles'],
                 ])
             ;
         });

@@ -43,11 +43,27 @@
                     <div class="tab-pane" id="block-general">
                         {% if form.default|default %}
                             {% for type in form.default %}
-                                {{ form_row(type) }}
+                                {% if (type.vars.attr.tag|default is empty) or (type.vars.attr.tag|default == 'general') %}
+                                    {{ form_row(type) }}
+                                {% endif %}
+                            {% endfor %}
+                        {% endif %}
+                        {% if form.default|default %}
+                            {% for type in form.default %}
+                                {% if type.vars.attr.tag|default == 'general' %}
+                                    {{ form_row(type) }}
+                                {% endif %}
                             {% endfor %}
                         {% endif %}
                     </div>
                     <div class="tab-pane active" id="block-settings">
+                        {% if form.default|default %}
+                            {% for type in form.default %}
+                                {% if type.vars.attr.tag|default == 'settings' %}
+                                    {{ form_row(type) }}
+                                {% endif %}
+                            {% endfor %}
+                        {% endif %}
                         {% if form.properties|default %}
                             {% for type in form.properties %}
                                 {% if (type.vars.attr.tag|default == 'settings') or (type.vars.attr.tag|default is empty )  %}
@@ -57,6 +73,13 @@
                         {% endif %}
                     </div>
                     <div class="tab-pane" id="block-styles">
+                        {% if form.default|default %}
+                            {% for type in form.default %}
+                                {% if type.vars.attr.tag|default == 'styles' %}
+                                    {{ form_row(type) }}
+                                {% endif %}
+                            {% endfor %}
+                        {% endif %}
                         {% if form.properties|default %}
                             {% for type in form.properties %}
                                 {% if type.vars.attr.tag|default == 'styles' %}

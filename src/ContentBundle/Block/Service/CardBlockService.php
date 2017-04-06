@@ -47,11 +47,11 @@ class CardBlockService extends AbstractBlockService implements BlockServiceInter
                 'required' => true,
                 'expanded' => true,
                 'multiple' => false,
-                'attr' => ['help_text' => 'help.list_display_size', 'class' => 'btn-radio', 'tag' => 'styling'],
+                'attr' => ['help_text' => 'help.list_display_size', 'class' => 'btn-radio', 'tag' => 'styles'],
             ])
             ->add('preset', ChoiceType::class, [
                 'label'       => 'Preset',
-                'attr'        => ['help_text' => 'Pick a preset', 'tag' => 'styling'],
+                'attr'        => ['help_text' => 'Pick a preset', 'tag' => 'styles'],
                 'choices'     => $this->config['presets'],
                 'required'    => true,
             ])
@@ -60,7 +60,7 @@ class CardBlockService extends AbstractBlockService implements BlockServiceInter
                 'required' => false,
                 'label' => 'label.background_color',
                 'choices' => $this->config['backgrounds'],
-                'attr'  => ['tag' => 'styling']
+                'attr'  => ['tag' => 'styles']
             ])
             ->add('styles', ChoiceType::class, [
                 'label' => 'label.styling',
@@ -68,7 +68,7 @@ class CardBlockService extends AbstractBlockService implements BlockServiceInter
                 'required' => false,
                 'expanded' => true,
                 'multiple' => true,
-                'attr' => ['help_text' => 'help.html_styles','tag' => 'styling'],
+                'attr' => ['help_text' => 'help.html_styles','tag' => 'styles'],
             ])
         ;
 

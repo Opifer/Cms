@@ -72,7 +72,7 @@ class ModalBlockService extends AbstractBlockService implements BlockServiceInte
                     'required' => false,
                     'expanded' => true,
                     'multiple' => true,
-                    'attr' => ['help_text' => 'help.html_styles', 'tag' => 'styling'],
+                    'attr' => ['help_text' => 'help.html_styles', 'tag' => 'styles'],
             ]);
         }
 
@@ -81,7 +81,7 @@ class ModalBlockService extends AbstractBlockService implements BlockServiceInte
                 ->add('template', ChoiceType::class, [
                     'label'       => 'label.template',
                     'placeholder' => 'placeholder.choice_optional',
-                    'attr'        => ['help_text' => 'help.block_template','tag' => 'styling'],
+                    'attr'        => ['help_text' => 'help.block_template','tag' => 'styles'],
                     'choices'     => $this->config['templates'],
                     'required'    => false,
             ]);

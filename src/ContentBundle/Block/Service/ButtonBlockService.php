@@ -42,7 +42,7 @@ class ButtonBlockService extends AbstractBlockService implements BlockServiceInt
                     'required' => false,
                     'expanded' => true,
                     'multiple' => true,
-                    'attr'     => ['tag' => 'styling'],
+                    'attr'     => ['tag' => 'styles'],
                 ]);
         }
 

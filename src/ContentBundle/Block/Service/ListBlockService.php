@@ -70,7 +70,7 @@ class ListBlockService extends AbstractBlockService implements BlockServiceInter
                     'choices' => $this->config['templates'],
                     'required' => false,
                     'disabled' => true,
-                    'attr' => ['tag' => 'styling'],
+                    'attr' => ['tag' => 'styles'],
             ]);
         }
 
@@ -81,7 +81,7 @@ class ListBlockService extends AbstractBlockService implements BlockServiceInter
                 'required' => false,
                 'expanded' => true,
                 'multiple' => true,
-                'attr' => ['help_text' => 'help.html_styles','tag' => 'styling'],
+                'attr' => ['help_text' => 'help.html_styles','tag' => 'styles'],
             ]);
         }
 
@@ -93,7 +93,7 @@ class ListBlockService extends AbstractBlockService implements BlockServiceInter
                 'required' => true,
                 'expanded' => true,
                 'multiple' => false,
-                'attr' => ['help_text' => 'help.list_horizontal_scroll','tag' => 'styling'],
+                'attr' => ['help_text' => 'help.list_horizontal_scroll','tag' => 'styles'],
             ])
             ->add('displayType', ChoiceType::class, [
                 'label' => 'label.list_display_type',
@@ -101,7 +101,7 @@ class ListBlockService extends AbstractBlockService implements BlockServiceInter
                 'required' => true,
                 'expanded' => false,
                 'multiple' => false,
-                'attr' => ['help_text' => 'help.list_display_type','tag' => 'styling'],
+                'attr' => ['help_text' => 'help.list_display_type','tag' => 'styles'],
             ])
             ->add('displaySize', ChoiceType::class, [
                 'label' => 'label.list_display_size',

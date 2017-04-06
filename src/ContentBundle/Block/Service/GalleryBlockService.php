@@ -63,7 +63,7 @@ class GalleryBlockService extends AbstractBlockService implements BlockServiceIn
                 ->add('template', ChoiceType::class, [
                     'label'       => 'label.template',
                     'placeholder' => 'placeholder.choice_optional',
-                    'attr'        => ['help_text' => 'help.block_template','tag' => 'styling'],
+                    'attr'        => ['help_text' => 'help.block_template','tag' => 'styles'],
                     'choices'     => $this->config['templates'],
                     'required'    => false,
             ]);

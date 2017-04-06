@@ -86,7 +86,7 @@ class ImageBlockService extends AbstractBlockService implements BlockServiceInte
                 'required' => false,
                 'expanded' => true,
                 'multiple' => true,
-                'attr' => ['help_text' => 'help.html_styles','tag' => 'styling'],
+                'attr' => ['help_text' => 'help.html_styles','tag' => 'styles'],
             ]);
     }
 

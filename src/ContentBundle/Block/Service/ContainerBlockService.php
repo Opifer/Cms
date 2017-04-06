@@ -41,7 +41,7 @@ class ContainerBlockService extends AbstractBlockService implements LayoutBlockS
                 'required' => false,
                 'expanded' => true,
                 'multiple' => true,
-                'attr' => ['help_text' => 'help.html_styles','tag' => 'styling'],
+                'attr' => ['help_text' => 'help.html_styles','tag' => 'styles'],
             ]);
 
             $form->get('properties')
@@ -49,7 +49,7 @@ class ContainerBlockService extends AbstractBlockService implements LayoutBlockS
                 'label' => 'label.container_sizing',
                 'choices' => ['fluid' => 'label.container_fluid', '' => 'label.container_fixed', 'smooth' => 'label.container_smooth'],
                 'required' => true,
-                'attr' => ['help_text' => 'help.container_sizing','tag' => 'styling'],
+                'attr' => ['help_text' => 'help.container_sizing','tag' => 'styles'],
             ]);
         });
     }
