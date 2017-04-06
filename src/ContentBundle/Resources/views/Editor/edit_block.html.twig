@@ -55,7 +55,7 @@
                     </div>
                     <div class="tab-pane{% if not form.default|default %} active{% endif %}" id="block-styles">
                         {% if form.styles|default %}
-                            {% for type in form.properties %}
+                            {% for type in form.styles %}
                                 {{ form_row(type) }}
                             {% endfor %}
                         {% endif %}
