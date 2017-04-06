@@ -41,6 +41,13 @@ Opifer\CmsBundle\Entity\Content:
             unique: false
             nullable: false
             precision: 0
+        layout:
+            type: boolean
+            scale: 0
+            length: null
+            unique: false
+            nullable: false
+            precision: 0
         title:
             type: string
             scale: 0
@@ -172,6 +179,16 @@ Opifer\CmsBundle\Entity\Content:
             precision: 0
             column: show_in_navigation
     manyToOne:
+        preview:
+            targetEntity: Opifer\MediaBundle\Model\MediaInterface
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                layout_preview_id:
+                    referencedColumnName: id
+            orphanRemoval: false
         site:
             targetEntity: Opifer\CmsBundle\Entity\Site
             cascade: {  }

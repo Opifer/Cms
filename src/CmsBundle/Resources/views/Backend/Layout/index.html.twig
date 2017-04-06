@@ -1,0 +1,15 @@
+{% extends 'OpiferCmsBundle:Backend:base.html.twig' %}
+
+{% block body %}
+    <div class="col-xs-12">
+        <div class="page-header clearfix">
+            <a href="{{ path('opifer_content_content_select_layout_type') }}" class="btn btn-link pull-right">
+                <i class="material-icons">add</i>
+                New layout
+            </a>
+            <h1>{{ "base.layouts"|trans|capitalize }}</h1>
+        </div>
+    </div>
+
+    {% include 'OpiferCmsBundle:Components:grid.html.twig' with { 'grid': grid } %}
+{% endblock body %}

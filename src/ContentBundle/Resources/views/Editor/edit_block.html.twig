@@ -16,7 +16,7 @@
             <ul class="nav nav-tabs nav-tabs-spill">
                 {% if form.default|default %}<li role="presentation" class="active"><a href="#block-general" data-toggle="tab">Content</a></li>{% endif %}
                 {% if form.styles is defined %}<li role="presentation" {% if not form.default|default %}class="active"{% endif %}><a href="#block-styles" data-toggle="tab">Styling</a></li>{% endif %}
-                {% if form.properties is defined %}<li role="presentation" {% if not form.default|default %}class="active"{% endif %}><a href="#block-properties" data-toggle="tab">Properties</a></li>{% endif %}
+                {% if form.properties is defined %}<li role="presentation" {% if not form.default|default %}class="active"{% endif %}><a href="#block-properties" data-toggle="tab">Settings</a></li>{% endif %}
                 {% if block.isShared %}<li role="presentation"><a href="#block-shared" data-toggle="tab">Shared</a></li>{% endif %}
                 <li class="dropdown pull-right">
                     <a class="dropdown-toggle" type="button" id="blockEditContextMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
