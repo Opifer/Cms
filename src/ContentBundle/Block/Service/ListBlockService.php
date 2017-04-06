@@ -85,7 +85,16 @@ class ListBlockService extends AbstractBlockService implements BlockServiceInter
             ]);
         }
 
+
         $builder->get('properties')
+            ->add('horizontalScroll', ChoiceType::class, [
+                'label' => 'label.list_horizontal_scroll',
+                'choices' => ['Enabled' => '1', 'Disabled' => '0'],
+                'required' => true,
+                'expanded' => true,
+                'multiple' => false,
+                'attr' => ['help_text' => 'help.list_horizontal_scroll','tag' => 'styling'],
+            ])
             ->add('displayType', ChoiceType::class, [
                 'label' => 'label.list_display_type',
                 'choices' => $this->config['display_types'],

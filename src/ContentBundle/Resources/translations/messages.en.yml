@@ -36,6 +36,7 @@ help:
     show_in_navigation: If checked this page will be visible in navigation blocks if the selected options and level allows
     slug: Use only letters and numbers, no spaces allowed a-z0-9_-
     template: Choose a template as your starting point to create content with
+    list_horizontal_scroll: Enable a horizontal scroll list.
     list_display_type: Choose list if you want items displayed as rows, and cards if you want your items to resemble tiles.
     list_display_size: Sizing of each list item
     list_image_ratio: Ratio defines in which proportions your image will be cropped and displayed.
@@ -94,6 +95,7 @@ label:
     register_url: Register url
     login_content_item: Login Content item
     register_content_item: Register Content item
+    list_horizontal_scroll: Horizontal scroll
     list_display_type: Display type
     list_display_size: Display size
     list_image_ratio: Image ratio
