@@ -10,7 +10,8 @@
 <body>
 <div id="app" />
 <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-polyfill/6.16.0/polyfill.min.js" type="text/javascript"></script>
-{% if app.environment == 'dev' %}
+
+{% if (app.environment == 'dev' or app.request.host() == 'vagrant.dev') %}
     <script src="http://127.0.0.1:3333/dist/xms.js"></script>
 {% else %}
     <script src="{{ asset('bundles/opifercms/dist/xms.js') }}"></script>

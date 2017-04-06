@@ -8,6 +8,8 @@ title:
     review: Reviews
     translations: translations
     locale: languages
+    layouts: Layouts
+    content_types: Content types
 
 # Base
 base:
