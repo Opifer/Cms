@@ -24,6 +24,10 @@ opifer_content_template_editor_view:
 
 # Content
 
+opifer_content_content_create_layout:
+    path: /content/create/layout/{layoutId}
+    defaults: { _controller: OpiferContentBundle:Backend/Content:create, layoutId: 0}
+
 opifer_content_content_create:
     path: /content/create/{type}/{mode}
     defaults: { _controller: OpiferContentBundle:Backend/Content:create, type: 0, mode: simple }
@@ -53,6 +57,10 @@ opifer_content_content_type:
 opifer_content_content_select_type:
     path: /content/select-type
     defaults: { _controller: OpiferContentBundle:Backend/Content:selectType }
+
+opifer_content_content_select_layout_type:
+    path: /content/select-layout-type
+    defaults: { _controller: OpiferContentBundle:Backend/Content:selectLayoutType }
 
 opifer_content_content_edit_type:
     path: /content/edit-type/{id}

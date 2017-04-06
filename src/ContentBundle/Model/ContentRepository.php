@@ -54,7 +54,7 @@ class ContentRepository extends NestedTreeRepository
             $qb->andWhere('c.id IN (:ids)')->setParameter('ids', $ids);
         }
 
-        $qb->andWhere('c.deletedAt IS NULL');  // @TODO fix SoftDeleteAble filter
+        $qb->andWhere('c.deletedAt IS NULL AND c.layout = 0');  // @TODO fix SoftDeleteAble & layout filter
 
         $qb->orderBy('c.slug');
 

@@ -13,6 +13,7 @@ use Opifer\ContentBundle\Entity\Template;
 use Opifer\EavBundle\Entity\Value;
 use Opifer\EavBundle\Entity\MediaValue;
 use Opifer\EavBundle\Model\EntityInterface;
+use Opifer\EavBundle\Model\MediaInterface;
 use Opifer\EavBundle\Model\SchemaInterface;
 use Opifer\EavBundle\Model\ValueSetInterface;
 use Opifer\Revisions\Mapping\Annotation as Revisions;
@@ -141,6 +142,21 @@ class Content implements ContentInterface, EntityInterface, TemplatedInterface, 
      * @ORM\Column(name="searchable", type="boolean")
      */
     protected $searchable = true;
+
+    /**
+     * @var bool
+     *
+     * @ORM\Column(name="layout", type="boolean")
+     */
+    protected $layout = false;
+
+    /**
+     * @var MediaInterface
+     *
+     * @ORM\ManyToOne(targetEntity="Opifer\MediaBundle\Model\MediaInterface")
+     * @ORM\JoinColumn(name="preview", referencedColumnName="id", onDelete="SET NULL")
+     */
+    protected $preview;
 
     /**
      * @Gedmo\TreeLeft
@@ -404,6 +420,30 @@ class Content implements ContentInterface, EntityInterface, TemplatedInterface, 
     public function getActive()
     {
         return $this->active;
+    }
+
+    /**
+     * Set layout.
+     *
+     * @param bool $layout
+     *
+     * @return Content
+     */
+    public function setLayout($layout)
+    {
+        $this->layout = $layout;
+
+        return $this;
+    }
+
+    /**
+     * Get layout.
+     *
+     * @return bool
+     */
+    public function getLayout()
+    {
+        return $this->layout;
     }
 
     /**
@@ -1086,6 +1126,26 @@ class Content implements ContentInterface, EntityInterface, TemplatedInterface, 
         }
 
         return false;
+    }
+
+    /**
+     * @return MediaInterface
+     */
+    public function getPreview()
+    {
+       return $this->preview;
+    }
+
+    /**
+     * @param MediaInterface $preview
+     *
+     * @return Layout
+     */
+    public function setPreview(MediaInterface $preview)
+    {
+        $this->preview = $preview;
+
+        return $this;
     }
 
     /**
