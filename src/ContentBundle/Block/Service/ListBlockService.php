@@ -62,35 +62,37 @@ class ListBlockService extends AbstractBlockService implements BlockServiceInter
         )->add($propertiesForm);
 
         if ($this->config['templates'] && count($this->config['templates'])) {
-            $builder->get('styles')->add('template', ChoiceType::class, [
-                'label' => 'label.template',
-                'placeholder' => 'placeholder.choice_optional',
-                'attr' => ['help_text' => 'This setting is deprecated, set individual desktop and mobile styles separately'],
-                'choices' => $this->config['templates'],
-                'required' => false,
-                'disabled' => true,
+            $builder->get('properties')
+                ->add('template', ChoiceType::class, [
+                    'label' => 'label.template',
+                    'placeholder' => 'placeholder.choice_optional',
+                    'attr' => ['help_text' => 'This setting is deprecated, set individual desktop and mobile styles separately'],
+                    'choices' => $this->config['templates'],
+                    'required' => false,
+                    'disabled' => true,
+                    'attr' => ['tag' => 'styling'],
             ]);
         }
 
         if ($this->config['styles']) {
-            $builder->get('styles')->add('styles', ChoiceType::class, [
+            $builder->get('properties')->add('styles', ChoiceType::class, [
                 'label' => 'label.styling',
                 'choices' => $this->config['styles'],
                 'required' => false,
                 'expanded' => true,
                 'multiple' => true,
-                'attr' => ['help_text' => 'help.html_styles'],
+                'attr' => ['help_text' => 'help.html_styles','tag' => 'styling'],
             ]);
         }
 
-        $builder->get('styles')
+        $builder->get('properties')
             ->add('displayType', ChoiceType::class, [
                 'label' => 'label.list_display_type',
                 'choices' => $this->config['display_types'],
                 'required' => true,
                 'expanded' => false,
                 'multiple' => false,
-                'attr' => ['help_text' => 'help.list_display_type'],
+                'attr' => ['help_text' => 'help.list_display_type','tag' => 'styling'],
             ])
             ->add('displaySize', ChoiceType::class, [
                 'label' => 'label.list_display_size',

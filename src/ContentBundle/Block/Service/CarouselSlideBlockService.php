@@ -31,14 +31,14 @@ class CarouselSlideBlockService extends AbstractBlockService implements BlockSer
 
         if ($this->config['styles']) {
 
-            $builder->get('styles')
+            $builder->get('properties')
                 ->add('styles', 'choice', [
                     'label' => 'label.styling',
                     'choices'  => array_combine($this->config['styles'], $this->config['styles']),
                     'required' => false,
                     'expanded' => true,
                     'multiple' => true,
-                    'attr' => ['help_text' => 'help.html_styles'],
+                    'attr' => ['help_text' => 'help.html_styles', 'tag' => 'styling'],
                 ]);
         }
 

@@ -32,23 +32,23 @@ class JumbotronBlockService extends AbstractBlockService implements BlockService
             ->add('extra_classes', TextType::class, ['attr' => ['help_text' => 'help.extra_classes']]);
 
         if ($this->config['styles']) {
-            $builder->get('styles')
+            $builder->get('properties')
                 ->add('styles', ChoiceType::class, [
                     'label' => 'label.styling',
                     'choices'  => $this->config['styles'],
                     'required' => false,
                     'expanded' => true,
                     'multiple' => true,
-                    'attr' => ['help_text' => 'help.html_styles'],
+                    'attr' => ['help_text' => 'help.html_styles','tag' => 'styling'],
                 ]);
         }
 
         if (isset($this->config['templates'])) {
-            $builder->get('styles')
+            $builder->get('properties')
                 ->add('template', ChoiceType::class, [
                     'label'       => 'label.template',
                     'placeholder' => 'placeholder.choice_optional',
-                    'attr'        => ['help_text' => 'help.block_template'],
+                    'attr'        => ['help_text' => 'help.block_template','tag' => 'styling'],
                     'choices'     => $this->config['templates'],
                     'required'    => false,
                 ]);

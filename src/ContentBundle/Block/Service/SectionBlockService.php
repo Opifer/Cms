@@ -36,14 +36,14 @@ class SectionBlockService extends AbstractBlockService implements BlockServiceIn
             ->add('extra_classes', TextType::class, ['attr' => ['help_text' => 'help.extra_classes']])
         ;
 
-        $builder->get('styles')
+        $builder->get('properties')
             ->add('styles', ChoiceType::class, [
                 'label' => 'label.styling',
                 'choices'  => $this->config['styles'],
                 'required' => false,
                 'expanded' => true,
                 'multiple' => true,
-                'attr' => ['help_text' => 'help.html_styles'],
+                'attr' => ['help_text' => 'help.html_styles','tag' => 'styling'],
             ])
             ->add('padding', BoxModelType::class, [
                 'type' => 'padding',

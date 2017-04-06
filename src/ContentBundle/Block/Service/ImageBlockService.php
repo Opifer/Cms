@@ -79,14 +79,14 @@ class ImageBlockService extends AbstractBlockService implements BlockServiceInte
                 ])
         );
 
-        $builder->get('styles')
+        $builder->get('properties')
             ->add('styles', ChoiceType::class, [
                 'label' => 'label.styling',
                 'choices'  => $this->config['styles'],
                 'required' => false,
                 'expanded' => true,
                 'multiple' => true,
-                'attr' => ['help_text' => 'help.html_styles'],
+                'attr' => ['help_text' => 'help.html_styles','tag' => 'styling'],
             ]);
     }
 

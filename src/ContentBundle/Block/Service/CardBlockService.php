@@ -35,7 +35,7 @@ class CardBlockService extends AbstractBlockService implements BlockServiceInter
                 'attr' => array('label_col' => 12, 'widget_col' => 12),
             ])
         ;
-        $builder->get('styles')
+        $builder->get('properties')
             ->add('displaySize', ChoiceType::class, [
                 'label' => 'label.list_display_size',
                 'choices'  => [
@@ -47,11 +47,11 @@ class CardBlockService extends AbstractBlockService implements BlockServiceInter
                 'required' => true,
                 'expanded' => true,
                 'multiple' => false,
-                'attr' => ['help_text' => 'help.list_display_size', 'class' => 'btn-radio'],
+                'attr' => ['help_text' => 'help.list_display_size', 'class' => 'btn-radio', 'tag' => 'styling'],
             ])
             ->add('preset', ChoiceType::class, [
                 'label'       => 'Preset',
-                'attr'        => ['help_text' => 'Pick a preset'],
+                'attr'        => ['help_text' => 'Pick a preset', 'tag' => 'styling'],
                 'choices'     => $this->config['presets'],
                 'required'    => true,
             ])
@@ -59,7 +59,8 @@ class CardBlockService extends AbstractBlockService implements BlockServiceInter
             ->add('background', ChoiceType::class, [
                 'required' => false,
                 'label' => 'label.background_color',
-                'choices' => $this->config['backgrounds']
+                'choices' => $this->config['backgrounds'],
+                'attr'  => ['tag' => 'styling']
             ])
             ->add('styles', ChoiceType::class, [
                 'label' => 'label.styling',
@@ -67,7 +68,7 @@ class CardBlockService extends AbstractBlockService implements BlockServiceInter
                 'required' => false,
                 'expanded' => true,
                 'multiple' => true,
-                'attr' => ['help_text' => 'help.html_styles'],
+                'attr' => ['help_text' => 'help.html_styles','tag' => 'styling'],
             ])
         ;
 
