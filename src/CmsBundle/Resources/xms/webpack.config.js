@@ -21,7 +21,7 @@ module.exports = {
     pathinfo: true,
   },
   debug: true,
-  devtool: 'eval',
+  devtool: 'source-map',
   devServer: {
     contentBase: 'web/',
   },
@@ -39,6 +39,7 @@ module.exports = {
       jQuery: 'jquery',
       'window.jQuery': 'jquery',
       'window.Tether': 'tether',
+      Tether: 'tether',
     }),
   ],
   stats: {

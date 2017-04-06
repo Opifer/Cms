@@ -54,7 +54,6 @@ export function loginUser({ username, password }, dispatch) {
   dispatch(loginUserRequest());
   return fetch('/admin/api/login_check', {
     method: 'post',
-    // credentials: 'include',
     headers: {
       Accept: 'application/json',
       'Content-Type': 'application/json',

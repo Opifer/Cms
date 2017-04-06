@@ -103,6 +103,7 @@ const viewFields = ({ fields, meta: { touched, error } }) => (
             inputAttributes={{ placeholder: 'Type' }}
             className="form-control"
             labelClassName="sr-only"
+            inputClassNames={{ 'mr-sm-1': true }}
           />{' '}
           <Field
             name={`${field}.name`}
@@ -111,6 +112,7 @@ const viewFields = ({ fields, meta: { touched, error } }) => (
             label="Name"
             inputAttributes={{ placeholder: 'Name' }}
             labelClassName="sr-only"
+            inputClassNames={{ 'mr-sm-1': true }}
           />{' '}
           <Field
             name={`${field}.display_name`}
@@ -119,6 +121,20 @@ const viewFields = ({ fields, meta: { touched, error } }) => (
             label="Display name"
             inputAttributes={{ placeholder: 'Display name' }}
             labelClassName="sr-only"
+            inputClassNames={{ 'mr-sm-1': true }}
+          />{' '}
+          <Field
+            name={`${field}.tag`}
+            type="text"
+            component={SelectField}
+            label="Section"
+            options={{
+              0: { value: 'content', text: 'Content' },
+              1: { value: 'styles', text: 'Styling' },
+              2: { value: 'properties', text: 'Properties' },
+            }}
+            labelClassName="sr-only"
+            inputClassNames={{ 'mr-sm-1': true }}
           />{' '}
           <Field
             name={`${field}.sort`}
@@ -127,6 +143,7 @@ const viewFields = ({ fields, meta: { touched, error } }) => (
             label="Sort"
             inputAttributes={{ placeholder: 'Sort', size: 5 }}
             labelClassName="sr-only"
+            inputClassNames={{ 'mr-sm-1': true }}
           />{' '}
           <button
             type="button"

@@ -2,10 +2,16 @@ import React, { PropTypes } from 'react';
 import classNames from 'classnames';
 
 const SelectField = (props) => {
-  const { input, placeholder, label, labelClassName, options, meta: { touched, error } } = props;
+  const { input, name, label, labelClassName, inputClassNames, inputAttributes, meta: { touched, error }, helpText, options } = props;
 
   const classNameInputGroup = classNames({
     'input-group': true,
+  });
+
+  const classNameFormControl = classNames({
+    ...inputClassNames,
+    'form-control-danger': (touched && error),
+    'custom-select': true,
   });
 
   return (
@@ -14,30 +20,32 @@ const SelectField = (props) => {
       <div className={classNameInputGroup}>
         <select
           {...input}
-          className={`custom-select ${(touched && error) ? 'form-control form-control-danger' : 'form-control'}`}
+          {...inputAttributes}
+          className={classNameFormControl}
+          name={name}
         >
-          {(placeholder && (
-            <option value="">{placeholder}</option>
-          ))}
-          {Object.keys(options).map(key => (
-            <option value={key} key={key}>{options[key]}</option>
+          {Object.keys(options).map(i => (
+            <option value={options[i].value} key={i}>{options[i].text}</option>
           ))}
         </select>
-        {touched && error && <div className="form-control-feedback">{error}</div>}
       </div>
+      {touched && error && <div className="form-control-feedback">{error}</div>}
+      {helpText && <small className="form-text text-muted">{helpText}</small>}
     </div>
   );
 };
 
-SelectField.propTypes = {
-  classNameInputGroup: PropTypes.string,
   input: PropTypes.object,
-  label: PropTypes.string,
-  labelClassName: PropTypes.string,
+  block: PropTypes.object,
   meta: PropTypes.object,
   name: PropTypes.string,
+  label: PropTypes.string,
   options: PropTypes.object,
-  placeholder: PropTypes.string,
+  helpText: PropTypes.string,
+  labelClassName: PropTypes.string,
+SelectField.propTypes = {
+  inputAttributes: PropTypes.object,
+  inputClassNames: PropTypes.object,
 };
 
 export default SelectField;

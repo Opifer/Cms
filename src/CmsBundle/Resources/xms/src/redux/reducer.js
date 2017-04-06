@@ -9,7 +9,7 @@ const reducer = combineReducers({
   form: reduxForm,
   routing: routerReducer,
   [dataViews.constants.NAME]: dataViews.reducer,
-  [auth.constants.NAME]: auth.reducer,
+  user: auth.reducer,
 });
 
 export default reducer;
