@@ -47,6 +47,8 @@
                                     {{ form_row(type) }}
                                 {% endif %}
                             {% endfor %}
+                        {% endif %}
+                        {% if form.properties|default %}
                             {% for type in form.properties %}
                                 {% if (type.vars.attr.tag|default == 'general') %}
                                     {{ form_row(type) }}
