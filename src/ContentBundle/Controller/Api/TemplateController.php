@@ -39,11 +39,10 @@ class TemplateController extends Controller
 
         $environment->load();
 
-        $context = SerializationContext::create();
+        $blocks = $environment->getRootBlocks();
 
-        $blocks = $environment->getBlocks();
-        $context->setGroups(['Default', 'detail'])
-            ->enableMaxDepthChecks();
+        $context = SerializationContext::create();
+        $context->setGroups(['Default', 'tree', 'detail']);
 
         $contentItem = [
             'id' => $template->getId(),
