@@ -28,7 +28,7 @@ help:
     content_language: The content language
     extra_classes: Apply custom CSS classes to the block
     html_id: 'Set an html #id to the block'
-    html_styles: Apply extra (css) styles to this block
+    html_styles: Apply extra (css) predefined styles to this block
     indexable: Allow search engines to index this page
     levels: The amount of layers deep the data has to be fetched. `1` for only top-level content.
     searchable: Allow this page to end up in search results
@@ -43,6 +43,27 @@ help:
     block_social_title: Custom title for sharing by mail
     block_social_text: Custom text for sharing by mail
     column_count: Number of columns for this block.
+    alert_message: Text for shown alert message.
+    button_label: Text shown on button.
+    button_url: Url where the button goes to.
+    button_target: The target attribute specifies where to open the linked document.
+    css_code: Add custom CSS code.
+    javascript_code: Add custom JavaScript code.
+    carouselslide_media: Add media item to corousel slide.
+    carouselslide_rich_text: Add some text to corousel slide.
+    carousel_controls: Show arrow on the left and right side of the slides to switch between them.
+    carousel_indicator: Indicates position of the shown slide in carousel.
+    download_media: Select content or media file for download.
+    image_filter: Select image display size.
+    jumbotron_media: Select media item to display in jumbotron.
+    jumbotron_rich_text: Add some text to jumbotron.
+    login_redirect: Choose page to redirect to after user successfully logged in.
+    register_content_item: Choose registration papge.
+    subscribe_response_type: After subscription show message or redirect to page.
+    subscribe_message: Message shown after subscription.
+    subscribe_redirect: Select page to redirect to after subscription.
+    iframe_url: URL that should be loaded in an iFrame.
+    tabs_add_tab: Add a new tab
 
 label:
     block: Block
@@ -102,6 +123,9 @@ label:
     social_title: E-mail subject
     social_text: E-mail text
     column_count: Columns
+    url: Url
+    target: Target
+    login_redirect_content_item: Login redirect
 
 link:
     default: Default

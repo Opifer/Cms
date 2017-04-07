@@ -24,11 +24,15 @@ class ButtonBlockService extends AbstractBlockService implements BlockServiceInt
         parent::buildManageForm($builder, $options);
 
         $propertiesForm = $builder->create('properties', FormType::class)
-            ->add('url', TextType::class, ['label' => 'label.url'])
+            ->add('url', TextType::class, [
+                'label' => 'label.url',
+                'attr' => ['help_text' => 'help.button_url']
+            ])
             ->add('target', ChoiceType::class, [
                 'label' => 'label.target',
                 'choices' => ['_blank' => '_blank', '_self' => '_self'],
                 'required' => false,
+                'attr' => ['help_text' => 'help.button_target']
             ])
             ->add('id', TextType::class, ['attr' => ['help_text' => 'help.html_id']])
             ->add('extra_classes', TextType::class, ['attr' => ['help_text' => 'help.extra_classes']]);
@@ -48,7 +52,7 @@ class ButtonBlockService extends AbstractBlockService implements BlockServiceInt
 
         $builder->add(
             $builder->create('default', FormType::class, ['inherit_data' => true])
-                ->add('value', TextType::class, ['label' => 'label.label'])
+                ->add('value', TextType::class, ['label' => 'label.label'], ['help_text' => 'help.button_label'])
                 ->add('name', TextType::class, ['attr' => ['help_text' => 'help.block_name']])
         )->add(
             $propertiesForm

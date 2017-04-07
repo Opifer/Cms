@@ -27,7 +27,12 @@ class IFrameBlockService extends AbstractBlockService implements BlockServiceInt
 
         $builder->add(
             $propertiesForm
-                ->add('url', TextType::class, ['attr' => ['help_text' => 'help.iframe_url']])
+                ->add('url', TextType::class, [
+                    'attr' => [
+                        'help_text' => 'help.iframe_url',
+                        'tag' => 'general'
+                    ]
+                ])
         )->add(
             $propertiesForm->add('id', TextType::class, ['attr' => ['help_text' => 'help.html_id']])
                 ->add('extra_classes', TextType::class, ['attr' => ['help_text' => 'help.extra_classes']])

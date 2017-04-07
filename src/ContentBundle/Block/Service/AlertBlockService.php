@@ -29,7 +29,7 @@ class AlertBlockService extends AbstractBlockService implements BlockServiceInte
                 ->add('value', TextareaType::class, [
                     'label' => 'Message',
                     'attr' => [
-                        'help_text' => 'Show an alert message'
+                        'help_text' => 'help.alert_message'
                     ]
                 ])
         );

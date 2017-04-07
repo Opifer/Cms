@@ -55,7 +55,7 @@ class TabNavBlockService extends AbstractBlockService implements LayoutBlockServ
         $propertiesForm = $builder->create('properties', FormType::class)
             ->add('template', ChoiceType::class, [
                     'label'       => 'label.template',
-                    'attr'        => ['help_text' => 'help.block_template'],
+                    'attr'        => ['help_text' => 'help.block_template','tag' => 'styles'],
                     'choices'     => $this->config['templates'],
                     'required'    => true,
                 ])
@@ -66,7 +66,11 @@ class TabNavBlockService extends AbstractBlockService implements LayoutBlockServ
                 'entry_type'    => TabType::class,
                 'sub_widget_col'=> 8,
                 'button_col'    => 4,
-                'attr'          => ['class' => 'sortable-tabnav'],
+                'attr'          => [
+                    'class'         => 'sortable-tabnav',
+                    'tag'           => 'general',
+                    'help_text'     => 'help.tabs_add_tab'
+                ],
                 'options'       => ['attr' => ['style' => 'inline']],
             ])
             ->add('id', TextType::class, ['attr' => ['help_text' => 'help.html_id']])

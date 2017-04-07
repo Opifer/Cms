@@ -46,8 +46,20 @@ class ModalBlockService extends AbstractBlockService implements BlockServiceInte
 
         $builder->add(
             $builder->create('default', FormType::Class, ['inherit_data' => true])
-                ->add('name', TextType::class, ['label' => 'label.name', 'attr' => ['help_text' => 'help.block_name']])
-                ->add('title', TextType::class, ['attr' => ['help_text' => 'help.title']])
+                ->add('name', TextType::class, [
+                    'label' => 'label.name',
+                    'attr' => [
+                        'help_text' => 'help.block_name',
+                        'tag' => 'settings'
+                    ]
+                ])
+                ->add('title', TextType::class, [
+                    'label' => 'label.display_name',
+                    'attr' => [
+                        'help_text' => 'help.block_display_name',
+                        'tag' => 'settings'
+                    ]
+                ])
                 ->add('header', CKEditorType::class, ['label' => 'label.header', 'attr' => ['label_col' => 12, 'widget_col' => 12]])
                 ->add('value', CKEditorType::class, ['label' => 'label.body', 'attr' => ['label_col' => 12, 'widget_col' => 12]])
                 ->add('footer', CKEditorType::class, ['label' => 'label.footer', 'attr' => ['label_col' => 12, 'widget_col' => 12]])

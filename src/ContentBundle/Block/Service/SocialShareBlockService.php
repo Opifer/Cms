@@ -31,12 +31,20 @@ class SocialShareBlockService extends AbstractBlockService implements BlockServi
         $builder->get('properties')
             ->add('title', TextType::class, [
                 'label' => 'label.social_title',
-                'attr' => ['help_text' => 'help.block_social_title'],
+                'attr' => [
+                    'help_text' => 'help.block_social_title',
+                    'tag' => 'general'
+                ],
                 'required' => false,
             ])
             ->add('text', CKEditorType::class, [
                 'label' => 'label.social_text',
-                'attr' => ['help_text' => 'help.block_social_text', 'label_col' => 12, 'widget_col' => 12],
+                'attr' => [
+                    'help_text' => 'help.block_social_text',
+                    'label_col' => 12,
+                    'widget_col' => 12,
+                    'tag' => 'general'
+                ],
                 'required' => false,
             ]
         );
