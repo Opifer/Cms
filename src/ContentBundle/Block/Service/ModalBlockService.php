@@ -65,23 +65,25 @@ class ModalBlockService extends AbstractBlockService implements BlockServiceInte
             ]);
 
         if (isset($this->config['styles']) && count($this->config['styles'])) {
-            $builder->get('styles')->add('styles', ChoiceType::class, [
-                'label' => 'label.styling',
-                'choices'  => $this->config['styles'],
-                'required' => false,
-                'expanded' => true,
-                'multiple' => true,
-                'attr' => ['help_text' => 'help.html_styles'],
+            $builder->get('properties')
+                ->add('styles', ChoiceType::class, [
+                    'label' => 'label.styling',
+                    'choices'  => $this->config['styles'],
+                    'required' => false,
+                    'expanded' => true,
+                    'multiple' => true,
+                    'attr' => ['help_text' => 'help.html_styles', 'tag' => 'styles'],
             ]);
         }
 
         if (isset($this->config['template']) && count($this->config['template'])) {
-            $builder->get('styles')->add('template', ChoiceType::class, [
-                'label'       => 'label.template',
-                'placeholder' => 'placeholder.choice_optional',
-                'attr'        => ['help_text' => 'help.block_template'],
-                'choices'     => $this->config['templates'],
-                'required'    => false,
+            $builder->get('properties')
+                ->add('template', ChoiceType::class, [
+                    'label'       => 'label.template',
+                    'placeholder' => 'placeholder.choice_optional',
+                    'attr'        => ['help_text' => 'help.block_template','tag' => 'styles'],
+                    'choices'     => $this->config['templates'],
+                    'required'    => false,
             ]);
         }
     }

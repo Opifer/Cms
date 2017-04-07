@@ -89,20 +89,21 @@ const viewFields = ({ fields, meta: { touched, error } }) => (
             name={`${field}.type`}
             component={SelectField}
             options={{
-              text: 'Text',
-              number: 'Number',
-              textarea: 'Textarea',
-              checkbox: 'Checkbox',
-              html: 'HTML',
-              select: 'Select',
-              media: 'Media',
-              contentItem: 'Content Item',
-              contentItems: 'Content Items',
+              0: { value: 'text', text: 'Text' },
+              1: { value: 'number', text: 'Number' },
+              2: { value: 'textarea', text: 'Textarea' },
+              3: { value: 'checkbox', text: 'Checkbox' },
+              4: { value: 'html', text: 'HTML' },
+              5: { value: 'select', text: 'Select' },
+              6: { value: 'media', text: 'Media' },
+              7: { value: 'contentItem', text: 'Content Item' },
+              8: { value: 'contentItems', text: 'Content Items' },
             }}
             label="Type"
             inputAttributes={{ placeholder: 'Type' }}
             className="form-control"
             labelClassName="sr-only"
+            inputClassNames={{ 'mr-sm-1': true }}
           />{' '}
           <Field
             name={`${field}.name`}
@@ -111,6 +112,7 @@ const viewFields = ({ fields, meta: { touched, error } }) => (
             label="Name"
             inputAttributes={{ placeholder: 'Name' }}
             labelClassName="sr-only"
+            inputClassNames={{ 'mr-sm-1': true }}
           />{' '}
           <Field
             name={`${field}.display_name`}
@@ -119,6 +121,20 @@ const viewFields = ({ fields, meta: { touched, error } }) => (
             label="Display name"
             inputAttributes={{ placeholder: 'Display name' }}
             labelClassName="sr-only"
+            inputClassNames={{ 'mr-sm-1': true }}
+          />{' '}
+          <Field
+            name={`${field}.tag`}
+            type="text"
+            component={SelectField}
+            label="Section"
+            options={{
+              0: { value: 'content', text: 'Content' },
+              1: { value: 'styles', text: 'Styling' },
+              2: { value: 'properties', text: 'Properties' },
+            }}
+            labelClassName="sr-only"
+            inputClassNames={{ 'mr-sm-1': true }}
           />{' '}
           <Field
             name={`${field}.sort`}
@@ -127,6 +143,7 @@ const viewFields = ({ fields, meta: { touched, error } }) => (
             label="Sort"
             inputAttributes={{ placeholder: 'Sort', size: 5 }}
             labelClassName="sr-only"
+            inputClassNames={{ 'mr-sm-1': true }}
           />{' '}
           <button
             type="button"

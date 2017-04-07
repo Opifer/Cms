@@ -59,12 +59,13 @@ class GalleryBlockService extends AbstractBlockService implements BlockServiceIn
         ;
 
         if (isset($this->config['templates'])) {
-            $builder->get('styles')->add('template', ChoiceType::class, [
-                'label'       => 'label.template',
-                'placeholder' => 'placeholder.choice_optional',
-                'attr'        => ['help_text' => 'help.block_template'],
-                'choices'     => $this->config['templates'],
-                'required'    => false,
+            $builder->get('properties')
+                ->add('template', ChoiceType::class, [
+                    'label'       => 'label.template',
+                    'placeholder' => 'placeholder.choice_optional',
+                    'attr'        => ['help_text' => 'help.block_template','tag' => 'styles'],
+                    'choices'     => $this->config['templates'],
+                    'required'    => false,
             ]);
         }
     }
@@ -82,7 +83,7 @@ class GalleryBlockService extends AbstractBlockService implements BlockServiceIn
 
         $gallery = $this->mediaManager->getRepository()->findByIds($ids);
 
-        uasort($gallery, function ($a, $b) use ($ids) {
+        usort($gallery, function ($a, $b) use ($ids) {
             return (array_search($a->getId(), $ids) > array_search($b->getId(), $ids));
         });
 

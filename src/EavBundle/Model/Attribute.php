@@ -12,7 +12,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  *
  * @ORM\MappedSuperclass
  *
- * @JMS\ExclusionPolicy("none")
+ * @JMS\ExclusionPolicy("all")
  */
 class Attribute implements AttributeInterface
 {

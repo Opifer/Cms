@@ -2,6 +2,8 @@
 
 namespace Opifer\ContentBundle\Block\Service;
 
+use Doctrine\ORM\EntityManager;
+use Opifer\ContentBundle\Block\BlockRenderer;
 use Opifer\ContentBundle\Block\Tool\Tool;
 use Opifer\ContentBundle\Block\Tool\ToolsetMemberInterface;
 use Opifer\ContentBundle\Entity\ColumnBlock;
@@ -23,6 +25,24 @@ class ColumnBlockService extends AbstractBlockService implements LayoutBlockServ
 {
     /** @var int */
     protected $columnCount = 1;
+
+    /**
+     * @var EntityManager
+     */
+    protected $em;
+
+    /**
+     * ColumnBlockService constructor.
+     *
+     * @param BlockRenderer $blockRenderer
+     * @param array         $config
+     * @param EntityManager $entityManager
+     */
+    public function __construct(BlockRenderer $blockRenderer, array $config, EntityManager $entityManager)
+    {
+        $this->em = $entityManager;
+        parent::__construct($blockRenderer, $config);
+    }
 
     public function getViewParameters(BlockInterface $block)
     {
@@ -46,7 +66,23 @@ class ColumnBlockService extends AbstractBlockService implements LayoutBlockServ
 
         $propertiesForm = $builder->create('properties', FormType::class)
             ->add('id', TextType::class, ['attr' => ['help_text' => 'help.html_id']])
-            ->add('extra_classes', TextType::class, ['attr' => ['help_text' => 'help.extra_classes']]);
+            ->add('extra_classes', TextType::class, ['attr' => ['help_text' => 'help.extra_classes']])
+        ;
+
+        $builder->get('default')
+            ->add('column_count', ChoiceType::class, [
+                'label' => 'label.column_count',
+                'choices' => [
+                    '1' => '1',
+                    '2' => '2',
+                    '3' => '3',
+                    '4' => '4',
+                ],
+                'required' => false,
+                'expanded' => true,
+                'multiple' => false,
+                'attr' => ['help_text' => 'help.column_count', 'class'=>'btn-toolbar'],
+            ]);
 
         $builder->add($propertiesForm);
 
@@ -77,13 +113,14 @@ class ColumnBlockService extends AbstractBlockService implements LayoutBlockServ
                 $block->setProperties($properties);
             }
 
-            $form->get('styles')
+            $form->get('properties')
                 ->add('styles', ChoiceType::class, [
                     'label' => 'label.styling',
                     'choices' => $this->config['styles'],
                     'required' => false,
                     'expanded' => true,
                     'multiple' => true,
+
                     'attr' => ['help_text' => 'help.list_display_size', 'class' => 'btn-group btn-group-styling', 'data-toggle' => 'buttons'],
                     'label_attr' => ['class' => 'btn'],
                 ])
@@ -98,13 +135,18 @@ class ColumnBlockService extends AbstractBlockService implements LayoutBlockServ
                    'required' => false,
                    'expanded' => true,
                    'multiple' => false,
-                   'attr' => ['help_text' => 'help.html_styles', 'class' => 'btn-group btn-column-count', 'data-toggle' => 'buttons'],
+                   'attr' => [
+                       'help_text' => 'help.html_styles', 
+                       'class' => 'btn-group btn-column-count', 
+                       'data-toggle' => 'buttons',
+                       'tag' => 'styles'
+                    ],
                    'label_attr' => ['class' => 'btn'],
                ])
                 ->add('spans', SpanCollectionType::class, [
                     'column_count' => $block->getColumnCount(),
                     'label' => 'label.spans',
-                    'attr' => ['help_text' => 'help.column_spans'],
+                    'attr' => ['help_text' => 'help.column_spans','tag' => 'styles'],
                 ])
 
 
@@ -112,16 +154,29 @@ class ColumnBlockService extends AbstractBlockService implements LayoutBlockServ
                 ->add('offsets', SpanCollectionType::class, [
                     'column_count' => $block->getColumnCount(),
                     'label' => 'label.offsets',
-                    'attr' => ['help_text' => 'help.column_offsets'],
+                    'attr' => ['help_text' => 'help.column_offsets','tag' => 'styles'],
                 ])
                 ->add('gutters', GutterCollectionType::class, [
                     'column_count' => $block->getColumnCount(),
                     'label' => 'label.gutters',
-                    'attr' => ['help_text' => 'help.column_gutters'],
+                    'attr' => ['help_text' => 'help.column_gutters','tag' => 'styles'],
                 ])
             ;
-
         });
+    }
+
+    public function preUpdate(BlockInterface $block)
+    {
+        $children = $block->getChildren();
+
+        foreach ($children as $child) {
+            $child->getPosition();
+
+            if ($child->getPosition() > ($block->getColumnCount() -1)) {
+                $child->setPosition(($block->getColumnCount() -1));
+                $this->em->persist($child);
+            }
+        }
     }
 
     /**
@@ -162,19 +217,11 @@ class ColumnBlockService extends AbstractBlockService implements LayoutBlockServ
      */
     public function getTool(BlockInterface $block = null)
     {
-        switch ($this->columnCount) {
-            case 1: $type = 'one'; break;
-            case 2: $type = 'two'; break;
-            case 3: $type = 'three'; break;
-            case 4: $type = 'four'; break;
-        }
+        $tool = new Tool('Columns', 'column');
 
-        $tool = new Tool($this->getName(), 'column_'.$type);
-
-        $tool->setData(['columnCount' => $this->columnCount])
+        $tool->setIcon('view_column')
             ->setGroup(Tool::GROUP_LAYOUT)
-            ->setIcon('view_column')
-            ->setDescription('Inserts '.$this->columnCount.' columns equal in width');
+            ->setDescription('Inserts columns equal in with');
 
         return $tool;
     }

@@ -92,10 +92,14 @@ class NavigationBlockService extends AbstractBlockService implements BlockServic
             ])
         ;
 
-        $builder->get('styles')
+        $builder->get('properties')
             ->add('template', ChoiceType::class, [
                 'label' => 'label.template',
-                'attr' => ['help_text' => 'help.block_template', 'widget_col' => 9],
+                'attr' => [
+                    'help_text' => 'help.block_template',
+                    'widget_col' => 9,
+                    'tag' => 'styles'
+                ],
                 'choices' => $this->config['templates'],
                 'required' => true,
             ])

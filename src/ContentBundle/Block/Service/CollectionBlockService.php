@@ -83,6 +83,10 @@ class CollectionBlockService extends AbstractBlockService implements BlockServic
             $builder->create('properties', FormType::class)
                 ->add('conditions', ExpressionEngineType::class, [
                     'prototypes' => $this->getPrototypes(),
+                    'attr' => [
+                        'help_text' => 'Limit the collection with some predefined conditions.',
+                        'tag' => 'general'
+                    ]
                 ])
                 ->add('order_by', ChoiceType::class, [
                     'label' => 'Order by',
@@ -91,6 +95,10 @@ class CollectionBlockService extends AbstractBlockService implements BlockServic
                         'Title' => 'title',
                     ],
                     'choices_as_values' => true,
+                    'attr' => [
+                        'help_text' => 'Define the order of the collection',
+                        'tag' => 'general'
+                    ]
                 ])
                 ->add('order_direction', ChoiceType::class, [
                     'label' => 'Order direction',
@@ -99,32 +107,52 @@ class CollectionBlockService extends AbstractBlockService implements BlockServic
                         'Descending' => 'DESC',
                     ],
                     'choices_as_values' => true,
+                    'attr' => [
+                        'help_text' => 'Set the direction to ascending or descending',
+                        'tag' => 'general'
+                    ]
                 ])
-                ->add('limit', IntegerType::class)
+                ->add('limit', IntegerType::class, [
+                    'attr' => [
+                        'help_text' => 'The amount of items shown per page',
+                        'tag' => 'general'
+                    ]
+                ])
                 ->add('filters', BootstrapCollectionType::class, [
                     'allow_add' => true,
                     'allow_delete' => true,
                     'type' => FilterType::class,
-                    'attr' => ['help_text' => 'Filters the user can use to search the collection'],
+                    'attr' => ['help_text' => 'Filters the user can use to search the collection', 'tag' => 'general'],
+                ])
+                ->add('filter_placement', ChoiceType::class, [
+                    'label' => 'Filter placement',
+                    'choices' => $this->config['filter_placement'],
+                    'attr' => [
+                        'help_text' => 'The position of the defined filters',
+                        'tag' => 'general'
+                    ]
                 ])
                 ->add('load_more', CheckboxType::class, [
                     'label' => 'Load more',
                     'required' => false,
                     'attr' => [
                         'align_with_widget' => true,
-                        'help_text' => 'Adds a `load more` button to the block'
+                        'help_text' => 'Adds a `load more` button to the block',
+                        'tag' => 'general'
                     ],
                 ])
         );
 
-        $builder->get('styles')
+        $builder->get('properties')
             ->add('template', ChoiceType::class, [
                 'label' => 'label.template',
-                'placeholder' => 'placeholder.choice_optional',
-                'attr' => ['help_text' => 'help.block_template'],
+                'attr' => [
+                    'help_text' => 'Pick a template to change how an item in the collection is displayed',
+                    'tag' => 'styles',
+                ],
                 'choices' => $this->config['templates'],
-                'required' => false,
-            ]);
+            ])
+        ;
     }
 
     /**

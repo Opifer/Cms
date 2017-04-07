@@ -29,11 +29,11 @@ class HtmlBlockService extends AbstractBlockService implements BlockServiceInter
             ->add('extra_classes', TextType::class, ['attr' => ['help_text' => 'help.extra_classes']]);
 
         if (isset($this->config['templates'])) {
-            $builder->get('styles')
+            $builder->get('properties')
                 ->add('template', ChoiceType::class, [
                     'label'       => 'label.template',
                     'placeholder' => 'placeholder.choice_optional',
-                    'attr'        => ['help_text' => 'help.block_template'],
+                    'attr'        => ['help_text' => 'help.block_template', 'tag' => 'styles'],
                     'choices'     => $this->config['templates'],
                     'required'    => false,
                 ]);

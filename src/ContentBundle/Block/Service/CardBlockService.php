@@ -35,7 +35,7 @@ class CardBlockService extends AbstractBlockService implements BlockServiceInter
                 'attr' => array('label_col' => 12, 'widget_col' => 12),
             ])
         ;
-        $builder->get('styles')
+        $builder->get('properties')
             ->add('displaySize', ChoiceType::class, [
                 'label' => 'label.list_display_size',
                 'choices'  => [
@@ -47,12 +47,17 @@ class CardBlockService extends AbstractBlockService implements BlockServiceInter
                 'required' => true,
                 'expanded' => true,
                 'multiple' => false,
-                'attr' => ['help_text' => 'help.list_display_size', 'class' => 'btn-group btn-group-styling', 'data-toggle' => 'buttons'],
+                'attr' => [
+                    'help_text' => 'help.list_display_size', 
+                    'class' => 'btn-group btn-group-styling', 
+                    'data-toggle' => 'buttons',
+                    'tag' => 'styles'
+                ],
                 'label_attr' => ['class' => 'btn'],
             ])
             ->add('preset', ChoiceType::class, [
                 'label'       => 'Preset',
-                'attr'        => ['help_text' => 'Pick a preset'],
+                'attr'        => ['help_text' => 'Pick a preset', 'tag' => 'styles'],
                 'choices'     => $this->config['presets'],
                 'required'    => true,
             ])
@@ -60,7 +65,8 @@ class CardBlockService extends AbstractBlockService implements BlockServiceInter
             ->add('background', ChoiceType::class, [
                 'required' => false,
                 'label' => 'label.background_color',
-                'choices' => $this->config['backgrounds']
+                'choices' => $this->config['backgrounds'],
+                'attr'  => ['tag' => 'styles']
             ])
             ->add('styles', ChoiceType::class, [
                 'label' => 'label.styling',
@@ -68,7 +74,11 @@ class CardBlockService extends AbstractBlockService implements BlockServiceInter
                 'required' => false,
                 'expanded' => true,
                 'multiple' => true,
-                'attr' => ['help_text' => 'help.html_styles', 'class' => 'radio-rows'],
+                'attr' => [
+                    'help_text' => 'help.html_styles', 
+                    'class' => 'radio-rows',
+                    'tag' => 'styles'
+                ],
             ])
         ;
 

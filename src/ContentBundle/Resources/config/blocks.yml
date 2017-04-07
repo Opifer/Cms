@@ -166,37 +166,11 @@ services:
         tags:
             - { name: opifer.content.block_service, alias: container }
 
-    opifer.content.column_one_block:
+    opifer.content.column_block:
         class: '%opifer.content.column_block.class%'
-        arguments: ['@opifer.content.block_renderer', '%opifer_content.column_block_configuration%']
+        arguments: ['@opifer.content.block_renderer', '%opifer_content.column_block_configuration%', '@doctrine.orm.entity_manager']
         tags:
-            - { name: opifer.content.block_service, alias: column_one }
-        calls:
-            - [setColumnCount, [1]]
-
-    opifer.content.column_two_block:
-        class: '%opifer.content.column_block.class%'
-        arguments: ['@opifer.content.block_renderer', '%opifer_content.column_block_configuration%']
-        tags:
-            - { name: opifer.content.block_service, alias: column_two }
-        calls:
-            - [setColumnCount, [2]]
-
-    opifer.content.column_three_block:
-        class: '%opifer.content.column_block.class%'
-        arguments: ['@opifer.content.block_renderer', '%opifer_content.column_block_configuration%']
-        tags:
-            - { name: opifer.content.block_service, alias: column_three }
-        calls:
-            - [setColumnCount, [3]]
-
-    opifer.content.column_four_block:
-        class: '%opifer.content.column_block.class%'
-        arguments: ['@opifer.content.block_renderer', '%opifer_content.column_block_configuration%']
-        tags:
-            - { name: opifer.content.block_service, alias: column_four }
-        calls:
-            - [setColumnCount, [4]]
+            - { name: opifer.content.block_service, alias: column }
 
     opifer.content.tabnav_block:
         class: '%opifer.content.tabnav_block.class%'

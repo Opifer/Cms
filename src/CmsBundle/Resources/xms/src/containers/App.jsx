@@ -22,7 +22,7 @@ class App extends React.Component {
 
     return (
       <div>
-        <Navbar color="inverse" dark full>
+        <Navbar color="inverse" inverse toggleable>
           <Nav navbar>
             <NavItem>
               <NavLink href="/admin"><MdDashboard size={24} /></NavLink>

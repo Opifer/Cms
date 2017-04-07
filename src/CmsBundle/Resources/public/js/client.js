@@ -9853,7 +9853,7 @@ jq(document).ready(function() {
         };
 
         var server = function() {
-          return parent.pagemanager;
+            return parent.pagemanager;
         };
 
         var setViewMode = function(mode) {

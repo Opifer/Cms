@@ -40,6 +40,7 @@ class Configuration implements ConfigurationInterface
                                 ->scalarNode('index')->defaultValue('OpiferContentBundle:Content:index.html.twig')->end()
                                 ->scalarNode('edit_type')->defaultValue('OpiferContentBundle:Content:edit_type.html.twig')->end()
                                 ->scalarNode('select_type')->defaultValue('OpiferContentBundle:Content:select_type.html.twig')->end()
+                                ->scalarNode('select_layout_type')->defaultValue('OpiferContentBundle:Content:select_layout_type.html.twig')->end()
                                 ->scalarNode('type')->defaultValue('OpiferContentBundle:Content:type.html.twig')->end()
                                 ->scalarNode('new')->defaultValue('OpiferContentBundle:Content:new.html.twig')->end()
                                 ->scalarNode('edit')->defaultValue('OpiferContentBundle:Content:edit.html.twig')->end()
@@ -198,6 +199,15 @@ class Configuration implements ConfigurationInterface
                             ->addDefaultsIfNotSet()
                             ->children()
                                 ->scalarNode('view')->defaultValue('OpiferContentBundle:Block:Content/collection.html.twig')->end()
+                                ->arrayNode('filter_placement')
+                                    ->prototype('scalar')->end()
+                                    ->normalizeKeys(false)
+                                    ->useAttributeAsKey('name')
+                                    ->defaultValue([
+                                        'top' => 'Above the collection',
+                                        'modal' => 'In a modal window',
+                                    ])
+                                ->end()
                                 ->arrayNode('templates')
                                     ->prototype('scalar')->end()
                                     ->normalizeKeys(false)

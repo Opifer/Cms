@@ -52,9 +52,10 @@ class ListBlockService extends AbstractBlockService implements BlockServiceInter
         // Default panel
         $builder->add(
             $builder->create('default', FormType::class, ['virtual' => true])
-                ->add('name', TextType::class)
+                ->add('name', TextType::class, ['attr' => ['help_text' => 'help.name', 'tag' => 'properties']])
                 ->add('title',  'text', [
                     'label' => 'label.title',
+                    'attr' => ['help_text' => 'help.title', 'tag' => 'properties']
                 ])
                 ->add('value',  ContentListPickerType::class, [
                     'label' => 'label.content',
@@ -62,75 +63,27 @@ class ListBlockService extends AbstractBlockService implements BlockServiceInter
         )->add($propertiesForm);
 
         if ($this->config['templates'] && count($this->config['templates'])) {
-            $builder->get('styles')->add('template', ChoiceType::class, [
-                'label' => 'label.template',
-                'placeholder' => 'placeholder.choice_optional',
-                'attr' => ['help_text' => 'This setting is deprecated, set individual desktop and mobile styles separately'],
-                'choices' => $this->config['templates'],
-                'required' => false,
-                'disabled' => true,
+            $builder->get('properties')
+                ->add('template', ChoiceType::class, [
+                    'label' => 'label.template',
+                    'placeholder' => 'placeholder.choice_optional',
+                    'attr' => ['help_text' => 'help.template'],
+                    'choices' => $this->config['templates'],
+                    'required' => false,
+                    'attr' => ['tag' => 'styles'],
             ]);
         }
 
         if ($this->config['styles']) {
-            $builder->get('styles')->add('styles', ChoiceType::class, [
+            $builder->get('properties')->add('styles', ChoiceType::class, [
                 'label' => 'label.styling',
                 'choices' => $this->config['styles'],
                 'required' => false,
                 'expanded' => true,
                 'multiple' => true,
-                'attr' => ['help_text' => 'help.html_styles'],
+                'attr' => ['help_text' => 'help.html_styles', 'tag' => 'styles'],
             ]);
         }
-
-        $builder->get('styles')
-            ->add('displayType', ChoiceType::class, [
-                'label' => 'label.list_display_type',
-                'choices' => $this->config['display_types'],
-                'required' => true,
-                'expanded' => false,
-                'multiple' => false,
-                'attr' => ['help_text' => 'help.list_display_type'],
-            ])
-            ->add('displaySize', ChoiceType::class, [
-                'label' => 'label.list_display_size',
-                'choices' => [
-                    null => 'Default',
-                    'sm' => 'Small',
-                    'md' => 'Medium',
-                    'lg' => 'Large',
-                ],
-                'required' => true,
-                'expanded' => false,
-                'multiple' => false,
-                'attr' => ['help_text' => 'help.list_display_size'],
-            ])
-            ->add('imageRatio', ChoiceType::class, [
-                'label' => 'label.list_image_ratio',
-                'choices' => [
-                    null => 'No image',
-                    '11' => '1:1',
-                    '43' => '4:3',
-                    '34' => '3:4 (portrait)',
-                    '32' => '3:2',
-                    '23' => '2:3 (portrait)',
-                    '169' => '16:9',
-                    '916' => '9:16 (portrait)',
-                ],
-                'required' => true,
-                'expanded' => false,
-                'multiple' => false,
-                'attr' => ['help_text' => 'help.list_image_ratio'],
-            ]);
-
-        $propertiesForm
-            ->add('preset', ChoiceType::class, [
-                'label'       => 'Preset',
-                'attr'        => ['help_text' => 'Pick a preset'],
-                'choices'     => $this->config['presets'],
-                'required'    => true,
-            ])
-            ;
     }
 
     /**

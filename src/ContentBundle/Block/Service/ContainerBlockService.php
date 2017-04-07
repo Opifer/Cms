@@ -35,21 +35,21 @@ class ContainerBlockService extends AbstractBlockService implements LayoutBlockS
         $builder->addEventListener(FormEvents::PRE_SET_DATA, function (FormEvent $event) {
             $form = $event->getForm();
 
-            $form->get('styles')->add('styles', ChoiceType::class, [
+            $form->get('properties')->add('styles', ChoiceType::class, [
                 'label' => 'label.styling',
                 'choices'  => $this->config['styles'],
                 'required' => false,
                 'expanded' => true,
                 'multiple' => true,
-                'attr' => ['help_text' => 'help.html_styles'],
+                'attr' => ['help_text' => 'help.html_styles','tag' => 'styles'],
             ]);
 
-            $form->get('styles')
+            $form->get('properties')
                 ->add('container_size', ChoiceType::class, [
                 'label' => 'label.container_sizing',
                 'choices' => ['fluid' => 'label.container_fluid', '' => 'label.container_fixed', 'smooth' => 'label.container_smooth'],
                 'required' => true,
-                'attr' => ['help_text' => 'help.container_sizing'],
+                'attr' => ['help_text' => 'help.container_sizing','tag' => 'styles'],
             ]);
         });
     }
