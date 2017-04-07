@@ -17,7 +17,7 @@
             </div>
         </div>
 
-        {% if block.properties.allowEmail %}
+        {% if block.properties.allowEmail|default %}
         <form action="{{ path("fos_user_security_check") }}" method="post" role="form">
             <input type="hidden" name="_csrf_token" value="{{ csrf_token }}" />
             <div class="form-group row">
