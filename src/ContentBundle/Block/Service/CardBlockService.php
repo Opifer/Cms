@@ -47,7 +47,7 @@ class CardBlockService extends AbstractBlockService implements BlockServiceInter
                 'required' => true,
                 'expanded' => true,
                 'multiple' => false,
-                'attr' => ['help_text' => 'help.list_display_size', 'class' => 'btn-group', 'data-toggle' => 'buttons'],
+                'attr' => ['help_text' => 'help.list_display_size', 'class' => 'btn-group btn-group-styling', 'data-toggle' => 'buttons'],
                 'label_attr' => ['class' => 'btn'],
             ])
             ->add('preset', ChoiceType::class, [
@@ -68,7 +68,7 @@ class CardBlockService extends AbstractBlockService implements BlockServiceInter
                 'required' => false,
                 'expanded' => true,
                 'multiple' => true,
-                'attr' => ['help_text' => 'help.html_styles'],
+                'attr' => ['help_text' => 'help.html_styles', 'class' => 'radio-rows'],
             ])
         ;
 
@@ -95,7 +95,8 @@ class CardBlockService extends AbstractBlockService implements BlockServiceInter
                 'required' => true,
                 'expanded' => true,
                 'multiple' => false,
-                'attr' => ['help_text' => 'help.list_image_ratio']
+                'attr' => ['help_text' => 'help.list_image_ratio', 'class' => 'btn-group btn-group-styling btn-image-ratio', 'data-toggle' => 'buttons'],
+                'label_attr' => ['class' => 'btn'],
             ])
         ;
     }
