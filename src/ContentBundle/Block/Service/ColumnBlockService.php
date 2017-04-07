@@ -81,7 +81,15 @@ class ColumnBlockService extends AbstractBlockService implements LayoutBlockServ
                 'required' => false,
                 'expanded' => true,
                 'multiple' => false,
-                'attr' => ['help_text' => 'help.column_count', 'class'=>'btn-toolbar'],
+                'attr' => [
+                    'help_text' => 'help.html_styles',
+                    'class' => 'btn-group btn-column-count',
+                    'data-toggle' => 'buttons',
+                    'tag' => 'styles'
+                ],
+                'label_attr' => [
+                    'class' => 'btn'
+                ],
             ]);
 
         $builder->add($propertiesForm);
@@ -124,25 +132,6 @@ class ColumnBlockService extends AbstractBlockService implements LayoutBlockServ
                     'attr' => ['help_text' => 'help.list_display_size', 'class' => 'btn-group btn-group-styling', 'data-toggle' => 'buttons'],
                     'label_attr' => ['class' => 'btn'],
                 ])
-               ->add('column_count', ChoiceType::class, [
-                   'label' => 'label.column_count',
-                   'choices' => [
-                       '1' => '1',
-                       '2' => '2',
-                       '3' => '3',
-                       '4' => '4',
-                   ],
-                   'required' => false,
-                   'expanded' => true,
-                   'multiple' => false,
-                   'attr' => [
-                       'help_text' => 'help.html_styles', 
-                       'class' => 'btn-group btn-column-count', 
-                       'data-toggle' => 'buttons',
-                       'tag' => 'styles'
-                    ],
-                   'label_attr' => ['class' => 'btn'],
-               ])
                 ->add('spans', SpanCollectionType::class, [
                     'column_count' => $block->getColumnCount(),
                     'label' => 'label.spans',
