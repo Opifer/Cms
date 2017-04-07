@@ -52,8 +52,17 @@ class ButtonBlockService extends AbstractBlockService implements BlockServiceInt
 
         $builder->add(
             $builder->create('default', FormType::class, ['inherit_data' => true])
-                ->add('value', TextType::class, ['label' => 'label.label'], ['help_text' => 'help.button_label'])
-                ->add('name', TextType::class, ['attr' => ['help_text' => 'help.block_name']])
+                ->add('value', TextType::class, [
+                    'label' => 'label.label',
+                    'attr' => [
+                        'help_text' => 'help.button_label'
+                    ]
+                ])
+                ->add('name', TextType::class, [
+                    'attr' => [
+                        'help_text' => 'help.block_name'
+                    ]
+                ])
         )->add(
             $propertiesForm
         );
