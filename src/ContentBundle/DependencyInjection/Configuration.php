@@ -385,10 +385,14 @@ class Configuration implements ConfigurationInterface
                                     ->useAttributeAsKey('name')
                                     ->defaultValue([
                                         'default' => 'Default',
-                                        'card' => 'Card',
-                                        'card-overlay' => 'Card overlay',
-                                        'list' => 'List',
-                                        'news' => 'News',
+                                        'default' => 'Default',
+                                        'Listing--cards' => 'Cards',
+                                        'Listing--cards-overlay' => 'Cards overlay',
+                                        'Listing--cards-bleed' => 'Cards overlay full width',
+                                        'Listing--horizontal-scroll' => 'Cards horizontal scroll',
+                                        'Listing--list' => 'List',
+                                        'Listing--media' => 'Media',
+                                        'Listing--table' => 'Table',
                                     ])
                                 ->end()
                                 ->arrayNode('presets')
