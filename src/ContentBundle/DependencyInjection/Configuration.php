@@ -385,35 +385,17 @@ class Configuration implements ConfigurationInterface
                                     ->useAttributeAsKey('name')
                                     ->defaultValue([
                                         'default' => 'Default',
-                                        'default' => 'Default',
-                                        'Listing--cards' => 'Cards',
-                                        'Listing--cards-overlay' => 'Cards overlay',
-                                        'Listing--cards-bleed' => 'Cards overlay full width',
-                                        'Listing--horizontal-scroll' => 'Cards horizontal scroll',
-                                        'Listing--list' => 'List',
-                                        'Listing--media' => 'Media',
-                                        'Listing--table' => 'Table',
-                                    ])
-                                ->end()
-                                ->arrayNode('presets')
-                                    ->prototype('scalar')->end()
-                                    ->normalizeKeys(false)
-                                    ->useAttributeAsKey('name')
-                                    ->defaultValue([
-                                        'default' => 'Default',
-                                        'card' => 'Card',
-                                        'card-overlay' => 'Card overlay',
-                                        'list' => 'List',
-                                        'news' => 'News',
-                                    ])
-                                ->end()
-                                ->arrayNode('display_types')
-                                    ->prototype('scalar')->end()
-                                    ->normalizeKeys(false)
-                                    ->defaultValue([
-                                        'list' => 'List',
-                                        'cards' => 'Cards',
-                                        'table' => 'Table',
+                                        'card' => 'Card (deprecated)',
+                                        'card-overlay' => 'Card overlay (deprecated)',
+                                        'list' => 'List (deprecated)',
+                                        'news' => 'News (deprecated)',
+                                        'ListBlock--cards' => 'Cards',
+                                        'ListBlock--cards-overlay' => 'Cards overlay',
+                                        'ListBlock--cards-bleed' => 'Cards overlay full width',
+                                        'ListBlock--horizontal-scroll' => 'Cards horizontal scroll',
+                                        'ListBlock--list' => 'List',
+                                        'ListBlock--media' => 'Media',
+                                        'ListBlock--table' => 'Table',
                                     ])
                                 ->end()
                             ->end()
