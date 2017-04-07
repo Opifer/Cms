@@ -45,22 +45,21 @@ class ListBlockService extends AbstractBlockService implements BlockServiceInter
     {
         parent::buildManageForm($builder, $options);
 
-        $propertiesForm = $builder->create('properties', FormType::class)
+        $builder->get('properties')
             ->add('id', TextType::class, ['attr' => ['help_text' => 'help.html_id']])
             ->add('extra_classes', TextType::class, ['attr' => ['help_text' => 'help.extra_classes']]);
 
         // Default panel
-        $builder->add(
-            $builder->create('default', FormType::class, ['virtual' => true])
-                ->add('name', TextType::class, ['attr' => ['help_text' => 'help.name', 'tag' => 'properties']])
-                ->add('title',  'text', [
-                    'label' => 'label.title',
-                    'attr' => ['help_text' => 'help.title', 'tag' => 'properties']
-                ])
-                ->add('value',  ContentListPickerType::class, [
-                    'label' => 'label.content',
-                ])
-        )->add($propertiesForm);
+
+        $builder->get('default')
+            ->add('title',  TextType::class, [
+                'label' => 'label.title',
+                'attr' => ['help_text' => 'help.title', 'tag' => 'settings']
+            ])
+            ->add('value',  ContentListPickerType::class, [
+                'label' => 'label.content',
+            ])
+        ;
 
         if ($this->config['templates'] && count($this->config['templates'])) {
             $builder->get('properties')
