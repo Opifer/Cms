@@ -119,6 +119,10 @@ class NavigationBlockService extends AbstractBlockService implements BlockServic
 
             $collection = $this->contentManager->getRepository()->findByLevels($levels, $ids);
 
+            usort($collection, function ($a, $b) use ($ids) {
+                return (array_search($a->getId(), $ids) > array_search($b->getId(), $ids));
+            });
+
             $block->setTree($collection);
         } elseif ($block->getValue() == NavigationBlock::CHOICE_TOP_LEVEL) {
             $collection = $this->contentManager->getRepository()->findByLevels($levels);
