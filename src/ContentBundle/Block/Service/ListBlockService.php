@@ -46,8 +46,8 @@ class ListBlockService extends AbstractBlockService implements BlockServiceInter
         parent::buildManageForm($builder, $options);
 
         $builder->get('properties')
-            ->add('id', TextType::class, ['attr' => ['help_text' => 'help.html_id']])
-            ->add('extra_classes', TextType::class, ['attr' => ['help_text' => 'help.extra_classes']]);
+            ->add('id', TextType::class, ['attr' => ['help_text' => 'help.html_id'],'required' => false])
+            ->add('extra_classes', TextType::class, ['attr' => ['help_text' => 'help.extra_classes'],'required' => false]);
 
         // Default panel
         $builder->add(

@@ -26,13 +26,26 @@ class SectionBlockService extends AbstractBlockService implements BlockServiceIn
         parent::buildManageForm($builder, $options);
 
         $builder->get('default')
-            ->add('header', CKEditorType::class, ['label' => 'label.header', 'attr' => ['label_col' => 12, 'widget_col' => 12]])
-            ->add('footer', CKEditorType::class, ['label' => 'label.footer', 'attr' => ['label_col' => 12, 'widget_col' => 12]])
+            ->add('header', CKEditorType::class, [
+                'label' => 'label.header',
+                'attr' => [
+                    'label_col' => 12,
+                    'widget_col' => 12],
+                'required' => false
+            ])
+            ->add('footer', CKEditorType::class, [
+                'label' => 'label.footer',
+                'attr' => [
+                    'label_col' => 12,
+                    'widget_col' => 12
+                ],
+                'required' => false
+            ])
         ;
 
         $builder->get('properties')
-            ->add('id', TextType::class, ['attr' => ['help_text' => 'help.html_id']])
-            ->add('extra_classes', TextType::class, ['attr' => ['help_text' => 'help.extra_classes']])
+            ->add('id', TextType::class, ['attr' => ['help_text' => 'help.html_id'],'required' => false])
+            ->add('extra_classes', TextType::class, ['attr' => ['help_text' => 'help.extra_classes'],'required' => false])
         ;
 
         $builder->get('properties')
@@ -49,14 +62,16 @@ class SectionBlockService extends AbstractBlockService implements BlockServiceIn
                 'attr' => [
                     'help_text' => 'Spacing inside',
                     'tag' => 'styles',
-                ]
+                ],
+                'required' => false
             ])
             ->add('margin', BoxModelType::class, [
                 'type' => 'margin',
                 'attr' => [
                     'help_text' => 'Spacing outside',
                     'tag' => 'styles',
-                ]
+                ],
+                'required' => false
             ])
             ->add('container_size', ChoiceType::class, [
                 'label' => 'label.container_sizing',

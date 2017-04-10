@@ -27,8 +27,19 @@ class CardBlockService extends AbstractBlockService implements BlockServiceInter
         parent::buildManageForm($builder, $options);
 
         $builder->get('default')
-            ->add('header', CKEditorType::class, ['label' => 'label.header', 'attr' => ['label_col' => 12, 'widget_col' => 12]])
-            ->add('value', CKEditorType::class, ['label' => 'label.body', 'attr' => ['label_col' => 12, 'widget_col' => 12]])
+            ->add('header', CKEditorType::class, [
+                'label' => 'label.header',
+                'attr' => ['label_col' => 12, 'widget_col' => 12],
+                'required' => false
+            ])
+            ->add('value', CKEditorType::class, [
+                'label' => 'label.body',
+                'attr' => [
+                    'label_col' => 12,
+                    'widget_col' => 12
+                ],
+                'required' => false
+            ])
             ->add('media', MediaPickerType::class, [
                 'required'  => false,
                 'multiple' => false,

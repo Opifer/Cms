@@ -29,8 +29,8 @@ class ContainerBlockService extends AbstractBlockService implements LayoutBlockS
             ->add('name', TextType::class, ['label' => 'label.name', 'attr' => ['help_text' => 'help.block_name']]);
 
         $builder->get('properties')
-            ->add('id', TextType::class, ['attr' => ['help_text' => 'help.html_id']])
-            ->add('extra_classes', TextType::class, ['attr' => ['help_text' => 'help.extra_classes']]);
+            ->add('id', TextType::class, ['attr' => ['help_text' => 'help.html_id'],'required' => false])
+            ->add('extra_classes', TextType::class, ['attr' => ['help_text' => 'help.extra_classes'],'required' => false]);
 
         $builder->addEventListener(FormEvents::PRE_SET_DATA, function (FormEvent $event) {
             $form = $event->getForm();

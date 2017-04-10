@@ -34,8 +34,8 @@ class IFrameBlockService extends AbstractBlockService implements BlockServiceInt
                     ]
                 ])
         )->add(
-            $propertiesForm->add('id', TextType::class, ['attr' => ['help_text' => 'help.html_id']])
-                ->add('extra_classes', TextType::class, ['attr' => ['help_text' => 'help.extra_classes']])
+            $propertiesForm->add('id', TextType::class, ['attr' => ['help_text' => 'help.html_id'],'required' => false])
+                ->add('extra_classes', TextType::class, ['attr' => ['help_text' => 'help.extra_classes'],'required' => false])
 
         );
 

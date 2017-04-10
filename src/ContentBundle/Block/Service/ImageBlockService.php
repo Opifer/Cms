@@ -59,11 +59,12 @@ class ImageBlockService extends AbstractBlockService implements BlockServiceInte
                 ])
         )->add(
             $builder->create('properties', FormType::class)
-                ->add('id', TextType::class, ['attr' => ['help_text' => 'help.html_id']])
-                ->add('extra_classes', TextType::class, ['attr' => ['help_text' => 'help.extra_classes']])
+                ->add('id', TextType::class, ['attr' => ['help_text' => 'help.html_id'],'required' => false])
+                ->add('extra_classes', TextType::class, ['attr' => ['help_text' => 'help.extra_classes'],'required' => false])
                 ->add('filter', ChoiceType::class, [
                     'choices' => $this->getAvailableFilters(),
                     'choices_as_values' => true,
+                    'required' => false,
                     'attr' => ['help_text' => 'help.image_filter']
                 ])
                 ->add('enlarge', ChoiceType::class, [

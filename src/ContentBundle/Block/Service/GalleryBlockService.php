@@ -50,12 +50,13 @@ class GalleryBlockService extends AbstractBlockService implements BlockServiceIn
                 'to_json' => true,
                 'multiple' => true,
                 'label'    => 'Media',
+                'required' => false
             ])
         ;
 
         $builder->get('properties')
-            ->add('id', TextType::class, ['attr' => ['help_text' => 'help.html_id']])
-            ->add('extra_classes', TextType::class, ['attr' => ['help_text' => 'help.extra_classes']])
+            ->add('id', TextType::class, ['attr' => ['help_text' => 'help.html_id'],'required' => false])
+            ->add('extra_classes', TextType::class, ['attr' => ['help_text' => 'help.extra_classes'],'required' => false])
         ;
 
         if (isset($this->config['templates'])) {

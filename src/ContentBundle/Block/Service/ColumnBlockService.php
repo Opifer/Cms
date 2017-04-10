@@ -65,8 +65,8 @@ class ColumnBlockService extends AbstractBlockService implements LayoutBlockServ
         parent::buildManageForm($builder, $options);
 
         $propertiesForm = $builder->create('properties', FormType::class)
-            ->add('id', TextType::class, ['attr' => ['help_text' => 'help.html_id']])
-            ->add('extra_classes', TextType::class, ['attr' => ['help_text' => 'help.extra_classes']])
+            ->add('id', TextType::class, ['attr' => ['help_text' => 'help.html_id'],'required' => false])
+            ->add('extra_classes', TextType::class, ['attr' => ['help_text' => 'help.extra_classes'],'required' => false])
         ;
 
         $builder->get('default')
@@ -78,7 +78,7 @@ class ColumnBlockService extends AbstractBlockService implements LayoutBlockServ
                     '3' => '3',
                     '4' => '4',
                 ],
-                'required' => false,
+                'required' => true,
                 'expanded' => true,
                 'multiple' => false,
                 'attr' => [
