@@ -3,6 +3,7 @@
 namespace Opifer\ContentBundle\Provider;
 
 use Doctrine\ORM\EntityManagerInterface;
+use Opifer\ContentBundle\Entity\Template;
 
 class TemplateBlockProvider implements BlockProviderInterface
 {
@@ -24,8 +25,6 @@ class TemplateBlockProvider implements BlockProviderInterface
      */
     public function getBlockOwner($id)
     {
-        return $this->em->getRepository('OpiferContentBundle:Template')->find($id);
+        return $this->em->getRepository(Template::class)->find($id);
     }
-
-
 }

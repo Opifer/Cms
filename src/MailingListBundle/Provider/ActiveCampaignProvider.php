@@ -17,6 +17,11 @@ class ActiveCampaignProvider implements MailingListProviderInterface
 
     protected $subscriptionManager;
 
+    protected $statusMap = [
+        1 => Subscription::STATUS_SUBSCRIBED,
+        0 => Subscription::STATUS_UNSUBSCRIBED,
+    ];
+
     public function __construct(SubscriptionManager $subscriptionManager, $api_url, $api_key)
     {
         $this->api_url = $api_url;
@@ -75,10 +80,41 @@ class ActiveCampaignProvider implements MailingListProviderInterface
 
     public function synchroniseList(MailingList $list, \Closure $logger)
     {
+        $now = new \DateTime();
         $subscriptions = $this->subscriptionManager->findOutOfSync($list);
 
         foreach ($subscriptions as $subscription){
             $this->synchronise($subscription);
+        }
+
+        $this->remoteToLocal($list, $logger, $now);
+
+        $list->setSyncedAt($now);
+        $this->subscriptionManager->saveList($list);
+    }
+
+    public function remoteToLocal(MailingList $list, \Closure $logger, $now)
+    {
+        $i = 0;
+        $size = 10;
+        for ($page = 1; $page < $size; $page ++) {
+            $updates = $this->getClient()->api(sprintf('contact/list?filters[listid]=%d&full=1sort=datetime&sort_direction=DESC&page=%d', $list->getRemoteListId(), $page));
+
+            $i = 0;
+            foreach ($updates as $member) {
+                if (!is_object($member))
+                    continue;
+                ++$i;
+
+                $subscription = $this->subscriptionManager->findOrCreate($list, $member->email);
+                $subscription->setEmail($member->email);
+                $subscription->setStatus($this->statusMap[$member->status]);
+                $subscription->setUpdatedAt(new \DateTime($member->sdate));
+                $subscription->setSyncedAt($now);
+
+                $this->subscriptionManager->save($subscription);
+                $logger(sprintf('Processed updates from ActiveCampain for %s - %d/%d', $member->email, $i, count($updates)));
+            }
         }
     }
 
