@@ -58,7 +58,7 @@ help:
     jumbotron_media: Select media item to display in jumbotron.
     jumbotron_rich_text: Add some text to jumbotron.
     login_redirect: Choose page to redirect to after user successfully logged in.
-    register_content_item: Choose registration papge.
+    register_content_item: Choose registration page.
     subscribe_response_type: After subscription show message or redirect to page.
     subscribe_message: Message shown after subscription.
     subscribe_redirect: Select page to redirect to after subscription.
