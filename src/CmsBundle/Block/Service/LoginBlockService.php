@@ -67,14 +67,20 @@ class LoginBlockService extends AbstractBlockService implements BlockServiceInte
                 ])
         );
 
-        $propertiesForm = $builder->create('properties', FormType::Class)
+        $builder->get('properties')
             ->add('redirect_content', ContentPickerType::class, [
                 'label' => 'label.login_redirect_content_item',
                 'as_object' => false,
+                'attr' => [
+                    'help_text' => 'help.login_redirect'
+                ]
             ])
             ->add('register_content', ContentPickerType::class, [
                 'label' => 'label.register_content_item',
                 'as_object' => false,
+                'attr' => [
+                    'help_text' => 'help.register_content_item'
+                ]
             ])
             ->add('allowEmail', CheckboxType::class, [
                 'label' => 'label.allow_email',
@@ -109,10 +115,6 @@ class LoginBlockService extends AbstractBlockService implements BlockServiceInte
                     'help_text'             => 'help_text.linkedin_key',
                 ],
             ]);
-
-
-
-        $builder->add($propertiesForm);
     }
 
     /**

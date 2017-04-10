@@ -30,7 +30,6 @@ class CarouselSlideBlockService extends AbstractBlockService implements BlockSer
 
 
         if ($this->config['styles']) {
-
             $builder->get('properties')
                 ->add('styles', 'choice', [
                     'label' => 'label.styling',
@@ -38,7 +37,10 @@ class CarouselSlideBlockService extends AbstractBlockService implements BlockSer
                     'required' => false,
                     'expanded' => true,
                     'multiple' => true,
-                    'attr' => ['help_text' => 'help.html_styles', 'tag' => 'styles'],
+                    'attr' => [
+                        'help_text' => 'help.html_styles',
+                        'tag' => 'styles'
+                    ],
                 ]);
         }
 
@@ -47,8 +49,18 @@ class CarouselSlideBlockService extends AbstractBlockService implements BlockSer
                 ->add('media', MediaPickerType::class, [
                     'required'  => false,
                     'multiple' => false,
+                    'attr' => [
+                            'help_text' => 'help.carouselslide_media',
+                        ]
+                    ])
+                ->add('value', CKEditorType::class, [
+                    'label' => 'label.rich_text',
+                    'attr' => [
+                        'label_col' => 12,
+                        'widget_col' => 12,
+                        'help_text' => 'help.carouselslide_rich_text',
+                    ]
                 ])
-                ->add('value', CKEditorType::class, ['label' => 'label.rich_text', 'attr' => ['label_col' => 12, 'widget_col' => 12]])
         )->add(
             $propertiesForm
         );

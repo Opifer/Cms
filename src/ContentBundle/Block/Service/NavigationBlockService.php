@@ -71,7 +71,8 @@ class NavigationBlockService extends AbstractBlockService implements BlockServic
                     'widget_col' => 9,
                     'form_group' => [
                         'styles' => ($showContentPicker === false) ? 'display:none;' : ''
-                    ]
+                    ],
+                    'tag' => 'general',
                 ]
             ])
             //->add('tree', ContentTreePickerType::class, [
@@ -88,6 +89,7 @@ class NavigationBlockService extends AbstractBlockService implements BlockServic
                 'attr' => [
                     'help_text' => 'help.levels',
                     'widget_col' => 9,
+                    'tag' => 'general',
                 ],
             ])
         ;

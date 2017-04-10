@@ -59,9 +59,20 @@ class JumbotronBlockService extends AbstractBlockService implements BlockService
                 ->add('media', MediaPickerType::class, [
                     'required'  => false,
                     'multiple' => false,
-                    'attr' => array('label_col' => 12, 'widget_col' => 12),
+                    'attr' => [
+                        'label_col' => 12,
+                        'widget_col' => 12,
+                        'help_text' => 'help.jumbotron_media'
+                    ],
                 ])
-                ->add('value', CKEditorType::class, ['label' => 'label.rich_text', 'attr' => ['label_col' => 12, 'widget_col' => 12]])
+                ->add('value', CKEditorType::class, [
+                    'label' => 'label.rich_text',
+                    'attr' => [
+                        'label_col' => 12,
+                        'widget_col' => 12,
+                        'help_text' => 'help.jumbotron_rich_text'
+                    ]
+                ])
         )->add(
             $propertiesForm
         );
