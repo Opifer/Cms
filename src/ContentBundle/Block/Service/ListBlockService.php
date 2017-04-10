@@ -67,10 +67,9 @@ class ListBlockService extends AbstractBlockService implements BlockServiceInter
                 ->add('template', ChoiceType::class, [
                     'label' => 'label.template',
                     'placeholder' => 'placeholder.choice_optional',
-                    'attr' => ['help_text' => 'help.template'],
+                    'attr' => ['help_text' => 'help.template','tag' => 'styles'],
                     'choices' => $this->config['templates'],
                     'required' => false,
-                    'attr' => ['tag' => 'styles'],
             ]);
         }
 
