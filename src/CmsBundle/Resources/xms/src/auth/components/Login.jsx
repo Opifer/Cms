@@ -14,7 +14,7 @@ class Login extends Component {
         <div className="card">
           <div className="card-block">
             {isError && <Alert color="danger">Error: {errorMessage}</Alert>}
-            <h3>Lddogin</h3>
+            <h3>Login</h3>
             <form onSubmit={handleSubmit}>
               <div className="form-group">
                 <label htmlFor="username">Username</label>
