@@ -101,6 +101,7 @@ label:
     list_image_ratio: Image ratio
     social_title: E-mail subject
     social_text: E-mail text
+    background_color: Background color
     column_count: Columns
 
 link:

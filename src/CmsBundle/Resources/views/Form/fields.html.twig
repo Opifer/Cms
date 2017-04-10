@@ -153,3 +153,11 @@
 {% block opifer_cms_icon_widget %}
     <button class="btn btn-default icon-picker" role="iconpicker" data-icon="{{ form.vars.value }}" name="{{ form.vars.full_name }}" data-iconset="materialdesign_2" data-target="{{ form.vars.id }}"></button>
 {% endblock opifer_cms_icon_widget %}
+
+{% block radio_row %}
+    {# Adds an active classname to radio labels #}
+    {% if data %}
+        {% set label_attr = label_attr|merge({'class': (label_attr.class|default('') ~ ' active')|trim}) %}
+    {% endif %}
+    {{ parent() }}
+{% endblock radio_row %}
