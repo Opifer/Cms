@@ -87,19 +87,17 @@ class ContentController extends Controller
             if ($options = $paramFetcher->get('options')) {
                 $options = $this->getDoctrine()->getRepository(Option::class)->findByIds($options);
 
-                $groupOptions = [];
+                $groupedOptions = [];
                 $prefix = $exprVisitor->shouldJoin('valueSet.values.options.id');
 
-
                 foreach ($options as $option) {
-                    $groupOptions[$option->getAttribute()->getId()][] = $prefix.' = '. $option->getId();
+                    $groupedOptions[$option->getAttribute()->getId()][] = $qb->expr()->eq($prefix, $option->getId());
                 }
 
-                foreach ($groupOptions as $groupOption) {
+                foreach ($groupedOptions as $groupedOption) {
                     $orX = $qb->expr()->orX();
-                    $qb->andWhere($orX->addMultiple($groupOption));
+                    $qb->andWhere($orX->addMultiple($groupedOption));
                 }
-
             }
 
             if ($orderBy = $paramFetcher->get('order_by')) {
