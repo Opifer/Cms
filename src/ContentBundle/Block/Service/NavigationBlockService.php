@@ -60,7 +60,8 @@ class NavigationBlockService extends AbstractBlockService implements BlockServic
                     'Custom selection' => NavigationBlock::CHOICE_CUSTOM
                 ],
                 'choices_as_values' => true,
-                'attr' => ['class' => 'toggle-content-picker']
+                'attr' => ['class' => 'toggle-content-picker'],
+                'required' => true
             ])
         ;
 
@@ -72,6 +73,7 @@ class NavigationBlockService extends AbstractBlockService implements BlockServic
                     'form_group' => [
                         'styles' => ($showContentPicker === false) ? 'display:none;' : ''
                     ],
+                    'required' => false,
                     'tag' => 'general',
                 ]
             ])

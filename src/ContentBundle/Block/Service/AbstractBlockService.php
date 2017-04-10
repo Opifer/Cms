@@ -289,8 +289,22 @@ abstract class AbstractBlockService implements BlockServiceInterface
     {
         $builder->add(
             $builder->create('default', FormType::class, ['inherit_data' => true])
-                ->add('name', TextType::class, ['label' => 'label.name', 'attr' => ['help_text' => 'help.block_name', 'tag' => 'settings']])
-                ->add('displayName', TextType::class, ['label' => 'label.display_name', 'attr' => ['help_text' => 'help.block_display_name','tag' => 'settings']])
+                ->add('name', TextType::class, [
+                    'label' => 'label.name',
+                    'attr' => [
+                        'help_text' => 'help.block_name',
+                        'tag' => 'settings'
+                    ],
+                    'required' => false
+                ])
+                ->add('displayName', TextType::class, [
+                    'label' => 'label.display_name',
+                    'attr' => [
+                        'help_text' => 'help.block_display_name',
+                        'tag' => 'settings'
+                    ],
+                    'required' => false
+                ])
         )->add(
             $builder->create('properties', FormType::class, ['label' => false, 'attr' => ['widget_col' => 12]])
         );
@@ -302,7 +316,8 @@ abstract class AbstractBlockService implements BlockServiceInterface
 
             $form->get('properties')
                 ->add('displayLogic', DisplayLogicType::class, [
-                    'block' => $block
+                    'block' => $block,
+                    'required' => false
                 ])
             ;
 

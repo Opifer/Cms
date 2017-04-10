@@ -27,9 +27,11 @@ class VideoBlockService extends AbstractBlockService implements BlockServiceInte
         $builder->get('default')
             ->add('title', TextType::class, [
                 'label' => 'label.title',
+                'required' => false,
             ])
             ->add('value', CKEditorType::class, [
                 'label' => 'label.caption',
+                'required' => false,
             ])
             ->add('media', MediaPickerType::class, [
                 'required'  => false,
@@ -41,9 +43,11 @@ class VideoBlockService extends AbstractBlockService implements BlockServiceInte
         $builder->get('properties')
             ->add('width', TextType::class, [
                 'label' => 'label.width',
+                'required' => false
             ])
             ->add('height', TextType::class, [
                 'label' => 'label.height',
+                'required' => false
             ])
         ;
     }

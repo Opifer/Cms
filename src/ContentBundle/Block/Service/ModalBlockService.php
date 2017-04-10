@@ -51,23 +51,46 @@ class ModalBlockService extends AbstractBlockService implements BlockServiceInte
                     'attr' => [
                         'help_text' => 'help.block_name',
                         'tag' => 'settings'
-                    ]
+                    ],
+                    'required' => false
                 ])
                 ->add('title', TextType::class, [
                     'label' => 'label.display_name',
                     'attr' => [
                         'help_text' => 'help.block_display_name',
                         'tag' => 'settings'
-                    ]
+                    ],
+                    'required' => false
                 ])
-                ->add('header', CKEditorType::class, ['label' => 'label.header', 'attr' => ['label_col' => 12, 'widget_col' => 12]])
-                ->add('value', CKEditorType::class, ['label' => 'label.body', 'attr' => ['label_col' => 12, 'widget_col' => 12]])
-                ->add('footer', CKEditorType::class, ['label' => 'label.footer', 'attr' => ['label_col' => 12, 'widget_col' => 12]])
+                ->add('header', CKEditorType::class, [
+                    'label' => 'label.header',
+                    'attr' => [
+                        'label_col' => 12,
+                        'widget_col' => 12
+                    ],
+                    'required' => false
+                ])
+                ->add('value', CKEditorType::class, [
+                    'label' => 'label.body',
+                    'attr' => [
+                        'label_col' => 12,
+                        'widget_col' => 12
+                    ],
+                    'required' => false
+                ])
+                ->add('footer', CKEditorType::class, [
+                    'label' => 'label.footer',
+                    'attr' => [
+                        'label_col' => 12,
+                        'widget_col' => 12
+                    ],
+                    'required' => false
+                ])
         );
 
         $builder->get('properties')
-            ->add('id', TextType::class, ['attr' => ['help_text' => 'help.html_id']])
-            ->add('extra_classes', TextType::class, ['attr' => ['help_text' => 'help.extra_classes']])
+            ->add('id', TextType::class, ['attr' => ['help_text' => 'help.html_id'],'required' => false])
+            ->add('extra_classes', TextType::class, ['attr' => ['help_text' => 'help.extra_classes'],'required' => false])
             ->add('backdrop', CheckboxType::class, [
                 'label' => 'label.modal_backdrop',
                 'attr' => [

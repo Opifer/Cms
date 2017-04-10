@@ -25,7 +25,18 @@ class CssBlockService extends AbstractBlockService implements BlockServiceInterf
         // Default panel
         $builder->add(
             $builder->create('default', FormType::class, ['inherit_data' => true])
-                ->add('value', CodeMirrorType::class, ['label' => 'label.code', 'parameters' => ['mode' => 'css'], 'attr' => ['label_col' => 12, 'widget_col' => 12, 'help_text' => 'help.css_code']])
+                ->add('value', CodeMirrorType::class, [
+                    'label' => 'label.code',
+                    'parameters' => [
+                        'mode' => 'css'
+                    ],
+                    'attr' => [
+                        'label_col' => 12,
+                        'widget_col' => 12,
+                        'help_text' => 'help.css_code'
+                    ],
+                    'required' => false
+                ])
         );
     }
 

@@ -28,8 +28,8 @@ class JumbotronBlockService extends AbstractBlockService implements BlockService
         parent::buildManageForm($builder, $options);
 
         $propertiesForm = $builder->create('properties', FormType::class)
-            ->add('id', TextType::class, ['attr' => ['help_text' => 'help.html_id']])
-            ->add('extra_classes', TextType::class, ['attr' => ['help_text' => 'help.extra_classes']]);
+            ->add('id', TextType::class, ['attr' => ['help_text' => 'help.html_id'],'required' => false])
+            ->add('extra_classes', TextType::class, ['attr' => ['help_text' => 'help.extra_classes'],'required' => false]);
 
         if ($this->config['styles']) {
             $builder->get('properties')
@@ -67,6 +67,7 @@ class JumbotronBlockService extends AbstractBlockService implements BlockService
                 ])
                 ->add('value', CKEditorType::class, [
                     'label' => 'label.rich_text',
+                    'required' => false,
                     'attr' => [
                         'label_col' => 12,
                         'widget_col' => 12,
