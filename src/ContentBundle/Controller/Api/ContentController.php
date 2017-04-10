@@ -15,6 +15,7 @@ use Opifer\ContentBundle\Model\ContentManager;
 use Opifer\ContentBundle\Model\ContentManagerInterface;
 use Opifer\ContentBundle\Model\ContentRepository;
 use Opifer\ContentBundle\Serializer\BlockExclusionStrategy;
+use Opifer\CmsBundle\Entity\Option;
 use Opifer\ExpressionEngine\Visitor\QueryBuilderVisitor;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -84,8 +85,21 @@ class ContentController extends Controller
 
             // Adds filtering on options
             if ($options = $paramFetcher->get('options')) {
+                $options = $this->getDoctrine()->getRepository(Option::class)->findByIds($options);
+
+                $groupOptions = [];
                 $prefix = $exprVisitor->shouldJoin('valueSet.values.options.id');
-                $qb->andWhere($prefix.' IN (:options)')->setParameter('options', $options);
+
+
+                foreach ($options as $option) {
+                    $groupOptions[$option->getAttribute()->getId()][] = $prefix.' = '. $option->getId();
+                }
+
+                foreach ($groupOptions as $groupOption) {
+                    $orX = $qb->expr()->orX();
+                    $qb->andWhere($orX->addMultiple($groupOption));
+                }
+
             }
 
             if ($orderBy = $paramFetcher->get('order_by')) {
