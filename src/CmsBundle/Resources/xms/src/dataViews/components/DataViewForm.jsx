@@ -124,6 +124,15 @@ const viewFields = ({ fields, meta: { touched, error } }) => (
             inputClassNames={{ 'mr-sm-1': true }}
           />{' '}
           <Field
+            name={`${field}.description`}
+            type="text"
+            component={TextField}
+            label="Description"
+            inputAttributes={{ placeholder: 'Description' }}
+            labelClassName="sr-only"
+            inputClassNames={{ 'mr-sm-1': true }}
+          />{' '}
+          <Field
             name={`${field}.tag`}
             type="text"
             component={SelectField}

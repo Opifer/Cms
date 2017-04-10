@@ -58,6 +58,9 @@ class DataViewBlockService extends AbstractBlockService implements LayoutBlockSe
             foreach ($fields as $field) {
                 $options = [
                     'label' => $field['display_name'],
+                    'attr' => [
+                        'help_text' => (isset($field['description'])) ? $field['description'] : null,
+                    ]
                 ];
 
                 switch ($field['type']) {
