@@ -52,7 +52,7 @@ class TabNavBlockService extends AbstractBlockService implements LayoutBlockServ
             array($this, 'onPostSetData')
         );
 
-        $propertiesForm = $builder->create('properties', FormType::class)
+        $builder->get('properties')
             ->add('template', ChoiceType::class, [
                     'label'       => 'label.template',
                     'attr'        => ['help_text' => 'help.block_template','tag' => 'styles'],
@@ -87,11 +87,6 @@ class TabNavBlockService extends AbstractBlockService implements LayoutBlockServ
                     'attr' => ['help_text' => 'help.html_styles','tag' => 'styles'],
                 ]);
         }
-
-        // Default panel
-        $builder->add(
-            $propertiesForm
-        );
     }
 
     public function onPreSetData(FormEvent $event)

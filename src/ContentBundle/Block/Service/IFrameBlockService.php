@@ -23,7 +23,7 @@ class IFrameBlockService extends AbstractBlockService implements BlockServiceInt
     {
         parent::buildManageForm($builder, $options);
 
-        $propertiesForm = $builder->create('properties', FormType::class);
+        $propertiesForm = $builder->get('properties');
 
         $builder->add(
             $propertiesForm
