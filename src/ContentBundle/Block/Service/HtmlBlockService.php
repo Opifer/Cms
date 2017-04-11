@@ -24,7 +24,7 @@ class HtmlBlockService extends AbstractBlockService implements BlockServiceInter
     {
         parent::buildManageForm($builder, $options);
 
-        $propertiesForm = $builder->create('properties', FormType::class)
+        $builder->get('properties')
             ->add('id', TextType::class, ['attr' => ['help_text' => 'help.html_id'],'required' => false])
             ->add('extra_classes', TextType::class, ['attr' => ['help_text' => 'help.extra_classes'],'required' => false]);
 
@@ -42,8 +42,6 @@ class HtmlBlockService extends AbstractBlockService implements BlockServiceInter
         $builder->add(
             $builder->create('default', FormType::class, ['inherit_data' => true])
                 ->add('value', CKEditorType::class, ['label' => 'label.rich_text', 'attr' => ['label_col' => 12, 'widget_col' => 12],'required' => false])
-        )->add(
-            $propertiesForm
         );
     }
 

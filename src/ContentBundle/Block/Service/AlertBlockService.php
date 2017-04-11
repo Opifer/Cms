@@ -34,7 +34,7 @@ class AlertBlockService extends AbstractBlockService implements BlockServiceInte
                 ])
         );
 
-        $propertiesForm = $builder->create('properties', FormType::Class)
+        $builder->get('properties')
             ->add('id', TextType::class, ['attr' => ['help_text' => 'help.html_id', 'tag' => 'settings'], 'required' => false])
             ->add('extra_classes', TextType::class, ['attr' => ['help_text' => 'help.extra_classes', 'tag' => 'settings'], 'required' => false]);
 
@@ -48,8 +48,6 @@ class AlertBlockService extends AbstractBlockService implements BlockServiceInte
                 'multiple' => true,
                 'attr' => ['help_text' => 'help.html_styles', 'tag' => 'styles'],
             ]);
-
-        $builder->add($propertiesForm);
     }
 
     /**
