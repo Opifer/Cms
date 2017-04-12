@@ -45,6 +45,9 @@ class CollectionBlockService extends AbstractBlockService implements BlockServic
     /** @var DoctrineExpressionEngine */
     protected $expressionEngine;
 
+    /** @var bool */
+    protected $esiEnabled = true;
+
     /**
      * Constructor
      *
