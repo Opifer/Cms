@@ -261,6 +261,13 @@ class Content implements ContentInterface, EntityInterface, TemplatedInterface, 
     protected $attributeValues;
 
     /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="publish_at", type="datetime", nullable=true)
+     */
+    protected $publishAt;
+
+    /**
      * Constructor.
      */
     public function __construct()
@@ -1175,5 +1182,24 @@ class Content implements ContentInterface, EntityInterface, TemplatedInterface, 
     public function getSuper()
     {
         return $this->getTemplate();
+    }
+
+    /**
+     * @return \DateTime
+     */
+    public function getPublishAt()
+    {
+        return $this->publishAt;
+    }
+
+    /**
+     * @param \DateTime $publishAt
+     * @return $this
+     */
+    public function setPublishAt($publishAt)
+    {
+        $this->publishAt = $publishAt;
+
+        return $this;
     }
 }
