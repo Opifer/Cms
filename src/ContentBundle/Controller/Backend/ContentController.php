@@ -240,7 +240,7 @@ class ContentController extends Controller
             if (null === $content->getPublishAt()) {
                 $content->setPublishAt($content->getCreatedAt());
             }
-            
+
             $manager->save($content);
 
             return $this->redirectToRoute('opifer_content_content_index');
