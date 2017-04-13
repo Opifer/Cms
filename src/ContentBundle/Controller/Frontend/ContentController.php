@@ -2,6 +2,7 @@
 
 namespace Opifer\ContentBundle\Controller\Frontend;
 
+use BeSimple\SoapCommon\Type\KeyValue\DateTime;
 use Opifer\ContentBundle\Block\BlockManager;
 use Opifer\ContentBundle\Environment\Environment;
 use Opifer\ContentBundle\Model\Content;
@@ -11,6 +12,7 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 /**

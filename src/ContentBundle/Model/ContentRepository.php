@@ -134,7 +134,8 @@ class ContentRepository extends NestedTreeRepository
         $query = $this->createValuedQueryBuilder('c')
             ->where('c.slug = :slug')
             ->andWhere('c.active = :active')
-            ->setParameters(['slug' => $slug, 'active' => true])
+            ->andWhere('c.publishAt < :publishAt OR c.publishAt IS NULL')
+            ->setParameters(['slug' => $slug, 'active' => true, 'publishAt' => new \DateTime()])
             ->getQuery();
 
         return $query->getSingleResult();
@@ -152,7 +153,8 @@ class ContentRepository extends NestedTreeRepository
         $query = $this->createValuedQueryBuilder('c')
             ->where('c.alias = :alias')
             ->andWhere('c.active = :active')
-            ->setParameters(['alias' => $alias, 'active' => true])
+            ->andWhere('(c.publishAt < :publishAt OR c.publishAt IS NULL)')
+            ->setParameters(['alias' => $alias, 'active' => true, 'publishAt' => new \DateTime()])
             ->getQuery();
 
         return $query->getSingleResult();

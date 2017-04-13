@@ -117,10 +117,6 @@ class ContentController extends Controller
             $valueSet->setSchema($content->getContentType()->getSchema());
             $content->setValueSet($valueSet);
 
-            if(null === $content->getPublishAt()){
-                $content->setPublishAt($content->getCreatedAt());
-            }
-
             $manager->save($content);
 
             return $this->redirectToRoute('opifer_content_content_edit', ['id' => $content->getId()]);
@@ -157,7 +153,7 @@ class ContentController extends Controller
         $form->handleRequest($request);
 
         if ($form->isValid()) {
-            if($layoutId){
+            if ($layoutId) {
                 $duplicatedContent = $this->duplicateAction($layoutId, $content);
 
                 return $this->redirectToRoute('opifer_content_contenteditor_design', [
@@ -166,7 +162,7 @@ class ContentController extends Controller
                 ]);
             }
 
-            if(null === $content->getPublishAt()){
+            if (null === $content->getPublishAt()) {
                 $content->setPublishAt(new \DateTime());
             }
 
@@ -241,6 +237,10 @@ class ContentController extends Controller
         $form->handleRequest($request);
 
         if ($form->isValid()) {
+            if (null === $content->getPublishAt()) {
+                $content->setPublishAt($content->getCreatedAt());
+            }
+            
             $manager->save($content);
 
             return $this->redirectToRoute('opifer_content_content_index');
@@ -266,7 +266,7 @@ class ContentController extends Controller
         $content = $manager->getRepository()->find($id);
         $content = $manager->createMissingValueSet($content);
 
-        if($content->getLayout()) {
+        if ($content->getLayout()) {
             $form = $this->createForm(LayoutType::class, $content);
         } else {
             $form = $this->createForm(ContentType::class, $content);
@@ -275,6 +275,10 @@ class ContentController extends Controller
         $form->handleRequest($request);
 
         if ($form->isValid()) {
+            if (null === $content->getPublishAt()) {
+                $content->setPublishAt($content->getCreatedAt());
+            }
+
             $manager->save($content);
         }
 
