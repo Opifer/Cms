@@ -3,6 +3,7 @@
 namespace Opifer\ContentBundle\Form\Type;
 
 use Opifer\ContentBundle\Form\DataTransformer\SlugTransformer;
+use Opifer\EavBundle\Form\Type\DateTimePickerType;
 use Opifer\EavBundle\Form\Type\ValueSetType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
@@ -82,6 +83,12 @@ class ContentType extends AbstractType
                     ]
                 )->addViewTransformer(new SlugTransformer())
             )
+            ->add('publishAt', DateTimePickerType::class, [
+                'label' => 'label.publish_at',
+                'attr'  => [
+                    'help_text'   => 'help.publish_at',
+                ]
+            ])
             ->add('parent', ContentParentType::class, [
                 'class' => $this->contentClass,
                 'choice_label' => 'title',

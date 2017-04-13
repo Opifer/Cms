@@ -64,6 +64,7 @@ help:
     subscribe_redirect: Select page to redirect to after subscription.
     iframe_url: URL that should be loaded in an iFrame.
     tabs_add_tab: Add a new tab
+    publish_at: Set a date to publish content.
 
 label:
     block: Block
@@ -127,6 +128,7 @@ label:
     url: Url
     target: Target
     login_redirect_content_item: Login redirect
+    publish_at: Publish date
 
 link:
     default: Default

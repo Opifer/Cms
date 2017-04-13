@@ -153,13 +153,17 @@ class ContentController extends Controller
         $form->handleRequest($request);
 
         if ($form->isValid()) {
-            if($layoutId){
+            if ($layoutId) {
                 $duplicatedContent = $this->duplicateAction($layoutId, $content);
 
                 return $this->redirectToRoute('opifer_content_contenteditor_design', [
                     'owner' => 'content',
                     'ownerId' => $duplicatedContent->getId(),
                 ]);
+            }
+
+            if (null === $content->getPublishAt()) {
+                $content->setPublishAt(new \DateTime());
             }
 
             $manager->save($content);
@@ -233,6 +237,10 @@ class ContentController extends Controller
         $form->handleRequest($request);
 
         if ($form->isValid()) {
+            if (null === $content->getPublishAt()) {
+                $content->setPublishAt($content->getCreatedAt());
+            }
+
             $manager->save($content);
 
             return $this->redirectToRoute('opifer_content_content_index');
@@ -258,7 +266,7 @@ class ContentController extends Controller
         $content = $manager->getRepository()->find($id);
         $content = $manager->createMissingValueSet($content);
 
-        if($content->getLayout()) {
+        if ($content->getLayout()) {
             $form = $this->createForm(LayoutType::class, $content);
         } else {
             $form = $this->createForm(ContentType::class, $content);
@@ -267,6 +275,10 @@ class ContentController extends Controller
         $form->handleRequest($request);
 
         if ($form->isValid()) {
+            if (null === $content->getPublishAt()) {
+                $content->setPublishAt($content->getCreatedAt());
+            }
+
             $manager->save($content);
         }
 
