@@ -117,6 +117,10 @@ class ContentController extends Controller
             $valueSet->setSchema($content->getContentType()->getSchema());
             $content->setValueSet($valueSet);
 
+            if(null === $content->getPublishAt()){
+                $content->setPublishAt($content->getCreatedAt());
+            }
+
             $manager->save($content);
 
             return $this->redirectToRoute('opifer_content_content_edit', ['id' => $content->getId()]);
@@ -160,6 +164,10 @@ class ContentController extends Controller
                     'owner' => 'content',
                     'ownerId' => $duplicatedContent->getId(),
                 ]);
+            }
+
+            if(null === $content->getPublishAt()){
+                $content->setPublishAt(new \DateTime());
             }
 
             $manager->save($content);

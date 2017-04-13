@@ -83,7 +83,7 @@ class ContentType extends AbstractType
                     ]
                 )->addViewTransformer(new SlugTransformer())
             )
-            ->add('publish_at', DateTimePickerType::class, [
+            ->add('publishAt', DateTimePickerType::class, [
                 'label' => 'label.publish_at',
                 'attr'  => [
                     'help_text'   => 'help.publish_at',
