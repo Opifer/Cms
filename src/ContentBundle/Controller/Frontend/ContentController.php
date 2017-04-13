@@ -65,7 +65,7 @@ class ContentController extends Controller
 
         /** @var Environment $environment */
         $environment = $this->get('opifer.content.block_environment');
-        $environment->setObject($content);
+        $environment->setObject($content); 
 
         $response->setStatusCode($statusCode);
 
