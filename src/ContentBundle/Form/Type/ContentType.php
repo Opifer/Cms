@@ -86,8 +86,10 @@ class ContentType extends AbstractType
             ->add('publishAt', DateTimePickerType::class, [
                 'label' => 'label.publish_at',
                 'attr'  => [
-                    'help_text'   => 'help.publish_at',
-                ]
+                    'help_text' => 'help.publish_at',
+                    'class' => 'datetimepicker',
+                ],
+                'required' => false
             ])
             ->add('parent', ContentParentType::class, [
                 'class' => $this->contentClass,
