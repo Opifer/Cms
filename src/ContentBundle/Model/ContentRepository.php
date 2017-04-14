@@ -90,7 +90,7 @@ class ContentRepository extends NestedTreeRepository
         $query = $this->createValuedQueryBuilder('c')
             ->where('c.slug = :slug')
             ->setParameter('slug', $slug)
-            ->andWhere('c.publishAt < :now')
+            ->andWhere('c.publishAt < :now OR c.publishAt IS NULL')
             ->setParameter('now', new \DateTime())
             ->setMaxResults(1)
             ->getQuery();
