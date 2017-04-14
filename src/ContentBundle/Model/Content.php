@@ -2,6 +2,7 @@
 
 namespace Opifer\ContentBundle\Model;
 
+use BeSimple\SoapCommon\Type\KeyValue\DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
@@ -259,6 +260,13 @@ class Content implements ContentInterface, EntityInterface, TemplatedInterface, 
      * @var ArrayCollection
      */
     protected $attributeValues;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="publish_at", type="datetime", nullable=true)
+     */
+    protected $publishAt;
 
     /**
      * Constructor.
@@ -1175,5 +1183,28 @@ class Content implements ContentInterface, EntityInterface, TemplatedInterface, 
     public function getSuper()
     {
         return $this->getTemplate();
+    }
+
+    /**
+     * @return \DateTime
+     */
+    public function getPublishAt()
+    {
+        if(null == $this->publishAt){
+            return $this->createdAt;
+        }
+
+        return $this->publishAt;
+    }
+
+    /**
+     * @param \DateTime $publishAt
+     * @return $this
+     */
+    public function setPublishAt($publishAt)
+    {
+        $this->publishAt = $publishAt;
+
+        return $this;
     }
 }

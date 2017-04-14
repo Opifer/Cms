@@ -33,7 +33,7 @@ class CarouselBlockService extends AbstractBlockService implements BlockServiceI
 
         // Default panel
         $builder->add(
-            $builder->create('properties', FormType::class)
+            $builder->get('properties')
                 ->add('id', TextType::class, ['attr' => ['help_text' => 'help.html_id'],'required' => false])
                 ->add('extra_classes', TextType::class, ['attr' => ['help_text' => 'help.extra_classes'],'required' => false])
                 ->add('show_indicators', ChoiceType::class, [

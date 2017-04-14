@@ -88,16 +88,36 @@ class ContentController extends Controller
                 $options = $this->getDoctrine()->getRepository(Option::class)->findByIds($options);
 
                 $groupedOptions = [];
-                $prefix = $exprVisitor->shouldJoin('valueSet.values.options.id');
 
                 foreach ($options as $option) {
-                    $groupedOptions[$option->getAttribute()->getId()][] = $qb->expr()->eq($prefix, $option->getId());
+                    $qbO = $this->get('opifer.content.content_manager')
+                        ->getRepository()
+                        ->createQueryBuilder('a'.$option->getId());
+
+                    //Create subquery for every option
+                    $qbO->leftJoin(sprintf('a%d.valueSet', $option->getId()), sprintf('vs%d', $option->getId()))
+                        ->leftJoin(sprintf('vs%d.values', $option->getId()), sprintf('v%d', $option->getId()))
+                        ->leftJoin(sprintf('v%d.options', $option->getId()), sprintf('p%d', $option->getId()))
+                        ->where(sprintf('p%d.id = :optionId%d', $option->getId(), $option->getId()));
+
+                    $groupedOptions[$option->getAttribute()->getId()][$option->getId()] = $qbO;
                 }
 
+                $queryParts = [];
                 foreach ($groupedOptions as $groupedOption) {
                     $orX = $qb->expr()->orX();
-                    $qb->andWhere($orX->addMultiple($groupedOption));
+
+                    //Create correct sql in function
+                    foreach ($groupedOption as $optionId => $option) {
+                        $qb->setParameter(sprintf('optionId%d', $optionId), $optionId);
+                        $orX->add($qb->expr()->in('a.id', $option->getDQL()));
+                    }
+                    $queryParts[] = $orX;
                 }
+
+                //add created queries to main query
+                $andX = $qb->expr()->andX();
+                $qb->andWhere($andX->addMultiple($queryParts));
             }
 
             if ($orderBy = $paramFetcher->get('order_by')) {
@@ -108,6 +128,9 @@ class ContentController extends Controller
             $offset = ($paramFetcher->get('page') - 1) * $paramFetcher->get('limit');
             $qb->setFirstResult($offset);
             $qb->setMaxResults($paramFetcher->get('limit'));
+
+            $qb->andWhere('a.publishAt < :now');
+            $qb->setParameter('now',  new \DateTime());
 
             $paginator = new Paginator($qb);
 

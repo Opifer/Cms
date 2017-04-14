@@ -45,6 +45,9 @@ class CollectionBlockService extends AbstractBlockService implements BlockServic
     /** @var DoctrineExpressionEngine */
     protected $expressionEngine;
 
+    /** @var bool */
+    protected $esiEnabled = true;
+
     /**
      * Constructor
      *
@@ -80,7 +83,7 @@ class CollectionBlockService extends AbstractBlockService implements BlockServic
 
         // Default panel
         $builder->add(
-            $builder->create('properties', FormType::class)
+            $builder->get('properties')
                 ->add('conditions', ExpressionEngineType::class, [
                     'prototypes' => $this->getPrototypes(),
                     'attr' => [

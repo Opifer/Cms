@@ -23,7 +23,7 @@ class ButtonBlockService extends AbstractBlockService implements BlockServiceInt
     {
         parent::buildManageForm($builder, $options);
 
-        $propertiesForm = $builder->create('properties', FormType::class)
+        $propertiesForm = $builder->get('properties')
             ->add('url', TextType::class, [
                 'label' => 'label.url',
                 'attr' => ['help_text' => 'help.button_url']

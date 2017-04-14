@@ -120,6 +120,14 @@ Opifer\CmsBundle\Entity\Content:
             gedmo:
               timestampable:
                 on: update
+        publishAt:
+            type: datetime
+            scale: 0
+            length: null
+            unique: false
+            nullable: true
+            precision: 0
+            column: publish_at
         shortTitle:
             type: string
             scale: 0

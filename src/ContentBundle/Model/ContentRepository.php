@@ -90,6 +90,8 @@ class ContentRepository extends NestedTreeRepository
         $query = $this->createValuedQueryBuilder('c')
             ->where('c.slug = :slug')
             ->setParameter('slug', $slug)
+            ->andWhere('c.publishAt < :now')
+            ->setParameter('now', new \DateTime())
             ->setMaxResults(1)
             ->getQuery();
 
@@ -134,7 +136,8 @@ class ContentRepository extends NestedTreeRepository
         $query = $this->createValuedQueryBuilder('c')
             ->where('c.slug = :slug')
             ->andWhere('c.active = :active')
-            ->setParameters(['slug' => $slug, 'active' => true])
+            ->andWhere('c.publishAt < :now OR c.publishAt IS NULL')
+            ->setParameters(['slug' => $slug, 'active' => true, 'now' => new \DateTime()])
             ->getQuery();
 
         return $query->getSingleResult();
@@ -152,7 +155,8 @@ class ContentRepository extends NestedTreeRepository
         $query = $this->createValuedQueryBuilder('c')
             ->where('c.alias = :alias')
             ->andWhere('c.active = :active')
-            ->setParameters(['alias' => $alias, 'active' => true])
+            ->andWhere('(c.publishAt < :now OR c.publishAt IS NULL)')
+            ->setParameters(['alias' => $alias, 'active' => true, 'now' => new \DateTime()])
             ->getQuery();
 
         return $query->getSingleResult();
@@ -210,6 +214,7 @@ class ContentRepository extends NestedTreeRepository
         return $this->createValuedQueryBuilder('c')
             ->andWhere('c.id IN (:ids)')->setParameter('ids', $ids)
             ->andWhere('c.deletedAt IS NULL')
+            ->andWhere('c.publishAt > :now')->setParameter('now', new \DateTime())
             ->getQuery()
             ->useResultCache(true, self::CACHE_TTL)
             ->getResult();
