@@ -1,0 +1,4 @@
+opifer_mailinglist_api:
+    resource: "@OpiferMailingListBundle/Controller/Api"
+    type: rest
+    prefix: /api

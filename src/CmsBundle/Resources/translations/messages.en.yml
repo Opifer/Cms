@@ -6,6 +6,10 @@ title:
     mailing_list: Mailing List
     mailing_list_plural: Mailing Lists
     review: Reviews
+    translations: translations
+    locale: languages
+    layouts: Layouts
+    content_types: Content types
 
 # Base
 base:
@@ -164,6 +168,18 @@ label:
     yes: Yes
     provider: Provider
     remote_id: remoteID
+    allow_email: Allow e-mail
+    allow_facebook: Allow Facebook
+    allow_linkedin: Allow LinkedIn
+    facebook_id: Facebook App Id
+    linkedin_key: LinkedIn App Key
+
+help_text:
+    allow_email: Allow login with e-mail address
+    allow_facebook: Allow login with social Facebook accounts
+    allow_linkedin: Allow login with social LinkedIn accounts
+    facebook_id: Enter the Facebook App Id from developer.facebook.com 
+    linkedin_key: Enter the LinkedIn App Key from developer.linkedin.com 
 
 message:
     no_items_found: "No items found"
@@ -177,3 +193,8 @@ confirmation:
 schema:
     delete:
         warning: "We're unable to remove this template. It might still be in use by content items."
+
+locale:
+    details: "Locale details"
+    edit: "Edit locale"
+    new: "Create locale"

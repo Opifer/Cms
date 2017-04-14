@@ -28,27 +28,26 @@ class AvatarBlockService extends AbstractBlockService implements BlockServiceInt
         parent::buildManageForm($builder, $options);
 
         // Default panel
-        $builder->add(
-            $builder->create('default', FormType::Class, ['inherit_data' => true])
-                ->add('loginContentItem', ContentPickerType::class, [
-                            'label' => 'label.login_content_item',
-                        ])
-                ->add('registrationContentItem', ContentPickerType::class, [
-                            'label' => 'label.register_content_item',
-                        ])
-        );
 
-        $builder->add(
-            $builder->create('properties', FormType::class)
-                ->add('loginUrl', TextType::class, [
-                    'label' => 'label.login_url',
-                ])
-                ->add('registrationUrl', TextType::class, [
-                    'label' => 'label.registration_url',
-                ])
-                ->add('id', TextType::class, ['attr' => ['help_text' => 'help.html_id']])
-                ->add('extra_classes', TextType::class, ['attr' => ['help_text' => 'help.extra_classes']])
-        );
+        $builder->get('default')
+            ->add('loginContentItem', ContentPickerType::class, [
+                        'label' => 'label.login_content_item',
+                    ])
+            ->add('registrationContentItem', ContentPickerType::class, [
+                        'label' => 'label.register_content_item',
+                    ])
+        ;
+
+        $builder->get('properties')
+            ->add('loginUrl', TextType::class, [
+                'label' => 'label.login_url',
+            ])
+            ->add('registrationUrl', TextType::class, [
+                'label' => 'label.registration_url',
+            ])
+            ->add('id', TextType::class, ['attr' => ['help_text' => 'help.html_id'], 'required' => false])
+            ->add('extra_classes', TextType::class, ['attr' => ['help_text' => 'help.extra_classes'], 'required' => false])
+        ;
     }
 
     public function getViewParameters(BlockInterface $block)
@@ -80,5 +79,14 @@ class AvatarBlockService extends AbstractBlockService implements BlockServiceInt
             ->setDescription('Shows logged user data or login/register button');
 
         return $tool;
+    }
+
+    /**
+     * @param BlockInterface $block
+     * @return mixed
+     */
+    public function getDescription(BlockInterface $block = null)
+    {
+        return 'Shows logged user data or login/register button';
     }
 }

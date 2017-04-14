@@ -27,6 +27,16 @@ class MailChimpSettingsType extends AbstractType implements ConfigurationFormTyp
         ;
     }
 
+    /**
+     * {@inheritdoc}
+     */
+    public static function getFields()
+    {
+        return [
+            MailChimpProvider::API_KEY_SETTING
+        ];
+    }
+
     public function getLabel()
     {
         return 'Mailing lists';

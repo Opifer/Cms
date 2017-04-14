@@ -1,66 +1,108 @@
-    <div class="container-fluid">
-        {{ form_start(form, {'action': path('opifer_content_api_contenteditor_edit_block', {'id': block.id}), 'label_col': 3, 'widget_col': 9, 'attr' : {'data-pm-block-id': block.id, 'novalidate': 'novalidate', 'class': 'prevent-enter-submit'}, 'style': 'horizontal'}) }}
-        {% if block.isShared %}
+<div class="container-fluid">
+    <div class="row row-space-top-2 row-space-2">
+        <div class="col-xs-12">
+            {{ block_service.description }}
+        </div>
+    </div>
+    {{ form_start(form, {'action': path('opifer_content_api_contenteditor_edit_block', {'id': block.id}), 'label_col': 3, 'widget_col': 9, 'attr' : {'data-pm-block-id': block.id, 'novalidate': 'novalidate', 'class': 'prevent-enter-submit'}, 'style': 'horizontal'}) }}
+    {% if block.isShared %}
         <div class="row row-space-top-2 row-space-2">
             <div class="col-xs-12">
                 <p><i class="material-icons md-18">all_inclusive</i>&nbsp; &nbsp; {{ 'warning.block_shared_edit'|trans|raw }}</p>
             </div>
         </div>
-        {% endif %}
-        <div class="row row-space-top-2 row-space-2">
-            <ul class="nav nav-tabs nav-tabs-spill">
-                {% if form.default|default %}<li role="presentation" class="active"><a href="#block-general" data-toggle="tab">General</a></li>{% endif %}
-                {% if form.properties is defined %}<li role="presentation" {% if not form.default|default %}class="active"{% endif %}><a href="#block-properties" data-toggle="tab">Properties</a></li>{% endif %}
-                {% if block.isShared %}<li role="presentation"><a href="#block-shared" data-toggle="tab">Shared</a></li>{% endif %}
-                <li class="dropdown pull-right">
-                    <a class="dropdown-toggle" type="button" id="blockEditContextMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                        <i class="material-icons md-18">menu</i>
-                    </a>
-                    <ul class="dropdown-menu" aria-labelledby="blockEditContextMenu">
-                        {% if block_service.allowShare(block) %}
-                            <li><a href="#" class="pm-btn-make-shared"><i class="material-icons md-18">all_inclusive</i> {{ "button.block_share"|trans }}</a></li>
-                        {% endif %}
-                        {% if block.isShared %}
-                            <li><a href="#" class="pm-btn-publish-shared"><i class="material-icons md-18">publish</i> {{ "button.publish"|trans }}</a></li>
-                        {% endif %}
-                    </ul>
-
-                </li>
-            </ul>
-        </div>
-        <div class="row">
-            <div class="col-xs-12 clearfix">
-
-               {% block block_body_tabs %}
-                <div class="tab-content">
-
-                    {% if form.default|default %}
-                    <div class="tab-pane active" id="block-general">
-                        {{ form_rest(form.default, {'label_col': 12, 'widget_col': 12, 'style': ''}) }}
-                    </div>
+    {% endif %}
+    <div class="row row-space-top-2 row-space-2">
+        <ul class="nav nav-tabs nav-tabs-spill">
+            {% if form.default|default %}<li role="presentation"><a href="#block-general" data-toggle="tab">Content</a></li>{% endif %}
+            {% if form.properties is defined %}<li role="presentation"><a href="#block-styles" data-toggle="tab">Styling</a></li>{% endif %}
+            {% if form.properties is defined %}<li role="presentation" class="active" %}><a href="#block-settings" data-toggle="tab">Settings</a></li>{% endif %}
+            {% if block.isShared %}<li role="presentation"><a href="#block-shared" data-toggle="tab">Shared</a></li>{% endif %}
+            <li class="dropdown pull-right">
+                <a class="dropdown-toggle" type="button" id="blockEditContextMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                    <i class="material-icons md-18">menu</i>
+                </a>
+                <ul class="dropdown-menu" aria-labelledby="blockEditContextMenu">
+                    {% if block_service.allowShare(block) %}
+                        <li><a href="#" class="pm-btn-make-shared"><i class="material-icons md-18">all_inclusive</i> {{ "button.block_share"|trans }}</a></li>
                     {% endif %}
-                    <div class="tab-pane{% if not form.default|default %} active{% endif %}" id="block-properties">
+                    {% if block.isShared %}
+                        <li><a href="#" class="pm-btn-publish-shared"><i class="material-icons md-18">publish</i> {{ "button.publish"|trans }}</a></li>
+                    {% endif %}
+                    <li><a href="#" class="pm-btn-delete-block"><i class="material-icons md-18">delete</i> {{ "button.delete"|trans }}</a></li>
+                </ul>
+
+            </li>
+        </ul>
+    </div>
+    <div class="row">
+        <div class="col-xs-12 clearfix">
+
+            {% block block_body_tabs %}
+                <div class="tab-content">
+                    <div class="tab-pane" id="block-general">
+                        {% if form.default|default %}
+                            {% for type in form.default %}
+                                {% if (type.vars.attr.tag|default is empty) or (type.vars.attr.tag|default == 'general') %}
+                                    {{ form_row(type) }}
+                                {% endif %}
+                            {% endfor %}
+                        {% endif %}
                         {% if form.properties|default %}
                             {% for type in form.properties %}
-                                {{ form_row(type) }}
+                                {% if (type.vars.attr.tag|default == 'general') %}
+                                    {{ form_row(type) }}
+                                {% endif %}
+                            {% endfor %}
+                        {% endif %}
+                    </div>
+                    <div class="tab-pane active" id="block-settings">
+                        {% if form.default|default %}
+                            {% for type in form.default %}
+                                {% if type.vars.attr.tag|default == 'settings' %}
+                                    {{ form_row(type) }}
+                                {% endif %}
+                            {% endfor %}
+                        {% endif %}
+                        {% if form.properties|default %}
+                            {% for type in form.properties %}
+                                {% if (type.vars.attr.tag|default == 'settings') or (type.vars.attr.tag|default is empty )  %}
+                                    {{ form_row(type) }}
+                                {% endif %}
+                            {% endfor %}
+                        {% endif %}
+                    </div>
+                    <div class="tab-pane" id="block-styles">
+                        {% if form.default|default %}
+                            {% for type in form.default %}
+                                {% if type.vars.attr.tag|default == 'styles' %}
+                                    {{ form_row(type) }}
+                                {% endif %}
+                            {% endfor %}
+                        {% endif %}
+                        {% if form.properties|default %}
+                            {% for type in form.properties %}
+                                {% if type.vars.attr.tag|default == 'styles' %}
+                                    {{ form_row(type) }}
+                                {% endif %}
                             {% endfor %}
                         {% endif %}
                     </div>
                     {% if block.isShared %}
-                    <div class="tab-pane{% if not form.default|default %} active{% endif %}" id="block-shared">
-                        {% if form.sharedName is defined %}{{ form_row(form.sharedName) }}{% endif %}
-                        {% if form.sharedDisplayName is defined %}{{ form_row(form.sharedDisplayName) }}{% endif %}
-                    </div>
+                        <div class="tab-pane" id="block-shared">
+                            {% if form.sharedName is defined %}{{ form_row(form.sharedName) }}{% endif %}
+                            {% if form.sharedDisplayName is defined %}{{ form_row(form.sharedDisplayName) }}{% endif %}
+                        </div>
                     {% endif %}
                 </div>
-                {% endblock block_body_tabs %}
+            {% endblock block_body_tabs %}
 
-                <div class="form-group">
-                    <div class="col-xs-12">
-                        <button type="submit" class="btn btn-primary">{{ 'button.submit'|trans }}</button>
-                    </div>
+            <div class="form-group">
+                <div class="col-xs-12">
+                    <button type="submit" class="btn btn-primary">{{ 'button.submit'|trans }}</button>
                 </div>
             </div>
         </div>
-        {{ form_end(form) }}
     </div>
+    {{ form_end(form) }}
+</div>

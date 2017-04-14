@@ -24,11 +24,12 @@ class CronRepository extends EntityRepository
         /** @var Cron[] $active */
         $active = $this->createQueryBuilder('c')
             ->where('c.state <> :canceled')
-            ->andWhere('c.state <> :running')
+            ->andWhere('c.state <> :running OR (c.state = :running AND c.startedAt < :hourAgo)')
             ->orderBy('c.priority', 'DESC')
             ->setParameters([
                 'canceled' => Cron::STATE_CANCELED,
                 'running' => Cron::STATE_RUNNING,
+                'hourAgo' => new \DateTime('-67 minutes'),
             ])
             ->getQuery()
             ->getResult()

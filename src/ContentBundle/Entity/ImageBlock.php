@@ -3,6 +3,7 @@
 namespace Opifer\ContentBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use JMS\Serializer\Annotation as JMS;
 use Opifer\Revisions\Mapping\Annotation as Revisions;
 use Opifer\MediaBundle\Model\MediaInterface;
 
@@ -10,6 +11,7 @@ use Opifer\MediaBundle\Model\MediaInterface;
  * ImageBlock
  *
  * @ORM\Entity
+ * @JMS\ExclusionPolicy("all")
  */
 class ImageBlock extends Block
 {
@@ -19,6 +21,9 @@ class ImageBlock extends Block
      * @Revisions\Revised
      * @ORM\ManyToOne(targetEntity="Opifer\MediaBundle\Model\MediaInterface", fetch="EAGER")
      * @ORM\JoinColumn(name="media_id", referencedColumnName="id", onDelete="SET NULL")
+     *
+     * @JMS\Expose
+     * @JMS\Groups({"tree", "detail"})
      */
     protected $media;
 

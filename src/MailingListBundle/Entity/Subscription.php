@@ -22,6 +22,7 @@ class Subscription
     const STATUS_SUBSCRIBED = 'subscribed';
     const STATUS_UNSUBSCRIBED = 'unsubscribed';
     const STATUS_CLEANED = 'cleaned'; // has bounces
+    const STATUS_FAILED = 'failed';
 
     /**
      * @var int

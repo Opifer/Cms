@@ -3,19 +3,18 @@
 namespace Opifer\ContentBundle\Model;
 
 use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\ORM\Query\Expr\Join;
 use Gedmo\Tree\Entity\Repository\NestedTreeRepository;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
- * Content Repository
+ * Content Repository.
  */
 class ContentRepository extends NestedTreeRepository
 {
     const CACHE_TTL = 3600;
 
     /**
-     * Used by Elastica to transform results to model
+     * Used by Elastica to transform results to model.
      *
      * @param string $entityAlias
      *
@@ -25,7 +24,7 @@ class ContentRepository extends NestedTreeRepository
     {
         return $this->createQueryBuilder($entityAlias)
             ->select($entityAlias, 'vs', 'v', 'a', 'p', 's')
-            ->leftJoin($entityAlias . '.valueSet', 'vs')
+            ->leftJoin($entityAlias.'.valueSet', 'vs')
             ->leftJoin('vs.schema', 's')
             ->leftJoin('vs.values', 'v')
             ->leftJoin('s.attributes', 'a')
@@ -33,7 +32,7 @@ class ContentRepository extends NestedTreeRepository
     }
 
     /**
-     * Get a querybuilder by request
+     * Get a querybuilder by request.
      *
      * @param Request $request
      *
@@ -46,7 +45,7 @@ class ContentRepository extends NestedTreeRepository
         if ($request->get('q')) {
             $qb->leftJoin('c.template', 't');
             $qb->andWhere('c.title LIKE :query OR c.alias LIKE :query OR c.slug LIKE :query OR t.displayName LIKE :query');
-            $qb->setParameter('query', '%' . $request->get('q') . '%');
+            $qb->setParameter('query', '%'.$request->get('q').'%');
         }
 
         if ($ids = $request->get('ids')) {
@@ -55,7 +54,7 @@ class ContentRepository extends NestedTreeRepository
             $qb->andWhere('c.id IN (:ids)')->setParameter('ids', $ids);
         }
 
-        $qb->andWhere('c.deletedAt IS NULL');  // @TODO fix SoftDeleteAble filter
+        $qb->andWhere('c.deletedAt IS NULL AND c.layout = 0');  // @TODO fix SoftDeleteAble & layout filter
 
         $qb->orderBy('c.slug');
 
@@ -63,9 +62,9 @@ class ContentRepository extends NestedTreeRepository
     }
 
     /**
-     * Find one by ID
+     * Find one by ID.
      *
-     * @param integer $id
+     * @param int $id
      *
      * @return ContentInterface
      */
@@ -80,7 +79,7 @@ class ContentRepository extends NestedTreeRepository
     }
 
     /**
-     * Find one by slug
+     * Find one by slug.
      *
      * @param string $slug
      *
@@ -91,13 +90,42 @@ class ContentRepository extends NestedTreeRepository
         $query = $this->createValuedQueryBuilder('c')
             ->where('c.slug = :slug')
             ->setParameter('slug', $slug)
+            ->andWhere('c.publishAt < :now')
+            ->setParameter('now', new \DateTime())
+            ->setMaxResults(1)
             ->getQuery();
 
-        return $query->useResultCache(true, self::CACHE_TTL)->getSingleResult();
+        return $query->useResultCache(true, self::CACHE_TTL)->getOneOrNullResult();
     }
 
     /**
-     * Find one by slug with active status
+     * Finds a content item by its id or slug.
+     *
+     * When $allow404 is set to true, it will look for a 404 page
+     *
+     * @param int|string $idOrSlug
+     * @param bool       $allow404
+     *
+     * @return null|object|ContentInterface
+     */
+    public function findOneByIdOrSlug($idOrSlug, $allow404 = false)
+    {
+        if (is_numeric($idOrSlug)) {
+            $content = $this->find($idOrSlug);
+        } else {
+            $content = $this->findOneBySlug($idOrSlug);
+        }
+
+        // If no content was found for the passed id, return the 404 page
+        if (!$content && $allow404 == true) {
+            $content = $this->findOneBySlug('404');
+        }
+
+        return $content;
+    }
+
+    /**
+     * Find one by slug with active status.
      *
      * @param string $slug
      *
@@ -108,14 +136,15 @@ class ContentRepository extends NestedTreeRepository
         $query = $this->createValuedQueryBuilder('c')
             ->where('c.slug = :slug')
             ->andWhere('c.active = :active')
-            ->setParameters(['slug' => $slug, 'active' => true])
+            ->andWhere('c.publishAt < :now OR c.publishAt IS NULL')
+            ->setParameters(['slug' => $slug, 'active' => true, 'now' => new \DateTime()])
             ->getQuery();
 
         return $query->getSingleResult();
     }
 
     /**
-     * Find one by alias with active status
+     * Find one by alias with active status.
      *
      * @param string $alias
      *
@@ -126,16 +155,17 @@ class ContentRepository extends NestedTreeRepository
         $query = $this->createValuedQueryBuilder('c')
             ->where('c.alias = :alias')
             ->andWhere('c.active = :active')
-            ->setParameters(['alias' => $alias, 'active' => true])
+            ->andWhere('(c.publishAt < :now OR c.publishAt IS NULL)')
+            ->setParameters(['alias' => $alias, 'active' => true, 'now' => new \DateTime()])
             ->getQuery();
 
         return $query->getSingleResult();
     }
 
     /**
-     * Find an anonymously created item by it's ID
+     * Find an anonymously created item by it's ID.
      *
-     * @param integer $id
+     * @param int $id
      *
      * @return ContentInterface
      */
@@ -152,9 +182,9 @@ class ContentRepository extends NestedTreeRepository
     }
 
     /**
-     * Find the latest created content items
+     * Find the latest created content items.
      *
-     * @param integer $limit
+     * @param int $limit
      *
      * @return \Doctrine\Common\Collections\ArrayCollection
      */
@@ -169,7 +199,7 @@ class ContentRepository extends NestedTreeRepository
     }
 
     /**
-     * Find content items by multiple ids
+     * Find content items by multiple ids.
      *
      * @param array $ids
      *
@@ -184,6 +214,7 @@ class ContentRepository extends NestedTreeRepository
         return $this->createValuedQueryBuilder('c')
             ->andWhere('c.id IN (:ids)')->setParameter('ids', $ids)
             ->andWhere('c.deletedAt IS NULL')
+            ->andWhere('c.publishAt > :now')->setParameter('now', new \DateTime())
             ->getQuery()
             ->useResultCache(true, self::CACHE_TTL)
             ->getResult();
@@ -201,10 +232,10 @@ class ContentRepository extends NestedTreeRepository
     }
 
     /**
-     * Sort the items by an array of ids
+     * Sort the items by an array of ids.
      *
      * @param ArrayCollection $items
-     * @param array $order
+     * @param array           $order
      *
      * @return array
      */
@@ -228,24 +259,24 @@ class ContentRepository extends NestedTreeRepository
     /**
      * Joins and selects the toplevel content items and its children recursively.
      *
-     * @param  int $levels
+     * @param int $levels
+     *
      * @return array
      */
     public function findByLevels($levels = 1, $ids = array())
     {
         $query = $this->createQueryBuilder('c');
 
-        if ($levels > 1) {
-            $levels = $levels - 1;
+        if ($levels > 0) {
             $selects = ['c'];
-            for ($i = 1; $i <= $levels; $i++) {
+            for ($i = 1; $i <= $levels; ++$i) {
                 $selects[] = 'c'.$i;
             }
 
             $query->select($selects);
 
-            for ($i = 1; $i <= $levels; $i++) {
-                $previous = ($i-1 == 0) ? '' : ($i-1);
+            for ($i = 1; $i <= $levels; ++$i) {
+                $previous = ($i - 1 == 0) ? '' : ($i - 1);
                 $query->leftJoin('c'.$previous.'.children', 'c'.$i, 'WITH', 'c'.$i.'.active = :active AND c'.$i.'.showInNavigation = :show');
             }
         }

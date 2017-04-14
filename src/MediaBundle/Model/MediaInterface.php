@@ -13,4 +13,21 @@ interface MediaInterface
     public function getFile();
 
     public function setOriginal($original);
+
+    /**
+     * @return string
+     */
+    public function getContentType();
+
+    /**
+     * Returns a unique cache identifier for this media object
+     *
+     * @return string
+     */
+    public function getImagesCacheKey();
+
+    /**
+     * @return array
+     */
+    public function getMetadata();
 }

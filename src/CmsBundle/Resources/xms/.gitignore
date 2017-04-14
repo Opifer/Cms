@@ -1,0 +1,7 @@
+node_modules/
+web/js/
+web/dist/
+.idea/
+npm-debug.log
+npm-debug.log.*
+config.js

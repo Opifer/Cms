@@ -2,6 +2,8 @@
 
 namespace Opifer\ContentBundle\Block\Service;
 
+use Doctrine\ORM\EntityManager;
+use Opifer\ContentBundle\Block\BlockRenderer;
 use Opifer\ContentBundle\Block\Tool\Tool;
 use Opifer\ContentBundle\Block\Tool\ToolsetMemberInterface;
 use Opifer\ContentBundle\Entity\ColumnBlock;
@@ -14,27 +16,42 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
- * Class ColumnBlockService
- *
- * @package Opifer\ContentBundle\Block
+ * Class ColumnBlockService.
  */
 class ColumnBlockService extends AbstractBlockService implements LayoutBlockServiceInterface, BlockServiceInterface, ToolsetMemberInterface
 {
-    /** @var integer */
+    /** @var int */
     protected $columnCount = 1;
+
+    /**
+     * @var EntityManager
+     */
+    protected $em;
+
+    /**
+     * ColumnBlockService constructor.
+     *
+     * @param BlockRenderer $blockRenderer
+     * @param array         $config
+     * @param EntityManager $entityManager
+     */
+    public function __construct(BlockRenderer $blockRenderer, array $config, EntityManager $entityManager)
+    {
+        $this->em = $entityManager;
+        parent::__construct($blockRenderer, $config);
+    }
 
     public function getViewParameters(BlockInterface $block)
     {
         $parameters = parent::getViewParameters($block);
 
         $classes = array(
-            'column_classes'    => $this->getColumnClasses($block),
-            'offset_classes'    => $this->getOffsetClasses($block),
-            'gutter_classes'    => $this->getGutterClasses($block),
+            'column_classes' => $this->getColumnClasses($block),
+            'offset_classes' => $this->getOffsetClasses($block),
+            'gutter_classes' => $this->getGutterClasses($block),
         );
 
         return array_merge($parameters, $classes);
@@ -47,11 +64,33 @@ class ColumnBlockService extends AbstractBlockService implements LayoutBlockServ
     {
         parent::buildManageForm($builder, $options);
 
-        $propertiesForm = $builder->create('properties', FormType::class)
-            ->add('id', TextType::class, ['attr' => ['help_text' => 'help.html_id']])
-            ->add('extra_classes', TextType::class, ['attr' => ['help_text' => 'help.extra_classes']]);
+        $builder->get('properties')
+            ->add('id', TextType::class, ['attr' => ['help_text' => 'help.html_id'],'required' => false])
+            ->add('extra_classes', TextType::class, ['attr' => ['help_text' => 'help.extra_classes'],'required' => false])
+        ;
 
-        $builder->add($propertiesForm);
+        $builder->get('default')
+            ->add('column_count', ChoiceType::class, [
+                'label' => 'label.column_count',
+                'choices' => [
+                    '1' => '1',
+                    '2' => '2',
+                    '3' => '3',
+                    '4' => '4',
+                ],
+                'required' => true,
+                'expanded' => true,
+                'multiple' => false,
+                'attr' => [
+                    'help_text' => 'help.html_styles',
+                    'class' => 'btn-group btn-column-count',
+                    'data-toggle' => 'buttons',
+                    'tag' => 'styles'
+                ],
+                'label_attr' => [
+                    'class' => 'btn'
+                ],
+            ]);
 
         $builder->addEventListener(FormEvents::PRE_SET_DATA, function (FormEvent $event) {
             $block = $event->getData();
@@ -60,42 +99,94 @@ class ColumnBlockService extends AbstractBlockService implements LayoutBlockServ
 
             // @todo: Replace with a nice getDefaultOptions method
             $properties = $block->getProperties();
-            if (!count($properties) ) {
-                $properties['styles'] = array();
-                $cols = array_merge(array(array_fill(0, $block->getColumnCount(), 12/$block->getColumnCount())), array_fill(0, 3, array_fill(0, $block->getColumnCount(), null)));
-                $keys = array('xs', 'sm', 'md', 'lg');
+            if (!count($properties)) {
+                $properties['styles'] = [];
+                $cols = array_merge([array_fill(0, $block->getColumnCount(), 12 / $block->getColumnCount())], array_fill(0, 4, array_fill(0, $block->getColumnCount(), null)));
+                $keys = ['xs', 'sm', 'md', 'lg', 'xl'];
                 $properties['spans'] = array_combine($keys, $cols);
-                $properties['offsets'] = array_combine($keys, array_fill(0, 4, array_fill(0, $block->getColumnCount(), null)));
+                $properties['offsets'] = array_combine($keys, array_fill(0, 5, array_fill(0, $block->getColumnCount(), null)));
                 $properties['gutters'] = array_combine($keys, $cols);
                 $block->setProperties($properties);
             }
 
-            $form->get('properties')->add('styles', ChoiceType::class, [
-                'label' => 'label.styling',
-                'choices'  => $this->config['styles'],
-                'required' => false,
-                'expanded' => true,
-                'multiple' => true,
-                'attr' => ['help_text' => 'help.html_styles'],
-            ]);
+            // Quickfix to set xl spans and offsets on already existing blocks
+            if (!isset($properties['spans']['xl'])) {
+                $properties['spans']['xl'] = [null, null];
+                $block->setProperties($properties);
+            }
+            if (!isset($properties['offsets']['xl'])) {
+                $properties['offsets']['xl'] = [null, null];
+                $block->setProperties($properties);
+            }
+
+            $form->get('properties')
+                ->add('styles', ChoiceType::class, [
+                    'label' => 'label.styling',
+                    'choices' => $this->config['styles'],
+                    'required' => false,
+                    'expanded' => true,
+                    'multiple' => true,
+
+                    'attr' => ['help_text' => 'help.list_display_size', 'class' => 'btn-group btn-group-styling', 'data-toggle' => 'buttons'],
+                    'label_attr' => ['class' => 'btn'],
+                ])
+                ->add('spans', SpanCollectionType::class, [
+                    'column_count' => $block->getColumnCount(),
+                    'label' => 'label.spans',
+                    'attr' => [
+                        'help_text' => 'help.column_spans',
+                        'tag' => 'styles'
+                    ],
+                    'required' => false,
+                ])
 
 
-            $form->get('properties')->add('spans', SpanCollectionType::class, ['column_count' => $block->getColumnCount(), 'label' => 'label.spans', 'attr' => ['help_text' => 'help.column_spans']]);
-            $form->get('properties')->add('offsets', SpanCollectionType::class, ['column_count' => $block->getColumnCount(), 'label' => 'label.offsets', 'attr' => ['help_text' => 'help.column_offsets']]);
-            $form->get('properties')->add('gutters', GutterCollectionType::class, ['column_count' => $block->getColumnCount(), 'label' => 'label.gutters', 'attr' => ['help_text' => 'help.column_gutters']]);
 
+                ->add('offsets', SpanCollectionType::class, [
+                    'column_count' => $block->getColumnCount(),
+                    'label' => 'label.offsets',
+                    'attr' => [
+                        'help_text' => 'help.column_offsets',
+                        'tag' => 'styles'
+                    ],
+                    'required' => false,
+                ])
+                ->add('gutters', GutterCollectionType::class, [
+                    'column_count' => $block->getColumnCount(),
+                    'label' => 'label.gutters',
+                    'attr' => [
+                        'help_text' => 'help.column_gutters',
+                        'tag' => 'styles'
+                    ],
+                    'required' => false,
+                ])
+            ;
         });
     }
 
+    public function preUpdate(BlockInterface $block)
+    {
+        $children = $block->getChildren();
+
+        foreach ($children as $child) {
+            $child->getPosition();
+
+            if ($child->getPosition() > ($block->getColumnCount() -1)) {
+                $child->setPosition(($block->getColumnCount() -1));
+                $this->em->persist($child);
+            }
+        }
+    }
+
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function configureManageOptions(OptionsResolver $resolver)
     {
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getManageFormTypeName()
     {
@@ -103,7 +194,7 @@ class ColumnBlockService extends AbstractBlockService implements LayoutBlockServ
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function createBlock($args)
     {
@@ -121,29 +212,21 @@ class ColumnBlockService extends AbstractBlockService implements LayoutBlockServ
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getTool(BlockInterface $block = null)
     {
-        switch ($this->columnCount) {
-            case 1: $type = 'one'; break;
-            case 2: $type = 'two'; break;
-            case 3: $type = 'three'; break;
-            case 4: $type = 'four'; break;
-        }
+        $tool = new Tool('Columns', 'column');
 
-        $tool = new Tool($this->getName(), 'column_'.$type);
-
-        $tool->setData(['columnCount' => $this->columnCount])
+        $tool->setIcon('view_column')
             ->setGroup(Tool::GROUP_LAYOUT)
-            ->setIcon('view_column')
-            ->setDescription('Inserts ' . $this->columnCount . ' columns equal in width');
+            ->setDescription('Inserts columns equal in with');
 
         return $tool;
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getName(BlockInterface $block = null)
     {
@@ -188,7 +271,7 @@ class ColumnBlockService extends AbstractBlockService implements LayoutBlockServ
                 }
             } else {
                 $columnCount = $block->getColumnCount();
-                $spanStyles = array_fill_keys(range(0, $columnCount), 'col-xs-'. (12/$columnCount));
+                $spanStyles = array_fill_keys(range(0, $columnCount), 'col-xs-'.(12 / $columnCount));
             }
         }
 
@@ -235,10 +318,10 @@ class ColumnBlockService extends AbstractBlockService implements LayoutBlockServ
             if (isset($properties['gutters']) && count($properties['gutters']) > 0) {
                 foreach ($properties['gutters'] as $screen => $cols) {
                     foreach ($cols as $col => $span) {
-                        if (empty($span)) {
+                        if ($span === null) {
                             continue;
                         }
-                        $gutterStyles[$col][] = "p-$screen-$span";
+                        $gutterStyles[$col][] = "px-$screen-$span";
                     }
                 }
             }
@@ -251,10 +334,19 @@ class ColumnBlockService extends AbstractBlockService implements LayoutBlockServ
     {
         $placeholders = [];
 
-        for($i=0;$i<$block->getColumnCount();$i++) {
-            $placeholders[$i] = sprintf('Column %d', $i+1);
+        for ($i = 0;$i < $block->getColumnCount();++$i) {
+            $placeholders[$i] = sprintf('Column %d', $i + 1);
         }
 
         return $placeholders;
+    }
+
+    /**
+     * @param BlockInterface $block
+     * @return string
+     */
+    public function getDescription(BlockInterface $block = null)
+    {
+        return 'Inserts columns';
     }
 }

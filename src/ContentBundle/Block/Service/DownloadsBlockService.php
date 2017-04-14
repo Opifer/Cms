@@ -52,7 +52,11 @@ class DownloadsBlockService extends AbstractBlockService implements BlockService
                 ->add('value', MediaPickerType::class, [
                     'to_json' => true,
                     'multiple' => true,
-                    'label' => 'label.content'
+                    'required' => false,
+                    'label' => 'label.content',
+                    'attr' => [
+                        'help_text' => 'help.download_media'
+                    ]
                 ])
         );
     }
@@ -123,5 +127,14 @@ class DownloadsBlockService extends AbstractBlockService implements BlockService
             ->setDescription('List of media items available for download');
 
         return $tool;
+    }
+
+    /**
+     * @param BlockInterface $block
+     * @return string
+     */
+    public function getDescription(BlockInterface $block = null)
+    {
+        return 'List of media items available for download';
     }
 }
