@@ -34,9 +34,9 @@ class IFrameBlockService extends AbstractBlockService implements BlockServiceInt
                         'tag' => 'general'
                     ],
                     'required' => true,
-                    'constraints' => array(
+                    'constraints' => [
                         new NotBlank(),
-                    ),
+                    ],
                 ])
         )->add(
             $propertiesForm->add('id', TextType::class, ['attr' => ['help_text' => 'help.html_id'],'required' => false])

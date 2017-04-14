@@ -56,9 +56,9 @@ class ContainerBlockService extends AbstractBlockService implements LayoutBlockS
                 'label' => 'label.container_sizing',
                 'choices' => ['fluid' => 'label.container_fluid', '' => 'label.container_fixed', 'smooth' => 'label.container_smooth'],
                 'required' => true,
-                'constraints' => array(
+                'constraints' => [
                     new NotBlank(),
-                ),
+                ],
                 'attr' => ['help_text' => 'help.container_sizing','tag' => 'styles'],
             ]);
         });

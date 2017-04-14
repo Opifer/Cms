@@ -59,9 +59,9 @@ class TabNavBlockService extends AbstractBlockService implements LayoutBlockServ
                     'attr'        => ['help_text' => 'help.block_template','tag' => 'styles'],
                     'choices'     => $this->config['templates'],
                     'required'    => true,
-                    'constraints' => array(
+                    'constraints' => [
                         new NotBlank(),
-                    ),
+                    ],
                 ])
             ->add('tabs', BootstrapCollectionType::class, [
                 'label'         => 'label.tabs',

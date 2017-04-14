@@ -82,9 +82,9 @@ class SectionBlockService extends AbstractBlockService implements BlockServiceIn
                     'smooth' => 'label.container_smooth'
                 ],
                 'required' => true,
-                'constraints' => array(
+                'constraints' => [
                     new NotBlank(),
-                ),
+                ],
                 'attr' => ['help_text' => 'help.container_sizing', 'tag' => 'styles'],
             ])
         ;

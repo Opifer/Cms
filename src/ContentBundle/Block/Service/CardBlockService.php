@@ -57,9 +57,9 @@ class CardBlockService extends AbstractBlockService implements BlockServiceInter
                     'lg' => 'Large',
                 ],
                 'required' => true,
-                'constraints' => array(
+                'constraints' => [
                     new NotBlank(),
-                ),
+                ],
                 'expanded' => true,
                 'multiple' => false,
                 'attr' => [
@@ -78,9 +78,9 @@ class CardBlockService extends AbstractBlockService implements BlockServiceInter
                 ],
                 'choices'     => $this->config['presets'],
                 'required'    => true,
-                'constraints' => array(
+                'constraints' => [
                     new NotBlank(),
-                ),
+                ],
             ])
 
             ->add('background', ChoiceType::class, [
@@ -119,28 +119,6 @@ class CardBlockService extends AbstractBlockService implements BlockServiceInter
             ->add('content',  ContentPickerType::class, [
                 'as_object' => false,
                 'label' => 'label.content',
-            ])
-            ->add('imageRatio', ChoiceType::class, [
-                'label' => 'label.list_image_ratio',
-                'choices'  => [
-                    null => 'No image',
-                    '11' => '1:1',
-                    '43' => '4:3',
-                    '34' => '3:4 (portrait)',
-                    '32' => '3:2',
-                    '23' => '2:3 (portrait)',
-                    '169'=> '16:9',
-                    '916'=> '9:16 (portrait)',
-                    'bg' => 'Background cover',
-                ],
-                'required' => true,
-                'constraints' => array(
-                    new NotBlank(),
-                ),
-                'expanded' => true,
-                'multiple' => false,
-                'attr' => ['help_text' => 'help.list_image_ratio', 'class' => 'btn-group btn-group-styling btn-image-ratio', 'data-toggle' => 'buttons'],
-                'label_attr' => ['class' => 'btn'],
             ])
         ;
     }

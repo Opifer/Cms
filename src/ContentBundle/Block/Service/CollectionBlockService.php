@@ -165,9 +165,9 @@ class CollectionBlockService extends AbstractBlockService implements BlockServic
                 ],
                 'choices' => $this->config['templates'],
                 'required' => true,
-                'constraints' => array(
+                'constraints' => [
                     new NotBlank(),
-                ),
+                ],
             ])
         ;
     }

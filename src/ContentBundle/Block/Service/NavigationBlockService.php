@@ -63,9 +63,9 @@ class NavigationBlockService extends AbstractBlockService implements BlockServic
                 'choices_as_values' => true,
                 'attr' => ['class' => 'toggle-content-picker'],
                 'required' => true,
-                'constraints' => array(
+                'constraints' => [
                     new NotBlank(),
-                ),
+                ],
             ])
         ;
 
@@ -98,9 +98,9 @@ class NavigationBlockService extends AbstractBlockService implements BlockServic
                     'tag' => 'general',
                 ],
                 'required' => true,
-                'constraints' => array(
+                'constraints' => [
                     new NotBlank(),
-                ),
+                ],
             ])
         ;
 
@@ -114,9 +114,9 @@ class NavigationBlockService extends AbstractBlockService implements BlockServic
                 ],
                 'choices' => $this->config['templates'],
                 'required' => true,
-                'constraints' => array(
+                'constraints' => [
                     new NotBlank(),
-                ),
+                ],
             ])
         ;
     }
