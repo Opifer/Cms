@@ -24,6 +24,7 @@ class CardBlockService extends AbstractBlockService implements BlockServiceInter
     public function buildManageForm(FormBuilderInterface $builder, array $options)
     {
         parent::buildManageForm($builder, $options);
+
         $builder->get('default')
             ->add('header', CKEditorType::class, [
                 'label' => 'label.header',
@@ -44,6 +45,7 @@ class CardBlockService extends AbstractBlockService implements BlockServiceInter
                 'attr' => array('label_col' => 12, 'widget_col' => 12),
             ])
         ;
+
         $builder->get('properties')
             ->add('preset', ChoiceType::class, [
                 'label'       => 'Preset',
@@ -67,7 +69,7 @@ class CardBlockService extends AbstractBlockService implements BlockServiceInter
         $builder->get('properties')
             ->add('id', TextType::class, ['attr' => ['help_text' => 'help.html_id']])
             ->add('extra_classes', TextType::class, ['attr' => ['help_text' => 'help.extra_classes']])
-            ->add('content',  ContentPickerType::class, [
+            ->add('content', ContentPickerType::class, [
                 'as_object' => false,
                 'label' => 'label.content',
             ])
