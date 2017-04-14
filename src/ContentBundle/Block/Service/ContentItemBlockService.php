@@ -27,6 +27,7 @@ class ContentItemBlockService extends AbstractBlockService implements BlockServi
             $builder->create('default', FormType::class, ['virtual' => true])
                 ->add('value',  ContentPickerType::class, [
                     'as_object' => false,
+                    'required' => false,
                     'label' => 'label.content',
                 ])
         );

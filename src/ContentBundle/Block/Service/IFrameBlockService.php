@@ -10,6 +10,7 @@ use Symfony\Component\Form\Extension\Core\Type\FormType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Opifer\ContentBundle\Model\BlockInterface;
+use Symfony\Component\Validator\Constraints\NotBlank;
 
 /**
  * iFrame Block Service
@@ -31,7 +32,11 @@ class IFrameBlockService extends AbstractBlockService implements BlockServiceInt
                     'attr' => [
                         'help_text' => 'help.iframe_url',
                         'tag' => 'general'
-                    ]
+                    ],
+                    'required' => true,
+                    'constraints' => array(
+                        new NotBlank(),
+                    ),
                 ])
         )->add(
             $propertiesForm->add('id', TextType::class, ['attr' => ['help_text' => 'help.html_id'],'required' => false])

@@ -19,6 +19,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Validator\Constraints\NotBlank;
 
 /**
  * Class TabNavBlock
@@ -58,6 +59,9 @@ class TabNavBlockService extends AbstractBlockService implements LayoutBlockServ
                     'attr'        => ['help_text' => 'help.block_template','tag' => 'styles'],
                     'choices'     => $this->config['templates'],
                     'required'    => true,
+                    'constraints' => array(
+                        new NotBlank(),
+                    ),
                 ])
             ->add('tabs', BootstrapCollectionType::class, [
                 'label'         => 'label.tabs',

@@ -27,6 +27,7 @@ use Symfony\Component\Form\Extension\Core\Type\FormType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Validator\Constraints\NotBlank;
 
 /**
  * Content Collection Block Service.
@@ -89,7 +90,8 @@ class CollectionBlockService extends AbstractBlockService implements BlockServic
                     'attr' => [
                         'help_text' => 'Limit the collection with some predefined conditions.',
                         'tag' => 'general'
-                    ]
+                    ],
+                    'required' => false
                 ])
                 ->add('order_by', ChoiceType::class, [
                     'label' => 'Order by',
@@ -101,7 +103,8 @@ class CollectionBlockService extends AbstractBlockService implements BlockServic
                     'attr' => [
                         'help_text' => 'Define the order of the collection',
                         'tag' => 'general'
-                    ]
+                    ],
+                    'required' => false
                 ])
                 ->add('order_direction', ChoiceType::class, [
                     'label' => 'Order direction',
@@ -113,19 +116,25 @@ class CollectionBlockService extends AbstractBlockService implements BlockServic
                     'attr' => [
                         'help_text' => 'Set the direction to ascending or descending',
                         'tag' => 'general'
-                    ]
+                    ],
+                    'required' => false
                 ])
                 ->add('limit', IntegerType::class, [
                     'attr' => [
                         'help_text' => 'The amount of items shown per page',
                         'tag' => 'general'
-                    ]
+                    ],
+                    'required' => false
                 ])
                 ->add('filters', BootstrapCollectionType::class, [
                     'allow_add' => true,
                     'allow_delete' => true,
                     'type' => FilterType::class,
-                    'attr' => ['help_text' => 'Filters the user can use to search the collection', 'tag' => 'general'],
+                    'attr' => [
+                        'help_text' => 'Filters the user can use to search the collection',
+                        'tag' => 'general'
+                    ],
+                    'required' => false
                 ])
                 ->add('filter_placement', ChoiceType::class, [
                     'label' => 'Filter placement',
@@ -133,7 +142,8 @@ class CollectionBlockService extends AbstractBlockService implements BlockServic
                     'attr' => [
                         'help_text' => 'The position of the defined filters',
                         'tag' => 'general'
-                    ]
+                    ],
+                    'required' => false
                 ])
                 ->add('load_more', CheckboxType::class, [
                     'label' => 'Load more',
@@ -154,6 +164,10 @@ class CollectionBlockService extends AbstractBlockService implements BlockServic
                     'tag' => 'styles',
                 ],
                 'choices' => $this->config['templates'],
+                'required' => true,
+                'constraints' => array(
+                    new NotBlank(),
+                ),
             ])
         ;
     }

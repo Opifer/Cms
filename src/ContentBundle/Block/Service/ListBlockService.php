@@ -52,13 +52,25 @@ class ListBlockService extends AbstractBlockService implements BlockServiceInter
         // Default panel
         $builder->add(
             $builder->create('default', FormType::class, ['virtual' => true])
-                ->add('name', TextType::class, ['label' => 'label.name', 'attr' => ['help_text' => 'help.block_name', 'tag' => 'settings']])
+                ->add('name', TextType::class, [
+                    'label' => 'label.name',
+                    'attr' => [
+                        'help_text' => 'help.block_name',
+                        'tag' => 'settings'
+                    ],
+                    'required' => false,
+                ])
                 ->add('title',  TextType::class, [
                     'label' => 'label.display_name',
-                    'attr' => ['help_text' => 'help.block_display_name', 'tag' => 'settings']
+                    'attr' => [
+                        'help_text' => 'help.block_display_name',
+                        'tag' => 'settings'
+                    ],
+                    'required' => false
                 ])
                 ->add('value',  ContentListPickerType::class, [
                     'label' => 'label.content',
+                    'required' => false
                 ])
         );
 

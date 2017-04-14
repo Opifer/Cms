@@ -12,6 +12,7 @@ use Symfony\Component\Form\Extension\Core\Type\FormType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Opifer\ContentBundle\Model\BlockInterface;
+use Symfony\Component\Validator\Constraints\NotBlank;
 
 /**
  * Section Block Service
@@ -75,8 +76,15 @@ class SectionBlockService extends AbstractBlockService implements BlockServiceIn
             ])
             ->add('container_size', ChoiceType::class, [
                 'label' => 'label.container_sizing',
-                'choices' => ['fluid' => 'label.container_fluid', '' => 'label.container_fixed', 'smooth' => 'label.container_smooth'],
+                'choices' => [
+                    'fluid' => 'label.container_fluid',
+                    '' => 'label.container_fixed',
+                    'smooth' => 'label.container_smooth'
+                ],
                 'required' => true,
+                'constraints' => array(
+                    new NotBlank(),
+                ),
                 'attr' => ['help_text' => 'help.container_sizing', 'tag' => 'styles'],
             ])
         ;

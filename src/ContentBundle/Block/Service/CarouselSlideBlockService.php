@@ -59,7 +59,8 @@ class CarouselSlideBlockService extends AbstractBlockService implements BlockSer
                         'label_col' => 12,
                         'widget_col' => 12,
                         'help_text' => 'help.carouselslide_rich_text',
-                    ]
+                    ],
+                    'required' => false
                 ])
         )->add(
             $propertiesForm
