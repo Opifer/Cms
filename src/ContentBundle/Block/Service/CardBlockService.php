@@ -47,37 +47,11 @@ class CardBlockService extends AbstractBlockService implements BlockServiceInter
             ])
         ;
         $builder->get('properties')
-            ->add('displaySize', ChoiceType::class, [
-                'label' => 'label.list_display_size',
-                'choices'  => [
-                    null => 'Default',
-                    'sm' => 'Small',
-                    'md' => 'Medium',
-                    'lg' => 'Large',
-                ],
-                'required' => true,
-                'expanded' => true,
-                'multiple' => false,
-                'attr' => [
-                    'help_text' => 'help.list_display_size', 
-                    'class' => 'btn-group btn-group-styling', 
-                    'data-toggle' => 'buttons',
-                    'tag' => 'styles'
-                ],
-                'label_attr' => ['class' => 'btn'],
-            ])
             ->add('preset', ChoiceType::class, [
                 'label'       => 'Preset',
                 'attr'        => ['help_text' => 'Pick a preset', 'tag' => 'styles'],
                 'choices'     => $this->config['presets'],
                 'required'    => true,
-            ])
-
-            ->add('background', ChoiceType::class, [
-                'required' => false,
-                'label' => 'label.background_color',
-                'choices' => $this->config['backgrounds'],
-                'attr'  => ['tag' => 'styles']
             ])
             ->add('styles', ChoiceType::class, [
                 'label' => 'label.styling',
@@ -99,25 +73,6 @@ class CardBlockService extends AbstractBlockService implements BlockServiceInter
             ->add('content',  ContentPickerType::class, [
                 'as_object' => false,
                 'label' => 'label.content',
-            ])
-            ->add('imageRatio', ChoiceType::class, [
-                'label' => 'label.list_image_ratio',
-                'choices'  => [
-                    null => 'No image',
-                    '11' => '1:1',
-                    '43' => '4:3',
-                    '34' => '3:4 (portrait)',
-                    '32' => '3:2',
-                    '23' => '2:3 (portrait)',
-                    '169'=> '16:9',
-                    '916'=> '9:16 (portrait)',
-                    'bg' => 'Background cover',
-                ],
-                'required' => true,
-                'expanded' => true,
-                'multiple' => false,
-                'attr' => ['help_text' => 'help.list_image_ratio', 'class' => 'btn-group btn-group-styling btn-image-ratio', 'data-toggle' => 'buttons'],
-                'label_attr' => ['class' => 'btn'],
             ])
         ;
     }
