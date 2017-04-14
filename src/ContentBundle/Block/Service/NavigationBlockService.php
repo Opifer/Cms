@@ -13,6 +13,7 @@ use Symfony\Bundle\FrameworkBundle\Templating\EngineInterface;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\FormType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Validator\Constraints\NotBlank;
 
 /**
  * Navigation Block Service
@@ -61,7 +62,10 @@ class NavigationBlockService extends AbstractBlockService implements BlockServic
                 ],
                 'choices_as_values' => true,
                 'attr' => ['class' => 'toggle-content-picker'],
-                'required' => true
+                'required' => true,
+                'constraints' => [
+                    new NotBlank(),
+                ],
             ])
         ;
 
@@ -93,6 +97,10 @@ class NavigationBlockService extends AbstractBlockService implements BlockServic
                     'widget_col' => 9,
                     'tag' => 'general',
                 ],
+                'required' => true,
+                'constraints' => [
+                    new NotBlank(),
+                ],
             ])
         ;
 
@@ -106,6 +114,9 @@ class NavigationBlockService extends AbstractBlockService implements BlockServic
                 ],
                 'choices' => $this->config['templates'],
                 'required' => true,
+                'constraints' => [
+                    new NotBlank(),
+                ],
             ])
         ;
     }

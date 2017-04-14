@@ -10,6 +10,7 @@ use Opifer\ContentBundle\Form\Type\NavLinkType;
 use Opifer\ContentBundle\Model\BlockInterface;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Routing\RouterInterface;
+use Symfony\Component\Validator\Constraints\NotBlank;
 
 /**
  * Nav Link Block Service.
@@ -45,7 +46,8 @@ class NavLinkBlockService extends AbstractBlockService implements BlockServiceIn
                 'label' => 'Link',
                 'attr' => [
                     'help_text' => 'Either select a content item or define your own custom URL'
-                ]
+                ],
+                'required' => false
             ])
         ;
     }
