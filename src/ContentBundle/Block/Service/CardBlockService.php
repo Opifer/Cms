@@ -72,6 +72,9 @@ class CardBlockService extends AbstractBlockService implements BlockServiceInter
             ->add('content', ContentPickerType::class, [
                 'as_object' => false,
                 'label' => 'label.content',
+                'attr' => [
+                    'tag' => 'general'
+                ]
             ])
         ;
     }
