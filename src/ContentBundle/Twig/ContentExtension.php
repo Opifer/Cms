@@ -9,6 +9,7 @@ use Opifer\ContentBundle\Entity\CompositeBlock;
 use Opifer\ContentBundle\Entity\PointerBlock;
 use Opifer\ContentBundle\Entity\Template;
 use Opifer\ContentBundle\Environment\Environment;
+use Opifer\ContentBundle\Helper\StringHelper;
 use Opifer\ContentBundle\Model\BlockInterface;
 use Opifer\ContentBundle\Model\Content;
 use Opifer\ContentBundle\Model\ContentInterface;
@@ -199,48 +200,14 @@ class ContentExtension extends \Twig_Extension
      */
     public function parseString($string)
     {
-        $string = $this->replaceLinks($string);
+
+        $stringHelper = $this->container->get('opifer.content.string_helper');
+
+        $string = $stringHelper->replaceLinks($string);
 
         return $string;
     }
-
-    /**
-     * Replaces all links that matches the pattern with content urls.
-     *
-     * @param string $string
-     *
-     * @return string
-     */
-    protected function replaceLinks($string)
-    {
-        preg_match_all('/\[content_url\](.*?)\[\/content_url\]/', $string, $matches);
-
-        if (!count($matches)) {
-            return $string;
-        }
-
-        /** @var Content[] $contents */
-        $contents = $this->getContentManager()->getRepository()->findByIds($matches[1]);
-        $array = [];
-        foreach ($contents as $content) {
-            $array[$content->getId()] = $content;
-        }
-
-        foreach ($matches[0] as $key => $match) {
-            if (isset($array[$matches[1][$key]])) {
-                $content = $array[$matches[1][$key]];
-
-                $url = $this->getRouter()->generate('_content', ['slug' => $content->getSlug()]);
-            } else {
-                $url = $this->getRouter()->generate('_content', ['slug' => '404']);
-            }
-
-            $string = str_replace($match, $url, $string);
-        }
-
-        return $string;
-    }
-
+    
     /**
      * @param string|ContentInterface $content
      * @param ContentInterface        $child
