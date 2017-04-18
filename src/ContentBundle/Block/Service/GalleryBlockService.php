@@ -50,7 +50,8 @@ class GalleryBlockService extends AbstractBlockService implements BlockServiceIn
                 'to_json' => true,
                 'multiple' => true,
                 'label'    => 'Media',
-                'required' => false
+                'required' => false,
+                'attr'     => ['help_text' => 'help.gallery_media'],
             ])
         ;
 

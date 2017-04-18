@@ -63,8 +63,14 @@ help:
     subscribe_message: Message shown after subscription.
     subscribe_redirect: Select page to redirect to after subscription.
     iframe_url: URL that should be loaded in an iFrame.
-    tabs_add_tab: Add a new tab
+    tabs_add_tab: Add a new tab or drag to order tabs. Every new tab creates a new placeholder to put content blocks in.
     publish_at: Set a date to publish content.
+    gallery_media: Select multiple images or videos.
+    html_rich_text: Click to edit & write rich text content.
+    section_header: Click to edit & write rich text content in header.
+    section_footer: Click to edit & write rich text content in footer.
+    list_content_picker: Manually pick content items to put in your list.
+    card_content_picker: Pick content item to use data of this item instead of  header, body and media.
 
 label:
     block: Block

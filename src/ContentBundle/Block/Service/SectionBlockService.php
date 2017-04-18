@@ -31,14 +31,17 @@ class SectionBlockService extends AbstractBlockService implements BlockServiceIn
                 'label' => 'label.header',
                 'attr' => [
                     'label_col' => 12,
-                    'widget_col' => 12],
+                    'widget_col' => 12,
+                    'help_text' => 'help.section_header',
+                ],
                 'required' => false
             ])
             ->add('footer', CKEditorType::class, [
                 'label' => 'label.footer',
                 'attr' => [
                     'label_col' => 12,
-                    'widget_col' => 12
+                    'widget_col' => 12,
+                    'help_text' => 'help.section_footer',
                 ],
                 'required' => false
             ])
