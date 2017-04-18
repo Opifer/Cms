@@ -20,7 +20,7 @@ services:
         class: Opifer\ContentBundle\Helper\StringHelper
         arguments:
             - '@opifer.content.content_manager'
-            - '@service_container'
+            - '@router'
 
     opifer.content.block_provider_pool:
         class: Opifer\ContentBundle\Provider\BlockProviderPool

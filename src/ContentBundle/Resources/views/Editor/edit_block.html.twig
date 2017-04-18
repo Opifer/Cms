@@ -40,7 +40,7 @@
 
             {% block block_body_tabs %}
                 <div class="tab-content">
-                    <div class="tab-pane" id="block-general">
+                    <div class="tab-pane active" id="block-general">
                         {% if form.default|default %}
                             {% for type in form.default %}
                                 {% if (type.vars.attr.tag|default is empty) or (type.vars.attr.tag|default == 'general') %}
@@ -56,7 +56,7 @@
                             {% endfor %}
                         {% endif %}
                     </div>
-                    <div class="tab-pane active" id="block-settings">
+                    <div class="tab-pane" id="block-settings">
                         {% if form.default|default %}
                             {% for type in form.default %}
                                 {% if type.vars.attr.tag|default == 'settings' %}

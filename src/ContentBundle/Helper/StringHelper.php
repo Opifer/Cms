@@ -2,22 +2,21 @@
 
 namespace Opifer\ContentBundle\Helper;
 
-
 use Doctrine\ORM\EntityManager;
 use Opifer\ContentBundle\Model\ContentManager;
 use Symfony\Component\DependencyInjection\ContainerInterface;
+use Symfony\Component\Routing\RouterInterface;
 
 class StringHelper
 {
-
     protected $contentManager;
 
-    protected $container;
+    protected $router;
 
-    public function __construct(ContentManager $cm, ContainerInterface $container)
+    public function __construct(ContentManager $cm, RouterInterface $router)
     {
         $this->contentManager = $cm;
-        $this->container = $container;
+        $this->router = $router;
     }
 
     /**
@@ -35,7 +34,7 @@ class StringHelper
             return $string;
         }
 
-        if(!empty($matches[3])){
+        if (!empty($matches[3])) {
             $matches[1] = $matches[3];
         }
 
@@ -50,22 +49,14 @@ class StringHelper
             if (isset($array[$matches[1][$key]])) {
                 $content = $array[$matches[1][$key]];
 
-                $url = $this->getRouter()->generate('_content', ['slug' => $content->getSlug()]);
+                $url = $this->router->generate('_content', ['slug' => $content->getSlug()]);
             } else {
-                $url = $this->getRouter()->generate('_content', ['slug' => '404']);
+                $url = $this->router->generate('_content', ['slug' => '404']);
             }
 
             $string = str_replace($match, $url, $string);
         }
 
         return $string;
-    }
-
-    /**
-     * @return RouterInterface
-     */
-    protected function getRouter()
-    {
-        return $this->container->get('router');
     }
 }
