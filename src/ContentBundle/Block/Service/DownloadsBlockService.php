@@ -52,6 +52,7 @@ class DownloadsBlockService extends AbstractBlockService implements BlockService
                 ->add('value', MediaPickerType::class, [
                     'to_json' => true,
                     'multiple' => true,
+                    'required' => false,
                     'label' => 'label.content',
                     'attr' => [
                         'help_text' => 'help.download_media'

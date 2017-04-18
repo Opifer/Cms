@@ -11,6 +11,7 @@ use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+use Symfony\Component\Validator\Constraints\NotBlank;
 
 /**
  * Content Form Type
@@ -43,6 +44,7 @@ class ContentType extends AbstractType
                 'attr'     => [
                     'help_text' => 'help.template'
                 ],
+                'required' => false
             ])
             ->add('locale', EntityType::class, [
                 'label' => 'label.language',
@@ -51,27 +53,34 @@ class ContentType extends AbstractType
                 'attr'     => [
                     'help_text'   => 'help.content_language',
                 ],
+                'required' => false
             ])
             ->add('title', TextType::class, [
                 'label' => 'label.title',
                 'attr'  => [
                     'placeholder' => 'placeholder.content_title',
                     'help_text'   => 'help.content_title',
-                ]
+                ],
+                'required' => true,
+                'constraints' => [
+                    new NotBlank(),
+                ],
             ])
             ->add('shortTitle', TextType::class, [
                 'label' => 'label.short_title',
                 'attr'  => [
                     'placeholder' => 'placeholder.content_short_title',
                     'help_text'   => 'help.content_short_title',
-                ]
+                ],
+                'required' => false
             ])
             ->add('description', TextType::class, [
                 'label' => 'label.description',
                 'attr'  => [
                     'placeholder' => 'placeholder.content_description',
                     'help_text'   => 'help.content_description',
-                ]
+                ],
+                'required' => false
             ])
             ->add(
                 $builder->create(
@@ -86,8 +95,10 @@ class ContentType extends AbstractType
             ->add('publishAt', DateTimePickerType::class, [
                 'label' => 'label.publish_at',
                 'attr'  => [
-                    'help_text'   => 'help.publish_at',
-                ]
+                    'help_text' => 'help.publish_at',
+                    'class' => 'datetimepicker',
+                ],
+                'required' => false
             ])
             ->add('parent', ContentParentType::class, [
                 'class' => $this->contentClass,
@@ -97,7 +108,8 @@ class ContentType extends AbstractType
             ->add('alias', TextType::class, [
                 'attr'        => [
                     'help_text' => 'help.alias',
-                ]
+                ],
+                'required' => false
             ])
             ->add('active', CheckboxType::class, [
                 'attr' => [

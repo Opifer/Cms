@@ -12,6 +12,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
+use Symfony\Component\Validator\Constraints\NotBlank;
 
 /**
  * Container block service
@@ -26,7 +27,13 @@ class ContainerBlockService extends AbstractBlockService implements LayoutBlockS
         parent::buildManageForm($builder, $options);
 
         $builder->get('default')
-            ->add('name', TextType::class, ['label' => 'label.name', 'attr' => ['help_text' => 'help.block_name']]);
+            ->add('name', TextType::class, [
+                'label' => 'label.name',
+                'attr' => [
+                    'help_text' => 'help.block_name'
+                ]
+                ,'required' => false
+            ]);
 
         $builder->get('properties')
             ->add('id', TextType::class, ['attr' => ['help_text' => 'help.html_id'],'required' => false])
@@ -49,6 +56,9 @@ class ContainerBlockService extends AbstractBlockService implements LayoutBlockS
                 'label' => 'label.container_sizing',
                 'choices' => ['fluid' => 'label.container_fluid', '' => 'label.container_fixed', 'smooth' => 'label.container_smooth'],
                 'required' => true,
+                'constraints' => [
+                    new NotBlank(),
+                ],
                 'attr' => ['help_text' => 'help.container_sizing','tag' => 'styles'],
             ]);
         });

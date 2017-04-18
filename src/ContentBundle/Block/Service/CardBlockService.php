@@ -8,7 +8,6 @@ use Opifer\ContentBundle\Block\Tool\ToolsetMemberInterface;
 use Opifer\ContentBundle\Entity\CardBlock;
 use Opifer\ContentBundle\Form\Type\ContentPickerType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
-use Symfony\Component\Form\Extension\Core\Type\FormType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Opifer\MediaBundle\Form\Type\MediaPickerType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -46,6 +45,7 @@ class CardBlockService extends AbstractBlockService implements BlockServiceInter
                 'attr' => array('label_col' => 12, 'widget_col' => 12),
             ])
         ;
+
         $builder->get('properties')
             ->add('preset', ChoiceType::class, [
                 'label'       => 'Preset',
@@ -60,17 +60,16 @@ class CardBlockService extends AbstractBlockService implements BlockServiceInter
                 'expanded' => true,
                 'multiple' => true,
                 'attr' => [
-                    'help_text' => 'help.html_styles', 
+                    'help_text' => 'help.html_styles',
                     'class' => 'radio-rows',
                     'tag' => 'styles'
                 ],
             ])
         ;
-
         $builder->get('properties')
             ->add('id', TextType::class, ['attr' => ['help_text' => 'help.html_id']])
             ->add('extra_classes', TextType::class, ['attr' => ['help_text' => 'help.extra_classes']])
-            ->add('content',  ContentPickerType::class, [
+            ->add('content', ContentPickerType::class, [
                 'as_object' => false,
                 'label' => 'label.content',
             ])
