@@ -135,6 +135,7 @@ label:
     target: Target
     login_redirect_content_item: Login redirect
     publish_at: Publish date
+    section_media: Background
 
 link:
     default: Default
