@@ -213,10 +213,14 @@ class ContentExtension extends \Twig_Extension
      */
     protected function replaceLinks($string)
     {
-        preg_match_all('/\[content_url\](.*?)\[\/content_url\]/', $string, $matches);
+        preg_match_all('/(\[content_url\](.*?)\[\/content_url\]|\[content_url\](.*?)\[\\\\\/content_url\])/', $string, $matches);
 
         if (!count($matches)) {
             return $string;
+        }
+
+        if(!empty($matches[3])){
+            $matches[1] = $matches[3];
         }
 
         /** @var Content[] $contents */
