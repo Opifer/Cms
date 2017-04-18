@@ -9,6 +9,7 @@ use Opifer\ContentBundle\Entity\CompositeBlock;
 use Opifer\ContentBundle\Entity\PointerBlock;
 use Opifer\ContentBundle\Entity\Template;
 use Opifer\ContentBundle\Environment\Environment;
+use Opifer\ContentBundle\Helper\StringHelper;
 use Opifer\ContentBundle\Model\BlockInterface;
 use Opifer\ContentBundle\Model\Content;
 use Opifer\ContentBundle\Model\ContentInterface;
@@ -199,7 +200,10 @@ class ContentExtension extends \Twig_Extension
      */
     public function parseString($string)
     {
-        $string = $this->replaceLinks($string);
+
+        $stringHelper = $this->container->get('opifer.content.string_helper');
+
+        $string = $stringHelper->replaceLinks($string);
 
         return $string;
     }

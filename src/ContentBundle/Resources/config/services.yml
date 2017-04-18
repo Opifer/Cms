@@ -16,6 +16,12 @@ parameters:
     opifer.content.block_environment.class: Opifer\ContentBundle\Environment\Environment
 
 services:
+    opifer.content.string_helper:
+        class: Opifer\ContentBundle\Helper\StringHelper
+        arguments:
+            - '@opifer.content.content_manager'
+            - '@service_container'
+
     opifer.content.block_provider_pool:
         class: Opifer\ContentBundle\Provider\BlockProviderPool
 
