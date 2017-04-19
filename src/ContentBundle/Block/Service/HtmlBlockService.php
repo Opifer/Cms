@@ -41,7 +41,15 @@ class HtmlBlockService extends AbstractBlockService implements BlockServiceInter
         // Default panel
         $builder->add(
             $builder->create('default', FormType::class, ['inherit_data' => true])
-                ->add('value', CKEditorType::class, ['label' => 'label.rich_text', 'attr' => ['label_col' => 12, 'widget_col' => 12],'required' => false])
+                ->add('value', CKEditorType::class, [
+                    'label' => 'label.rich_text',
+                    'attr' => [
+                        'label_col' => 12,
+                        'widget_col' => 12,
+                        'help_text' => 'help.html_rich_text'
+                    ],
+                    'required' => false
+                ])
         );
     }
 
