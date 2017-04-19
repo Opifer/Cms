@@ -2,6 +2,7 @@
 
 namespace Opifer\CmsBundle\Form\Type;
 
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 
@@ -17,7 +18,16 @@ class SiteType extends AbstractType
             ->add('description')
             ->add('domain')
             ->add('cookieDomain')
-            ->add('defaultLocale')
+            ->add('defaultLocale', EntityType::class, [
+                'label' => 'label.language',
+                'class'    => 'OpiferCmsBundle:Locale',
+                'property' => 'name',
+                'attr'     => [
+                    'help_text'   => 'help.content_language',
+                ],
+                'required' => true
+            ])
+
         ;
     }
 

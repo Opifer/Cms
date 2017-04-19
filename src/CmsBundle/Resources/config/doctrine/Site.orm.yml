@@ -25,7 +25,7 @@ Opifer\CmsBundle\Entity\Site:
             scale: 0
             length: null
             unique: false
-            nullable: false
+            nullable: true
             precision: 0
         domain:
             type: string
@@ -42,12 +42,15 @@ Opifer\CmsBundle\Entity\Site:
             nullable: true
             precision: 0
             column: cookie_domain
+    manyToOne:
         defaultLocale:
-            type: string
-            scale: 0
-            length: 5
-            unique: false
-            nullable: false
-            precision: 0
-            column: default_locale
+            targetEntity: Opifer\CmsBundle\Entity\Locale
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                locale_id:
+                    referencedColumnName: id
+            orphanRemoval: false
     lifecycleCallbacks: {  }
