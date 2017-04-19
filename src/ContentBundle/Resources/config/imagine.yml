@@ -9,20 +9,20 @@ liip_imagine:
                 pngquant: { quality: "70-80" }
         sm_11:
             filters:
-                thumbnail: { size: [250, 250], mode: outbound, allow_upscale: true }
+                thumbnail: { size: [400, 400], mode: outbound, allow_upscale: true }
             post_processors:
                 jpegoptim: { strip_all: true, max: 70, progressive: true }
                 pngquant: { quality: "70-80" }
         md_11:
             filters:
-                thumbnail: { size: [500, 500], mode: outbound, allow_upscale: true }
+                thumbnail: { size: [800, 800], mode: outbound, allow_upscale: true }
             post_processors:
                 jpegoptim: { strip_all: true, max: 70, progressive: true }
                 pngquant: { quality: "70-80" }
         lg_11:
             filters:
-                upscale: { min: [1000, 1000] }
-                thumbnail: { size: [1000, 1000], mode: outbound, allow_upscale: true  }
+                upscale: { min: [1600, 1600] }
+                thumbnail: { size: [1600, 1600], mode: outbound, allow_upscale: true  }
             post_processors:
                 jpegoptim: { strip_all: true, max: 70, progressive: true }
                 pngquant: { quality: "70-80" }
