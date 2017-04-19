@@ -26,8 +26,10 @@ class RelatedCollectionBlockService extends CollectionBlockService
         parent::buildManageForm($builder, $options);
 
         $builder->get('properties')
-            ->add('related_attribute', ChoiceType::class, [
+            ->add('related_attributes', ChoiceType::class, [
                 'label' => 'Related on',
+                'expanded' => true,
+                'multiple' => true,
                 'choices' => $this->getAttributes($options['data']->getOwner()),
                 'choices_as_values' => true,
                 'attr' => [

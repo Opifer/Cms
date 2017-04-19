@@ -168,7 +168,7 @@ class ContentController extends Controller
     /**
      * @ApiDoc()
      *
-     * @QueryParam(name="attribute", description="The attribute on which the content should be related")
+     * @QueryParam(name="attributes", map=true, description="The attributes on which the content should be related")
      * @QueryParam(name="content", requirements="\d+", description="The content item the results should be related to")
      * @QueryParam(name="direction", description="Define the order direction", default="asc")
      * @QueryParam(name="limit", requirements="\d+", description="The amount of results to return", default="3")
@@ -185,16 +185,21 @@ class ContentController extends Controller
 
         /** @var Content $content */
         $content = $repository->find($paramFetcher->get('content'));
-        /** @var OptionValue $value */
-        $value = $content->getValueSet()->get($paramFetcher->get('attribute'));
+
+        $ids = [];
+        foreach ($paramFetcher->get('attributes') as $attribute) {
+            /** @var OptionValue $value */
+            $value = $content->getValueSet()->get($attribute);
+            $ids = array_merge($ids, $value->getIds());
+        }
 
         $qb = $repository->createQueryBuilder('c')
             ->leftJoin('c.valueSet', 'vs')
             ->leftJoin('vs.values', 'v')
             ->leftJoin('v.attribute', 'a')
             ->leftJoin('v.options', 'o')
-            ->where('a.name = :attribute')->setParameter('attribute', $paramFetcher->get('attribute'))
-            ->andWhere('o.id IN (:options)')->setParameter('options', $value->getIds())
+            ->where('a.name IN (:attributes)')->setParameter('attributes', $paramFetcher->get('attributes'))
+            ->andWhere('o.id IN (:options)')->setParameter('options', $ids)
             ->andWhere('c.id != :self')->setParameter('self', $paramFetcher->get('content'));
 
         if ($orderBy = $paramFetcher->get('order_by')) {
