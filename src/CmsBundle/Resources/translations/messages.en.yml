@@ -11,6 +11,7 @@ title:
     layouts: Layouts
     content_types: Content types
     domain: Domain
+    site: Site
 
 # Base
 base:

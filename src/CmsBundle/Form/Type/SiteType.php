@@ -24,7 +24,7 @@ class SiteType extends AbstractType
                     'help_text'   => 'help_text.site_domain',
                 ],
                 'required' => true,
-                'multiple' => true
+
             ])
             ->add('cookieDomain')
             ->add('defaultLocale', EntityType::class, [

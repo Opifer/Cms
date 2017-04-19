@@ -31,12 +31,9 @@ class Site
     private $description;
 
     /**
-     * @var string
+     * @var array
+     *
      * @Assert\NotBlank()
-     * @Assert\Regex(
-     *     pattern="/^(?:[-A-Za-z0-9]+\.)+[A-Za-z]{2,6}$/",
-     *     message="The domain should be a valid domain"
-     * )
      */
     private $domain;
 
@@ -111,13 +108,13 @@ class Site
     }
 
     /**
-     * Set domain.
+     *  Set domain.
      *
      * @param string $domain
      *
      * @return Site
      */
-    public function setDomain($domain)
+    public function setDomain(Domain $domain)
     {
         $this->domain = $domain;
 

@@ -27,13 +27,6 @@ Opifer\CmsBundle\Entity\Site:
             unique: false
             nullable: true
             precision: 0
-        domain:
-            type: string
-            scale: 0
-            length: 128
-            unique: false
-            nullable: false
-            precision: 0
         cookieDomain:
             type: string
             scale: 0
@@ -51,6 +44,16 @@ Opifer\CmsBundle\Entity\Site:
             inversedBy: null
             joinColumns:
                 locale_id:
+                    referencedColumnName: id
+            orphanRemoval: false
+        domains:
+            targetEntity: Opifer\CmsBundle\Entity\Domain
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                domain_id:
                     referencedColumnName: id
             orphanRemoval: false
     lifecycleCallbacks: {  }
