@@ -60,6 +60,7 @@ class DataViewBlockService extends AbstractBlockService implements LayoutBlockSe
                     'label' => $field['display_name'],
                     'attr' => [
                         'help_text' => (isset($field['description'])) ? $field['description'] : null,
+                        'tag' => (isset($field['tag'])) ? $field['tag'] : null,
                     ]
                 ];
 

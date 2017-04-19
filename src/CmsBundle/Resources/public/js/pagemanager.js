@@ -315,6 +315,35 @@ $(document).ready(function() {
                     return "Attention: you will possible lose changes made.";
                 }
             };
+
+            $('.list-group').on('hide.bs.collapse', function () {
+                settings.blocksHidden.push($(this).attr('id'));
+                saveSettings();
+            });
+
+            $('.list-group').on('show.bs.collapse', function () {
+                settings.blocksHidden.splice(settings.blocksHidden.indexOf($(this).attr('id')));
+                saveSettings();
+            });
+
+
+            $('#pm-kwsearch-blocks').keyup(function () {
+                var searchTerm = $('#pm-kwsearch-blocks').val();
+                var searchSplit = searchTerm.replace(/ /g, "'):containsi('");
+
+                $.extend($.expr[':'], {'containsi': function(elem, i, match, array) {
+                        return (elem.textContent || elem.innerText || '').toLowerCase().indexOf((match[3] || '').toLowerCase()) >= 0;
+                    }
+                });
+
+                $('.pm-tools-blockset .pm-block-item').not(':containsi(\'' + searchSplit + '\')').each(function(e){
+                    $(this).attr('data-keyword-match', 'false');
+                });
+
+                $('.pm-tools-blockset .pm-block-item:containsi(\'' + searchSplit + '\')').each(function(e){
+                    $(this).attr('data-keyword-match', 'true');
+                });
+            });
         };
 
         // Start loading indicator
@@ -331,6 +360,11 @@ $(document).ready(function() {
 
         var applySettings = function () {
             splitPane.splitPane('lastComponentSize', settings.rightColumnWidth);
+            if (typeof settings.blocksHidden == 'undefined') settings.blocksHidden = [];
+            settings.blocksHidden.map(function(v, i) {
+                $('#'+v).removeClass('in');
+                $('[data-target=\'#'+v+'\']').addClass('collapsed');
+            });
         };
 
         var saveSettings = function () {
