@@ -49,15 +49,15 @@
     </div>
 
     <div class="pm-editor split-pane fixed-right">
-        <aside class="pm-tabs">
+        {#<aside class="pm-tabs">
             <ul class="nav nav-inverse nav-tabs nav-stacked nav-tabs-sidebar" role="tablist">
                 <li role="presentation" class="active" data-toggle="tooltip" data-placement="right" title="Designer"><a href="#tab-design" role="tab" data-toggle="tab"><i class="material-icons">layers</i></a></li>
-                {#<li role="presentation" data-toggle="tooltip" data-placement="right" title="Change history"><a href="#tab-history" role="tab" data-toggle="tab"><i class="material-icons">change_history</i></a></li>#}
-                {#<li role="presentation" data-toggle="tooltip" data-placement="right" title="SEO tools"><a href="#tab-seo" role="tab" data-toggle="tab"><i class="material-icons">pageview</i></a></li>#}
-                {#<li role="presentation" data-toggle="tooltip" data-placement="right" title="Extensions"><a href="#tab-extensions" role="tab" data-toggle="tab"><i class="material-icons">extension</i></a></li>#}
-                {#<li role="presentation" data-toggle="tooltip" data-placement="right" title="Developer tools"><a href="#tab-developer" role="tab" data-toggle="tab"><i class="material-icons">developer_board</i></a></li>#}
+                <li role="presentation" data-toggle="tooltip" data-placement="right" title="Change history"><a href="#tab-history" role="tab" data-toggle="tab"><i class="material-icons">change_history</i></a></li>
+                <li role="presentation" data-toggle="tooltip" data-placement="right" title="SEO tools"><a href="#tab-seo" role="tab" data-toggle="tab"><i class="material-icons">pageview</i></a></li>
+                <li role="presentation" data-toggle="tooltip" data-placement="right" title="Extensions"><a href="#tab-extensions" role="tab" data-toggle="tab"><i class="material-icons">extension</i></a></li>
+                <li role="presentation" data-toggle="tooltip" data-placement="right" title="Developer tools"><a href="#tab-developer" role="tab" data-toggle="tab"><i class="material-icons">developer_board</i></a></li>
             </ul>
-        </aside>
+        </aside>#}
         <div class="split-pane-component pm-preview pm-viewmode-content tab-content" id="pm-document" data-pm-owner="{{ owner }}" data-pm-owner-id="{{ id }}" data-pm-permalink="{{ permalink|default }}">
             <div role="tabpanel" class="tab-pane active" id="tab-design">
                 <iframe data-url="{{ url }}" frameborder="no" id="pm-iframe" class="pm-tab-iframe"></iframe>
@@ -73,19 +73,22 @@
         <div class="split-pane-component pm-toolset" id="right-component">
             <div class="pm-toolset-body pm">
                 <div class="pm-col">
-                    <div class="pm pm-toolset-card hidden" id="pm-block-edit">
-                    </div>
+                    <div class="pm pm-toolset-card hidden" id="pm-block-edit"></div>
                 </div>
-                <div class="pm-toolset-card pm-dark">
-
+                <div class="pm-toolset-card pm-dark pm-toolset-toc">
                     <div class="pm-col">
                         <h4 class="title" data-toggle="collapse" data-target="#pm-toc" aria-expanded="false" aria-controls="pm-toc">Table of contents</h4>
                         <div class="collapse in pm-noselect" id="pm-toc">
                         </div>
                     </div>
                 </div>
-                <div class="pm-toolset-card pm-dark">
-
+                <div class="pm-toolset-card pm-dark pm-toolset-library">
+                    <div class="form-group p-x-sm p-t-sm">
+                        <div class="input-group">
+                        <div class="input-group-addon"><i class="material-icons">search</i></span></div>
+                            <input type="text" class="form-control" id="pm-kwsearch-blocks" placeholder="Search">
+                        </div>
+                    </div>
                         {% for group in toolset.groups %}
                         <div id="pm-tools-{{ group|lower|replace(' ', '-') }}" class="pm-tools-blockset pm-noselect">
                             <div class="pm-col">
