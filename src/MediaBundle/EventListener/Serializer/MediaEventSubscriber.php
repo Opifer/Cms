@@ -77,11 +77,11 @@ class MediaEventSubscriber implements EventSubscriberInterface
         $provider = $this->getProvider($media);
 
         if ($provider->getName() == 'image') {
-            $images = $this->getImages($media);
+            $images = $this->getImages($media, ['medialibrary']);
 
             $event->getVisitor()->addData('images', $images);
 
-            $event->getVisitor()->addData('original', $images['full_size']);
+            $event->getVisitor()->addData('original', $provider->getUrl($media));
         } else {
             $event->getVisitor()->addData('original', $provider->getUrl($media));
         }
@@ -91,18 +91,17 @@ class MediaEventSubscriber implements EventSubscriberInterface
      * Gets the cached images if any. If the cache is not present, it generates images for all filters.
      *
      * @param MediaInterface $media
+     * @param array $filters
      *
      * @return MediaInterface[]
      */
-    public function getImages(MediaInterface $media)
+    public function getImages(MediaInterface $media, array $filters)
     {
         $key = $media->getImagesCacheKey();
         if (!$images = $this->cache->fetch($key)) {
             $provider = $this->getProvider($media);
 
             $reference = $provider->getThumb($media);
-
-            $filters = array_keys($this->filterConfig->all());
 
             $images = [];
             foreach ($filters as $filter) {
