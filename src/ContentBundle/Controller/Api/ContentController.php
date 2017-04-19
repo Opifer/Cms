@@ -340,6 +340,7 @@ class ContentController extends Controller
             'slug' => $content->getSlug(),
             'blocks' => $blocks,
             'attributes' => $content->getPivotedAttributes(),
+            'medias' => $content->getMedias(),
         ];
 
         $json = $this->get('jms_serializer')->serialize($contentItem, 'json', $context);
