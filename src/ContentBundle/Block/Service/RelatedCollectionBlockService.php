@@ -7,7 +7,10 @@ use Opifer\CmsBundle\Entity\Attribute;
 use Opifer\ContentBundle\Block\Tool\Tool;
 use Opifer\ContentBundle\Entity\RelatedCollectionBlock;
 use Opifer\ContentBundle\Model\BlockInterface;
+use Opifer\ContentBundle\Model\ContentInterface;
+use Opifer\EavBundle\Model\AttributeInterface;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\FormBuilderInterface;
 
 /**
@@ -23,21 +26,10 @@ class RelatedCollectionBlockService extends CollectionBlockService
         parent::buildManageForm($builder, $options);
 
         $builder->get('properties')
-            ->add('related_attribute', EntityType::class, [
+            ->add('related_attribute', ChoiceType::class, [
                 'label' => 'Related on',
-                'class' => Attribute::class,
-                'query_builder' => function (EntityRepository $er) use ($options) {
-                    return $er->createQueryBuilder('a')
-                        ->leftJoin('a.values', 'v')
-                        ->leftJoin('v.valueSet', 'vs')
-                        ->where('a.valueType IN (:types)')
-                        ->andWhere('vs.id = :valueSet')
-                        ->setParameters([
-                            'types' => ['select', 'radio', 'checklist'],
-                            'valueSet' => $options['data']->getOwner()->getValueSet()->getId()
-                        ]);
-                },
-                'choice_label' => 'displayName',
+                'choices' => $this->getAttributes($options['data']->getOwner()),
+                'choices_as_values' => true,
                 'attr' => [
                     'help_text' => 'Define on what attribute the content should be related',
                     'tag' => 'general',
@@ -49,6 +41,29 @@ class RelatedCollectionBlockService extends CollectionBlockService
             ->remove('filter_placement')
             ->remove('load_more')
         ;
+    }
+
+    /**
+     * Get the selectable attributes
+     *
+     * @param ContentInterface $owner
+     *
+     * @return array
+     */
+    protected function getAttributes(ContentInterface $owner)
+    {
+        /** @var AttributeInterface $attributes */
+        $attributes = $owner->getValueSet()->getAttributes();
+
+        $choices = [];
+        foreach ($attributes as $attribute) {
+            if (!in_array($attribute->getValueType(), ['select', 'radio', 'checklist'])) {
+                continue;
+            }
+            $choices[$attribute->getDisplayName()] = $attribute->getName();
+        }
+
+        return $choices;
     }
 
     /**
