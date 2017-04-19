@@ -103,8 +103,7 @@ class CollectionBlockService extends AbstractBlockService implements BlockServic
                     'attr' => [
                         'help_text' => 'Define the order of the collection',
                         'tag' => 'general'
-                    ],
-                    'required' => false
+                    ]
                 ])
                 ->add('order_direction', ChoiceType::class, [
                     'label' => 'Order direction',
@@ -116,8 +115,7 @@ class CollectionBlockService extends AbstractBlockService implements BlockServic
                     'attr' => [
                         'help_text' => 'Set the direction to ascending or descending',
                         'tag' => 'general'
-                    ],
-                    'required' => false
+                    ]
                 ])
                 ->add('limit', IntegerType::class, [
                     'attr' => [
@@ -138,7 +136,7 @@ class CollectionBlockService extends AbstractBlockService implements BlockServic
                 ])
                 ->add('filter_placement', ChoiceType::class, [
                     'label' => 'Filter placement',
-                    'choices' => $this->config['filter_placement'],
+                    'choices' => (isset($this->config['filter_placement'])) ? $this->config['filter_placement'] : [],
                     'attr' => [
                         'help_text' => 'The position of the defined filters',
                         'tag' => 'general'

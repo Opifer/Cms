@@ -16,6 +16,7 @@ use Opifer\ContentBundle\Model\ContentManagerInterface;
 use Opifer\ContentBundle\Model\ContentRepository;
 use Opifer\ContentBundle\Serializer\BlockExclusionStrategy;
 use Opifer\CmsBundle\Entity\Option;
+use Opifer\EavBundle\Entity\OptionValue;
 use Opifer\ExpressionEngine\Visitor\QueryBuilderVisitor;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -157,6 +158,70 @@ class ContentController extends Controller
         $json = $this->get('jms_serializer')->serialize([
             'results' => $items,
             'total_results' => $count
+        ], 'json', $context);
+
+        $response->setData(json_decode($json, true));
+
+        return $response;
+    }
+
+    /**
+     * @ApiDoc()
+     *
+     * @QueryParam(name="attribute", requirements="\d+", description="The attribute on which the content should be related")
+     * @QueryParam(name="content", requirements="\d+", description="The content item the results should be related to")
+     * @QueryParam(name="direction", description="Define the order direction", default="asc")
+     * @QueryParam(name="limit", requirements="\d+", description="The amount of results to return", default="3")
+     * @QueryParam(name="order_by", description="Define the order")
+     *
+     * @param Request      $request
+     * @param ParamFetcher $paramFetcher
+     *
+     * @return ContentInterface[]
+     */
+    public function getContentRelatedAction(Request $request, ParamFetcher $paramFetcher)
+    {
+        $repository = $this->get('opifer.content.content_manager')->getRepository();
+
+        /** @var Content $content */
+        $content = $repository->find($paramFetcher->get('content'));
+        /** @var OptionValue $value */
+        $value = $content->getValueSet()->getValueByAttributeId($paramFetcher->get('attribute'));
+
+        $qb = $repository->createQueryBuilder('c')
+            ->leftJoin('c.valueSet', 'vs')
+            ->leftJoin('vs.values', 'v')
+            ->leftJoin('v.attribute', 'a')
+            ->leftJoin('v.options', 'o')
+            ->where('a.id = :attribute')->setParameter('attribute', $paramFetcher->get('attribute'))
+            ->andWhere('o.id IN (:options)')->setParameter('options', $value->getIds())
+            ->andWhere('c.id != :self')->setParameter('self', $paramFetcher->get('content'));
+
+        if ($orderBy = $paramFetcher->get('order_by')) {
+            $qb->orderBy('c.'.$orderBy, $paramFetcher->get('direction'));
+        }
+
+        $qb->setMaxResults($paramFetcher->get('limit'));
+        $items = $qb->getQuery()->getResult();
+
+        $lastUpdatedAt = null;
+        foreach ($items as $item) {
+            if ($item->getUpdatedAt() > $lastUpdatedAt) {
+                $lastUpdatedAt = $item->getUpdatedAt();
+            }
+        }
+
+        $response = new JsonResponse();
+        $response->setLastModified($lastUpdatedAt);
+        $response->setPublic();
+
+        if ($response->isNotModified($request)) {
+            return $response;
+        }
+
+        $context = SerializationContext::create()->setGroups(['Default', 'detail'])->enableMaxDepthChecks();
+        $json = $this->get('jms_serializer')->serialize([
+            'results' => $items,
         ], 'json', $context);
 
         $response->setData(json_decode($json, true));
