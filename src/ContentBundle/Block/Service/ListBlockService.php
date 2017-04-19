@@ -71,7 +71,9 @@ class ListBlockService extends AbstractBlockService implements BlockServiceInter
                 ->add('value',  ContentListPickerType::class, [
                     'label' => 'label.content',
                     'required' => false,
-                    'help_text' => 'help.list_content_picker',
+                    'attr' => [
+                        'help_text' => 'help.list_content_picker',
+                    ]
                 ])
         );
 
