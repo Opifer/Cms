@@ -82,13 +82,12 @@ class SectionBlockService extends AbstractBlockService implements BlockServiceIn
                 'choices' => [
                     'fluid' => 'label.container_fluid',
                     '' => 'label.container_fixed',
-                    'smooth' => 'label.container_smooth'
+                    'smooth' => 'label.container_smooth',
                 ],
-                'required' => true,
-                'constraints' => [
-                    new NotBlank(),
+                'attr' => [
+                    'help_text' => 'help.container_sizing',
+                    'tag' => 'styles',
                 ],
-                'attr' => ['help_text' => 'help.container_sizing', 'tag' => 'styles'],
             ])
         ;
     }
