@@ -5,6 +5,16 @@
 #    requirements:
 #        id: \d+
 
+opifer_content_api_content:
+    resource: "Opifer\ContentBundle\Controller\Api\ContentController"
+    type:     rest
+    prefix: /api
+
+opifer_content_api_template:
+    resource: "Opifer\ContentBundle\Controller\Api\TemplateController"
+    type:     rest
+    prefix: /api
+
 # TODO: Re-organize API routes
 opifer_content_api_content_view_flat:
     path: /api/content/flat/{id}
@@ -21,13 +31,3 @@ opifer_content_api_content_view:
     methods: [GET, OPTIONS]
     options:
         expose: true
-
-opifer_content_api_content:
-    resource: "Opifer\ContentBundle\Controller\Api\ContentController"
-    type:     rest
-    prefix: /api
-
-opifer_content_api_template:
-    resource: "Opifer\ContentBundle\Controller\Api\TemplateController"
-    type:     rest
-    prefix: /api
