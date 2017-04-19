@@ -10,6 +10,7 @@ title:
     locale: languages
     layouts: Layouts
     content_types: Content types
+    domain: Domain
 
 # Base
 base:
@@ -173,13 +174,16 @@ label:
     allow_linkedin: Allow LinkedIn
     facebook_id: Facebook App Id
     linkedin_key: LinkedIn App Key
+    domain: Domain
 
 help_text:
     allow_email: Allow login with e-mail address
     allow_facebook: Allow login with social Facebook accounts
     allow_linkedin: Allow login with social LinkedIn accounts
     facebook_id: Enter the Facebook App Id from developer.facebook.com 
-    linkedin_key: Enter the LinkedIn App Key from developer.linkedin.com 
+    linkedin_key: Enter the LinkedIn App Key from developer.linkedin.com
+    site_domain: Select one or more domains that are attached to this site
+    domain: Enter domainname here like example.com
 
 message:
     no_items_found: "No items found"
@@ -198,3 +202,8 @@ locale:
     details: "Locale details"
     edit: "Edit locale"
     new: "Create locale"
+
+domain:
+    details: "Domain details"
+    edit: "Edit domain"
+    new: "Create domain"

@@ -16,7 +16,16 @@ class SiteType extends AbstractType
         $builder
             ->add('name')
             ->add('description')
-            ->add('domain')
+            ->add('domain', EntityType::class, [
+                'label' => 'label.domain',
+                'class'    => 'OpiferCmsBundle:Domain',
+                'property' => 'domain',
+                'attr'     => [
+                    'help_text'   => 'help_text.site_domain',
+                ],
+                'required' => true,
+                'multiple' => true
+            ])
             ->add('cookieDomain')
             ->add('defaultLocale', EntityType::class, [
                 'label' => 'label.language',

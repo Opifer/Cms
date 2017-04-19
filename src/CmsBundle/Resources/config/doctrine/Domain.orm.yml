@@ -1,0 +1,12 @@
+Opifer\CmsBundle\Entity\Domain:
+  type: entity
+  table: domain
+  id:
+      id:
+          type: integer
+          id: true
+          generator:
+              strategy: IDENTITY
+  fields:
+      domain:
+          type: string

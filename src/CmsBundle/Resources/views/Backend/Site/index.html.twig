@@ -3,9 +3,15 @@
 {% block body %}
     <div class="page-header clearfix">
         <h1 class="pull-left">Sites</h1>
-        <a href="{{ path('opifer_cms_site_create') }}" class="btn btn-default pull-right">
-            New site
-        </a>
+
+        <div class="pull-right btn-group btn-group-columns btn-separator">
+            <a href="{{ path('opifer_cms_domain_index') }}" class="btn btn-default">
+                Manage domains
+            </a>
+            <a href="{{ path('opifer_cms_site_create') }}" class="btn btn-default">
+                New site
+            </a>
+        </div>
     </div>
 
     {% include 'OpiferCmsBundle:Components:grid.html.twig' with { 'grid': grid } %}
