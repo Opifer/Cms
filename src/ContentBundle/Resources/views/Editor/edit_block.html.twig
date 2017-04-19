@@ -43,14 +43,14 @@
                     <div class="tab-pane active" id="block-general">
                         {% if form.default|default %}
                             {% for type in form.default %}
-                                {% if (type.vars.attr.tag|default is empty) or (type.vars.attr.tag|default == 'general') %}
+                                {% if (type.vars.attr.tag|default is empty) or (type.vars.attr.tag|default in ['general', 'content']) %}
                                     {{ form_row(type) }}
                                 {% endif %}
                             {% endfor %}
                         {% endif %}
                         {% if form.properties|default %}
                             {% for type in form.properties %}
-                                {% if (type.vars.attr.tag|default == 'general') %}
+                                {% if (type.vars.attr.tag|default in ['general', 'content']) %}
                                     {{ form_row(type) }}
                                 {% endif %}
                             {% endfor %}
