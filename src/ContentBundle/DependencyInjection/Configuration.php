@@ -40,6 +40,7 @@ class Configuration implements ConfigurationInterface
                                 ->scalarNode('index')->defaultValue('OpiferContentBundle:Content:index.html.twig')->end()
                                 ->scalarNode('edit_type')->defaultValue('OpiferContentBundle:Content:edit_type.html.twig')->end()
                                 ->scalarNode('select_type')->defaultValue('OpiferContentBundle:Content:select_type.html.twig')->end()
+                                ->scalarNode('select_site')->defaultValue('OpiferContentBundle:Content:select_site.html.twig')->end()
                                 ->scalarNode('select_layout_type')->defaultValue('OpiferContentBundle:Content:select_layout_type.html.twig')->end()
                                 ->scalarNode('type')->defaultValue('OpiferContentBundle:Content:type.html.twig')->end()
                                 ->scalarNode('new')->defaultValue('OpiferContentBundle:Content:new.html.twig')->end()

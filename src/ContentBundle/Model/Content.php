@@ -9,6 +9,7 @@ use Gedmo\Mapping\Annotation as Gedmo;
 use JMS\Serializer\Annotation as JMS;
 use Opifer\CmsBundle\Entity\Locale;
 use Opifer\CmsBundle\Entity\Media;
+use Opifer\CmsBundle\Entity\Site;
 use Opifer\ContentBundle\Block\BlockOwnerInterface;
 use Opifer\ContentBundle\Entity\Template;
 use Opifer\EavBundle\Entity\Value;
@@ -388,6 +389,16 @@ class Content implements ContentInterface, EntityInterface, TemplatedInterface, 
     public function getSlug()
     {
         return $this->slug;
+    }
+
+    /**
+     * Get Site.
+     *
+     * @return Site
+     */
+    public function getSite()
+    {
+        return $this->site;
     }
 
     /**

@@ -46,7 +46,7 @@ Opifer\CmsBundle\Entity\Site:
                 locale_id:
                     referencedColumnName: id
             orphanRemoval: false
-        domains:
+        domain:
             targetEntity: Opifer\CmsBundle\Entity\Domain
             cascade: {  }
             fetch: LAZY

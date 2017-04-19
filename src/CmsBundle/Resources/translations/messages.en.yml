@@ -10,6 +10,7 @@ title:
     locale: languages
     layouts: Layouts
     content_types: Content types
+    site_selection: Website
     domain: Domain
     site: Site
 

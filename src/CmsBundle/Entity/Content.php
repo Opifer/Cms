@@ -104,6 +104,9 @@ class Content extends BaseContent
     protected $preview;
 
     /**
+     * @var Site
+     *
+     * @JMS\Expose
      */
     protected $site;
 

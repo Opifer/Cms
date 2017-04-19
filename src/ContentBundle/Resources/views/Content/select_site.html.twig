@@ -1,0 +1,22 @@
+{% extends 'OpiferContentBundle::base.html.twig' %}
+
+{% block opifer_content_body %}
+    {% spaceless %}
+        <div class="container">
+            <div class="row">
+                <div class="page-header">
+                    <h1>
+                        {{ "title.site_selection"|trans }}
+                    </h1>
+                </div>
+                <div class="list-group">
+                    {% for site in sites %}
+                        <a href="{{ path('opifer_content_content_select_type', {'siteId': site.id}) }}" class="list-group-item">
+                            {{ site.name }}
+                        </a>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    {% endspaceless %}
+{% endblock opifer_content_body %}
