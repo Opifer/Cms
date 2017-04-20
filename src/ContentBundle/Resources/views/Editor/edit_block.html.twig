@@ -1,7 +1,7 @@
 <div class="container-fluid">
     <div class="row row-space-top-2 row-space-2">
         <div class="col-xs-12">
-            {{ block_service.description }}
+            {{ block_service.description|trans }}
         </div>
     </div>
     {{ form_start(form, {'action': path('opifer_content_api_contenteditor_edit_block', {'id': block.id}), 'label_col': 3, 'widget_col': 9, 'attr' : {'data-pm-block-id': block.id, 'novalidate': 'novalidate', 'class': 'prevent-enter-submit'}, 'style': 'horizontal'}) }}
@@ -56,22 +56,6 @@
                             {% endfor %}
                         {% endif %}
                     </div>
-                    <div class="tab-pane" id="block-settings">
-                        {% if form.default|default %}
-                            {% for type in form.default %}
-                                {% if type.vars.attr.tag|default == 'settings' %}
-                                    {{ form_row(type) }}
-                                {% endif %}
-                            {% endfor %}
-                        {% endif %}
-                        {% if form.properties|default %}
-                            {% for type in form.properties %}
-                                {% if (type.vars.attr.tag|default == 'settings') or (type.vars.attr.tag|default is empty )  %}
-                                    {{ form_row(type) }}
-                                {% endif %}
-                            {% endfor %}
-                        {% endif %}
-                    </div>
                     <div class="tab-pane" id="block-styles">
                         {% if form.default|default %}
                             {% for type in form.default %}
@@ -88,6 +72,22 @@
                             {% endfor %}
                         {% endif %}
                     </div>
+                    <div class="tab-pane" id="block-settings">
+                        {% if form.default|default %}
+                            {% for type in form.default %}
+                                {% if type.vars.attr.tag|default == 'settings' %}
+                                    {{ form_row(type) }}
+                                {% endif %}
+                            {% endfor %}
+                        {% endif %}
+                        {% if form.properties|default %}
+                            {% for type in form.properties %}
+                                {% if (type.vars.attr.tag|default == 'settings') or (type.vars.attr.tag|default is empty )  %}
+                                    {{ form_row(type) }}
+                                {% endif %}
+                            {% endfor %}
+                        {% endif %}
+                    </div>
                     {% if block.isShared %}
                         <div class="tab-pane" id="block-shared">
                             {% if form.sharedName is defined %}{{ form_row(form.sharedName) }}{% endif %}
@@ -99,7 +99,7 @@
 
             <div class="form-group">
                 <div class="col-xs-12">
-                    <button type="submit" class="btn btn-primary">{{ 'button.submit'|trans }}</button>
+                    <button type="submit" class="btn btn-primary">{{ 'button.save'|trans }}</button>
                 </div>
             </div>
         </div>

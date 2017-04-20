@@ -161,3 +161,23 @@
     {% endif %}
     {{ parent() }}
 {% endblock radio_row %}
+
+
+
+{% block choice_widget_expanded %}
+    {% if attr.buttongroup|default %}
+        {% spaceless %}
+            <div {% if id is not empty %}id="{{ id }}" {% endif %} data-toggle="buttons" class="btn-group">
+                {% for child in form %}
+                    {% if form.multiple is defined %}
+                        {{ checkbox_row(child, { 'no_form_group': true, 'inline' : (attr.inline is defined and attr.inline), 'label_attr': {'class': 'btn btn-default'} }) }}
+                    {% else %}
+                        {{ radio_row(child, { 'no_form_group': true, 'inline' : true, 'label_attr': {'class': 'btn btn-default'} }) }}
+                    {% endif %}
+                {% endfor %}
+            </div>
+        {% endspaceless %}
+    {% else %}
+        {{ parent() }}
+    {% endif %}
+{% endblock choice_widget_expanded %}

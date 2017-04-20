@@ -6,6 +6,8 @@
             <span class="node-block {% if node is block_pointer %}node-pointer{% endif %} {% if environment.object.id != node.owner.id|default("0") and node.owner.id|default("0") != "0" %}node-inherited{% endif %}">
                 {% if node.title|default and node.title is not empty %}
                     <i class="material-icons md-18">{{ environment.getTool(node).icon }}</i> {{ node.title }}
+                {% elseif node.displayName|default and node.displayName is not empty %}
+                    <i class="material-icons md-18">{{ environment.getTool(node).icon }}</i> {{ node.displayName }}
                 {% elseif node.name|default and node.name is not empty %}
                     <i class="material-icons md-18">{{ environment.getTool(node).icon }}</i> {{ node.name }}
                 {% else %}

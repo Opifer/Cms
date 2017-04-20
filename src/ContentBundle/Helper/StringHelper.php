@@ -34,8 +34,10 @@ class StringHelper
             return $string;
         }
 
-        if (!empty($matches[3])) {
+        if (!empty($matches[3][0])) {
             $matches[1] = $matches[3];
+        } elseif (!empty($matches[2][0])) {
+            $matches[1] = $matches[2];
         }
 
         /** @var Content[] $contents */

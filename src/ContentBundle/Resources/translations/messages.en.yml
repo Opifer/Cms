@@ -136,6 +136,7 @@ label:
     login_redirect_content_item: Login redirect
     publish_at: Publish date
     section_media: Background
+    columnblock: Columns
 
 link:
     default: Default
@@ -163,6 +164,11 @@ title:
 
 warning:
     block_shared_edit: 'This is a shared block. <br /><span class="small">Shared blocks need publishing individually.</span>'
+
+caption:
+    columnblock: Divide content in columns
+description:
+    columnblock: Divide your content by 1-4 responsive columns. Generates placeholders for content for each column.
 
 # Content
 content:

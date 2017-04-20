@@ -175,6 +175,7 @@
         }
     }
 }
+
 .btn-group-styling {
   position: relative;
   vertical-align: middle;
@@ -251,28 +252,44 @@
 	width: auto!important;
 }
 
-.btn-column-count {
-	width: 100%;
-		.radio{
-			float:left;
-			color: #333;
-			background-color: #fff!important;
-			border: 1px solid #ccc;
-			width: 19%;
-			margin-right: 1%;
-			padding-top: 0px!important;
-			border-radius: 4px;
+.field-btn-group {
+    &:extend(.btn-group);
+    .radio {
+        &:extend(.btn);
+        &:extend(.btn-default);
+        min-width: default;
+    }
 
-			label {
-				padding-right: 1rem;
-				padding-left: 1rem;	
-				width: 100%;
-			}
+    label {
+        padding-left: 0;
+    }
 
-			input[type="radio"] {
-			position: absolute;
-			clip: rect(0,0,0,0)!important;
-			pointer-events: none!important;
-		}	
-	}
+    input[type="radio"] {
+        position: absolute;
+        clip: rect(0,0,0,0)!important;
+        pointer-events: none!important;
+    }	
+	// width: 100%;
+    // .radio {
+    //     float:left;
+    //     color: #333;
+    //     background-color: #fff !important;
+    //     border: 1px solid #ccc;
+    //     width: 19%;
+    //     margin-right: 1%;
+    //     padding-top: 0px!important;
+    //     border-radius: 4px;
+
+    //     label {
+    //         padding-right: 1rem;
+    //         padding-left: 1rem;	
+    //         width: 100%;
+    //     }
+
+    //     input[type="radio"] {
+    //         position: absolute;
+    //         clip: rect(0,0,0,0)!important;
+    //         pointer-events: none!important;
+    //     }	
+	// }
 }

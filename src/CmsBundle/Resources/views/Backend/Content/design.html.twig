@@ -101,8 +101,8 @@
                                                     <i class="material-icons">{{ tool.icon }}</i>
                                                 </div>
                                                 <div class="col-text">
-                                                    <h4 class="list-group-item-heading">{{ tool.name }}</h4>
-                                                    <p class="list-group-item-text">{{ tool.description|raw }}</p>
+                                                    <h4 class="list-group-item-heading">{{ tool.name|trans }}</h4>
+                                                    <p class="list-group-item-text">{{ tool.description|trans|raw }}</p>
                                                 </div>
                                             </div>
                                         {% endif %}
