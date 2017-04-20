@@ -34,8 +34,10 @@ class StringHelper
             return $string;
         }
 
-        if (!empty($matches[3])) {
+        if (!empty($matches[3][0])) {
             $matches[1] = $matches[3];
+        } elseif (!empty($matches[2][0])) {
+            $matches[1] = $matches[2];
         }
 
         /** @var Content[] $contents */
@@ -48,6 +50,7 @@ class StringHelper
         foreach ($matches[0] as $key => $match) {
             if (isset($array[$matches[1][$key]])) {
                 $content = $array[$matches[1][$key]];
+                $slug = $content->getSlug();
 
                 $url = $this->router->generate('_content', ['slug' => $content->getSlug()]);
             } else {
