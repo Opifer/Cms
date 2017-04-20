@@ -97,6 +97,7 @@ class CollectionBlockService extends AbstractBlockService implements BlockServic
                     'label' => 'Order by',
                     'choices' => [
                         'Creation Date' => 'createdAt',
+                        'Publication Date' => 'publishAt',
                         'Title' => 'title',
                     ],
                     'choices_as_values' => true,

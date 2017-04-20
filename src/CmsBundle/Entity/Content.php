@@ -134,6 +134,16 @@ class Content extends BaseContent
     protected $updatedAt;
 
     /**
+     * Publish at.
+     *
+     * @var \DateTime
+     *
+     * @JMS\Expose
+     * @JMS\Groups({"detail", "list"})
+     */
+    protected $publishAt;
+
+    /**
      * @Gedmo\Locale
      */
     protected $locale;
