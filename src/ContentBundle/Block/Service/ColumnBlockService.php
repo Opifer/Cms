@@ -82,13 +82,9 @@ class ColumnBlockService extends AbstractBlockService implements LayoutBlockServ
                 'expanded' => true,
                 'multiple' => false,
                 'attr' => [
-                    'help_text' => 'help.html_styles',
-                    'class' => 'btn-group btn-column-count',
-                    'data-toggle' => 'buttons',
+                    'help_text' => 'help.column_count',
+                    'buttongroup' => true,
                     'tag' => 'styles'
-                ],
-                'label_attr' => [
-                    'class' => 'btn'
                 ],
             ]);
 
@@ -126,9 +122,13 @@ class ColumnBlockService extends AbstractBlockService implements LayoutBlockServ
                     'required' => false,
                     'expanded' => true,
                     'multiple' => true,
-
-                    'attr' => ['help_text' => 'help.list_display_size', 'class' => 'btn-group btn-group-styling', 'data-toggle' => 'buttons'],
-                    'label_attr' => ['class' => 'btn'],
+                    'attr' => [
+                        'help_text' => 'help.list_display_size', 
+                        // 'class' => 'btn-group btn-group-styling', 
+                        // 'data-toggle' => 'buttons',
+                        'tag' => 'styles'
+                    ],
+                    // 'label_attr' => ['class' => 'btn'],
                 ])
                 ->add('spans', SpanCollectionType::class, [
                     'column_count' => $block->getColumnCount(),
@@ -139,9 +139,6 @@ class ColumnBlockService extends AbstractBlockService implements LayoutBlockServ
                     ],
                     'required' => false,
                 ])
-
-
-
                 ->add('offsets', SpanCollectionType::class, [
                     'column_count' => $block->getColumnCount(),
                     'label' => 'label.offsets',
@@ -216,11 +213,11 @@ class ColumnBlockService extends AbstractBlockService implements LayoutBlockServ
      */
     public function getTool(BlockInterface $block = null)
     {
-        $tool = new Tool('Columns', 'column');
+        $tool = new Tool($block !== null ? sprintf('%d columns', $block->getColumnCount()) : 'label.columnblock', 'column');
 
         $tool->setIcon('view_column')
             ->setGroup(Tool::GROUP_LAYOUT)
-            ->setDescription('Inserts columns equal in with');
+            ->setDescription('caption.columnblock');
 
         return $tool;
     }
@@ -230,7 +227,7 @@ class ColumnBlockService extends AbstractBlockService implements LayoutBlockServ
      */
     public function getName(BlockInterface $block = null)
     {
-        return sprintf('%d columns', $this->getColumnCount());
+        return sprintf('%d columns', $block !== null ? $block->getColumnCount() : $this->getColumnCount());
     }
 
     /**
@@ -347,6 +344,6 @@ class ColumnBlockService extends AbstractBlockService implements LayoutBlockServ
      */
     public function getDescription(BlockInterface $block = null)
     {
-        return 'Inserts columns';
+        return 'description.columnblock';
     }
 }
