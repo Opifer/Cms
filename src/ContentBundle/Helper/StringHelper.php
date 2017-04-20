@@ -50,7 +50,6 @@ class StringHelper
         foreach ($matches[0] as $key => $match) {
             if (isset($array[$matches[1][$key]])) {
                 $content = $array[$matches[1][$key]];
-                $slug = $content->getSlug();
 
                 $url = $this->router->generate('_content', ['slug' => $content->getSlug()]);
             } else {
