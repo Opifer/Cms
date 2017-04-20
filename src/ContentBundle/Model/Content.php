@@ -110,7 +110,7 @@ class Content implements ContentInterface, EntityInterface, TemplatedInterface, 
      *          @Gedmo\SlugHandlerOption(name="field", value="slug"),
      *          @Gedmo\SlugHandlerOption(name="separator", value="-")
      *      })
-     * }, fields={"alias"}, unique_base="deletedAt")
+     * }, fields={"alias"}, unique=true, unique_base="site")
      * @ORM\Column(name="alias", type="string", length=255, nullable=true)
      */
     protected $alias;
@@ -126,7 +126,7 @@ class Content implements ContentInterface, EntityInterface, TemplatedInterface, 
      *          @Gedmo\SlugHandlerOption(name="relationSlugField", value="slug"),
      *          @Gedmo\SlugHandlerOption(name="separator", value="/")
      *      })
-     * }, fields={"title"}, unique_base="deletedAt")
+     * }, fields={"title"}, unique=true, unique_base="site")
      * @ORM\Column(name="slug", type="string", length=255)
      */
     protected $slug;

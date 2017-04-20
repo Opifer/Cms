@@ -151,7 +151,7 @@ Opifer\CmsBundle\Entity\Content:
                   Opifer\ContentBundle\Handler\AliasHandler:
                     field: slug
                     separator: -
-                unique_base: deletedAt
+                unique_base: site
         slug:
             type: string
             scale: 0
@@ -168,7 +168,7 @@ Opifer\CmsBundle\Entity\Content:
                     relationField: parent
                     relationSlugField: slug
                     separator: /
-                unique_base: deletedAt
+                unique_base: site
 
         deletedAt:
             type: datetime

@@ -165,6 +165,11 @@ class ContentController extends Controller
             $content = $manager->initialize();
         }
 
+        $site = $this->getDoctrine()->getRepository(Site::class)->find($siteId);
+
+        //set siteId on content item
+        $content->setSite($site);
+
         $form = $this->createForm(ContentType::class, $content);
         $form->handleRequest($request);
 
@@ -182,15 +187,12 @@ class ContentController extends Controller
                 $content->setPublishAt(new \DateTime());
             }
 
-            //set siteId on content item
-            $site = $this->getDoctrine()->getRepository(Site::class)->find($siteId);
-            $content->setSite($site);
-
             $manager->save($content);
 
             return $this->redirectToRoute('opifer_content_contenteditor_design', [
                 'owner' => 'content',
                 'ownerId' => $content->getId(),
+                'site_id' => $siteId
             ]);
         }
 

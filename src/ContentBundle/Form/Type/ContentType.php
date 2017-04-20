@@ -2,6 +2,7 @@
 
 namespace Opifer\ContentBundle\Form\Type;
 
+use Doctrine\ORM\EntityRepository;
 use Opifer\ContentBundle\Form\DataTransformer\SlugTransformer;
 use Opifer\EavBundle\Form\Type\DateTimePickerType;
 use Opifer\EavBundle\Form\Type\ValueSetType;
@@ -36,6 +37,8 @@ class ContentType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+        $site = $options['data']->getSite();
+
         // Add the default form fields
         $builder
             ->add('template', EntityType::class, [
@@ -103,7 +106,13 @@ class ContentType extends AbstractType
             ->add('parent', ContentParentType::class, [
                 'class' => $this->contentClass,
                 'choice_label' => 'title',
+                'site' => $site,
                 'required' => false,
+                'query_builder' => function (EntityRepository $er) use ($site) {
+                    return $er->createQueryBuilder('c')
+                        ->where('c.site = :site')
+                        ->setParameter('site', $site);
+                },
             ])
             ->add('alias', TextType::class, [
                 'attr'        => [
