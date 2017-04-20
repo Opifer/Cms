@@ -56,6 +56,12 @@ services:
         tags:
             - { name: jms_serializer.event_subscriber }
 
+    opifer.content.block_serializer_subscriber:
+        class: Opifer\ContentBundle\EventListener\Serializer\BlockEventSubscriber
+        arguments: ['@opifer.content.block_manager']
+        tags:
+            - { name: jms_serializer.event_subscriber }
+
     # Form types
 
     opifer.content.content_type:

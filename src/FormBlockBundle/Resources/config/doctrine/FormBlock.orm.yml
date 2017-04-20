@@ -1,4 +1,4 @@
-Opifer\CmsBundle\Entity\FormBlock:
+Opifer\FormBlockBundle\Entity\FormBlock:
   type: entity
   manyToOne:
     form:

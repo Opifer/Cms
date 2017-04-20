@@ -1,8 +1,9 @@
 <?php
 
-namespace Opifer\CmsBundle\Block\Service;
+namespace Opifer\FormBlockBundle\Block\Service;
 
-use Opifer\CmsBundle\Entity\FormBlock;
+use Opifer\ContentBundle\Block\Service\LayoutBlockServiceInterface;
+use Opifer\FormBlockBundle\Entity\FormBlock;
 use Opifer\ContentBundle\Block\BlockRenderer;
 use Opifer\ContentBundle\Block\Service\AbstractBlockService;
 use Opifer\ContentBundle\Block\Service\BlockServiceInterface;
@@ -12,9 +13,9 @@ use Opifer\ContentBundle\Model\BlockInterface;
 use Opifer\FormBundle\Model\FormManager;
 use Opifer\FormBundle\Model\PostInterface;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\Extension\Core\Type\FormType;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Opifer\EavBundle\Manager\EavManager;
 
 /**
@@ -52,7 +53,7 @@ class FormBlockService extends AbstractBlockService implements BlockServiceInter
     {
         parent::buildManageForm($builder, $options);
 
-        $propertiesForm = $builder->create('properties', FormType::class, ['label' => false, 'attr' => ['widget_col' => 12]]);
+        $propertiesForm = $builder->create('properties', FormType::class);
 
         if (isset($this->config['templates'])) {
             $propertiesForm->add('template', ChoiceType::class, [
@@ -64,16 +65,7 @@ class FormBlockService extends AbstractBlockService implements BlockServiceInter
             ]);
         }
 
-        $builder->add(
-            $builder->create('default', FormType::class, ['virtual' => true])
-                ->add('form', EntityType::class, [
-                    'class' => 'OpiferCmsBundle:Form',
-                    'choice_label' => 'name',
-                    'label' => 'Form',
-                    'placeholder' => 'Choose Form',
-                ])
-                ->add($propertiesForm)
-        );
+        $builder->add($propertiesForm);
     }
 
     public function getViewParameters(BlockInterface $block)
@@ -123,6 +115,7 @@ class FormBlockService extends AbstractBlockService implements BlockServiceInter
         $tool = new Tool('Form', 'form');
 
         $tool->setIcon('receipt')
+            ->setGroup('Form')
             ->setDescription('Include a form created in Forms');
 
         return $tool;

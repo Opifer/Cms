@@ -133,4 +133,9 @@ class ClipboardBlockService implements BlockServiceInterface, ToolsetMemberInter
 
         return $tools;
     }
+
+    public function load(BlockInterface $block)
+    {
+
+    }
 }

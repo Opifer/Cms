@@ -39,6 +39,9 @@ abstract class Block implements BlockInterface, DraftInterface
     /**
      * @var int
      *
+     * @JMS\Expose
+     * @JMS\Groups({"tree"})
+     *
      * @ORM\Column(type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
@@ -73,6 +76,9 @@ abstract class Block implements BlockInterface, DraftInterface
     /**
      * @var ArrayCollection
      *
+     * @JMS\Expose
+     * @JMS\Groups({"tree"})
+     *
      * @ORM\OneToMany(targetEntity="Opifer\ContentBundle\Entity\Block", mappedBy="parent", cascade={"detach", "persist"})
      * @ORM\OrderBy({"sort" = "ASC"})
      **/
@@ -81,6 +87,9 @@ abstract class Block implements BlockInterface, DraftInterface
     /**
      * @var int
      *
+     * @JMS\Expose
+     * @JMS\Groups({"tree"})
+     *
      * @Revisions\Revised
      * @ORM\Column(type="integer", nullable=true)
      */
@@ -88,6 +97,9 @@ abstract class Block implements BlockInterface, DraftInterface
 
     /**
      * @var int
+     *
+     * @JMS\Expose
+     * @JMS\Groups({"tree", "detail", "list"})
      *
      * @Revisions\Revised
      * @ORM\Column(type="integer", nullable=true)
@@ -105,6 +117,9 @@ abstract class Block implements BlockInterface, DraftInterface
     /**
      * @var array
      *
+     * @JMS\Expose
+     * @JMS\Groups({"tree"})
+     *
      * @Revisions\Revised
      * @ORM\Column(type="json_array", nullable=true)
      */
@@ -113,12 +128,18 @@ abstract class Block implements BlockInterface, DraftInterface
     /**
      * @var bool
      *
+     * @JMS\Expose
+     * @JMS\Groups({"tree", "detail", "list"})
+     *
      * @ORM\Column(type="boolean")
      */
     protected $shared = false;
 
     /**
      * @var string
+     *
+     * @JMS\Expose
+     * @JMS\Groups({"tree", "detail", "list"})
      *
      * @ORM\Column(type="string", nullable=true)
      * @GRID\Column(title="label.shared_name")
@@ -135,6 +156,9 @@ abstract class Block implements BlockInterface, DraftInterface
 
     /**
      * @var string
+     *
+     * @JMS\Expose
+     * @JMS\Groups({"tree"})
      *
      * @Revisions\Revised
      * @ORM\Column(type="text", name="value", nullable=true)
@@ -278,6 +302,16 @@ abstract class Block implements BlockInterface, DraftInterface
     }
 
     /**
+     * @JMS\VirtualProperty
+     * @JMS\SerializedName("parentId")
+     * @JMS\Groups({"tree", "detail", "list"})
+     */
+    public function getParentId()
+    {
+        return ($this->parent) ? $this->parent->getId() : null;
+    }
+
+    /**
      * @return mixed
      */
     public function getPosition()
@@ -339,6 +373,15 @@ abstract class Block implements BlockInterface, DraftInterface
     public function setProperties($properties)
     {
         $this->properties = $properties;
+    }
+
+    /**
+     * @param string $key
+     * @return null
+     */
+    public function getProperty($key)
+    {
+        return (isset($this->properties[$key])) ? $this->properties[$key] : null;
     }
 
     /**
@@ -573,5 +616,17 @@ abstract class Block implements BlockInterface, DraftInterface
     public function hasChildren()
     {
         return false;
+    }
+
+    /**
+     * @JMS\Groups({"tree"})
+     * @JMS\VirtualProperty
+     * @JMS\SerializedName("type")
+     *
+     * @return string
+     */
+    public function getDiscriminator()
+    {
+        return (new \ReflectionClass($this))->getShortName();
     }
 }

@@ -18,6 +18,7 @@ security:
     firewalls:
         staging:
             host: ^staging\.
+            methods: [GET, POST, DELETE, PUT, PATCH, OPTIONS]
             http_basic:
                 provider: fos_userbundle
             anonymous: false

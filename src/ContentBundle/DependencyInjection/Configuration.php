@@ -95,6 +95,23 @@ class Configuration implements ConfigurationInterface
                 ->arrayNode('blocks')
                     ->addDefaultsIfNotSet()
                     ->children()
+                        ->arrayNode('alert')
+                            ->addDefaultsIfNotSet()
+                            ->children()
+                                ->scalarNode('view')->defaultValue('OpiferContentBundle:Block:Content/alert.html.twig')->end()
+                                ->arrayNode('styles')
+                                    ->prototype('scalar')->end()
+                                    ->normalizeKeys(false)
+                                    ->defaultValue([
+                                        'primary' => 'Primary',
+                                        'success' => 'Success',
+                                        'info' => 'Info',
+                                        'warning' => 'Warning',
+                                        'danger' => 'Danger',
+                                    ])
+                                ->end()
+                            ->end()
+                        ->end()
                         ->arrayNode('button')
                             ->addDefaultsIfNotSet()
                             ->children()
@@ -109,6 +126,26 @@ class Configuration implements ConfigurationInterface
                                         'btn-default' => 'Button default',
                                         'btn-block' => 'Button block',
                                         'center-block' => 'Center block'
+                                    ])
+                                ->end()
+                            ->end()
+                        ->end()
+                        ->arrayNode('card')
+                            ->addDefaultsIfNotSet()
+                            ->children()
+                                ->scalarNode('view')->defaultValue('OpiferContentBundle:Block:Content/card.html.twig')->end()
+                                ->arrayNode('styles')
+                                    ->prototype('scalar')->end()
+                                    ->normalizeKeys(false)
+                                    ->defaultValue([
+                                        'img-overlay' => 'Image overlay',
+                                        'inverse' => 'Inverted text',
+                                        'primary' => 'Primary',
+                                        'success' => 'Success',
+                                        'info' => 'Info',
+                                        'warning' => 'Warning',
+                                        'danger' => 'Danger',
+                                        'outline' => 'Outline',
                                     ])
                                 ->end()
                             ->end()
