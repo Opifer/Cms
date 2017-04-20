@@ -264,6 +264,7 @@ class Content implements ContentInterface, EntityInterface, TemplatedInterface, 
     /**
      * @var \DateTime
      *
+     * @JMS\Expose
      * @ORM\Column(name="publish_at", type="datetime", nullable=true)
      */
     protected $publishAt;
