@@ -198,12 +198,6 @@ services:
 
     # Block Services
 
-    opifer.cms.form_block:
-        class: 'Opifer\CmsBundle\Block\Service\FormBlockService'
-        arguments: ['@opifer.content.block_renderer', '@opifer.eav.eav_manager', '@opifer.form.form_manager', '%opifer_cms.form_block_configuration%']
-        tags:
-            - { name: 'opifer.content.block_service', alias: 'form' }
-
     opifer.mailing_list.subscribe_block:
         class: 'Opifer\MailingListBundle\Block\Service\SubscribeBlockService'
         arguments: ['@opifer.content.block_renderer', '%opifer_mailing_list.subscribe_block_configuration%', '@form.factory', '@router', '@doctrine.orm.default_entity_manager', '@opifer.content.content_manager', '@opifer.mailinglist.subscription_manager']

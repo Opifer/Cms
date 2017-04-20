@@ -4,6 +4,8 @@ namespace Opifer\ContentBundle\Controller\Api;
 
 use JMS\Serializer\SerializationContext;
 use Opifer\ContentBundle\Block\BlockManager;
+use Opifer\ContentBundle\Environment\Environment;
+use Opifer\ContentBundle\Model\ContentInterface;
 use Opifer\ContentBundle\Model\ContentManager;
 use Opifer\ContentBundle\Model\ContentManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -70,12 +72,29 @@ class ContentController extends Controller
      */
     public function viewAction(Request $request, $id)
     {
-        $manager = $this->get('opifer.content.content_manager');
-        $content = $manager->getRepository()->find($id);
+        $content = $this->get('opifer.content.content_manager')->getRepository()->find($id);
 
-        $content = $this->get('jms_serializer')->serialize($content, 'json');
+        $version = $request->query->get('_version');
 
-        return new Response($content, 200, ['Content-Type' => 'application/json']);
+        /** @var Environment $environment */
+        $environment = $this->get('opifer.content.block_environment');
+        $environment->setObject($content);
+
+        if (null !== $version && $this->isGranted('ROLE_ADMIN')) {
+            $environment->setDraft(true);
+        }
+
+        $environment->load();
+
+        $blockTree = $environment->getRootBlocks();
+        $blockTree = ['blocks' => $blockTree];
+
+        $blocks = $this->get('jms_serializer')->serialize($blockTree, 'json');
+
+        $response = new Response($blocks, 200, ['Content-Type' => 'application/json']);
+        $response->headers->set('Access-Control-Allow-Origin', '*');
+
+        return $response;
     }
 
     /**

@@ -966,20 +966,6 @@ class Content implements ContentInterface, EntityInterface, TemplatedInterface, 
     }
 
     /**
-     * Returns name of the Schema for the ValueSet.
-     *
-     * @JMS\VirtualProperty
-     * @JMS\SerializedName("schemaName")
-     * @JMS\Groups({"detail"})
-     *
-     * @return array
-     */
-    public function getSchemaName()
-    {
-        return $this->getValueSet()->getSchema()->getName();
-    }
-
-    /**
      * Get breadcrumbs.
      *
      * Loops through all parents to determine the breadcrumbs and stores them in

@@ -28,6 +28,12 @@ parameters:
     opifer.content.search_results_block.class: Opifer\ContentBundle\Block\Service\SearchResultsBlockService
 
 services:
+    opifer.content.carousel_block:
+        class: 'Opifer\ContentBundle\Block\Service\AlertBlockService'
+        arguments: ['@opifer.content.block_renderer', '%opifer_content.alert_block_configuration%']
+        tags:
+            - { name: opifer.content.block_service, alias: alert }
+
     opifer.content.button_block:
         class: '%opifer.content.button_block.class%'
         arguments: ['@opifer.content.block_renderer', '%opifer_content.button_block_configuration%']
