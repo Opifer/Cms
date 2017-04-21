@@ -139,7 +139,7 @@ class ContentRepository extends NestedTreeRepository
             ->where('c.slug = :slug')
             ->andWhere('c.active = :active')
             ->andWhere('c.publishAt < :now OR c.publishAt IS NULL')
-            ->andWhere('d.domain = :host')
+            ->andWhere('d.domain = :host OR c.site IS NULL')
             ->setParameters([
                 'slug' => $slug,
                 'active' => true,
@@ -166,7 +166,7 @@ class ContentRepository extends NestedTreeRepository
             ->where('c.alias = :alias')
             ->andWhere('c.active = :active')
             ->andWhere('(c.publishAt < :now OR c.publishAt IS NULL)')
-            ->andWhere('d.domain = :host')
+            ->andWhere('d.domain = :host OR c.site IS NULL')
             ->setParameters([
                 'alias' => $alias,
                 'active' => true,
