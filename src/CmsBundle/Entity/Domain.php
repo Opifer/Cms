@@ -2,6 +2,8 @@
 
 namespace Opifer\CmsBundle\Entity;
 
+use Symfony\Component\Validator\Constraints as Assert;
+
 class Domain
 {
     /**
@@ -11,6 +13,10 @@ class Domain
 
     /**
      * @var string
+     * @Assert\Regex(
+     *     pattern="/^(?:[-A-Za-z0-9]+\.)+[A-Za-z]{2,6}$/",
+     *     message="The domain should be a valid domain"
+     * )
      */
     protected $domain;
 
