@@ -46,14 +46,8 @@ Opifer\CmsBundle\Entity\Site:
                 locale_id:
                     referencedColumnName: id
             orphanRemoval: false
-        domain:
-            targetEntity: Opifer\CmsBundle\Entity\Domain
-            cascade: {  }
-            fetch: LAZY
-            mappedBy: null
-            inversedBy: null
-            joinColumns:
-                domain_id:
-                    referencedColumnName: id
-            orphanRemoval: false
     lifecycleCallbacks: {  }
+    oneToMany:
+        domains:
+            targetEntity: Opifer\CmsBundle\Entity\Domain
+            mappedBy: site

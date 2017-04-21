@@ -3,13 +3,14 @@
 namespace Opifer\CmsBundle\Entity;
 
 use APY\DataGridBundle\Grid\Mapping as GRID;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Site
  *
- * @GRID\Source(columns="id, name, domain, defaultLocale")
+ * @GRID\Source(columns="id, name, domains, defaultLocale")
  */
 class Site
 {
@@ -31,11 +32,11 @@ class Site
     private $description;
 
     /**
-     * @var array
+     * @var ArrayCollection|Domain[]
      *
      * @Assert\NotBlank()
      */
-    private $domain;
+    private $domains;
 
     /**
      * @var string
@@ -48,6 +49,11 @@ class Site
      * @Assert\NotBlank()
      */
     private $defaultLocale;
+
+    public function __construct()
+    {
+        $this->domains = new ArrayCollection();
+    }
 
     /**
      * Get id.
@@ -108,27 +114,41 @@ class Site
     }
 
     /**
-     *  Set domain.
+     *  Set domains.
      *
-     * @param string $domain
+     * @param ArrayCollection $domains
      *
      * @return Site
      */
-    public function setDomain(Domain $domain)
+    public function setDomains($domains)
     {
-        $this->domain = $domain;
+        $this->domains = $domains;
 
         return $this;
     }
 
     /**
-     * Get domain.
+     * Get domains.
      *
      * @return string
      */
-    public function getDomain()
+    public function getDomains()
     {
-        return $this->domain;
+        return $this->domains;
+    }
+
+    public function addDomain(Domain $domain)
+    {
+        $this->domains[] = $domain;
+
+        return $this;
+    }
+
+    public function removeDomain(Domain $domain)
+    {
+        $this->domains->removeElement($domain);
+
+        return $this;
     }
 
     /**
