@@ -368,6 +368,12 @@ class ContentController extends Controller
         $manager = $this->get('opifer.content.content_manager');
         $content = $manager->getRepository()->find($id);
 
+        //generate new slug so deleted slug can be used again
+        $hashedSlug = $content->getSlug().'-'.sha1(date('Y-m-d H:i:s'));
+
+        $content->setSlug($hashedSlug);
+        $manager->save($content);
+
         $manager->remove($content);
 
         return new JsonResponse(['success' => true]);
