@@ -131,13 +131,21 @@ class ContentRepository extends NestedTreeRepository
      *
      * @return ContentInterface
      */
-    public function findActiveBySlug($slug)
+    public function findActiveBySlug($slug, $host)
     {
         $query = $this->createValuedQueryBuilder('c')
+            ->leftJoin('c.site','os')
+            ->leftJoin('os.domains','d')
             ->where('c.slug = :slug')
             ->andWhere('c.active = :active')
             ->andWhere('c.publishAt < :now OR c.publishAt IS NULL')
-            ->setParameters(['slug' => $slug, 'active' => true, 'now' => new \DateTime()])
+            ->andWhere('d.domain = :host')
+            ->setParameters([
+                'slug' => $slug,
+                'active' => true,
+                'now' => new \DateTime(),
+                'host' => $host
+            ])
             ->getQuery();
 
         return $query->getSingleResult();
@@ -150,13 +158,21 @@ class ContentRepository extends NestedTreeRepository
      *
      * @return ContentInterface
      */
-    public function findActiveByAlias($alias)
+    public function findActiveByAlias($alias, $host)
     {
         $query = $this->createValuedQueryBuilder('c')
+            ->leftJoin('c.site','os')
+            ->leftJoin('os.domains','d')
             ->where('c.alias = :alias')
             ->andWhere('c.active = :active')
             ->andWhere('(c.publishAt < :now OR c.publishAt IS NULL)')
-            ->setParameters(['alias' => $alias, 'active' => true, 'now' => new \DateTime()])
+            ->andWhere('d.domain = :host')
+            ->setParameters([
+                'alias' => $alias,
+                'active' => true,
+                'now' => new \DateTime(),
+                'host' => $host
+            ])
             ->getQuery();
 
         return $query->getSingleResult();
