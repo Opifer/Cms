@@ -93,7 +93,7 @@ class OpiferContentExtension extends Extension implements PrependExtensionInterf
         foreach ($container->getExtensions() as $name => $extension) {
             switch ($name) {
                 case 'doctrine':
-                    $container->prependExtensionConfig($name,  [
+                    $container->prependExtensionConfig($name, [
                         'orm' => [
                             'resolve_target_entities' => [
                                 'Opifer\ContentBundle\Model\ContentInterface' => $config['content']['class'],

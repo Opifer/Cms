@@ -73,8 +73,8 @@ class ContentController extends Controller
         $sites = $this->getDoctrine()->getRepository(Site::class)->findAll();
 
         //if one site go on
-        if(count($sites) == 1) {
-            return $this->redirectToRoute('opifer_content_content_select_type',['siteId' => $sites[0]->getId()]);
+        if (count($sites) == 1) {
+            return $this->redirectToRoute('opifer_content_content_select_type', ['siteId' => $sites[0]->getId()]);
         }
 
         return $this->render($this->getParameter('opifer_content.content_select_site'), [

@@ -45,7 +45,7 @@ class Site
 
     /**
      * @var string
-     * 
+     *
      * @Assert\NotBlank()
      */
     private $defaultLocale;

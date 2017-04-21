@@ -134,8 +134,8 @@ class ContentRepository extends NestedTreeRepository
     public function findActiveBySlug($slug, $host)
     {
         $query = $this->createValuedQueryBuilder('c')
-            ->leftJoin('c.site','os')
-            ->leftJoin('os.domains','d')
+            ->leftJoin('c.site', 'os')
+            ->leftJoin('os.domains', 'd')
             ->where('c.slug = :slug')
             ->andWhere('c.active = :active')
             ->andWhere('c.publishAt < :now OR c.publishAt IS NULL')
@@ -161,8 +161,8 @@ class ContentRepository extends NestedTreeRepository
     public function findActiveByAlias($alias, $host)
     {
         $query = $this->createValuedQueryBuilder('c')
-            ->leftJoin('c.site','os')
-            ->leftJoin('os.domains','d')
+            ->leftJoin('c.site', 'os')
+            ->leftJoin('os.domains', 'd')
             ->where('c.alias = :alias')
             ->andWhere('c.active = :active')
             ->andWhere('(c.publishAt < :now OR c.publishAt IS NULL)')

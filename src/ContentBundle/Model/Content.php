@@ -741,7 +741,7 @@ class Content implements ContentInterface, EntityInterface, TemplatedInterface, 
      */
     public function getNavigationChildren()
     {
-        return array_filter($this->children->toArray(), function($child) {
+        return array_filter($this->children->toArray(), function ($child) {
             return $child->showInNavigation();
         });
     }
@@ -1153,7 +1153,7 @@ class Content implements ContentInterface, EntityInterface, TemplatedInterface, 
      */
     public function getPreview()
     {
-       return $this->preview;
+        return $this->preview;
     }
 
     /**
@@ -1202,7 +1202,7 @@ class Content implements ContentInterface, EntityInterface, TemplatedInterface, 
      */
     public function getPublishAt()
     {
-        if(null == $this->publishAt){
+        if (null == $this->publishAt) {
             return $this->createdAt;
         }
 
