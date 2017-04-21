@@ -26,7 +26,7 @@ class SiteType extends AbstractType
                 ],
                 'required' => true,
                 'multiple' => true,
-                'choice_label' => 'domain'
+                'expanded' => true,
             ])
             ->add('cookieDomain')
             ->add('defaultLocale', EntityType::class, [
@@ -38,7 +38,6 @@ class SiteType extends AbstractType
                 ],
                 'required' => true
             ])
-
         ;
     }
 

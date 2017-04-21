@@ -38,7 +38,6 @@ Opifer\CmsBundle\Entity\Site:
     manyToOne:
         defaultLocale:
             targetEntity: Opifer\CmsBundle\Entity\Locale
-            cascade: {  }
             fetch: LAZY
             mappedBy: null
             inversedBy: null

@@ -139,6 +139,8 @@ class Site
 
     public function addDomain(Domain $domain)
     {
+        $domain->setSite($this);
+
         $this->domains[] = $domain;
 
         return $this;

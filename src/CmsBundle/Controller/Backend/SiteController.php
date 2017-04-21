@@ -4,6 +4,7 @@ namespace Opifer\CmsBundle\Controller\Backend;
 
 use APY\DataGridBundle\Grid\Action\RowAction;
 use APY\DataGridBundle\Grid\Source\Entity;
+use Opifer\CmsBundle\Entity\Domain;
 use Opifer\CmsBundle\Entity\Site;
 use Opifer\CmsBundle\Form\Type\SiteType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -75,6 +76,12 @@ class SiteController extends Controller
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $domains = $site->getDomains();
+
+            foreach ($domains as $domain) {
+                $domain->setSite($site);
+            }
+
             $em->flush();
 
             return $this->redirectToRoute('opifer_cms_site_edit', ['id' => $site->getId()]);

@@ -62,6 +62,14 @@ class Domain
     public function setSite($site)
     {
         $this->site = $site;
+
         return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function __toString() {
+        return $this->domain;
     }
 }
