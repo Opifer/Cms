@@ -81,7 +81,9 @@ class ContentController extends Controller
     {
         /** @var BlockManager $manager */
         $manager  = $this->get('opifer.content.content_manager');
-        $content = $manager->getRepository()->findOneBySlug('index');
+        $host = $this->getRequest()->getHost();
+
+        $content = $manager->getRepository()->findActiveBySlug('index', $host);
 
         return $this->forward('OpiferContentBundle:Frontend/Content:view', [
             'content' => $content
