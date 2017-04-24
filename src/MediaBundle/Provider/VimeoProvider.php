@@ -21,7 +21,7 @@ use Symfony\Component\Validator\Constraints\Url;
  */
 class VimeoProvider extends AbstractProvider
 {
-    const WATCH_URL = 'https://player.vimeo.com/video';
+    const WATCH_URL = 'https://vimeo.com';
 
     /** @var MediaManagerInterface */
     protected $mediaManager;
