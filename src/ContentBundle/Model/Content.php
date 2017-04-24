@@ -132,6 +132,14 @@ class Content implements ContentInterface, EntityInterface, TemplatedInterface, 
     protected $slug;
 
     /**
+     * @var Site
+     *
+     * @JMS\Expose
+     * @JMS\Groups({"detail", "list"})
+     */
+    protected $site;
+
+    /**
      * @var bool
      *
      * @ORM\Column(name="indexable", type="boolean")

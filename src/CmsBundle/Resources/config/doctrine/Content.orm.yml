@@ -200,9 +200,9 @@ Opifer\CmsBundle\Entity\Content:
         site:
             targetEntity: Opifer\CmsBundle\Entity\Site
             cascade: {  }
-            fetch: LAZY
+            fetch: EAGER
             mappedBy: null
-            inversedBy: null
+            inversedBy: content
             joinColumns:
                 site_id:
                     referencedColumnName: id

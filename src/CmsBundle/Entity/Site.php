@@ -6,16 +6,19 @@ use APY\DataGridBundle\Grid\Mapping as GRID;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
+use JMS\Serializer\Annotation as JMS;
 
 /**
  * Site
  *
+ * @JMS\ExclusionPolicy("all")
  * @GRID\Source(columns="id, name, domains, defaultLocale")
  */
 class Site
 {
     /**
      * @var int
+     * @JMS\Expose
      */
     private $id;
 
@@ -23,11 +26,13 @@ class Site
      * @var string
      *
      * @Assert\NotBlank()
+     * @JMS\Expose
      */
     private $name;
 
     /**
      * @var string
+     * @JMS\Expose
      */
     private $description;
 
@@ -47,12 +52,22 @@ class Site
      * @var string
      *
      * @Assert\NotBlank()
+     * @JMS\Expose
      */
     private $defaultLocale;
+
+    /**
+     * @var ArrayCollection
+     *
+     * @ORM\OneToMany(targetEntity="Opifer\ContentBundle\Model\ContentInterface", mappedBy="contentType")
+     * @ORM\OrderBy({"id" = "DESC"})
+     */
+    protected $content;
 
     public function __construct()
     {
         $this->domains = new ArrayCollection();
+        $this->content = new ArrayCollection();
     }
 
     /**

@@ -50,3 +50,12 @@ Opifer\CmsBundle\Entity\Site:
         domains:
             targetEntity: Opifer\CmsBundle\Entity\Domain
             mappedBy: site
+        content:
+            targetEntity: Opifer\ContentBundle\Model\ContentInterface
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: site
+            inversedBy: null
+            orphanRemoval: false
+            orderBy:
+                id: DESC
