@@ -70,7 +70,7 @@ class SiteController extends Controller
     public function editAction(Request $request, $id)
     {
         $em = $this->getDoctrine()->getManager();
-        $site = $em->getRepository('OpiferCmsBundle:Site')->find($id);
+        $site = $em->getRepository(Site::class)->find($id);
 
         $form = $this->createForm(new SiteType(), $site);
         $form->handleRequest($request);
