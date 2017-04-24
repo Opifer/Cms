@@ -105,7 +105,7 @@ class VimeoProvider extends AbstractProvider
      */
     public function preSave(MediaInterface $media)
     {
-        $vimeoData = $this->getVimeoData($media);
+        $vimeoData = $this->getMetadata($media);
 
         $media->setReference($vimeoData->video_id);
 
@@ -131,31 +131,6 @@ class VimeoProvider extends AbstractProvider
         $duration = new \DateInterval($duration);
 
         return $duration->format('%H:%I:%S');
-    }
-
-    /**
-     * @throws \RuntimeException
-     *
-     * @param MediaInterface $media
-     * @param string         $url
-     *
-     * @return mixed
-     */
-    protected function getMetadata(MediaInterface $media, $url)
-    {
-        try {
-            $metadata = file_get_contents($url);
-        } catch (\RuntimeException $e) {
-            throw new \RuntimeException('Unable to retrieve the video information for :'.$url, null, $e);
-        }
-
-        $metadata = json_decode($metadata, true);
-
-        if (!$metadata) {
-            throw new \RuntimeException('Unable to decode the video information for :'.$url);
-        }
-
-        return $metadata;
     }
 
     /**
@@ -199,19 +174,35 @@ class VimeoProvider extends AbstractProvider
         return self::WATCH_URL.'/'.$media->getReference();
     }
 
-    public function getVimeoData(MediaInterface $media)
+    /**
+     * @throws \RuntimeException
+     *
+     * @param MediaInterface $media
+     * @return \SimpleXMLElement
+     */
+    public function getMetadata(MediaInterface $media)
     {
-        $oembed_endpoint = 'http://vimeo.com/api/oembed';
+        try {
+            $oembed_endpoint = 'http://vimeo.com/api/oembed';
 
-        $xml_url = $oembed_endpoint . '.xml?url=' . rawurlencode($media->getReference());
+            $xml_url = $oembed_endpoint . '.xml?url=' . rawurlencode($media->getReference());
 
-        $curl = curl_init($xml_url);
-        curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
-        curl_setopt($curl, CURLOPT_TIMEOUT, 30);
-        curl_setopt($curl, CURLOPT_FOLLOWLOCATION, 1);
-        $vimeoResult = curl_exec($curl);
-        curl_close($curl);
+            $curl = curl_init($xml_url);
+            curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
+            curl_setopt($curl, CURLOPT_TIMEOUT, 30);
+            curl_setopt($curl, CURLOPT_FOLLOWLOCATION, 1);
+            $vimeoResult = curl_exec($curl);
+            curl_close($curl);
+        } catch (\RuntimeException $e) {
+            throw new \RuntimeException('Unable to retrieve the video information for :'.$url, null, $e);
+        }
 
-        return simplexml_load_string($vimeoResult);
+        $metadata = simplexml_load_string($vimeoResult);
+
+        if (!$metadata) {
+            throw new \RuntimeException('Unable to decode the video information for :'.$url);
+        }
+
+        return $metadata;
     }
 }
