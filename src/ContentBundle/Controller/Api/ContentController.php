@@ -8,6 +8,7 @@ use FOS\RestBundle\Request\ParamFetcher;
 use JMS\Serializer\SerializationContext;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Opifer\CmsBundle\Entity\Content;
+use Opifer\CmsBundle\Entity\Site;
 use Opifer\ContentBundle\Block\BlockManager;
 use Opifer\ContentBundle\Environment\Environment;
 use Opifer\ContentBundle\Model\ContentInterface;
@@ -425,5 +426,23 @@ class ContentController extends Controller
         }
 
         return $response;
+    }
+
+    /**
+     * @ApiDoc()
+     *
+     * @param Request $request
+     *
+     * @return JsonResponse
+     */
+    public function sitesAction(Request $request)
+    {
+        $sites = $this->get('opifer.cms.site_manager')->getSites();
+
+        $data = [
+            'results' => $sites
+        ];
+
+        return new JsonResponse($data);
     }
 }

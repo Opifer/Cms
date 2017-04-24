@@ -99,3 +99,10 @@ opifer_content_api_contenteditor_discard:
 opifer_content_api_dataview_index:
     resource: "Opifer\ContentBundle\Controller\Api\DataViewController"
     type:     rest
+
+opifer_content_api_sites:
+    path: /sites
+    defaults: { _controller: OpiferContentBundle:Api/Content:sites }
+    methods: [GET]
+    options:
+        expose: true
