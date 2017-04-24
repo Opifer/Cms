@@ -12,7 +12,10 @@ title:
     content_types: Content types
     site_selection: Website
     domain: Domain
-    site: Site
+    site: Website
+    domains: Domains
+    sites: Websites
+    create_site: Create new website
 
 # Base
 base:

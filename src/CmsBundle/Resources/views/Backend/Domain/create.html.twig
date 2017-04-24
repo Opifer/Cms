@@ -1,14 +1,12 @@
 {% extends 'OpiferCmsBundle:Backend:base.html.twig' %}
 
 {% block body %}
-    <div class="page-header">
-        <div class="container">
-            <span class="caption">{{ 'title.domain'|trans|capitalize }}</span>
-            <a href="{{ path('opifer_cms_domain_index') }}" class="btn btn-default pull-right">
-                Domain overview
-            </a>
-            <h1>{{ 'domain.new'|trans|capitalize }}</h1>
-        </div>
+    <div class="col-xs-12 page-header">
+        <span class="caption">{{ 'title.domain'|trans|capitalize }}</span>
+        <a href="{{ path('opifer_cms_domain_index') }}" class="btn btn-default pull-right">
+            <i class="material-icons">http</i> {{ 'title.domains'|trans }}
+        </a>
+        <h1>{{ 'domain.new'|trans|capitalize }}</h1>
     </div>
     <div class="container page-body">
         <div class="row">
