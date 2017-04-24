@@ -339,6 +339,9 @@ class ContentController extends Controller
 
         $contentItem = [
             'id' => $content->getId(),
+            'created_at' => $content->getCreatedAt(),
+            'updated_at' => $content->getUpdatedAt(),
+            'published_at' => $content->getPublishAt(),
             'title' => $content->getTitle(),
             'shortTitle' => $content->getShortTitle(),
             'description' => $content->getDescription(),
