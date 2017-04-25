@@ -4,6 +4,7 @@ namespace Opifer\CmsBundle\Controller\Backend;
 
 use APY\DataGridBundle\Grid\Action\RowAction;
 use APY\DataGridBundle\Grid\Source\Entity;
+use Doctrine\Common\Collections\ArrayCollection;
 use Opifer\CmsBundle\Entity\Domain;
 use Opifer\CmsBundle\Entity\Site;
 use Opifer\CmsBundle\Form\Type\SiteType;
@@ -72,15 +73,29 @@ class SiteController extends Controller
         $em = $this->getDoctrine()->getManager();
         $site = $em->getRepository(Site::class)->find($id);
 
+        $originalDomains = new ArrayCollection();
+        foreach ($site->getDomains() as $domain) {
+            $originalDomains->add($domain);
+        }
+
         $form = $this->createForm(new SiteType(), $site);
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $domains = $site->getDomains();
 
-            foreach ($domains as $domain) {
+        if ($form->isSubmitted() && $form->isValid()) {
+
+            // Remove deleted domains
+            foreach ($originalDomains as $domain) {
+                if (false === $site->getDomains()->contains($domain)) {
+                    $em->remove($domain);
+                }
+            }
+
+            // Add new domain
+            foreach ($form->getData()->getDomains() as $domain) {
                 $domain->setSite($site);
             }
+            $em->persist($domain);
 
             $em->flush();
 

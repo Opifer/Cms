@@ -2,6 +2,7 @@
 
 namespace Opifer\CmsBundle\Form\Type;
 
+use Braincrafted\Bundle\BootstrapBundle\Form\Type\BootstrapCollectionType;
 use Opifer\CmsBundle\Entity\Domain;
 use Opifer\CmsBundle\Entity\Locale;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
@@ -18,21 +19,26 @@ class SiteType extends AbstractType
         $builder
             ->add('name')
             ->add('description')
-            ->add('domains', EntityType::class, [
-                'label' => 'label.domain',
-                'query_builder' => function ($qb) use ($options) {
-                    return $qb->createQueryBuilder('d')
-                        ->where('d.site IS NULL OR d.site = :site')
-                        ->setParameter('site', $options['data']->getId());
-                },
-                'class' => Domain::class,
-                'attr'  => [
-                    'help_text'   => 'help_text.site_domain',
-                ],
-                'required' => true,
-                'multiple' => true,
-                'expanded' => true,
+            ->add('domains', BootstrapCollectionType::class, [
+                'type' => DomainType::class,
+                'allow_add' => true,
+                'allow_delete' => true,
             ])
+//            ->add('domains', EntityType::class, [
+//                'label' => 'label.domain',
+//                'query_builder' => function ($qb) use ($options) {
+//                    return $qb->createQueryBuilder('d')
+//                        ->where('d.site IS NULL OR d.site = :site')
+//                        ->setParameter('site', $options['data']->getId());
+//                },
+//                'class' => Domain::class,
+//                'attr'  => [
+//                    'help_text'   => 'help_text.site_domain',
+//                ],
+//                'required' => true,
+//                'multiple' => true,
+//                'expanded' => true,
+//            ])
             ->add('cookieDomain')
             ->add('defaultLocale', EntityType::class, [
                 'label' => 'label.language',
