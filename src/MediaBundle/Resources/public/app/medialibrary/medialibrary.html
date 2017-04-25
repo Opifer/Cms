@@ -30,7 +30,7 @@
             <div class="image-section col-xs-12 clearfix" ng-cloak>
                 <div ng-repeat="item in mediaCollection.items" class="item {{ item.provider }} {{ item.file_type }}">
                     <img ng-src="{{ item.images.medialibrary }}" ng-if="item.provider == 'image'" class="visual" alt="{{ item.name }}">
-                    <img ng-src="{{ item.thumb.images.medialibrary }}" ng-if="item.provider == 'youtube'" class="visual" alt="{{ item.name }}">
+                    <img ng-src="{{ item.thumb.images.medialibrary }}" ng-if="item.provider == 'youtube' || item.provider == 'vimeo'" class="visual" alt="{{ item.name }}">
                     <div class="image-wrapper">
                         <div class="extended-data">
                             <span class="details" ng-if="item.provider == 'image'">{{ item.metadata.width }}x{{ item.metadata.height }}px</span>
