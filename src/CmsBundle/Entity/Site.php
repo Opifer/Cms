@@ -40,6 +40,7 @@ class Site
      * @var ArrayCollection|Domain[]
      *
      * @Assert\NotBlank()
+     * @JMS\Expose
      */
     private $domains;
 

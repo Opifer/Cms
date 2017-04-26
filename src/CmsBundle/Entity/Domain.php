@@ -3,6 +3,7 @@
 namespace Opifer\CmsBundle\Entity;
 
 use Symfony\Component\Validator\Constraints as Assert;
+use JMS\Serializer\Annotation as JMS;
 
 class Domain
 {
@@ -18,6 +19,7 @@ class Domain
      *     pattern="/^(?:[-A-Za-z0-9]+\.)+[A-Za-z]{2,6}$/",
      *     message="The domain should be a valid domain"
      * )
+     * @JMS\Expose
      */
     protected $domain;
 

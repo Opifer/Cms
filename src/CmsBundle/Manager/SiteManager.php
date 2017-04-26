@@ -42,6 +42,7 @@ class SiteManager
             $siteData[$site->getId()]['id'] = $site->getId();
             $siteData[$site->getId()]['name'] = $site->getName();
             $siteData[$site->getId()]['description'] = $site->getDescription();
+            $siteData[$site->getId()]['domain'] = $site->getDomains()->first()->getDomain();
         }
 
         return $siteData;
