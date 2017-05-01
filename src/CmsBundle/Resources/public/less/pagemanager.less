@@ -426,20 +426,24 @@
 }
 
 .pm-toolset {
-    h4.title {
+    .title {
         color: #aaa;
         font-weight: normal;
         text-transform: uppercase;
         font-size: 12px;
         letter-spacing: .03em;
         margin-bottom: 0;
+    }
 
-
+    .title[data-toggle] {
+        cursor: pointer;
+    
         &.collapsed {
             &:before {
                 .rotate(270deg);
             }
         }
+
 
         &:before {
             &:extend(.material-icons);
@@ -724,18 +728,26 @@
     .node-placeholder {
         > span {
             color: #aaa;
-        }
+            cursor: pointer;
 
-        &:before {
-            color: #aaa;
-            &:extend(.material-icons);
-            content: '\E5C5';
-            color: @gray-light;
-            .rotate(0deg);
-            font-size: 16px;
-            line-height: 12px;
-            width: 18px;
-            margin-left: 4px;
+            &[aria-expanded] {
+                &:before {
+                    color: #aaa;
+                    &:extend(.material-icons);
+                    content: '\E5C5';
+                    color: @gray-light;
+                    font-size: 16px;
+                    line-height: 12px;
+                    width: 18px;
+                    margin-left: 4px;
+                }
+            }
+
+            &[aria-expanded="false"] {
+                &:before {
+                    .rotate(270deg);
+                }
+            }
         }
     }
 }

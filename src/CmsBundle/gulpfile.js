@@ -54,7 +54,7 @@ gulp.task('js', ['react'], function () {
         'node_modules/react/dist/react-with-addons.min.js',
         'node_modules/react-dom/dist/react-dom.min.js',
 
-        'Resources/public/js/react.js',
+        'Resources/public/dist/react.js',
         'Resources/public/js/split-pane.js',
         'Resources/public/js/main.js',
         'Resources/public/js/pagemanager.js',
@@ -100,7 +100,7 @@ gulp.task('react', function () {
         .pipe(react())
         .pipe(concat('react.js'))
         .pipe(sourcemaps.write('.'))
-        .pipe(gulp.dest('Resources/public/js'));
+        .pipe(gulp.dest('Resources/public/dist'));
 });
 
 
@@ -148,7 +148,7 @@ gulp.task('pagemanager-client-js', function () {
     ])
         .pipe(concat('client.js'))
         .pipe(sourcemaps.write('./'))
-        .pipe(gulp.dest('Resources/public/js'));
+        .pipe(gulp.dest('Resources/public/dist'));
 });
 
 gulp.task('pagemanager-client-css', function () {
@@ -164,7 +164,7 @@ gulp.task('pagemanager-client-css', function () {
 
 
 //define executable tasks when running "gulp" command
-gulp.task('pagemanager', ['pagemanager-client-js', 'pagemanager-client-css']);
+gulp.task('pagemanager', ['pagemanager-client-css']);
 gulp.task('default', ['js', 'css', 'pagemanager']);
 
 //watch less files for changes

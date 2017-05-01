@@ -316,16 +316,15 @@ $(document).ready(function() {
                 }
             };
 
-            $('.list-group').on('hide.bs.collapse', function () {
-                settings.blocksHidden.push($(this).attr('id'));
+            $(document).on('hide.bs.collapse', '.js-collapsable', function () {
+                settings.toolsCollapsed[$(this).attr('id')] = true;
                 saveSettings();
             });
 
-            $('.list-group').on('show.bs.collapse', function () {
-                settings.blocksHidden.splice(settings.blocksHidden.indexOf($(this).attr('id')));
+            $(document).on('show.bs.collapse', '.js-collapsable', function () {
+                settings.toolsCollapsed[$(this).attr('id')] = false;
                 saveSettings();
             });
-
 
             $('#pm-kwsearch-blocks').keyup(function () {
                 var searchTerm = $('#pm-kwsearch-blocks').val();
@@ -360,10 +359,9 @@ $(document).ready(function() {
 
         var applySettings = function () {
             splitPane.splitPane('lastComponentSize', settings.rightColumnWidth);
-            if (typeof settings.blocksHidden == 'undefined') settings.blocksHidden = [];
-            settings.blocksHidden.map(function(v, i) {
-                $('#'+v).removeClass('in');
-                $('[data-target=\'#'+v+'\']').addClass('collapsed');
+            if (typeof settings.toolsCollapsed == 'undefined') settings.toolsCollapsed = {};
+            Object.keys(settings.toolsCollapsed).map(function(key, i) {
+                $('#'+key).collapse(settings.toolsCollapsed[key] ? 'hide' : 'show'); 
             });
         };
 
@@ -1048,6 +1046,7 @@ $(document).ready(function() {
                 dataType: 'html',
             }).done(function (data) {
                 $('#pm-toc').html(data);
+                applySettings();
                 if (callback) callback();
             });
         };

@@ -77,7 +77,7 @@
                 </div>
                 <div class="pm-toolset-card pm-dark pm-toolset-toc">
                     <div class="pm-col">
-                        <h4 class="title" data-toggle="collapse" data-target="#pm-toc" aria-expanded="false" aria-controls="pm-toc">Table of contents</h4>
+                        <h4 class="title">Table of contents</h4>
                         <div class="collapse in pm-noselect" id="pm-toc">
                         </div>
                     </div>
@@ -93,7 +93,7 @@
                         <div id="pm-tools-{{ group|lower|replace(' ', '-') }}" class="pm-tools-blockset pm-noselect">
                             <div class="pm-col">
                                 <h4 class="title" data-toggle="collapse" data-target="#list-group-{{ group|lower|replace(' ', '-') }}" aria-expanded="true" aria-controls="list-group-{{ group|lower|replace(' ', '-') }}">{{ group }}</h4>
-                                <div class="collapse in list-group" id="list-group-{{ group|lower|replace(' ', '-') }}">
+                                <div class="collapse in list-group js-collapsable" id="list-group-{{ group|lower|replace(' ', '-') }}">
                                     {% for tool in toolset.tools %}
                                         {% if tool.group == group %}
                                             <div class="list-group-item pm-block-item" data-pm-block-type="{{ tool.service }}" data-pm-block-data='{{ tool.datajson }}'>
