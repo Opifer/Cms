@@ -58,6 +58,14 @@ class Site
     private $defaultLocale;
 
     /**
+     * @var string
+     *
+     * @Assert\NotBlank()
+     * @JMS\Expose
+     */
+    private $defaultDomain;
+
+    /**
      * @var ArrayCollection
      *
      * @ORM\OneToMany(targetEntity="Opifer\ContentBundle\Model\ContentInterface", mappedBy="contentType")
@@ -215,5 +223,29 @@ class Site
     public function getDefaultLocale()
     {
         return $this->defaultLocale;
+    }
+
+    /**
+     * Set defaultDomain.
+     *
+     * @param string $defaultDomain
+     *
+     * @return Site
+     */
+    public function setDefaultDomain($defaultDomain)
+    {
+        $this->defaultDomain = $defaultDomain;
+
+        return $this;
+    }
+
+    /**
+     * Get defaultDomain.
+     *
+     * @return string
+     */
+    public function getDefaultDomain()
+    {
+        return $this->defaultDomain;
     }
 }

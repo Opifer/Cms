@@ -29,6 +29,11 @@ class Domain
     protected $site;
 
     /**
+     * @var bool
+     */
+    protected $default = false;
+
+    /**
      * @return int
      */
     public function getId()
@@ -82,4 +87,24 @@ class Domain
     {
         return $this->domain;
     }
+
+    /**
+     * @return bool
+     */
+    public function getDefault()
+    {
+        return $this->default;
+    }
+
+    /**
+     * @param $default
+     * @return Domain
+     */
+    public function setDefault($default)
+    {
+        $this->default = $default;
+
+        return $this;
+    }
+
 }

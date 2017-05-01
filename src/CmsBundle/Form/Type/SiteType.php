@@ -7,6 +7,7 @@ use Opifer\CmsBundle\Entity\Domain;
 use Opifer\CmsBundle\Entity\Locale;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\FormBuilderInterface;
 
 class SiteType extends AbstractType
@@ -23,6 +24,14 @@ class SiteType extends AbstractType
                 'type' => DomainType::class,
                 'allow_add' => true,
                 'allow_delete' => true,
+            ])
+            ->add('defaultDomain', EntityType::class, [
+                'class' => Domain::class,
+                'query_builder' => function ($qb) use ($options) {
+                    return $qb->createQueryBuilder('d')
+                        ->where('d.site IS NULL OR d.site = :site')
+                        ->setParameter('site', $options['data']->getId());
+                },
             ])
 //            ->add('domains', EntityType::class, [
 //                'label' => 'label.domain',
