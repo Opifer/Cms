@@ -246,6 +246,12 @@ class Site
      */
     public function getDefaultDomain()
     {
-        return $this->defaultDomain;
+        if ($this->defaultDomain) {
+            return $this->defaultDomain;
+        } elseif ($first = $this->getDomains()->first()) {
+            return $first->getDomain();
+        } else {
+            return null;
+        }
     }
 }

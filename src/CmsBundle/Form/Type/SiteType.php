@@ -33,21 +33,6 @@ class SiteType extends AbstractType
                         ->setParameter('site', $options['data']->getId());
                 },
             ])
-//            ->add('domains', EntityType::class, [
-//                'label' => 'label.domain',
-//                'query_builder' => function ($qb) use ($options) {
-//                    return $qb->createQueryBuilder('d')
-//                        ->where('d.site IS NULL OR d.site = :site')
-//                        ->setParameter('site', $options['data']->getId());
-//                },
-//                'class' => Domain::class,
-//                'attr'  => [
-//                    'help_text'   => 'help_text.site_domain',
-//                ],
-//                'required' => true,
-//                'multiple' => true,
-//                'expanded' => true,
-//            ])
             ->add('cookieDomain')
             ->add('defaultLocale', EntityType::class, [
                 'label' => 'label.language',

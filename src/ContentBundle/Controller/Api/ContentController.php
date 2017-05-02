@@ -437,10 +437,11 @@ class ContentController extends Controller
      */
     public function sitesAction(Request $request)
     {
-        $sites = $this->get('opifer.cms.site_manager')->getSites();
+        $sites = $this->get('opifer.cms.site_manager')->getRepository()->findAll();
+        $data = $this->get('jms_serializer')->serialize($sites, 'json');
 
         $data = [
-            'results' => $sites
+            'results' => json_decode($data, true),
         ];
 
         return new JsonResponse($data);

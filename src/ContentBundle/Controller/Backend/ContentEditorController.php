@@ -41,14 +41,6 @@ class ContentEditorController extends Controller
 
         $content = $manager->getRepository()->find($ownerId);
 
-        $defaultDomain = null;
-
-        if($content->getSite()->getDefaultDomain()){
-            $defaultDomain = $content->getSite()->getDefaultDomain()->getDomain();
-        } elseif ($content->getSite()->getDomains()) {
-            $defaultDomain = $content->getSite()->getDomains()->first()->getDomain();
-        }
-
         $parameters = [
             'manager' => $blockManager,
             'toolset' => $blockManager->getToolset(),
@@ -57,7 +49,7 @@ class ContentEditorController extends Controller
             'title' => $suite->getTitle(),
             'caption' => $suite->getCaption(),
             'permalink' => $suite->getPermalink(),
-            'defaultDomain' => $defaultDomain,
+            'defaultDomain' => $content->getSite()->getDefaultDomain(),
             'url_properties' => $suite->getPropertiesUrl(),
             'url_cancel' => $suite->getCancelUrl(),
             'url' => $suite->getCanvasUrl(),

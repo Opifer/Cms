@@ -43,7 +43,7 @@ class SiteManager
             $siteData[$site->getId()]['name'] = $site->getName();
             $siteData[$site->getId()]['description'] = $site->getDescription();
             if ($site->getDefaultDomain()) {
-                $siteData[$site->getId()]['domain'] = $site->getDefaultDomain()->getDomain();
+                $siteData[$site->getId()]['domain'] = $site->getDefaultDomain();
             } else {
                 $siteData[$site->getId()]['domain'] = $site->getDomains()->first()->getDomain();
             }

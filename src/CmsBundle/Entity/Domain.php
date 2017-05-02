@@ -14,7 +14,7 @@ class Domain
 
     /**
      * @var string
-     * 
+     *
      * @Assert\Regex(
      *     pattern="/^(?:[-A-Za-z0-9]+\.)+[A-Za-z]{2,6}$/",
      *     message="The domain should be a valid domain"
@@ -27,11 +27,6 @@ class Domain
      * @var Site
      */
     protected $site;
-
-    /**
-     * @var bool
-     */
-    protected $default = false;
 
     /**
      * @return int
@@ -87,24 +82,4 @@ class Domain
     {
         return $this->domain;
     }
-
-    /**
-     * @return bool
-     */
-    public function getDefault()
-    {
-        return $this->default;
-    }
-
-    /**
-     * @param $default
-     * @return Domain
-     */
-    public function setDefault($default)
-    {
-        $this->default = $default;
-
-        return $this;
-    }
-
 }

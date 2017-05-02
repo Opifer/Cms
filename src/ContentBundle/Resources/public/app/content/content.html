@@ -49,7 +49,7 @@
                                 <span class="content-title" ng-click="editContent(content.id)" ng-class="content.active ? '' : 'text-muted'">{{ content.title}}</span>
                             </div>
                         </div>
-                        <div class="col-path" ng-class="content.active ? '' : 'text-muted'"><s ng-if="!content.active"><small>{{ content.path}}</small></s><a href="{{ site.domain ? '//' + site.domain + content.path : content.path }}" target="_blank" ng-if="content.active"><small>{{ content.path}}</small></a></div>
+                        <div class="col-path" ng-class="content.active ? '' : 'text-muted'"><s ng-if="!content.active"><small>{{ content.path}}</small></s><a href="{{ site.default_domain.domain ? '//' + site.default_domain.domain + content.path : content.path }}" target="_blank" ng-if="content.active"><small>{{ content.path}}</small></a></div>
                         <div class="col-type"><span class="label label-info">{{ content.content_type.name }}</span></div>
                         <div class="col-actions" ng-if="mode == 'ADMIN'">
                             <div class="btn-group">

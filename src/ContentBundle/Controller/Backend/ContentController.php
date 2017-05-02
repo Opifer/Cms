@@ -51,7 +51,7 @@ class ContentController extends Controller
      *
      * @return Response|RedirectResponse
      */
-    public function selectTypeAction($siteId = 0)
+    public function selectTypeAction($siteId = null)
     {
         $contentTypes = $this->get('opifer.content.content_type_manager')->getRepository()->findAll();
 
@@ -152,7 +152,7 @@ class ContentController extends Controller
      *
      * @return Response
      */
-    public function createAction(Request $request, $siteId = 0, $type = 0, $layoutId = 0)
+    public function createAction(Request $request, $siteId = null, $type = 0, $layoutId)
     {
         /** @var ContentManager $manager */
         $manager = $this->get('opifer.content.content_manager');
@@ -165,10 +165,12 @@ class ContentController extends Controller
             $content = $manager->initialize();
         }
 
-        $site = $this->getDoctrine()->getRepository(Site::class)->find($siteId);
+        if(!$siteId) {
+            $site = $this->getDoctrine()->getRepository(Site::class)->find($siteId);
 
-        //set siteId on content item
-        $content->setSite($site);
+            //set siteId on content item
+            $content->setSite($site);
+        }
 
         $form = $this->createForm(ContentType::class, $content);
         $form->handleRequest($request);
