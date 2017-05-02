@@ -31,28 +31,6 @@ class SiteManager
     }
 
     /**
-     * @return array|Site[]
-     */
-    public function getSites()
-    {
-        $sites = $this->getRepository()->findAll();
-
-        $siteData = [];
-        foreach ($sites as $site) {
-            $siteData[$site->getId()]['id'] = $site->getId();
-            $siteData[$site->getId()]['name'] = $site->getName();
-            $siteData[$site->getId()]['description'] = $site->getDescription();
-            if ($site->getDefaultDomain()) {
-                $siteData[$site->getId()]['domain'] = $site->getDefaultDomain();
-            } else {
-                $siteData[$site->getId()]['domain'] = $site->getDomains()->first()->getDomain();
-            }
-        }
-
-        return $siteData;
-    }
-
-    /**
      * @return EntityRepository
      */
     public function getRepository()
