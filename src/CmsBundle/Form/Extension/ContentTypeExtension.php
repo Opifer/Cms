@@ -18,6 +18,7 @@ class ContentTypeExtension extends AbstractTypeExtension
             ->add('medias', MediaPickerType::class, [
                 'required'      => false,
                 'label'         => 'Media',
+                'attr'          => ['help_text' => 'help.content_medias'],
                 'multiple'      => true,
             ])
         ;
