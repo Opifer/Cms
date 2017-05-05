@@ -66,6 +66,13 @@ class VimeoProvider extends AbstractProvider
                     new VimeoUrl(),
                 ],
             ])
+            ->add('name', TextType::class,[
+                'label' => $this->translator->trans('vimeo.name'),
+                'required' => false,
+                'attr' => [
+                    'help_text' => $this->translator->trans('vimeo.helper'),
+                ]
+            ])
             ->add('thumb', MediaPickerType::class, [
                 'multiple' => false,
                 'property' => 'name',
@@ -109,7 +116,9 @@ class VimeoProvider extends AbstractProvider
 
         $media->setReference($vimeoData->video_id);
 
-        $media->setName($vimeoData->title);
+        if(!$media->getName()) {
+            $media->setName($vimeoData->title);
+        }
 
         $thumb = $this->saveThumbnail($media, $vimeoData->thumbnail_url);
         $media->setThumb($thumb);

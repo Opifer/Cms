@@ -69,6 +69,13 @@ class YoutubeProvider extends AbstractProvider
                     new YoutubeUrl(),
                 ],
             ])
+            ->add('name', TextType::class,[
+                'label' => $this->translator->trans('youtube.name'),
+                'required' => false,
+                'attr' => [
+                    'help_text' => $this->translator->trans('youtube.helper'),
+                ]
+            ])
             ->add('thumb', MediaPickerType::class, [
                 'multiple' => false,
                 'property' => 'name',
@@ -141,7 +148,9 @@ class YoutubeProvider extends AbstractProvider
         $metadata = $metadata['items'][0];
         $metadata['contentDetails']['duration'] = $this->convertDuration($metadata['contentDetails']['duration']);
 
-        $media->setName($metadata['snippet']['title']);
+        if(!$media->getName()) {
+            $media->setName($metadata['snippet']['title']);
+        }
 
         $thumb = $this->saveThumbnail($media, $metadata['snippet']['thumbnails']['high']['url']);
         $media->setThumb($thumb);
