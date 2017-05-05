@@ -152,7 +152,7 @@ class ContentController extends Controller
      *
      * @return Response
      */
-    public function createAction(Request $request, $siteId = null, $type = 0, $layoutId)
+    public function createAction(Request $request, $siteId = null, $type = 0, $layoutId = null)
     {
         /** @var ContentManager $manager */
         $manager = $this->get('opifer.content.content_manager');
