@@ -35,7 +35,7 @@
                                 <li class="dropdown">
                                     <a class="dropdown-toggle" data-toggle="dropdown">{{ "nav.content"|trans|capitalize }} <i class="material-icons md-18">keyboard_arrow_down</i></a>
                                     <ul class="dropdown-menu">
-                                        <li><a href="{{ path('opifer_content_content_select_type') }}">{{ 'content.new.nav'|trans|capitalize }}</a></li>
+                                        <li><a href="{{ path('opifer_content_content_select_site') }}">{{ 'content.new.nav'|trans|capitalize }}</a></li>
                                         <li class="divider"></li>
                                         <li><a href="{{ path('opifer_content_content_index') }}">{{ "nav.content"|trans|capitalize }}</a></li>
                                         {% for content_type in content_type_manager.types %}

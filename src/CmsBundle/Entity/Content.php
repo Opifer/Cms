@@ -104,13 +104,17 @@ class Content extends BaseContent
     protected $preview;
 
     /**
-     */
-    protected $site;
-
-    /**
      * @JMS\Expose
      */
     protected $children;
+
+    /**
+     * @var Opifer\CmsBundle\Entity\Site
+     *
+     * @JMS\Expose
+     * @JMS\Groups({"detail", "list"})
+     */
+    protected $site;
 
     /**
      * Created at.
@@ -197,7 +201,7 @@ class Content extends BaseContent
     /**
      * Get site.
      *
-     * @return \Opifer\CmsBundle\Entity\Site
+     * @return Site
      */
     public function getSite()
     {
@@ -247,6 +251,19 @@ class Content extends BaseContent
 
         return $this;
     }
+
+
+    /**
+     * @JMS\VirtualProperty
+     * @JMS\SerializedName("site_id")
+     * @JMS\Groups({"detail", "list"})
+     *
+     * @return int
+     */
+    public function getSiteId() {
+        return $this->site ? $this->site->getId() : null;
+    }
+
 
     /**
      * @todo clean this mess up

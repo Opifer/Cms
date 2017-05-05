@@ -2,6 +2,7 @@
 
 namespace Opifer\ContentBundle\Controller\Backend;
 
+use Opifer\CmsBundle\Entity\Site;
 use Opifer\CmsBundle\Manager\ContentManager;
 use Opifer\ContentBundle\Form\Type\ContentType;
 use Opifer\ContentBundle\Form\Type\LayoutType;
@@ -50,7 +51,7 @@ class ContentController extends Controller
      *
      * @return Response|RedirectResponse
      */
-    public function selectTypeAction()
+    public function selectTypeAction($siteId = null)
     {
         $contentTypes = $this->get('opifer.content.content_type_manager')->getRepository()->findAll();
 
@@ -62,7 +63,22 @@ class ContentController extends Controller
 
         return $this->render($this->getParameter('opifer_content.content_select_type'), [
             'content_types' => $contentTypes,
-            'layouts' => $layouts,
+            'site_id' => $siteId,
+            'layouts' => $layouts
+        ]);
+    }
+
+    public function selectSiteAction()
+    {
+        $sites = $this->getDoctrine()->getRepository(Site::class)->findAll();
+
+        //if one site go on
+        if (count($sites) == 1) {
+            return $this->redirectToRoute('opifer_content_content_select_type', ['siteId' => $sites[0]->getId()]);
+        }
+
+        return $this->render($this->getParameter('opifer_content.content_select_site'), [
+            'sites' => $sites
         ]);
     }
 
@@ -136,7 +152,7 @@ class ContentController extends Controller
      *
      * @return Response
      */
-    public function createAction(Request $request, $type = 0, $layoutId = 0)
+    public function createAction(Request $request, $siteId = null, $type = 0, $layoutId)
     {
         /** @var ContentManager $manager */
         $manager = $this->get('opifer.content.content_manager');
@@ -147,6 +163,13 @@ class ContentController extends Controller
             $content->setContentType($contentType);
         } else {
             $content = $manager->initialize();
+        }
+
+        if(!$siteId) {
+            $site = $this->getDoctrine()->getRepository(Site::class)->find($siteId);
+
+            //set siteId on content item
+            $content->setSite($site);
         }
 
         $form = $this->createForm(ContentType::class, $content);
@@ -171,6 +194,7 @@ class ContentController extends Controller
             return $this->redirectToRoute('opifer_content_contenteditor_design', [
                 'owner' => 'content',
                 'ownerId' => $content->getId(),
+                'site_id' => $siteId
             ]);
         }
 

@@ -47881,6 +47881,12 @@ angular.module('OpiferContent', ['angular-inview', 'ui.tree', 'ngCookies'])
         });
     }])
 
+    .factory('SiteService', ['$resource', '$routeParams', function ($resource, $routeParams) {
+        return $resource(Routing.generate('opifer_content_api_sites'), {}, {
+            index: {method: 'GET', params: {}, cache: false},
+        });
+    }])
+
     .controller('ContentPickerController', ['$scope', '$http', '$rootScope', '$cookies', function ($scope, $http, $rootScope, $cookies) {
         $scope.content = {};
         $scope.selecteditems = [];
@@ -47988,7 +47994,7 @@ angular.module('OpiferContent', ['angular-inview', 'ui.tree', 'ngCookies'])
                 receiver: '@'
             },
             templateUrl: '/bundles/opifercontent/app/content/content.html',
-            controller: function ($scope, ContentService, $attrs, $cookies) {
+            controller: function ($scope, ContentService, SiteService, $attrs, $cookies) {
                 $scope.navto = false;
                 $scope.maxPerPage = 1000;
                 $scope.currentPage = 1;
@@ -47996,13 +48002,18 @@ angular.module('OpiferContent', ['angular-inview', 'ui.tree', 'ngCookies'])
                 $scope.remainingResults = 0;
                 $scope.lastBrowsedResults = [];
                 $scope.contents = [];
+                $scope.sites = [];
                 $scope.lblPaginate = "Meer resultaten";
                 $scope.query = null;
                 $scope.inSearch = false;
                 $scope.busyLoading = false;
                 $scope.expandMap = $cookies.getObject('contentExpandMap');
+                $scope.siteExpandMap = $cookies.getObject('siteExpandMap');
                 if (!Array.isArray($scope.expandMap)) {
                     $scope.expandMap = new Array;
+                }
+                if (!Array.isArray($scope.siteExpandMap)) {
+                    $scope.siteExpandMap = new Array;
                 }
                 $scope.confirmation = {
                     shown: false,
@@ -48022,7 +48033,7 @@ angular.module('OpiferContent', ['angular-inview', 'ui.tree', 'ngCookies'])
                     }
 
                     ContentService.index({
-                            site_id: $scope.siteId,
+                            // site_id: $scope.siteId,
                             //locale: $scope.locale,
                             q: $scope.query,
                             p: $scope.currentPage,
@@ -48038,6 +48049,19 @@ angular.module('OpiferContent', ['angular-inview', 'ui.tree', 'ngCookies'])
                             $scope.busyLoading = false;
                         });
                 };
+
+                $scope.fetchSites = function () {
+                    if ($scope.active == false) {
+                        return;
+                    }
+
+                    SiteService.index({}, function(response, headers) {
+                        for (var key in response.results) {
+                            $scope.sites.push(response.results[key]);
+                        }
+                        $scope.busyLoading = false;
+                    });
+                }
 
                 $scope.searchContents = function () {
                     ContentService.index({
@@ -48068,6 +48092,7 @@ angular.module('OpiferContent', ['angular-inview', 'ui.tree', 'ngCookies'])
                 $scope.$watch('active', function() {
                     if ($scope.active == true && $scope.contents.length == 0) {
                         $scope.fetchContents();
+                        $scope.fetchSites();
                     }
                 });
 
@@ -48083,8 +48108,24 @@ angular.module('OpiferContent', ['angular-inview', 'ui.tree', 'ngCookies'])
                     $cookies.putObject('contentExpandMap', $scope.expandMap);
                 };
 
+                $scope.expandSite = function (site) {
+                    var idx = $scope.siteExpandMap.indexOf(site.id);
+
+                    if (idx >= 0) {
+                        $scope.siteExpandMap.splice(idx, 1);
+                    } else {
+                        $scope.siteExpandMap.push(site.id);
+                    }
+
+                    $cookies.putObject('siteExpandMap', $scope.siteExpandMap);
+                };
+
                 $scope.isExpanded = function (content) {
                     return $scope.expandMap.indexOf(content.id) >= 0;
+                };
+
+                $scope.isSiteExpanded = function (site) {
+                    return $scope.siteExpandMap.indexOf(site.id) >= 0;
                 };
 
                 $scope.reloadContents = function () {
@@ -48137,18 +48178,18 @@ angular.module('OpiferContent', ['angular-inview', 'ui.tree', 'ngCookies'])
                     });
                 };
 
-                $scope.rootNodes = function () {
+                $scope.rootNodes = function (site_id) {
                     if ($scope.query) return $scope.contents;
 
-                    return this.childNodes(0);
+                    return this.childNodes(site_id, 0);
                 };
 
-                $scope.childNodes = function (parent_id) {
+                $scope.childNodes = function (site_id, parent_id) {
                     if ($scope.query) return [];
 
                     var nodes = [];
                     angular.forEach($scope.contents, function (c, index) {
-                        if (c.parent_id == parent_id) {
+                        if (c.parent_id == parent_id && c.site_id == site_id) {
                             this.push(c);
                         }
                     }, nodes);

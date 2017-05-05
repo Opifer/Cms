@@ -63,6 +63,7 @@ class OpiferContentExtension extends Extension implements PrependExtensionInterf
             'opifer_content.content_type_view' => $config['content']['views']['type'],
             'opifer_content.content_edit_type' => $config['content']['views']['edit_type'],
             'opifer_content.content_select_type' => $config['content']['views']['select_type'],
+            'opifer_content.content_select_site' => $config['content']['views']['select_site'],
             'opifer_content.content_select_layout_type' => $config['content']['views']['select_layout_type'],
             'opifer_content.content_new_view' => $config['content']['views']['new'],
             'opifer_content.content_design_view' => $config['content']['views']['design'],
@@ -92,7 +93,7 @@ class OpiferContentExtension extends Extension implements PrependExtensionInterf
         foreach ($container->getExtensions() as $name => $extension) {
             switch ($name) {
                 case 'doctrine':
-                    $container->prependExtensionConfig($name,  [
+                    $container->prependExtensionConfig($name, [
                         'orm' => [
                             'resolve_target_entities' => [
                                 'Opifer\ContentBundle\Model\ContentInterface' => $config['content']['class'],

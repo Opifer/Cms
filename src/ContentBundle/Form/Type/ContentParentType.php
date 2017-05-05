@@ -2,6 +2,7 @@
 
 namespace Opifer\ContentBundle\Form\Type;
 
+use Doctrine\ORM\Query;
 use Opifer\ContentBundle\Model\ContentManagerInterface;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
@@ -59,10 +60,7 @@ class ContentParentType extends AbstractType
      */
     public function configureOptions(OptionsResolver $optionsResolver)
     {
-        $tree = $this->contentManager->getRepository()->childrenHierarchy();
-        $optionsResolver->setDefaults([
-            'tree' => $tree
-        ]);
+        $optionsResolver->setRequired('site');
     }
 
     /**
@@ -70,10 +68,21 @@ class ContentParentType extends AbstractType
      */
     public function buildView(FormView $view, FormInterface $form, array $options)
     {
+        if (isset($options['query_builder'])) {
+            //if custom query build custom tree
+            $qb = $options['query_builder'];
+            $results = $qb->getQuery()->getResult(Query::HYDRATE_ARRAY);
+            $tree = $this->contentManager->getRepository()->buildTree($results);
+        } else {
+            //no custom query build tree of all children
+            $tree = $this->contentManager->getRepository()->childrenHierarchy();
+        }
+
+
         if (is_int($view->vars['data'])) {
             $view->vars['value'] = $view->vars['data'];
         }
-        $view->vars['tree'] = $options['tree'];
+        $view->vars['tree'] = $tree;
     }
 
     /**

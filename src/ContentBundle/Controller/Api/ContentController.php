@@ -8,6 +8,7 @@ use FOS\RestBundle\Request\ParamFetcher;
 use JMS\Serializer\SerializationContext;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Opifer\CmsBundle\Entity\Content;
+use Opifer\CmsBundle\Entity\Site;
 use Opifer\ContentBundle\Block\BlockManager;
 use Opifer\ContentBundle\Environment\Environment;
 use Opifer\ContentBundle\Model\ContentInterface;
@@ -371,6 +372,12 @@ class ContentController extends Controller
         $manager = $this->get('opifer.content.content_manager');
         $content = $manager->getRepository()->find($id);
 
+        //generate new slug so deleted slug can be used again
+        $hashedSlug = $content->getSlug().'-'.sha1(date('Y-m-d H:i:s'));
+
+        $content->setSlug($hashedSlug);
+        $manager->save($content);
+
         $manager->remove($content);
 
         return new JsonResponse(['success' => true]);
@@ -419,5 +426,24 @@ class ContentController extends Controller
         }
 
         return $response;
+    }
+
+    /**
+     * @ApiDoc()
+     *
+     * @param Request $request
+     *
+     * @return JsonResponse
+     */
+    public function sitesAction(Request $request)
+    {
+        $sites = $this->get('opifer.cms.site_manager')->getRepository()->findAll();
+        $data = $this->get('jms_serializer')->serialize($sites, 'json');
+
+        $data = [
+            'results' => json_decode($data, true),
+        ];
+
+        return new JsonResponse($data);
     }
 }

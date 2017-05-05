@@ -228,3 +228,14 @@ lexik_translation_edition:
     resource: "@LexikTranslationBundle/Resources/config/routing.yml"
     prefix:   /translate
 
+opifer_cms_domain_index:
+    path: /domain
+    defaults: { _controller: OpiferCmsBundle:Backend/Domain:index}
+
+opifer_cms_domain_create:
+    path: /domain/create
+    defaults: { _controller: OpiferCmsBundle:Backend/Domain:create}
+
+opifer_cms_domain_edit:
+    path: /domain/edit/{id}
+    defaults: { _controller: OpiferCmsBundle:Backend/Domain:edit}

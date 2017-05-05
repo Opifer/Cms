@@ -19,6 +19,7 @@ parameters:
     opifer.cms.tableprefix_listener.class: 'Opifer\CmsBundle\EventListener\TablePrefixSubscriber'
     twig.extension.intl.class: 'Twig_Extensions_Extension_Intl'
     lexik_translation.locale.manager.class: 'Opifer\CmsBundle\Manager\LocaleManager'
+    lexik_translation.site.manager.class: 'Opifer\CmsBundle\Manager\SiteManager'
 
 services:
 
@@ -112,6 +113,10 @@ services:
         arguments: ['@doctrine.orm.default_entity_manager', '@form.factory', '@opifer.eav.eav_manager', '%opifer_content.content_class%', '%opifer_eav.schema_class%', '@security.token_storage']
         tags:
             - { name: 'opifer.content.block_provider_pool', alias: 'content' }
+
+    opifer.cms.site_manager:
+        class: 'Opifer\CmsBundle\Manager\SiteManager'
+        arguments: ['@doctrine.orm.entity_manager']
 
     # Event Listeners
 

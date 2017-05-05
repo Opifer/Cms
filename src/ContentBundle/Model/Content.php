@@ -9,6 +9,7 @@ use Gedmo\Mapping\Annotation as Gedmo;
 use JMS\Serializer\Annotation as JMS;
 use Opifer\CmsBundle\Entity\Locale;
 use Opifer\CmsBundle\Entity\Media;
+use Opifer\CmsBundle\Entity\Site;
 use Opifer\ContentBundle\Block\BlockOwnerInterface;
 use Opifer\ContentBundle\Entity\Template;
 use Opifer\EavBundle\Entity\Value;
@@ -109,7 +110,7 @@ class Content implements ContentInterface, EntityInterface, TemplatedInterface, 
      *          @Gedmo\SlugHandlerOption(name="field", value="slug"),
      *          @Gedmo\SlugHandlerOption(name="separator", value="-")
      *      })
-     * }, fields={"alias"}, unique_base="deletedAt")
+     * }, fields={"alias"}, unique=true, unique_base="site")
      * @ORM\Column(name="alias", type="string", length=255, nullable=true)
      */
     protected $alias;
@@ -125,10 +126,18 @@ class Content implements ContentInterface, EntityInterface, TemplatedInterface, 
      *          @Gedmo\SlugHandlerOption(name="relationSlugField", value="slug"),
      *          @Gedmo\SlugHandlerOption(name="separator", value="/")
      *      })
-     * }, fields={"title"}, unique_base="deletedAt")
+     * }, fields={"title"}, unique=true, unique_base="site")
      * @ORM\Column(name="slug", type="string", length=255)
      */
     protected $slug;
+
+    /**
+     * @var Site
+     *
+     * @JMS\Expose
+     * @JMS\Groups({"detail", "list"})
+     */
+    protected $site;
 
     /**
      * @var bool
@@ -389,6 +398,16 @@ class Content implements ContentInterface, EntityInterface, TemplatedInterface, 
     public function getSlug()
     {
         return $this->slug;
+    }
+
+    /**
+     * Get Site.
+     *
+     * @return Site
+     */
+    public function getSite()
+    {
+        return $this->site;
     }
 
     /**
@@ -730,7 +749,7 @@ class Content implements ContentInterface, EntityInterface, TemplatedInterface, 
      */
     public function getNavigationChildren()
     {
-        return array_filter($this->children->toArray(), function($child) {
+        return array_filter($this->children->toArray(), function ($child) {
             return $child->showInNavigation();
         });
     }
@@ -1142,7 +1161,7 @@ class Content implements ContentInterface, EntityInterface, TemplatedInterface, 
      */
     public function getPreview()
     {
-       return $this->preview;
+        return $this->preview;
     }
 
     /**
@@ -1191,7 +1210,7 @@ class Content implements ContentInterface, EntityInterface, TemplatedInterface, 
      */
     public function getPublishAt()
     {
-        if(null == $this->publishAt){
+        if (null == $this->publishAt) {
             return $this->createdAt;
         }
 
