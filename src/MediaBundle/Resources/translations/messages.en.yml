@@ -36,8 +36,12 @@ youtube:
     label: youtube video
     reference:
         label: Youtube URL
+    name: Video name
+    helper: You can enter a name for the video here, default this will be the video title used on Youtube
 
 vimeo:
     label: Vimeo video
     reference:
         label: Vimeo URL
+    name: Video name
+    helper: You can enter a name for the video here, default this will be the video title used on Vimeo
