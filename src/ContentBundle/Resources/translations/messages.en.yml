@@ -71,7 +71,7 @@ help:
     section_footer: Click to edit & write rich text content in footer.
     list_content_picker: Manually pick content items to put in your list.
     card_content_picker: Pick content item to use data of this item instead of  header, body and media.
-    content_medias: This is the default image that will be shown when this page is used in a card.
+    content_medias: This is the default image that will be shown when this page is used in a card, list, etc.
 
 label:
     block: Block
