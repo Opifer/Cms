@@ -15,5 +15,4 @@ class CheckListValue extends OptionValue
     {
        return $this->value;
     }
-
 }

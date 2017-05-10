@@ -44,7 +44,7 @@ class BlockProviderPool
     /**
      * Get all registered providers
      *
-     * @return ProviderProviderInterface[]
+     * @return BlockProviderInterface[]
      */
     public function getProviders()
     {

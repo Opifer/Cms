@@ -1,0 +1,13 @@
+<div {{ manage_tags() }}>
+    {% if block.properties.direction == 'previous' %}
+        <button type="button" class="btn btn-lg btn-block btn-previous btn-secondary">
+            <span>{{ block.properties.direction|default('Previous')|capitalize }}</span>
+            Previous section
+        </button>
+    {% else %}
+        <button type="button" class="btn btn-lg btn-block btn-next btn-primary">
+            <span>{{ block.properties.direction|default('Next')|capitalize }}</span>
+            Next section
+        </button>
+    {% endif %}
+</div>

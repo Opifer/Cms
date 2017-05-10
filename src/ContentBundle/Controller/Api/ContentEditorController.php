@@ -15,6 +15,7 @@ use Opifer\ContentBundle\Provider\BlockProviderInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Class ContentEditorController
@@ -332,7 +333,7 @@ class ContentEditorController extends Controller
      * @param Request $request
      * @param integer $id
      *
-     * @return Response
+     * @return JsonResponse
      *
      * @throws \Exception
      */

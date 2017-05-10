@@ -31,6 +31,26 @@ opifer_cms_template_delete:
     requirements:
         id: \d+
 
+opifer_cms_layout_index:
+    path: /layout
+    defaults: { _controller: OpiferCmsBundle:Backend/Layout:index }
+
+opifer_cms_layout_create:
+    path: /layout/create
+    defaults: { _controller: OpiferCmsBundle:Backend/Layout:create }
+
+opifer_cms_layout_edit:
+    path: /layout/edit/{id}
+    defaults: { _controller: OpiferCmsBundle:Backend/Layout:edit }
+    requirements:
+        id: \d+
+
+opifer_cms_layout_delete:
+    path: /layout/delete/{id}
+    defaults: { _controller: OpiferCmsBundle:Backend/Layout:delete }
+    requirements:
+        id: \d+
+
 opifer_cms_site_index:
     path: /site
     defaults: { _controller: OpiferCmsBundle:Backend/Site:index }
@@ -150,6 +170,9 @@ fos_user_security_login:
 fos_user_group:
     resource: "@FOSUserBundle/Resources/config/routing/group.xml"
     prefix:   /group
+    
+api_login_check:
+    path: /api/login_check
 
 # Overriden Bundle actions
 
@@ -188,3 +211,31 @@ opifer_form_post_index:
 opifer_review_review_index:
     path: /review
     defaults: { _controller: OpiferCmsBundle:Backend/Review:index }
+
+opifer_cms_locale_index:
+    path: /locale
+    defaults: { _controller: OpiferCmsBundle:Backend/Locale:index}
+
+opifer_cms_locale_create:
+    path: /locale/create
+    defaults: { _controller: OpiferCmsBundle:Backend/Locale:create}
+
+opifer_cms_locale_edit:
+    path: /locale/edit/{id}
+    defaults: { _controller: OpiferCmsBundle:Backend/Locale:edit}
+
+lexik_translation_edition:
+    resource: "@LexikTranslationBundle/Resources/config/routing.yml"
+    prefix:   /translate
+
+opifer_cms_domain_index:
+    path: /domain
+    defaults: { _controller: OpiferCmsBundle:Backend/Domain:index}
+
+opifer_cms_domain_create:
+    path: /domain/create
+    defaults: { _controller: OpiferCmsBundle:Backend/Domain:create}
+
+opifer_cms_domain_edit:
+    path: /domain/edit/{id}
+    defaults: { _controller: OpiferCmsBundle:Backend/Domain:edit}

@@ -4,6 +4,7 @@ namespace Opifer\ContentBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use JMS\Serializer\Annotation as JMS;
 use Opifer\Revisions\Mapping\Annotation as Revisions;
 use Opifer\ContentBundle\Model\ContentInterface;
 
@@ -24,6 +25,9 @@ class CollectionBlock extends Block
 
     /**
      * @var ArrayCollection
+     *
+     * @JMS\Expose
+     * @JMS\Groups({"tree", "detail", "list"})
      */
     protected $collection;
 

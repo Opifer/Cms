@@ -3,18 +3,22 @@
 namespace Opifer\CmsBundle\Entity;
 
 use APY\DataGridBundle\Grid\Mapping as GRID;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
+use JMS\Serializer\Annotation as JMS;
 
 /**
  * Site
  *
- * @GRID\Source(columns="id, name, domain, defaultLocale")
+ * @JMS\ExclusionPolicy("all")
+ * @GRID\Source(columns="id, name, domains, defaultLocale")
  */
 class Site
 {
     /**
      * @var int
+     * @JMS\Expose
      */
     private $id;
 
@@ -22,23 +26,23 @@ class Site
      * @var string
      *
      * @Assert\NotBlank()
+     * @JMS\Expose
      */
     private $name;
 
     /**
      * @var string
+     * @JMS\Expose
      */
     private $description;
 
     /**
-     * @var string
+     * @var ArrayCollection|Domain[]
+     *
      * @Assert\NotBlank()
-     * @Assert\Regex(
-     *     pattern="/^(?:[-A-Za-z0-9]+\.)+[A-Za-z]{2,6}$/",
-     *     message="The domain should be a valid domain"
-     * )
+     * @JMS\Expose
      */
-    private $domain;
+    private $domains;
 
     /**
      * @var string
@@ -47,10 +51,33 @@ class Site
 
     /**
      * @var string
-     * 
+     *
      * @Assert\NotBlank()
+     * @JMS\Expose
      */
     private $defaultLocale;
+
+    /**
+     * @var string
+     *
+     * @Assert\NotBlank()
+     * @JMS\Expose
+     */
+    private $defaultDomain;
+
+    /**
+     * @var ArrayCollection
+     *
+     * @ORM\OneToMany(targetEntity="Opifer\ContentBundle\Model\ContentInterface", mappedBy="contentType")
+     * @ORM\OrderBy({"id" = "DESC"})
+     */
+    protected $content;
+
+    public function __construct()
+    {
+        $this->domains = new ArrayCollection();
+        $this->content = new ArrayCollection();
+    }
 
     /**
      * Get id.
@@ -111,27 +138,43 @@ class Site
     }
 
     /**
-     * Set domain.
+     *  Set domains.
      *
-     * @param string $domain
+     * @param ArrayCollection $domains
      *
      * @return Site
      */
-    public function setDomain($domain)
+    public function setDomains($domains)
     {
-        $this->domain = $domain;
+        $this->domains = $domains;
 
         return $this;
     }
 
     /**
-     * Get domain.
+     * Get domains.
      *
      * @return string
      */
-    public function getDomain()
+    public function getDomains()
     {
-        return $this->domain;
+        return $this->domains;
+    }
+
+    public function addDomain(Domain $domain)
+    {
+        $domain->setSite($this);
+
+        $this->domains[] = $domain;
+
+        return $this;
+    }
+
+    public function removeDomain(Domain $domain)
+    {
+        $this->domains->removeElement($domain);
+
+        return $this;
     }
 
     /**
@@ -180,5 +223,35 @@ class Site
     public function getDefaultLocale()
     {
         return $this->defaultLocale;
+    }
+
+    /**
+     * Set defaultDomain.
+     *
+     * @param string $defaultDomain
+     *
+     * @return Site
+     */
+    public function setDefaultDomain($defaultDomain)
+    {
+        $this->defaultDomain = $defaultDomain;
+
+        return $this;
+    }
+
+    /**
+     * Get defaultDomain.
+     *
+     * @return string
+     */
+    public function getDefaultDomain()
+    {
+        if ($this->defaultDomain) {
+            return $this->defaultDomain;
+        } elseif ($first = $this->getDomains()->first()) {
+            return $first->getDomain();
+        } else {
+            return null;
+        }
     }
 }

@@ -33,10 +33,13 @@ class ContentEditorController extends Controller
     {
         /** @var BlockManager $blockManager */
         $blockManager = $this->get('opifer.content.block_manager');
+        $manager = $this->get('opifer.content.content_manager');
 
         /** @var AbstractDesignSuite $suite */
         $suite = $this->get(sprintf('opifer.content.%s_design_suite', $owner));
         $suite->load($ownerId);
+
+        $content = $manager->getRepository()->find($ownerId);
 
         $parameters = [
             'manager' => $blockManager,
@@ -46,6 +49,7 @@ class ContentEditorController extends Controller
             'title' => $suite->getTitle(),
             'caption' => $suite->getCaption(),
             'permalink' => $suite->getPermalink(),
+            'defaultDomain' => ($content->getSite() ? $content->getSite()->getDefaultDomain() : null),
             'url_properties' => $suite->getPropertiesUrl(),
             'url_cancel' => $suite->getCancelUrl(),
             'url' => $suite->getCanvasUrl(),

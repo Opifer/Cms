@@ -11,23 +11,38 @@ use Symfony\Component\Validator\Constraints as Assert;
 /**
  * Attribute.
  *
- * @JMS\ExclusionPolicy("none")
+ * @JMS\ExclusionPolicy("all")
  */
 class Attribute extends BaseAttribute
 {
     /**
+     * @var int
+     *
+     * @JMS\Expose
+     */
+    protected $id;
+
+    /**
      * @var string
+     *
+     * @JMS\Expose
      */
     protected $valueType;
 
     /**
      * @var string
+     *
+     * @JMS\Expose
+     *
      * @Assert\NotBlank()
      */
     protected $displayName;
 
     /**
      * @var string
+     *
+     * @JMS\Expose
+     *
      * @Assert\NotBlank()
      */
     protected $name;

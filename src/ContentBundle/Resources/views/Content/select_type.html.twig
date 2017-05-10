@@ -4,21 +4,48 @@
     {% spaceless %}
 
         <div class="container">
+
             <div class="row">
 
                 <div class="page-header">
+                   <a href="{{ path('opifer_content_content_select_layout_type') }}" class="btn btn-link pull-right">
+                        <i class="material-icons">add</i>
+                        New layout
+                    </a>
                     <h1>
-                        <span class="small">{{ "title.select_content_type"|trans }}</span><br />
-                        {{ "title.new_content"|trans }}
+                        {{ "title.layouts"|trans }}
                     </h1>
                 </div>
 
+
+                {% for layout in layouts %}
+                    <article class="cardtile-img col-xs-12 col-md-3 m-y-lg {% if not layout.preview %}cardtile-noimg{% endif %}">
+                        <a class="cardtile-body" href="{{ path('opifer_content_content_create_layout', {'siteId': site_id, 'layoutId': layout.id}) }}" {% if layout.preview %}style="background-image: url({{ layout.preview.reference|imagine_filter('md_34') }})" {% endif %}>
+                            <div class="text text-center">
+                                <span  class="h3">{{ layout.title }}</span>
+                                <p>{{ layout.description }}</p>
+                            </div>
+                        </a>
+                    </article>
+                {% endfor %}
+
+                {% if layouts|length == 0 %}
+                    <div class="well"><span class="text-muted">{{ "message.no_items_found"|trans }}</span></div>
+                {% endif %}
+            </div>
+
+            <div class="row">
+                <div class="page-header">
+                    <h1>
+                        {{ "title.content_types"|trans }}
+                    </h1>
+                </div>
                 <div class="list-group">
-                    <a href="{{ path('opifer_content_content_create') }}" class="list-group-item">
+                    <a href="{{ path('opifer_content_content_create', {'siteId': site_id}) }}" class="list-group-item">
                         {{ "link.default"|trans }}
                     </a>
                 {% for content_type in content_types %}
-                        <a href="{{ path('opifer_content_content_create', {'type': content_type.id}) }}" class="list-group-item">
+                        <a href="{{ path('opifer_content_content_create', {'siteId': site_id, 'type': content_type.id}) }}" class="list-group-item">
                             {{ content_type.name }}
                         </a>
                 {% endfor %}

@@ -69,7 +69,7 @@ class ContentController extends BaseContentController
                 'source' => true
             ]);
             $column->manipulateRenderCell(
-                function($value, $row, $router) use ($name) {
+                function ($value, $row, $router) use ($name) {
                     $value = $row->getEntity()->getAttributes()[$name];
 
                     return $value;

@@ -2,6 +2,7 @@
 
 namespace Opifer\EavBundle\Model;
 
+use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
 
 class AttributeManager
@@ -16,7 +17,9 @@ class AttributeManager
      * Constructor
      *
      * @param EntityManagerInterface $em
-     * @param string                 $class
+     * @param                        $class
+     *
+     * @throws \Exception If the passed classname does not implement AttributeInterface
      */
     public function __construct(EntityManagerInterface $em, $class)
     {

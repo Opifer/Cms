@@ -12,7 +12,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  *
  * @ORM\MappedSuperclass
  *
- * @JMS\ExclusionPolicy("none")
+ * @JMS\ExclusionPolicy("all")
  */
 class Attribute implements AttributeInterface
 {
@@ -75,7 +75,7 @@ class Attribute implements AttributeInterface
     protected $sort = 0;
 
     /**
-     * @var ArrayCollection
+     * @var ArrayCollection|Option[]
      *
      * @ORM\OneToMany(targetEntity="Opifer\EavBundle\Model\OptionInterface", mappedBy="attribute", cascade={"all"}, orphanRemoval=true)
      */
@@ -294,9 +294,17 @@ class Attribute implements AttributeInterface
     }
 
     /**
+     * @return bool
+     */
+    public function hasOptions()
+    {
+        return (count($this->getOptions()) > 0);
+    }
+
+    /**
      * Get options.
      *
-     * @return array
+     * @return ArrayCollection|Option[]
      */
     public function getOptions()
     {

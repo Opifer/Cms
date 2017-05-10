@@ -2,22 +2,27 @@
     {% import _self as toc %}
     {% for node in children %}
         {% if key == node.position %}
+            {% if node.title|default and node.title is not empty %}
+                {% set nodeName = node.title %}
+            {% elseif node.displayName|default and node.displayName is not empty %}
+                {% set nodeName = node.displayName %}
+            {% elseif node.name|default and node.name is not empty %}
+                {% set nodeName = node.name %}
+            {% else %}
+                {% set nodeName = environment.getTool(node).name %}
+            {% endif %}
         <li data-pm-block-id="{{ node.id }}" data-pm-block-owner-id="{{ node.owner.id|default("0") }}" {% if node is block_pointer %}data-pm-block-pointer="true" data-pm-block-reference-id="{{ node.reference.id|default }}"{% endif %}>
-            <span class="node-block {% if node is block_pointer %}node-pointer{% endif %} {% if environment.object.id != node.owner.id|default("0") and node.owner.id|default("0") != "0" %}node-inherited{% endif %}">
-                {% if environment.getTool(node).name == 'Section' %}
-                    {% if node.properties.sectionName|default and node.properties.sectionName is not empty %}
-                        <i class="material-icons md-18">{{ environment.getTool(node).icon }}</i> {{ node.properties.sectionName }}
-                    {% else %}
-                        <i class="material-icons md-18">{{ environment.getTool(node).icon }}</i> {{ environment.getTool(node).name }}
-                    {% endif %}
-                {% else %}
-                    <i class="material-icons md-18">{{ environment.getTool(node).icon }}</i> {{ environment.getTool(node).name }}
-                {% endif %}
+            <span title="{{ environment.getTool(node).name }}: {{ nodeName }}" class="node-block {% if node is block_pointer %}node-pointer{% endif %} {% if environment.object.id != node.owner.id|default("0") and node.owner.id|default("0") != "0" %}node-inherited{% endif %}">
+                <i class="material-icons md-18">{{ environment.getTool(node).icon }}</i> {{ nodeName }}
                 {% spaceless %}
                 <div class="pm-btn-group">
                     {% if environment.object.id == node.owner.id|default("0") %}<i data-pm-block-id="{{ node.id }}" class="pm-btn pm-btn-drag material-icons">drag_handle</i>{% endif %}
                     <i data-pm-block-id="{{ node.id }}" class="pm-btn pm-btn-localize material-icons">location_searching</i>
-                    {% if environment.object.id == node.owner.id|default("0") or node.hasSharedParent %}<i data-pm-block-id="{{ (node is block_pointer and node.reference.id|default) ? node.reference.id : node.id }}" class="pm-btn pm-btn-edit material-icons">edit</i>{% endif %}
+                    {% if environment.object.id == node.owner.id|default("0") or node.hasSharedParent %}
+                        <i data-pm-block-id="{{ (node is block_pointer and node.reference.id|default) ? node.reference.id : node.id }}" class="pm-btn pm-btn-edit material-icons">
+                            edit
+                        </i>
+                    {% endif %}
                 </div>
                 {% endspaceless %}
             </span>
@@ -27,8 +32,8 @@
             {% if node is block_container %}
             <ul>
                 {% for placeholder_key, placeholder_name in environment.getPlaceholders(node) %}
-                    <li class="node-placeholder"><span>{{ placeholder_name }}</span>
-                        <ul class="pm-placeholder" data-pm-placeholder-key="{{ placeholder_key }}" data-pm-placeholder-id="{{ node.id }}">
+                    <li class="node-placeholder"><span data-toggle="collapse" data-target="#toc-placeholder-{{ node.id }}-{{ placeholder_key }}" aria-expanded="false" aria-controls="toc-placeholder-{{ node.id }}-{{ placeholder_key }}">{{ placeholder_name }}</span>
+                        <ul class="pm-placeholder js-collapsable collapse" aria-expanded="false" id="toc-placeholder-{{ node.id }}-{{ placeholder_key }}" data-pm-placeholder-key="{{ placeholder_key }}" data-pm-placeholder-id="{{ node.id }}">
                             {{ toc.node(environment.blockChildren(node), environment, placeholder_key) }}
                         </ul>
                     </li>
