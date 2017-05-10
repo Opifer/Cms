@@ -165,7 +165,7 @@ class ContentController extends Controller
             $content = $manager->initialize();
         }
 
-        if(!$siteId) {
+        if($siteId) {
             $site = $this->getDoctrine()->getRepository(Site::class)->find($siteId);
 
             //set siteId on content item
