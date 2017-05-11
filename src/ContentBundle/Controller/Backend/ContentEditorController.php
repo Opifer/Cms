@@ -49,7 +49,7 @@ class ContentEditorController extends Controller
             'title' => $suite->getTitle(),
             'caption' => $suite->getCaption(),
             'permalink' => $suite->getPermalink(),
-            'defaultDomain' => ($content->getSite() ? $content->getSite()->getDefaultDomain() : null),
+            'defaultDomain' => (($content && $content->getSite()) ? $content->getSite()->getDefaultDomain() : null),
             'url_properties' => $suite->getPropertiesUrl(),
             'url_cancel' => $suite->getCancelUrl(),
             'url' => $suite->getCanvasUrl(),
