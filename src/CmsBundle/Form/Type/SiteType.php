@@ -27,6 +27,7 @@ class SiteType extends AbstractType
             ])
             ->add('defaultDomain', EntityType::class, [
                 'class' => Domain::class,
+                'required' => false,
                 'query_builder' => function ($qb) use ($options) {
                     return $qb->createQueryBuilder('d')
                         ->where('d.site IS NULL OR d.site = :site')
