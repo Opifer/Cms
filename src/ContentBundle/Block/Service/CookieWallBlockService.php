@@ -81,6 +81,18 @@ class CookieWallBlockService extends AbstractBlockService implements BlockServic
     }
 
     /**
+     * {@inheritdoc}
+     */
+    public function load(BlockInterface $block)
+    {
+        parent::load($block);
+
+        if (in_array(1, $this->siteIds)) {
+            $block->setAccepted(true);
+        }
+    }
+
+    /**
      * {@inheritDoc}
      */
     public function createBlock()
@@ -113,5 +125,14 @@ class CookieWallBlockService extends AbstractBlockService implements BlockServic
         }
 
         return $parameters;
+    }
+
+    /**
+     * @param BlockInterface $block
+     * @return string
+     */
+    public function getDescription(BlockInterface $block = null)
+    {
+        return 'Dismissable message regarding EU cookies regulation';
     }
 }

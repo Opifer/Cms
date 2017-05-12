@@ -1,0 +1,72 @@
+services:
+    opifer.formblock.choice_field_block:
+        class: 'Opifer\FormBlockBundle\Block\Service\ChoiceFieldBlockService'
+        arguments: ['@opifer.content.block_renderer', '@opifer.form.form_manager', '%opifer_form_block.choice_field_block_configuration%']
+        tags:
+            - { name: 'opifer.content.block_service', alias: 'choice_field' }
+
+    opifer.formblock.date_field_block:
+        class: 'Opifer\FormBlockBundle\Block\Service\DateFieldBlockService'
+        arguments: ['@opifer.content.block_renderer', '@opifer.form.form_manager', '%opifer_form_block.date_field_block_configuration%']
+        tags:
+            - { name: 'opifer.content.block_service', alias: 'date_field' }
+
+    opifer.formblock.email_field_block:
+        class: 'Opifer\FormBlockBundle\Block\Service\EmailFieldBlockService'
+        arguments: ['@opifer.content.block_renderer', '@opifer.form.form_manager', '%opifer_form_block.text_field_block_configuration%']
+        tags:
+            - { name: 'opifer.content.block_service', alias: 'email_field' }
+
+    opifer.formblock.file_field_block:
+        class: 'Opifer\FormBlockBundle\Block\Service\FileFieldBlockService'
+        arguments: ['@opifer.content.block_renderer', '@opifer.form.form_manager', '%opifer_form_block.file_field_block_configuration%']
+        tags:
+            - { name: 'opifer.content.block_service', alias: 'file_field' }
+
+    opifer.formblock.form_block:
+        class: 'Opifer\FormBlockBundle\Block\Service\FormBlockService'
+        arguments: ['@opifer.content.block_renderer', '@opifer.eav.eav_manager', '@opifer.form.form_manager', '%opifer_form_block.form_block_configuration%']
+        tags:
+            - { name: 'opifer.content.block_service', alias: 'form' }
+
+    opifer.formblock.form_section_block:
+        class: 'Opifer\FormBlockBundle\Block\Service\FormSectionBlockService'
+        arguments: ['@opifer.content.block_renderer', '@opifer.form.form_manager', '%opifer_form_block.form_section_block_configuration%']
+        tags:
+            - { name: 'opifer.content.block_service', alias: 'form_section' }
+
+    opifer.formblock.form_nav_button_block:
+        class: 'Opifer\FormBlockBundle\Block\Service\FormNavButtonBlockService'
+        arguments: ['@opifer.content.block_renderer', '%opifer_form_block.form_nav_button_block_configuration%']
+        tags:
+            - { name: 'opifer.content.block_service', alias: 'form_nav_button' }
+
+    opifer.formblock.form_progress_block:
+        class: 'Opifer\FormBlockBundle\Block\Service\FormProgressBlockService'
+        arguments: ['@opifer.content.block_renderer', '%opifer_form_block.form_progress_block_configuration%']
+        tags:
+            - { name: 'opifer.content.block_service', alias: 'form_progress' }
+
+    opifer.formblock.number_field_block:
+        class: 'Opifer\FormBlockBundle\Block\Service\NumberFieldBlockService'
+        arguments: ['@opifer.content.block_renderer', '@opifer.form.form_manager', '%opifer_form_block.number_field_block_configuration%']
+        tags:
+            - { name: 'opifer.content.block_service', alias: 'number_field' }
+
+    opifer.formblock.range_field_block:
+        class: 'Opifer\FormBlockBundle\Block\Service\RangeFieldBlockService'
+        arguments: ['@opifer.content.block_renderer', '@opifer.form.form_manager', '%opifer_form_block.range_field_block_configuration%']
+        tags:
+            - { name: 'opifer.content.block_service', alias: 'range_field' }
+
+    opifer.formblock.rich_check_item_block:
+        class: 'Opifer\FormBlockBundle\Block\Service\RichCheckItemBlockService'
+        arguments: ['@opifer.content.block_renderer', '@opifer.form.form_manager', '%opifer_form_block.rich_check_item_block_configuration%']
+        tags:
+            - { name: 'opifer.content.block_service', alias: 'rich_check_item' }
+
+    opifer.formblock.text_field_block:
+        class: 'Opifer\FormBlockBundle\Block\Service\TextFieldBlockService'
+        arguments: ['@opifer.content.block_renderer', '@opifer.form.form_manager', '%opifer_form_block.text_field_block_configuration%']
+        tags:
+            - { name: 'opifer.content.block_service', alias: 'text_field' }

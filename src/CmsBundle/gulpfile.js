@@ -54,12 +54,14 @@ gulp.task('js', ['react'], function () {
         'node_modules/react/dist/react-with-addons.min.js',
         'node_modules/react-dom/dist/react-dom.min.js',
 
-        'Resources/public/js/react.js',
+        'Resources/public/dist/react.js',
         'Resources/public/js/split-pane.js',
         'Resources/public/js/main.js',
         'Resources/public/js/pagemanager.js',
         'Resources/public/angular/app.js',
 
+        '../../../../lexik/translation-bundle/Resources/public/ng-table/ng-table.min.js',
+        '../../../../lexik/translation-bundle/Resources/public/js/translation.js',
         '../ContentBundle/Resources/public/js/app.js',
         '../ContentBundle/Resources/public/app/content/content.js',
         '../MediaBundle/Resources/public/app/modal/modal.js',
@@ -94,10 +96,11 @@ gulp.task('react', function () {
     return gulp.src([
             '../ExpressionEngine/Resources/public/react/expression-engine.js'
         ])
+        .pipe(sourcemaps.init())
         .pipe(react())
         .pipe(concat('react.js'))
-        .pipe(sourcemaps.write('./'))
-        .pipe(gulp.dest('Resources/public/js'));
+        .pipe(sourcemaps.write('.'))
+        .pipe(gulp.dest('Resources/public/dist'));
 });
 
 
@@ -145,8 +148,9 @@ gulp.task('pagemanager-client-js', function () {
     ])
         .pipe(concat('client.js'))
         .pipe(sourcemaps.write('./'))
-        .pipe(gulp.dest('Resources/public/js'));
+        .pipe(gulp.dest('Resources/public/dist'));
 });
+
 gulp.task('pagemanager-client-css', function () {
     return gulp.src([
         'Resources/public/less/pagemanager-client.less'
@@ -160,11 +164,12 @@ gulp.task('pagemanager-client-css', function () {
 
 
 //define executable tasks when running "gulp" command
-gulp.task('pagemanager', ['pagemanager-client-js', 'pagemanager-client-css']);
+gulp.task('pagemanager', ['pagemanager-client-css']);
 gulp.task('default', ['js', 'css', 'pagemanager']);
 
 //watch less files for changes
 gulp.task('watch', function() {
     gulp.watch('Resources/public/less/*.less', ['default']);
     gulp.watch('Resources/public/js/*.js', ['default']);
+    gulp.watch('../ExpressionEngine/Resources/public/react/expression-engine.js', ['default']);
 });

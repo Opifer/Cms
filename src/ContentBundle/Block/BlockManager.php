@@ -310,7 +310,12 @@ class BlockManager
 
         // Cycle through all deleted blocks to perform cascades manually 
         foreach ($deletes as $block) {
-            $descendants = $this->findDescendants($block, false);
+            if ($block instanceof CompositeBlock) {
+                $descendants = $this->findDescendants($block, false);
+            } else {
+                $descendants = [$block];
+            }
+
             foreach ($descendants as $descendant) {
                 $descendant->setDeletedAt(new \DateTime);
                 $this->em->flush($descendant);

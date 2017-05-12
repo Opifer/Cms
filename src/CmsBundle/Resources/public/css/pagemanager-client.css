@@ -1,0 +1,377 @@
+@font-face {
+  font-family: 'Material Icons';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Material Icons'), local('MaterialIcons-Regular'), url(https://fonts.gstatic.com/s/materialicons/v22/2fcrYFNaTjcS6g4U3t-Y5StnKWgpfO2iSkLzTz-AABg.ttf) format('truetype');
+}
+.material-icons {
+  font-family: 'Material Icons';
+  font-weight: normal;
+  font-style: normal;
+  font-size: 24px;
+  line-height: 1;
+  letter-spacing: normal;
+  text-transform: none;
+  display: inline-block;
+  white-space: nowrap;
+  word-wrap: normal;
+  direction: ltr;
+}
+.pm-material-icons {
+  font: normal normal normal 20px/1 'Material Icons';
+  font-size: inherit;
+  display: inline-block;
+  width: 1em;
+  height: 1em;
+  line-height: 1;
+  text-transform: none;
+  letter-spacing: normal;
+  word-wrap: normal;
+  /* Support for all WebKit browsers. */
+  -webkit-font-smoothing: antialiased;
+  /* Support for Safari and Chrome. */
+  text-rendering: optimizeLegibility;
+  /* Support for Firefox. */
+  -moz-osx-font-smoothing: grayscale;
+  /* Support for IE. */
+  font-feature-settings: 'liga';
+}
+.pm {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif !important;
+  font-size: 14px;
+  line-height: 1.35;
+  color: #333333;
+}
+.pm a {
+  color: #1f67b2;
+}
+.pm .material-icons {
+  font: normal normal normal 20px/1 'Material Icons';
+  font-size: inherit;
+  display: inline-block;
+  width: 1em;
+  height: 1em;
+  line-height: 1;
+  text-transform: none;
+  letter-spacing: normal;
+  word-wrap: normal;
+  /* Support for all WebKit browsers. */
+  -webkit-font-smoothing: antialiased;
+  /* Support for Safari and Chrome. */
+  text-rendering: optimizeLegibility;
+  /* Support for Firefox. */
+  -moz-osx-font-smoothing: grayscale;
+  /* Support for IE. */
+  font-feature-settings: 'liga';
+}
+.pm-drag-placeholder {
+  height: 0 !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  overflow: visible;
+  position: relative;
+  z-index: 99999;
+  color: rgba(0, 0, 0, 0.8);
+  font-size: 0;
+  line-height: 0;
+}
+.pm-drag-placeholder:before,
+.pm-drag-placeholder:after {
+  position: absolute;
+  font: normal normal normal 20px/1 'Material Icons';
+  font-size: inherit;
+  display: inline-block;
+  width: 1em;
+  height: 1em;
+  line-height: 1;
+  text-transform: none;
+  letter-spacing: normal;
+  word-wrap: normal;
+  /* Support for all WebKit browsers. */
+  -webkit-font-smoothing: antialiased;
+  /* Support for Safari and Chrome. */
+  text-rendering: optimizeLegibility;
+  /* Support for Firefox. */
+  -moz-osx-font-smoothing: grayscale;
+  /* Support for IE. */
+  font-feature-settings: 'liga';
+  font-size: 36px;
+  line-height: 36px;
+  color: #0062ff;
+  text-shadow: 0 2px 0 #ffffff, 2px 0 0 #ffffff, -2px 0 0 #ffffff, 0 -2px 0 #ffffff;
+}
+.pm-drag-placeholder:before {
+  top: -16px;
+  left: -7px;
+  content: "\E5C8";
+}
+.pm-drag-placeholder:after {
+  top: -16px;
+  right: -7px;
+  content: "\E5C4";
+}
+.pm-caption {
+  color: #777777;
+}
+.pm-caption .key {
+  font-weight: bold;
+  display: block;
+}
+.pm-block {
+  position: relative;
+}
+.pm-block.selected {
+  border: 3px solid #1f67b2;
+}
+.pm-block-transparent {
+  background-color: #eee;
+  background-image: repeating-linear-gradient(45deg, transparent, transparent 5px, #ffffff 5px, #ffffff 10px);
+  color: #999 !important;
+  text-align: center;
+  padding: 10px;
+}
+.pm-block-transparent p {
+  font-size: 14px !important;
+  margin: 0 !important;
+}
+.pm-block-css {
+  background-color: #F1E2D5;
+  color: #CC7A33 !important;
+}
+.pm-block-javascript {
+  background-color: #E3D5F1;
+  color: #9966CC !important;
+}
+.pm-toolbar {
+  font-size: 14px;
+  text-align: left;
+  z-index: 9001;
+  background: #222;
+  position: absolute;
+  top: 15px;
+  left: 15px;
+  height: 38px;
+  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.175);
+  opacity: 1;
+  transition: opacity 200ms;
+}
+.pm-toolbar.hidden {
+  display: block !important;
+  opacity: 0;
+}
+.pm-toolbar > .row {
+  margin: 0;
+}
+.pm-toolbar .pm-btn-group {
+  padding: 0;
+}
+.pm-toolbar .pm-btn {
+  font-size: 24px;
+  border-radius: 0;
+  border-right: 1px solid #333;
+  color: #ececec;
+  text-decoration: none;
+}
+.pm-toolbar .pm-btn:active,
+.pm-toolbar .pm-btn:focus,
+.pm-toolbar .pm-btn:hover {
+  color: white;
+  background: #111;
+  text-decoration: none;
+}
+.pm-toolbar .pm-btn-drag:hover {
+  cursor: move;
+}
+.pm-toolbar .pm-btn-label {
+  color: white !important;
+  background-color: #0062ff !important;
+}
+.pm-toolbar.pm-toolbar-pointer .pm-btn-label {
+  background-color: #FFD600 !important;
+}
+.pm-toolbar .pm-btn-icon {
+  position: relative;
+  display: inline-block;
+  height: 38px;
+  width: 38px;
+  text-align: center;
+  padding: 2px;
+}
+.pm-toolbar .pm-btn-icon .material-icons {
+  font-size: 24px;
+  display: inline-flex;
+  vertical-align: middle;
+  margin-top: -1px;
+}
+.pm-hovered {
+  outline: 4px dotted #0062ff;
+  outline-offset: -2px;
+}
+.pm-toolbar-text {
+  float: left;
+  display: inline-block;
+  padding: 3px 1px 1px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  width: 50%;
+}
+.pm-viewmode-content .pm-block.pm-inherited > .pm-toolbar,
+.pm-viewmode-layout .pm-block.pm-inherited > .pm-toolbar,
+.pm-viewmode-preview .pm-block.pm-inherited > .pm-toolbar {
+  display: none;
+}
+.pm-viewmode-content .pm-content > .pm-toolbar {
+  display: block;
+  position: absolute;
+  background: rgba(0, 0, 0, 0.4);
+  /* box-shadow: 0 2px 5px rgba(0,0,0,.1); */
+  left: 0;
+  right: 0;
+  color: white;
+}
+.pm-viewmode-content .pm-content > .pm-toolbar .pm-btn {
+  color: white;
+}
+.pm-viewmode-content .pm-layout {
+  min-height: 60px;
+}
+.pm-viewmode-content .pm-layout > .pm-toolbar {
+  display: none;
+}
+.pm-viewmode-content .pm-shared {
+  outline: 1px solid #FFC000;
+}
+.pm-viewmode-content .pm-shared > .pm-toolbar {
+  background: rgba(255, 192, 0, 0.7);
+}
+.pm-viewmode-content .pm-placeholder {
+  outline: 4px dotted rgba(0, 0, 0, 0.15);
+  outline-offset: -2px;
+  min-height: 40px;
+}
+.pm-viewmode-content .pm-placeholder:before,
+.pm-viewmode-content .pm-placeholder:after {
+  content: " ";
+  display: table;
+}
+.pm-viewmode-content .pm-placeholder:after {
+  clear: both;
+}
+.pm-viewmode-content .pm-placeholder[data-pm-empty="true"]:after {
+  font: normal normal normal 20px/1 'Material Icons';
+  font-size: inherit;
+  display: inline-block;
+  width: 1em;
+  height: 1em;
+  line-height: 1;
+  text-transform: none;
+  letter-spacing: normal;
+  word-wrap: normal;
+  /* Support for all WebKit browsers. */
+  -webkit-font-smoothing: antialiased;
+  /* Support for Safari and Chrome. */
+  text-rendering: optimizeLegibility;
+  /* Support for Firefox. */
+  -moz-osx-font-smoothing: grayscale;
+  /* Support for IE. */
+  font-feature-settings: 'liga';
+  content: "\E149";
+  color: rgba(0, 0, 0, 0.15);
+  font-size: 36px;
+  line-height: 40px;
+  margin: 0 auto;
+  width: 24px;
+  display: block;
+}
+.pm-viewmode-content .pm-placeholder.pm-accept {
+  outline-color: #5cb85c;
+}
+.pm-viewmode-content .pm-placeholder.pm-accept:after {
+  color: #5cb85c;
+}
+.list-group-item.pm-block-item {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif !important;
+  font-size: 14px;
+  line-height: 1.35;
+  color: #333333;
+  background: #111 !important;
+  color: white !important;
+  margin: 0;
+  max-width: 400px;
+  max-height: 100px;
+  border: 0;
+  border-radius: 0;
+  padding: 10px;
+  box-shadow: 0 1px 10px rgba(0, 0, 0, 0.1);
+  z-index: 99999;
+}
+.list-group-item.pm-block-item a {
+  color: #1f67b2;
+}
+.list-group-item.pm-block-item .material-icons {
+  font: normal normal normal 20px/1 'Material Icons';
+  font-size: inherit;
+  display: inline-block;
+  width: 1em;
+  height: 1em;
+  line-height: 1;
+  text-transform: none;
+  letter-spacing: normal;
+  word-wrap: normal;
+  /* Support for all WebKit browsers. */
+  -webkit-font-smoothing: antialiased;
+  /* Support for Safari and Chrome. */
+  text-rendering: optimizeLegibility;
+  /* Support for Firefox. */
+  -moz-osx-font-smoothing: grayscale;
+  /* Support for IE. */
+  font-feature-settings: 'liga';
+}
+.list-group-item.pm-block-item.pm-block-insert {
+  box-shadow: none;
+  background: rgba(0, 0, 0, 0.2) !important;
+  max-width: 100% !important;
+  width: 100% !important;
+}
+.list-group-item.pm-block-item.pm-block-insert:after {
+  content: "Loading";
+  font-size: 16px;
+  margin-left: 50px;
+  line-height: 36px;
+}
+.list-group-item.pm-block-item.pm-block-insert .col-text {
+  display: none;
+}
+.list-group-item.pm-block-item .col-visual {
+  position: absolute;
+  color: white !important;
+  width: 45px;
+  height: 40px;
+  top: 8px;
+  text-align: center;
+}
+.list-group-item.pm-block-item .col-visual .material-icons {
+  font-size: 36px;
+  line-height: 38px;
+  color: white !important;
+}
+.list-group-item.pm-block-item .col-text {
+  padding: 0;
+  margin: 0 0 0 58px;
+}
+.list-group-item.pm-block-item .list-group-item-heading {
+  font-size: 16px !important;
+  font-weight: normal !important;
+  margin: 0 0 2px 0 !important;
+  color: #fff !important;
+  text-transform: none;
+  text-decoration: none;
+}
+.list-group-item.pm-block-item .list-group-item-text {
+  font-size: 12px !important;
+  margin: 0 !important;
+  color: #fff !important;
+  text-transform: none;
+  text-decoration: none;
+}

@@ -1,0 +1,11 @@
+<div class="card card-cs {{ block.properties.styles|default|join(' ') }} {{ block.properties.extra_classes|default }}" {{ manage_tags() }}>      
+    {% if block.media|default %}
+        <img class="card-img-top img-fluid" src={{ block.media.reference|imagine_filter('thumbnail_md') }} alt="" />
+    {% endif %}
+    {% if block.value|default %}
+        <div class="card-block">
+            {{ block.value|default('')|parse|raw }}
+        </div>
+    {% endif %}
+    {{ render_placeholder() }}
+</div>

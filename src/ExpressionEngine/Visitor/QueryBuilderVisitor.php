@@ -114,7 +114,7 @@ class QueryBuilderVisitor implements ExpressionVisitor
         $left = $expr->getKey();
 
         if (strpos($left, '.') !== false) {
-            $this->shouldJoin($left);
+            $left = $this->shouldJoin($left);
         } else {
             $left = $this->getRootAlias().'.'.$left;
         }
@@ -136,17 +136,32 @@ class QueryBuilderVisitor implements ExpressionVisitor
     }
 
     /**
-     * Strips the key parts and creates a join if it does not exist yet.
+     * Strips the key parts and creates joins if they don't exist yet.
      *
-     * @param string $key
+     * @param string $key A lowercase dot-separated key. e.g. "content.template.id"
+     *
+     * @return string The final key that can be used in e.g. WHERE statements
      */
-    protected function shouldJoin($key)
+    public function shouldJoin($key, $prefix = null)
     {
         $parts = explode('.', $key);
 
-        if (!in_array($parts[0], $this->qb->getAllAliases())) {
-            $this->qb->leftJoin($this->getRootAlias().'.'.$parts[0], $parts[0]);
+        if (!$prefix) {
+            $prefix = $this->getRootAlias();
         }
+
+        if (!in_array($parts[0], $this->qb->getAllAliases())) {
+            $this->qb->leftJoin($prefix.'.'.$parts[0], $parts[0]);
+        }
+
+        // If the key consists of multiple . parts, we also need to add joins for the other parts
+        if (count($parts) > 2) {
+            $prefix = array_shift($parts);
+            $leftover = implode('.', $parts);
+            $key = $this->shouldJoin($leftover, $prefix);
+        }
+
+        return $key;
     }
 
     /**

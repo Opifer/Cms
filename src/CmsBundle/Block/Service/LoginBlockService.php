@@ -13,6 +13,8 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Opifer\ContentBundle\Form\Type\ContentPickerType;
 use Symfony\Component\Form\Extension\Core\Type\FormType;
 use Opifer\CmsBundle\Form\Type\CKEditorType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Session\Session;
@@ -65,17 +67,54 @@ class LoginBlockService extends AbstractBlockService implements BlockServiceInte
                 ])
         );
 
-        $builder->add(
-            $builder->create('properties', FormType::class)
-                ->add('redirect_content', ContentPickerType::class, [
-                    'label' => 'label.login_redirect_content_item',
-                    'as_object' => false,
-                ])
-                ->add('register_content', ContentPickerType::class, [
-                    'label' => 'label.register_content_item',
-                    'as_object' => false,
-                ])
-        );
+        $builder->get('properties')
+            ->add('redirect_content', ContentPickerType::class, [
+                'label' => 'label.login_redirect_content_item',
+                'as_object' => false,
+                'attr' => [
+                    'help_text' => 'help.login_redirect'
+                ]
+            ])
+            ->add('register_content', ContentPickerType::class, [
+                'label' => 'label.register_content_item',
+                'as_object' => false,
+                'attr' => [
+                    'help_text' => 'help.register_content_item'
+                ]
+            ])
+            ->add('allowEmail', CheckboxType::class, [
+                'label' => 'label.allow_email',
+                'attr' => [
+                    'align_with_widget'     => true,
+                    'help_text'             => 'help_text.allow_email',
+                ],
+            ])
+            ->add('allowFacebook', CheckboxType::class, [
+                'label' => 'label.allow_facebook',
+                'attr' => [
+                    'align_with_widget'     => true,
+                    'help_text'             => 'help_text.allow_facebook',
+                ],
+            ])
+            ->add('facebookId', TextType::class, [
+                'label' => 'label.facebook_id',
+                'attr' => [
+                    'help_text'             => 'help_text.facebook_id',
+                ],
+            ])
+            ->add('allowLinkedIn', CheckboxType::class, [
+                'label' => 'label.allow_linkedin',
+                'attr' => [
+                    'align_with_widget'     => true,
+                    'help_text'             => 'help_text.allow_linkedin',
+                ],
+            ])
+            ->add('linkedInKey', TextType::class, [
+                'label' => 'label.linkedin_key',
+                'attr' => [
+                    'help_text'             => 'help_text.linkedin_key',
+                ],
+            ]);
     }
 
     /**

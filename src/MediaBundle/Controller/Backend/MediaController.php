@@ -63,6 +63,11 @@ class MediaController extends Controller
         $form->handleRequest($request);
 
         if ($form->isValid()) {
+
+            if($form->get('name')->getData()){
+                $media->setName($form->get('name')->getData());
+            }
+
             $mediaManager->save($media);
 
             $this->addFlash('success', sprintf('%s was succesfully created', $media->getName()));

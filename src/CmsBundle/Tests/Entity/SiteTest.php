@@ -30,18 +30,6 @@ class SiteTest extends \PHPUnit_Framework_TestCase
         $this->assertSame($expected, $actual);
     }
 
-    public function testDomain()
-    {
-        $site = new Site();
-        $domain = 'Some Domain';
-
-        $expected = $domain;
-        $site->setDomain($domain);
-        $actual = $site->getDomain();
-
-        $this->assertSame($expected, $actual);
-    }
-
     public function testCookieDomain()
     {
         $site = new Site();

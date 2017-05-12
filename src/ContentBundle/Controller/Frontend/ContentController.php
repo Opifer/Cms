@@ -4,14 +4,10 @@ namespace Opifer\ContentBundle\Controller\Frontend;
 
 use Opifer\ContentBundle\Block\BlockManager;
 use Opifer\ContentBundle\Environment\Environment;
-use Opifer\ContentBundle\Model\Content;
 use Opifer\ContentBundle\Model\ContentInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-
-use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 /**
  * Content Controller
@@ -37,6 +33,10 @@ class ContentController extends Controller
     {
         $version = $request->query->get('_version');
         $debug = $this->getParameter('kernel.debug');
+        
+        if ($content->getLocale()) {
+            $request->setLocale($content->getLocale()->getLocale());
+        }
 
         $contentDate = $content->getUpdatedAt();
         $templateDate = $content->getTemplate()->getUpdatedAt();
@@ -44,6 +44,8 @@ class ContentController extends Controller
         $date = $contentDate > $templateDate ? $contentDate : $templateDate;
 
         $response = new Response();
+        // Force the Content-Type to be text/html to avoid caching with incorrect Content-Type.
+        $response->headers->set('Content-Type', 'text/html; charset=UTF-8');
         $response->setLastModified($date);
         $response->setPublic();
 
@@ -78,7 +80,9 @@ class ContentController extends Controller
     {
         /** @var BlockManager $manager */
         $manager  = $this->get('opifer.content.content_manager');
-        $content = $manager->getRepository()->findOneBySlug('index');
+        $host = $this->getRequest()->getHost();
+
+        $content = $manager->getRepository()->findActiveBySlug('index', $host);
 
         return $this->forward('OpiferContentBundle:Frontend/Content:view', [
             'content' => $content

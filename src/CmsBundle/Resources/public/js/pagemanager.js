@@ -19,9 +19,9 @@ $.widget( "ui.sortable", $.ui.sortable, {
     _contactContainers: function (event) {
         var i, j, dist, itemWithLeastDistance, posProperty, sizeProperty, cur, nearBottom, floating, axis,
             innermostContainer = null,
-        // CHANGED
+            // CHANGED
             innermostZIndex = null,
-        // CHANGED (END)
+            // CHANGED (END)
             innermostIndex = null;
 
         // get innermost container that intersects with item
@@ -300,6 +300,11 @@ $(document).ready(function() {
                 publishShared($(this).closest('form').attr('data-pm-block-id'));
             });
 
+            $(document).on('click', '.pm-btn-delete-block', function (e) {
+                e.preventDefault();
+                deleteBlock($(this).closest('form').attr('data-pm-block-id'));
+            });
+
             var cookieSettings = Cookies.getJSON('pmSettings');
             jQuery.extend(settings, cookieSettings);
 
@@ -310,6 +315,34 @@ $(document).ready(function() {
                     return "Attention: you will possible lose changes made.";
                 }
             };
+
+            $(document).on('hide.bs.collapse', '.js-collapsable', function () {
+                settings.toolsCollapsed[$(this).attr('id')] = true;
+                saveSettings();
+            });
+
+            $(document).on('show.bs.collapse', '.js-collapsable', function () {
+                settings.toolsCollapsed[$(this).attr('id')] = false;
+                saveSettings();
+            });
+
+            $('#pm-kwsearch-blocks').keyup(function () {
+                var searchTerm = $('#pm-kwsearch-blocks').val();
+                var searchSplit = searchTerm.replace(/ /g, "'):containsi('");
+
+                $.extend($.expr[':'], {'containsi': function(elem, i, match, array) {
+                        return (elem.textContent || elem.innerText || '').toLowerCase().indexOf((match[3] || '').toLowerCase()) >= 0;
+                    }
+                });
+
+                $('.pm-tools-blockset .pm-block-item').not(':containsi(\'' + searchSplit + '\')').each(function(e){
+                    $(this).attr('data-keyword-match', 'false');
+                });
+
+                $('.pm-tools-blockset .pm-block-item:containsi(\'' + searchSplit + '\')').each(function(e){
+                    $(this).attr('data-keyword-match', 'true');
+                });
+            });
         };
 
         // Start loading indicator
@@ -326,6 +359,10 @@ $(document).ready(function() {
 
         var applySettings = function () {
             splitPane.splitPane('lastComponentSize', settings.rightColumnWidth);
+            if (typeof settings.toolsCollapsed == 'undefined') settings.toolsCollapsed = {};
+            Object.keys(settings.toolsCollapsed).map(function(key, i) {
+                $('#'+key).collapse(settings.toolsCollapsed[key] ? 'hide' : 'show'); 
+            });
         };
 
         var saveSettings = function () {
@@ -340,10 +377,15 @@ $(document).ready(function() {
         };
 
         var refreshBlock = function (id) {
-            $.get(Routing.generate('opifer_content_api_contenteditor_view_block', {owner: owner, ownerId: ownerId, id: id})).done(function (data) {
-                getBlockElement(id).replaceWith(data.view);
-                showToolbars();
-            });
+            if (iFrame.contents().find('#app').length) {
+                // Refresh the whole iFrame when the page is a react/angular app.
+                iFrame[0].contentWindow.location.reload();
+            } else {
+                $.get(Routing.generate('opifer_content_api_contenteditor_view_block', {owner: owner, ownerId: ownerId, id: id})).done(function (data) {
+                    getBlockElement(id).replaceWith(data.view);
+                    showToolbars();
+                });
+            }
         };
 
         var loadRunButton = function () {
@@ -380,9 +422,9 @@ $(document).ready(function() {
         var setViewMode = function(mode) {
             if (mode == VIEWMODE_CONTENT) {
                 $('.pm-tools-blockset').removeClass('hidden');
-            //} else if (mode == VIEWMODE_LAYOUT) {
-            //    $('.pm-tools-blockset').addClass('hidden');
-            //    $('#pm-tools-layouts').removeClass('hidden');
+                //} else if (mode == VIEWMODE_LAYOUT) {
+                //    $('.pm-tools-blockset').addClass('hidden');
+                //    $('#pm-tools-layouts').removeClass('hidden');
             } else {
                 $('.pm-tools-blockset').addClass('hidden');
             }
@@ -664,7 +706,7 @@ $(document).ready(function() {
 
             iFrame.contents().find('body').append('' +
                 '<div id="pm-toolbar" class="pm pm-toolbar hidden">' +
-                    //'   <div class="pm-toolbar-text"><code>{{ block.id }}</code> {{ block_service.name(block) }}</div>' +
+                //'   <div class="pm-toolbar-text"><code>{{ block.id }}</code> {{ block_service.name(block) }}</div>' +
                 '<div class="pm-btn-group">' +
                 '<span class="pm-btn pm-btn-icon pm-btn-label"><i class="material-icons"></i></span>' +
                 '<a href="#" class="pm-btn pm-btn-icon pm-btn-drag" title="Drag this block to a new position"><i class="material-icons">drag_handle</i></a>' +
@@ -929,7 +971,8 @@ $(document).ready(function() {
                 data: values,
                 success: function (data) {
                     callback(data);
-                    sortables();
+                    // sortables();
+                    loadToC(sortables);
                 }
             }).error(function(data){
                 showAPIError(data);
@@ -999,9 +1042,11 @@ $(document).ready(function() {
         var loadToC = function (callback) {
             $.ajax({
                 url: Routing.generate('opifer_content_contenteditor_toc', {owner: owner, ownerId: ownerId}),
-                cache: false
+                cache: false,
+                dataType: 'html',
             }).done(function (data) {
                 $('#pm-toc').html(data);
+                applySettings();
                 if (callback) callback();
             });
         };

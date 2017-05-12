@@ -1,0 +1,11 @@
+Opifer\FormBlockBundle\Entity\FormBlock:
+  type: entity
+  manyToOne:
+    form:
+      targetEntity: Opifer\FormBundle\Model\FormInterface
+      fetch: EAGER
+      joinColumn:
+        name: form_id
+        referencedColumnName: id
+        nullable: true
+        onDelete: SET NULL

@@ -12,13 +12,6 @@ opifer_content_api_content_ids:
     options:
         expose: true
 
-opifer_content_api_content_view:
-    path: /content/{id}
-    defaults: { _controller: OpiferContentBundle:Api/Content:view }
-    methods: [GET]
-    options:
-        expose: true
-
 opifer_content_api_content_delete:
     path: /content/{id}
     defaults: { _controller: OpiferContentBundle:Api/Content:delete }
@@ -100,5 +93,16 @@ opifer_content_api_contenteditor_discard:
     path: /contenteditor/discard
     defaults: { _controller: OpiferContentBundle:Api/ContentEditor:discardBlock }
     methods: [POST]
+    options:
+        expose: true
+
+opifer_content_api_dataview_index:
+    resource: "Opifer\ContentBundle\Controller\Api\DataViewController"
+    type:     rest
+
+opifer_content_api_sites:
+    path: /sites
+    defaults: { _controller: OpiferContentBundle:Api/Content:sites }
+    methods: [GET]
     options:
         expose: true

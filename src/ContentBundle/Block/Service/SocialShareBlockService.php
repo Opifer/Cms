@@ -2,15 +2,15 @@
 
 namespace Opifer\ContentBundle\Block\Service;
 
+use Opifer\CmsBundle\Form\Type\CKEditorType;
 use Opifer\ContentBundle\Block\Tool\Tool;
 use Opifer\ContentBundle\Block\Tool\ToolsetMemberInterface;
 use Opifer\ContentBundle\Entity\SocialShareBlock;
 use Opifer\ContentBundle\Helper\SocialShareHelper;
 use Opifer\ContentBundle\Model\BlockInterface;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
-use Symfony\Component\Form\Extension\Core\Type\FormType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
 
 /**
@@ -28,19 +28,37 @@ class SocialShareBlockService extends AbstractBlockService implements BlockServi
     {
         parent::buildManageForm($builder, $options);
 
-        $propertiesForm = $builder->create('properties', FormType::class);
+        $builder->get('properties')
+            ->add('title', TextType::class, [
+                'label' => 'label.social_title',
+                'attr' => [
+                    'help_text' => 'help.block_social_title',
+                    'tag' => 'general'
+                ],
+                'required' => false,
+            ])
+            ->add('text', CKEditorType::class, [
+                'label' => 'label.social_text',
+                'attr' => [
+                    'help_text' => 'help.block_social_text',
+                    'label_col' => 12,
+                    'widget_col' => 12,
+                    'tag' => 'general'
+                ],
+                'required' => false,
+            ]
+        );
 
         if (count($this->config['templates'])) {
             // Default panel
-            $builder->add(
-                $propertiesForm->add('template', ChoiceType::class, [
-                    'label' => 'label.template',
-                    'placeholder' => 'placeholder.choice_optional',
-                    'attr' => ['help_text' => 'help.block_template'],
-                    'choices' => $this->config['templates'],
-                    'required' => false,
-                ])
-            );
+            $builder->get('properties')
+                ->add('template', ChoiceType::class, [
+                'label' => 'label.template',
+                'placeholder' => 'placeholder.choice_optional',
+                'attr' => ['help_text' => 'help.block_template'],
+                'choices' => $this->config['templates'],
+                'required' => false,
+            ]);
         }
     }
 
@@ -106,5 +124,14 @@ class SocialShareBlockService extends AbstractBlockService implements BlockServi
     public function getRequestUrl()
     {
         return sprintf('%s%s', $this->getRequest()->getSchemeAndHttpHost(), $this->getRequest()->getRequestUri());
+    }
+
+    /**
+     * @param BlockInterface $block
+     * @return string
+     */
+    public function getDescription(BlockInterface $block = null)
+    {
+        return 'This adds buttons to share content on social media';
     }
 }

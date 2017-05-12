@@ -5,6 +5,7 @@ namespace Opifer\MediaBundle\DependencyInjection;
 use Opifer\MediaBundle\File\ImageTypeGuesser;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\Extension\PrependExtensionInterface;
 use Symfony\Component\DependencyInjection\Loader;
 use Symfony\Component\HttpFoundation\File\MimeType\MimeTypeGuesser;
@@ -41,6 +42,7 @@ class OpiferMediaExtension extends Extension implements PrependExtensionInterfac
         $config = $this->processConfiguration(new Configuration(), $configs);
 
         $container->setAlias('opifer.media.media_manager', $config['media']['manager']);
+        $container->setDefinition('opifer.media.cache_provider', new Definition($config['cache_provider']));
 
         $parameters = $this->getParameters($config);
         foreach ($parameters as $key => $value) {

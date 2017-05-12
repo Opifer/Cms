@@ -24,30 +24,32 @@ class VideoBlockService extends AbstractBlockService implements BlockServiceInte
     {
         parent::buildManageForm($builder, $options);
 
-        $builder->add(
-            $builder->create('default', FormType::class, ['virtual' => true])
-                ->add('title', TextType::class, [
-                    'label' => 'label.title',
-                ])
-                ->add('value', CKEditorType::class, [
-                    'label' => 'label.caption',
-                ])
-                ->add('media', MediaPickerType::class, [
-                    'required'  => false,
-                    'multiple' => false,
-                    'attr' => array('label_col' => 12, 'widget_col' => 12),
-                ])
-        );
+        $builder->get('default')
+            ->add('title', TextType::class, [
+                'label' => 'label.title',
+                'required' => false,
+            ])
+            ->add('value', CKEditorType::class, [
+                'label' => 'label.caption',
+                'required' => false,
+            ])
+            ->add('media', MediaPickerType::class, [
+                'required'  => false,
+                'multiple' => false,
+                'attr' => array('label_col' => 12, 'widget_col' => 12),
+            ])
+        ;
 
-        $builder->add(
-            $builder->create('properties', FormType::class)
-                ->add('width', TextType::class, [
-                    'label' => 'label.width',
-                ])
-                ->add('height', TextType::class, [
-                    'label' => 'label.height',
-                ])
-        );
+        $builder->get('properties')
+            ->add('width', TextType::class, [
+                'label' => 'label.width',
+                'required' => false
+            ])
+            ->add('height', TextType::class, [
+                'label' => 'label.height',
+                'required' => false
+            ])
+        ;
     }
 
     /**
@@ -69,5 +71,14 @@ class VideoBlockService extends AbstractBlockService implements BlockServiceInte
             ->setDescription('Shows a HTML5 or Youtube videoplayer');
 
         return $tool;
+    }
+
+    /**
+     * @param BlockInterface $block
+     * @return string
+     */
+    public function getDescription(BlockInterface $block = null)
+    {
+        return 'This shows a Youtube videoplayer';
     }
 }

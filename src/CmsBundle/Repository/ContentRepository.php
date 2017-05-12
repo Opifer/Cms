@@ -30,6 +30,8 @@ class ContentRepository extends BaseContentRepository
     {
         $query = $this->createQueryBuilder('c')
             ->orderBy('c.updatedAt', 'DESC')
+            ->where('c.layout = :layout')
+            ->setParameter(':layout', false)
             ->setMaxResults($limit)
             ->getQuery();
 

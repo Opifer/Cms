@@ -1,0 +1,20 @@
+Opifer\CmsBundle\Entity\Domain:
+    type: entity
+    table: domain
+    id:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: IDENTITY
+    fields:
+        domain:
+            type: string
+            unique: true
+    manyToOne:
+        site:
+            targetEntity: Opifer\CmsBundle\Entity\Site
+            inversedBy: domains
+            joinColumn:
+                name: site_id
+                referencedColumnName: id

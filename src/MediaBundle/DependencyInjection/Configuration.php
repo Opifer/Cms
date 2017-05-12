@@ -96,15 +96,10 @@ class Configuration implements ConfigurationInterface
                         ->end()
                     ->end()
                 ->end()
+                ->scalarNode('cache_provider')->defaultValue('Doctrine\Common\Cache\ArrayCache')->end()
             ->end()
         ;
 
         return $treeBuilder;
     }
-
-    /*
-     * opifer_media:
-     *     youtube:
-     *         google_api_key: dfgdghfgh
-     */
 }

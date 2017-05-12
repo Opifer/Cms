@@ -126,6 +126,14 @@ class Environment
         throw new \Exception('Could not find block in loaded Environment');
     }
 
+    public function getBlocks()
+    {
+        $this->load();
+        $cacheKey = $this->getCacheKey();
+
+        return $this->blockCache[$cacheKey];
+    }
+
     public function getRootBlocks()
     {
         $this->load();
@@ -164,8 +172,8 @@ class Environment
             if ($member->getParent()->getId() == $block->getId()) { // direct child
                 array_push($children, $member);
             } elseif ($member->getOwner() &&
-                        $member->getParent()->getId() == $member->getOwner()->getId() &&
-                        $block instanceof BlockOwnerInterface) {
+                $member->getParent()->getId() == $member->getOwner()->getId() &&
+                $block instanceof BlockOwnerInterface) {
                 array_push($children, $member);
             }
         }
@@ -181,7 +189,7 @@ class Environment
      */
     public function load()
     {
-        if ($this->isLoaded) {
+        if ($this->isLoaded && isset($this->blockCache[$this->getCacheKey()])) {
             return;
         }
 
