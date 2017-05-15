@@ -10,12 +10,15 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 
 
 class MediaController extends Controller
 {
     /**
      * Index.
+     *
+     * @ApiDoc
      *
      * @return JsonResponse
      */
@@ -42,8 +45,11 @@ class MediaController extends Controller
             'max_upload_size' => $maxUploadSize,
         ]);
     }
+
     /**
      * Detail.
+     *
+     * @ApiDoc
      *
      * @return JsonResponse
      */
@@ -57,6 +63,8 @@ class MediaController extends Controller
     }
 
     /**
+     * @ApiDoc
+     *
      * @param Request $request
      * @return JsonResponse
      */
@@ -80,6 +88,8 @@ class MediaController extends Controller
 
     /**
      * Upload.
+     *
+     * @ApiDoc
      *
      * @return Response
      */
@@ -115,6 +125,8 @@ class MediaController extends Controller
 
     /**
      * Delete.
+     *
+     * @ApiDoc
      *
      * @param Request $request
      * @param int     $id

@@ -8,12 +8,17 @@ const APP_DIR = path.resolve(__dirname, './src');
 
 module.exports = {
   debug: false,
-  entry: [
-    path.join(APP_DIR, '/index.jsx'),
-  ],
+  entry: {
+    xms: [
+      path.join(APP_DIR, '/index.jsx'),
+    ],
+    mediamanager: [
+      path.join(APP_DIR, '/mediamanager.jsx'),
+    ],
+  },
   output: {
     path: BUILD_DIR,
-    filename: 'xms.js',
+    filename: '[name].js',
     publicPath: '/dist/',
   },
   plugins: [

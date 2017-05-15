@@ -4,9 +4,11 @@ import { reducer as reduxForm } from 'redux-form';
 import { routerReducer } from 'react-router-redux';
 import auth from '../auth';
 import dataViews from '../dataViews';
+import mediaReducer from '../modules/media/reducer';
 
 const reducer = combineReducers({
   form: reduxForm,
+  media: mediaReducer,
   routing: routerReducer,
   [dataViews.constants.NAME]: dataViews.reducer,
   user: auth.reducer,

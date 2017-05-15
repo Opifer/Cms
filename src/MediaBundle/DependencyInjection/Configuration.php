@@ -49,6 +49,15 @@ class Configuration implements ConfigurationInterface
                     ->end()
                 ->end()
 
+                ->arrayNode('media_directory')
+                    ->addDefaultsIfNotSet()
+                    ->children()
+                        ->scalarNode('class')
+                            ->defaultValue('Opifer\MediaBundle\Entity\MediaDirectory')
+                        ->end()
+                    ->end()
+                ->end()
+
                 ->arrayNode('providers')
                     ->addDefaultsIfNotSet()
                     ->children()

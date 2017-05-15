@@ -4,8 +4,8 @@ import { loginUserFailure } from '../auth/actions';
 
 export function put(values, url, dispatch) {
   const token = localStorage.getItem('token');
-  return fetch(`/admin/api/${url}`, {
-    // credentials: 'include',
+  return fetch(`/app_dev.php/admin/api/${url}`, {
+    credentials: 'include',
     method: 'put',
     headers: {
       Authorization: `Bearer ${token}`,
@@ -27,8 +27,8 @@ export function put(values, url, dispatch) {
 
 export function get(url, dispatch) {
   const token = localStorage.getItem('token');
-  return fetch('/admin/api/dataviews', {
-    // credentials: 'include',
+  return fetch(`/app_dev.php/admin/api/${url}`, {
+    credentials: 'include',
     headers: {
       Authorization: `Bearer ${token}`,
     },

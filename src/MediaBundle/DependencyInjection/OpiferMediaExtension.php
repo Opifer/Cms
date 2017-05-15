@@ -56,6 +56,7 @@ class OpiferMediaExtension extends Extension implements PrependExtensionInterfac
                         'orm' => [
                             'resolve_target_entities' => [
                                 'Opifer\MediaBundle\Model\MediaInterface' => $config['media']['class'],
+                                'Opifer\MediaBundle\Entity\MediaDirectoryInterface' => $config['media_directory']['class'],
                             ],
                         ],
                     ]);
@@ -164,6 +165,7 @@ class OpiferMediaExtension extends Extension implements PrependExtensionInterfac
             'opifer_media.media_index_view' => $config['media']['views']['index'],
             'opifer_media.media_create_view' => $config['media']['views']['create'],
             'opifer_media.media_edit_view' => $config['media']['views']['edit'],
+            'opifer_media.media_directory_class' => $config['media_directory']['class'],
         ];
 
         foreach ($config['providers'] as $provider => $options) {
