@@ -1,5 +1,5 @@
 import { normalize, Schema, arrayOf } from 'normalizr';
-import { setEntities } from 'opifer-rcs/src/redux/entities';
+import { setEntities, updateEntity } from 'opifer-rcs/src/redux/entities';
 import * as api from '../../utilities/api';
 import * as t from './actionTypes';
 import { currentDirectorySelector } from './selectors';
@@ -42,6 +42,17 @@ export function addItems(items) {
     const normalizedItems = normalize(items, arrayOf(mediaSchema));
 
     dispatch(setEntities(normalizedItems));
+  };
+}
+
+export function moveFile(file, dir) {
+  return (dispatch) => {
+    return api.put({ directory: dir }, `media/${file}`, dispatch)
+      .then(media => {
+        dispatch(updateEntity('medias', media.id, {
+          directory_id: media.directory_id,
+        }));
+      });
   };
 }
 

@@ -6,6 +6,7 @@ use JMS\Serializer\SerializationContext;
 use JMS\Serializer\Serializer;
 use Opifer\MediaBundle\Event\MediaResponseEvent;
 use Opifer\MediaBundle\Event\ResponseEvent;
+use Opifer\MediaBundle\Model\MediaInterface;
 use Opifer\MediaBundle\OpiferMediaEvents;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -55,7 +56,7 @@ class MediaController extends Controller
     }
 
     /**
-     * Detail.
+     * Get a single media item
      *
      * @ApiDoc
      *
@@ -71,19 +72,28 @@ class MediaController extends Controller
     }
 
     /**
+     * Update a media item
+     *
      * @ApiDoc
      *
      * @param Request $request
      * @return JsonResponse
      */
-    public function updateAction(Request $request)
+    public function updateAction(Request $request, $id)
     {
         $content = json_decode($request->getContent(), true);
 
-        $media = $this->get('opifer.media.media_manager')->getRepository()->find($content['id']);
-        $media->setName($content['name']);
-        if (isset($content['alt'])) {
-            $media->setAlt($content['alt']);
+        /** @var MediaInterface $media */
+        $media = $this->get('opifer.media.media_manager')->getRepository()->find($id);
+
+        if (isset($content['name'])) $media->setName($content['name']);
+        if (isset($content['alt'])) $media->setAlt($content['alt']);
+
+        if (isset($content['directory'])) {
+            $directory = $this->get('opifer.media.media_directory_manager')->getRepository()->find($content['directory']);
+            if ($directory) {
+                $media->setDirectory($directory);
+            }
         }
 
         $em = $this->getDoctrine()->getManager();

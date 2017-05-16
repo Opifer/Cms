@@ -1,6 +1,22 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { switchDirectory } from '../actions';
+import { DropTarget } from 'react-dnd';
+
+const directoryTarget = {
+  drop(props) {
+    return {
+      id: props.id,
+    }
+  }
+};
+
+function collect(connect, monitor) {
+  return {
+    connectDropTarget: connect.dropTarget(),
+    isOver: monitor.isOver()
+  };
+}
 
 class DirectoryItem extends Component {
   static propTypes = {
@@ -9,9 +25,9 @@ class DirectoryItem extends Component {
   };
 
   render() {
-    const { id, name } = this.props;
+    const { id, name, connectDropTarget, isOver } = this.props;
 
-    return (
+    return connectDropTarget(
       <div className="item thumbnail" onClick={this.props.openDirectory}>
         {name}
       </div>
@@ -26,4 +42,4 @@ export default connect(
       dispatch(switchDirectory(ownProps.id));
     }
   })
-)(DirectoryItem);
+)(DropTarget('media', directoryTarget, collect)(DirectoryItem));

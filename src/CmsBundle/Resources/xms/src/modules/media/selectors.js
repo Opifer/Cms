@@ -10,7 +10,7 @@ export const directorySelector = state => state.media.directory;
 export const activeItemsSelector = createSelector(
   itemEntitiesSelector,
   directorySelector,
-  (items, dir) => items ? Object.keys(items).filter(i => items[i].directory_id === dir || (!items[i].parent_id && !dir)).map(i => items[i]) : []
+  (items, dir) => items ? Object.keys(items).filter(i => items[i].directory_id === dir || (!items[i].directory_id && !dir)).map(i => items[i]) : []
 );
 
 export const activeDirectoriesSelector = createSelector(
