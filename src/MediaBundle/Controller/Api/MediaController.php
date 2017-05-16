@@ -103,17 +103,26 @@ class MediaController extends Controller
      */
     public function uploadAction(Request $request)
     {
-        $media = $this->get('opifer.media.media_manager')->createMedia();
         $em = $this->getDoctrine()->getManager();
 
+        $directory = null;
+        if ($request->get('directory')) {
+            $directory = $this->get('opifer.media.media_directory_manager')->getRepository()
+                ->find($request->get('directory'));
+        }
+
+        $uploads = [];
         foreach ($request->files->all() as $files) {
             if ((!is_array($files)) && (!$files instanceof \Traversable)) {
                 $files = [$files];
             }
 
             foreach ($files as $file) {
-                $media = clone $media;
+                $media = $this->get('opifer.media.media_manager')->createMedia();
                 $media->setFile($file);
+                if ($directory) {
+                    $media->setDirectory($directory);
+                }
 
                 if (strpos($file->getClientMimeType(), 'image') !== false) {
                     $media->setProvider('image');
@@ -122,13 +131,14 @@ class MediaController extends Controller
                 }
 
                 $em->persist($media);
+                $uploads[] = $media;
             }
         }
         $em->flush();
 
-        $media = $this->get('jms_serializer')->serialize($media, 'json');
+        $media = $this->get('jms_serializer')->serialize($uploads, 'json');
 
-        return new Response($media, 200, ['Content-Type' => 'application/json']);
+        return new JsonResponse(json_decode($media, true));
     }
 
     /**

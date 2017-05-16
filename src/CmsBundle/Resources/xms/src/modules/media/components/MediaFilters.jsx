@@ -35,5 +35,5 @@ class MediaFilters extends Component {
 }
 
 export default reduxForm({
-  form: 'media',
+  form: 'media-filters',
 })(MediaFilters);

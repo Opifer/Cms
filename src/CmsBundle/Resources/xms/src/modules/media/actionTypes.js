@@ -1,4 +1,5 @@
 export const START_FETCHING = 'media/START_FETCHING';
+export const START_UPLOADING = 'media/START_UPLOADING';
 export const SET_DATA = 'media/SET_DATA';
 export const SET_ITEMS = 'media/SET_ITEMS';
 export const SET_DIRECTORY = 'media/SET_DIRECTORY';
