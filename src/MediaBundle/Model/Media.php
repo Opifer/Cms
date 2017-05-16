@@ -392,6 +392,17 @@ abstract class Media implements MediaInterface
     }
 
     /**
+     * @return int|null
+     *
+     * @JMS\VirtualProperty
+     * @JMS\SerializedName("directory_id")
+     */
+    public function getDirectoryId()
+    {
+        return ($this->getDirectory()) ? $this->getDirectory()->getId() : null;
+    }
+
+    /**
      * @return MediaDirectoryInterface
      */
     public function getDirectory()

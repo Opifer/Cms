@@ -3,6 +3,7 @@
 namespace Opifer\MediaBundle\Controller\Api;
 
 use JMS\Serializer\SerializationContext;
+use JMS\Serializer\Serializer;
 use Opifer\MediaBundle\Event\MediaResponseEvent;
 use Opifer\MediaBundle\Event\ResponseEvent;
 use Opifer\MediaBundle\OpiferMediaEvents;
@@ -11,7 +12,6 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
-
 
 class MediaController extends Controller
 {
@@ -34,11 +34,19 @@ class MediaController extends Controller
 
         $media = $this->get('opifer.media.media_manager')->getPaginatedByRequest($request);
 
-        $items = $this->get('jms_serializer')->serialize(iterator_to_array($media->getCurrentPageResults()), 'json', SerializationContext::create()->setGroups(['Default', 'list']));
+        $directories = $this->get('opifer.media.media_directory_manager')
+            ->getRepository()
+            ->findByDirectory($request->get('directory', null));
+
+        /** @var Serializer $serializer */
+        $serializer = $this->get('jms_serializer');
+
+        $items = $serializer->serialize(iterator_to_array($media->getCurrentPageResults()), 'json', SerializationContext::create()->setGroups(['Default', 'list']));
 
         $maxUploadSize = (ini_get('post_max_size') < ini_get('upload_max_filesize')) ? ini_get('post_max_size') : ini_get('upload_max_filesize');
         
         return new JsonResponse([
+            'directories' => json_decode($serializer->serialize($directories, 'json', SerializationContext::create()->enableMaxDepthChecks()), true),
             'results' => json_decode($items, true),
             'total_results' => $media->getNbResults(),
             'results_per_page' => $media->getMaxPerPage(),

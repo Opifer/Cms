@@ -1,11 +1,16 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
+import DirectoryItem from './DirectoryItem';
+import DirectoryCreateItem from './DirectoryCreateItem';
+import DirectoryParentItem from './DirectoryParentItem';
 import MediaItem from './MediaItem';
 import MediaFilters from './MediaFilters';
 import { getItems } from '../actions';
+import { activeItemsSelector, activeDirectoriesSelector } from '../selectors';
 
 class MediaManager extends Component {
   static propTypes = {
+    directories: PropTypes.array,
     items: PropTypes.array,
     fetchItems: PropTypes.func,
   };
@@ -15,7 +20,7 @@ class MediaManager extends Component {
   }
 
   render() {
-    const { items } = this.props;
+    const { directories, items } = this.props;
 
     return (
       <div className="container-fluid">
@@ -37,6 +42,14 @@ class MediaManager extends Component {
           </div>*/}
 
           <div className="image-section col-xs-12 clearfix">
+            <DirectoryParentItem />
+
+            {directories.map((dir, i) => (
+              <DirectoryItem key={i} { ...dir } />
+            ))}
+
+            <DirectoryCreateItem />
+
             {items.map((item, i) => (
               <MediaItem key={i} { ...item } />
             ))}
@@ -77,7 +90,8 @@ class MediaManager extends Component {
 
 export default connect(
   (state) => ({
-    items: Object.keys(state.media.items).map(k => state.media.items[k]),
+    directories: activeDirectoriesSelector(state),
+    items: activeItemsSelector(state),
   }),
   (dispatch) => ({
     fetchItems: () => {

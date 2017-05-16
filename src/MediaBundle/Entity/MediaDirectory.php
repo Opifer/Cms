@@ -8,7 +8,7 @@ use JMS\Serializer\Annotation as JMS;
 use Opifer\MediaBundle\Model\MediaInterface;
 
 /**
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="Opifer\MediaBundle\Repository\MediaDirectoryRepository")
  * @ORM\Table(name="media_directory")
  * @JMS\ExclusionPolicy("all")
  */
@@ -35,6 +35,9 @@ class MediaDirectory implements MediaDirectoryInterface
     /**
      * @var ArrayCollection|MediaInterface[]
      *
+     * @JMS\Expose
+     * @JMS\MaxDepth(2)
+     *
      * @ORM\OneToMany(targetEntity="Opifer\MediaBundle\Model\MediaInterface", mappedBy="directory")
      */
     protected $items;
@@ -49,6 +52,9 @@ class MediaDirectory implements MediaDirectoryInterface
 
     /**
      * @var ArrayCollection|MediaDirectoryInterface[]
+     *
+     * @JMS\Expose
+     * @JMS\MaxDepth(2)
      *
      * @ORM\OneToMany(targetEntity="Opifer\MediaBundle\Entity\MediaDirectoryInterface", mappedBy="parent")
      */
@@ -133,6 +139,17 @@ class MediaDirectory implements MediaDirectoryInterface
         $this->items->removeElement($media);
 
         return $this;
+    }
+
+    /**
+     * @return int|null
+     *
+     * @JMS\VirtualProperty
+     * @JMS\SerializedName("parent_id")
+     */
+    public function getParentId()
+    {
+        return ($this->getParent()) ? $this->getParent()->getId() : null;
     }
 
     /**
