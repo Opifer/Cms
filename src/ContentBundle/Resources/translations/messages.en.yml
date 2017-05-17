@@ -49,8 +49,8 @@ help:
     button_target: The target attribute specifies where to open the linked document.
     css_code: Add custom CSS code.
     javascript_code: Add custom JavaScript code.
-    carouselslide_media: Add media item to corousel slide.
-    carouselslide_rich_text: Add some text to corousel slide.
+    carouselslide_media: Add media item to carousel slide.
+    carouselslide_rich_text: Add some text to carousel slide.
     carousel_controls: Show arrow on the left and right side of the slides to switch between them.
     carousel_indicator: Indicates position of the shown slide in carousel.
     download_media: Select content or media file for download.
