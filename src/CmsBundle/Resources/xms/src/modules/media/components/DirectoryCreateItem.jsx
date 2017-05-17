@@ -1,5 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
+import { Field, reduxForm } from 'redux-form';
 
 class DirectoryCreateItem extends Component {
   static propTypes = {
@@ -10,11 +11,18 @@ class DirectoryCreateItem extends Component {
   }
 
   render() {
+    const { handleSubmit } = this.props;
 
     return (
-      <div className="item thumbnail" onClick={this.createDirectory}>
+      <form className="item thumbnail" onSubmit={handleSubmit}>
         <i className="fa fa-plus"></i>
-      </div>
+        <Field
+          name="name"
+          component="input"
+          type="text"
+          className="form-control"
+        />
+      </form>
     );
   }
 }
@@ -27,4 +35,6 @@ export default connect(
     //   // dispatch();
     // }
   })
-)(DirectoryCreateItem);
+)(reduxForm({
+  form: 'directory',
+})(DirectoryCreateItem));

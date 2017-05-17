@@ -21,6 +21,13 @@ class MediaDirectoryManager
         return $this->class;
     }
 
+    public function create()
+    {
+        $class = $this->getClass();
+
+        return new $class();
+    }
+
     public function getRepository()
     {
         return $this->em->getRepository($this->getClass());
