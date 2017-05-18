@@ -173,6 +173,7 @@ $(document).ready(function() {
                 $(document).find('.modal-backdrop').remove();
 
                 initializeExpressionEngine();
+                initializeMediaPicker();
             });
 
             isLoading();
@@ -259,6 +260,8 @@ $(document).ready(function() {
 
                     // Bootstrap ExpressionEngine ReactJS app
                     initializeExpressionEngine();
+
+                    initializeMediaPicker();
                 });
 
                 return false;
@@ -461,6 +464,8 @@ $(document).ready(function() {
                     // Bootstrap ExpressionEngine ReactJS app
                     initializeExpressionEngine();
 
+                    initializeMediaPicker();
+
                     if (tab) {
                         editDialog.getModalBody().find('.nav-tabs a[href="#block-'+tab+'"]').tab('show');
                     }
@@ -489,6 +494,8 @@ $(document).ready(function() {
 
                 // Bootstrap ExpressionEngine ReactJS app
                 initializeExpressionEngine();
+
+                initializeMediaPicker();
             });
 
             editDialog.open();

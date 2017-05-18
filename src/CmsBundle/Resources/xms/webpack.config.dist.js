@@ -14,6 +14,7 @@ module.exports = {
     ],
     mediamanager: [
       path.join(APP_DIR, '/mediamanager.jsx'),
+      path.join(APP_DIR, '/mediapicker.jsx'),
     ],
   },
   output: {
@@ -28,7 +29,7 @@ module.exports = {
         DEBUG: false,
       },
     }),
-    new webpack.optimize.DedupePlugin(),
+    // new webpack.optimize.DedupePlugin(),
     new webpack.optimize.UglifyJsPlugin(),
     new webpack.NoErrorsPlugin(),
     new webpack.ProvidePlugin({

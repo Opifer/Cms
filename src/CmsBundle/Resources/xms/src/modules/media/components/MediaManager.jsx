@@ -16,7 +16,13 @@ class MediaManager extends Component {
     directories: PropTypes.array,
     items: PropTypes.array,
     fetchItems: PropTypes.func,
+    onPick: PropTypes.func,
+    picker: PropTypes.bool,
   };
+
+  static defaultProps = {
+    picker: false,
+  }
 
   componentDidMount() {
     this.props.fetchItems();
@@ -65,7 +71,16 @@ class MediaManager extends Component {
             <DirectoryCreateItem />
 
             {items.map((item, i) => (
-              <MediaItem key={i} { ...item } />
+              <MediaItem
+                key={i}
+                onPick={(media) => {
+                  if (this.props.onPick) {
+                    this.props.onPick(media);
+                  }
+                }}
+                picker
+                { ...item }
+              />
             ))}
           </div>
 

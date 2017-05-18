@@ -20,6 +20,7 @@ module.exports = {
       'webpack-dev-server/client?http://127.0.0.1:3333',
       'webpack/hot/only-dev-server',
       path.join(APP_DIR, '/mediamanager.jsx'),
+      path.join(APP_DIR, '/mediapicker.jsx'),
     ],
   },
   output: {

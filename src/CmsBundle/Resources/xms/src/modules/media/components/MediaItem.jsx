@@ -1,7 +1,8 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
+import { Link } from 'react-router';
 import { DragSource } from 'react-dnd';
-import { moveFile } from '../actions';
+import { moveFile, removeFile } from '../actions';
 
 const mediaSource = {
   beginDrag(props) {
@@ -14,7 +15,6 @@ const mediaSource = {
       return;
     }
 
-    // When dropped on a compatible target, do something
     const item = monitor.getItem();
     const directory = monitor.getDropResult();
 
@@ -32,10 +32,33 @@ function collect(connect, monitor) {
 class MediaItem extends Component {
   static propTypes = {
     moveMedia: PropTypes.func,
+    onPick: PropTypes.func,
+    picker: PropTypes.bool,
   };
 
+  static defaultProps = {
+    picker: false,
+  }
+
+  constructor(props) {
+    super(props);
+
+    this.delete = this.delete.bind(this);
+    this.pick = this.pick.bind(this);
+  }
+
+  delete() {
+    this.props.removeMedia();
+  }
+
+  pick() {
+    if (this.props.onPick) {
+      this.props.onPick(this.props.id);
+    }
+  }
+
   render() {
-    const { provider, file_type, images, name, metadata, thumb, connectDragSource, isDragging } = this.props;
+    const { id, provider, file_type, images, name, metadata, thumb, connectDragSource, isDragging, picker } = this.props;
 
     return connectDragSource(
       <div className={`item ${provider} ${ file_type}`}>
@@ -46,9 +69,21 @@ class MediaItem extends Component {
             {(provider === 'image') && (<span className="details">{ metadata.width }x{ metadata.height }px</span>)}
           </div>
           <div className="center-stage">
-            {/*<button type="button" ng-if="picker.name" ng-click="selectMedia($index); $event.stopPropagation();" className="btn btn-default-outline include">Use media</button>
-            <button type="button" ng-if="!picker.name" ng-click="editMedia($index); $event.stopPropagation();" className="btn btn-default-outline edit">Edit</button>
-            <button type="button" ng-if="!picker.name" ng-click="confirmDelete($index); $event.stopPropagation();" className="btn btn-default-outline delete">Delete</button>*/}
+            {(!picker) && (
+              <a href={`/admin/media/${id}`} type="button" className="btn btn-default-outline edit">
+                Edit
+              </a>
+            )}
+            {(!picker) && (
+              <button type="button" onClick={this.delete} className="btn btn-default-outline delete">
+                Delete
+              </button>
+            )}
+            {(picker) && (
+              <button type="button" onClick={this.pick} className="btn btn-default-outline include">
+                Use media
+              </button>
+            )}
           </div>
           <span className="name">{ name }</span>
         </div>
@@ -59,9 +94,12 @@ class MediaItem extends Component {
 
 export default connect(
   null,
-  (dispatch) => ({
+  (dispatch, ownProps) => ({
     moveMedia: (file, dir) => {
       dispatch(moveFile(file, dir));
+    },
+    removeMedia: () => {
+      dispatch(removeFile(ownProps.id));
     }
   })
 )(DragSource('media', mediaSource, collect)(MediaItem));

@@ -64,6 +64,18 @@ export function moveFile(file, dir) {
   };
 }
 
+export function removeFile(file) {
+  return (dispatch) => {
+    return api.del(`media/${file}`, dispatch)
+      .then(media => {
+        console.log('TODO: REMOVE ENTITY');
+        // dispatch(updateEntity('medias', media.id, {
+        //   directory_id: media.directory_id,
+        // }));
+      });
+  };
+}
+
 export function getItems() {
   return (dispatch) => {
     return api.get('media', dispatch)

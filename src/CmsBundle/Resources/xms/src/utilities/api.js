@@ -71,3 +71,24 @@ export function get(url, dispatch) {
     return error.response.json().then(json => Promise.reject(json));
   });
 }
+
+// `delete` is a reserved function name.
+export function del(url, dispatch) {
+  const token = localStorage.getItem('token');
+  return fetch(`/app_dev.php/admin/api/${url}`, {
+    method: 'delete',
+    credentials: 'include',
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  })
+  .then(checkHttpStatus)
+  .then(response => response.json())
+  .catch(error => {
+    if (error.response.status === 401) {
+      dispatch(loginUserFailure(error));
+      dispatch(push('/admin/login'));
+    }
+    return error.response.json().then(json => Promise.reject(json));
+  });
+}
