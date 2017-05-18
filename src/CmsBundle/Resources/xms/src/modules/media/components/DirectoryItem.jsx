@@ -28,7 +28,7 @@ class DirectoryItem extends Component {
     const { id, name, connectDropTarget, isOver } = this.props;
 
     return connectDropTarget(
-      <div className="item thumbnail" onClick={this.props.openDirectory}>
+      <div className={`item thumbnail ${(isOver) ? 'hover' : ''}`} onClick={this.props.openDirectory}>
         {name}
       </div>
     );

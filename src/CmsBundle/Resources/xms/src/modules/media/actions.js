@@ -37,6 +37,14 @@ export function setData(data) {
   };
 }
 
+export function addDirectories(directories) {
+  return (dispatch) => {
+    const normalizedDirs = normalize(directories, arrayOf(directorySchema));
+
+    dispatch(setEntities(normalizedDirs));
+  };
+}
+
 export function addItems(items) {
   return (dispatch) => {
     const normalizedItems = normalize(items, arrayOf(mediaSchema));
@@ -96,6 +104,22 @@ export function uploadFiles(files, callback, errorCallback) {
   };
 }
 
+export function createDirectory(data) {
+  return (dispatch, getState) => {
+    const curDir = currentDirectorySelector(getState());
+    if (curDir) {
+      data.parent = curDir.id;
+    }
+
+    return api.post(data, 'directories', dispatch)
+      .then(response => {
+        dispatch(addDirectories([response]));
+      })
+      .catch(error => {
+
+      });
+  };
+}
 
 export function setDirectory(directory) {
   return {

@@ -42,6 +42,7 @@ opifer_media_media_delete:
 opifer_api_directory:
     resource: "@OpiferMediaBundle/Controller/Api/MediaDirectoryController.php"
     type: rest
+    prefix: /api
 
 opifer_api_media:
     path: /api/media

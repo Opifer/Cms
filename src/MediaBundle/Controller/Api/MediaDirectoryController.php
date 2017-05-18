@@ -35,7 +35,7 @@ class MediaDirectoryController extends FOSRestController
      * @ApiDoc()
      *
      * @RequestParam(name="name")
-     * @RequestParam(name="parent")
+     * @RequestParam(name="parent", nullable=true)
      *
      * @return MediaDirectoryInterface
      */
