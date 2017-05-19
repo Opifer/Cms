@@ -102,8 +102,10 @@ class ContentType extends AbstractType
                     'class' => 'datetimepicker',
                 ],
                 'required' => false
-            ])
-            ->add('parent', ContentParentType::class, [
+            ]);
+
+        if(isset($site)){
+            $builder->add('parent', ContentParentType::class, [
                 'class' => $this->contentClass,
                 'choice_label' => 'title',
                 'site' => $site,
@@ -113,7 +115,17 @@ class ContentType extends AbstractType
                         ->where('c.site = :site')
                         ->setParameter('site', $site);
                 },
-            ])
+            ]);
+        } else {
+            $builder->add('parent', ContentParentType::class, [
+                'class' => $this->contentClass,
+                'choice_label' => 'title',
+                'site' => $site,
+                'required' => false,
+            ]);
+        }
+
+        $builder
             ->add('alias', TextType::class, [
                 'attr'        => [
                     'help_text' => 'help.alias',
