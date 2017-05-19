@@ -112,7 +112,7 @@ class ImageBlockService extends AbstractBlockService implements BlockServiceInte
             foreach ($set['filters'] as $filter => $properties) {
                 switch ($filter) {
                     case 'thumbnail':
-                        $explanation[] = $properties['size'][0].' X '. $properties['size'][0];
+                        $explanation[] = $properties['size'][0].' X '. $properties['size'][1];
                         break;
                     case 'relative_resize':
                         $heighten = (isset($properties['heighten'])) ? $properties['heighten'] : '~';
