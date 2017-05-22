@@ -8,6 +8,7 @@ use Opifer\ContentBundle\Block\Tool\ToolsetMemberInterface;
 use Opifer\ContentBundle\Entity\NavLinkBlock;
 use Opifer\ContentBundle\Form\Type\NavLinkType;
 use Opifer\ContentBundle\Model\BlockInterface;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Routing\RouterInterface;
 use Symfony\Component\Validator\Constraints\NotBlank;
@@ -50,6 +51,20 @@ class NavLinkBlockService extends AbstractBlockService implements BlockServiceIn
                 'required' => false
             ])
         ;
+
+        $builder->get('properties')
+            ->add('target', ChoiceType::class, [
+                'label' => 'label.target',
+                'choices' => [
+                    '' => null,
+                    '_blank' => '_blank',
+                    '_blank' => '_blank',
+                    '_self' => '_self',
+                    '_parent' => '_parent',
+                    '_top' => '_top',
+                ],
+                'required' => false,
+            ]);
     }
 
     /**
