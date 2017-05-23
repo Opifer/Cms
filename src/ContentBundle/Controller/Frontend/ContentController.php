@@ -38,10 +38,15 @@ class ContentController extends Controller
         $host = $this->getRequest()->getHost();
 
         $em = $this->getDoctrine()->getManager();
-        $domain = $em->getRepository(Domain::class)->findByDomain($host);
-        $sites = $em->getRepository(Site::class)->findAll();
 
-        if (!$domain && count($sites) > 1) {
+        $qb = $em->createQueryBuilder();
+        $qb->select('count(s.id)')
+            ->from(Site::class, 's');
+
+        $domain = $em->getRepository(Domain::class)->findByDomain($host);
+        $siteCount = $qb->getQuery()->getSingleScalarResult();
+
+        if (!$domain && $siteCount > 1) {
             return $this->render('OpiferContentBundle:Content:domain_not_found.html.twig');
         }
         
@@ -92,12 +97,16 @@ class ContentController extends Controller
         /** @var BlockManager $manager */
         $manager  = $this->get('opifer.content.content_manager');
         $host = $this->getRequest()->getHost();
-
         $em = $this->getDoctrine()->getManager();
-        $domain = $em->getRepository(Domain::class)->findByDomain($host);
-        $sites = $em->getRepository(Site::class)->findAll();
 
-        if (!$domain && count($sites) > 1) {
+        $qb = $em->createQueryBuilder();
+        $qb->select('count(s.id)')
+            ->from(Site::class, 's');
+
+        $domain = $em->getRepository(Domain::class)->findByDomain($host);
+        $siteCount = $qb->getQuery()->getSingleScalarResult();
+
+        if (!$domain && $siteCount > 1) {
             return $this->render('OpiferContentBundle:Content:domain_not_found.html.twig');
         }
 
