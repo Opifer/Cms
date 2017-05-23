@@ -170,11 +170,14 @@ class ContentController extends Controller
             $content = $manager->initialize();
         }
 
-        if($siteId) {
+        if ($siteId) {
             $site = $this->getDoctrine()->getRepository(Site::class)->find($siteId);
 
             //set siteId on content item
             $content->setSite($site);
+            if ($site->getDefaultLocale()) {
+                $content->setLocale($site->getDefaultLocale());
+            }
         }
 
         $form = $this->createForm(ContentType::class, $content);
