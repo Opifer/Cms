@@ -38,6 +38,11 @@ class ContentType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $site = $options['data']->getSite();
+        $defaultLocale = [];
+
+        if($site && $site->getDefaultLocale()){
+            $defaultLocale = $site->getDefaultLocale();
+        }
 
         // Add the default form fields
         $builder
@@ -56,7 +61,8 @@ class ContentType extends AbstractType
                 'attr'     => [
                     'help_text'   => 'help.content_language',
                 ],
-                'required' => false
+                'required' => false,
+                'data' => $defaultLocale
             ])
             ->add('title', TextType::class, [
                 'label' => 'label.title',
