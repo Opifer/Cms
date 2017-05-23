@@ -230,8 +230,9 @@ class ContentRepository extends NestedTreeRepository
         return $this->createValuedQueryBuilder('c')
             ->andWhere('c.id IN (:ids)')->setParameter('ids', $ids)
             ->andWhere('c.deletedAt IS NULL')
-            ->andWhere('c.active = 1')
+            ->andWhere('c.active = :active')
             ->andWhere('c.publishAt < :now OR c.publishAt IS NULL')->setParameter('now', new \DateTime())
+            ->setParameter('active', true)
             ->getQuery()
             ->useResultCache(true, self::CACHE_TTL)
             ->getResult();
