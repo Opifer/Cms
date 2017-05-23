@@ -3,6 +3,7 @@
 namespace Opifer\ContentBundle\Controller\Frontend;
 
 use Opifer\CmsBundle\Entity\Domain;
+use Opifer\CmsBundle\Entity\Site;
 use Opifer\ContentBundle\Block\BlockManager;
 use Opifer\ContentBundle\Environment\Environment;
 use Opifer\ContentBundle\Model\ContentInterface;
@@ -38,8 +39,9 @@ class ContentController extends Controller
 
         $em = $this->getDoctrine()->getManager();
         $domain = $em->getRepository(Domain::class)->findByDomain($host);
+        $sites = $em->getRepository(Site::class)->findAll();
 
-        if (!$domain) {
+        if (!$domain && count($sites) > 1) {
             return $this->render('OpiferContentBundle:Content:domain_not_found.html.twig');
         }
         
@@ -93,8 +95,9 @@ class ContentController extends Controller
 
         $em = $this->getDoctrine()->getManager();
         $domain = $em->getRepository(Domain::class)->findByDomain($host);
+        $sites = $em->getRepository(Site::class)->findAll();
 
-        if (!$domain) {
+        if (!$domain && count($sites) > 1) {
             return $this->render('OpiferContentBundle:Content:domain_not_found.html.twig');
         }
 
