@@ -132,9 +132,10 @@ class ContentController extends Controller
             $qb->setFirstResult($offset);
             $qb->setMaxResults($paramFetcher->get('limit'));
 
-            $qb->andWhere('a.publishAt < :now OR a.publishAt IS NULL');
-            $qb->andWhere('a.active = 1');
-            $qb->setParameter('now',  new \DateTime());
+            $qb->andWhere('a.publishAt < :now OR a.publishAt IS NULL')
+                ->andWhere('a.active = :active')
+                ->setParameter('active', true)
+                ->setParameter('now',  new \DateTime());
 
             $paginator = new Paginator($qb);
 
