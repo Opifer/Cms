@@ -59,6 +59,7 @@ class ContentController extends Controller
 
             if ($expr = $paramFetcher->get('expr')) {
                 $conditions = $this->get('opifer.doctrine_expression_engine')->deserialize($expr);
+
                 if (!empty($conditions)) {
                     /** @var QueryBuilder $qb */
                     $qb = $this->get('opifer.doctrine_expression_engine')->toQueryBuilder($conditions, $this->get('opifer.content.content_manager')->getClass());
@@ -132,6 +133,7 @@ class ContentController extends Controller
             $qb->setMaxResults($paramFetcher->get('limit'));
 
             $qb->andWhere('a.publishAt < :now OR a.publishAt IS NULL');
+            $qb->andWhere('a.active = 1');
             $qb->setParameter('now',  new \DateTime());
 
             $paginator = new Paginator($qb);
