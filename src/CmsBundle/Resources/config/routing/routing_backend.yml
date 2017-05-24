@@ -144,7 +144,7 @@ opifer_mailing_list_admin:
      resource: "@OpiferMailingListBundle/Resources/config/routing_admin.yml"
 
 fos_user_security_login:
-    pattern:  /login
+    path:  /login
     defaults: { _controller: FOSUserBundle:Security:login }
 
 fos_user_group:
