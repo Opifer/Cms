@@ -127,7 +127,7 @@ class ContentExtension extends \Twig_Extension
      *
      * @return mixed
      */
-    public function renderPlaceholder($context, $key = 0, $label = false, $htmlTag = null, $data = null)
+    public function renderPlaceholder($context, $key = 0, $label = false, $htmlTag = 'div', $data = null)
     {
         if (isset($context['environment'])) {
             $this->blockEnvironment = $context['environment'];

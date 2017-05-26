@@ -1,9 +1,3 @@
-{% if tag|length > 0 %}
-    <{{ tag }} {% for key,value in data %}{{ key }}="{{ value }}"{% endfor %}{% if content|length <= 0 %}data-pm-empty="true"{% endif %} {{ manage_tags() }}>
-{% endif %}
-
+<{{ tag }} {% for key,value in data %}{{ key }}="{{ value }}"{% endfor %}{% if content|length <= 0 %}data-pm-empty="true"{% endif %} {{ manage_tags() }}>
     {{ content|raw }}
-
-{% if tag|length > 0 %}
-    </{{ tag }}><!-- end placeholder {{ manage_tags() }} -->
-{% endif %}
+</{{ tag }}><!-- end placeholder {{ manage_tags() }} -->
