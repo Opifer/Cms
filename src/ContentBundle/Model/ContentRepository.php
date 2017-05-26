@@ -91,7 +91,9 @@ class ContentRepository extends NestedTreeRepository
             ->where('c.slug = :slug')
             ->setParameter('slug', $slug)
             ->andWhere('c.publishAt < :now OR c.publishAt IS NULL')
+            ->andWhere('c.active = :active')
             ->setParameter('now', new \DateTime())
+            ->setParameter('active', true)
             ->setMaxResults(1)
             ->getQuery();
 
