@@ -23,7 +23,7 @@
 
         {% if block.children|length or block_mode|default == 'manage' %}
             <div class="dropdown-menu" aria-labelledby="nav-link-{{ block.id }}">
-                {{ render_placeholder(0, 'Submenu') }}
+                {{ render_placeholder(0, 'Submenu', 'div', 'container') }}
             </div>
         {% endif %}
     </li>
