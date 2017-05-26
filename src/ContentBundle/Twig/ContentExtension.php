@@ -127,7 +127,7 @@ class ContentExtension extends \Twig_Extension
      *
      * @return mixed
      */
-    public function renderPlaceholder($context, $key = 0, $label = false)
+    public function renderPlaceholder($context, $key = 0, $label = false, $htmlTag = 'div', $data = null)
     {
         if (isset($context['environment'])) {
             $this->blockEnvironment = $context['environment'];
@@ -155,8 +155,17 @@ class ContentExtension extends \Twig_Extension
             }
 
             if ($this->blockEnvironment->getBlockMode() === 'manage') {
-                $content = $this->container->get('templating')->render('OpiferContentBundle:Block/Layout:placeholder.html.twig', ['content' => $content, 'key' => $key, 'id' => (isset($container)) ? $container->getId() : 0, 'manage_type' => 'placeholder']);
+                $data['class'] = 'pm-placeholder '.$data['class'];
             }
+
+            $content = $this->container->get('templating')->render('OpiferContentBundle:Block/Layout:placeholder.html.twig', [
+                'content' => $content,
+                'tag' => $htmlTag,
+                'data' => $data,
+                'key' => $key,
+                'id' => (isset($container)) ? $container->getId() : 0,
+                'manage_type' => 'placeholder']);
+
         }
 
         return $content;
