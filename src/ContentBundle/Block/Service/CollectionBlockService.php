@@ -3,6 +3,7 @@
 namespace Opifer\ContentBundle\Block\Service;
 
 use Braincrafted\Bundle\BootstrapBundle\Form\Type\BootstrapCollectionType;
+use Doctrine\DBAL\Types\TextType;
 use Opifer\ContentBundle\Block\BlockRenderer;
 use Opifer\ContentBundle\Block\Tool\Tool;
 use Opifer\ContentBundle\Block\Tool\ToolsetMemberInterface;
@@ -143,6 +144,14 @@ class CollectionBlockService extends AbstractBlockService implements BlockServic
                         'tag' => 'general'
                     ],
                     'required' => false
+                ])
+                ->add('custom_placeholder', TextType::class, [
+                    'label' => 'Custom placeholder',
+                    'required' => false,
+                    'attr' => [
+                        'help_text' => 'Adds a custom placeholder',
+                        'tag' => 'general'
+                    ],
                 ])
                 ->add('load_more', CheckboxType::class, [
                     'label' => 'Load more',
