@@ -41,6 +41,14 @@ class FilterType extends AbstractType
                     'help_text' => 'How should we display the filter?',
                 ],
             ])
+            ->add('custom_placeholder', TextType::class, [
+                'label' => 'Custom placeholder',
+                'required' => false,
+                'attr' => [
+                    'help_text' => 'Adds a custom placeholder',
+                    'tag' => 'general'
+                ],
+            ])
         ;
     }
 }

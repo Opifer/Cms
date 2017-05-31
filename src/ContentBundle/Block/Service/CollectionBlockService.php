@@ -145,14 +145,6 @@ class CollectionBlockService extends AbstractBlockService implements BlockServic
                     ],
                     'required' => false
                 ])
-                ->add('custom_placeholder', TextType::class, [
-                    'label' => 'Custom placeholder',
-                    'required' => false,
-                    'attr' => [
-                        'help_text' => 'Adds a custom placeholder',
-                        'tag' => 'general'
-                    ],
-                ])
                 ->add('load_more', CheckboxType::class, [
                     'label' => 'Load more',
                     'required' => false,
