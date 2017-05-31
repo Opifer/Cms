@@ -3,7 +3,6 @@
 namespace Opifer\ContentBundle\Block\Service;
 
 use Braincrafted\Bundle\BootstrapBundle\Form\Type\BootstrapCollectionType;
-use Doctrine\DBAL\Types\TextType;
 use Opifer\ContentBundle\Block\BlockRenderer;
 use Opifer\ContentBundle\Block\Tool\Tool;
 use Opifer\ContentBundle\Block\Tool\ToolsetMemberInterface;
