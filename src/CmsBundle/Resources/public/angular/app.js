@@ -10,7 +10,8 @@ angular.module('MainApp', [
     'OpiferContent',
     'ui.sortable',
     'afkl.lazyImage',
-    'ngFileUpload'
+    'ngFileUpload',
+    'translationApp'
 ]);
 
 angular

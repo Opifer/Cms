@@ -37,6 +37,11 @@ interface BlockInterface
     public function setDraft($draft);
 
     /**
+     * @return mixed
+     */
+    public function getValue();
+
+    /**
      * Should return an array of block properties.
      *
      * @return array

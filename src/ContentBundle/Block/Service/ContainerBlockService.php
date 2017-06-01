@@ -12,15 +12,13 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
+use Symfony\Component\Validator\Constraints\NotBlank;
 
 /**
- * Class ColumnBlockService
- *
- * @package Opifer\ContentBundle\Block
+ * Container block service
  */
 class ContainerBlockService extends AbstractBlockService implements LayoutBlockServiceInterface, BlockServiceInterface, ToolsetMemberInterface
 {
-
     /**
      * {@inheritdoc}
      */
@@ -28,38 +26,51 @@ class ContainerBlockService extends AbstractBlockService implements LayoutBlockS
     {
         parent::buildManageForm($builder, $options);
 
-
-        $propertiesForm = $builder->create('properties', FormType::class)
-            ->add('id', TextType::class, ['attr' => ['help_text' => 'help.html_id']])
-            ->add('extra_classes', TextType::class, ['attr' => ['help_text' => 'help.extra_classes']]);
-
-        $builder->add($propertiesForm);
-
-        $builder->addEventListener(FormEvents::PRE_SET_DATA, function (FormEvent $event) {
-            $block = $event->getData();
-
-            $form = $event->getForm();
-
-            $form->get('properties')->add('styles', ChoiceType::class, [
-                'label' => 'label.styling',
-                'choices'  => $this->config['styles'],
-                'required' => false,
-                'expanded' => true,
-                'multiple' => true,
-                'attr' => ['help_text' => 'help.html_styles'],
+        $builder->get('default')
+            ->add('name', TextType::class, [
+                'label' => 'label.name',
+                'attr' => [
+                    'help_text' => 'help.block_name',
+                    'tag' => 'settings'
+                ]
+                ,'required' => false
             ]);
 
-            $form->get('properties')->add('container_size', ChoiceType::class, [
+        $builder->get('properties')
+            ->add('id', TextType::class, ['attr' => ['help_text' => 'help.html_id'],'required' => false])
+            ->add('extra_classes', TextType::class, ['attr' => ['help_text' => 'help.extra_classes'],'required' => false]);
+
+        $builder->addEventListener(FormEvents::PRE_SET_DATA, function (FormEvent $event) {
+            $form = $event->getForm();
+        
+            if (count($this->config['styles'])) {
+                $form->get('properties')->add('styles', ChoiceType::class, [
+                    'label' => 'label.styling',
+                    'choices'  => $this->config['styles'],
+                    'required' => false,
+                    'expanded' => true,
+                    'multiple' => true,
+                    'attr' => [
+                        'help_text' => 'help.html_styles',
+                        'tag' => 'styles'
+                    ],
+                ]);
+            }
+
+            $form->get('properties')
+                ->add('container_size', ChoiceType::class, [
                 'label' => 'label.container_sizing',
                 'choices' => ['fluid' => 'label.container_fluid', '' => 'label.container_fixed', 'smooth' => 'label.container_smooth'],
-                'required' => true,
-                'attr' => ['help_text' => 'help.container_sizing'],
+                'attr' => [
+                    'help_text' => 'help.container_sizing',
+                    'tag' => 'styles'
+                ],
             ]);
         });
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getManageFormTypeName()
     {
@@ -67,7 +78,7 @@ class ContainerBlockService extends AbstractBlockService implements LayoutBlockS
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function createBlock()
     {
@@ -75,7 +86,7 @@ class ContainerBlockService extends AbstractBlockService implements LayoutBlockS
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getTool(BlockInterface $block = null)
     {
@@ -90,10 +101,19 @@ class ContainerBlockService extends AbstractBlockService implements LayoutBlockS
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getPlaceholders(BlockInterface $block = null)
     {
         return [0 => 'container'];
+    }
+
+    /**
+     * @param BlockInterface $block
+     * @return string
+     */
+    public function getDescription(BlockInterface $block = null)
+    {
+        return 'Container element to hold columns or other blocks in';
     }
 }

@@ -58,18 +58,20 @@ class ImageBlockService extends AbstractBlockService implements BlockServiceInte
                     'attr' => array('label_col' => 12, 'widget_col' => 12),
                 ])
         )->add(
-            $builder->create('properties', FormType::class)
-                ->add('id', TextType::class, ['attr' => ['help_text' => 'help.html_id']])
-                ->add('extra_classes', TextType::class, ['attr' => ['help_text' => 'help.extra_classes']])
+            $builder->get('properties')
+                ->add('id', TextType::class, ['attr' => ['help_text' => 'help.html_id'],'required' => false])
+                ->add('extra_classes', TextType::class, ['attr' => ['help_text' => 'help.extra_classes'],'required' => false])
                 ->add('filter', ChoiceType::class, [
                     'choices' => $this->getAvailableFilters(),
                     'choices_as_values' => true,
+                    'required' => false,
                     'attr' => ['help_text' => 'help.image_filter']
                 ])
                 ->add('enlarge', ChoiceType::class, [
                     'choices' => ['No' => false, 'Yes' => true],
                     'choices_as_values' => true,
-                    'attr' => ['help_text' => 'help.image_enlarge']
+                    'attr' => ['help_text' => 'help.image_enlarge'],
+                    'required' => false,
                 ])
                 ->add('enlarge_filter', ChoiceType::class, [
                     'choices' => $this->getAvailableFilters(),
@@ -77,15 +79,17 @@ class ImageBlockService extends AbstractBlockService implements BlockServiceInte
                     'required' => false,
                     'attr' => ['help_text' => 'help.image_enlarge_filter']
                 ])
-                ->add('styles', ChoiceType::class, [
-                    'label' => 'label.styling',
-                    'choices'  => $this->config['styles'],
-                    'required' => false,
-                    'expanded' => true,
-                    'multiple' => true,
-                    'attr' => ['help_text' => 'help.html_styles'],
-                ])
         );
+
+        $builder->get('properties')
+            ->add('styles', ChoiceType::class, [
+                'label' => 'label.styling',
+                'choices'  => $this->config['styles'],
+                'required' => false,
+                'expanded' => true,
+                'multiple' => true,
+                'attr' => ['help_text' => 'help.html_styles','tag' => 'styles'],
+            ]);
     }
 
     /**
@@ -108,7 +112,7 @@ class ImageBlockService extends AbstractBlockService implements BlockServiceInte
             foreach ($set['filters'] as $filter => $properties) {
                 switch ($filter) {
                     case 'thumbnail':
-                        $explanation[] = $properties['size'][0].' X '. $properties['size'][0];
+                        $explanation[] = $properties['size'][0].' X '. $properties['size'][1];
                         break;
                     case 'relative_resize':
                         $heighten = (isset($properties['heighten'])) ? $properties['heighten'] : '~';
@@ -142,5 +146,14 @@ class ImageBlockService extends AbstractBlockService implements BlockServiceInte
             ->setDescription('Provides an image from the library in the right size.');
 
         return $tool;
+    }
+
+    /**
+     * @param BlockInterface $block
+     * @return string
+     */
+    public function getDescription(BlockInterface $block = null)
+    {
+        return 'Provides an image from the library in the right size.';
     }
 }

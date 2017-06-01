@@ -3,9 +3,11 @@
 namespace Opifer\CmsBundle\Entity;
 
 use APY\DataGridBundle\Grid\Mapping as GRID;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use JMS\Serializer\Annotation as JMS;
+use Opifer\MediaBundle\Model\MediaInterface;
 use Opifer\Revisions\Mapping\Annotation as Revisions;
 use Opifer\ContentBundle\Model\Content as BaseContent;
 use Opifer\ContentBundle\Model\ContentTypeInterface;
@@ -13,7 +15,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Content.
- * 
+ *
  * @JMS\ExclusionPolicy("all")
  * @GRID\Source(columns="id, title, slug, alias, active, updatedAt, indexable, searchable")
  */
@@ -69,6 +71,13 @@ class Content extends BaseContent
     protected $description;
 
     /**
+     * @var MediaInterface[]
+     *
+     * @JMS\Expose
+     */
+    protected $medias;
+
+    /**
      * @var bool
      *
      * @GRID\Column(title="Indexable", type="boolean", visible=false)
@@ -83,12 +92,29 @@ class Content extends BaseContent
     protected $searchable = true;
 
     /**
+     * @var bool
+
+     * @GRID\Column(title="Layout", type="boolean", visible=false)
      */
-    protected $site;
+    protected $layout = false;
 
     /**
+     * @var string
+     */
+    protected $preview;
+
+    /**
+     * @JMS\Expose
      */
     protected $children;
+
+    /**
+     * @var Opifer\CmsBundle\Entity\Site
+     *
+     * @JMS\Expose
+     * @JMS\Groups({"detail", "list"})
+     */
+    protected $site;
 
     /**
      * Created at.
@@ -112,9 +138,29 @@ class Content extends BaseContent
     protected $updatedAt;
 
     /**
+     * Publish at.
+     *
+     * @var \DateTime
+     *
+     * @JMS\Expose
+     * @JMS\Groups({"detail", "list"})
+     */
+    protected $publishAt;
+
+    /**
      * @Gedmo\Locale
      */
     protected $locale;
+
+    /**
+     * Constructor.
+     */
+    public function __construct()
+    {
+        parent::__construct();
+
+        $this->medias = new ArrayCollection();
+    }
 
     /**
      * Sets an author on for the content.
@@ -155,12 +201,69 @@ class Content extends BaseContent
     /**
      * Get site.
      *
-     * @return \Opifer\CmsBundle\Entity\Site
+     * @return Site
      */
     public function getSite()
     {
         return $this->site;
     }
+
+    /**
+     * @return MediaInterface[]|ArrayCollection
+     */
+    public function getMedias()
+    {
+        return $this->medias;
+    }
+
+    /**
+     * @param MediaInterface[]|ArrayCollection $medias
+     *
+     * @return Content
+     */
+    public function setMedias($medias)
+    {
+        $this->medias = $medias;
+
+        return $this;
+    }
+
+    /**
+     * @param MediaInterface $media
+     *
+     * @return Content
+     */
+    public function addMedia(MediaInterface $media)
+    {
+        $this->medias[] = $media;
+
+        return $this;
+    }
+
+    /**
+     * @param MediaInterface $media
+     *
+     * @return Content
+     */
+    public function removeMedia(MediaInterface $media)
+    {
+        $this->medias->removeElement($media);
+
+        return $this;
+    }
+
+
+    /**
+     * @JMS\VirtualProperty
+     * @JMS\SerializedName("site_id")
+     * @JMS\Groups({"detail", "list"})
+     *
+     * @return int
+     */
+    public function getSiteId() {
+        return $this->site ? $this->site->getId() : null;
+    }
+
 
     /**
      * @todo clean this mess up
@@ -177,23 +280,19 @@ class Content extends BaseContent
     public function getPivotedAttributes()
     {
         $array = [];
+
+        if ($this->getValueSet() === null) {
+            return $array;
+        }
+
         foreach ($this->getValueSet()->getValues() as $value) {
             switch (get_class($value)) {
                 case 'Opifer\EavBundle\Entity\CheckListValue':
-                    $array[$value->getAttribute()->getName()] = array();
+                    $array[$value->getAttribute()->getName()] = [];
                     foreach ($value->getOptions() as $option) {
                         $array[$value->getAttribute()->getName()][] = [
                             'id' => $option->getId(),
                             'name' => $option->getName(),
-                        ];
-                    }
-                    break;
-                case 'Opifer\EavBundle\Entity\MediaValue':
-                    $array[$value->getAttribute()->getName()] = array();
-                    foreach ($value->getMedias() as $media) {
-                        $array[$value->getAttribute()->getName()][] = [
-                            'name' => $media->getName(),
-                            'file' => $media->getFile(),
                         ];
                     }
                     break;
@@ -203,5 +302,24 @@ class Content extends BaseContent
         }
 
         return $array;
+    }
+
+    /**
+     * @return \Opifer\CmsBundle\Entity\Locale
+     */
+    public function getLocale()
+    {
+        return $this->locale;
+    }
+
+    /**
+     * @param Locale $locale
+     * @return $this
+     */
+    public function setLocale(Locale $locale)
+    {
+        $this->locale = $locale;
+
+        return $this;
     }
 }

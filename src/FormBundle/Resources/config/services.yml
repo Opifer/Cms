@@ -19,7 +19,11 @@ services:
 
     opifer.form.form_form:
         class: '%opifer.form.form_form.class%'
-        arguments: ['@doctrine.orm.entity_manager', '%opifer_form.post_class%']
+        arguments:
+            - '@doctrine.orm.entity_manager'
+            - '%opifer_form.post_class%'
+            - '%opifer_form.recaptcha_site_key%'
+            - '%opifer_form.recaptcha_secret_key%'
         tags:
             - { name: form.type }
 

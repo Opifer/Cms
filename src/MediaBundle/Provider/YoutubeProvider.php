@@ -21,6 +21,8 @@ use Symfony\Component\Validator\Constraints\Url;
  */
 class YoutubeProvider extends AbstractProvider
 {
+    const WATCH_URL = 'https://www.youtube.com/watch';
+
     /** @var MediaManagerInterface */
     protected $mediaManager;
 
@@ -34,7 +36,7 @@ class YoutubeProvider extends AbstractProvider
      * Constructor.
      *
      * @param MediaManagerInterface $mm
-     * @param TranslatorInterface   $translator
+     * @param TranslatorInterface   $tr
      * @param string                $apikey
      */
     public function __construct(MediaManagerInterface $mm, TranslatorInterface $tr, $apikey)
@@ -59,13 +61,20 @@ class YoutubeProvider extends AbstractProvider
     {
         $builder
             ->add('reference', TextType::class, [
-                'data' => ($options['data']->getId()) ? 'https://www.youtube.com/watch?v='.$options['data']->getReference() : '',
+                'data' => ($options['data']->getId()) ? self::WATCH_URL.'?v='.$options['data']->getReference() : '',
                 'label' => $this->translator->trans('youtube.reference.label'),
                 'constraints' => [
                     new NotBlank(),
                     new Url(),
                     new YoutubeUrl(),
                 ],
+            ])
+            ->add('name', TextType::class,[
+                'label' => $this->translator->trans('youtube.name'),
+                'required' => false,
+                'attr' => [
+                    'help_text' => $this->translator->trans('youtube.helper'),
+                ]
             ])
             ->add('thumb', MediaPickerType::class, [
                 'multiple' => false,
@@ -139,7 +148,9 @@ class YoutubeProvider extends AbstractProvider
         $metadata = $metadata['items'][0];
         $metadata['contentDetails']['duration'] = $this->convertDuration($metadata['contentDetails']['duration']);
 
-        $media->setName($metadata['snippet']['title']);
+        if(!$media->getName()) {
+            $media->setName($metadata['snippet']['title']);
+        }
 
         $thumb = $this->saveThumbnail($media, $metadata['snippet']['thumbnails']['high']['url']);
         $media->setThumb($thumb);
@@ -216,7 +227,6 @@ class YoutubeProvider extends AbstractProvider
         return $thumb;
     }
 
-
     /**
      * Get the full url to the original video.
      *
@@ -228,6 +238,6 @@ class YoutubeProvider extends AbstractProvider
     {
         $metadata = $media->getMetaData();
 
-        return sprintf('https://youtube.com/?watch=%s', $metadata['id']);
+        return sprintf('%s?v=%s', self::WATCH_URL, $metadata['id']);
     }
 }

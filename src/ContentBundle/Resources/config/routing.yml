@@ -4,3 +4,30 @@
 #    defaults: { _controller: OpiferContentBundle:Frontend/Block:view }
 #    requirements:
 #        id: \d+
+
+opifer_content_api_content:
+    resource: "Opifer\ContentBundle\Controller\Api\ContentController"
+    type:     rest
+    prefix: /api
+
+opifer_content_api_template:
+    resource: "Opifer\ContentBundle\Controller\Api\TemplateController"
+    type:     rest
+    prefix: /api
+
+# TODO: Re-organize API routes
+opifer_content_api_content_view_flat:
+    path: /api/content/flat/{id}
+    defaults: { _controller: OpiferContentBundle:Api/Content:view, structure: "flat" }
+    requirements: { id: ".+", structure: "tree|flat" }
+    methods: [GET, OPTIONS]
+    options:
+        expose: true
+
+opifer_content_api_content_view:
+    path: /api/content/{id}
+    defaults: { _controller: OpiferContentBundle:Api/Content:view, structure: "tree" }
+    requirements: { id: ".+", structure: "tree|flat" }
+    methods: [GET, OPTIONS]
+    options:
+        expose: true

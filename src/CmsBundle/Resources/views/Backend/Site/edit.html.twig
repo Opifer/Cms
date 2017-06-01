@@ -1,13 +1,21 @@
 {% extends 'OpiferCmsBundle:Backend:base.html.twig' %}
 
 {% block body %}
-    <div class="page-header clearfix">
-        <h1 class="pull-left">Edit site "{{ site.name }}"</h1>
+    <div class="page-header">
+        <div class="container">
+            <span class="caption">{{ 'title.site'|trans|capitalize }}</span>
+            <a href="{{ path('opifer_cms_site_index') }}" class="btn btn-link pull-right">
+                <i class="material-icons">public</i> {{ 'title.sites'|trans }}
+            </a>
+            <h1>Edit site "{{ site.name }}"</h1>
+        </div>
     </div>
 
-    <div class="container">
+    <div class="container page-body">
         <div class="row">
-            {% include 'OpiferCmsBundle:Backend/Site:_form.html.twig' %}
+            <div class="col-xs-12">
+                {% include 'OpiferCmsBundle:Backend/Site:_form.html.twig' %}
+            </div>
         </div>
     </div>
 {% endblock body %}
