@@ -92,6 +92,7 @@ class ContentRepository extends NestedTreeRepository
             ->setParameter('slug', $slug)
             ->andWhere('c.publishAt < :now OR c.publishAt IS NULL')
             ->andWhere('c.active = :active')
+            ->andWhere('c.layout = 0')
             ->setParameter('now', new \DateTime())
             ->setParameter('active', true)
             ->setMaxResults(1)
@@ -140,6 +141,7 @@ class ContentRepository extends NestedTreeRepository
             ->leftJoin('os.domains', 'd')
             ->where('c.slug = :slug')
             ->andWhere('c.active = :active')
+            ->andWhere('c.layout = 0')
             ->andWhere('c.publishAt < :now OR c.publishAt IS NULL')
             ->andWhere('d.domain = :host OR c.site IS NULL')
             ->setParameters([
@@ -167,6 +169,7 @@ class ContentRepository extends NestedTreeRepository
             ->leftJoin('os.domains', 'd')
             ->where('c.alias = :alias')
             ->andWhere('c.active = :active')
+            ->andWhere('c.layout = 0')
             ->andWhere('(c.publishAt < :now OR c.publishAt IS NULL)')
             ->andWhere('d.domain = :host OR c.site IS NULL')
             ->setParameters([
@@ -192,6 +195,7 @@ class ContentRepository extends NestedTreeRepository
         $query = $this->createQueryBuilder('c')
             ->where('c.id = :id')
             ->andWhere('c.active = :active')
+            ->andWhere('c.layout = 0')
             //->andWhere('c.author IS NULL')
             ->setParameters(['id' => $id, 'active' => 0])
             ->getQuery();
@@ -233,6 +237,7 @@ class ContentRepository extends NestedTreeRepository
             ->andWhere('c.id IN (:ids)')->setParameter('ids', $ids)
             ->andWhere('c.deletedAt IS NULL')
             ->andWhere('c.active = :active')
+            ->andWhere('c.layout = 0')
             ->andWhere('c.publishAt < :now OR c.publishAt IS NULL')->setParameter('now', new \DateTime())
             ->setParameter('active', true)
             ->getQuery()
@@ -308,6 +313,7 @@ class ContentRepository extends NestedTreeRepository
         }
 
         $query->andWhere('c.active = :active')->setParameter('active', true);
+        $query->andWhere('c.layout = :layout')->setParameter('layout', false);
         $query->andWhere('c.showInNavigation = :show')->setParameter('show', true);
 
         return $query->getQuery()->getResult();
@@ -333,6 +339,7 @@ class ContentRepository extends NestedTreeRepository
             ))
             ->andWhere('c.searchable = :searchable')
             ->andWhere('c.active = :active')
+            ->andWhere('c.layout = 0')
             ->setParameter('term', '%'.$term.'%')
             ->setParameter('searchable', true)
             ->setParameter('active', true)

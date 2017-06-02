@@ -67,6 +67,7 @@ class ContentRepository extends BaseContentRepository
             ->Andwhere('c.active = :active')
             ->setParameters([
                 'active' => true,
+                'layout' => false,
                 'indexable' => true
             ])
             ->orderBy('c.slug', 'ASC')
