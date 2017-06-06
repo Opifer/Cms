@@ -65,8 +65,10 @@ class ContentRepository extends BaseContentRepository
         return $this->createQueryBuilder('c')
             ->where('c.indexable = :indexable')
             ->Andwhere('c.active = :active')
+            ->Andwhere('c.layout = :layout')
             ->setParameters([
                 'active' => true,
+                'layout' => false,
                 'indexable' => true
             ])
             ->orderBy('c.slug', 'ASC')
