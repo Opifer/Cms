@@ -9,9 +9,7 @@
         </ol>
     {% endif %}
 
-    <div class="carousel-inner" role="listbox">
-        {{ render_placeholder(0, "Slides") }}
-    </div>
+    {{ render_placeholder(0, "Slides", 'div', {class:'carousel-inner', role:'listbox'}) }}
 
     {% if block.properties.show_controls|default %}
         <a class="left carousel-control" href="#{{ id }}" role="button" data-slide="prev">
