@@ -18,8 +18,8 @@ class SiteManager
      */
     protected $em;
 
-    /** @var RequestStack */
-    protected $requestStack;
+    /** @var DomainManager */
+    protected $domainManager;
 
     /**
      * @var EntityRepository
@@ -33,12 +33,14 @@ class SiteManager
 
     /**
      * SiteManager constructor.
+     *
      * @param EntityManager $em
+     * @param DomainManager $domainManager
      */
-    public function __construct(EntityManager $em, RequestStack $requestStack)
+    public function __construct(EntityManager $em, DomainManager $domainManager)
     {
         $this->em = $em;
-        $this->requestStack = $requestStack;
+        $this->domainManager = $domainManager;
     }
 
     /**
@@ -56,9 +58,8 @@ class SiteManager
     public function getSite()
     {
         if ($this->site === null) {
-            $host = $this->requestStack->getCurrentRequest()->getHost();
-            $domain = $this->em->getRepository(Domain::class)->findOneBy(['domain' => $host]);
 
+            $domain = $this->domainManager->getDomain();
             $this->site = $this->getRepository()->find($domain->getSite());
         }
 
