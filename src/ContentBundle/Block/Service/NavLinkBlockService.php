@@ -8,6 +8,7 @@ use Opifer\ContentBundle\Block\Tool\ToolsetMemberInterface;
 use Opifer\ContentBundle\Entity\NavLinkBlock;
 use Opifer\ContentBundle\Form\Type\NavLinkType;
 use Opifer\ContentBundle\Model\BlockInterface;
+use Opifer\ContentBundle\Model\ContentManagerInterface;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Routing\RouterInterface;
@@ -21,18 +22,23 @@ class NavLinkBlockService extends AbstractBlockService implements BlockServiceIn
     /** @var RouterInterface */
     protected $router;
 
+    /** @var ContentManagerInterface */
+    protected $contentManager;
+
     /**
      * Constructor.
      *
-     * @param BlockRenderer   $blockRenderer
+     * @param BlockRenderer $blockRenderer
      * @param RouterInterface $router
-     * @param array           $config
+     * @param ContentManagerInterface $contentManager
+     * @param array $config
      */
-    public function __construct(BlockRenderer $blockRenderer, RouterInterface $router, array $config)
+    public function __construct(BlockRenderer $blockRenderer, RouterInterface $router, ContentManagerInterface $contentManager, array $config)
     {
         parent::__construct($blockRenderer, $config);
 
         $this->router = $router;
+        $this->contentManager = $contentManager;
     }
 
     /**
@@ -73,6 +79,7 @@ class NavLinkBlockService extends AbstractBlockService implements BlockServiceIn
     {
         $parameters = parent::getViewParameters($block);
         $parameters['url'] = $this->getUrl($block);
+        $parameters['short_title'] = $this->findContentItemBySlug($block);
         $parameters['is_sub_nav'] = ($block->getParent() instanceof NavLinkBlock) ? true : false;
 
         return $parameters;
@@ -90,6 +97,21 @@ class NavLinkBlockService extends AbstractBlockService implements BlockServiceIn
         }
 
         return $this->generateUrl($block);
+    }
+
+    /**
+     * @param BlockInterface $block
+     * @return mixed
+     */
+    protected function findContentItemBySlug(BlockInterface $block)
+    {
+        $contentItem = $this->contentManager->findOneBySlug($block->getValue());
+
+        if ($contentItem) {
+            return $contentItem->getShortTitle();
+        }
+
+        return $block->getName();
     }
 
     /**

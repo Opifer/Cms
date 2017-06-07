@@ -127,6 +127,7 @@ services:
         arguments:
             - '@opifer.content.block_renderer'
             - '@router'
+            - '@opifer.content.content_manager'
             - '%opifer_content.navlink_block_configuration%'
         tags:
             - { name: opifer.content.block_service, alias: navlink }
