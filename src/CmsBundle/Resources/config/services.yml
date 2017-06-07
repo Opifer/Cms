@@ -116,7 +116,7 @@ services:
 
     opifer.cms.site_manager:
         class: 'Opifer\CmsBundle\Manager\SiteManager'
-        arguments: ['@doctrine.orm.entity_manager']
+        arguments: ['@doctrine.orm.entity_manager', '@request_stack']
 
     # Event Listeners
 
