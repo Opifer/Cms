@@ -3,6 +3,7 @@
 namespace Opifer\ContentBundle\Block\Service;
 
 use Braincrafted\Bundle\BootstrapBundle\Form\Type\BootstrapCollectionType;
+use Opifer\CmsBundle\Manager\SiteManager;
 use Opifer\ContentBundle\Block\BlockRenderer;
 use Opifer\ContentBundle\Block\Tool\Tool;
 use Opifer\ContentBundle\Block\Tool\ToolsetMemberInterface;
@@ -40,6 +41,9 @@ class CollectionBlockService extends AbstractBlockService implements BlockServic
     /** @var ContentTypeManager */
     protected $contentTypeManager;
 
+    /** @var SiteManager */
+    protected $siteManager;
+
     /** @var AttributeManager */
     protected $attributeManager;
 
@@ -50,11 +54,12 @@ class CollectionBlockService extends AbstractBlockService implements BlockServic
     protected $esiEnabled = true;
 
     /**
-     * Constructor
+     * constructor.
      *
      * @param BlockRenderer $blockRenderer
      * @param DoctrineExpressionEngine $expressionEngine
      * @param ContentManagerInterface $contentManager
+     * @param SiteManager $siteManager
      * @param ContentTypeManager $contentTypeManager
      * @param AttributeManager $attributeManager
      * @param array $config
@@ -63,6 +68,7 @@ class CollectionBlockService extends AbstractBlockService implements BlockServic
         BlockRenderer $blockRenderer,
         DoctrineExpressionEngine $expressionEngine,
         ContentManagerInterface $contentManager,
+        SiteManager $siteManager,
         ContentTypeManager $contentTypeManager,
         AttributeManager $attributeManager,
         array $config)
@@ -72,6 +78,7 @@ class CollectionBlockService extends AbstractBlockService implements BlockServic
         $this->expressionEngine = $expressionEngine;
         $this->contentManager = $contentManager;
         $this->contentTypeManager = $contentTypeManager;
+        $this->siteManager = $siteManager;
         $this->attributeManager = $attributeManager;
     }
 
@@ -263,10 +270,16 @@ class CollectionBlockService extends AbstractBlockService implements BlockServic
             return;
         }
 
+        $site = $this->siteManager->getSite();
+
         $qb = $this->expressionEngine->toQueryBuilder($conditions, $this->contentManager->getClass());
         $qb->andWhere('a.publishAt < :now OR a.publishAt IS NULL')
             ->andWhere('a.active = :active')
+            ->andWhere('a.layout = :layout')
+            ->andWhere('a.site = :site')
             ->setParameter('active', true)
+            ->setParameter('layout', false)
+            ->setParameter('site', $site)
             ->setParameter('now', new \DateTime());
 
         if (isset($properties['order_by'])) {
