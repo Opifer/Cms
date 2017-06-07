@@ -41,6 +41,14 @@ class FilterType extends AbstractType
                     'help_text' => 'How should we display the filter?',
                 ],
             ])
+            ->add('placeholder', TextType::class, [
+                'label' => 'Placeholder',
+                'required' => false,
+                'attr' => [
+                    'help_text' => 'Adds a placeholder to the search field.',
+                    'tag' => 'general'
+                ],
+            ])
         ;
     }
 }

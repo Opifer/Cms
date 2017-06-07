@@ -54,7 +54,8 @@ class ContentRepository extends NestedTreeRepository
             $qb->andWhere('c.id IN (:ids)')->setParameter('ids', $ids);
         }
 
-        $qb->andWhere('c.deletedAt IS NULL AND c.layout = 0');  // @TODO fix SoftDeleteAble & layout filter
+        $qb->andWhere('c.deletedAt IS NULL AND c.layout = :layout');  // @TODO fix SoftDeleteAble & layout filter
+        $qb->setParameter('layout', false);
 
         $qb->orderBy('c.slug');
 
@@ -91,7 +92,11 @@ class ContentRepository extends NestedTreeRepository
             ->where('c.slug = :slug')
             ->setParameter('slug', $slug)
             ->andWhere('c.publishAt < :now OR c.publishAt IS NULL')
+            ->andWhere('c.active = :active')
+            ->andWhere('c.layout = :layout')
             ->setParameter('now', new \DateTime())
+            ->setParameter('active', true)
+            ->setParameter('layout', false)
             ->setMaxResults(1)
             ->getQuery();
 
@@ -138,11 +143,13 @@ class ContentRepository extends NestedTreeRepository
             ->leftJoin('os.domains', 'd')
             ->where('c.slug = :slug')
             ->andWhere('c.active = :active')
+            ->andWhere('c.layout = :layout')
             ->andWhere('c.publishAt < :now OR c.publishAt IS NULL')
             ->andWhere('d.domain = :host OR c.site IS NULL')
             ->setParameters([
                 'slug' => $slug,
                 'active' => true,
+                'layout' => false,
                 'now' => new \DateTime(),
                 'host' => $host
             ])
@@ -165,11 +172,13 @@ class ContentRepository extends NestedTreeRepository
             ->leftJoin('os.domains', 'd')
             ->where('c.alias = :alias')
             ->andWhere('c.active = :active')
+            ->andWhere('c.layout = :layout')
             ->andWhere('(c.publishAt < :now OR c.publishAt IS NULL)')
             ->andWhere('d.domain = :host OR c.site IS NULL')
             ->setParameters([
                 'alias' => $alias,
                 'active' => true,
+                'layout' => false,
                 'now' => new \DateTime(),
                 'host' => $host
             ])
@@ -190,8 +199,13 @@ class ContentRepository extends NestedTreeRepository
         $query = $this->createQueryBuilder('c')
             ->where('c.id = :id')
             ->andWhere('c.active = :active')
+            ->andWhere('c.layout = :layout')
             //->andWhere('c.author IS NULL')
-            ->setParameters(['id' => $id, 'active' => 0])
+            ->setParameters([
+                'id' => $id,
+                'active' => false,
+                'layout' => false
+            ])
             ->getQuery();
 
         return $query->useResultCache(true, self::CACHE_TTL)->getSingleResult();
@@ -230,7 +244,11 @@ class ContentRepository extends NestedTreeRepository
         return $this->createValuedQueryBuilder('c')
             ->andWhere('c.id IN (:ids)')->setParameter('ids', $ids)
             ->andWhere('c.deletedAt IS NULL')
+            ->andWhere('c.active = :active')
+            ->andWhere('c.layout = :layout')
             ->andWhere('c.publishAt < :now OR c.publishAt IS NULL')->setParameter('now', new \DateTime())
+            ->setParameter('active', true)
+            ->setParameter('layout', false)
             ->getQuery()
             ->useResultCache(true, self::CACHE_TTL)
             ->getResult();
@@ -304,6 +322,7 @@ class ContentRepository extends NestedTreeRepository
         }
 
         $query->andWhere('c.active = :active')->setParameter('active', true);
+        $query->andWhere('c.layout = :layout')->setParameter('layout', false);
         $query->andWhere('c.showInNavigation = :show')->setParameter('show', true);
 
         return $query->getQuery()->getResult();
@@ -329,9 +348,11 @@ class ContentRepository extends NestedTreeRepository
             ))
             ->andWhere('c.searchable = :searchable')
             ->andWhere('c.active = :active')
+            ->andWhere('c.layout = :layout')
             ->setParameter('term', '%'.$term.'%')
             ->setParameter('searchable', true)
             ->setParameter('active', true)
+            ->setParameter('layout', false)
             ->groupBy('c.id')
             ->orderBy('c.id')
             ->getQuery()

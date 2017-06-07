@@ -11,7 +11,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class DomainType extends AbstractType
+class SiteDomainType extends AbstractType
 {
     /**
      * {@inheritdoc}
@@ -20,22 +20,13 @@ class DomainType extends AbstractType
     {
         $builder
             ->add('domain', TextType::class, [
-                'label' => 'label.domain',
+                'label' => false,
                 'attr'     => [
                     'help_text'   => 'help_text.domain',
                 ],
-                'required' => true
-            ])
+                'required' => true,
 
-            ->add('site', EntityType::class, [
-                'label' => 'label.site',
-                'class'    => Site::class,
-                'property' => 'name',
-                'attr'     => [
-                    'help_text'   => 'help_text.site',
-                ],
-                'required' => true
-            ]);
+            ])
         ;
     }
 

@@ -25,6 +25,13 @@ class ListBlockService extends AbstractBlockService implements BlockServiceInter
     protected $contentManager;
 
     /**
+     * Enables ESI so lists are updated correctly when child content changes
+     *
+     * @var bool
+     */
+    protected $esiEnabled = true;
+
+    /**
      * Constructor
      *
      * @param BlockRenderer           $blockRenderer
@@ -45,37 +52,27 @@ class ListBlockService extends AbstractBlockService implements BlockServiceInter
     {
         parent::buildManageForm($builder, $options);
 
+        // Default panel
+        $builder->get('default')
+            ->add('title',  TextType::class, [
+                'label' => 'label.display_name',
+                'attr' => [
+                    'help_text' => 'help.block_display_name',
+                    'tag' => 'settings'
+                ],
+                'required' => false
+            ])
+            ->add('value',  ContentListPickerType::class, [
+                'label' => 'label.content',
+                'required' => false,
+                'attr' => [
+                    'help_text' => 'help.list_content_picker',
+                ]
+            ]);
+
         $builder->get('properties')
             ->add('id', TextType::class, ['attr' => ['help_text' => 'help.html_id'],'required' => false])
             ->add('extra_classes', TextType::class, ['attr' => ['help_text' => 'help.extra_classes'],'required' => false]);
-
-        // Default panel
-        $builder->add(
-            $builder->create('default', FormType::class, ['virtual' => true])
-                ->add('name', TextType::class, [
-                    'label' => 'label.name',
-                    'attr' => [
-                        'help_text' => 'help.block_name',
-                        'tag' => 'settings'
-                    ],
-                    'required' => false,
-                ])
-                ->add('title',  TextType::class, [
-                    'label' => 'label.display_name',
-                    'attr' => [
-                        'help_text' => 'help.block_display_name',
-                        'tag' => 'settings'
-                    ],
-                    'required' => false
-                ])
-                ->add('value',  ContentListPickerType::class, [
-                    'label' => 'label.content',
-                    'required' => false,
-                    'attr' => [
-                        'help_text' => 'help.list_content_picker',
-                    ]
-                ])
-        );
 
         if ($this->config['templates'] && count($this->config['templates'])) {
             $builder->get('properties')

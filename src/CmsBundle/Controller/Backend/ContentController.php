@@ -38,6 +38,7 @@ class ContentController extends BaseContentController
         $tableAlias = $source->getTableAlias();
         $source->manipulateQuery(function ($query) use ($tableAlias, $contentType) {
             $query->andWhere($tableAlias . '.contentType = :contentType')->setParameter('contentType', $contentType);
+            $query->andWhere($tableAlias . '.layout = :layout')->setParameter('layout', false);
         });
 
         $designAction = new RowAction('button.design', 'opifer_content_contenteditor_design');

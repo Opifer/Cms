@@ -114,9 +114,13 @@ services:
         tags:
             - { name: 'opifer.content.block_provider_pool', alias: 'content' }
 
+    opifer.cms.domain_manager:
+        class: 'Opifer\CmsBundle\Manager\DomainManager'
+        arguments: ['@doctrine.orm.entity_manager', '@request_stack']
+
     opifer.cms.site_manager:
         class: 'Opifer\CmsBundle\Manager\SiteManager'
-        arguments: ['@doctrine.orm.entity_manager']
+        arguments: ['@doctrine.orm.entity_manager', '@opifer.cms.domain_manager']
 
     # Event Listeners
 

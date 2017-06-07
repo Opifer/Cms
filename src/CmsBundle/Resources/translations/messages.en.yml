@@ -180,6 +180,7 @@ label:
     facebook_id: Facebook App Id
     linkedin_key: LinkedIn App Key
     domain: Domain
+    site: Site
 
 help_text:
     allow_email: Allow login with e-mail address
@@ -189,6 +190,7 @@ help_text:
     linkedin_key: Enter the LinkedIn App Key from developer.linkedin.com
     site_domain: Select one or more domains that are attached to this site
     domain: Enter domainname here like example.com
+    site: The website this domain should be attached to
 
 message:
     no_items_found: "No items found"

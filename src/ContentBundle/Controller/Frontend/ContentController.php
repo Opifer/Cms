@@ -2,6 +2,8 @@
 
 namespace Opifer\ContentBundle\Controller\Frontend;
 
+use Opifer\CmsBundle\Entity\Domain;
+use Opifer\CmsBundle\Entity\Site;
 use Opifer\ContentBundle\Block\BlockManager;
 use Opifer\ContentBundle\Environment\Environment;
 use Opifer\ContentBundle\Model\ContentInterface;
@@ -33,6 +35,20 @@ class ContentController extends Controller
     {
         $version = $request->query->get('_version');
         $debug = $this->getParameter('kernel.debug');
+        $host = $this->getRequest()->getHost();
+
+        $em = $this->getDoctrine()->getManager();
+
+        $qb = $em->createQueryBuilder();
+        $qb->select('count(s.id)')
+            ->from(Site::class, 's');
+
+        $domain = $em->getRepository(Domain::class)->findByDomain($host);
+        $siteCount = $qb->getQuery()->getSingleScalarResult();
+
+        if (!$domain && $siteCount > 1) {
+            return $this->render('OpiferContentBundle:Content:domain_not_found.html.twig');
+        }
         
         if ($content->getLocale()) {
             $request->setLocale($content->getLocale()->getLocale());
@@ -81,6 +97,18 @@ class ContentController extends Controller
         /** @var BlockManager $manager */
         $manager  = $this->get('opifer.content.content_manager');
         $host = $this->getRequest()->getHost();
+        $em = $this->getDoctrine()->getManager();
+
+        $qb = $em->createQueryBuilder();
+        $qb->select('count(s.id)')
+            ->from(Site::class, 's');
+
+        $domain = $em->getRepository(Domain::class)->findByDomain($host);
+        $siteCount = $qb->getQuery()->getSingleScalarResult();
+
+        if (!$domain && $siteCount > 1) {
+            return $this->render('OpiferContentBundle:Content:domain_not_found.html.twig');
+        }
 
         $content = $manager->getRepository()->findActiveBySlug('index', $host);
 
