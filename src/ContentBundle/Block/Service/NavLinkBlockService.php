@@ -79,8 +79,12 @@ class NavLinkBlockService extends AbstractBlockService implements BlockServiceIn
     {
         $parameters = parent::getViewParameters($block);
         $parameters['url'] = $this->getUrl($block);
-        $parameters['short_title'] = $this->findContentItemBySlug($block);
         $parameters['is_sub_nav'] = ($block->getParent() instanceof NavLinkBlock) ? true : false;
+
+        //check if display name is set else use the short title of the content item
+        if(!$block->getDisplayName()){
+            $this->setDisplayNameByShortTitle($block);
+        }
 
         return $parameters;
     }
@@ -103,15 +107,12 @@ class NavLinkBlockService extends AbstractBlockService implements BlockServiceIn
      * @param BlockInterface $block
      * @return mixed
      */
-    protected function findContentItemBySlug(BlockInterface $block)
+    protected function setDisplayNameByShortTitle(BlockInterface $block)
     {
         $contentItem = $this->contentManager->findOneBySlug($block->getValue());
-
-        if ($contentItem) {
-            return $contentItem->getShortTitle();
+        if($contentItem) {
+            $block->setDisplayName($contentItem->getShortTitle());
         }
-
-        return $block->getName();
     }
 
     /**
