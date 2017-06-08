@@ -56,7 +56,10 @@ class DomainManager
      */
     public function getDomain() {
         if(!$this->domain){
-            $this->domain = $this->getRepository()->findOneBy(['domain' => $this->getHost()]);
+            $domain = $this->getRepository()->findOneBy(['domain' => $this->getHost()]);
+            if($domain) {
+                $this->domain = $domain;
+            }
         }
 
         return $this->domain;

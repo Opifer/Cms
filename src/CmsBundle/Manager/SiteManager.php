@@ -60,7 +60,9 @@ class SiteManager
         if ($this->site === null) {
 
             $domain = $this->domainManager->getDomain();
-            $this->site = $this->getRepository()->find($domain->getSite());
+            if($domain) {
+                $this->site = $this->getRepository()->find($domain->getSite());
+            }
         }
 
         return $this->site;
