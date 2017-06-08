@@ -275,11 +275,17 @@ class CollectionBlockService extends AbstractBlockService implements BlockServic
         $qb = $this->expressionEngine->toQueryBuilder($conditions, $this->contentManager->getClass());
         $qb->andWhere('a.publishAt < :now OR a.publishAt IS NULL')
             ->andWhere('a.active = :active')
-            ->andWhere('a.layout = :layout')
-            ->andWhere('a.site = :site')
-            ->setParameter('active', true)
+            ->andWhere('a.layout = :layout');
+
+        if ($site == null) {
+            $qb->andWhere('a.site IS NULL');
+        } else {
+            $qb->andWhere('a.site = :site')
+               ->setParameter('site', $site);
+        }
+
+        $qb->setParameter('active', true)
             ->setParameter('layout', false)
-            ->setParameter('site', $site)
             ->setParameter('now', new \DateTime());
 
         if (isset($properties['order_by'])) {
