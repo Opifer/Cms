@@ -38,7 +38,7 @@
     The Mediapicker widget.
 #}
 {% block mediapicker_widget %}
-    <div class="js-media-picker" data-props="{{ '{"multiple":true,"name":"'~full_name~'"}' }}"></div>
+    <div class="js-media-picker" data-props="{{ props|json_encode }}"></div>
 
     {#<div class="media-picker" ng-controller="MediaLibraryController" ng-init="init('picker', '{{ providers|json_encode() }}', '{{ full_name }}', '{{ form.vars.value|json_encode(32) }}', '{{ multiple }}', false)" ng-cloak>
         {% verbatim %}

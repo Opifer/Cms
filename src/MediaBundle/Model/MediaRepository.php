@@ -19,8 +19,10 @@ class MediaRepository extends EntityRepository
     {
         $qb = $this->createQueryBuilder('m');
 
-        if ($request->get('ids')) {
-            $ids = explode(',', $request->get('ids'));
+        if ($ids = $request->get('ids')) {
+            if (!is_array($ids)) {
+                $ids = explode(',', $request->get('ids'));
+            }
 
             $qb->andWhere('m.id IN (:ids)')->setParameter('ids', $ids);
         }

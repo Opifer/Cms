@@ -35,9 +35,12 @@ class MediaController extends Controller
 
         $media = $this->get('opifer.media.media_manager')->getPaginatedByRequest($request);
 
-        $directories = $this->get('opifer.media.media_directory_manager')
-            ->getRepository()
-            ->findByDirectory($request->get('directory', null));
+        $directories = [];
+        if (!$request->get('ids', null)) {
+            $directories = $this->get('opifer.media.media_directory_manager')
+                ->getRepository()
+                ->findByDirectory($request->get('directory', null));
+        }
 
         /** @var Serializer $serializer */
         $serializer = $this->get('jms_serializer');

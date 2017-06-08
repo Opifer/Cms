@@ -45370,6 +45370,8 @@ $(document).ready(function() {
         }
     });
 
+    initializeMediaPicker();
+
     /**
      * Handle menu group collapsing
      *
@@ -45516,7 +45518,7 @@ $(document).ready(function() {
 
     $('.btn-group-columns input').on('change', function(e) {
         $(this).closest('form').submit();
-    })
+    });
 });
 
 (function( jQuery ) {

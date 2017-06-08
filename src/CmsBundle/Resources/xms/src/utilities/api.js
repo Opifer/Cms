@@ -92,3 +92,21 @@ export function del(url, dispatch) {
     return error.response.json().then(json => Promise.reject(json));
   });
 }
+
+/**
+ * Transforms an object to a query parameter string
+ *
+ * @param {object} data
+ */
+export function objectToQueryParams(data) {
+  if (!data) {
+    return '';
+  }
+
+  return '?' + Object.keys(data).map(key => {
+    if (Array.isArray(data[key])) {
+      return data[key].map(f => `${key}[]=${f}`).join('&');
+    }
+    return `${key}=${data[key]}`;
+  }).join('&');
+}

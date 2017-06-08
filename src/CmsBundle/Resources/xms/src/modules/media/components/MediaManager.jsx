@@ -79,7 +79,7 @@ class MediaManager extends Component {
                   }
                 }}
                 picker
-                { ...item }
+                media={item}
               />
             ))}
           </div>

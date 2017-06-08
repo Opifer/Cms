@@ -76,9 +76,11 @@ export function removeFile(file) {
   };
 }
 
-export function getItems() {
+export function getItems(filters = null, success = null) {
   return (dispatch) => {
-    return api.get('media', dispatch)
+    const queryString = api.objectToQueryParams(filters);
+
+    return api.get(`media${queryString}`, dispatch)
       .then(json => {
         const normalizedItems = normalize(json.results, arrayOf(mediaSchema));
         const normalizedDirs = normalize(json.directories, arrayOf(directorySchema));
@@ -90,6 +92,10 @@ export function getItems() {
           resultsPerPage: json.results_per_page,
           totalResults: json.total_results,
         }));
+
+        if (success) {
+          success(json);
+        }
       });
   };
 }

@@ -1,26 +1,39 @@
 import React, { Component, PropTypes } from 'react';
+import { connect } from 'react-redux';
 import { Modal, ModalHeader, ModalBody } from 'reactstrap';
 import MediaManager from './MediaManager';
+import { getItems } from '../actions';
 
 class MediaPicker extends Component {
   static propTypes = {
     name: PropTypes.string,
-    items: PropTypes.array,
     multiple: PropTypes.bool,
+    value: PropTypes.string,
   };
 
   static defaultProps = {
     multiple: false,
-    items: [],
   }
 
   constructor(props) {
     super(props);
     this.state = {
       modal: false,
+      items: [],
     }
 
     this.toggle = this.toggle.bind(this);
+    this.add = this.add.bind(this);
+  }
+
+  componentDidMount() {
+    console.log('VALUE', this.props.value);
+    const items = JSON.parse(this.props.value);
+    const strItems = items.toString();
+    if (strItems) {
+      console.log('STR ITEMS', strItems);
+      this.props.fetchItems([strItems]);
+    }
   }
 
   toggle() {
@@ -30,13 +43,27 @@ class MediaPicker extends Component {
   }
 
   add(item) {
-    this.items.push(item);
+    const items = this.state.items;
+    items.push(item);
+
+    this.setState({
+      items
+    });
+  }
+
+  remove(item) {
+    const items = this.state.items;
+
+    items.splice(items.findIndex(i => i.id === item.id), 1);
+
+    this.setState({
+      items
+    });
   }
 
   render() {
-    const { items, multiple, name } = this.props;
-
-
+    const { multiple, name } = this.props;
+    const { items } = this.state;
 
     return (
       <div>
@@ -48,8 +75,8 @@ class MediaPicker extends Component {
               </div>
             ))}
             <div>
-              {items.map(item => (
-                <div className={`media media-${item.provider} media-${item.file_type}`}>
+              {items.map((item, i) => (
+                <div key={i} className={`media media-${item.provider} media-${item.file_type}`}>
                   <div className="media-left media-top">
                     <div className="media-image">
                       <input type="hidden" name={name} value={item.id} />
@@ -67,12 +94,12 @@ class MediaPicker extends Component {
                       
                       <div className="image-wrapper">
                         <div className="controls">
-                          <a onClick={() => { console.log('REMOVE MEDIA')}} className="btn btn-close"></a>
+                          <a onClick={() => { this.remove(item); }} className="btn btn-close"></a>
                         </div>
                       </div>
                     </div>
                   </div>
-                  <div className="media-body" ng-show="!item.formOpen" ng-click="item.formOpen = !item.formOpen">
+                  <div className="media-body">
                     <dl className="dl-horizontal">
                       <dt>Name</dt>
                       <dd>{item.name}</dd>
@@ -108,7 +135,12 @@ class MediaPicker extends Component {
           </div>
         )}
 
-        <Modal isOpen={this.state.modal} toggle={this.toggle} className={this.props.className}>
+        <Modal
+          isOpen={this.state.modal}
+          toggle={this.toggle}
+          className={this.props.className}
+          size="lg"
+        >
           <ModalHeader toggle={this.toggle}>
             Medialibrary
           </ModalHeader>
@@ -126,4 +158,11 @@ class MediaPicker extends Component {
   }
 }
 
-export default MediaPicker;
+export default connect(
+  null,
+  (dispatch) => ({
+    fetchItems: (ids) => {
+      dispatch(getItems({ ids }));
+    },
+  })
+)(MediaPicker);
