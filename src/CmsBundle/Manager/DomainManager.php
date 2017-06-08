@@ -44,7 +44,7 @@ class DomainManager
      */
     public function getHost()
     {
-        if(!$this->host){
+        if (!$this->host) {
             $this->host = $this->requestStack->getCurrentRequest()->getHost();
         }
 
@@ -54,10 +54,11 @@ class DomainManager
     /**
      * @return Domain
      */
-    public function getDomain() {
-        if(!$this->domain){
+    public function getDomain()
+    {
+        if (!$this->domain) {
             $domain = $this->getRepository()->findOneBy(['domain' => $this->getHost()]);
-            if($domain) {
+            if ($domain) {
                 $this->domain = $domain;
             }
         }

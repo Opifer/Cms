@@ -29,7 +29,7 @@ class SiteManager
     /**
      * @var Site
      */
-    protected $site;
+    protected $site = null;
 
     /**
      * SiteManager constructor.
@@ -58,9 +58,8 @@ class SiteManager
     public function getSite()
     {
         if ($this->site === null) {
-
             $domain = $this->domainManager->getDomain();
-            if($domain) {
+            if ($domain) {
                 $this->site = $this->getRepository()->find($domain->getSite());
             }
         }
