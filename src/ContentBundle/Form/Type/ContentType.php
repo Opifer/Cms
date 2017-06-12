@@ -6,6 +6,7 @@ use Doctrine\ORM\EntityRepository;
 use Opifer\ContentBundle\Form\DataTransformer\SlugTransformer;
 use Opifer\EavBundle\Form\Type\DateTimePickerType;
 use Opifer\EavBundle\Form\Type\ValueSetType;
+use \Opifer\CmsBundle\Entity\ContentType as ContentTypeEntity;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
@@ -41,7 +42,7 @@ class ContentType extends AbstractType
         // Add the default form fields
         $builder
             ->add('contentType', EntityType::class, [
-                'class' => 'OpiferCmsBundle:ContentType',
+                'class' => ContentTypeEntity::class,
                 'property' => 'name',
                 'required' => true,
             ])
