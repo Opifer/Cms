@@ -8,13 +8,11 @@
             "email": "info@opifer.nl"
         }
     ],
-    "minimum-stability": "dev",
     "require": {
         "php": ">=5.5",
         "symfony/symfony": "~2.8|~3.0",
         "doctrine/orm": "~2.2,>=2.2.3",
         "doctrine/doctrine-bundle": "~1.2",
-        "doctrine/inflector": "1.1",
         "twig/extensions": "~1.2",
         "twig/twig": "~1.23",
         "symfony/swiftmailer-bundle": "~2.3",
@@ -29,7 +27,7 @@
         "doctrine/doctrine-migrations-bundle": "~1.0",
         "drewm/mailchimp-api": "^2.2",
         "friendsofsymfony/jsrouting-bundle": "~1.5",
-        "friendsofsymfony/rest-bundle": "2.1.*",
+        "friendsofsymfony/rest-bundle": "^2.1",
         "friendsofsymfony/user-bundle": "~2.0@dev",
         "gedmo/doctrine-extensions": "~2.3",
         "google/recaptcha": "~1.1",
