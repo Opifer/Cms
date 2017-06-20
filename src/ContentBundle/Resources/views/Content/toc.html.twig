@@ -32,8 +32,9 @@
             {% if node is block_container %}
             <ul>
                 {% for placeholder_key, placeholder_name in environment.getPlaceholders(node) %}
-                    <li class="node-placeholder"><span data-toggle="collapse" data-target="#toc-placeholder-{{ node.id }}-{{ placeholder_key }}" aria-expanded="false" aria-controls="toc-placeholder-{{ node.id }}-{{ placeholder_key }}">{{ placeholder_name }}</span>
-                        <ul class="pm-placeholder js-collapsable collapse" aria-expanded="false" id="toc-placeholder-{{ node.id }}-{{ placeholder_key }}" data-pm-placeholder-key="{{ placeholder_key }}" data-pm-placeholder-id="{{ node.id }}">
+                    <li class="node-placeholder">
+                        <span data-toggle="collapse" data-target="#toc-placeholder-{{ node.id }}-{{ placeholder_key }}" aria-expanded="true" aria-controls="toc-placeholder-{{ node.id }}-{{ placeholder_key }}">{{ placeholder_name }}</span>
+                        <ul class="pm-placeholder js-collapsable collapse in" aria-expanded="false" id="toc-placeholder-{{ node.id }}-{{ placeholder_key }}" data-pm-placeholder-key="{{ placeholder_key }}" data-pm-placeholder-id="{{ node.id }}">
                             {{ toc.node(environment.blockChildren(node), environment, placeholder_key) }}
                         </ul>
                     </li>
