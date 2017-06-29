@@ -25,6 +25,18 @@ class SubscriptionController extends FOSRestController
         $mailinglist = $em->getRepository('OpiferMailingListBundle:MailingList')->find($mailinglistId);
         $subscription->setMailingList($mailinglist);
 
+
+        if (!filter_var($subscription->getEmail(), FILTER_VALIDATE_EMAIL)) {
+            return 'E-mail address validation failed';
+        }
+
+        $exists = $em->getRepository('OpiferMailingListBundle:Subscription')
+            ->findOneBy(array('mailingList' => $mailinglist, 'email' => $subscription->getEmail()));
+
+        if($exists) {
+            return 'E-mail address already subscribed';
+        }
+
         $em->persist($subscription);
         $em->flush();
 
