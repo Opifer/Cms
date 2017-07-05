@@ -36,7 +36,7 @@ gulp.task('js', ['react'], function () {
         'Resources/public/components/bootstrap/dist/js/bootstrap.js',
         'Resources/public/components/moment/min/moment.min.js',
         'Resources/public/components/eonasdan-bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js',
-        'Resources/public/components/bootstrap-iconpicker/bootstrap-iconpicker/js/iconset/iconset-materialdesign-2.2.1.js',
+        'Resources/public/components/bootstrap-iconpicker/bootstrap-iconpicker/js/iconset/iconset-materialdesign-1.1.1.js',
         'Resources/public/components/bootstrap-iconpicker/bootstrap-iconpicker/js/bootstrap-iconpicker.js',
         'Resources/public/components/ngInfiniteScroll/build/ng-infinite-scroll.js',
         'Resources/public/components/afkl-lazy-image/release/lazy-image.js',

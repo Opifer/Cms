@@ -5,7 +5,7 @@
     "jquery-ui": "~1.11.4",
     "bootstrap": "~3.3.6",
     "eonasdan-bootstrap-datetimepicker": "~4.17",
-    "bootstrap-iconpicker": "https://github.com/Opifer/bootstrap-iconpicker.git#6f6ff513c5b77f1681d5f2315e8f52e66f655699",
+    "bootstrap-iconpicker": "1.7.0",
     "angular": "1.4.11",
     "angular-resource": "1.4.11",
     "angular-route": "1.4.11",
