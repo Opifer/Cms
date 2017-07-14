@@ -36,6 +36,7 @@ class BoxModelType extends AbstractType
             ])
             ->add('size', ChoiceType::class, [
                 'choices' => [
+                    'Default' => '',
                     'None (0)' => '0',
                     'Extra small (15px)' => '1',
                     'Small (20px)' => '2',

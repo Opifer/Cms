@@ -6,6 +6,7 @@ use Opifer\ContentBundle\Block\Tool\Tool;
 use Opifer\ContentBundle\Block\Tool\ToolsetMemberInterface;
 use Opifer\ContentBundle\Entity\ContainerBlock;
 use Opifer\ContentBundle\Model\BlockInterface;
+use Opifer\ContentBundle\Form\Type\BoxModelType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\FormType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -58,14 +59,31 @@ class ContainerBlockService extends AbstractBlockService implements LayoutBlockS
             }
 
             $form->get('properties')
+                ->add('padding', BoxModelType::class, [
+                    'type' => 'padding',
+                    'attr' => [
+                        'help_text' => 'Spacing inside',
+                        'tag' => 'styles',
+                    ],
+                    'required' => false
+                ])
+                ->add('margin', BoxModelType::class, [
+                    'type' => 'margin',
+                    'attr' => [
+                        'help_text' => 'Spacing outside',
+                        'tag' => 'styles',
+                    ],
+                    'required' => false
+                ])
                 ->add('container_size', ChoiceType::class, [
-                'label' => 'label.container_sizing',
-                'choices' => ['fluid' => 'label.container_fluid', '' => 'label.container_fixed', 'smooth' => 'label.container_smooth'],
-                'attr' => [
-                    'help_text' => 'help.container_sizing',
-                    'tag' => 'styles'
-                ],
-            ]);
+                    'label' => 'label.container_sizing',
+                    'choices' => ['fluid' => 'label.container_fluid', '' => 'label.container_fixed', 'smooth' => 'label.container_smooth'],
+                    'attr' => [
+                        'help_text' => 'help.container_sizing',
+                        'tag' => 'styles'
+                    ],
+                ])
+            ;
         });
     }
 
