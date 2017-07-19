@@ -46,6 +46,10 @@ class RadioValueProvider extends AbstractValueProvider implements ValueProviderI
                         ->setParameter('attributeId', $attributeId)
                     ;
                 },
+                'choice_attr' => function($option) {
+                    // add description as attr on the choice
+                    return ['description' => $option->getDescription()];
+                },
             ])->addModelTransformer($transformer)
         );
     }
