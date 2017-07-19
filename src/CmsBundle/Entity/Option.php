@@ -41,4 +41,11 @@ class Option extends BaseOption
      * @JMS\Expose
      */
     protected $attribute;
+
+    /**
+     * @var string
+     *
+     * @JMS\Expose
+     */
+    protected $description;
 }
