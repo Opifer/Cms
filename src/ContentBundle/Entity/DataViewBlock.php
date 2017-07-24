@@ -31,7 +31,7 @@ class DataViewBlock extends CompositeBlock
      * @ORM\JoinTable(name="opifer_block_media",
      *     joinColumns={@ORM\JoinColumn(name="block_id", referencedColumnName="id")},
      *     inverseJoinColumns={@ORM\JoinColumn(name="media_id", referencedColumnName="id")}
-     *     )
+     * )
      */
     protected $medias;
 
