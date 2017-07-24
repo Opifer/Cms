@@ -195,7 +195,9 @@ class BlockManager
     {
         $this->setDraftVersionFilter(! $draft);
 
-        $blocks = $owner->getBlocks();
+        $blocks = $this->getRepository()->findByOwner($owner);
+
+//        $blocks = $owner->getBlocks();
 
         if ($draft) {
             $this->revertToDraft($blocks);

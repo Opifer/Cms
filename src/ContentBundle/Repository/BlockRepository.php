@@ -3,6 +3,8 @@
 namespace Opifer\ContentBundle\Repository;
 
 use Doctrine\ORM\EntityRepository;
+use Opifer\CmsBundle\Entity\Content;
+use Opifer\ContentBundle\Model\ContentInterface;
 
 /**
  * Class BlockRepository
@@ -20,5 +22,15 @@ class BlockRepository extends EntityRepository
             ->useResultCache(true)
             ->setResultCacheLifetime(86400)
             ->getOneOrNullResult();
+    }
+
+
+    public function findByOwner(ContentInterface $content)
+    {
+        return $this->createQueryBuilder('b')
+            ->where('b.content = :id')
+            ->orWhere('b.template = :id')
+            ->setParameter('id', $content)
+            ->getQuery()->getResult();
     }
 }

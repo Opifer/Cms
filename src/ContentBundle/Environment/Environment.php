@@ -81,6 +81,11 @@ class Environment
         );
     }
 
+    public function getEntityManager()
+    {
+        return $this->em;
+    }
+
     /**
      * @return string
      */
@@ -213,9 +218,9 @@ class Environment
 
         $owned = $this->blockManager->findByOwner($owner, $draft);
 
-        if ($owned instanceof PersistentCollection) {
-            $owned = $owned->getValues();
-        }
+//        if ($owned instanceof PersistentCollection) {
+//            $owned = $owned->getValues();
+//        }
 
         $blocks = array_merge($blocks, $owned);
 
