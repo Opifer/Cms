@@ -241,6 +241,10 @@ class ContentRepository extends NestedTreeRepository
             $ids = explode(',', $ids);
         }
 
+        if (!$ids) {
+            return [];
+        }
+
         return $this->createValuedQueryBuilder('c')
             ->andWhere('c.id IN (:ids)')->setParameter('ids', $ids)
             ->andWhere('c.deletedAt IS NULL')
