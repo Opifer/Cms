@@ -39,22 +39,60 @@ class ContentListPickerType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->addModelTransformer(new CallbackTransformer(
-            function ($original) {
-                return $original;
-            },
-            function ($submitted) {
-                $array = json_decode($submitted, true);
+        if ($options['as_collection']) {
+            $builder->addModelTransformer(new CallbackTransformer(
+                function ($original) {
+                    $ids = [];
+                    foreach ($original as $content) {
+                        $ids[] = $content->getId();
+                    }
 
-                $ids = [];
-                foreach ($array as $item) {
-                    $ids[] = $item['id'];
+                    return json_encode($ids);
+                },
+                function ($submitted) {
+                    $array = json_decode($submitted, true);
+
+                    $ids = [];
+                    foreach ($array as $item) {
+                        $ids[] = $item['id'];
+                    }
+
+                    return $this->contentManager->getRepository()->findByIds($ids);
                 }
+            ));
+        } else {
+            $builder->addModelTransformer(new CallbackTransformer(
+                function ($original) {
+                    return $original;
+                },
+                function ($submitted) {
+                    $array = json_decode($submitted, true);
 
-                return json_encode($ids);
-            }
-        ));
+                    $ids = [];
+                    foreach ($array as $item) {
+                        $ids[] = $item['id'];
+                    }
+
+                    return json_encode($ids);
+                }
+            ));
+        }
     }
+
+    /**
+     * Additionally to the default option, this type has an 'as_collection' option, which defines to what type the
+     * content item should be transformed. When as_collection is true, the form will pass a Content object. If false,
+     * only the ID will be passed.
+     *
+     * {@inheritdoc}
+     */
+    public function configureOptions(OptionsResolver $resolver)
+    {
+        $resolver->setDefaults([
+            'as_collection' => false,
+        ]);
+    }
+
 
     /**
      * {@inheritDoc}
