@@ -131,12 +131,37 @@ class Environment
         throw new \Exception('Could not find block in loaded Environment');
     }
 
+    /**
+     * Get all blocks for the current object
+     *
+     * @return array
+     */
     public function getBlocks()
     {
         $this->load();
         $cacheKey = $this->getCacheKey();
 
         return $this->blockCache[$cacheKey];
+    }
+
+    /**
+     * Get all cached blocks
+     *
+     * Note; this is a dangerous method and should only be used to retrieve
+     * blocks from caches other than the current `object`.
+     *
+     * @return array
+     */
+    public function getAllBlocks()
+    {
+        $this->load();
+
+        $blocks = [];
+        foreach ($this->blockCache as $blockCache) {
+            $blocks = array_merge($blocks, $blockCache);
+        }
+
+        return $blocks;
     }
 
     public function getRootBlocks()
