@@ -15,7 +15,7 @@ class DatePeriod extends Literal
     /**
      * Constructor
      *
-     * @param string $period
+     * @param string $date
      */
     public function __construct($date)
     {
@@ -32,7 +32,7 @@ class DatePeriod extends Literal
         }
 
         foreach ($value as $day) {
-            if (strtolower($day->format($this->getDateFormat())) == strtolower($this->date->format($this->getDateFormat()))) {
+            if (strtolower($day->format($this->getDateFormat())) == strtolower($this->date)) {
                 return true;
             }
         }
