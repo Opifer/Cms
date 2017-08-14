@@ -129,6 +129,8 @@ class Expression implements ExpressionInterface
      */
     protected function transformValue($value)
     {
+        // Override this method to transform values
+
         return $value;
     }
 }
