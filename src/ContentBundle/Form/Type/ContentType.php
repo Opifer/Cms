@@ -44,7 +44,7 @@ class ContentType extends AbstractType
             ->add('contentType', EntityType::class, [
                 'class' => ContentTypeEntity::class,
                 'property' => 'name',
-                'required' => true,
+                'required' => false,
             ])
             ->add('template', EntityType::class, [
                 'class'    => 'OpiferContentBundle:Template',
