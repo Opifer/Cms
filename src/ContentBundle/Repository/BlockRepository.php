@@ -3,7 +3,7 @@
 namespace Opifer\ContentBundle\Repository;
 
 use Doctrine\ORM\EntityRepository;
-use Opifer\CmsBundle\Entity\Content;
+use Opifer\ContentBundle\Entity\Template;
 use Opifer\ContentBundle\Model\ContentInterface;
 
 /**
@@ -27,9 +27,15 @@ class BlockRepository extends EntityRepository
 
     public function findByOwner(ContentInterface $content)
     {
+        if ($content instanceof Template) {
+            return $this->createQueryBuilder('b')
+                ->where('b.template = :id')
+                ->setParameter('id', $content)
+                ->getQuery()->getResult();
+        }
+
         return $this->createQueryBuilder('b')
             ->where('b.content = :id')
-            ->orWhere('b.template = :id')
             ->setParameter('id', $content)
             ->getQuery()->getResult();
     }
