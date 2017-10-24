@@ -22,13 +22,13 @@ use Symfony\Component\Process\ProcessBuilder;
 class CronRunCommand extends ContainerAwareCommand
 {
     /** @var string */
-    private $env;
+    protected $env;
 
     /** @var ManagerRegistry */
-    private $registry;
+    protected $registry;
 
     /** @var OutputInterface */
-    private $output;
+    protected $output;
 
     /**
      * {@inheritdoc}
