@@ -45,6 +45,8 @@ class CronRunCommand extends ContainerAwareCommand
      *
      * @param InputInterface  $input
      * @param OutputInterface $output
+     *
+     * @return void
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
@@ -70,12 +72,35 @@ class CronRunCommand extends ContainerAwareCommand
     }
 
     /**
+     * Checks if the cronjob is currently locked.
+     *
+     * This can be overridden with any other lock check. E.g. usage of Redis in case of a load balanced environment
+     *
+     * @param Cron $cron
+     *
+     * @return bool
+     */
+    protected function isLocked(Cron $cron)
+    {
+        $hourAgo = new \DateTime('-65 minutes');
+        if ($cron->getState() === Cron::STATE_RUNNING && $cron->getStartedAt() < $hourAgo) {
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
      * Start a cron.
      *
      * @param Cron $cron
      */
     private function startCron(Cron $cron)
     {
+        if ($this->isLocked($cron)) {
+            return;
+        }
+
         $this->output->writeln(sprintf('Started %s.', $cron));
         $this->changeState($cron, Cron::STATE_RUNNING);
 
