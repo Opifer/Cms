@@ -131,6 +131,7 @@ form:
     password_confirmation: Verify password
     permalink: permalink
     username: username
+    field_mandatory: This field is mandatory
 
     post_on: 'Post %id% on "%name%"'
     posts_for: 'Posts for "%name%"'
