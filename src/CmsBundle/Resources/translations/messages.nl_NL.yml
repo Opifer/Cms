@@ -190,6 +190,7 @@ form:
     password_confirmation: Verifieer wachtwoord
     permalink: pagina url
     presentation: presentatie
+    field_mandatory: Dit veld is verplicht
     slug:
         label: "URL-vriendelijke naam"
         help_text: "gebruik alleen letters en getallen, geen spaties toegestaan. a-z0-9_-"
