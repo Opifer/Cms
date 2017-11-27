@@ -120,7 +120,7 @@ class CronRunCommand extends ContainerAwareCommand
 
             if (!$process->isSuccessful()) {
                 $this->output->writeln(' > '.$process->getErrorOutput());
-                if(strpos('exceeded the timeout of', $process->getErrorOutput()) !== false) {
+                if(strpos($process->getErrorOutput(), 'timeout') !== false) {
                     $this->changeState($cron, Cron::STATE_TERMINATED, $process->getErrorOutput());
                 } else {
                     $this->changeState($cron, Cron::STATE_FAILED, $process->getErrorOutput());
@@ -129,8 +129,15 @@ class CronRunCommand extends ContainerAwareCommand
                 $this->changeState($cron, Cron::STATE_FINISHED);
             }
         } catch (\Exception $e) {
-            $this->output->writeln(' > '.$e->getMessage());
-            $this->changeState($cron, Cron::STATE_FAILED, $e->getMessage());
+            $message = $e->getMessage();
+
+            if(strpos($e->getMessage(), 'timeout') !== false) {
+                $this->output->writeln(' > '.$e->getMessage());
+                $this->changeState($cron, Cron::STATE_TERMINATED, $e->getMessage());
+            } else {
+                $this->output->writeln(' > '.$e->getMessage());
+                $this->changeState($cron, Cron::STATE_FAILED, $e->getMessage());
+            }
         }
     }
 
