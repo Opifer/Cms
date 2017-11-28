@@ -4688,9 +4688,9 @@ open@0.0.5:
   version "0.0.5"
   resolved "https://registry.yarnpkg.com/open/-/open-0.0.5.tgz#42c3e18ec95466b6bf0dc42f3a2945c3f0cad8fc"
 
-"opifer-rcs@git+ssh://git@bitbucket.org/Opifer/opifer-rcs":
+"opifer-rcs@git+ssh://git@bitbucket.org/jstack-eu/opifer-rcs":
   version "1.0.0"
-  resolved "git+ssh://git@bitbucket.org/Opifer/opifer-rcs#d7521ba90126b842c7f3db83e4d7cb7a4ee2d288"
+  resolved "git+ssh://git@bitbucket.org/jstack-eu/opifer-rcs#d7521ba90126b842c7f3db83e4d7cb7a4ee2d288"
   dependencies:
     async-props "^0.3.2"
     autoprefixer "^6.4.0"
