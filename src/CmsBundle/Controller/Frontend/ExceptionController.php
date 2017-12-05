@@ -17,14 +17,22 @@ class ExceptionController extends Controller
      */
     public function error404Action(Request $request)
     {
-
+        $host = $this->getRequest()->getHost();
         $slugParts = explode('/', $request->getPathInfo());
         $locale = $this->getDoctrine()->getRepository(Locale::class)
             ->findOneByLocale($slugParts[1]);
 
+        /** @var ContentRepository $contentRepository */
         $contentRepository = $this->getDoctrine()->getRepository('OpiferCmsBundle:Content');
 
-        if (!$locale || !$content = $contentRepository->findOneBySlug($locale->getLocale().'/404')) {
+
+        $content = $contentRepository->findActiveBySlug('404', $host);
+
+        if(!$content) {
+            $content = $contentRepository->findOneBySlug($locale->getLocale().'/404');
+        }
+
+        if (!$content) {
             $content = $contentRepository->findOneBySlug('404');
         }
 
