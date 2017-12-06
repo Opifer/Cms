@@ -336,15 +336,18 @@ class ContentRepository extends NestedTreeRepository
      * Find related content to block with value like $search.
      *
      * @param string $term
+     * @param string $host
      *
      * @return Content[]
      */
-    public function search($term)
+    public function search($term, $host = null)
     {
         $qb = $this->createQueryBuilder('c');
 
         $results = $qb
             ->innerjoin('c.blocks', 'b', 'WITH', 'c.id = b.content')
+            ->leftJoin('c.site', 'os')
+            ->leftJoin('os.domains', 'd')
             ->where($qb->expr()->orX(
                 $qb->expr()->like('c.title', ':term'),
                 $qb->expr()->like('c.description', ':term'),
@@ -353,10 +356,12 @@ class ContentRepository extends NestedTreeRepository
             ->andWhere('c.searchable = :searchable')
             ->andWhere('c.active = :active')
             ->andWhere('c.layout = :layout')
+            ->andWhere('d.domain = :host OR c.site IS NULL')
             ->setParameter('term', '%'.$term.'%')
             ->setParameter('searchable', true)
             ->setParameter('active', true)
             ->setParameter('layout', false)
+            ->setParameter('host', $host)
             ->groupBy('c.id')
             ->orderBy('c.id')
             ->getQuery()
