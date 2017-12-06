@@ -69,7 +69,7 @@ class YoutubeProvider extends AbstractProvider
                     new YoutubeUrl(),
                 ],
             ])
-            ->add('name', TextType::class,[
+            ->add('name', TextType::class, [
                 'label' => $this->translator->trans('youtube.name'),
                 'required' => false,
                 'attr' => [
@@ -112,12 +112,18 @@ class YoutubeProvider extends AbstractProvider
      * pre saving handler.
      *
      * @param MediaInterface $media
+     * @throws \Exception
      */
     public function preSave(MediaInterface $media)
     {
         preg_match('/(?<=v(\=|\/))([-a-zA-Z0-9_]+)|(?<=youtu\.be\/)([-a-zA-Z0-9_]+)/', $media->getReference(), $matches);
 
         $media->setReference($matches[2]);
+
+        //Check if the reference already exists
+        if (!isset($media->old) && $referenceMedia = $this->mediaManager->getRepository()->findOneBy(['reference' => $media->getReference()])) {
+            throw new \Exception(sprintf('Video with reference: %s already exists for under the name: %s', $media->getReference(), $referenceMedia->getName()));
+        }
 
         if (!isset($media->old) || $media->old->getReference() !== $media->getReference()) {
             $this->updateMedadata($media);
@@ -148,7 +154,7 @@ class YoutubeProvider extends AbstractProvider
         $metadata = $metadata['items'][0];
         $metadata['contentDetails']['duration'] = $this->convertDuration($metadata['contentDetails']['duration']);
 
-        if(!$media->getName()) {
+        if (!$media->getName()) {
             $media->setName($metadata['snippet']['title']);
         }
 
@@ -216,11 +222,11 @@ class YoutubeProvider extends AbstractProvider
             ->setProvider('image')
         ;
 
-        $filename = '/tmp/'.basename($url);
+        $filename = '/tmp/'.md5(date('Ymd H:i:s')).'-'.basename($url);
         $filesystem = new Filesystem();
         $filesystem->dumpFile($filename, file_get_contents($url));
         $thumb->temp = $filename;
-        $thumb->setFile(new UploadedFile($filename, basename($url)));
+        $thumb->setFile(new UploadedFile($filename, md5(date('Ymd H:i:s')).'-'.basename($url)));
 
         $this->mediaManager->save($thumb);
 
