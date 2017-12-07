@@ -49,6 +49,32 @@ class VideoBlockService extends AbstractBlockService implements BlockServiceInte
                 'label' => 'label.height',
                 'required' => false
             ])
+            ->add('autoplay', ChoiceType::class, [
+                'choices' => [
+                    false =>'No',
+                    true => 'Yes',
+                ],
+                'attr' => [
+                    'help_text' => 'help.autoplay'
+                ],
+                'required' => true,
+                'constraints' => [
+                    new NotBlank(),
+                ],
+            ])
+            ->add('loop', ChoiceType::class, [
+                'choices' => [
+                    false =>'No',
+                    true => 'Yes',
+                ],
+                'attr' => [
+                    'help_text' => 'help.loop'
+                ],
+                'required' => true,
+                'constraints' => [
+                    new NotBlank(),
+                ],
+            ])
         ;
     }
 

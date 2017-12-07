@@ -72,6 +72,8 @@ help:
     list_content_picker: Manually pick content items to put in your list.
     card_content_picker: Pick content item to use data of this item instead of  header, body and media.
     content_medias: This is the default image that will be shown when this page is used in a card, list, etc.
+    autoplay: Should the video start automatically, this has only effect when a video is used
+    loop: Should the video be played in a loop, this has only effect when a video is used
 
 label:
     block: Block
