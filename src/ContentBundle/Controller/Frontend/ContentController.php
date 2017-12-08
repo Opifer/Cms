@@ -90,9 +90,10 @@ class ContentController extends Controller
     /**
      * Render the home page.
      *
+     * @param Request $request
      * @return Response
      */
-    public function homeAction()
+    public function homeAction(Request $request)
     {
         /** @var BlockManager $manager */
         $manager  = $this->get('opifer.content.content_manager');
@@ -103,8 +104,12 @@ class ContentController extends Controller
         $qb->select('count(s.id)')
             ->from(Site::class, 's');
 
-        $domain = $em->getRepository(Domain::class)->findByDomain($host);
+        $domain = $em->getRepository(Domain::class)->findOneByDomain($host);
         $siteCount = $qb->getQuery()->getSingleScalarResult();
+
+        if ($siteCount && $domain->getSite()->getDefaultLocale()) {
+            $request->setLocale($domain->getSite()->getDefaultLocale()->getLocale());
+        }
 
         if (!$domain && $siteCount > 1) {
             return $this->render('OpiferContentBundle:Content:domain_not_found.html.twig');
