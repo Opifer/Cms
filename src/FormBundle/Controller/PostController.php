@@ -92,6 +92,9 @@ class PostController extends Controller
 
         $form = $post->getForm();
 
+        //Set locale
+        $this->container->get('request_stack')->getCurrentRequest()->setLocale($form->getLocale());
+
         /** @var Mailer $mailer */
         $mailer = $this->get('opifer.form.mailer');
         $mailer->sendNotificationMail($form, $post);

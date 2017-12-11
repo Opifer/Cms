@@ -4,6 +4,7 @@ namespace Opifer\FormBundle\Form\Type;
 
 use Doctrine\ORM\EntityManager;
 use Opifer\EavBundle\Form\Type\SchemaType;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -76,6 +77,15 @@ class FormType extends AbstractType
                 'attr' => [
                     'placeholder' => '/success',
                 ],
+            ])
+            ->add('locale', EntityType::class, [
+                'label' => 'label.language',
+                'class'    => 'OpiferCmsBundle:Locale',
+                'property' => 'name',
+                'attr'     => [
+                    'help_text'   => 'help.content_language',
+                ],
+                'required' => true
             ])
             ->add('recaptchaEnabled', ChoiceType::class, [
                 'label' => 'Recaptcha',
