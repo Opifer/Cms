@@ -81,7 +81,7 @@ class PostController extends Controller
      * @param int $id
      * @return RedirectResponse|\Symfony\Component\HttpKernel\Exception\NotFoundHttpException
      */
-    public function notificationAction(Request $request, $id)
+    public function notificationAction($id)
     {
         /** @var PostInterface $post */
         $post = $this->get('opifer.form.post_manager')->getRepository()->find($id);
@@ -91,9 +91,6 @@ class PostController extends Controller
         }
 
         $form = $post->getForm();
-
-        //Set locale
-        $request->setLocale($form->getLocale());
 
         /** @var Mailer $mailer */
         $mailer = $this->get('opifer.form.mailer');

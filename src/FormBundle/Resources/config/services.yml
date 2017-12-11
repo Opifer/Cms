@@ -52,7 +52,7 @@ services:
 
     opifer.form.mailer:
         class: 'Opifer\FormBundle\Mailer\Mailer'
-        arguments: ['@templating', '@mailer', '%opifer_form.from_email%']
+        arguments: ['@request_stack', '@templating', '@mailer', '%opifer_form.from_email%']
 
     # Event Listeners
 
