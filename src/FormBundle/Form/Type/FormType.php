@@ -3,6 +3,7 @@
 namespace Opifer\FormBundle\Form\Type;
 
 use Doctrine\ORM\EntityManager;
+use Opifer\CmsBundle\Entity\Locale;
 use Opifer\EavBundle\Form\Type\SchemaType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
@@ -80,7 +81,7 @@ class FormType extends AbstractType
             ])
             ->add('locale', EntityType::class, [
                 'label' => 'label.language',
-                'class'    => 'OpiferCmsBundle:Locale',
+                'class'    => Locale::class,
                 'property' => 'name',
                 'attr'     => [
                     'help_text'   => 'help.content_language',
