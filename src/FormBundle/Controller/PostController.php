@@ -6,7 +6,7 @@ use Opifer\FormBundle\Mailer\Mailer;
 use Opifer\FormBundle\Model\PostInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\RedirectResponse;
-use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Request;
 
 class PostController extends Controller
 {
@@ -81,7 +81,7 @@ class PostController extends Controller
      * @param int $id
      * @return RedirectResponse|\Symfony\Component\HttpKernel\Exception\NotFoundHttpException
      */
-    public function notificationAction($id)
+    public function notificationAction(Request $request, $id)
     {
         /** @var PostInterface $post */
         $post = $this->get('opifer.form.post_manager')->getRepository()->find($id);
@@ -93,7 +93,7 @@ class PostController extends Controller
         $form = $post->getForm();
 
         //Set locale
-        $this->container->get('request_stack')->getCurrentRequest()->setLocale($form->getLocale());
+        $request->setLocale($form->getLocale());
 
         /** @var Mailer $mailer */
         $mailer = $this->get('opifer.form.mailer');
