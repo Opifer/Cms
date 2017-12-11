@@ -9,6 +9,7 @@ use Opifer\FormBundle\Model\FormInterface;
 use Opifer\FormBundle\Model\PostInterface;
 use Symfony\Bundle\FrameworkBundle\Templating\EngineInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+use Symfony\Component\HttpFoundation\RequestStack;
 
 /**
  * Mailer
@@ -31,11 +32,12 @@ class Mailer
      * @param \Swift_mailer   $mailer
      * @param string          $sender
      */
-    public function __construct(EngineInterface $templating, \Swift_mailer $mailer, $sender)
+    public function __construct(RequestStack $request, EngineInterface $templating, \Swift_mailer $mailer, $sender)
     {
         $this->templating = $templating;
         $this->mailer = $mailer;
         $this->sender = $sender;
+        $this->request = $request;
     }
 
     /**
@@ -58,6 +60,7 @@ class Mailer
      */
     public function sendConfirmationMail(FormInterface $form, PostInterface $post, $recipient)
     {
+        $this->request->getCurrentRequest()->setLocale($form->getLocale());
         $body = $this->templating->render('OpiferFormBundle:Email:confirmation.html.twig', ['post' => $post]);
 
         $message = $this->createMessage($recipient, $form->getName(), $body);
