@@ -60,7 +60,7 @@ class Mailer
      */
     public function sendConfirmationMail(FormInterface $form, PostInterface $post, $recipient)
     {
-        $this->request->getCurrentRequest()->setLocale($form->getLocale());
+        $this->request->getCurrentRequest()->setLocale($form->getLocale()->getLocale());
         $body = $this->templating->render('OpiferFormBundle:Email:confirmation.html.twig', ['post' => $post]);
 
         $message = $this->createMessage($recipient, $form->getName(), $body);
