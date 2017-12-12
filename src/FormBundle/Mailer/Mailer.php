@@ -10,6 +10,8 @@ use Opifer\FormBundle\Model\PostInterface;
 use Symfony\Bundle\FrameworkBundle\Templating\EngineInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
+use Symfony\Component\Translation\DataCollectorTranslator;
+use Symfony\Component\Translation\Translator;
 
 /**
  * Mailer
@@ -25,6 +27,8 @@ class Mailer
     /** @var string */
     protected $sender;
 
+    protected $translator;
+
     /**
      * Constructor.
      *
@@ -32,12 +36,13 @@ class Mailer
      * @param \Swift_mailer   $mailer
      * @param string          $sender
      */
-    public function __construct(RequestStack $request, EngineInterface $templating, \Swift_mailer $mailer, $sender)
+    public function __construct(DataCollectorTranslator $translator, RequestStack $request, EngineInterface $templating, \Swift_mailer $mailer, $sender)
     {
         $this->templating = $templating;
         $this->mailer = $mailer;
         $this->sender = $sender;
         $this->request = $request;
+        $this->translator = $translator;
     }
 
     /**
@@ -61,6 +66,7 @@ class Mailer
     public function sendConfirmationMail(FormInterface $form, PostInterface $post, $recipient)
     {
         $this->request->getCurrentRequest()->setLocale($form->getLocale()->getLocale());
+        $this->translator->setLocale($form->getLocale()->getLocale());
         $body = $this->templating->render('OpiferFormBundle:Email:confirmation.html.twig', ['post' => $post]);
 
         $message = $this->createMessage($recipient, $form->getName(), $body);
