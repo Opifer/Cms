@@ -43,16 +43,22 @@ class ContentController extends Controller
         $qb->select('count(s.id)')
             ->from(Site::class, 's');
 
-        $domain = $em->getRepository(Domain::class)->findByDomain($host);
+        $domain = $em->getRepository(Domain::class)->findOneByDomain($host);
         $siteCount = $qb->getQuery()->getSingleScalarResult();
+
+        if ($siteCount && $domain->getSite()->getDefaultLocale()) {
+            $request->setLocale($domain->getSite()->getDefaultLocale()->getLocale());
+        }
 
         if (!$domain && $siteCount > 1) {
             return $this->render('OpiferContentBundle:Content:domain_not_found.html.twig');
         }
-        
+
         if ($content->getLocale()) {
             $request->setLocale($content->getLocale()->getLocale());
         }
+
+        $this->get('translator')->setLocale($request->getLocale());
 
         $contentDate = $content->getUpdatedAt();
         $templateDate = $content->getTemplate()->getUpdatedAt();
