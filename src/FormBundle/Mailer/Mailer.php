@@ -27,6 +27,7 @@ class Mailer
     /** @var string */
     protected $sender;
 
+    /** @var DataCollectorTranslator */
     protected $translator;
 
     /**
