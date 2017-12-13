@@ -2,16 +2,11 @@
 
 namespace Opifer\FormBundle\Mailer;
 
-use Opifer\EavBundle\Entity\EmailValue;
-use Opifer\FormBundle\Event\Events;
-use Opifer\FormBundle\Event\FormSubmitEvent;
 use Opifer\FormBundle\Model\FormInterface;
 use Opifer\FormBundle\Model\PostInterface;
 use Symfony\Bundle\FrameworkBundle\Templating\EngineInterface;
-use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
-use Symfony\Component\Translation\DataCollectorTranslator;
-use Symfony\Component\Translation\Translator;
+use Symfony\Component\Translation\TranslatorInterface;
 
 /**
  * Mailer
@@ -27,7 +22,7 @@ class Mailer
     /** @var string */
     protected $sender;
 
-    /** @var DataCollectorTranslator */
+    /** @var TranslatorInterface */
     protected $translator;
 
     /**
@@ -37,7 +32,7 @@ class Mailer
      * @param \Swift_mailer   $mailer
      * @param string          $sender
      */
-    public function __construct(DataCollectorTranslator $translator, RequestStack $request, EngineInterface $templating, \Swift_mailer $mailer, $sender)
+    public function __construct(TranslatorInterface $translator, RequestStack $request, EngineInterface $templating, \Swift_mailer $mailer, $sender)
     {
         $this->templating = $templating;
         $this->mailer = $mailer;
@@ -66,8 +61,11 @@ class Mailer
      */
     public function sendConfirmationMail(FormInterface $form, PostInterface $post, $recipient)
     {
-        $this->request->getCurrentRequest()->setLocale($form->getLocale()->getLocale());
-        $this->translator->setLocale($form->getLocale()->getLocale());
+        if ($form->getLocale()) {
+            $this->request->getCurrentRequest()->setLocale($form->getLocale()->getLocale());
+            $this->translator->setLocale($form->getLocale()->getLocale());
+        }
+
         $body = $this->templating->render('OpiferFormBundle:Email:confirmation.html.twig', ['post' => $post]);
 
         $message = $this->createMessage($recipient, $form->getName(), $body);
