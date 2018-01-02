@@ -88,7 +88,7 @@ class ContentRepository extends NestedTreeRepository
      */
     public function findOneBySlug($slug)
     {
-        $query = $this->createValuedQueryBuilder('c')
+        $query = $this->createQueryBuilder('c')
             ->where('c.slug = :slug')
             ->setParameter('slug', $slug)
             ->andWhere('c.publishAt < :now OR c.publishAt IS NULL')

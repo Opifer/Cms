@@ -162,20 +162,27 @@ class CollectionBlockService extends AbstractBlockService implements BlockServic
                 ])
         );
 
-        $builder->get('properties')
-            ->add('template', ChoiceType::class, [
-                'label' => 'label.template',
-                'attr' => [
-                    'help_text' => 'Pick a template to change how an item in the collection is displayed',
-                    'tag' => 'styles',
-                ],
-                'choices' => $this->config['templates'],
-                'required' => true,
-                'constraints' => [
-                    new NotBlank(),
-                ],
-            ])
-        ;
+        if ($this->config['templates'] && count($this->config['templates'])) {
+            $builder->get('properties')
+                ->add('template', ChoiceType::class, [
+                    'label' => 'label.template',
+                    'placeholder' => 'placeholder.choice_optional',
+                    'attr' => ['help_text' => 'help.template','tag' => 'styles'],
+                    'choices' => $this->config['templates'],
+                    'required' => false,
+            ]);
+        }
+
+        if ($this->config['styles']) {
+            $builder->get('properties')->add('styles', ChoiceType::class, [
+                'label' => 'label.styling',
+                'choices' => $this->config['styles'],
+                'required' => false,
+                'expanded' => true,
+                'multiple' => true,
+                'attr' => ['help_text' => 'help.html_styles', 'tag' => 'styles'],
+            ]);
+        }
     }
 
     /**
@@ -275,11 +282,17 @@ class CollectionBlockService extends AbstractBlockService implements BlockServic
         $qb = $this->expressionEngine->toQueryBuilder($conditions, $this->contentManager->getClass());
         $qb->andWhere('a.publishAt < :now OR a.publishAt IS NULL')
             ->andWhere('a.active = :active')
-            ->andWhere('a.layout = :layout')
-            ->andWhere('a.site = :site')
-            ->setParameter('active', true)
+            ->andWhere('a.layout = :layout');
+
+        if ($site == null) {
+            $qb->andWhere('a.site IS NULL');
+        } else {
+            $qb->andWhere('a.site = :site')
+               ->setParameter('site', $site);
+        }
+
+        $qb->setParameter('active', true)
             ->setParameter('layout', false)
-            ->setParameter('site', $site)
             ->setParameter('now', new \DateTime());
 
         if (isset($properties['order_by'])) {

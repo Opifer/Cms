@@ -7,6 +7,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use JMS\Serializer\Annotation as JMS;
+use Opifer\EavBundle\Entity\CheckListValue;
 use Opifer\MediaBundle\Model\MediaInterface;
 use Opifer\Revisions\Mapping\Annotation as Revisions;
 use Opifer\ContentBundle\Model\Content as BaseContent;
@@ -281,13 +282,13 @@ class Content extends BaseContent
     {
         $array = [];
 
-        if ($this->getValueSet() === null) {
+        if (!$valueset = $this->getValueSet()) {
             return $array;
         }
 
-        foreach ($this->getValueSet()->getValues() as $value) {
+        foreach ($valueset->getValues() as $value) {
             switch (get_class($value)) {
-                case 'Opifer\EavBundle\Entity\CheckListValue':
+                case CheckListValue::class:
                     $array[$value->getAttribute()->getName()] = [];
                     foreach ($value->getOptions() as $option) {
                         $array[$value->getAttribute()->getName()][] = [
@@ -298,6 +299,7 @@ class Content extends BaseContent
                     break;
                 default:
                     $array[$value->getAttribute()->getName()] = $value->getValue();
+                    break;
             }
         }
 
