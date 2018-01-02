@@ -64,7 +64,7 @@ services:
 
     opifer.content.block_serializer_subscriber:
         class: Opifer\ContentBundle\EventListener\Serializer\BlockEventSubscriber
-        arguments: ['@opifer.content.block_manager']
+        arguments: ['@opifer.content.block_manager', '@opifer.content.block_environment']
         tags:
             - { name: jms_serializer.event_subscriber }
 

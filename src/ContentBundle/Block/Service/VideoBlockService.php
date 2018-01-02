@@ -11,6 +11,8 @@ use Symfony\Component\Form\Extension\Core\Type\FormType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Opifer\MediaBundle\Form\Type\MediaPickerType;
 use Opifer\CmsBundle\Form\Type\CKEditorType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Validator\Constraints\NotBlank;
 
 /**
  * Video Block Service
@@ -48,6 +50,32 @@ class VideoBlockService extends AbstractBlockService implements BlockServiceInte
             ->add('height', TextType::class, [
                 'label' => 'label.height',
                 'required' => false
+            ])
+            ->add('autoplay', ChoiceType::class, [
+                'choices' => [
+                    false =>'No',
+                    true => 'Yes',
+                ],
+                'attr' => [
+                    'help_text' => 'help.autoplay'
+                ],
+                'required' => true,
+                'constraints' => [
+                    new NotBlank(),
+                ],
+            ])
+            ->add('loop', ChoiceType::class, [
+                'choices' => [
+                    false =>'No',
+                    true => 'Yes',
+                ],
+                'attr' => [
+                    'help_text' => 'help.loop'
+                ],
+                'required' => true,
+                'constraints' => [
+                    new NotBlank(),
+                ],
             ])
         ;
     }

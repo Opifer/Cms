@@ -31,6 +31,12 @@ class TabType extends AbstractType
                     'placeholder' => 'placeholder.tab_label',
                 ]
             ])
+            ->add('parameters', TextType::class, [
+                'label' => 'label.tab_parameters',
+                'attr'  => [
+                    'placeholder' => 'placeholder.tab_parameters',
+                ]
+            ])
             ->add('sort', HiddenType::class, [
                 'label' => 'label.tab_sort',
                 'attr'  => [

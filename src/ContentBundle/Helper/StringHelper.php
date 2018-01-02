@@ -2,9 +2,8 @@
 
 namespace Opifer\ContentBundle\Helper;
 
-use Doctrine\ORM\EntityManager;
+use Opifer\ContentBundle\Model\ContentInterface;
 use Opifer\ContentBundle\Model\ContentManager;
-use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\Routing\RouterInterface;
 
 class StringHelper
@@ -40,7 +39,7 @@ class StringHelper
             $matches[1] = $matches[2];
         }
 
-        /** @var Content[] $contents */
+        /** @var ContentInterface[] $contents */
         $contents = $this->contentManager->getRepository()->findByIds($matches[1]);
         $array = [];
         foreach ($contents as $content) {

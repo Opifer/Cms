@@ -62,6 +62,15 @@ class Option implements OptionInterface
     protected $sort;
 
     /**
+     * @var string
+     *
+     * @ORM\Column(name="description", type="text", nullable=true)
+     *
+     * @JMS\Expose
+     */
+    protected $description;
+
+    /**
      * @var ArrayCollection
      *
      * @ORM\ManyToMany(targetEntity="Opifer\EavBundle\Entity\Value", mappedBy="options", cascade={"all"}, orphanRemoval=true)
@@ -214,5 +223,24 @@ class Option implements OptionInterface
     public function getValues()
     {
         return $this->values;
+    }
+
+    /**
+     * @return string
+     */
+    public function getDescription()
+    {
+        return $this->description;
+    }
+
+    /**
+     * @param $description
+     * @return $this
+     */
+    public function setDescription($description)
+    {
+        $this->description = $description;
+
+        return $this;
     }
 }

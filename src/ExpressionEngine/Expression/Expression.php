@@ -129,12 +129,7 @@ class Expression implements ExpressionInterface
      */
     protected function transformValue($value)
     {
-        if ($this->type == Prototype::TYPE_DATE) {
-            $datetime = new \DateTime();
-            $datetime->setTimestamp(strtotime($value));
-
-            return $datetime;
-        }
+        // Override this method to transform values
 
         return $value;
     }

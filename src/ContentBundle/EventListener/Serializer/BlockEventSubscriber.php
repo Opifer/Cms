@@ -8,19 +8,23 @@ use JMS\Serializer\EventDispatcher\PreSerializeEvent;
 use Opifer\ContentBundle\Block\BlockManager;
 use Opifer\ContentBundle\Entity\Block;
 use Opifer\ContentBundle\Entity\DataViewBlock;
+use Opifer\ContentBundle\Environment\Environment;
 
 class BlockEventSubscriber implements EventSubscriberInterface
 {
     protected $blockManager;
+
+    protected $environment;
 
     /**
      * Constructor.
      *
      * @param BlockManager $blockManager
      */
-    public function __construct(BlockManager $blockManager)
+    public function __construct(BlockManager $blockManager, Environment $environment)
     {
         $this->blockManager = $blockManager;
+        $this->environment = $environment;
     }
 
     /**
@@ -47,6 +51,27 @@ class BlockEventSubscriber implements EventSubscriberInterface
         $service = $this->blockManager->getService($block);
         $service->load($block);
 
+        // Set children to avoid unnecessary duplicate queries
+        $this->setChildren($block);
+
+        $this->decodeDisplayLogic($block);
+    }
+
+    /**
+     * Maps the block children from the environment to the block
+     *
+     * @param Block $block
+     */
+    protected function setChildren(Block $block)
+    {
+        if (method_exists($block, 'setChildren')) {
+            $children = $this->environment->getBlockChildren($block);
+            $block->setChildren($children);
+        }
+    }
+
+    protected function decodeDisplayLogic(Block $block)
+    {
         $properties = $block->getProperties();
 
         if (isset($properties['displayLogic']) && !empty($properties['displayLogic'])) {

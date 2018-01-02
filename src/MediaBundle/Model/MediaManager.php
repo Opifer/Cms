@@ -2,28 +2,26 @@
 
 namespace Opifer\MediaBundle\Model;
 
-use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\ORM\EntityManager;
 use Pagerfanta\Adapter\DoctrineORMAdapter;
 use Pagerfanta\Pagerfanta;
 use Symfony\Component\HttpFoundation\Request;
 
 class MediaManager implements MediaManagerInterface
 {
-    protected $objectManager;
+    protected $em;
     protected $class;
-    protected $repository;
 
     /**
      * Constructor.
      *
-     * @param ObjectManager $om
+     * @param EntityManager $em
      * @param string        $class
      */
-    public function __construct(ObjectManager $om, $class)
+    public function __construct(EntityManager $em, $class)
     {
-        $this->objectManager = $om;
+        $this->em = $em;
         $this->class = $class;
-        $this->repository = $om->getRepository($class);
     }
 
     /**
@@ -42,8 +40,8 @@ class MediaManager implements MediaManagerInterface
      */
     public function save(MediaInterface $media)
     {
-        $this->objectManager->persist($media);
-        $this->objectManager->flush();
+        $this->em->persist($media);
+        $this->em->flush();
     }
 
     /**
@@ -51,8 +49,8 @@ class MediaManager implements MediaManagerInterface
      */
     public function remove(MediaInterface $media)
     {
-        $this->objectManager->remove($media);
-        $this->objectManager->flush();
+        $this->em->remove($media);
+        $this->em->flush();
     }
 
     /**
@@ -85,6 +83,6 @@ class MediaManager implements MediaManagerInterface
      */
     public function getRepository()
     {
-        return $this->repository;
+        return $this->em->getRepository($this->class);
     }
 }

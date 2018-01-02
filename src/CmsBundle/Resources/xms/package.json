@@ -4,7 +4,7 @@
   "description": "XMS",
   "repository": {
     "type": "git",
-    "url": "git+ssh://git@bitbucket.org/Opifer/xms.git"
+    "url": "git+ssh://git@bitbucket.org/jstack-eu/xms.git"
   },
   "private": true,
   "main": "index.js",
@@ -43,7 +43,7 @@
     "moment": "^2.15.2",
     "node-sass": "^3.8.0",
     "normalizr": "^2.2.1",
-    "opifer-rcs": "git+ssh://git@bitbucket.org/Opifer/opifer-rcs",
+    "opifer-rcs": "git+ssh://git@bitbucket.org/jstack-eu/opifer-rcs",
     "postcss-loader": "^0.10.1",
     "react": "^15.4.0",
     "react-addons-css-transition-group": "^15.4.0",

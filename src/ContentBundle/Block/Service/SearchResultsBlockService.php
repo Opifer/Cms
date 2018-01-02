@@ -74,7 +74,9 @@ class SearchResultsBlockService extends AbstractBlockService implements BlockSer
             return [];
         }
 
-        return $this->contentManager->getRepository()->search($term);
+        $host = $host = $this->getRequest()->getHost();
+
+        return $this->contentManager->getRepository()->search($term, $host);
     }
 
     /**

@@ -3,7 +3,7 @@
         {% if block.media|default %}
             <img src="{{ block.media.reference|imagine_filter('thumbnail_sm') }}" srcset="{{ block.media.reference|imagine_filter('thumbnail_sm') }} 1x, {{ block.media.reference|imagine_filter('thumbnail_md') }} 2x" class="img-fluid" />
         {% else %}
-            <img src="http://placehold.it/800x538" alt="Placeholder" class="img-fluid" />
+            <img src="//placehold.it/800x538" alt="Placeholder" class="img-fluid" />
         {% endif %}
     </div>
     <div class="rtc-content">

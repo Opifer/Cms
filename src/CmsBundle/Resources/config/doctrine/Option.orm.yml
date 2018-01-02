@@ -29,6 +29,12 @@ Opifer\CmsBundle\Entity\Option:
             nullable: false
             precision: 0
             column: display_name
+        description:
+            type: text
+            scale: 0
+            nullable: true
+            precision: 0
+            column: description
         sort:
             type: integer
             scale: 0

@@ -82,7 +82,7 @@ class NavLinkBlockService extends AbstractBlockService implements BlockServiceIn
         $parameters['is_sub_nav'] = ($block->getParent() instanceof NavLinkBlock) ? true : false;
 
         //check if display name is set else use the short title of the content item
-        if(!$block->getDisplayName()){
+        if (!$block->getDisplayName()){
             $this->setDisplayNameByShortTitle($block);
         }
 
@@ -110,7 +110,7 @@ class NavLinkBlockService extends AbstractBlockService implements BlockServiceIn
     protected function setDisplayNameByShortTitle(BlockInterface $block)
     {
         $contentItem = $this->contentManager->findOneBySlug($block->getValue());
-        if($contentItem) {
+        if ($contentItem) {
             $block->setDisplayName($contentItem->getShortTitle());
         }
     }

@@ -12,6 +12,7 @@ use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\FormType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Validator\Constraints\NotBlank;
 
 /**
  * Class JumbotronBlockService
@@ -29,7 +30,34 @@ class JumbotronBlockService extends AbstractBlockService implements BlockService
 
         $propertiesForm = $builder->get('properties')
             ->add('id', TextType::class, ['attr' => ['help_text' => 'help.html_id'],'required' => false])
-            ->add('extra_classes', TextType::class, ['attr' => ['help_text' => 'help.extra_classes'],'required' => false]);
+            ->add('extra_classes', TextType::class, ['attr' => ['help_text' => 'help.extra_classes'],'required' => false])
+            ->add('autoplay', ChoiceType::class, [
+                'choices' => [
+                    false =>'No',
+                    true => 'Yes',
+                ],
+                'attr' => [
+                    'help_text' => 'help.autoplay'
+                ],
+                'required' => true,
+                'constraints' => [
+                    new NotBlank(),
+                ],
+            ])
+            ->add('loop', ChoiceType::class, [
+                'choices' => [
+                    false =>'No',
+                    true => 'Yes',
+                ],
+                'attr' => [
+                    'help_text' => 'help.loop'
+                ],
+                'required' => true,
+                'constraints' => [
+                    new NotBlank(),
+                ],
+            ])
+        ;
 
         if ($this->config['styles']) {
             $builder->get('properties')

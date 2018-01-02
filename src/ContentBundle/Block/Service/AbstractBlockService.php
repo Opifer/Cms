@@ -100,6 +100,7 @@ abstract class AbstractBlockService implements BlockServiceInterface
         $parameters = [
             'block_service' => $this,
             'block' => $block,
+            'children' => $this->getEnvironment() ? $this->getEnvironment()->getBlockChildren($block) : [],
         ];
 
         return $parameters;

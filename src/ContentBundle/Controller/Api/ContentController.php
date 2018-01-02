@@ -350,6 +350,7 @@ class ContentController extends Controller
             'shortTitle' => $content->getShortTitle(),
             'description' => $content->getDescription(),
             'slug' => $content->getSlug(),
+            'alias' => $content->getAlias(),
             'blocks' => $blocks,
             'attributes' => $content->getPivotedAttributes(),
             'medias' => $content->getMedias(),

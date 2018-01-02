@@ -44,7 +44,7 @@ class ContentType extends AbstractType
             ->add('contentType', EntityType::class, [
                 'class' => ContentTypeEntity::class,
                 'property' => 'name',
-                'required' => true,
+                'required' => false,
             ])
             ->add('template', EntityType::class, [
                 'class'    => 'OpiferContentBundle:Template',
@@ -118,6 +118,7 @@ class ContentType extends AbstractType
                 'query_builder' => function (EntityRepository $er) use ($site) {
                     return $er->createQueryBuilder('c')
                         ->where('c.site = :site')
+                        ->orderBy('c.root,c.lft', 'ASC')
                         ->setParameter('site', $site);
                 },
             ]);
