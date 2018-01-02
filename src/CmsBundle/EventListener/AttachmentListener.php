@@ -51,6 +51,11 @@ class AttachmentListener implements EventSubscriberInterface
                 $media->setFile($value->getFile());
                 $media->setProvider('file');
 
+                $form = $post->getForm();
+                if ($uploadDir = $form->getUploadDirectory()) {
+                    $media->setDirectory($uploadDir);
+                }
+
                 $value->setAttachment($media);
             }
         }

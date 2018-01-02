@@ -2,13 +2,10 @@
 
 namespace Opifer\EavBundle\ValueProvider;
 
-use Doctrine\ORM\EntityRepository;
+use Opifer\EavBundle\Entity\MediaValue;
 use Opifer\MediaBundle\Form\Type\MediaPickerType;
 use Symfony\Component\Form\FormBuilderInterface;
 
-/**
- * TODO Move to CmsBundle
- */
 class MediaValueProvider extends AbstractValueProvider implements ValueProviderInterface
 {
     /** @var string */
@@ -18,6 +15,8 @@ class MediaValueProvider extends AbstractValueProvider implements ValueProviderI
      * Constructor
      *
      * @param string $mediaClass
+     *
+     * @throws \Exception when the passed mediaClass does not implement the MediaInterface
      */
     public function __construct($mediaClass)
     {
@@ -33,21 +32,21 @@ class MediaValueProvider extends AbstractValueProvider implements ValueProviderI
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder->add('medias', MediaPickerType::class, [
-            'label'         => $options['attribute']->getDisplayName(),
-            'multiple'      => true,
+            'label'    => $options['attribute']->getDisplayName(),
+            'multiple' => true,
         ]);
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getEntity()
     {
-        return 'Opifer\EavBundle\Entity\MediaValue';
+        return MediaValue::class;
     }
 }

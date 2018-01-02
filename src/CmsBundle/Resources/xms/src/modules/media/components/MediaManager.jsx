@@ -1,4 +1,5 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Dropzone from 'react-dropzone';
 import { DragDropContext } from 'react-dnd';
@@ -78,7 +79,7 @@ class MediaManager extends Component {
                     this.props.onPick(media);
                   }
                 }}
-                picker
+                picker={this.props.picker}
                 media={item}
               />
             ))}

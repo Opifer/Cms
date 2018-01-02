@@ -153,7 +153,7 @@ class MediaDirectory implements MediaDirectoryInterface
     }
 
     /**
-     * @return MediaDirectory
+     * @return MediaDirectoryInterface
      */
     public function getParent()
     {
@@ -161,9 +161,9 @@ class MediaDirectory implements MediaDirectoryInterface
     }
 
     /**
-     * @param MediaDirectory $parent
+     * @param MediaDirectoryInterface $parent
      *
-     * @return MediaDirectory
+     * @return MediaDirectoryInterface
      */
     public function setParent($parent)
     {

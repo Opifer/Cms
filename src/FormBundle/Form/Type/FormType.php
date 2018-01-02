@@ -5,6 +5,7 @@ namespace Opifer\FormBundle\Form\Type;
 use Doctrine\ORM\EntityManager;
 use Opifer\CmsBundle\Entity\Locale;
 use Opifer\EavBundle\Form\Type\SchemaType;
+use Opifer\MediaBundle\Entity\MediaDirectory;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
@@ -77,7 +78,17 @@ class FormType extends AbstractType
                 'required' => false,
                 'attr' => [
                     'placeholder' => '/success',
+                    'help_text' => 'Where should we send a user to after a succesful form submission. Must be a fully specified URL or a relative path, starting with a "/"',
                 ],
+            ])
+            ->add('uploadDirectory', EntityType::class, [
+                'label' => 'Upload directory',
+                'class'    => MediaDirectory::class,
+                'property' => 'name',
+                'attr'     => [
+                    'help_text'   => 'In case this form supports uploads, we can place the upload in a specified directory. If empty, the file will be placed in the root of the media manager',
+                ],
+                'required' => false,
             ])
             ->add('locale', EntityType::class, [
                 'label' => 'label.language',

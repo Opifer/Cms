@@ -28,6 +28,7 @@ class DirectoryCreateItem extends Component {
           component="input"
           type="text"
           className="form-control"
+          placeholder="Add folder"
         />
       </form>
     );

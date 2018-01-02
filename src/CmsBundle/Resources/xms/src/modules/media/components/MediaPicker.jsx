@@ -27,11 +27,9 @@ class MediaPicker extends Component {
   }
 
   componentDidMount() {
-    console.log('VALUE', this.props.value);
     const items = JSON.parse(this.props.value);
     const strItems = items.toString();
     if (strItems) {
-      console.log('STR ITEMS', strItems);
       this.props.fetchItems([strItems]);
     }
   }
@@ -47,7 +45,8 @@ class MediaPicker extends Component {
     items.push(item);
 
     this.setState({
-      items
+      items,
+      modal: !this.state.modal
     });
   }
 

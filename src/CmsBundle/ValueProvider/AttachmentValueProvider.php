@@ -2,6 +2,7 @@
 
 namespace Opifer\CmsBundle\ValueProvider;
 
+use Opifer\CmsBundle\Entity\AttachmentValue;
 use Opifer\EavBundle\ValueProvider\AbstractValueProvider;
 use Opifer\EavBundle\ValueProvider\ValueProviderInterface;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -24,7 +25,7 @@ class AttachmentValueProvider extends AbstractValueProvider implements ValueProv
      */
     public function getEntity()
     {
-        return 'Opifer\CmsBundle\Entity\AttachmentValue';
+        return AttachmentValue::class;
     }
 
     /**

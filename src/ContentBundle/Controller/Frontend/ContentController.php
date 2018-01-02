@@ -21,7 +21,7 @@ class ContentController extends Controller
      *
      * This Controller action is being routed to from either our custom ContentRouter,
      * or the ExceptionController.
-     * @see Opifer\SiteBundle\Router\ContentRouter
+     * @see \Opifer\ContentBundle\Router\ContentRouter
      *
      * @param Request          $request
      * @param ContentInterface $content
@@ -35,7 +35,7 @@ class ContentController extends Controller
     {
         $version = $request->query->get('_version');
         $debug = $this->getParameter('kernel.debug');
-        $host = $this->getRequest()->getHost();
+        $host = $request->getHost();
 
         $em = $this->getDoctrine()->getManager();
 
@@ -103,7 +103,7 @@ class ContentController extends Controller
     {
         /** @var BlockManager $manager */
         $manager  = $this->get('opifer.content.content_manager');
-        $host = $this->getRequest()->getHost();
+        $host = $request->getHost();
         $em = $this->getDoctrine()->getManager();
 
         $qb = $em->createQueryBuilder();
