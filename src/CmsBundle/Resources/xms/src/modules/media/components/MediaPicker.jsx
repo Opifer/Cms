@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { Modal, ModalHeader, ModalBody } from 'reactstrap';
 import MediaManager from './MediaManager';
-import { getItems } from '../actions';
+import { getItems, setSelectedItems } from '../actions';
 
 class MediaPicker extends Component {
   static propTypes = {
@@ -30,7 +30,13 @@ class MediaPicker extends Component {
     const items = JSON.parse(this.props.value);
     const strItems = items.toString();
     if (strItems) {
-      this.props.fetchItems([strItems]);
+      this.props
+        .fetchItems([strItems])
+        .then((response) => {
+          this.setState({
+            items: response.results
+          })
+        });
     }
   }
 
@@ -160,8 +166,6 @@ class MediaPicker extends Component {
 export default connect(
   null,
   (dispatch) => ({
-    fetchItems: (ids) => {
-      dispatch(getItems({ ids }));
-    },
+    fetchItems: (ids) => dispatch(getItems({ ids })),
   })
 )(MediaPicker);

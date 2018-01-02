@@ -80,22 +80,24 @@ export function getItems(filters = null, success = null) {
   return (dispatch) => {
     const queryString = api.objectToQueryParams(filters);
 
-    return api.get(`media${queryString}`, dispatch)
-      .then(json => {
-        const normalizedItems = normalize(json.results, arrayOf(mediaSchema));
-        const normalizedDirs = normalize(json.directories, arrayOf(directorySchema));
+    return api
+      .get(`media${queryString}`, dispatch)
+      .then(response => {
+        const normalizedItems = normalize(response.results, arrayOf(mediaSchema));
+        const normalizedDirs = normalize(response.directories, arrayOf(directorySchema));
 
         dispatch(setEntities(normalizedItems));
         dispatch(setEntities(normalizedDirs));
 
         dispatch(setData({
-          resultsPerPage: json.results_per_page,
-          totalResults: json.total_results,
+          resultsPerPage: response.results_per_page,
+          totalResults: response.total_results,
         }));
 
         if (success) {
-          success(json);
+          success(response);
         }
+        return response;
       });
   };
 }

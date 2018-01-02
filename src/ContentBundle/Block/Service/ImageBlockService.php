@@ -64,7 +64,7 @@ class ImageBlockService extends AbstractBlockService implements BlockServiceInte
                 ->add('filter', ChoiceType::class, [
                     'choices' => $this->getAvailableFilters(),
                     'choices_as_values' => true,
-                    'required' => false,
+                    'required' => true,
                     'attr' => ['help_text' => 'help.image_filter']
                 ])
                 ->add('enlarge', ChoiceType::class, [

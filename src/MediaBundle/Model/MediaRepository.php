@@ -42,7 +42,7 @@ class MediaRepository extends EntityRepository
             $qb->leftJoin('m.directory', 'dir')
                 ->andWhere('dir.id = :directory')
                 ->setParameter('directory', $request->get('directory'));
-        } else {
+        } else if (!$request->get('ids')) {
             $qb->andWhere('m.directory IS NULL');
         }
 

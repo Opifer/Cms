@@ -124,9 +124,7 @@ export default connect(
     items: activeItemsSelector(state),
   }),
   (dispatch) => ({
-    fetchItems: () => {
-      dispatch(getItems());
-    },
+    fetchItems: () => dispatch(getItems()),
     processFiles: (files) => {
       dispatch(uploadFiles(
         files,

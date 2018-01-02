@@ -27,13 +27,6 @@ const media = (state = initialState, action) => {
         isUploading: true,
       };
     }
-    // case t.SET_ITEMS: {
-    //   const updatedState = merge({}, state.items, action.items);
-    //   return isEqual(updatedState, state.items) ? state : {
-    //     items: updatedState,
-    //     isFetching: false,
-    //   };
-    // }
     case t.SET_DATA: {
       return {
         ...state,
@@ -46,12 +39,6 @@ const media = (state = initialState, action) => {
         directory: action.directory,
       };
     }
-    // case t.SET_DIRECTORIES: {
-    //   const updatedState = merge({}, state.directories, action.directories);
-    //   return isEqual(updatedState, state.directories) ? state : {
-    //     items: updatedState,
-    //   };
-    // }
     default: {
       return state;
     }
