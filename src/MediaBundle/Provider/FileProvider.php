@@ -259,7 +259,7 @@ class FileProvider extends AbstractProvider
             $basename = $basename.'-'.$id;
         }
 
-        return $basename.$ext;
+        return strtolower($basename.$ext);
     }
 
     /**
