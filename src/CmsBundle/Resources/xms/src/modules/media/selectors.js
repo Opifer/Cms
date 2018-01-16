@@ -3,14 +3,23 @@ import { createSelector } from 'reselect';
 export const itemEntitiesSelector = state => state.entities.medias;
 export const directoryEntitiesSelector = state => state.entities.directories;
 
-// export const itemsSelector = state => state.media.items;
-// export const directoriesSelector = state => state.media.directories;
+export const itemsSelector = state => state.media.items;
+export const directoriesSelector = state => state.media.directories;
 export const directorySelector = state => state.media.directory;
 
 export const activeItemsSelector = createSelector(
+  itemsSelector,
   itemEntitiesSelector,
   directorySelector,
-  (items, dir) => items ? Object.keys(items).filter(i => items[i].directory_id === dir || (!items[i].directory_id && !dir)).map(i => items[i]) : []
+  (ids, items, dir) => {
+    if (!ids || !items) {
+      return [];
+    }
+
+    return ids
+      .map(id => items[id])
+      .filter(item => item.directory_id === dir || (!item.directory_id && !dir));
+  }
 );
 
 export const activeDirectoriesSelector = createSelector(

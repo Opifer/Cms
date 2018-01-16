@@ -76,8 +76,8 @@ export function removeFile(file) {
   };
 }
 
-export function getItems(filters = null, success = null) {
-  return (dispatch) => {
+export function getItems(filters = null, refresh = false) {
+  return (dispatch, getState) => {
     const queryString = api.objectToQueryParams(filters);
 
     return api
@@ -89,14 +89,23 @@ export function getItems(filters = null, success = null) {
         dispatch(setEntities(normalizedItems));
         dispatch(setEntities(normalizedDirs));
 
-        dispatch(setData({
-          resultsPerPage: response.results_per_page,
-          totalResults: response.total_results,
-        }));
-
-        if (success) {
-          success(response);
+        if (refresh) {
+          dispatch(setData({
+            resultsPerPage: response.results_per_page,
+            totalResults: response.total_results,
+            items: normalizedItems.result,
+            directories: normalizedDirs.result,
+          }));
+        } else {
+          const state = getState();
+          dispatch(setData({
+            resultsPerPage: response.results_per_page,
+            totalResults: response.total_results,
+            items: state.media.items.concat(normalizedItems.result),
+            directories: state.media.directories.concat(normalizedDirs.result),
+          }));
         }
+
         return response;
       });
   };

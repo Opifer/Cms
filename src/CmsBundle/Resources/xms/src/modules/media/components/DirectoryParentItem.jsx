@@ -25,7 +25,7 @@ class DirectoryParentItem extends Component {
     }
 
     return (
-      <div className="item thumbnail" onClick={this.goBack}>
+      <div className="item item-directory-back thumbnail" onClick={this.goBack}>
         <i className="fa fa-arrow-left"></i>
       </div>
     );

@@ -21,15 +21,20 @@ class DirectoryCreateItem extends Component {
     const { handleSubmit } = this.props;
 
     return (
-      <form className="item thumbnail" onSubmit={handleSubmit(this.onSubmit)}>
-        <i className="fa fa-plus"></i>
-        <Field
-          name="name"
-          component="input"
-          type="text"
-          className="form-control"
-          placeholder="Add folder"
-        />
+      <form
+        className="item item-directory-new thumbnail"
+        onSubmit={handleSubmit(this.onSubmit)}
+      >
+        <div className="directory-tab" />
+        <div className="directory-body">
+          <Field
+            name="name"
+            component="input"
+            type="text"
+            className="form-control"
+            placeholder="New folder"
+          />
+        </div>
       </form>
     );
   }

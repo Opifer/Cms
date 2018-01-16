@@ -12,6 +12,8 @@ import MediaFilters from './MediaFilters';
 import { addItems, getItems, uploadFiles } from '../actions';
 import { activeItemsSelector, activeDirectoriesSelector } from '../selectors';
 
+import '../styles/mediamanager.scss';
+
 class MediaManager extends Component {
   static propTypes = {
     directories: PropTypes.array,
@@ -30,18 +32,16 @@ class MediaManager extends Component {
   }
 
   render() {
-    const { directories, items } = this.props;
+    const { directories, items, processFiles } = this.props;
 
     return (
-      <div className="container-fluid">
+      <div className="media-manager container-fluid">
         <Dropzone
           name="dropzone"
           activeClassName="dragover"
           disableClick
           className="card p-2 border-dashed dropzone text-center file-drop-area"
-          onDrop={(acceptedFiles, rejectedFiles, e) => {
-            this.props.processFiles(acceptedFiles);
-          }}
+          onDrop={(acceptedFiles, rejectedFiles, e) => processFiles(acceptedFiles)}
         >
           <div className="file-drop-area-overlay"></div>
           <div className="row row-space-2 row-space-top-2">
@@ -124,16 +124,14 @@ export default connect(
     items: activeItemsSelector(state),
   }),
   (dispatch) => ({
-    fetchItems: () => dispatch(getItems()),
-    processFiles: (files) => {
+    fetchItems: () => dispatch(getItems(null, true)),
+    processFiles: (files) =>
       dispatch(uploadFiles(
         files,
-        (media) => {
-          dispatch(addItems(media));
-        }, (error) => {
+        (media) => dispatch(addItems(media)),
+        (error) => {
 
         }
-      ));
-    },
+      )),
   })
 )(DragDropContext(HTML5Backend)(MediaManager));

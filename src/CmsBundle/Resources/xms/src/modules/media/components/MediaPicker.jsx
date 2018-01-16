@@ -20,7 +20,7 @@ class MediaPicker extends Component {
     this.state = {
       modal: false,
       items: [],
-    }
+    };
 
     this.toggle = this.toggle.bind(this);
     this.add = this.add.bind(this);
@@ -32,11 +32,9 @@ class MediaPicker extends Component {
     if (strItems) {
       this.props
         .fetchItems([strItems])
-        .then((response) => {
-          this.setState({
-            items: response.results
-          })
-        });
+        .then((response) => this.setState({
+          items: response.results
+        }));
     }
   }
 

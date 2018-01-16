@@ -1,0 +1,51 @@
+.media-manager {
+  .dropzone {
+    background: #ffffff;
+  }
+}
+
+.item-directory,
+.item-directory-new {
+  padding: 0;
+  border: 0;
+  width: 150px !important;
+
+  .directory-tab {
+    width: 40px;
+    height: 15px;
+    background: #b9b9b9;
+  }
+  .directory-body {
+    width: 100%;
+    height: 145px;
+    background: #b9b9b9;
+    padding: 10px;
+    color: #ffffff;
+  }
+}
+
+.item-directory {
+  cursor: pointer;
+
+  &:hover,
+  &.hover {
+    .directory-tab {
+      background: #9e9e9e;
+    }
+    .directory-body {
+      background: #9e9e9e;
+    }
+  }
+}
+
+.item-directory-back {
+  background: #b9b9b9;
+  cursor: pointer;
+  color: #fff;
+  padding: 10px;
+
+  &:hover,
+  &.hover {
+    background: #9e9e9e;
+  }
+}
