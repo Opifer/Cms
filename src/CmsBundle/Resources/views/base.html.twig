@@ -114,11 +114,10 @@
     </script>
     <script src="http://maps.google.com/maps/api/js?libraries=places&language=en-US"></script>
 
-    {% if (true) %}
-    {#{% if (app.environment == 'dev') %}#}
-    <script src="http://127.0.0.1:3333/dist/mediamanager.js"></script>
+    {% if (app.environment == 'dev') %}
+        <script src="http://127.0.0.1:3333/dist/mediamanager.js"></script>
     {% else %}
-    <script src="{{ asset('bundles/opifercms/dist/mediamanager.js') }}"></script>
+        <script src="{{ asset('bundles/opifercms/dist/mediamanager.js') }}"></script>
     {% endif %}
 
     <script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>

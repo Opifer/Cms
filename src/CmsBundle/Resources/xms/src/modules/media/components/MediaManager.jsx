@@ -69,7 +69,9 @@ class MediaManager extends Component {
               <DirectoryItem key={i} { ...dir } />
             ))}
 
-            <DirectoryCreateItem />
+            {(!this.props.picker) && (
+              <DirectoryCreateItem />
+            )}
 
             {items.map((item, i) => (
               <MediaItem
