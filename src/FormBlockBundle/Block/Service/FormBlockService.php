@@ -1,6 +1,6 @@
 <?php
 
-namespace Opifer\CmsBundle\Block\Service;
+namespace Opifer\FormBlockBundle\Block\Service;
 
 use Opifer\CmsBundle\Entity\FormBlock;
 use Opifer\ContentBundle\Block\BlockRenderer;
