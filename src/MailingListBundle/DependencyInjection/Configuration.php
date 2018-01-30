@@ -34,6 +34,12 @@ class Configuration implements ConfigurationInterface
                         ->scalarNode('consumer_secret')->defaultValue('')->end()
                     ->end()
                 ->end()
+                ->arrayNode('activecampaign')
+                    ->children()
+                        ->scalarNode('url')->defaultValue('')->end()
+                        ->scalarNode('key')->defaultValue('')->end()
+                    ->end()
+                ->end()
             ->end()
         ;
 

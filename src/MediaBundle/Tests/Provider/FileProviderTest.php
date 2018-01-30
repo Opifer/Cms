@@ -101,13 +101,16 @@ class FileProviderTest extends \PHPUnit_Framework_TestCase
     public function testUploadFile()
     {
         $file = m::mock('Symfony\Component\HttpFoundation\File\UploadedFile');
-        $file->shouldReceive('__toString')->andReturn(__DIR__.'/../testfile.txt');
+        $file->shouldReceive([
+            '__toString' => __DIR__.'/../testfile.txt',
+            'isValid' => true,
+        ]);
 
-        $this->media->shouldReceive(array(
+        $this->media->shouldReceive([
             'getFile' => $file,
             'getReference' => 'filename.jpg',
             'setFile' => $this->media,
-        ));
+        ]);
         $this->filesystem->shouldReceive('getAdapter');
         $this->filesystem->shouldReceive('write')->with('filename.jpg', 'content');
 

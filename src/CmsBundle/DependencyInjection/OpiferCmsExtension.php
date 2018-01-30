@@ -16,7 +16,7 @@ use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 class OpiferCmsExtension extends Extension implements PrependExtensionInterface
 {
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function load(array $configs, ContainerBuilder $container)
     {
@@ -24,6 +24,9 @@ class OpiferCmsExtension extends Extension implements PrependExtensionInterface
         $loader->load('services.yml');
     }
 
+    /**
+     * @param ContainerBuilder $container
+     */
     public function prepend(ContainerBuilder $container)
     {
         $configs = $container->getExtensionConfig($this->getAlias());
@@ -50,6 +53,7 @@ class OpiferCmsExtension extends Extension implements PrependExtensionInterface
             'opifer_cms.default_locale' => $config['default_locale'],
             'opifer_cms.google_captcha_site_key' => $config['google_captcha_site_key'],
             'opifer_cms.google_captcha_secret' => $config['google_captcha_secret'],
+            'opifer_cms.google_tag_manager_key' => $config['google_tag_manager_key'],
             'opifer_cms.database_driver' => $config['database']['driver'],
             'opifer_cms.database_host' => $config['database']['host'],
             'opifer_cms.database_name' => $config['database']['name'],

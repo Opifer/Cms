@@ -9,9 +9,20 @@
 
     <title>{% block title %}CM – Opifer{% endblock %}</title>
 
-    <link rel="stylesheet" href="{{ asset('bundles/opifercms/css/app.css') }}"/>
+    {% block stylesheets %}
+        <link rel="stylesheet" href="{{ asset('bundles/opifercms/css/app.css') }}"/>
+    {% endblock stylesheets %}
 </head>
 <body class="{{ body_class|default }}">
+    {% if google_tag_manager_key|default %}
+        <noscript><iframe src="//www.googletagmanager.com/ns.html?id={{ google_tag_manager_key }}"
+                          height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+        <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+                new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+                j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+                '//www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+        })(window,document,'script','dataLayer','{{ google_tag_manager_key }}');</script>
+    {% endif %}
     {% spaceless %}
     {% if is_granted("IS_AUTHENTICATED_REMEMBERED") and hide_nav|default != true %}
         {% block header %}
@@ -24,7 +35,7 @@
                                 <li class="dropdown">
                                     <a class="dropdown-toggle" data-toggle="dropdown">{{ "nav.content"|trans|capitalize }} <i class="material-icons md-18">keyboard_arrow_down</i></a>
                                     <ul class="dropdown-menu">
-                                        <li><a href="{{ path('opifer_content_content_select_type') }}">{{ 'content.new.nav'|trans|capitalize }}</a></li>
+                                        <li><a href="{{ path('opifer_content_content_select_site') }}">{{ 'content.new.nav'|trans|capitalize }}</a></li>
                                         <li class="divider"></li>
                                         <li><a href="{{ path('opifer_content_content_index') }}">{{ "nav.content"|trans|capitalize }}</a></li>
                                         {% for content_type in content_type_manager.types %}
@@ -33,7 +44,9 @@
                                         <li><a href="{{ path('opifer_content_block_shared') }}">{{ "nav.block_shared"|trans|capitalize }}</a></li>
                                         <li class="divider"></li>
                                         <li><a href="{{ path('opifer_cms_template_index') }}">{{ 'base.templates'|trans|capitalize }}</a></li>
+                                        <li><a href="{{ path('opifer_cms_layout_index') }}">{{ 'base.layouts'|trans|capitalize }}</a></li>
                                         <li><a href="{{ path('opifer_content_contenttype_index') }}">Content types</a></li>
+                                        <li><a href="{{ path('opifer_content_dataview_index') }}">{{ 'title.dataviews'|trans({}, 'OpiferCmsBundle')|capitalize }}</a></li>
                                     </ul>
                                 </li>
                                 <li><a href="{{ path('opifer_media_media_index') }}">{{ "nav.media"|trans|capitalize }}</a></li>
@@ -46,6 +59,7 @@
                                 </li>
                                 <li><a href="{{ path('opifer_mailing_list_mailing_list_index') }}">{{ "nav.mailing_lists"|trans|capitalize }}</a></li>
                                 <li><a href="{{ path('opifer_review_review_index') }}">{{ 'title.review'|trans|capitalize }}</a></li>
+
                                 {% block navigation_left %}{% endblock %}
                             </ul>
 
@@ -72,6 +86,7 @@
                                             <li class="divider"></li>
                                             <li role="presentation" class="dropdown-header">{{ 'base.content'|trans|capitalize }}</li>
                                             <li><a href="{{ path('opifer_cms_site_index') }}">{{ 'base.sites'|trans|capitalize }}</a></li>
+                                            <li><a href="{{ path('lexik_translation_grid') }}">{{ 'title.translations'|trans|capitalize }}</a></li>
                                         </ul>
                                     </li>
                                 {% endif %}
@@ -97,7 +112,7 @@
     <script>
         var CKEDITOR_BASEPATH = '/bundles/opifercms/components/ckeditor/';
     </script>
-    <script src="http://maps.google.com/maps/api/js?libraries=places&language=en-US"></script>
+    <script src="//maps.google.com/maps/api/js?libraries=places&language=en-US"></script>
 
     <script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
     <script src="{{ asset('bundles/bazingajstranslation/js/translator.min.js') }}"></script>

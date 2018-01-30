@@ -63,7 +63,17 @@ class MediaController extends Controller
         $form->handleRequest($request);
 
         if ($form->isValid()) {
-            $mediaManager->save($media);
+            if ($form->get('name')->getData()) {
+                $media->setName($form->get('name')->getData());
+            }
+
+            try {
+                $mediaManager->save($media);
+            } catch (\Exception $e) {
+                $this->addFlash('error', sprintf('%s', $e->getMessage()));
+
+                return $this->redirectToRoute('opifer_media_media_index');
+            }
 
             $this->addFlash('success', sprintf('%s was succesfully created', $media->getName()));
 

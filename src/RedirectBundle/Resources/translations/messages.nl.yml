@@ -31,3 +31,4 @@ opifer_redirect:
       help_text: Dit kan een reguliere expressie zijn of bijvoorbeeld "nl|en"
     cancel: 'Annuleren'
     save: 'Opslaan'
+    save_and_add: 'Opslaan & nieuw'

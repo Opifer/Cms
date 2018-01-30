@@ -5,7 +5,23 @@ namespace Opifer\ContentBundle\Block\Service;
 use Opifer\ContentBundle\Block\BlockRenderer;
 use Opifer\ContentBundle\Entity\Block;
 use Opifer\ContentBundle\Environment\Environment;
+use Opifer\ContentBundle\Form\Type\DisplayLogicType;
 use Opifer\ContentBundle\Model\BlockInterface;
+use Opifer\ExpressionEngine\Form\Type\ExpressionEngineType;
+use Opifer\ExpressionEngine\Prototype\AndXPrototype;
+use Opifer\ExpressionEngine\Prototype\Choice;
+use Opifer\ExpressionEngine\Prototype\EventPrototype;
+use Opifer\ExpressionEngine\Prototype\NumberPrototype;
+use Opifer\ExpressionEngine\Prototype\OrXPrototype;
+use Opifer\ExpressionEngine\Prototype\PrototypeCollection;
+use Opifer\ExpressionEngine\Prototype\SelectPrototype;
+use Opifer\ExpressionEngine\Prototype\TextPrototype;
+use Opifer\FormBlockBundle\Entity\ChoiceFieldBlock;
+use Opifer\FormBlockBundle\Entity\NumberFieldBlock;
+use Opifer\FormBlockBundle\Entity\RangeFieldBlock;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Component\Form\Extension\Core\Type\FormType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
@@ -53,7 +69,7 @@ abstract class AbstractBlockService implements BlockServiceInterface
     {
         $partial = (isset($parameters['partial'])) ? $parameters['partial'] : false;
 
-        if (!$partial && $this->esiEnabled) {
+        if (!$partial && $this->isEsiEnabled($block)) {
             if (null === $response) {
                 $response = new Response();
             }
@@ -84,6 +100,7 @@ abstract class AbstractBlockService implements BlockServiceInterface
         $parameters = [
             'block_service' => $this,
             'block' => $block,
+            'children' => $this->getEnvironment() ? $this->getEnvironment()->getBlockChildren($block) : [],
         ];
 
         return $parameters;
@@ -271,10 +288,39 @@ abstract class AbstractBlockService implements BlockServiceInterface
      */
     public function buildManageForm(FormBuilderInterface $builder, array $options)
     {
+        $builder->add(
+            $builder->create('default', FormType::class, ['inherit_data' => true])
+                ->add('name', TextType::class, [
+                    'label' => 'label.name',
+                    'attr' => [
+                        'help_text' => 'help.block_name',
+                        'tag' => 'settings'
+                    ],
+                    'required' => false
+                ])
+                ->add('displayName', TextType::class, [
+                    'label' => 'label.display_name',
+                    'attr' => [
+                        'help_text' => 'help.block_display_name',
+                        'tag' => 'settings'
+                    ],
+                    'required' => false
+                ])
+        )->add(
+            $builder->create('properties', FormType::class, ['label' => false, 'attr' => ['widget_col' => 12]])
+        );
+
         $builder->addEventListener(FormEvents::PRE_SET_DATA, function (FormEvent $event) {
             /** @var Block $block */
             $block = $event->getData();
             $form = $event->getForm();
+
+            $form->get('properties')
+                ->add('displayLogic', DisplayLogicType::class, [
+                    'block' => $block,
+                    'required' => false
+                ])
+            ;
 
             if ($block->isShared()) {
                 $form
@@ -283,7 +329,8 @@ abstract class AbstractBlockService implements BlockServiceInterface
                     ])
                     ->add('sharedDisplayName', 'text', [
                         'label' => 'block.shared_displayname.label',
-                    ]);
+                    ])
+                ;
             }
         });
     }
@@ -336,5 +383,24 @@ abstract class AbstractBlockService implements BlockServiceInterface
     protected function setResponseHeaders(BlockInterface $block, Response $response)
     {
         // Override in child class
+    }
+
+    /**
+     * Returns if ESI is enabled on the block service
+     *
+     * @return bool
+     */
+    public function isEsiEnabled(BlockInterface $block)
+    {
+        return $this->esiEnabled;
+    }
+
+    /**
+     * @param BlockInterface $block
+     * @return string
+     */
+    public function getDescription(BlockInterface $block = null)
+    {
+        return '';
     }
 }

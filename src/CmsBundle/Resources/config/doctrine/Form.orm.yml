@@ -42,6 +42,9 @@ Opifer\CmsBundle\Entity\Form:
         deletedAt:
             type: datetime
             nullable: true
+        recaptchaEnabled:
+            type: boolean
+            column: recaptcha_enabled
     manyToOne:
         schema:
             targetEntity: Opifer\CmsBundle\Entity\Schema
@@ -49,6 +52,15 @@ Opifer\CmsBundle\Entity\Form:
                 - persist
             joinColumns:
                 schema_id:
+                    referencedColumnName: id
+        locale:
+            targetEntity: Opifer\CmsBundle\Entity\Locale
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                locale_id:
                     referencedColumnName: id
     oneToMany:
         posts:

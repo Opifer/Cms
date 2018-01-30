@@ -2,6 +2,8 @@
 
 namespace Opifer\ExpressionEngine\Expression;
 
+use Opifer\ExpressionEngine\Prototype\Prototype;
+
 class Expression implements ExpressionInterface
 {
     /** @var string */
@@ -9,6 +11,9 @@ class Expression implements ExpressionInterface
 
     /** @var string */
     protected $constraint;
+
+    /** @var string */
+    protected $type;
 
     /** @var mixed */
     protected $value;
@@ -61,7 +66,7 @@ class Expression implements ExpressionInterface
      */
     public function getValue()
     {
-        return $this->value;
+        return $this->transformValue($this->value);
     }
 
     /**
@@ -72,6 +77,26 @@ class Expression implements ExpressionInterface
     public function setValue($value)
     {
         $this->value = $value;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getType()
+    {
+        return $this->type;
+    }
+
+    /**
+     * @param string $type
+     *
+     * @return Expression
+     */
+    public function setType($type)
+    {
+        $this->type = $type;
 
         return $this;
     }
@@ -94,5 +119,18 @@ class Expression implements ExpressionInterface
         $this->children = $children;
 
         return $this;
+    }
+
+    /**
+     * Transforms the value based on the type
+     *
+     * @param $value
+     * @return \DateTime
+     */
+    protected function transformValue($value)
+    {
+        // Override this method to transform values
+
+        return $value;
     }
 }

@@ -24,21 +24,23 @@ class CarouselSlideBlockService extends AbstractBlockService implements BlockSer
     {
         parent::buildManageForm($builder, $options);
 
-        $propertiesForm = $builder->create('properties', FormType::class)
-            ->add('id', TextType::class, ['attr' => ['help_text' => 'help.html_id']])
-            ->add('extra_classes', TextType::class, ['attr' => ['help_text' => 'help.extra_classes']]);
+        $propertiesForm = $builder->get('properties')
+            ->add('id', TextType::class, ['attr' => ['help_text' => 'help.html_id'], 'required' => false])
+            ->add('extra_classes', TextType::class, ['attr' => ['help_text' => 'help.extra_classes'],'required' => false]);
 
 
         if ($this->config['styles']) {
-
-            $propertiesForm
+            $builder->get('properties')
                 ->add('styles', 'choice', [
                     'label' => 'label.styling',
                     'choices'  => array_combine($this->config['styles'], $this->config['styles']),
                     'required' => false,
                     'expanded' => true,
                     'multiple' => true,
-                    'attr' => ['help_text' => 'help.html_styles'],
+                    'attr' => [
+                        'help_text' => 'help.html_styles',
+                        'tag' => 'styles'
+                    ],
                 ]);
         }
 
@@ -47,8 +49,19 @@ class CarouselSlideBlockService extends AbstractBlockService implements BlockSer
                 ->add('media', MediaPickerType::class, [
                     'required'  => false,
                     'multiple' => false,
+                    'attr' => [
+                            'help_text' => 'help.carouselslide_media',
+                        ]
+                    ])
+                ->add('value', CKEditorType::class, [
+                    'label' => 'label.rich_text',
+                    'attr' => [
+                        'label_col' => 12,
+                        'widget_col' => 12,
+                        'help_text' => 'help.carouselslide_rich_text',
+                    ],
+                    'required' => false
                 ])
-                ->add('value', CKEditorType::class, ['label' => 'label.rich_text', 'attr' => ['label_col' => 12, 'widget_col' => 12]])
         )->add(
             $propertiesForm
         );
@@ -89,5 +102,14 @@ class CarouselSlideBlockService extends AbstractBlockService implements BlockSer
             ->setDescription('A basic carousel slide');
 
         return $tool;
+    }
+
+    /**
+     * @param BlockInterface $block
+     * @return string
+     */
+    public function getDescription(BlockInterface $block = null)
+    {
+        return 'A basic carousel slide';
     }
 }

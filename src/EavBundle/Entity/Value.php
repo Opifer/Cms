@@ -37,7 +37,7 @@ class Value implements ValueInterface
     protected $id;
 
     /**
-     * @var Attribute
+     * @var AttributeInterface
      *
      * @ORM\ManyToOne(targetEntity="Opifer\EavBundle\Model\AttributeInterface", inversedBy="values", cascade={"persist"}, fetch="EAGER")
      * @ORM\JoinColumn(name="attribute_id", referencedColumnName="id")
@@ -45,7 +45,7 @@ class Value implements ValueInterface
     protected $attribute;
 
     /**
-     * @var ValueSet
+     * @var ValueSetInterface
      *
      * @ORM\ManyToOne(targetEntity="Opifer\EavBundle\Model\ValueSetInterface", inversedBy="values", cascade={"persist"})
      * @ORM\JoinColumn(name="valueset_id", referencedColumnName="id")
@@ -197,16 +197,22 @@ class Value implements ValueInterface
     /**
      * Set options
      *
-     * @param array $options
+     * @param OptionInterface|OptionInterface[] $options
+     *
+     * @return $this
      */
     public function setOptions($options)
     {
         if (!is_array($options)) {
-            $this->options = $options->toArray();
-        } else {
-            foreach ($options as $option) {
-                $this->addOption($option);
-            }
+            $options = [$options];
+        }
+
+        foreach ($this->options as $option) {
+            $this->removeOption($option);
+        }
+
+        foreach ($options as $option) {
+            $this->addOption($option);
         }
 
         return $this;

@@ -86,7 +86,7 @@ class ContentManager implements ContentManagerInterface, BlockProviderInterface
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getPaginatedByRequest(Request $request)
     {
@@ -100,7 +100,7 @@ class ContentManager implements ContentManagerInterface, BlockProviderInterface
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function findOneBySlug($slug)
     {
@@ -136,14 +136,41 @@ class ContentManager implements ContentManagerInterface, BlockProviderInterface
         return $nestedContent;
     }
 
+    public function updateChildren(ContentInterface $content, $force = false)
+    {
+        $uow = $this->em->getUnitOfWork();
+        $uow->computeChangeSets();
+
+        $changeset = $uow->getEntityChangeSet($content);
+
+        if (isset($changeset['locale']) && $changeset['locale'][0] !== $changeset['locale'][1]) {
+            $children = $content->getChildren();
+            foreach ($children as $child) {
+                $child->setLocale($content->getLocale());
+
+                $this->updateChildren($child);
+            }
+        }
+
+        if (isset($changeset['parent']) || $force) {
+            $children = $content->getChildren();
+            foreach ($children as $child) {
+                $child->setUpdatedAt(new \DateTime());
+                $this->updateChildren($child, true);
+            }
+        }
+    }
+
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function save(ContentInterface $content)
     {
         if (!$content->getId()) {
             $this->em->persist($content);
         } else {
+            $this->updateChildren($content);
+
             $cacheDriver = $this->em->getConfiguration()->getResultCacheImpl();
             $cacheDriver->deleteAll();
         }
@@ -154,7 +181,7 @@ class ContentManager implements ContentManagerInterface, BlockProviderInterface
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function remove($content)
     {

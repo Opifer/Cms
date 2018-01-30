@@ -33,6 +33,10 @@ class SubscriptionManager
     {
         $subscription->setStatus($status);
 
+        if ($status == Subscription::STATUS_SUBSCRIBED) {
+            $subscription->setSyncedAt(new \DateTime());
+        }
+
         $this->em->persist($subscription);
         $this->em->flush($subscription);
 
@@ -96,5 +100,10 @@ class SubscriptionManager
         }
 
         $this->em->flush($list);
+    }
+
+    public function getRepository()
+    {
+        return $this->em->getRepository(Subscription::class);
     }
 }

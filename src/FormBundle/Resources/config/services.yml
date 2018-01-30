@@ -2,7 +2,6 @@ parameters:
     opifer.form.form_extension.class: 'Opifer\FormBundle\Twig\FormExtension'
     opifer.form.form_manager.class: 'Opifer\FormBundle\Model\FormManager'
     opifer.form.form_form.class: 'Opifer\FormBundle\Form\Type\FormType'
-    opifer.form.notification_mail_listener.class: 'Opifer\FormBundle\EventListener\NotificationMailListener'
     opifer.form.post_form.class: 'Opifer\FormBundle\Form\Type\PostType'
     opifer.form.post_manager.class: 'Opifer\FormBundle\Model\PostManager'
 
@@ -20,7 +19,11 @@ services:
 
     opifer.form.form_form:
         class: '%opifer.form.form_form.class%'
-        arguments: ['@doctrine.orm.entity_manager', '%opifer_form.post_class%']
+        arguments:
+            - '@doctrine.orm.entity_manager'
+            - '%opifer_form.post_class%'
+            - '%opifer_form.recaptcha_site_key%'
+            - '%opifer_form.recaptcha_secret_key%'
         tags:
             - { name: form.type }
 
@@ -45,10 +48,16 @@ services:
         tags:
             - { name: twig.extension }
 
+    # Mailer
+
+    opifer.form.mailer:
+        class: 'Opifer\FormBundle\Mailer\Mailer'
+        arguments: ['@translator', '@request_stack', '@templating', '@mailer', '%opifer_form.from_email%']
+
     # Event Listeners
 
     opifer.form.notification_mail_listener:
-        class: '%opifer.form.notification_mail_listener.class%'
-        arguments: ['@templating', '@mailer', '%opifer_form.from_email%']
+        class: 'Opifer\FormBundle\EventListener\NotificationMailListener'
+        arguments: ['@opifer.form.mailer']
         tags:
             - { name: kernel.event_subscriber }

@@ -15,7 +15,7 @@ class DatePeriod extends Literal
     /**
      * Constructor
      *
-     * @param string $period
+     * @param string $date
      */
     public function __construct($date)
     {

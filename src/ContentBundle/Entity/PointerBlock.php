@@ -2,6 +2,7 @@
 
 namespace Opifer\ContentBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Opifer\ContentBundle\Model\BlockInterface;
 
@@ -11,7 +12,7 @@ use Opifer\ContentBundle\Model\BlockInterface;
  *
  * @ORM\Entity
  */
-class PointerBlock extends Block
+class PointerBlock extends CompositeBlock
 {
     /**
      * @var BlockInterface
@@ -35,6 +36,21 @@ class PointerBlock extends Block
     public function setReference($reference)
     {
         $this->reference = $reference;
+    }
+
+    /**
+     * Overrides the CompositeBlock's getChildren method to pass the reference as this block's children
+     *
+     * {@inheritdoc}
+     */
+    public function getChildren()
+    {
+        $children = new ArrayCollection();
+        if ($this->reference) {
+            $children->add($this->reference);
+        }
+
+        return $children;
     }
 
     /**

@@ -22,13 +22,11 @@ use Opifer\Revisions\Exception\DeletedException;
 use Opifer\Revisions\RevisionManager;
 
 /**
- * Class BlockManager
+ * Block Manager
  *
  * This class provides methods mainly for managing blocks inside of the editor at a specific
  * version. It takes care of applying the changeset from BlockLogEntry to create a real-time
  * state of the Block instance before publishing/persisting it.
- *
- * @package Opifer\ContentBundle\Manager
  */
 class BlockManager
 {
@@ -197,7 +195,9 @@ class BlockManager
     {
         $this->setDraftVersionFilter(! $draft);
 
-        $blocks = $owner->getBlocks();
+        $blocks = $this->getRepository()->findByOwner($owner);
+
+//        $blocks = $owner->getBlocks();
 
         if ($draft) {
             $this->revertToDraft($blocks);
@@ -206,17 +206,23 @@ class BlockManager
         return $blocks;
     }
 
-    public function findDescendants(CompositeBlock $parent, $draft = true)
+    /**
+     * Finds the block and all its children recursively
+     *
+     * @param BlockInterface $parent
+     * @param bool $draft
+     * @return BlockInterface[]
+     */
+    public function findDescendants($parent, $draft = true)
     {
         $this->setDraftVersionFilter(! $draft);
-
-        $blocks = array();
-
+        
         $iterator = new \RecursiveIteratorIterator(
-            new RecursiveBlockIterator(array($parent)),
+            new RecursiveBlockIterator([$parent]),
             \RecursiveIteratorIterator::SELF_FIRST
         );
 
+        $blocks = [];
         foreach ($iterator as $descendant) {
             $blocks[] = $descendant;
         }
@@ -270,7 +276,7 @@ class BlockManager
      *
      * TODO: cleanup created and deleted blocks in revision that were never published.
      *
-     * @param BlockInterface|array $blocks
+     * @param BlockInterface|BlockInterface[]|array $blocks
      */
     public function publish($blocks)
     {
@@ -284,26 +290,42 @@ class BlockManager
         }
 
         if (! is_array($blocks)) {
-            $blocks = array($blocks);
+            $blocks = [$blocks];
         }
 
         $this->disableRevisionListener();
+
+        $deletes = [];
 
         foreach ($blocks as $block) {
             if (null !== $revision = $this->revisionManager->getDraftRevision($block)) {
                 try {
                     $this->revisionManager->revert($block, $revision);
                 } catch (DeletedException $e) {
-                    $this->em->remove($block);
+                    // $this->em->remove($block);
+                    $deletes[] = $block;
                 }
+            }
+        }
 
-                $this->em->flush($block);
+        $this->em->flush();
+
+        // Cycle through all deleted blocks to perform cascades manually 
+        foreach ($deletes as $block) {
+            if ($block instanceof CompositeBlock) {
+                $descendants = $this->findDescendants($block, false);
+            } else {
+                $descendants = [$block];
+            }
+
+            foreach ($descendants as $descendant) {
+                $descendant->setDeletedAt(new \DateTime);
+                $this->em->flush($descendant);
             }
         }
 
         $cacheDriver = $this->em->getConfiguration()->getResultCacheImpl();
         $cacheDriver->deleteAll();
-
 
         $this->enableRevisionListener();
     }
@@ -452,7 +474,6 @@ class BlockManager
      */
     public function disableRevisionListener()
     {
-
         foreach ($this->em->getEventManager()->getListeners() as $event => $listeners) {
             foreach ($listeners as $hash => $listener) {
                 if ($listener instanceof RevisionListener) {
@@ -463,7 +484,7 @@ class BlockManager
         }
 
         if ($this->revisionListener) {
-            $this->em->getEventManager()->removeEventListener(array(Events::onFlush, Events::postPersist, Events::postUpdate, Events::postFlush, SoftDeleteableListener::PRE_SOFT_DELETE, SoftDeleteableListener::POST_SOFT_DELETE), $this->revisionListener);
+            $this->revisionListener->setActive(false);
         }
     }
 
@@ -476,7 +497,7 @@ class BlockManager
             throw new \Exception('Could not enable revision listener: instance not found');
         }
 
-        $this->em->getEventManager()->addEventListener(array(Events::onFlush, Events::postPersist, Events::postUpdate, Events::postFlush, SoftDeleteableListener::PRE_SOFT_DELETE, SoftDeleteableListener::POST_SOFT_DELETE), $this->revisionListener);
+        $this->revisionListener->setActive(true);
     }
 
 
@@ -796,7 +817,7 @@ class BlockManager
                             // Check if we inherit from this block
                             if ($item->getOwner()->getId() == $parentOwnerId && $item->getSort() == $block->getSortParent() &&
                                 // And check if we're in the same parent block on same position
-                                (($item->isInRoot() && $block->isInRoot() || $item->getParent()->getId() == $block->getParent()->getId()) && $item->getPosition() == $block->getPosition())) {
+                                (($item->isInRoot() && $block->isInRoot() || ($item->getParent() && $block->getParent() && $item->getParent()->getId() == $block->getParent()->getId())) && $item->getPosition() == $block->getPosition())) {
                                 break;
                             }
                         }

@@ -55,6 +55,7 @@ class MailingListType extends AbstractType
                 'choices' => [
                     'MailChimp' => 'mailchimp',
                     'Mailplus' => 'mailplus',
+                    'ActiveCampaign' => 'activecampaign',
                 ],
                 'attr' => [
                     'placeholder' => 'placeholder.provider',
@@ -74,6 +75,7 @@ class MailingListType extends AbstractType
             $remoteLists = $provider->getRemoteLists();
 
             $lists = array();
+
             array_map(function ($list) use (&$lists) {
                 $lists[$list['id']] = $list['name'];
             }, $remoteLists);

@@ -1,0 +1,28 @@
+{% extends 'OpiferCmsBundle:Backend:base.html.twig' %}
+
+{% block body %}
+    <div class="page-header">
+        <div class="container">
+            <span class="caption">{{ 'title.domain'|trans|capitalize }}</span>
+            <a href="{{ path('opifer_cms_domain_index') }}" class="btn btn-link pull-right">
+                <i class="material-icons">http</i> {{ 'title.domains'|trans }}
+            </a>
+            <h1>{{ 'domain.edit'|trans|capitalize }}</h1>
+        </div>
+    </div>
+    <div class="container page-body">
+        <div class="row">
+            <div class="col-xs-12">
+                {{ form_start(form, {'style': 'horizontal', 'attr': {'data-toggle':'validator'}}) }}
+                {{ form_widget(form) }}
+                <div class="form-group form-footer">
+                    <div class="col-xs-12">
+                        <input type="submit" value="Save" class="btn btn-primary"/>
+                        {#<a href="{{ path('event_index') }}" class="btn btn-link">{{ 'form.cancel'|trans|capitalize }}</a>#}
+                    </div>
+                </div>
+                {{ form_end(form) }}
+            </div>
+        </div>
+    </div>
+{% endblock body %}

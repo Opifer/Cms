@@ -33,6 +33,9 @@ class PostController extends BasePostController
             $query->andWhere($tableAlias.'.form = :form')->setParameter('form', $form);
         });
 
+        $notificationAction = new RowAction('re-send', 'opifer_form_post_notification');
+        $notificationAction->setRouteParameters(['id']);
+
         $viewAction = new RowAction('view', 'opifer_form_post_view');
         $viewAction->setRouteParameters(['id']);
 
@@ -44,6 +47,7 @@ class PostController extends BasePostController
             ->setSource($source)
             ->setDefaultOrder('id', 'desc')
             ->addRowAction($viewAction)
+            ->addRowAction($notificationAction)
             ->addRowAction($deleteAction);
 
         return $grid->getGridResponse('OpiferCmsBundle:Backend/Post:index.html.twig', ['form' => $form]);

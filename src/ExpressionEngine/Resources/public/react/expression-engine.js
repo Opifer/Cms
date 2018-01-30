@@ -8,7 +8,7 @@ var Expression = React.createClass({
 
         var self = this;
 
-        if (prototype.type == 'date') {
+        if (prototype && prototype.type == 'date') {
             $(ReactDOM.findDOMNode(this)).find('input.expression-date-picker').datetimepicker({
                 format: 'YYYY-MM-DD',
             }).on('dp.change', function(e) {
@@ -40,7 +40,11 @@ var Expression = React.createClass({
             return expression.key == item.key;
         })[0];
 
-        if (prototype.constraints) {
+        if (!prototype) {
+            return <div />;
+        }
+
+        if (prototype.constraints && prototype.constraints.length > 0) {
             var constraints = prototype.constraints.map(function(constraint, i) {
                 return (
                     <option key={i} value={constraint.value}>{constraint.name}</option>
@@ -48,15 +52,14 @@ var Expression = React.createClass({
             });
         }
 
+        var nested, value, constraintSelect = null;
+
         switch (prototype.type) {
-            case 'set':
-                var value = '';
-                break;
             case 'date':
-                var value = <input type="text" className="form-control expression-date-picker" onChange={this.props.changeValue} value={this.props.expression.value}/>;
+                value = <input type="text" className="form-control expression-date-picker" onChange={this.props.changeValue} value={this.props.expression.value}/>;
                 break;
             case 'number':
-                var value = <input type="number" className="form-control" onChange={this.props.changeValue} value={this.props.expression.value}/>;
+                value = <input type="number" className="form-control" onChange={this.props.changeValue} value={this.props.expression.value}/>;
                 break;
             case 'select':
                 var choices = prototype.choices.map(function(choice, i) {
@@ -64,34 +67,33 @@ var Expression = React.createClass({
                         <option key={i} value={choice.value}>{choice.name}</option>
                     )
                 });
-                var value = <select className="form-control" onChange={this.props.changeValue} value={this.props.expression.value}>{choices}</select>;
+                value = <select className="form-control" onChange={this.props.changeValue} value={this.props.expression.value}>{choices}</select>;
+                break;
+            case 'text':
+                value = <input type="text" className="form-control" onChange={this.props.changeValue} value={this.props.expression.value}/>;
                 break;
             default:
-                var value = <input type="text" className="form-control" onChange={this.props.changeValue} value={this.props.expression.value}/>;
+                value = null;
+                break;
         }
 
         if (prototype.type == 'set') {
-            var nested = <div className="form-group row"><div className="col-xs-12"><div className="p-l-lg"><ExpressionBuilder changeChildren={this.props.changeChildren} prototypes={this.props.prototypes} expressions={expression.children} root={false} /></div></div></div>;
-            var constraintSelect = '';
-        } else {
-            var nested = '';
-            var constraintSelect = <select className="form-control" onChange={this.props.changeConstraint} value={this.props.expression.constraint}>{constraints}</select>
+            nested = <div className="form-group row"><div className="col-xs-12"><div className="p-l-lg"><ExpressionBuilder changeChildren={this.props.changeChildren} prototypes={this.props.prototypes} expressions={expression.children} root={false} /></div></div></div>;
+            constraintSelect = '';
+        } else if (typeof(constraints) !== 'undefined' && constraints.length) {
+            constraintSelect = <select className="form-control" onChange={this.props.changeConstraint} value={this.props.expression.constraint}>{constraints}</select>
         }
 
         return (
             <div className="expression-constraint">
                 <div className="form-group row">
-                    <div className="col-xs-3">
+                    <div className="col-xs-4 p-r-0">
                         <select className="form-control" onChange={this.props.changePrototype} value={this.props.expression.key}>
                             {prototypes}
                         </select>
                     </div>
-                    <div className={constraintSelect ? 'col-xs-3' : 'hide'}>
-                        {constraintSelect}
-                    </div>
-                    <div className={value ? 'col-xs-4' : 'hide'}>
-                        {value}
-                    </div>
+                    {constraintSelect ? <div className="col-xs-2 p-r-0">{constraintSelect}</div> : null }
+                    {value ? <div className="col-xs-4 p-r-0">{value}</div> : null}
                     <div className="col-xs-2">
                         <a className="btn btn-link btn-sm" onClick={this.props.remove}>
                             <i className="material-icons md-18">close</i>
@@ -111,7 +113,7 @@ var ExpressionBuilder = React.createClass({
             prototypes: this.props.prototypes
         };
     },
-    updateExpressions(expressions) {
+    updateExpressions: function(expressions) {
         this.setState({expressions: expressions});
         if (typeof(this.props.changeChildren) != 'undefined') {
             this.props.changeChildren(expressions);
@@ -124,7 +126,8 @@ var ExpressionBuilder = React.createClass({
             id: Date.now(),
             key: prototype.key,
             selector: prototype.selector,
-            constraint: (prototype.constraints) ? prototype.constraints[0].value : '',
+            constraint: (typeof(prototype.constraints) !== 'undefined' && prototype.constraints.length) ? prototype.constraints[0].value : '',
+            type: prototype.type,
             value: (prototype.choices && prototype.choices.length > 0) ? prototype.choices[0].value : '',
             children: []
         };
@@ -151,7 +154,8 @@ var ExpressionBuilder = React.createClass({
 
         this.state.expressions[index].key = prototype.key;
         this.state.expressions[index].selector = prototype.selector;
-        this.state.expressions[index].constraint = prototype.constraints[0].value;
+        this.state.expressions[index].constraint = (prototype.constraints && prototype.constraints.length > 0) ? prototype.constraints[0].value : '';
+        this.state.expressions[index].type = prototype.type;
         this.state.expressions[index].value = (prototype.choices && prototype.choices.length > 0) ? prototype.choices[0].value : '';
 
         this.updateExpressions(this.state.expressions);

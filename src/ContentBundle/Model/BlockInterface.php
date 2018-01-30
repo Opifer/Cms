@@ -2,6 +2,8 @@
 
 namespace Opifer\ContentBundle\Model;
 
+use Doctrine\Common\Collections\ArrayCollection;
+
 interface BlockInterface
 {
     public function getId();
@@ -35,6 +37,11 @@ interface BlockInterface
     public function setDraft($draft);
 
     /**
+     * @return mixed
+     */
+    public function getValue();
+
+    /**
      * Should return an array of block properties.
      *
      * @return array
@@ -47,4 +54,19 @@ interface BlockInterface
      * @return ContentInterface
      */
     public function getContent();
+
+    /**
+     * @return \DateTime
+     */
+    public function getCreatedAt();
+
+    /**
+     * @return \DateTime
+     */
+    public function getUpdatedAt();
+
+    /**
+     * @return ArrayCollection|BlockInterface[]
+     */
+    public function getChildren();
 }

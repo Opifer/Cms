@@ -19,6 +19,7 @@ class SectionBlockService extends BaseService
         $builder->get('default')->add('media', MediaPickerType::class, [
             'required'  => false,
             'multiple' => false,
+            'label' => 'label.section_media',
             'attr' => array('label_col' => 12, 'widget_col' => 12),
         ]);
     }

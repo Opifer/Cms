@@ -10,6 +10,9 @@ fos_js_routing:
 opifer_revision:
     resource: '@OpiferRevisionsBundle/Resources/config/routing.yml'
 
+opifer_mailinglist:
+    resource: '@OpiferMailingListBundle/Resources/config/routing.yml'
+
 fos_user_security_check:
     path: /login_check
     defaults: { _controller: FOSUserBundle:Security:check }
@@ -34,6 +37,11 @@ opifer_cms_sitemap_sitemap:
     defaults: { _controller: OpiferCmsBundle:Frontend\Sitemap:sitemap, _format: xml }
     methods: [GET]
 
+opifer_cms_api:
+    resource: "@OpiferCmsBundle/Controller/Api"
+    type: rest
+    prefix: /api
+
 opifer_content:
     resource: "@OpiferContentBundle/Resources/config/routing.yml"
 
@@ -55,6 +63,10 @@ opifer_cms_auto_complete:
         expose: true
 
 # Third party bundle routing fallbacks
+
+NelmioApiDocBundle:
+    resource: "@NelmioApiDocBundle/Resources/config/routing.yml"
+    prefix:   /api/doc
 
 fos_user_register:
     resource: "@FOSUserBundle/Resources/config/routing/registration.xml"

@@ -17,7 +17,7 @@ class ColumnBlock extends CompositeBlock implements BlockContainerInterface
      *
      * @ORM\Column(type="integer", name="column_count", nullable=true)
      */
-    protected $columnCount;
+    protected $columnCount = 1;
 
     /**
      * @return string
@@ -32,18 +32,7 @@ class ColumnBlock extends CompositeBlock implements BlockContainerInterface
      */
     public function getBlockType()
     {
-        switch ($this->columnCount) {
-            case 1:
-                return 'column_one';
-            case 2:
-                return 'column_two';
-            case 3:
-                return 'column_three';
-            case 4:
-                return 'column_four';
-        }
-
-        return 'column_one';
+        return 'column';
     }
 
     /**

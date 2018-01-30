@@ -85,4 +85,13 @@ class BreadcrumbsBlockService extends AbstractBlockService implements BlockServi
 
         return $tool;
     }
+
+    /**
+     * @param BlockInterface $block
+     * @return mixed
+     */
+    public function getDescription(BlockInterface $block = null)
+    {
+        return 'Navigation path of current content';
+    }
 }

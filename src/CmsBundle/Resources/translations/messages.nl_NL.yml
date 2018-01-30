@@ -190,6 +190,7 @@ form:
     password_confirmation: Verifieer wachtwoord
     permalink: pagina url
     presentation: presentatie
+    field_mandatory: Dit veld is verplicht
     slug:
         label: "URL-vriendelijke naam"
         help_text: "gebruik alleen letters en getallen, geen spaties toegestaan. a-z0-9_-"
@@ -274,3 +275,7 @@ schema:
     post_notify: E-mail notificatie
     delete:
         warning: 'Dit template kan niet worden verwijderd. Het kan zijn dat deze nog gebruikt wordt door content items.'
+
+title:
+    translations: translations
+    locale: languages

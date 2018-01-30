@@ -26,7 +26,9 @@ class CookieWallBlockService extends AbstractBlockService implements BlockServic
     protected $session;
 
     /** @var array */
-    protected $blockIds = [];
+    protected $siteIds = [];
+
+    protected $esiEnabled = true;
 
     const SESSION_KEY = 'cookiewall-blocks';
 
@@ -37,7 +39,7 @@ class CookieWallBlockService extends AbstractBlockService implements BlockServic
         $this->session = $session;
 
         if ($session->has(self::SESSION_KEY)) {
-            $this->blockIds = $session->get(self::SESSION_KEY);
+            $this->siteIds = $session->get(self::SESSION_KEY);
         }
     }
 
@@ -58,13 +60,36 @@ class CookieWallBlockService extends AbstractBlockService implements BlockServic
 
     public function acceptCookiesAction($id)
     {
-        array_push($this->blockIds, $id);
-
-        $this->session->set(self::SESSION_KEY, $this->blockIds);
+        $this->setCookie($id);
 
         $response = new JsonResponse;
         $response->setData(['message' => 'Cookiewall block added to session']);
+
         return $response;
+    }
+
+    /**
+     * @param int $id The site ID
+     *
+     * Note: Uses a fixed ID for now, since multi-site is not supported yet.
+     */
+    public function setCookie($id)
+    {
+        array_push($this->siteIds, 1);
+
+        $this->session->set(self::SESSION_KEY, $this->siteIds);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function load(BlockInterface $block)
+    {
+        parent::load($block);
+
+        if (in_array(1, $this->siteIds)) {
+            $block->setAccepted(true);
+        }
     }
 
     /**
@@ -95,10 +120,19 @@ class CookieWallBlockService extends AbstractBlockService implements BlockServic
             'block'         => $block,
         ];
 
-        if (in_array($parameters['block']->getId(), $this->blockIds)) {
+        if (in_array(1, $this->siteIds)) {
             $parameters['closed'] = true;
         }
 
         return $parameters;
+    }
+
+    /**
+     * @param BlockInterface $block
+     * @return string
+     */
+    public function getDescription(BlockInterface $block = null)
+    {
+        return 'Dismissable message regarding EU cookies regulation';
     }
 }

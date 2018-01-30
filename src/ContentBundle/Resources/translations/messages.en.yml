@@ -1,19 +1,22 @@
 
 button:
-    submit: Save
     add: Add new
     all: Show all
+    block_share: Share block
     cancel: Cancel
     delete: Delete
     design: Design
     details: Details
     edit: Edit
     publish: Publish
-    block_share: Share block
+    read_more: Read more
+    submit: Save
 
 help:
     active: Status of publication of the content item where inactive means the content is not public accessible
     alias: Enter a shortened url as alias for this page (optional)
+    block_display_name: The human readable reference name of this block
+    block_name: Reference name to this block. Only for application purposes.
     block_template: Pick a template to change how this block is displayed
     column_spans: Width of columns at a maximum of 16 units
     column_gutters: Width of spacing between columns (px)
@@ -22,9 +25,10 @@ help:
     content_description: Describe your page in a few important keywords
     content_short_title: Short version of the title, used in navigation
     content_title: The title of the page is displayed in the browser tab and in searchengines
+    content_language: The content language
     extra_classes: Apply custom CSS classes to the block
     html_id: 'Set an html #id to the block'
-    html_styles: Apply extra (css) styles to this block
+    html_styles: Apply extra (css) predefined styles to this block
     indexable: Allow search engines to index this page
     levels: The amount of layers deep the data has to be fetched. `1` for only top-level content.
     searchable: Allow this page to end up in search results
@@ -32,25 +36,67 @@ help:
     show_in_navigation: If checked this page will be visible in navigation blocks if the selected options and level allows
     slug: Use only letters and numbers, no spaces allowed a-z0-9_-
     template: Choose a template as your starting point to create content with
+    list_horizontal_scroll: Enable a horizontal scroll list.
+    list_display_type: Choose list if you want items displayed as rows, and cards if you want your items to resemble tiles.
+    list_display_size: Sizing of each list item
+    list_image_ratio: Ratio defines in which proportions your image will be cropped and displayed.
+    block_social_title: Custom title for sharing by mail
+    block_social_text: Custom text for sharing by mail
+    column_count: Number of columns for this block.
+    alert_message: Text for shown alert message.
+    button_label: Text shown on button.
+    button_url: Url where the button goes to.
+    button_target: The target attribute specifies where to open the linked document.
+    css_code: Add custom CSS code.
+    javascript_code: Add custom JavaScript code.
+    carouselslide_media: Add media item to carousel slide.
+    carouselslide_rich_text: Add some text to carousel slide.
+    carousel_controls: Show arrow on the left and right side of the slides to switch between them.
+    carousel_indicator: Indicates position of the shown slide in carousel.
+    download_media: Select content or media file for download.
+    image_filter: Select image display size.
+    jumbotron_media: Select media item to display in jumbotron.
+    jumbotron_rich_text: Add some text to jumbotron.
+    login_redirect: Choose page to redirect to after user successfully logged in.
+    register_content_item: Choose registration page.
+    subscribe_response_type: After subscription show message or redirect to page.
+    subscribe_message: Message shown after subscription.
+    subscribe_redirect: Select page to redirect to after subscription.
+    iframe_url: URL that should be loaded in an iFrame.
+    tabs_add_tab: Add a new tab or drag to order tabs. Every new tab creates a new placeholder to put content blocks in.
+    publish_at: Set a date to publish content.
+    gallery_media: Select multiple images or videos.
+    html_rich_text: Click to edit & write rich text content.
+    section_header: Click to edit & write rich text content in header.
+    section_footer: Click to edit & write rich text content in footer.
+    list_content_picker: Manually pick content items to put in your list.
+    card_content_picker: Pick content item to use data of this item instead of  header, body and media.
+    content_medias: This is the default image that will be shown when this page is used in a card, list, etc.
+    autoplay: Should the video start automatically, this has only effect when a video is used
+    loop: Should the video be played in a loop, this has only effect when a video is used
 
 label:
     block: Block
+    body: Body
     content: Content
     column.xs: xs
     column.sm: sm
     column.md: md
     column.lg: lg
+    column.xl: xl
     container_sizing: Container width
     container_fluid: Complete width (stretched)
     container_smooth: Fluid width (stretched)
     container_fixed: Fixed width (fixed)
     custom: Custom
     description: Description
+    display_name: Display Name
     footer: Footer
     gutter.xs: Gutter xs
     gutter.sm: Gutter sm
     gutter.md: Gutter md
     gutter.lg: Gutter lg
+    gutter.xl: Gutter xl
     gutters: Gutter width
     header: Header
     indexable: Indexable
@@ -67,6 +113,7 @@ label:
     title: Title
     caption: Caption
     message: Message
+    language: language
     code: Code
     tabs: Tabs
     width: Width
@@ -79,6 +126,21 @@ label:
     register_url: Register url
     login_content_item: Login Content item
     register_content_item: Register Content item
+    list_horizontal_scroll: Horizontal scroll
+    list_display_type: Display type
+    list_display_size: Display size
+    list_image_ratio: Image ratio
+    social_title: E-mail subject
+    social_text: E-mail text
+    background_color: Background color
+    column_count: Columns
+    url: Url
+    target: Target
+    login_redirect_content_item: Login redirect
+    publish_at: Publish date
+    section_media: Background
+    columnblock: Columns
+    target: Target
 
 link:
     default: Default
@@ -91,6 +153,7 @@ placeholder:
     slug: Unique permalink slug for this page
     default: Default
     tab_label: Name
+    tab_parameters: Parameters
     name: Name
     display_name: Display Name
     provider: Provider
@@ -106,6 +169,11 @@ title:
 
 warning:
     block_shared_edit: 'This is a shared block. <br /><span class="small">Shared blocks need publishing individually.</span>'
+
+caption:
+    columnblock: Divide content in columns
+description:
+    columnblock: Divide your content by 1-4 responsive columns. Generates placeholders for content for each column.
 
 # Content
 content:

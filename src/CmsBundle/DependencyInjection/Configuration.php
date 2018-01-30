@@ -87,20 +87,6 @@ class Configuration implements ConfigurationInterface
                 ->arrayNode('blocks')
                     ->addDefaultsIfNotSet()
                     ->children()
-                        ->arrayNode('form')
-                            ->addDefaultsIfNotSet()
-                            ->children()
-                                ->scalarNode('view')->defaultValue('OpiferCmsBundle:Block:Content/form.html.twig')->end()
-                                ->arrayNode('templates')
-                                    ->prototype('scalar')->end()
-                                    ->normalizeKeys(false)
-                                    ->useAttributeAsKey('name')
-                                    ->defaultValue([
-                                        'default' => 'Default'
-                                    ])
-                                ->end()
-                            ->end()
-                        ->end()
                         ->arrayNode('login')
                             ->addDefaultsIfNotSet()
                             ->children()
@@ -110,6 +96,7 @@ class Configuration implements ConfigurationInterface
                     ->end()
                 ->end()
 
+                ->scalarNode('google_tag_manager_key')->defaultNull()->end()
                 ->scalarNode('google_captcha_site_key')->defaultNull()->end()
                 ->scalarNode('google_captcha_secret')->defaultNull()->end()
 

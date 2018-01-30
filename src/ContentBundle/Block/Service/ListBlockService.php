@@ -10,14 +10,14 @@ use Opifer\ContentBundle\Entity\ListBlock;
 use Opifer\ContentBundle\Form\Type\ContentListPickerType;
 use Opifer\ContentBundle\Model\BlockInterface;
 use Opifer\ContentBundle\Model\ContentManagerInterface;
-use Symfony\Bundle\FrameworkBundle\Templating\EngineInterface;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\FormType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
- * List Block Service
+ * List Block Service.
  */
 class ListBlockService extends AbstractBlockService implements BlockServiceInterface, ToolsetMemberInterface
 {
@@ -25,9 +25,18 @@ class ListBlockService extends AbstractBlockService implements BlockServiceInter
     protected $contentManager;
 
     /**
-     * @param BlockRenderer $blockRenderer
-     * @param EntityManager   $em
-     * @param array           $config
+     * Enables ESI so lists are updated correctly when child content changes
+     *
+     * @var bool
+     */
+    protected $esiEnabled = true;
+
+    /**
+     * Constructor
+     *
+     * @param BlockRenderer           $blockRenderer
+     * @param ContentManagerInterface $contentManager
+     * @param array                   $config
      */
     public function __construct(BlockRenderer $blockRenderer, ContentManagerInterface $contentManager, array $config)
     {
@@ -43,56 +52,70 @@ class ListBlockService extends AbstractBlockService implements BlockServiceInter
     {
         parent::buildManageForm($builder, $options);
 
-        $propertiesForm = $builder->create('properties', FormType::class)
-            ->add('id', TextType::class, ['attr' => ['help_text' => 'help.html_id']])
-            ->add('extra_classes', TextType::class, ['attr' => ['help_text' => 'help.extra_classes']]);
-
         // Default panel
-        $builder->add(
-            $builder->create('default', FormType::class, ['inherit_data' => true])
-                ->add('title',  'text', [
-                    'label' => 'label.title',
-                ])
-                ->add('value',  ContentListPickerType::class, [
-                    'label'    => 'label.content',
-                ])
-        )->add(
-            $propertiesForm->add('template', ChoiceType::class, [
-                'label'       => 'label.template',
-                'placeholder' => 'placeholder.choice_optional',
-                'attr'        => ['help_text' => 'help.block_template'],
-                'choices'     => $this->config['templates'],
-                'required'    => false,
+        $builder->get('default')
+            ->add('title',  TextType::class, [
+                'label' => 'label.display_name',
+                'attr' => [
+                    'help_text' => 'help.block_display_name',
+                    'tag' => 'settings'
+                ],
+                'required' => false
             ])
-        );
+            ->add('value',  ContentListPickerType::class, [
+                'label' => 'label.content',
+                'required' => false,
+                'attr' => [
+                    'help_text' => 'help.list_content_picker',
+                ]
+            ]);
 
+        $builder->get('properties')
+            ->add('id', TextType::class, ['attr' => ['help_text' => 'help.html_id'],'required' => false])
+            ->add('extra_classes', TextType::class, ['attr' => ['help_text' => 'help.extra_classes'],'required' => false]);
+
+        if ($this->config['templates'] && count($this->config['templates'])) {
+            $builder->get('properties')
+                ->add('template', ChoiceType::class, [
+                    'label' => 'label.template',
+                    'placeholder' => 'placeholder.choice_optional',
+                    'attr' => ['help_text' => 'help.template','tag' => 'styles'],
+                    'choices' => $this->config['templates'],
+                    'required' => false,
+            ]);
+        }
 
         if ($this->config['styles']) {
-            $propertiesForm->add('styles', ChoiceType::class, [
+            $builder->get('properties')->add('styles', ChoiceType::class, [
                 'label' => 'label.styling',
-                'choices'  => $this->config['styles'],
+                'choices' => $this->config['styles'],
                 'required' => false,
                 'expanded' => true,
                 'multiple' => true,
-                'attr' => ['help_text' => 'help.html_styles'],
+                'attr' => ['help_text' => 'help.html_styles', 'tag' => 'styles'],
             ]);
         }
     }
 
     /**
-     * @param BlockInterface $block
+     * We load the collection on the Execute instead of the Load method to avoid loading the collection
+     * on API serialisation.
+     *
+     * {@inheritdoc}
      */
-    public function load(BlockInterface $block)
+    public function execute(BlockInterface $block, Response $response = null, array $parameters = [])
     {
         $collection = $this->contentManager->getRepository()->findOrderedByIds(json_decode($block->getValue()));
 
         if ($collection) {
             $block->setCollection($collection);
         }
+
+        return parent::execute($block, $response, $parameters);
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function createBlock()
     {
@@ -100,7 +123,7 @@ class ListBlockService extends AbstractBlockService implements BlockServiceInter
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getTool(BlockInterface $block = null)
     {
@@ -110,5 +133,14 @@ class ListBlockService extends AbstractBlockService implements BlockServiceInter
             ->setDescription('Adds references to a collection of content items');
 
         return $tool;
+    }
+
+    /**
+     * @param BlockInterface $block
+     * @return string
+     */
+    public function getDescription(BlockInterface $block = null)
+    {
+        return 'Adds references to a collection of content items';
     }
 }

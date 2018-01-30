@@ -30,6 +30,8 @@ class ContentRepository extends BaseContentRepository
     {
         $query = $this->createQueryBuilder('c')
             ->orderBy('c.updatedAt', 'DESC')
+            ->where('c.layout = :layout')
+            ->setParameter(':layout', false)
             ->setMaxResults($limit)
             ->getQuery();
 
@@ -63,8 +65,10 @@ class ContentRepository extends BaseContentRepository
         return $this->createQueryBuilder('c')
             ->where('c.indexable = :indexable')
             ->Andwhere('c.active = :active')
+            ->Andwhere('c.layout = :layout')
             ->setParameters([
                 'active' => true,
+                'layout' => false,
                 'indexable' => true
             ])
             ->orderBy('c.slug', 'ASC')

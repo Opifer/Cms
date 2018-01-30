@@ -8,17 +8,17 @@
             "email": "info@opifer.nl"
         }
     ],
-    "minimum-stability": "dev",
     "require": {
         "php": ">=5.5.9",
         "symfony/symfony": "^3.0",
         "doctrine/orm": "^2.5",
         "doctrine/doctrine-bundle": "^1.6",
-        "doctrine/doctrine-cache-bundle": "^1.2",
+        "twig/extensions": "~1.2",
+        "twig/twig": "~1.23",
         "symfony/swiftmailer-bundle": "~2.3",
         "symfony/monolog-bundle": "~2.8",
         "sensio/distribution-bundle": "~5.0",
-        "sensio/framework-extra-bundle": "~3.0.2",
+        "sensio/framework-extra-bundle": "~3.0",
         "incenteev/composer-parameter-handler": "~2.0",
 
         "artscorestudio/datagrid-bundle": "3.0.0",
@@ -27,6 +27,7 @@
         "doctrine/doctrine-migrations-bundle": "~1.0",
         "drewm/mailchimp-api": "^2.2",
         "friendsofsymfony/jsrouting-bundle": "~1.5",
+        "friendsofsymfony/rest-bundle": "^2.1",
         "friendsofsymfony/user-bundle": "~2.0@dev",
         "gedmo/doctrine-extensions": "~2.3",
         "google/recaptcha": "~1.1",
@@ -35,14 +36,17 @@
         "jms/serializer-bundle": "~1.0",
         "knplabs/knp-gaufrette-bundle": "*@dev",
         "knplabs/knp-menu-bundle":"~2.0",
+        "lexik/jwt-authentication-bundle": "^2.0",
         "liip/imagine-bundle": "~1.6",
         "mtdowling/cron-expression": "1.0.*",
+        "nelmio/api-doc-bundle": "^2.13",
+        "nelmio/cors-bundle": "^1.5",
         "opifer/revisions": "@dev",
         "pagerfanta/pagerfanta": "^1.0.3",
         "symfony-cmf/routing-bundle": "2.0.x-dev",
-        "twig/extensions": "~1.2",
         "webmozart/expression": "^1.0",
-        "willdurand/js-translation-bundle": "~2.2"
+        "willdurand/js-translation-bundle": "~2.2",
+        "lexik/translation-bundle": "^4.0"
     },
     "require-dev": {
         "phpunit/phpunit": "~5.2",

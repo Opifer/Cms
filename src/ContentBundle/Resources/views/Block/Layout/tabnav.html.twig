@@ -1,11 +1,15 @@
-<ul class="nav nav-tabs" {{ manage_tags() }}>
-    {% for tab_key, tab_name in block.properties.tabs|default([]) %}
-    <li role="presentation" class="{% if loop.first %}active{% endif %}"><a href="#tab-{{ block.properties.id|default(block.id) }}-{{ tab_key }}" aria-controls="tab-{{ block.properties.id|default(block.id) }}-{{ tab_key }}" role="tab" data-toggle="tab">{{ tab_name }}</a></li>
-    {% endfor %}
-</ul>
+<div class="clearfix m-y-md {% if block.properties.template|default('tabs-vertical') == 'tabs-horizontal' %}tabs-horizontal{% elseif block.properties.template|default('tabs-vertical') == 'tabs-vertical' %}tabs-vertical{% endif %}" {{ manage_tags() }}>
+    <ul class="nav nav-tabs {% if block.properties.template|default('tabs-vertical') == 'tabs-vertical' %}nav-stacked{% endif %}">
+        {% for tab in block.properties.tabs|default([]) %}
+            <li role="presentation" class="{% if loop.first %}active{% endif %}"><a href="#tab-{{ block.properties.id|default(block.id) }}-{{ tab.key }}" aria-controls="tab-{{ block.properties.id|default(block.id) }}-{{ tab.key }}" role="tab" data-toggle="tab">{{ tab.label }}</a></li>
+        {% endfor %}
+    </ul>
 
-<div class="tab-content">
-    {% for tab_key, tab_name in block.properties.tabs|default([]) %}
-        <div role="tabpanel" class="tab-pane {% if loop.first %}active{% endif %}" id="tab-{{ block.properties.id|default(block.id) }}-{{ tab_key }}">{{ render_placeholder(tab_key) }}</div>
-    {% endfor %}
+    <div class="tab-content">
+        {% for tab in block.properties.tabs|default([]) %}
+            <div role="tabpanel" class="tab-pane {% if loop.first %}active{% endif %}" id="tab-{{ block.properties.id|default(block.id) }}-{{ tab.key }}">
+                {{ render_placeholder(tab.key) }}
+            </div>
+        {% endfor %}
+    </div>
 </div>

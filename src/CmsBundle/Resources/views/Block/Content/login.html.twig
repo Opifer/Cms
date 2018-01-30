@@ -3,7 +3,7 @@
     <p>Logged in as <strong>{{ app.user.username }}</strong>!</p>
     </div>
 {% else %}
-    <div class="col-xs-12 col-md-8 offset-md-2 {{ manage_tags() }}">
+    <div class="col-xs-12 col-md-8 offset-md-2" {{ manage_tags() }}>
         <h1 class="">{{ block.value|raw }}</h1>
 
         {% if error is defined and error is not null %}
@@ -17,6 +17,7 @@
             </div>
         </div>
 
+        {% if block.properties.allowEmail|default %}
         <form action="{{ path("fos_user_security_check") }}" method="post" role="form">
             <input type="hidden" name="_csrf_token" value="{{ csrf_token }}" />
             <div class="form-group row">
@@ -67,5 +68,6 @@
                 </div>
             </div>
         </form>
+        {% endif %}
     </div>
 {% endif %}

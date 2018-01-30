@@ -153,3 +153,31 @@
 {% block opifer_cms_icon_widget %}
     <button class="btn btn-default icon-picker" role="iconpicker" data-icon="{{ form.vars.value }}" name="{{ form.vars.full_name }}" data-iconset="materialdesign_2" data-target="{{ form.vars.id }}"></button>
 {% endblock opifer_cms_icon_widget %}
+
+{% block radio_row %}
+    {# Adds an active classname to radio labels #}
+    {% if data %}
+        {% set label_attr = label_attr|merge({'class': (label_attr.class|default('') ~ ' active')|trim}) %}
+    {% endif %}
+    {{ parent() }}
+{% endblock radio_row %}
+
+
+
+{% block choice_widget_expanded %}
+    {% if attr.buttongroup|default %}
+        {% spaceless %}
+            <div {% if id is not empty %}id="{{ id }}" {% endif %} data-toggle="buttons" class="btn-group">
+                {% for child in form %}
+                    {% if form.multiple is defined %}
+                        {{ checkbox_row(child, { 'no_form_group': true, 'inline' : (attr.inline is defined and attr.inline), 'label_attr': {'class': 'btn btn-default'} }) }}
+                    {% else %}
+                        {{ radio_row(child, { 'no_form_group': true, 'inline' : true, 'label_attr': {'class': 'btn btn-default'} }) }}
+                    {% endif %}
+                {% endfor %}
+            </div>
+        {% endspaceless %}
+    {% else %}
+        {{ parent() }}
+    {% endif %}
+{% endblock choice_widget_expanded %}

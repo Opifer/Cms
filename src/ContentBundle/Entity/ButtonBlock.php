@@ -19,6 +19,14 @@ class ButtonBlock extends Block
      * @Revisions\Revised
      * @ORM\Column(type="text", nullable=true)
      */
+    protected $name;
+
+    /**
+     * @var string
+     *
+     * @Revisions\Revised
+     * @ORM\Column(type="text", nullable=true)
+     */
     protected $value;
 
     /**

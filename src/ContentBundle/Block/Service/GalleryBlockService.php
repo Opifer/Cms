@@ -45,30 +45,31 @@ class GalleryBlockService extends AbstractBlockService implements BlockServiceIn
     {
         parent::buildManageForm($builder, $options);
 
-        $propertiesForm = $builder->create('properties', FormType::class)
-            ->add('id', TextType::class, ['attr' => ['help_text' => 'help.html_id']])
-            ->add('extra_classes', TextType::class, ['attr' => ['help_text' => 'help.extra_classes']]);
+        $builder->get('default')
+            ->add('value',  MediaPickerType::class, [
+                'to_json' => true,
+                'multiple' => true,
+                'label'    => 'Media',
+                'required' => false,
+                'attr'     => ['help_text' => 'help.gallery_media'],
+            ])
+        ;
+
+        $builder->get('properties')
+            ->add('id', TextType::class, ['attr' => ['help_text' => 'help.html_id'],'required' => false])
+            ->add('extra_classes', TextType::class, ['attr' => ['help_text' => 'help.extra_classes'],'required' => false])
+        ;
 
         if (isset($this->config['templates'])) {
-            $propertiesForm->add('template', ChoiceType::class, [
-                'label'       => 'label.template',
-                'placeholder' => 'placeholder.choice_optional',
-                'attr'        => ['help_text' => 'help.block_template'],
-                'choices'     => $this->config['templates'],
-                'required'    => false,
+            $builder->get('properties')
+                ->add('template', ChoiceType::class, [
+                    'label'       => 'label.template',
+                    'placeholder' => 'placeholder.choice_optional',
+                    'attr'        => ['help_text' => 'help.block_template','tag' => 'styles'],
+                    'choices'     => $this->config['templates'],
+                    'required'    => false,
             ]);
         }
-
-        $builder->add(
-             $builder->create('default', FormType::class, ['inherit_data' => true])
-                 ->add('value',  MediaPickerType::class, [
-                     'to_json' => true,
-                     'multiple' => true,
-                     'label'    => 'label.media',
-                 ])
-         )->add(
-            $propertiesForm
-        );
     }
 
     /**
@@ -84,7 +85,7 @@ class GalleryBlockService extends AbstractBlockService implements BlockServiceIn
 
         $gallery = $this->mediaManager->getRepository()->findByIds($ids);
 
-        uasort($gallery, function ($a, $b) use ($ids) {
+        usort($gallery, function ($a, $b) use ($ids) {
             return (array_search($a->getId(), $ids) > array_search($b->getId(), $ids));
         });
 
@@ -112,5 +113,14 @@ class GalleryBlockService extends AbstractBlockService implements BlockServiceIn
             ->setDescription('A collection of media thumbnails');
 
         return $tool;
+    }
+
+    /**
+     * @param BlockInterface $block
+     * @return string
+     */
+    public function getDescription(BlockInterface $block = null)
+    {
+        return 'A collection of media thumbnails';
     }
 }
