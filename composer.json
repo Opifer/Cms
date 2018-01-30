@@ -43,7 +43,7 @@
         "nelmio/cors-bundle": "^1.5",
         "opifer/revisions": "@dev",
         "pagerfanta/pagerfanta": "^1.0.3",
-        "symfony-cmf/routing-bundle": "2.0.x-dev",
+        "symfony-cmf/routing-bundle": "~2.0.3",
         "webmozart/expression": "^1.0",
         "willdurand/js-translation-bundle": "~2.2",
         "lexik/translation-bundle": "^4.0"
