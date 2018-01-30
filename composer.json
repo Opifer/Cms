@@ -22,7 +22,7 @@
         "incenteev/composer-parameter-handler": "~2.0",
 
         "artscorestudio/datagrid-bundle": "3.0.0",
-        "aws/aws-sdk-php": "^3.52.2",
+        "aws/aws-sdk-php": "^3.52.0",
         "braincrafted/bootstrap-bundle": "~2.2.0",
         "doctrine/doctrine-migrations-bundle": "~1.0",
         "drewm/mailchimp-api": "^2.2",
