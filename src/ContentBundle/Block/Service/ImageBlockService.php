@@ -51,7 +51,7 @@ class ImageBlockService extends AbstractBlockService implements BlockServiceInte
 
         // Default panel
         $builder->add(
-            $builder->create('default', FormType::class, ['virtual' => true])
+            $builder->create('default', FormType::class, ['inherit_data' => true])
                 ->add('media', MediaPickerType::class, [
                     'required'  => false,
                     'multiple' => false,
@@ -63,17 +63,14 @@ class ImageBlockService extends AbstractBlockService implements BlockServiceInte
                 ->add('extra_classes', TextType::class, ['attr' => ['help_text' => 'help.extra_classes']])
                 ->add('filter', ChoiceType::class, [
                     'choices' => $this->getAvailableFilters(),
-                    'choices_as_values' => true,
                     'attr' => ['help_text' => 'help.image_filter']
                 ])
                 ->add('enlarge', ChoiceType::class, [
                     'choices' => ['No' => false, 'Yes' => true],
-                    'choices_as_values' => true,
                     'attr' => ['help_text' => 'help.image_enlarge']
                 ])
                 ->add('enlarge_filter', ChoiceType::class, [
                     'choices' => $this->getAvailableFilters(),
-                    'choices_as_values' => true,
                     'required' => false,
                     'attr' => ['help_text' => 'help.image_enlarge_filter']
                 ])

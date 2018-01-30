@@ -56,7 +56,6 @@ class MailingListType extends AbstractType
                     'MailChimp' => 'mailchimp',
                     'Mailplus' => 'mailplus',
                 ],
-                'choices_as_values' => true,
                 'attr' => [
                     'placeholder' => 'placeholder.provider',
                 ],

@@ -44,7 +44,7 @@ class SiteController extends Controller
     {
         $site = new Site();
 
-        $form = $this->createForm(new SiteType(), $site);
+        $form = $this->createForm(SiteType::class, $site);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -71,7 +71,7 @@ class SiteController extends Controller
         $em = $this->getDoctrine()->getManager();
         $site = $em->getRepository('OpiferCmsBundle:Site')->find($id);
 
-        $form = $this->createForm(new SiteType(), $site);
+        $form = $this->createForm(SiteType::class, $site);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {

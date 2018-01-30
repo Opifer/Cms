@@ -73,7 +73,6 @@ class CollectionBlockService extends AbstractBlockService implements BlockServic
                         'Creation Date' => 'createdAt',
                         'Title' => 'title',
                     ],
-                    'choices_as_values' => true,
                 ])
                 ->add('order_direction', ChoiceType::class, [
                     'label' => 'Order direction',
@@ -81,7 +80,6 @@ class CollectionBlockService extends AbstractBlockService implements BlockServic
                         'Ascending' => 'ASC',
                         'Descending' => 'DESC',
                     ],
-                    'choices_as_values' => true,
                 ])
                 ->add('limit', IntegerType::class)
                 ->add('template', ChoiceType::class, [

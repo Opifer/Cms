@@ -67,7 +67,7 @@ class TabNavBlockService extends AbstractBlockService implements LayoutBlockServ
                 'sub_widget_col'=> 8,
                 'button_col'    => 4,
                 'attr'          => ['class' => 'sortable-tabnav'],
-                'options'       => ['attr' => ['style' => 'inline']],
+                'entry_options'       => ['attr' => ['style' => 'inline']],
             ])
             ->add('id', TextType::class, ['attr' => ['help_text' => 'help.html_id']])
             ->add('extra_classes', TextType::class, ['attr' => ['help_text' => 'help.extra_classes']]);

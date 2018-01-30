@@ -65,7 +65,7 @@ class FormBlockService extends AbstractBlockService implements BlockServiceInter
         }
 
         $builder->add(
-            $builder->create('default', FormType::class, ['virtual' => true])
+            $builder->create('default', FormType::class, ['inherit_data' => true])
                 ->add('form', EntityType::class, [
                     'class' => 'OpiferCmsBundle:Form',
                     'choice_label' => 'name',

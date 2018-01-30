@@ -3,6 +3,7 @@
 namespace Opifer\ContentBundle\Form\Type;
 
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
@@ -25,7 +26,7 @@ class ColumnEnumType extends AbstractType
             $columnCount = $form->getParent()->getConfig()->getOption('column_count');
 
             for ($i = 0; $i < $columnCount; $i++) {
-                $form->add($i, 'number');
+                $form->add($i, NumberType::class);
             }
         });
 

@@ -52,14 +52,13 @@ class NavigationBlockService extends AbstractBlockService implements BlockServic
 
         // Default panel
         $builder->add(
-            $builder->create('default', FormType::class, ['virtual' => true])
+            $builder->create('default', FormType::class, ['inherit_data' => true])
                 ->add('value', ChoiceType::class, [
                     'label' => 'label.navigation_block_value',
                     'choices' => [
                         'Top level pages' => NavigationBlock::CHOICE_TOP_LEVEL,
                         'Custom selection' => NavigationBlock::CHOICE_CUSTOM
                     ],
-                    'choices_as_values' => true,
                     'attr' => ['class' => 'toggle-content-picker']
                 ])
                 ->add(

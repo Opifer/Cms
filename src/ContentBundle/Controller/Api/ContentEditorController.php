@@ -347,7 +347,9 @@ class ContentEditorController extends Controller
 
         $service->preFormSubmit($block);
 
-        $form = $this->createForm(new BlockAdapterFormType($service), $block);
+        $form = $this->createForm(BlockAdapterFormType::class, $block,[
+            'custom_value' => $service,
+        ]);
         $form->handleRequest($request);
 
         if ($form->isValid()) {

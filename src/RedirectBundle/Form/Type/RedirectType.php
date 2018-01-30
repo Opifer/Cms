@@ -34,7 +34,7 @@ class RedirectType extends AbstractType
                 ]
             ])
             ->add('requirements', CollectionType::class, [
-                'type' => RequirementType::class,
+                'entry_type' => RequirementType::class,
                 'allow_add' => true,
                 'allow_delete' => true,
                 'by_reference' => false,

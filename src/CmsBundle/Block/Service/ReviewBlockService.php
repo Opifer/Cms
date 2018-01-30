@@ -45,7 +45,7 @@ class ReviewBlockService extends AbstractBlockService implements BlockServiceInt
     {
         parent::buildManageForm($builder, $options);
 
-        $builder->add($builder->create('default', FormType::class, ['virtual' => true])
+        $builder->add($builder->create('default', FormType::class, ['inherit_data' => true])
 
         )->add($builder->create('properties', FormType::class)
             ->add('limit', IntegerType::class, ['label' => 'label.limit', 'attr' => ['help_text' => 'help.limit']])

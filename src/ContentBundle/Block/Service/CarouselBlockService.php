@@ -38,11 +38,9 @@ class CarouselBlockService extends AbstractBlockService implements BlockServiceI
                 ->add('extra_classes', TextType::class, ['attr' => ['help_text' => 'help.extra_classes']])
                 ->add('show_indicators', ChoiceType::class, [
                     'choices' => ['Yes' => true, 'No' => false],
-                    'choices_as_values' => true,
                 ])
                 ->add('show_controls', ChoiceType::class, [
                     'choices' => ['Yes' => true, 'No' => false],
-                    'choices_as_values' => true,
                 ])
         );
     }

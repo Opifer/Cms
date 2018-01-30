@@ -48,7 +48,7 @@ class DownloadsBlockService extends AbstractBlockService implements BlockService
         parent::buildManageForm($builder, $options);
 
         $builder->add(
-            $builder->create('default', FormType::class, ['virtual' => true])
+            $builder->create('default', FormType::class, ['inherit_data' => true])
                 ->add('value', MediaPickerType::class, [
                     'to_json' => true,
                     'multiple' => true,
