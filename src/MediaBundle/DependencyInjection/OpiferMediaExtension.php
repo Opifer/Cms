@@ -124,7 +124,7 @@ class OpiferMediaExtension extends Extension implements PrependExtensionInterfac
                                 'aws_s3' => [
                                     'service_id' => 'opifer.media.aws_s3.client',
                                     'bucket_name' => $config['storages']['aws_s3']['bucket'],
-                                    'entry_options' => [
+                                    'options' => [
                                         'directory' => 'originals',
                                         'acl' => 'public-read',
                                     ],
