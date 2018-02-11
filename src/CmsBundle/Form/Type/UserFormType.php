@@ -42,7 +42,6 @@ class UserFormType extends AbstractType
                     'form.options.disable' => false,
                 ],
                 'choices_as_values' => true,
-                'data' => true,
             ])
             ->add('roles', ChoiceType::class, [
                 'multiple' => true,
