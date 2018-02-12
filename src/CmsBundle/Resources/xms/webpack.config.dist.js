@@ -29,15 +29,13 @@ module.exports = {
         DEBUG: false,
       },
     }),
-    // new webpack.optimize.DedupePlugin(),
-    new webpack.optimize.UglifyJsPlugin(),
     new webpack.NoErrorsPlugin(),
-    new webpack.ProvidePlugin({
-      $: 'jquery',
-      jQuery: 'jquery',
-      'window.jQuery': 'jquery',
-      'window.Tether': 'tether',
-    }),
+    // new webpack.ProvidePlugin({
+    //   $: 'jquery',
+    //   jQuery: 'jquery',
+    //   'window.jQuery': 'jquery',
+    //   'window.Tether': 'tether',
+    // }),
   ],
   stats: {
     progress: true,

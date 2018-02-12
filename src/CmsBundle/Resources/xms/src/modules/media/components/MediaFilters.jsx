@@ -35,11 +35,12 @@ class MediaFilters extends Component {
   }
 }
 
-export default connect(
+export default reduxForm({
+  form: 'media-filters',
+  enableReinitialize: true,
+})(connect(
   null,
   (dispatch) => ({
     fetchItems: (filters) => dispatch(getItems(filters, true)),
   })
-)(reduxForm({
-  form: 'media-filters',
-})(MediaFilters));
+)(MediaFilters));

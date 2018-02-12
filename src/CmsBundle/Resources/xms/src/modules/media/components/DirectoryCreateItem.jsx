@@ -4,26 +4,13 @@ import { reset, Field, reduxForm } from 'redux-form';
 import { createDirectory } from '../actions';
 
 class DirectoryCreateItem extends Component {
-  static propTypes = {
-  };
-
-  constructor(props) {
-    super(props);
-
-    this.onSubmit = this.onSubmit.bind(this);
-  }
-
-  onSubmit(values) {
-    this.props.onCreateDirectory(values);
-  }
-
   render() {
-    const { handleSubmit } = this.props;
+    const { handleSubmit, onCreateDirectory } = this.props;
 
     return (
       <form
         className="item item-directory-new thumbnail"
-        onSubmit={handleSubmit(this.onSubmit)}
+        onSubmit={handleSubmit(onCreateDirectory)}
       >
         <div className="directory-tab" />
         <div className="directory-body">
@@ -40,14 +27,20 @@ class DirectoryCreateItem extends Component {
   }
 }
 
-export default connect(
-  null,
-  (dispatch, ownProps) => ({
-    onCreateDirectory: (values) => {
-      dispatch(createDirectory(values));
-      dispatch(reset('directory'));
-    }
-  })
-)(reduxForm({
+DirectoryCreateItem.propTypes = {
+  handleSubmit: PropTypes.func,
+  onCreateDirectory: PropTypes.func,
+};
+
+export default reduxForm({
   form: 'directory',
-})(DirectoryCreateItem));
+  enableReinitialize: true,
+})(connect(
+  null,
+  (dispatch) => ({
+    onCreateDirectory: (values) => {
+      dispatch(createDirectory(values))
+        .then(() => dispatch(reset('directory')));
+    },
+  })
+)(DirectoryCreateItem));

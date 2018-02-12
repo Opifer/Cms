@@ -41,7 +41,7 @@ export function addDirectories(directories) {
   return (dispatch) => {
     const normalizedDirs = normalize(directories, arrayOf(directorySchema));
 
-    dispatch(setEntities(normalizedDirs));
+    return dispatch(setEntities(normalizedDirs));
   };
 }
 
@@ -141,12 +141,8 @@ export function createDirectory(data) {
     }
 
     return api.post(data, 'directories', dispatch)
-      .then(response => {
-        dispatch(addDirectories([response]));
-      })
-      .catch(error => {
-
-      });
+      .then(response => dispatch(addDirectories([response])))
+      .catch(error => console.error('Could not create directory', error));
   };
 }
 
