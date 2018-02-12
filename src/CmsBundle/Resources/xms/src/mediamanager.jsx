@@ -27,9 +27,9 @@ Object.keys(elements).forEach(i => {
     element
   );
 
-  const RootComponent = require('./modules/media/components/MediaManager').default;
-
   if (module.hot) {
+    const RootComponent = require('./modules/media/components/MediaManager').default;
+
     module.hot.accept(RootComponent, () => {
       render(
         <AppContainer>

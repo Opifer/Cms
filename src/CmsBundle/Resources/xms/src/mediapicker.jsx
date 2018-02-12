@@ -29,9 +29,9 @@ window.initializeMediaPicker = () => {
       element
     );
 
-    const RootComponent = require('./modules/media/components/MediaPicker').default;
-
     if (module.hot) {
+      const RootComponent = require('./modules/media/components/MediaPicker').default;
+
       module.hot.accept(RootComponent, () => {
         render(
           <AppContainer>
