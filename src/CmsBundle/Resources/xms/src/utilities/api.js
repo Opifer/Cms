@@ -6,9 +6,11 @@ const defaultHeaders = {
   'Content-Type': 'application/json',
 };
 
+const api = `${(process.env.NODE_ENV === 'production') ? '' : '/app_dev.php'}/admin/api`;
+
 export function put(values, url, dispatch) {
   const token = localStorage.getItem('token');
-  return fetch(`/app_dev.php/admin/api/${url}`, {
+  return fetch(`${api}/${url}`, {
     credentials: 'include',
     method: 'put',
     headers: {
@@ -31,7 +33,7 @@ export function put(values, url, dispatch) {
 
 export function post(values, url, dispatch, headers = defaultHeaders, options = {}) {
   const token = localStorage.getItem('token');
-  return fetch(`/app_dev.php/admin/api/${url}`, {
+  return fetch(`${api}/${url}`, {
     credentials: 'include',
     method: 'post',
     headers: {
@@ -55,7 +57,7 @@ export function post(values, url, dispatch, headers = defaultHeaders, options = 
 
 export function get(url, dispatch) {
   const token = localStorage.getItem('token');
-  return fetch(`/app_dev.php/admin/api/${url}`, {
+  return fetch(`${api}/${url}`, {
     credentials: 'include',
     headers: {
       Authorization: `Bearer ${token}`,
@@ -75,7 +77,7 @@ export function get(url, dispatch) {
 // `delete` is a reserved function name.
 export function del(url, dispatch) {
   const token = localStorage.getItem('token');
-  return fetch(`/app_dev.php/admin/api/${url}`, {
+  return fetch(`${api}/${url}`, {
     method: 'delete',
     credentials: 'include',
     headers: {
