@@ -3,7 +3,7 @@
 import * as t from './actionTypes';
 
 const initialState = {
-  isFetching: true,
+  isFetching: false,
   isUploading: false,
   items: [],
   directories: [],
@@ -20,6 +20,12 @@ const media = (state = initialState, action) => {
       return {
         ...state,
         isFetching: true,
+      };
+    }
+    case t.DONE_FETCHING: {
+      return {
+        ...state,
+        isFetching: false,
       };
     }
     case t.START_UPLOADING: {

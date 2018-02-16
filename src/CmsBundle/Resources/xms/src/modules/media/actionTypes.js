@@ -1,3 +1,4 @@
+export const DONE_FETCHING = 'media/DONE_FETCHING';
 export const START_FETCHING = 'media/START_FETCHING';
 export const START_UPLOADING = 'media/START_UPLOADING';
 export const SET_DATA = 'media/SET_DATA';

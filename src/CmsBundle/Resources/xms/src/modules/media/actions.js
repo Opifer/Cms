@@ -23,6 +23,12 @@ export function startFetching() {
   };
 }
 
+export function doneFetching() {
+  return {
+    type: t.DONE_FETCHING,
+  };
+}
+
 export function setItems(items) {
   return {
     type: t.SET_ITEMS,
@@ -79,6 +85,12 @@ export function removeFile(file) {
 export function getItems(filters = {}, refresh = false) {
   return (dispatch, getState) => {
     const state = getState();
+    if (state.media.isFetching) {
+      return Promise.resolve();
+    }
+
+    dispatch(startFetching());
+
     let page = 1;
     if (state.media.totalResults && refresh === false) {
       if (state.media.results >= state.media.totalResults) {
@@ -119,6 +131,8 @@ export function getItems(filters = {}, refresh = false) {
             directories: state.media.directories.concat(normalizedDirs.result),
           }));
         }
+
+        dispatch(doneFetching());
 
         return response;
       });

@@ -32,7 +32,7 @@ class MediaManager extends Component {
   }
 
   render() {
-    const { directories, items, processFiles, loadMore, maxUploadSize } = this.props;
+    const { directories, items, processFiles, loadMore, maxUploadSize, isFetching } = this.props;
 
     return (
       <div className="media-manager container-fluid">
@@ -92,8 +92,8 @@ class MediaManager extends Component {
               <span className="fa fa-image"></span>
               <h3>Drag and drop files to upload</h3>
             </div>*/}
-            <button className="btn btn-primary" onClick={loadMore}>
-              Load more
+            <button className="btn btn-primary" onClick={loadMore} disabled={isFetching}>
+              {isFetching ? 'Fetching media' : 'Load more'}
             </button>
           </div>
 
@@ -124,6 +124,7 @@ export default connect(
     directories: activeDirectoriesSelector(state),
     items: activeItemsSelector(state),
     maxUploadSize: state.media.maxUploadSize,
+    isFetching: state.media.isFetching,
   }),
   (dispatch) => ({
     fetchItems: () => dispatch(getItems(undefined, true)),
@@ -133,7 +134,7 @@ export default connect(
         files,
         (media) => dispatch(addItems(media)),
         (error) => {
-
+          console.error(error);
         }
       )),
   })
