@@ -76,8 +76,20 @@ export function removeFile(file) {
   };
 }
 
-export function getItems(filters = null, refresh = false) {
+export function getItems(filters = {}, refresh = false) {
   return (dispatch, getState) => {
+    const state = getState();
+    let page = 1;
+    if (state.media.totalResults && refresh === false) {
+      if (state.media.results >= state.media.totalResults) {
+        return Promise.resolve();
+      }
+
+      page = Math.ceil(state.media.results / state.media.resultsPerPage) + 1;
+    }
+
+    filters.page = page;
+
     const queryString = api.objectToQueryParams(filters);
 
     return api
@@ -93,14 +105,16 @@ export function getItems(filters = null, refresh = false) {
           dispatch(setData({
             resultsPerPage: response.results_per_page,
             totalResults: response.total_results,
+            results: response.results.length,
             items: normalizedItems.result,
             directories: normalizedDirs.result,
+            maxUploadSize: response.max_upload_size,
           }));
         } else {
-          const state = getState();
           dispatch(setData({
             resultsPerPage: response.results_per_page,
             totalResults: response.total_results,
+            results: state.media.results + response.results.length,
             items: state.media.items.concat(normalizedItems.result),
             directories: state.media.directories.concat(normalizedDirs.result),
           }));
@@ -158,6 +172,6 @@ export function switchDirectory(directory) {
     // Switch the directory
     dispatch(setDirectory(directory));
     // And fetch the items for this directory
-    return dispatch(getItems({ directory }));
+    return dispatch(getItems({ directory }, true));
   };
 }

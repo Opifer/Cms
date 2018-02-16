@@ -32,7 +32,7 @@ class MediaManager extends Component {
   }
 
   render() {
-    const { directories, items, processFiles } = this.props;
+    const { directories, items, processFiles, loadMore, maxUploadSize } = this.props;
 
     return (
       <div className="media-manager container-fluid">
@@ -47,7 +47,7 @@ class MediaManager extends Component {
           <div className="row row-space-2 row-space-top-2">
             <MediaFilters />
             <div className="col-md-6">
-              <small className="text-muted">Maximum upload size: 10MB</small>
+              <small className="text-muted">Maximum upload size: {maxUploadSize}B</small>
             </div>
           </div>
         </Dropzone>
@@ -88,14 +88,13 @@ class MediaManager extends Component {
           </div>
 
           <div className="panel-body text-center">
-            <div className="drag-drop">
+            {/*<div className="drag-drop">
               <span className="fa fa-image"></span>
               <h3>Drag and drop files to upload</h3>
-            </div>
-            {/*<div className="btn btn-primary" id="btnMediaPaginate" in-view="mediaCollection.loadMore()" ng-click="mediaCollection.loadMore()" ng-if="(picker.pickerShown || !picker.name)" ng-hide="mediaCollection.end">
-              <span ng-if="! MediaCollection.busy">Load more</span>
-              <span ng-if="MediaCollection.busy">Loading…</span>
             </div>*/}
+            <button className="btn btn-primary" onClick={loadMore}>
+              Load more
+            </button>
           </div>
 
         {/*<ng-modal show='confirmation.shown'>
@@ -124,9 +123,11 @@ export default connect(
   (state) => ({
     directories: activeDirectoriesSelector(state),
     items: activeItemsSelector(state),
+    maxUploadSize: state.media.maxUploadSize,
   }),
   (dispatch) => ({
-    fetchItems: () => dispatch(getItems(null, true)),
+    fetchItems: () => dispatch(getItems(undefined, true)),
+    loadMore: () => dispatch(getItems()),
     processFiles: (files) =>
       dispatch(uploadFiles(
         files,

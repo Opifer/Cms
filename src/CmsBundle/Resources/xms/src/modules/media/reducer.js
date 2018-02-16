@@ -8,6 +8,7 @@ const initialState = {
   items: [],
   directories: [],
   directory: null,
+  results: 0,
   totalResults: null,
   resultsPerPage: null,
   maxUploadSize: null,
