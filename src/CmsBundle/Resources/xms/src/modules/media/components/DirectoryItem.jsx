@@ -44,8 +44,6 @@ class DirectoryItem extends Component {
 export default connect(
   null,
   (dispatch, ownProps) => ({
-    openDirectory: () => {
-      dispatch(switchDirectory(ownProps.id));
-    }
+    openDirectory: () => dispatch(switchDirectory(ownProps.id))
   })
 )(DropTarget('media', directoryTarget, collect)(DirectoryItem));

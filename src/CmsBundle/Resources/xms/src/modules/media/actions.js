@@ -155,6 +155,9 @@ export function setDirectory(directory) {
 
 export function switchDirectory(directory) {
   return (dispatch) => {
+    // Switch the directory
     dispatch(setDirectory(directory));
+    // And fetch the items for this directory
+    return dispatch(getItems({ directory }));
   };
 }
