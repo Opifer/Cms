@@ -247,16 +247,14 @@ class ContentController extends Controller
      */
     public function indexAction(Request $request)
     {
-        $paginator = $this->get('opifer.content.content_manager')
-            ->getPaginatedByRequest($request);
+        $contentManager = $this->get('opifer.content.content_manager');
 
-        $contents = $paginator->getCurrentPageResults();
+        $contents = $contentManager->getRepository()->getQueryBuilderFromRequest($request);
 
-        $contents = $this->get('jms_serializer')->serialize(iterator_to_array($contents), 'json', SerializationContext::create()->setGroups(['list'])->enableMaxDepthChecks());
+        $contents = $this->get('jms_serializer')->serialize($contents, 'json', SerializationContext::create()->setGroups(['list'])->enableMaxDepthChecks());
 
         $data = [
-            'results' => json_decode($contents, true),
-            'total_results' => $paginator->getNbResults(),
+            'results' => json_decode($contents, true)
         ];
 
         return new JsonResponse($data);
