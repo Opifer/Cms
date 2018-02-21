@@ -247,14 +247,32 @@ class ContentController extends Controller
      */
     public function indexAction(Request $request)
     {
+        $formattedContent = [];
+
+        /** @var ContentManager $manager */
         $contentManager = $this->get('opifer.content.content_manager');
 
         $contents = $contentManager->getRepository()->getContentFromRequest($request);
 
-        $contents = $this->get('jms_serializer')->serialize($contents, 'json', SerializationContext::create()->setGroups(['list'])->enableMaxDepthChecks());
+        foreach ($contents as $key => $content) {
+            $formattedContent[$key]['id'] = $content->getId();
+            $formattedContent[$key]['parent_id'] = ($content->getParent()) ? $content->getParent()->getId() : 0;
+            $formattedContent[$key]['active'] = $content->getActive();
+            $formattedContent[$key]['title'] = $content->getTitle();
+            $formattedContent[$key]['short_title'] = $content->getShortTitle();
+            $formattedContent[$key]['description'] = $content->getDescription();
+            $formattedContent[$key]['slug'] = $content->getSlug();
+            $formattedContent[$key]['created_at'] = $content->getCreatedAt()->format('Y-m-d H:i:s');
+            $formattedContent[$key]['updated_at'] = $content->getUpdatedAt()->format('Y-m-d H:i:s');
+            $formattedContent[$key]['publish_at'] = $content->getPublishAt()->format('Y-m-d H:i:s');
+            $formattedContent[$key]['path'] = '/'.$content->getSlug();
+            $formattedContent[$key]['coverImage'] = '';
+            $formattedContent[$key]['content_type']['id'] = ($content->getContentType()) ? $content->getContentType()->getId() : '';
+            $formattedContent[$key]['content_type']['name'] = ($content->getContentType()) ? $content->getContentType()->getName() : '';
+        }
 
         $data = [
-            'results' => json_decode($contents, true)
+            'results' => $formattedContent,
         ];
 
         return new JsonResponse($data);
