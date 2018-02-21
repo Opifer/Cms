@@ -38,7 +38,7 @@ class ContentRepository extends NestedTreeRepository
      *
      * @return \Doctrine\ORM\QueryBuilder
      */
-    public function getQueryBuilderFromRequest(Request $request)
+    public function getContentFromRequest(Request $request)
     {
         $qb = $this->createValuedQueryBuilder('c');
 

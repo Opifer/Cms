@@ -249,7 +249,7 @@ class ContentController extends Controller
     {
         $contentManager = $this->get('opifer.content.content_manager');
 
-        $contents = $contentManager->getRepository()->getQueryBuilderFromRequest($request);
+        $contents = $contentManager->getRepository()->getContentFromRequest($request);
 
         $contents = $this->get('jms_serializer')->serialize($contents, 'json', SerializationContext::create()->setGroups(['list'])->enableMaxDepthChecks());
 
