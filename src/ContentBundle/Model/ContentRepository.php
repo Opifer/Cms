@@ -38,7 +38,7 @@ class ContentRepository extends NestedTreeRepository
      *
      * @return \Doctrine\ORM\QueryBuilder
      */
-    public function getQueryBuilderFromRequest(Request $request)
+    public function getContentFromRequest(Request $request)
     {
         $qb = $this->createValuedQueryBuilder('c');
 
@@ -59,7 +59,9 @@ class ContentRepository extends NestedTreeRepository
 
         $qb->orderBy('c.slug');
 
-        return $qb;
+        return $qb->getQuery()
+            ->useResultCache(true, self::CACHE_TTL)
+            ->getResult();
     }
 
     /**
