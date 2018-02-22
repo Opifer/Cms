@@ -62,10 +62,8 @@ class OpiferMediaExtension extends Extension implements PrependExtensionInterfac
                     break;
                 case 'twig':
                     $container->prependExtensionConfig($name, [
-                        'form' => [
-                            'resources' => [
-                                'OpiferMediaBundle:Form:fields.html.twig',
-                            ],
+                        'form_themes' => [
+                            'OpiferMediaBundle:Form:fields.html.twig',
                         ],
                     ]);
                     break;

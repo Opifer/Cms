@@ -4,6 +4,7 @@ namespace Opifer\CmsBundle\Form\Type;
 
 use Opifer\CmsBundle\Form\DataTransformer\MenuGroupTransformer;
 use Opifer\CmsBundle\Manager\MenuManager;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 
@@ -34,7 +35,7 @@ class MenuGroupType extends AbstractType
     {
         $transformer = new MenuGroupTransformer($this->menuManager, 'menugroup');
 
-        $builder->add('menugroup', 'entity', [
+        $builder->add('menugroup', EntityType::class, [
             'class' => $this->menuGroupClass,
             'query_builder' => function ($er) {
                 return $er->createQueryBuilder('d');

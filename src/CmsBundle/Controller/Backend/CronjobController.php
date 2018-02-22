@@ -72,7 +72,7 @@ class CronjobController extends Controller
     {
         $cron = new Cron();
 
-        $form = $this->createForm(new CronjobType(), $cron);
+        $form = $this->createForm(CronjobType::class, $cron);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -99,7 +99,7 @@ class CronjobController extends Controller
         $em = $this->getDoctrine()->getManager();
         $cron = $em->getRepository('OpiferCmsBundle:Cron')->find($id);
 
-        $form = $this->createForm(new CronjobType(), $cron);
+        $form = $this->createForm(CronjobType::class, $cron);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {

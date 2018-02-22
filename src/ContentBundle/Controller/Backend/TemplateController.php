@@ -73,7 +73,7 @@ class TemplateController extends Controller
      */
     public function editorAction(Request $request, Template $template)
     {
-        $form = $this->createForm(new PageManagerType, $template);
+        $form = $this->createForm(PageManagerType::class, $template);
         $form->handleRequest($request);
 
         if ($form->isValid()) {

@@ -2,7 +2,7 @@
 
 namespace Opifer\FormBlockBundle\Block\Service;
 
-use Opifer\FormBlockBundle\Entity\FormBlock;
+use Opifer\CmsBundle\Entity\FormBlock;
 use Opifer\ContentBundle\Block\BlockRenderer;
 use Opifer\ContentBundle\Block\Service\AbstractBlockService;
 use Opifer\ContentBundle\Block\Service\BlockServiceInterface;
@@ -11,9 +11,10 @@ use Opifer\ContentBundle\Block\Tool\ToolsetMemberInterface;
 use Opifer\ContentBundle\Model\BlockInterface;
 use Opifer\FormBundle\Model\FormManager;
 use Opifer\FormBundle\Model\PostInterface;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\Extension\Core\Type\FormType;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Opifer\EavBundle\Manager\EavManager;
 
 /**

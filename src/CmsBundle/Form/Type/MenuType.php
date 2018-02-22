@@ -3,6 +3,8 @@
 namespace Opifer\CmsBundle\Form\Type;
 
 use Opifer\CmsBundle\Entity\MenuItem;
+use Opifer\ContentBundle\Form\Type\ContentPickerType;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
@@ -17,7 +19,7 @@ class MenuType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('parent', 'entity', [
+            ->add('parent', EntityType::class, [
                 'class' => 'Opifer\CmsBundle\Entity\Menu',
                 'query_builder' => function ($qb) {
                     return $qb->createQueryBuilder('m')
@@ -37,7 +39,7 @@ class MenuType extends AbstractType
 
         if ($options['data'] instanceof MenuItem) {
             $builder
-                ->add('content', 'contentpicker')
+                ->add('content', ContentPickerType::class)
                 ->add('link', TextType::class, [
                     'attr' => ['help_text' => 'menu.form.link.help_text'],
                 ])

@@ -57,7 +57,6 @@ class MailingListType extends AbstractType
                     'Mailplus' => 'mailplus',
                     'ActiveCampaign' => 'activecampaign',
                 ],
-                'choices_as_values' => true,
                 'attr' => [
                     'placeholder' => 'placeholder.provider',
                 ],

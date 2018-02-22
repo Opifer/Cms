@@ -31,7 +31,7 @@ class SchemaType extends AbstractType
         $builder->add('attributes', BootstrapCollectionType::class, [
             'allow_add'    => true,
             'allow_delete' => true,
-            'type'         => AttributeType::class
+            'entry_type'         => AttributeType::class
         ]);
 
         if ($options['object_class'] !== null && class_exists($options['object_class'])) {

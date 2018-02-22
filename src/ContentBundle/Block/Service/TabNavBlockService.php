@@ -75,7 +75,7 @@ class TabNavBlockService extends AbstractBlockService implements LayoutBlockServ
                     'tag'           => 'general',
                     'help_text'     => 'help.tabs_add_tab'
                 ],
-                'options'       => ['attr' => ['style' => 'inline']],
+                'entry_options'       => ['attr' => ['style' => 'inline']],
             ])
             ->add('id', TextType::class, ['attr' => ['help_text' => 'help.html_id'],'required' => false])
             ->add('extra_classes', TextType::class, ['attr' => ['help_text' => 'help.extra_classes'],'required' => false]);

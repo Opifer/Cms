@@ -68,7 +68,6 @@ class FormType extends AbstractType
                     'Do not send confirmation' => false,
                     'Send confirmation' => true,
                 ],
-                'choices_as_values' => true,
                 'attr' => [
                     'help_text' => 'When a confirmation is required, a confirmation email will be sent to all email field values',
                 ],

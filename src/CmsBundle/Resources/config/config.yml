@@ -152,13 +152,12 @@ twig:
     strict_variables: '%kernel.debug%'
     paths:
         "%kernel.root_dir%/../vendor/opifer/cms/src/ExpressionEngine/Resources/views": OpiferExpressionEngine
-    form:
-        resources:
-            - 'OpiferEavBundle:Form:fields.html.twig'
-            - 'OpiferMediaBundle:Form:fields.html.twig'
-            - 'OpiferContentBundle:Form:fields.html.twig'
-            - '@OpiferExpressionEngine/Form/fields.html.twig'
-            - 'OpiferCmsBundle:Form:fields.html.twig' # At the bottom to make sure form action are being set to '#' when empty
+    form_themes:
+        - 'OpiferEavBundle:Form:fields.html.twig'
+        - 'OpiferMediaBundle:Form:fields.html.twig'
+        - 'OpiferContentBundle:Form:fields.html.twig'
+        - '@OpiferExpressionEngine/Form/fields.html.twig'
+        - 'OpiferCmsBundle:Form:fields.html.twig'
     globals:
         config: '@opifer.cms.config_manager'
         content_type_manager: '@opifer.content.content_type_manager'

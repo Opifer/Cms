@@ -109,7 +109,7 @@ class AttributeType extends AbstractType
                 $form->add('options', CollapsibleCollectionType::class, [
                     'allow_add' => true,
                     'allow_delete' => true,
-                    'type' => OptionType::class,
+                    'entry_type' => OptionType::class,
                 ]);
             }
         });

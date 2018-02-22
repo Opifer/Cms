@@ -51,7 +51,7 @@ class SiteController extends Controller
             $originalDomains->add($domain);
         }
 
-        $form = $this->createForm(new SiteType(), $site);
+        $form = $this->createForm(SiteType::class, $site);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -61,7 +61,7 @@ class SiteController extends Controller
                 $domain->setSite($site);
             }
             $em->persist($domain);
-            
+
             $em->persist($site);
             $em->flush();
 
@@ -89,7 +89,7 @@ class SiteController extends Controller
             $originalDomains->add($domain);
         }
 
-        $form = $this->createForm(new SiteType(), $site);
+        $form = $this->createForm(SiteType::class, $site);
         $form->handleRequest($request);
 
 
