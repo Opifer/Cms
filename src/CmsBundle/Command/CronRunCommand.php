@@ -83,7 +83,7 @@ class CronRunCommand extends ContainerAwareCommand
     protected function isLocked(Cron $cron)
     {
         $hourAgo = new \DateTime('-65 minutes');
-        if ($cron->getState() === Cron::STATE_RUNNING && $cron->getStartedAt() < $hourAgo) {
+        if ($cron->getState() === Cron::STATE_RUNNING && $cron->getStartedAt() > $hourAgo) {
             return true;
         }
 
