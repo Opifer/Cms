@@ -79,6 +79,7 @@ class OpiferMediaExtension extends Extension implements PrependExtensionInterfac
                                         'key' => $config['storages']['aws_s3']['key'],
                                         'secret' => $config['storages']['aws_s3']['secret'],
                                         'region' => $config['storages']['aws_s3']['region'],
+                                        'version' => '2006-03-01',
                                     ],
                                     'bucket' => $config['storages']['aws_s3']['bucket'],
                                 ],

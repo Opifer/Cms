@@ -98,6 +98,7 @@ services:
                 key: '%opifer_media.storages.aws_s3.key%'
                 secret: '%opifer_media.storages.aws_s3.secret%'
                 region: '%opifer_media.storages.aws_s3.region%'
+                version: '2006-03-01'
 
     liip_imagine.data.loader.stream.photo_storage:
         class: '%liip_imagine.binary.loader.stream.class%'

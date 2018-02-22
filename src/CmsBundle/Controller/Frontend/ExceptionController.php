@@ -17,7 +17,7 @@ class ExceptionController extends Controller
      */
     public function error404Action(Request $request)
     {
-        $host = $this->getRequest()->getHost();
+        $host = $request->getHost();
         $slugParts = explode('/', $request->getPathInfo());
         $locale = $this->getDoctrine()->getRepository(Locale::class)
             ->findOneByLocale($slugParts[1]);
