@@ -15,7 +15,6 @@ use Opifer\ContentBundle\Provider\BlockProviderInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Class ContentEditorController
@@ -349,8 +348,8 @@ class ContentEditorController extends Controller
 
         $service->preFormSubmit($block);
 
-        $form = $this->createForm(BlockAdapterFormType::class, $block,[
-            'custom_value' => $service,
+        $form = $this->createForm(BlockAdapterFormType::class, $block, [
+            'block_service' => $service,
         ]);
         $form->handleRequest($request);
 
@@ -368,6 +367,10 @@ class ContentEditorController extends Controller
             'update_preview' => $updatePreview
         ]);
 
-        return new JsonResponse(['title' => $service->getName($block), 'view' => $viewResponse->getContent(), 'updatePreview' => $updatePreview]);
+        return new JsonResponse([
+            'title' => $service->getName($block),
+            'view' => $viewResponse->getContent(),
+            'updatePreview' => $updatePreview
+        ]);
     }
 }

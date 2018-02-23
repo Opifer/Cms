@@ -36,7 +36,7 @@ class FormExtension extends \Twig_Extension
     public function getFunctions()
     {
         return [
-            'opifer_autocomplete' => new \Twig_Function_Method($this, 'renderJavascript', ['is_safe' => ['html']]),
+            new \Twig_SimpleFunction('opifer_autocomplete', [$this, 'renderJavascript', ['is_safe' => ['html']]])
         ];
     }
 

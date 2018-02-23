@@ -6,36 +6,22 @@ use Opifer\ContentBundle\Block\Service\BlockServiceInterface;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\FormType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\Form\FormInterface;
-use Symfony\Component\Form\FormTypeInterface;
-use Symfony\Component\Form\FormView;
+use Symfony\Component\OptionsResolver\Exception\InvalidOptionsException;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
-/**
- * Class BlockAdapterFormType
- *
- * @package Opifer\Form\Type
- */
 class BlockAdapterFormType extends AbstractType
 {
-    /** @var BlockServiceInterface */
-    protected $blockService;
-
-    /**
-     * @param BlockServiceInterface $blockService
-     */
-    public function __construct(BlockServiceInterface $blockService)
-    {
-        $this->blockService = $blockService;
-    }
-
     /**
      * {@inheritdoc}
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $this->blockService->buildManageForm($builder, $options);
+        if (!isset($options['block_service']) || !$options['block_service'] instanceof BlockServiceInterface) {
+            throw new InvalidOptionsException('The block_service option should be an instance of \Opifer\ContentBundle\Block\Service\BlockServiceInterface');
+        }
+
+        $options['block_service']->buildManageForm($builder, $options);
     }
 
     /**
@@ -45,7 +31,7 @@ class BlockAdapterFormType extends AbstractType
      */
     public function configureOptions(OptionsResolver $resolver)
     {
-        $this->blockService->configureManageOptions($resolver);
+        $resolver->setRequired('block_service');
     }
 
     /**
@@ -54,13 +40,5 @@ class BlockAdapterFormType extends AbstractType
     public function getParent()
     {
         return FormType::class;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getBlockPrefix()
-    {
-        return $this->blockService->getManageFormTypeName();
     }
 }

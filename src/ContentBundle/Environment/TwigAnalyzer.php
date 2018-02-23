@@ -50,7 +50,7 @@ class TwigAnalyzer extends TwigEngine
 
     public function findFunctionNodes($name)
     {
-        $source = $this->environment->getLoader()->getSource($name);
+        $source = $this->environment->getLoader()->getSourceContext($name);
         $tree = $this->environment->parse($this->environment->tokenize($source));
 
         $list = array();

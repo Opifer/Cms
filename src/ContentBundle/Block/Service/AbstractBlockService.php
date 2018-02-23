@@ -336,15 +336,6 @@ abstract class AbstractBlockService implements BlockServiceInterface
     }
 
     /**
-     * Configures the options for this type.
-     *
-     * @param OptionsResolver $resolver The resolver for the options.
-     */
-    public function configureManageOptions(OptionsResolver $resolver)
-    {
-    }
-
-    /**
      * BlockAdapterFormType calls this method to get the name of the FormType.
      *
      * @return string

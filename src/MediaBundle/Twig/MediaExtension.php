@@ -27,9 +27,9 @@ class MediaExtension extends \Twig_Extension
      */
     public function getFilters()
     {
-        return array(
-            'media_source_url' => new \Twig_Filter_Method($this, 'sourceUrl'),
-        );
+        return [
+            new \Twig_SimpleFilter('media_source_url', [$this, 'sourceUrl'])
+        ];
     }
 
     /**

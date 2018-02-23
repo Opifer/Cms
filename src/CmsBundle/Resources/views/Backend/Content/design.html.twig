@@ -88,15 +88,23 @@
                 <div class="pm-toolset-card pm-dark pm-toolset-library">
                     <div class="form-group p-x-sm p-t-sm">
                         <div class="input-group">
-                        <div class="input-group-addon"><i class="material-icons">search</i></span></div>
+                        <div class="input-group-addon"><i class="material-icons">search</i></div>
                             <input type="text" class="form-control" id="pm-kwsearch-blocks" placeholder="Search">
                         </div>
                     </div>
                         {% for group in toolset.groups %}
-                        <div id="pm-tools-{{ group|lower|replace(' ', '-') }}" class="pm-tools-blockset pm-noselect">
+                        <div id="pm-tools-{{ group|lower|replace({' ': '-'}) }}" class="pm-tools-blockset pm-noselect">
                             <div class="pm-col">
-                                <h4 class="title" data-toggle="collapse" data-target="#list-group-{{ group|lower|replace(' ', '-') }}" aria-expanded="true" aria-controls="list-group-{{ group|lower|replace(' ', '-') }}">{{ group }}</h4>
-                                <div class="collapse in list-group js-collapsable" id="list-group-{{ group|lower|replace(' ', '-') }}">
+                                <h4
+                                    class="title"
+                                    data-toggle="collapse"
+                                    data-target="#list-group-{{ group|lower|replace({' ': '-'}) }}"
+                                    aria-expanded="true"
+                                    aria-controls="list-group-{{ group|lower|replace({' ': '-'}) }}"
+                                >
+                                    {{ group }}
+                                </h4>
+                                <div class="collapse in list-group js-collapsable" id="list-group-{{ group|lower|replace({' ': '-'}) }}">
                                     {% for tool in toolset.tools %}
                                         {% if tool.group == group %}
                                             <div class="list-group-item pm-block-item" data-pm-block-type="{{ tool.service }}" data-pm-block-data='{{ tool.datajson }}'>
@@ -114,7 +122,6 @@
                             </div>
                         </div>
                         {% endfor %}
-
                     </div>
                 </div>
             </div>

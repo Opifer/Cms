@@ -178,13 +178,6 @@ class ColumnBlockService extends AbstractBlockService implements LayoutBlockServ
     /**
      * {@inheritdoc}
      */
-    public function configureManageOptions(OptionsResolver $resolver)
-    {
-    }
-
-    /**
-     * {@inheritdoc}
-     */
     public function getManageFormTypeName()
     {
         return 'layout';
