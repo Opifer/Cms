@@ -105,11 +105,11 @@ class Configuration implements ConfigurationInterface
                                     ->prototype('scalar')->end()
                                     ->normalizeKeys(false)
                                     ->defaultValue([
-                                        'primary' => 'Primary',
-                                        'success' => 'Success',
-                                        'info' => 'Info',
-                                        'warning' => 'Warning',
-                                        'danger' => 'Danger',
+                                        'Primary' => 'primary',
+                                        'Success' => 'success',
+                                        'Info' => 'info',
+                                        'Warning' => 'warning',
+                                        'Danger' => 'danger',
                                     ])
                                 ->end()
                             ->end()
@@ -122,12 +122,12 @@ class Configuration implements ConfigurationInterface
                                     ->prototype('scalar')->end()
                                     ->normalizeKeys(false)
                                     ->defaultValue([
-                                        'btn-sm' => 'Button small',
-                                        'btn-lg' => 'Button large',
-                                        'btn-primary' => 'Button primary',
-                                        'btn-default' => 'Button default',
-                                        'btn-block' => 'Button block',
-                                        'center-block' => 'Center block'
+                                        'Button small' => 'btn-sm',
+                                        'Button large' => 'btn-lg',
+                                        'Button primary' => 'btn-primary',
+                                        'Button default' => 'btn-default',
+                                        'Button block' => 'btn-block',
+                                        'Center block' => 'center-block',
                                     ])
                                 ->end()
                             ->end()
@@ -141,11 +141,11 @@ class Configuration implements ConfigurationInterface
                                     ->normalizeKeys(false)
                                     ->useAttributeAsKey('name')
                                     ->defaultValue([
-                                        'default' => 'Default',
-                                        'card' => 'Card',
-                                        'card-overlay' => 'Card overlay',
-                                        'list' => 'List',
-                                        'news' => 'News',
+                                        'Default' => 'default',
+                                        'Card' => 'card',
+                                        'Card overlay' => 'card-overlay',
+                                        'List' => 'list',
+                                        'News' => 'news',
                                     ])
                                 ->end()
                                 ->arrayNode('backgrounds')
@@ -153,29 +153,29 @@ class Configuration implements ConfigurationInterface
                                     ->normalizeKeys(false)
                                     ->useAttributeAsKey('name')
                                     ->defaultValue([
-                                        'default' => 'Default',
+                                        'Default' => 'default',
                                     ])
                                 ->end()
                                 ->arrayNode('styles')
                                     ->prototype('scalar')->end()
                                     ->normalizeKeys(false)
                                     ->defaultValue([
-                                        'card-img-bg' => 'Image Background',
-                                        'card-inverse' => 'Inverse',
-                                        'card-primary' => 'Primary',
-                                        'card-success' => 'Success',
-                                        'card-info' => 'Info',
-                                        'card-warning' => 'Warning',
-                                        'card-danger' => 'Danger',
-                                        'card-outline-primary' => 'Primary Outline',
-                                        'card-outline-secondary' => 'Secondary Outline',
-                                        'card-outline-success' => 'Success Outline',
-                                        'card-outline-info' => 'Info Outline',
-                                        'card-outline-warning' => 'Warning Outline',
-                                        'card-outline-danger' => 'Danger Outline',
-                                        'card-xs-top' => 'Card text top',
-                                        'card-xs-middle' => 'Card text middle',
-                                        'card-xs-bottom' => 'Card text bottom',
+                                        'Image Background' => 'card-img-bg',
+                                        'Inverse' => 'card-inverse',
+                                        'Primary' => 'card-primary',
+                                        'Success' => 'card-success',
+                                        'Info' => 'card-info',
+                                        'Warning' => 'card-warning',
+                                        'Danger' => 'card-danger',
+                                        'Primary Outline' => 'card-outline-primary',
+                                        'Secondary Outline' => 'card-outline-secondary',
+                                        'Success Outline' => 'card-outline-success',
+                                        'Info Outline' => 'card-outline-info',
+                                        'Warning Outline' => 'card-outline-warning',
+                                        'Danger Outline' => 'card-outline-danger',
+                                        'Card text top' => 'card-xs-top',
+                                        'Card text middle' => 'card-xs-middle',
+                                        'Card text bottom' => 'card-xs-bottom',
                                     ])
                                 ->end()
                             ->end()
@@ -205,8 +205,8 @@ class Configuration implements ConfigurationInterface
                                     ->normalizeKeys(false)
                                     ->useAttributeAsKey('name')
                                     ->defaultValue([
-                                        'top' => 'Above the collection',
-                                        'modal' => 'In a modal window',
+                                        'Above the collection' => 'top',
+                                        'In a modal window' => 'modal',
                                     ])
                                 ->end()
                                 ->arrayNode('styles')
@@ -220,7 +220,7 @@ class Configuration implements ConfigurationInterface
                                     ->normalizeKeys(false)
                                     ->useAttributeAsKey('name')
                                     ->defaultValue([
-                                        'default' => 'Default',
+                                        'Default' => 'default',
                                     ])
                                 ->end()
                             ->end()
@@ -255,10 +255,10 @@ class Configuration implements ConfigurationInterface
                                     ->prototype('scalar')->end()
                                     ->normalizeKeys(false)
                                     ->defaultValue([
-                                        'm-t-md' => 'label.column_m_t_md',
-                                        'm-b-md' => 'label.column_m_b_md',
-                                        'm-t-lg' => 'label.column_m_t_lg',
-                                        'm-b-lg' => 'label.column_m_b_lg',
+                                        'label.column_m_t_md' => 'm-t-md',
+                                        'label.column_m_b_md' => 'm-b-md',
+                                        'label.column_m_t_lg' => 'm-t-lg',
+                                        'label.column_m_b_lg' => 'm-b-lg',
                                     ])
                                 ->end()
                             ->end()
@@ -277,8 +277,8 @@ class Configuration implements ConfigurationInterface
                                     ->prototype('scalar')->end()
                                     ->normalizeKeys(false)
                                     ->defaultValue([
-                                        'm' => 'Spacing outside (margin)',
-                                        'p' => 'Spacing inside (padding)',
+                                        'Spacing outside (margin)' => 'm',
+                                        'Spacing inside (padding)' => 'p',
                                     ])
                                 ->end()
                             ->end()
@@ -291,20 +291,20 @@ class Configuration implements ConfigurationInterface
                                     ->prototype('scalar')->end()
                                     ->normalizeKeys(false)
                                     ->defaultValue([
-                                        'py-1' => 'Small vertical padding',
-                                        'py-2' => 'Medium vertical padding',
-                                        'py-3' => 'Large vertical padding',
-                                        'my-1' => 'Small vertical margin',
-                                        'my-2' => 'Medium vertical margin',
-                                        'my-3' => 'Large vertical margin',
+                                        'Small vertical padding' => 'py-1',
+                                        'Medium vertical padding' => 'py-2',
+                                        'Large vertical padding' => 'py-3',
+                                        'Small vertical margin' => 'my-1',
+                                        'Medium vertical margin' => 'my-2',
+                                        'Large vertical margin' => 'my-3',
                                     ])
                                 ->end()
                                 ->arrayNode('spacing_box_model')
                                     ->prototype('scalar')->end()
                                     ->normalizeKeys(false)
                                     ->defaultValue([
-                                        'm' => 'Spacing outside (margin)',
-                                        'p' => 'Spacing inside (padding)',
+                                        'Spacing outside (margin)' => 'm',
+                                        'Spacing inside (padding)' => 'p',
                                     ])
                                 ->end()
                             ->end()
@@ -318,7 +318,7 @@ class Configuration implements ConfigurationInterface
                                     ->normalizeKeys(false)
                                     ->useAttributeAsKey('name')
                                     ->defaultValue([
-                                        'default' => 'Default',
+                                        'Default' => 'default',
                                     ])
                                 ->end()
                             ->end()
@@ -332,7 +332,7 @@ class Configuration implements ConfigurationInterface
                                     ->normalizeKeys(false)
                                     ->useAttributeAsKey('name')
                                     ->defaultValue([
-                                        'default' => 'Default',
+                                        'Default' => 'default',
                                     ])
                                 ->end()
                             ->end()
@@ -344,17 +344,17 @@ class Configuration implements ConfigurationInterface
                                 ->arrayNode('allowed_filters')
                                     ->prototype('scalar')->end()
                                     ->defaultValue([
-                                        'medialibrary', 'dashboard_content'
+                                        'dashboard_content' => 'medialibrary'
                                     ])
                                 ->end()
                                 ->arrayNode('styles')
                                     ->prototype('scalar')->end()
                                     ->normalizeKeys(false)
                                     ->defaultValue([
-                                        'img-fluid' => 'Responsive image',
-                                        'img-rounded' => 'Rounded image',
-                                        'img-circle' => 'Circular image',
-                                        'img-thumbnail' => 'Thumbnail image',
+                                        'Responsive image' => 'img-fluid',
+                                        'Rounded image' => 'img-rounded',
+                                        'Circular image' => 'img-circle',
+                                        'Thumbnail image' => 'img-thumbnail',
                                     ])
                                 ->end()
                             ->end()
@@ -367,11 +367,11 @@ class Configuration implements ConfigurationInterface
                                     ->prototype('scalar')->end()
                                     ->normalizeKeys(false)
                                     ->defaultValue([
-                                        'jumbotron-sm' => 'Jumbotron small',
-                                        'jumbotron-md' => 'Jumbotron medium',
-                                        'jumbotron-lg' => 'Jumbotron large',
-                                        'text-regular' => 'Text-color regular',
-                                        'text-contrast' => 'Text-color contrast',
+                                        'Jumbotron small' => 'jumbotron-sm',
+                                        'Jumbotron medium' => 'jumbotron-md',
+                                        'Jumbotron large' => 'jumbotron-lg',
+                                        'Text-color regular' => 'text-regular',
+                                        'Text-color contrast' => 'text-contrast',
                                     ])
                                 ->end()
                                 ->arrayNode('templates')
@@ -379,7 +379,7 @@ class Configuration implements ConfigurationInterface
                                     ->normalizeKeys(false)
                                     ->useAttributeAsKey('name')
                                     ->defaultValue([
-                                        'default' => 'Default',
+                                        'Default' => 'default',
                                     ])
                                 ->end()
                             ->end()
@@ -399,18 +399,18 @@ class Configuration implements ConfigurationInterface
                                     ->normalizeKeys(false)
                                     ->useAttributeAsKey('name')
                                     ->defaultValue([
-                                        'default' => 'Default',
-                                        'card' => 'Card (deprecated)',
-                                        'card-overlay' => 'Card overlay (deprecated)',
-                                        'list' => 'List (deprecated)',
-                                        'news' => 'News (deprecated)',
-                                        'ListBlock--cards' => 'Cards',
-                                        'ListBlock--cards-overlay' => 'Cards overlay',
-                                        'ListBlock--cards-bleed' => 'Cards overlay full width',
-                                        'ListBlock--horizontal-scroll' => 'Cards horizontal scroll',
-                                        'ListBlock--list' => 'List',
-                                        'ListBlock--media' => 'Media',
-                                        'ListBlock--table' => 'Table',
+                                        'Default' => 'default',
+                                        'Card (deprecated)' => 'card',
+                                        'Card overlay (deprecated)' => 'card-overlay',
+                                        'List (deprecated)' => 'list',
+                                        'News (deprecated)' => 'news',
+                                        'Cards' => 'ListBlock--cards',
+                                        'Cards overlay' => 'ListBlock--cards-overlay',
+                                        'Cards overlay full width' => 'ListBlock--cards-bleed',
+                                        'Cards horizontal scroll' => 'ListBlock--horizontal-scroll',
+                                        'List' => 'ListBlock--list',
+                                        'Media' => 'ListBlock--media',
+                                        'Table' => 'ListBlock--table',
                                     ])
                                 ->end()
                             ->end()
@@ -452,8 +452,8 @@ class Configuration implements ConfigurationInterface
                                     ->normalizeKeys(false)
                                     ->useAttributeAsKey('name')
                                     ->defaultValue([
-                                        'navbar' => 'Navigation bar',
-                                        'sitemap' => 'Sitemap',
+                                        'Navigation bar' => 'navbar',
+                                        'Sitemap' => 'sitemap',
                                     ])
                                 ->end()
                             ->end()
@@ -473,7 +473,7 @@ class Configuration implements ConfigurationInterface
                                     ->normalizeKeys(false)
                                     ->useAttributeAsKey('name')
                                     ->defaultValue([
-                                        'default' => 'Default',
+                                        'Default' => 'default',
                                     ])
                                 ->end()
                             ->end()
@@ -487,10 +487,10 @@ class Configuration implements ConfigurationInterface
                                     ->normalizeKeys(false)
                                     ->useAttributeAsKey('name')
                                     ->defaultValue([
-                                        'tabs-horizontal' => 'Horizontal tabs',
-                                        'pills-horizontal' => 'Horizontal pills',
-                                        'tabs-vertical' => 'Vertical tabs',
-                                        'pills-vertical' => 'Vertical pills',
+                                        'Horizontal tabs' => 'tabs-horizontal',
+                                        'Horizontal pills' => 'pills-horizontal',
+                                        'Vertical tabs' => 'tabs-vertical',
+                                        'Vertical pills' => 'pills-vertical',
                                     ])
                                 ->end()
                                 ->arrayNode('styles')
