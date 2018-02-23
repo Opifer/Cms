@@ -95,10 +95,9 @@ services:
         factory: ['Aws\S3\S3Client', factory]
         arguments:
             -
-                key: '%opifer_media.storages.aws_s3.key%'
-                secret: '%opifer_media.storages.aws_s3.secret%'
                 region: '%opifer_media.storages.aws_s3.region%'
                 version: '2006-03-01'
+                credentials: { key: '%opifer_media.storages.aws_s3.key%', secret: '%opifer_media.storages.aws_s3.secret%' }
 
     liip_imagine.data.loader.stream.photo_storage:
         class: '%liip_imagine.binary.loader.stream.class%'
