@@ -101,11 +101,6 @@
                 <li ng-include="'content_tree_template.html'" ng-repeat="content in rootNodes(null) track by content.id" class="treeview-node"></li>
             </ul>
         </div>
-        <nav class="center-block panel-body text-center">
-            <button ng-model="btnPaginate" ng-click="loadMore()" in-view="loadMore()" type="button" data-loading-text="Loading..."  class="btn btn-primary" ng-hide="(maxPerPage * currentPage) > numberOfResults">
-                {{ lblPaginate }}
-            </button>
-        </nav>
         </div>
     </section>
 </div>

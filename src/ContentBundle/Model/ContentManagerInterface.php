@@ -37,15 +37,6 @@ interface ContentManagerInterface
     public function remove($content);
 
     /**
-     * Get paginated items by request
-     *
-     * @param  Request $request
-     *
-     * @return \Doctrine\Common\Collections\ArrayCollection
-     */
-    public function getPaginatedByRequest(Request $request);
-
-    /**
      * Find one content item by its slug
      *
      * @param  string $slug

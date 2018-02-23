@@ -334,13 +334,6 @@ angular.module('OpiferContent', ['angular-inview', 'ui.tree', 'ngCookies'])
                     $scope.confirmation.shown = !$scope.confirmation.shown;
                 };
 
-                $scope.loadMore = function (e) {
-                    if (!$scope.active || $scope.busyLoading || $scope.remainingResults <= 0) return;
-                    $scope.currentPage++;
-                    $scope.busyLoading = true;
-                    $scope.fetchContents();
-                };
-
                 $scope.pickObject = function (contentId) {
                     $scope.$parent.pickObject(contentId);
                 };
