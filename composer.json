@@ -4,8 +4,8 @@
     "license": "MIT",
     "authors": [
         {
-            "name": "Opifer",
-            "email": "info@opifer.nl"
+            "name": "jstack",
+            "email": "info@jstack.eu"
         }
     ],
     "require": {
@@ -21,7 +21,7 @@
         "sensio/framework-extra-bundle": "~3.0",
         "incenteev/composer-parameter-handler": "~2.0",
 
-        "artscorestudio/datagrid-bundle": "3.0.0",
+        "apy/datagrid-bundle": "~3.1",
         "aws/aws-sdk-php": "^3.52",
         "braincrafted/bootstrap-bundle": "~2.2.0",
         "doctrine/doctrine-migrations-bundle": "~1.0",
