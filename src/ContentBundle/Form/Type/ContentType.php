@@ -43,12 +43,12 @@ class ContentType extends AbstractType
         $builder
             ->add('contentType', EntityType::class, [
                 'class' => ContentTypeEntity::class,
-                'property' => 'name',
+                'choice_label' => 'name',
                 'required' => false,
             ])
             ->add('template', EntityType::class, [
                 'class'    => 'OpiferContentBundle:Template',
-                'property' => 'displayName',
+                'choice_label' => 'displayName',
                 'attr'     => [
                     'help_text' => 'help.template'
                 ],
@@ -57,7 +57,7 @@ class ContentType extends AbstractType
             ->add('locale', EntityType::class, [
                 'label' => 'label.language',
                 'class'    => 'OpiferCmsBundle:Locale',
-                'property' => 'name',
+                'choice_label' => 'name',
                 'attr'     => [
                     'help_text'   => 'help.content_language',
                 ],

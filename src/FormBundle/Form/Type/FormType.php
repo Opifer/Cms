@@ -81,7 +81,7 @@ class FormType extends AbstractType
             ->add('locale', EntityType::class, [
                 'label' => 'label.language',
                 'class'    => Locale::class,
-                'property' => 'name',
+                'choice_label' => 'name',
                 'attr'     => [
                     'help_text'   => 'help.content_language',
                 ],

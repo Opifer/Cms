@@ -34,7 +34,7 @@ class ValueProviderType extends AbstractType
     {
         $choices = [];
         foreach ($this->providerPool->getValues() as $alias => $value) {
-            $choices[$alias] = $value->getLabel();
+            $choices[$value->getLabel()] = $alias;
         }
 
         $resolver->setDefaults([

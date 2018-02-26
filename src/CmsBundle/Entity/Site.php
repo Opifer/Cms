@@ -73,6 +73,9 @@ class Site
      */
     protected $content;
 
+    /**
+     * Constructor
+     */
     public function __construct()
     {
         $this->domains = new ArrayCollection();
@@ -154,13 +157,18 @@ class Site
     /**
      * Get domains.
      *
-     * @return string
+     * @return ArrayCollection|Domain[]
      */
     public function getDomains()
     {
         return $this->domains;
     }
 
+    /**
+     * @param Domain $domain
+     *
+     * @return $this
+     */
     public function addDomain(Domain $domain)
     {
         $domain->setSite($this);

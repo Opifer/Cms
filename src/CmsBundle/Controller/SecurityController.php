@@ -3,14 +3,13 @@
 namespace Opifer\CmsBundle\Controller;
 
 use FOS\UserBundle\Controller\SecurityController as FOSSecurityController;
-use Symfony\Component\HttpFoundation\RedirectResponse;
-use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 class SecurityController extends FOSSecurityController
 {
     /**
      * @param array $data
-     * @return \Symfony\Component\HttpFoundation\Response
+     * @return Response
      */
     protected function renderLogin(array $data)
     {

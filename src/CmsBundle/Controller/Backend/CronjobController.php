@@ -97,7 +97,7 @@ class CronjobController extends Controller
     public function editAction(Request $request, $id)
     {
         $em = $this->getDoctrine()->getManager();
-        $cron = $em->getRepository('OpiferCmsBundle:Cron')->find($id);
+        $cron = $em->getRepository(Cron::class)->find($id);
 
         $form = $this->createForm(CronjobType::class, $cron);
         $form->handleRequest($request);

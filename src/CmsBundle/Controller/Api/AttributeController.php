@@ -2,7 +2,6 @@
 
 namespace Opifer\CmsBundle\Controller\Api;
 
-use FOS\RestBundle\Controller\Annotations\QueryParam;
 use FOS\RestBundle\Controller\FOSRestController;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Opifer\CmsBundle\Entity\Attribute;

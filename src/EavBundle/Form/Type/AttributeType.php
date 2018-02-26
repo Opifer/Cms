@@ -83,8 +83,8 @@ class AttributeType extends AbstractType
             'required' => false,
         ])->add('required', ChoiceType::class, [
             'choices' => [
-                false => 'Not required',
-                true => 'Required',
+                'Not required' => false,
+                'Required' => true,
             ],
             'label' => 'Required',
             'required' => true,

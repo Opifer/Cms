@@ -4,10 +4,7 @@ namespace Opifer\CmsBundle\Controller\Backend;
 
 use APY\DataGridBundle\Grid\Action\RowAction;
 use APY\DataGridBundle\Grid\Source\Entity;
-use Opifer\CmsBundle\Entity\Content;
-use Opifer\ContentBundle\Entity\Template;
 use Opifer\ContentBundle\Form\Type\LayoutType;
-use Opifer\ContentBundle\Form\Type\TemplateType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -80,7 +77,7 @@ class LayoutController extends Controller
         $form->handleRequest($request);
 
         if ($form->isValid()) {
-            //setSlug because slugListner will create one based on title
+            //setSlug because slugListener will create one based on title
             $content->setSlug(sha1(date('y-m-d h:i:s')));
             $content->setAlias(sha1(date('y-m-d h:i:s')));
 

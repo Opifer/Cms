@@ -41,7 +41,7 @@ class SelectValueProvider extends AbstractValueProvider implements ValueProvider
                 'label'         => $options['attribute']->getDisplayName(),
                 'placeholder'   => 'Select…',
                 'multiple'      => false,
-                'property'      => 'displayName',
+                'choice_label'  => 'displayName',
                 'class'         => $this->optionClass,
                 'query_builder' => function (EntityRepository $optionRepository) use ($attributeId) {
                     return $optionRepository->createQueryBuilder('o')

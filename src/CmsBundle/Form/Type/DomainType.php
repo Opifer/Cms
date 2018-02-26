@@ -30,7 +30,7 @@ class DomainType extends AbstractType
             ->add('site', EntityType::class, [
                 'label' => 'label.site',
                 'class'    => Site::class,
-                'property' => 'name',
+                'choice_label' => 'name',
                 'attr'     => [
                     'help_text'   => 'help_text.site',
                 ],

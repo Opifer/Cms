@@ -26,7 +26,9 @@ class FormExtension extends \Twig_Extension
     public function getTests()
     {
         return [
-            new \Twig_SimpleTest('attachment', function (Value $value) { return $value instanceof AttachmentValue; }),
+            new \Twig_SimpleTest('attachment', function (Value $value) {
+                return $value instanceof AttachmentValue;
+            }),
         ];
     }
 

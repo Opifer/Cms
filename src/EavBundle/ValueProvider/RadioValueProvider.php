@@ -36,7 +36,7 @@ class RadioValueProvider extends AbstractValueProvider implements ValueProviderI
                 'label'         => $options['attribute']->getDisplayName(),
                 'multiple'      => false,   // Only allow single selection
                 'expanded'      => true,   // Render as radio buttons
-                'property'      => 'displayName', // Assuming that the entity has a "name" property
+                'choice_label'  => 'displayName', // Assuming that the entity has a "name" property
                 'class'         => $this->optionClass,
                 'query_builder' => function (EntityRepository $optionRepository) use ($attributeId) {
                     return $optionRepository->createQueryBuilder('o')

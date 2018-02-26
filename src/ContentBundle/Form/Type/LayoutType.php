@@ -38,7 +38,7 @@ class LayoutType extends AbstractType
         $builder
             ->add('template', EntityType::class, [
                 'class'    => 'OpiferContentBundle:Template',
-                'property' => 'displayName',
+                'choice_label' => 'displayName',
                 'attr'     => [
                     'help_text' => 'help.template'
                 ],

@@ -3,6 +3,7 @@
 namespace Opifer\EavBundle\ValueProvider;
 
 use Doctrine\ORM\EntityRepository;
+use Opifer\EavBundle\Entity\CheckListValue;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\FormBuilderInterface;
 
@@ -32,7 +33,7 @@ class ChecklistValueProvider extends AbstractValueProvider implements ValueProvi
             'label'         => $options['attribute']->getDisplayName(),
             'multiple'      => true,   // Multiple selection allowed
             'expanded'      => true,   // Render as checkboxes
-            'property'      => 'displayName', // Assuming that the entity has a "name" property
+            'choice_label'  => 'displayName', // Assuming that the entity has a "name" property
             'class'         => $this->optionClass,
             'query_builder' => function (EntityRepository $optionRepository) use ($attributeId) {
                 return $optionRepository->createQueryBuilder('o')
@@ -50,6 +51,6 @@ class ChecklistValueProvider extends AbstractValueProvider implements ValueProvi
      */
     public function getEntity()
     {
-        return 'Opifer\EavBundle\Entity\CheckListValue';
+        return CheckListValue::class;
     }
 }
