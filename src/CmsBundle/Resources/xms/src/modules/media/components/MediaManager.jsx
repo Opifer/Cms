@@ -32,7 +32,7 @@ class MediaManager extends Component {
   }
 
   render() {
-    const { directories, items, processFiles, loadMore, maxUploadSize, isFetching } = this.props;
+    const { directories, items, processFiles, loadMore, maxUploadSize, isFetching, results, totalResults } = this.props;
 
     return (
       <div className="media-manager container-fluid">
@@ -52,16 +52,6 @@ class MediaManager extends Component {
           </div>
         </Dropzone>
         <section className="row media-items">
-          {/*<div ng-show="uploadingFiles != null">
-            <div ng-repeat="f in uploadingFiles">
-              <div className="progress" ng-show="progress[$index] < 100">
-                <div className="progress-bar" role="progressbar" aria-valuenow="{{ progress[$index] }}" aria-valuemin="0" aria-valuemax="100" style="width: {{ progress[$index] }}%;">
-                  {{ progress[$index] }}%
-                </div>
-              </div>
-            </div>
-          </div>*/}
-
           <div className="image-section col-xs-12 clearfix">
             <DirectoryParentItem />
 
@@ -92,27 +82,12 @@ class MediaManager extends Component {
               <span className="fa fa-image"></span>
               <h3>Drag and drop files to upload</h3>
             </div>*/}
-            <button className="btn btn-primary" onClick={loadMore} disabled={isFetching}>
-              {isFetching ? 'Fetching media' : 'Load more'}
-            </button>
+            {(results < totalResults) && (
+              <button className="btn btn-primary" onClick={loadMore} disabled={isFetching}>
+                {isFetching ? 'Fetching media' : 'Load more'}
+              </button>
+            )}
           </div>
-
-        {/*<ng-modal show='confirmation.shown'>
-                <div className="modal-header">
-                    <h4 className="modal-title">Confirm delete</h4>
-                </div>
-                <div className="modal-body">
-                    Do you really want to delete {{ confirmation.name }}?
-                </div>
-                <div className="modal-footer">
-                    <button type="button" className="btn btn-default btn-link" ng-click="confirmation.shown = false">
-                        Cancel
-                    </button>
-                    <button className="btn btn-danger modal-confirm-button" ng-click="deleteMedia(confirmation.idx)" title="Confirms removal">
-                        Delete
-                    </button>
-                </div>
-            </ng-modal>*/}
         </section>
       </div>
     );
@@ -125,6 +100,8 @@ export default connect(
     items: activeItemsSelector(state),
     maxUploadSize: state.media.maxUploadSize,
     isFetching: state.media.isFetching,
+    results: state.media.results,
+    totalResults: state.media.totalResults,
   }),
   (dispatch) => ({
     fetchItems: () => dispatch(getItems(undefined, true)),

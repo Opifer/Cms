@@ -55,31 +55,30 @@ export function addItems(items) {
   return (dispatch) => {
     const normalizedItems = normalize(items, arrayOf(mediaSchema));
 
-    dispatch(setEntities(normalizedItems));
+    return dispatch(setEntities(normalizedItems));
   };
 }
 
 export function moveFile(file, dir) {
-  return (dispatch) => {
-    return api.put({ directory: dir }, `media/${file}`, dispatch)
+  return (dispatch) =>
+    api.put({ directory: dir }, `media/${file}`, dispatch)
       .then(media => {
         dispatch(updateEntity('medias', media.id, {
           directory_id: media.directory_id,
         }));
       });
-  };
 }
 
 export function removeFile(file) {
-  return (dispatch) => {
-    return api.del(`media/${file}`, dispatch)
+  return (dispatch) =>
+    api.del(`media/${file}`, dispatch)
       .then(media => {
         console.log('TODO: REMOVE ENTITY');
         // dispatch(updateEntity('medias', media.id, {
         //   directory_id: media.directory_id,
         // }));
+        return media;
       });
-  };
 }
 
 export function getItems(filters = {}, refresh = false) {
@@ -154,6 +153,7 @@ export function uploadFiles(files, callback, errorCallback) {
     return api.post(null, 'media/upload', dispatch, {}, { body })
       .then(response => {
         callback(response);
+        return response;
       })
       .catch(error => {
         errorCallback(error);
