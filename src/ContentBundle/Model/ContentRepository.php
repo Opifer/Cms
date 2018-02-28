@@ -60,7 +60,6 @@ class ContentRepository extends NestedTreeRepository
         $qb->orderBy('c.slug');
 
         return $qb->getQuery()
-            ->useResultCache(true, self::CACHE_TTL)
             ->getResult();
     }
 
