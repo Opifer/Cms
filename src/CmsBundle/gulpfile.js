@@ -45,8 +45,6 @@ gulp.task('js', ['react'], function () {
         'Resources/public/components/ng-file-upload/ng-file-upload.min.js',
         'Resources/public/components/typeahead.js/dist/typeahead.bundle.js',
         '../../../../braincrafted/bootstrap-bundle/Braincrafted/Bundle/BootstrapBundle/Resources/js/bc-bootstrap-collection.js',
-        '../../../../friendsofsymfony/jsrouting-bundle/Resources/js/router.js',
-        '../../../../willdurand/js-translation-bundle/Resources/js/translator.js',
         'Resources/public/components/codemirror/lib/codemirror.js',
         'Resources/public/components/codemirror/mode/javascript/javascript.js',
         'Resources/public/components/codemirror/mode/css/css.js',
