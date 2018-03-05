@@ -41,7 +41,6 @@ braincrafted_bootstrap:
     auto_configure:
         assetic:       false
         twig:          true
-        knp_menu:      true
     customize:
         variables_file:     ~
         bootstrap_output:   '%kernel.root_dir%/Resources/less/bootstrap.less'
@@ -126,13 +125,6 @@ fos_user:
     from_email:
         address: noreply@jstack.eu
         sender_name: jstack CMS
-
-# Menus
-knp_menu:
-    twig:  # use "twig: false" to disable the Twig extension and the TwigRenderer
-        template: 'BraincraftedBootstrapBundle:Menu:bootstrap.html.twig'
-    templating:       false # if true, enables the helper for PHP templates
-    default_renderer: 'twig' # The renderer to use, list is also available by default
 
 # Framework extra
 sensio_framework_extra:
