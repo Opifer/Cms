@@ -2,11 +2,6 @@
 
 namespace Opifer\ContentBundle\Block;
 
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
-use Opifer\ContentBundle\Entity\CompositeBlock;
-use Opifer\ContentBundle\Model\BlockInterface;
-
 class RecursiveBlockIterator extends \RecursiveArrayIterator implements \RecursiveIterator
 {
     public function __construct($array)
@@ -25,6 +20,7 @@ class RecursiveBlockIterator extends \RecursiveArrayIterator implements \Recursi
     {
         return new self($this->current()->getChildren());
     }
+
     /**
      * {@inheritdoc}
      */
