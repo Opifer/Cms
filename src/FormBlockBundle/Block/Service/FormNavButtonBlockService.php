@@ -33,7 +33,6 @@ class FormNavButtonBlockService extends AbstractBlockService implements BlockSer
                     'Next' => 'next',
                     'Previous' => 'previous',
                 ],
-                'choices_as_values' => true,
             ])
         ;
         

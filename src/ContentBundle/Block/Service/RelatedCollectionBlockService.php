@@ -31,7 +31,6 @@ class RelatedCollectionBlockService extends CollectionBlockService
                 'expanded' => true,
                 'multiple' => true,
                 'choices' => $this->getAttributes($options['data']->getOwner()),
-                'choices_as_values' => true,
                 'attr' => [
                     'help_text' => 'Define on what attribute the content should be related',
                     'tag' => 'general',

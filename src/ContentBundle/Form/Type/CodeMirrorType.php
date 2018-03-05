@@ -43,10 +43,10 @@ class CodeMirrorType extends AbstractType
      */
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults(array(
-            'parameters' => array(
+        $resolver->setDefaults([
+            'parameters' => [
                 'mode' => 'javascript',
-            )
-        ));
+            ]
+        ]);
     }
 }

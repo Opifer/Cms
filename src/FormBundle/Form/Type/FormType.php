@@ -93,7 +93,6 @@ class FormType extends AbstractType
                     'Disabled' => false,
                     'Enabled' => true,
                 ],
-                'choices_as_values' => true,
                 'attr' => [
                     'help_text' => 'Enables a hidden spamcheck on form submissions. '.$recaptchaKeysHelptext,
                 ],

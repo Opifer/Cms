@@ -33,26 +33,24 @@ class JumbotronBlockService extends AbstractBlockService implements BlockService
             ->add('extra_classes', TextType::class, ['attr' => ['help_text' => 'help.extra_classes'],'required' => false])
             ->add('autoplay', ChoiceType::class, [
                 'choices' => [
-                    false =>'No',
-                    true => 'Yes',
+                    'No' => false,
+                    'Yes' => true,
                 ],
                 'attr' => [
                     'help_text' => 'help.autoplay'
                 ],
-                'required' => true,
                 'constraints' => [
                     new NotBlank(),
                 ],
             ])
             ->add('loop', ChoiceType::class, [
                 'choices' => [
-                    false =>'No',
-                    true => 'Yes',
+                    'No' => false,
+                    'Yes' => true,
                 ],
                 'attr' => [
                     'help_text' => 'help.loop'
                 ],
-                'required' => true,
                 'constraints' => [
                     new NotBlank(),
                 ],

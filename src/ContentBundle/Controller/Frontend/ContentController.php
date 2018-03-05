@@ -21,7 +21,7 @@ class ContentController extends Controller
      *
      * This Controller action is being routed to from either our custom ContentRouter,
      * or the ExceptionController.
-     * @see Opifer\SiteBundle\Router\ContentRouter
+     * @see \Opifer\SiteBundle\Router\ContentRouter
      *
      * @param Request          $request
      * @param ContentInterface $content
@@ -39,12 +39,12 @@ class ContentController extends Controller
 
         $em = $this->getDoctrine()->getManager();
 
-        $qb = $em->createQueryBuilder();
-        $qb->select('count(s.id)')
-            ->from(Site::class, 's');
+        $siteCount = $em->getRepository(Site::class)->createQueryBuiler('s')
+            ->select('count(s.id)')
+            ->getQuery()
+            ->getSingleScalarResult();
 
         $domain = $em->getRepository(Domain::class)->findOneByDomain($host);
-        $siteCount = $qb->getQuery()->getSingleScalarResult();
 
         if ($siteCount && $domain->getSite()->getDefaultLocale()) {
             $request->setLocale($domain->getSite()->getDefaultLocale()->getLocale());
@@ -106,12 +106,12 @@ class ContentController extends Controller
         $host = $request->getHost();
         $em = $this->getDoctrine()->getManager();
 
-        $qb = $em->createQueryBuilder();
-        $qb->select('count(s.id)')
-            ->from(Site::class, 's');
+        $siteCount = $em->getRepository(Site::class)->createQueryBuiler('s')
+            ->select('count(s.id)')
+            ->getQuery()
+            ->getSingleScalarResult();
 
         $domain = $em->getRepository(Domain::class)->findOneByDomain($host);
-        $siteCount = $qb->getQuery()->getSingleScalarResult();
 
         if ($siteCount && $domain->getSite()->getDefaultLocale()) {
             $request->setLocale($domain->getSite()->getDefaultLocale()->getLocale());

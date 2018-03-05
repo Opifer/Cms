@@ -56,18 +56,18 @@ class ContentType extends AbstractType
             ])
             ->add('locale', EntityType::class, [
                 'label' => 'label.language',
-                'class'    => 'OpiferCmsBundle:Locale',
+                'class' => 'OpiferCmsBundle:Locale',
                 'choice_label' => 'name',
-                'attr'     => [
-                    'help_text'   => 'help.content_language',
+                'attr' => [
+                    'help_text' => 'help.content_language',
                 ],
                 'required' => false
             ])
             ->add('title', TextType::class, [
                 'label' => 'label.title',
-                'attr'  => [
+                'attr' => [
                     'placeholder' => 'placeholder.content_title',
-                    'help_text'   => 'help.content_title',
+                    'help_text' => 'help.content_title',
                 ],
                 'required' => true,
                 'constraints' => [
@@ -76,17 +76,17 @@ class ContentType extends AbstractType
             ])
             ->add('shortTitle', TextType::class, [
                 'label' => 'label.short_title',
-                'attr'  => [
+                'attr' => [
                     'placeholder' => 'placeholder.content_short_title',
-                    'help_text'   => 'help.content_short_title',
+                    'help_text' => 'help.content_short_title',
                 ],
                 'required' => false
             ])
             ->add('description', TextType::class, [
                 'label' => 'label.description',
-                'attr'  => [
+                'attr' => [
                     'placeholder' => 'placeholder.content_description',
-                    'help_text'   => 'help.content_description',
+                    'help_text' => 'help.content_description',
                 ],
                 'required' => false
             ])
@@ -95,7 +95,7 @@ class ContentType extends AbstractType
                     'slug', TextType::class, [
                         'attr' => [
                             'placeholder' => 'placeholder.slug',
-                            'help_text'   => 'help.slug',
+                            'help_text' => 'help.slug',
                         ]
                     ]
                 )->addViewTransformer(new SlugTransformer())
@@ -133,7 +133,7 @@ class ContentType extends AbstractType
 
         $builder
             ->add('alias', TextType::class, [
-                'attr'        => [
+                'attr' => [
                     'help_text' => 'help.alias',
                 ],
                 'required' => false
@@ -172,13 +172,5 @@ class ContentType extends AbstractType
         if ($options['data']->getValueSet()) {
             $builder->add('valueset', ValueSetType::class);
         }
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function getBlockPrefix()
-    {
-        return 'opifer_content_details';
     }
 }
