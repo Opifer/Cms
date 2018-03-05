@@ -24,7 +24,7 @@ abstract class FormFieldBlockService extends AbstractBlockService implements Blo
     /** @var FormManager */
     protected $formManager;
 
-    /** @var bool {@inheritdoc} */
+    /** @var bool */
     protected $esiEnabled = true;
 
     /**

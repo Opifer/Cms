@@ -28,7 +28,7 @@ class ValueProviderType extends AbstractType
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function configureOptions(OptionsResolver $resolver)
     {
@@ -38,13 +38,13 @@ class ValueProviderType extends AbstractType
         }
 
         $resolver->setDefaults([
-            'label'    => 'Type of value',
-            'choices'  => $choices,
+            'label' => 'Type of value',
+            'choices' => $choices,
         ]);
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getParent()
     {
@@ -52,7 +52,7 @@ class ValueProviderType extends AbstractType
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getBlockPrefix()
     {

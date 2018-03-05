@@ -85,7 +85,6 @@ class FormType extends AbstractType
                 'attr'     => [
                     'help_text'   => 'help.content_language',
                 ],
-                'required' => true
             ])
             ->add('recaptchaEnabled', ChoiceType::class, [
                 'label' => 'Recaptcha',
@@ -101,13 +100,5 @@ class FormType extends AbstractType
                 'object_class' => $this->postClass,
             ])
         ;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getBlockPrefix()
-    {
-        return 'opifer_form_form';
     }
 }

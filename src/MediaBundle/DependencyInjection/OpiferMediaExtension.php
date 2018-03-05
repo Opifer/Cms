@@ -3,6 +3,7 @@
 namespace Opifer\MediaBundle\DependencyInjection;
 
 use Opifer\MediaBundle\File\ImageTypeGuesser;
+use Opifer\MediaBundle\Model\MediaInterface;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
@@ -55,7 +56,7 @@ class OpiferMediaExtension extends Extension implements PrependExtensionInterfac
                     $container->prependExtensionConfig($name,  [
                         'orm' => [
                             'resolve_target_entities' => [
-                                'Opifer\MediaBundle\Model\MediaInterface' => $config['media']['class'],
+                                MediaInterface::class => $config['media']['class'],
                             ],
                         ],
                     ]);

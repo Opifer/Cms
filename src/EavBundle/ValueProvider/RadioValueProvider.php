@@ -3,6 +3,7 @@
 namespace Opifer\EavBundle\ValueProvider;
 
 use Doctrine\ORM\EntityRepository;
+use Opifer\EavBundle\Entity\RadioValue;
 use Opifer\EavBundle\Form\Transformer\CollectionToObjectTransformer;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -23,7 +24,7 @@ class RadioValueProvider extends AbstractValueProvider implements ValueProviderI
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
@@ -55,15 +56,15 @@ class RadioValueProvider extends AbstractValueProvider implements ValueProviderI
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getEntity()
     {
-        return 'Opifer\EavBundle\Entity\RadioValue';
+        return RadioValue::class;
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getLabel()
     {

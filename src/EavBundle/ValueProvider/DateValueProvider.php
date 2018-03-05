@@ -2,6 +2,7 @@
 
 namespace Opifer\EavBundle\ValueProvider;
 
+use Opifer\EavBundle\Entity\DateValue;
 use Opifer\EavBundle\Form\Type\DatePickerType;
 use Symfony\Component\Form\FormBuilderInterface;
 
@@ -11,7 +12,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 class DateValueProvider extends AbstractValueProvider implements ValueProviderInterface
 {
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
@@ -22,15 +23,15 @@ class DateValueProvider extends AbstractValueProvider implements ValueProviderIn
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getEntity()
     {
-        return 'Opifer\EavBundle\Entity\DateValue';
+        return DateValue::class;
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getLabel()
     {

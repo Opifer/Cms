@@ -9,9 +9,7 @@ use Opifer\ContentBundle\Block\Tool\Tool;
 use Opifer\ContentBundle\Block\Tool\ToolsetMemberInterface;
 use Opifer\ContentBundle\Model\BlockInterface;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\Form\Extension\Core\Type\FormType;
 
 /**
  * Form Navigation Button Block Service.
@@ -25,9 +23,7 @@ class FormNavButtonBlockService extends AbstractBlockService implements BlockSer
     {
         parent::buildManageForm($builder, $options);
 
-        $propertiesForm = $builder->create('properties', FormType::class);
-
-        $propertiesForm
+        $builder->get('properties')
             ->add('direction', ChoiceType::class, [
                 'choices' => [
                     'Next' => 'next',
@@ -35,10 +31,6 @@ class FormNavButtonBlockService extends AbstractBlockService implements BlockSer
                 ],
             ])
         ;
-        
-        $builder->add(
-            $propertiesForm
-        );
     }
 
     /**

@@ -23,7 +23,7 @@ class ChecklistValueProvider extends AbstractValueProvider implements ValueProvi
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
@@ -47,7 +47,7 @@ class ChecklistValueProvider extends AbstractValueProvider implements ValueProvi
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getEntity()
     {

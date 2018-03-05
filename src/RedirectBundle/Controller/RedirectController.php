@@ -45,7 +45,7 @@ class RedirectController extends Controller
             $manager->save($redirect);
             $this->addFlash('success', $this->get('translator')->trans('opifer_redirect.flash.created'));
 
-            if($form->get('saveAndAdd')->isClicked()){
+            if ($form->get('saveAndAdd')->isClicked()){
                 return $this->redirectToRoute('opifer_redirect_redirect_create');
             }
 

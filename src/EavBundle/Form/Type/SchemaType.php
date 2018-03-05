@@ -24,14 +24,14 @@ class SchemaType extends AbstractType
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder->add('attributes', BootstrapCollectionType::class, [
-            'allow_add'    => true,
+            'allow_add' => true,
             'allow_delete' => true,
-            'entry_type'         => AttributeType::class
+            'entry_type' => AttributeType::class
         ]);
 
         if ($options['object_class'] !== null && class_exists($options['object_class'])) {
@@ -48,7 +48,7 @@ class SchemaType extends AbstractType
 
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function configureOptions(OptionsResolver $resolver)
     {
@@ -60,7 +60,7 @@ class SchemaType extends AbstractType
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getBlockPrefix()
     {
