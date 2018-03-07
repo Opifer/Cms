@@ -221,6 +221,7 @@ class ContentController extends Controller
         }
 
         $response = new JsonResponse();
+        $response->setSharedMaxAge(24 * 60 * 60); // Cache for a day
         $response->setLastModified($lastUpdatedAt);
         $response->setPublic();
 
