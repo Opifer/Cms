@@ -213,7 +213,7 @@ angular.module('OpiferContent', ['angular-inview', 'ui.tree', 'ngCookies'])
                     } else if ($scope.inSearch) {
                         $scope.clearSearch();
                     }
-                }, 300));
+                }, 700));
 
                 // Only fetch the content once while opening the browser
                 $scope.$watch('active', function() {
