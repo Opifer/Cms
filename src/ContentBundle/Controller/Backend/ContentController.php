@@ -4,6 +4,7 @@ namespace Opifer\ContentBundle\Controller\Backend;
 
 use Opifer\CmsBundle\Entity\Site;
 use Opifer\CmsBundle\Manager\ContentManager;
+use Opifer\ContentBundle\Entity\TranslationGroup;
 use Opifer\ContentBundle\Form\Type\ContentType;
 use Opifer\ContentBundle\Form\Type\LayoutType;
 use Opifer\ContentBundle\Model\Content;
@@ -267,12 +268,10 @@ class ContentController extends Controller
 
         // Load the contentTranslations for the content group
         if ($content->getTranslationGroup() !== null) {
-            $contentTranslations = array_filter($manager->getRepository()
-                ->findBy(['translationGroup' => $content->getTranslationGroup()]), function($contentTranslation) use ($content) {
+            $contentTranslations = $content->getTranslationGroup()->getContents()->filter(function($contentTranslation) use ($content) {
                 return $contentTranslation->getId() !== $content->getId();
             });
 
-            // Set the contentTranslations for the group
             $content->setContentTranslations($contentTranslations);
         }
 
@@ -286,20 +285,14 @@ class ContentController extends Controller
 
             if ($content->getTranslationGroup() === null) {
                 // Init new group
-                $queryBuilder = $manager->getRepository()->createQueryBuilder('c');
-                $queryResult = $queryBuilder->select('MAX(c.translationGroup) as number')
-                    ->where('c.translationGroup IS NOT NULL')
-                    ->getQuery()
-                    ->getSingleResult();
-
-                $groupNumber = ($queryResult['number'] === null) ? 1 : $queryResult['number'] + 1;
-                $content->setTranslationGroup($groupNumber);
+                $translationGroup = new TranslationGroup();
+                $content->setTranslationGroup($translationGroup);
             }
 
             // Make sure all the contentTranslations have the same group as content
             $contentTranslationIds = [$content->getId()];
             foreach($content->getContentTranslations() as $contentTranslation) {
-                if ($contentTranslation->getTranslationGroup() !== $content->getTranslationGroup()) {
+                if ($contentTranslation->getTranslationGroup() === null) {
                     $contentTranslation->setTranslationGroup($content->getTranslationGroup());
                     $manager->save($contentTranslation);
                 }
@@ -311,7 +304,7 @@ class ContentController extends Controller
             $queryBuilder = $manager->getRepository()->createQueryBuilder('c');
             $queryBuilder->update()
                 ->set('c.translationGroup', 'NULL')
-                ->where($queryBuilder->expr()->eq('c.translationGroup', $content->getTranslationGroup()))
+                ->where($queryBuilder->expr()->eq('c.translationGroup', $content->getTranslationGroup()->getId()))
                 ->where($queryBuilder->expr()->notIn('c.id', $contentTranslationIds))
                 ->getQuery()
                 ->execute();

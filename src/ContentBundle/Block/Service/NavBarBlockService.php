@@ -2,7 +2,6 @@
 
 namespace Opifer\ContentBundle\Block\Service;
 
-use Opifer\CmsBundle\Entity\Content;
 use Opifer\ContentBundle\Block\BlockRenderer;
 use Opifer\ContentBundle\Block\Tool\Tool;
 use Opifer\ContentBundle\Block\Tool\ToolsetMemberInterface;
@@ -50,35 +49,6 @@ class NavBarBlockService extends AbstractBlockService implements BlockServiceInt
                 'required' => false,
             ])
         ;
-    }
-
-    public function getViewParameters(BlockInterface $block)
-    {
-        $parameters = parent::getViewParameters($block);
-
-        $request = $this->requestStack->getCurrentRequest();
-        $content = $request->attributes->get('content');
-
-        $translationRoutes = [];
-        $defaultTranslationRoutes = [
-            'nl' => $request->getBaseUrl() . '/',
-            'en' => $request->getBaseUrl() . '/en',
-            'fr' => $request->getBaseUrl() . '/fr',
-            'de' => $request->getBaseUrl() . '/de',
-        ];
-
-        if ($content->getTranslationGroup() !== null) {
-            $contentTranslations = $this->getEnvironment()->getEntityManager()->getRepository(Content::class)
-                ->findBy(['translationGroup' => $content->getTranslationGroup()]);
-
-            foreach ($contentTranslations as $contentTranslation) {
-                $translationRoutes[$contentTranslation->getLocale()->getLocale()] = $request->getBaseUrl() . '/' . $contentTranslation->getSlug();
-            }
-        }
-
-        $translationRoutes[$request->getLocale()] = $request->getRequestUri();
-
-        return array_merge($parameters, $defaultTranslationRoutes, $translationRoutes);
     }
 
     /**

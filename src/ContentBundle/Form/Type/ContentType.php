@@ -88,7 +88,7 @@ class ContentType extends AbstractType
 
                                     break;
                                 } else if ($translationContent->getTranslationGroup() !== null &&
-                                    $translationContent->getTranslationGroup() !== $content->getTranslationGroup()) {
+                                    $translationContent->getTranslationGroup()->getId() !== $content->getTranslationGroup()->getId()) {
                                     // Already assigned to another group
                                     $context->buildViolation('Content can only be assigned to one translation group')
                                         ->atPath('contentTranslations')

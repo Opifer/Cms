@@ -12,6 +12,7 @@ use Opifer\CmsBundle\Entity\Media;
 use Opifer\CmsBundle\Entity\Site;
 use Opifer\ContentBundle\Block\BlockOwnerInterface;
 use Opifer\ContentBundle\Entity\Template;
+use Opifer\ContentBundle\Entity\TranslationGroup;
 use Opifer\EavBundle\Entity\Value;
 use Opifer\EavBundle\Entity\MediaValue;
 use Opifer\EavBundle\Model\EntityInterface;
@@ -279,10 +280,10 @@ class Content implements ContentInterface, EntityInterface, TemplatedInterface, 
     protected $publishAt;
 
     /**
-     * @var int
+     * @var \Opifer\ContentBundle\Entity\TranslationGroup
      *
-     * @JMS\Expose
-     * @ORM\Column(name="translation_group", type="integer", nullable=true)
+     * @ORM\ManyToOne(targetEntity="Opifer\ContentBundle\Entity\TranslationGroup", inversedBy="contents")
+     * @ORM\JoinColumn(nullable=true)
      */
     protected $translationGroup;
 
@@ -1239,7 +1240,7 @@ class Content implements ContentInterface, EntityInterface, TemplatedInterface, 
     }
 
     /**
-     * @return int
+     * @return TranslationGroup
      */
     public function getTranslationGroup()
     {
@@ -1247,10 +1248,10 @@ class Content implements ContentInterface, EntityInterface, TemplatedInterface, 
     }
 
     /**
-     * @param int $translationGroup
+     * @param TranslationGroup $translationGroup
      * @return $this
      */
-    public function setTranslationGroup($translationGroup)
+    public function setTranslationGroup(TranslationGroup $translationGroup)
     {
         $this->translationGroup = $translationGroup;
 
@@ -1269,13 +1270,9 @@ class Content implements ContentInterface, EntityInterface, TemplatedInterface, 
      * @param $contentTranslations
      * @return $this
      */
-    public function setContentTranslations($contentTranslations)
+    public function setContentTranslations(array $contentTranslations)
     {
-        if (is_array($contentTranslations)) {
-            $this->contentTranslations = $contentTranslations;
-        } else if (is_string($contentTranslations)) {
-            $this->contentTranslations = json_decode($contentTranslations);
-        }
+        $this->contentTranslations = $contentTranslations;
 
         return $this;
     }
