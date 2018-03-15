@@ -279,6 +279,16 @@ class Content implements ContentInterface, EntityInterface, TemplatedInterface, 
     protected $publishAt;
 
     /**
+     * @var int
+     *
+     * @JMS\Expose
+     * @ORM\Column(name="translation_group", type="integer", nullable=true)
+     */
+    protected $translationGroup;
+
+    protected $contentTranslations = [];
+
+    /**
      * Constructor.
      */
     public function __construct()
@@ -1224,6 +1234,48 @@ class Content implements ContentInterface, EntityInterface, TemplatedInterface, 
     public function setPublishAt($publishAt)
     {
         $this->publishAt = $publishAt;
+
+        return $this;
+    }
+
+    /**
+     * @return int
+     */
+    public function getTranslationGroup()
+    {
+        return $this->translationGroup;
+    }
+
+    /**
+     * @param int $translationGroup
+     * @return $this
+     */
+    public function setTranslationGroup($translationGroup)
+    {
+        $this->translationGroup = $translationGroup;
+
+        return $this;
+    }
+
+    /**
+     * @return array
+     */
+    public function getContentTranslations()
+    {
+        return $this->contentTranslations;
+    }
+
+    /**
+     * @param $contentTranslations
+     * @return $this
+     */
+    public function setContentTranslations($contentTranslations)
+    {
+        if (is_array($contentTranslations)) {
+            $this->contentTranslations = $contentTranslations;
+        } else if (is_string($contentTranslations)) {
+            $this->contentTranslations = json_decode($contentTranslations);
+        }
 
         return $this;
     }

@@ -186,6 +186,13 @@ Opifer\CmsBundle\Entity\Content:
             nullable: false
             precision: 0
             column: show_in_navigation
+        translationGroup:
+            type: integer
+            scale: 0
+            length: null
+            unique: false
+            nullable: true
+            precision: 0
     manyToOne:
         preview:
             targetEntity: Opifer\MediaBundle\Model\MediaInterface

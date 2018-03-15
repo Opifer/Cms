@@ -112,7 +112,7 @@ services:
 
     opifer.content.navbar_block:
         class: 'Opifer\ContentBundle\Block\Service\NavBarBlockService'
-        arguments: ['@opifer.content.block_renderer', '%opifer_content.navbar_block_configuration%']
+        arguments: ['@opifer.content.block_renderer', '%opifer_content.navbar_block_configuration%', '@request_stack']
         tags:
             - { name: opifer.content.block_service, alias: navbar }
 
