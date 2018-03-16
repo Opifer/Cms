@@ -13,7 +13,6 @@ use Symfony\Bundle\FrameworkBundle\Templating\EngineInterface;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\FormType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Validator\Constraints\NotBlank;
 
 /**
@@ -21,14 +20,6 @@ use Symfony\Component\Validator\Constraints\NotBlank;
  */
 class NavBarBlockService extends AbstractBlockService implements BlockServiceInterface, ToolsetMemberInterface
 {
-    protected $requestStack;
-
-    public function __construct(BlockRenderer $blockRenderer, array $config, RequestStack $requestStack)
-    {
-        parent::__construct($blockRenderer, $config);
-        $this->requestStack = $requestStack;
-    }
-
     /**
      * {@inheritdoc}
      */
