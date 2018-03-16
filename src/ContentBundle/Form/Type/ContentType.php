@@ -13,6 +13,8 @@ use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Validator\Constraints\NotBlank;
+use Symfony\Component\Validator\Constraints\Callback;
+use Symfony\Component\Validator\Context\ExecutionContextInterface;
 
 /**
  * Content Form Type
@@ -62,6 +64,44 @@ class ContentType extends AbstractType
                     'help_text'   => 'help.content_language',
                 ],
                 'required' => false
+            ])
+            ->add('contentTranslations', ContentListPickerType::class, [
+                'as_collection' => true,
+                'attr' => [
+                    'help_text' => 'This page in other languages'
+                ],
+                'required' => false,
+                'constraints' => [
+                    new Callback(function($translationContents, ExecutionContextInterface $context) {
+                        if (is_array($translationContents) && !empty($translationContents)) {
+                            $content = $context->getRoot()->getNormData();
+                            $uniqueLanguages = [$content->getLocale()->getLocale()];
+
+                            // Validate each translationContent
+                            foreach ($translationContents as $translationContent) {
+                                $locale = $translationContent->getLocale()->getLocale();
+                                if (in_array($locale, $uniqueLanguages)) {
+                                    // Not unique
+                                    $context->buildViolation('Multiple content with the same language given')
+                                        ->atPath('contentTranslations')
+                                        ->addViolation();
+
+                                    break;
+                                } else if ($translationContent->getTranslationGroup() !== null &&
+                                    $translationContent->getTranslationGroup()->getId() !== $content->getTranslationGroup()->getId()) {
+                                    // Already assigned to another group
+                                    $context->buildViolation('Content can only be assigned to one translation group')
+                                        ->atPath('contentTranslations')
+                                        ->addViolation();
+
+                                    break;
+                                }
+
+                                $uniqueLanguages[] = $locale;
+                            }
+                        }
+                    })
+                ]
             ])
             ->add('title', TextType::class, [
                 'label' => 'label.title',
