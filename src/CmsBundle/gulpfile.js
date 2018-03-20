@@ -18,6 +18,8 @@ var gulp = require('gulp'),
 // JAVASCRIPT TASK: write one minified js file out of jquery.js, bootstrap.js and all of my custom js files
 gulp.task('js', ['react'], function () {
     var files = [
+        '../../../../friendsofsymfony/jsrouting-bundle/Resources/public/js/router.js',
+        '../../../../willdurand/js-translation-bundle/Resources/public/js/translator.min.js',
         'Resources/public/components/ng-file-upload/ng-file-upload-shim.min.js',
         'Resources/public/components/jquery/dist/jquery.min.js',
         'Resources/public/components/jquery-ui/jquery-ui.js',
