@@ -150,7 +150,7 @@ export function uploadFiles(files, callback, errorCallback) {
       body.append('directory', directory.id);
     }
 
-    return api.post(null, 'media/upload', dispatch, {}, { body })
+    return api.post(null, 'media', dispatch, {}, { body })
       .then(response => {
         callback(response);
         return response;
