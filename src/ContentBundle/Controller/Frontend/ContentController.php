@@ -38,7 +38,7 @@ class ContentController extends Controller
 
         $em = $this->getDoctrine()->getManager();
 
-        $siteCount = $em->getRepository(Site::class)->createQueryBuiler('s')
+        $siteCount = $em->getRepository(Site::class)->createQueryBuilder('s')
             ->select('count(s.id)')
             ->getQuery()
             ->getSingleScalarResult();
@@ -105,7 +105,7 @@ class ContentController extends Controller
         $host = $request->getHost();
         $em = $this->getDoctrine()->getManager();
 
-        $siteCount = $em->getRepository(Site::class)->createQueryBuiler('s')
+        $siteCount = $em->getRepository(Site::class)->createQueryBuilder('s')
             ->select('count(s.id)')
             ->getQuery()
             ->getSingleScalarResult();
