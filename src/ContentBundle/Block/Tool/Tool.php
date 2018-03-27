@@ -75,24 +75,24 @@ class Tool
         return $this;
     }
 
-    public function getDescription() : string
+    public function getDescription() : ?string
     {
         return $this->description;
     }
 
-    public function setDescription(string $description) : Tool
+    public function setDescription(?string $description) : Tool
     {
         $this->description = $description;
 
         return $this;
     }
 
-    public function getIcon() : string
+    public function getIcon() : ?string
     {
         return $this->icon;
     }
 
-    public function setIcon(string $icon) : Tool
+    public function setIcon(?string $icon) : Tool
     {
         $this->icon = $icon;
 
