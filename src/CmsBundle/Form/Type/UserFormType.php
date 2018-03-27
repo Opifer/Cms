@@ -35,6 +35,7 @@ class UserFormType extends AbstractType
             ->add('username')
             ->add('email')
             ->add('plainPassword', 'repeated', [
+                'required'   => false,
                 'type' => 'password',
                 'first_options' => ['label' => 'form.password'],
                 'second_options' => ['label' => 'form.password_confirmation'],
