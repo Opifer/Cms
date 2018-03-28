@@ -3,7 +3,7 @@
 namespace Opifer\FormBlockBundle\Block\Service;
 
 use Opifer\CmsBundle\Entity\Form;
-use Opifer\CmsBundle\Entity\FormBlock;
+use Opifer\FormBlockBundle\Entity\FormBlock;
 use Opifer\ContentBundle\Block\BlockRenderer;
 use Opifer\ContentBundle\Block\Service\AbstractBlockService;
 use Opifer\ContentBundle\Block\Service\BlockServiceInterface;
