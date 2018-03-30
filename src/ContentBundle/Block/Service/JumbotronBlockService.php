@@ -39,9 +39,6 @@ class JumbotronBlockService extends AbstractBlockService implements BlockService
                 'attr' => [
                     'help_text' => 'help.autoplay'
                 ],
-                'constraints' => [
-                    new NotBlank(),
-                ],
             ])
             ->add('loop', ChoiceType::class, [
                 'choices' => [
@@ -50,9 +47,6 @@ class JumbotronBlockService extends AbstractBlockService implements BlockService
                 ],
                 'attr' => [
                     'help_text' => 'help.loop'
-                ],
-                'constraints' => [
-                    new NotBlank(),
                 ],
             ])
         ;
