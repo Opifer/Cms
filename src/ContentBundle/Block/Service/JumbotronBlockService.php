@@ -55,7 +55,7 @@ class JumbotronBlockService extends AbstractBlockService implements BlockService
             $builder->get('properties')
                 ->add('styles', ChoiceType::class, [
                     'label' => 'label.styling',
-                    'choices'  => array_flip($this->config['styles']),
+                    'choices'  => $this->config['styles'],
                     'required' => false,
                     'expanded' => true,
                     'multiple' => true,
@@ -69,7 +69,7 @@ class JumbotronBlockService extends AbstractBlockService implements BlockService
                     'label'       => 'label.template',
                     'placeholder' => 'placeholder.choice_optional',
                     'attr'        => ['help_text' => 'help.block_template','tag' => 'styles'],
-                    'choices'     => array_flip($this->config['templates']),
+                    'choices'     => $this->config['templates'],
                     'required'    => false,
                 ]);
         }
