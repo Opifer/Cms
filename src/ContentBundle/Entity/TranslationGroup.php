@@ -59,7 +59,7 @@ class TranslationGroup
      * @param $locale
      * @return string
      */
-    public function getUrl($locale)
+    public function getSlug($locale)
     {
         $localeContent = null;
         foreach ($this->getContents() as $content) {
