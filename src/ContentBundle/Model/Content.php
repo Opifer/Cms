@@ -1270,7 +1270,7 @@ class Content implements ContentInterface, EntityInterface, TemplatedInterface, 
      * @param $contentTranslations
      * @return $this
      */
-    public function setContentTranslations(array $contentTranslations)
+    public function setContentTranslations($contentTranslations)
     {
         $this->contentTranslations = $contentTranslations;
 

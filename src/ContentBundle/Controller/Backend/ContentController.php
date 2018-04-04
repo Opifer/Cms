@@ -276,9 +276,22 @@ class ContentController extends Controller
         }
 
         $form = $this->createForm(ContentType::class, $content);
+
+        $originalContentItems = new ArrayCollection();
+        foreach ($content->getTranslationGroup()->getContents() as $contentItem) {
+            $originalContentItems->add($contentItem);
+        }
+
         $form->handleRequest($request);
 
         if ($form->isValid()) {
+            // Remove deleted domains
+            foreach ($originalContentItems as $contentItem) {
+                if (false === $content->getTranslationGroup()->getContents->contains($contentItem)) {
+                    $manager->remove($contentItem);
+                }
+            }
+
             if (null === $content->getPublishAt()) {
                 $content->setPublishAt($content->getCreatedAt());
             }
@@ -299,15 +312,6 @@ class ContentController extends Controller
 
                 $contentTranslationIds[] = $contentTranslation->getId();
             }
-
-            // Remove possible contentTranslations from the translationGroup
-            $queryBuilder = $manager->getRepository()->createQueryBuilder('c');
-            $queryBuilder->update()
-                ->set('c.translationGroup', 'NULL')
-                ->where($queryBuilder->expr()->eq('c.translationGroup', $content->getTranslationGroup()->getId()))
-                ->where($queryBuilder->expr()->notIn('c.id', $contentTranslationIds))
-                ->getQuery()
-                ->execute();
 
             $manager->save($content);
 
