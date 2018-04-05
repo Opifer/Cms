@@ -366,11 +366,6 @@ class ContentController extends Controller
         ]);
     }
 
-    public function getEntityManager()
-    {
-        return $this->em;
-    }
-
     public function historyAction(Request $request, $owner, $ownerId)
     {
         return $this->render($this->getParameter('opifer_content.content_history_view'), array());
