@@ -236,6 +236,12 @@ class ContentManager implements ContentManagerInterface, BlockProviderInterface
         return $duplicatedContent;
     }
 
+
+    public function getEntityManager()
+    {
+        return $this->em;
+    }
+
     /**
      * For cloning purpose
      *

@@ -12,6 +12,7 @@ use Opifer\CmsBundle\Entity\Media;
 use Opifer\CmsBundle\Entity\Site;
 use Opifer\ContentBundle\Block\BlockOwnerInterface;
 use Opifer\ContentBundle\Entity\Template;
+use Opifer\ContentBundle\Entity\TranslationGroup;
 use Opifer\EavBundle\Entity\Value;
 use Opifer\EavBundle\Entity\MediaValue;
 use Opifer\EavBundle\Model\EntityInterface;
@@ -277,6 +278,16 @@ class Content implements ContentInterface, EntityInterface, TemplatedInterface, 
      * @ORM\Column(name="publish_at", type="datetime", nullable=true)
      */
     protected $publishAt;
+
+    /**
+     * @var \Opifer\ContentBundle\Entity\TranslationGroup
+     *
+     * @ORM\ManyToOne(targetEntity="Opifer\ContentBundle\Entity\TranslationGroup", inversedBy="contents")
+     * @ORM\JoinColumn(nullable=true)
+     */
+    protected $translationGroup;
+
+    protected $contentTranslations = [];
 
     /**
      * Constructor.
@@ -1224,6 +1235,44 @@ class Content implements ContentInterface, EntityInterface, TemplatedInterface, 
     public function setPublishAt($publishAt)
     {
         $this->publishAt = $publishAt;
+
+        return $this;
+    }
+
+    /**
+     * @return TranslationGroup
+     */
+    public function getTranslationGroup()
+    {
+        return $this->translationGroup;
+    }
+
+    /**
+     * @param TranslationGroup $translationGroup
+     * @return $this
+     */
+    public function setTranslationGroup(TranslationGroup $translationGroup)
+    {
+        $this->translationGroup = $translationGroup;
+
+        return $this;
+    }
+
+    /**
+     * @return array
+     */
+    public function getContentTranslations()
+    {
+        return $this->contentTranslations;
+    }
+
+    /**
+     * @param $contentTranslations
+     * @return $this
+     */
+    public function setContentTranslations($contentTranslations)
+    {
+        $this->contentTranslations = $contentTranslations;
 
         return $this;
     }
