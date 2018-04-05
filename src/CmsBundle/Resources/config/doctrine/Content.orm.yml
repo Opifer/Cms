@@ -267,6 +267,13 @@ Opifer\CmsBundle\Entity\Content:
                     referencedColumnName: id
                     onDelete: CASCADE
             orphanRemoval: false
+        translationGroup:
+            targetEntity: Opifer\ContentBundle\Entity\TranslationGroup
+            cascade:
+              - persist
+            fetch: EAGER
+            mappedBy: null
+            inversedBy: contents
     oneToMany:
         blocks:
             targetEntity: Opifer\ContentBundle\Entity\Block
