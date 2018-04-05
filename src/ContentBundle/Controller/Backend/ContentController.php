@@ -2,6 +2,7 @@
 
 namespace Opifer\ContentBundle\Controller\Backend;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Opifer\CmsBundle\Entity\Site;
 use Opifer\CmsBundle\Manager\ContentManager;
 use Opifer\ContentBundle\Entity\TranslationGroup;
@@ -263,6 +264,7 @@ class ContentController extends Controller
     {
         /** @var ContentManager $manager */
         $manager = $this->get('opifer.content.content_manager');
+        $em = $manager->getEntityManager();
         $content = $manager->getRepository()->find($id);
         $content = $manager->createMissingValueSet($content);
 
@@ -278,20 +280,13 @@ class ContentController extends Controller
         $form = $this->createForm(ContentType::class, $content);
 
         $originalContentItems = new ArrayCollection();
-        foreach ($content->getTranslationGroup()->getContents() as $contentItem) {
+        foreach ($content->getContentTranslations() as $contentItem) {
             $originalContentItems->add($contentItem);
         }
 
         $form->handleRequest($request);
 
         if ($form->isValid()) {
-            // Remove deleted domains
-            foreach ($originalContentItems as $contentItem) {
-                if (false === $content->getTranslationGroup()->getContents->contains($contentItem)) {
-                    $manager->remove($contentItem);
-                }
-            }
-
             if (null === $content->getPublishAt()) {
                 $content->setPublishAt($content->getCreatedAt());
             }
@@ -307,13 +302,24 @@ class ContentController extends Controller
             foreach($content->getContentTranslations() as $contentTranslation) {
                 if ($contentTranslation->getTranslationGroup() === null) {
                     $contentTranslation->setTranslationGroup($content->getTranslationGroup());
-                    $manager->save($contentTranslation);
+                    $em->persist($contentTranslation);
                 }
 
                 $contentTranslationIds[] = $contentTranslation->getId();
             }
 
-            $manager->save($content);
+            // Remove possible contentTranslations from the translationGroup
+            $queryBuilder = $manager->getRepository()->createQueryBuilder('c');
+            $queryBuilder->update()
+                ->set('c.translationGroup', 'NULL')
+                ->where($queryBuilder->expr()->eq('c.translationGroup', $content->getTranslationGroup()->getId()))
+                ->where($queryBuilder->expr()->notIn('c.id', $contentTranslationIds))
+                ->getQuery()
+                ->execute();
+
+            $em->persist($content);
+
+            $em->flush();
 
             return $this->redirectToRoute('opifer_content_content_index');
         }
@@ -358,6 +364,11 @@ class ContentController extends Controller
             'content' => $content,
             'form' => $form->createView(),
         ]);
+    }
+
+    public function getEntityManager()
+    {
+        return $this->em;
     }
 
     public function historyAction(Request $request, $owner, $ownerId)
