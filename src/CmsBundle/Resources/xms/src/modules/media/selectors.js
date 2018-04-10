@@ -3,6 +3,7 @@ import { createSelector } from 'reselect';
 export const itemEntitiesSelector = state => state.entities.medias;
 export const directoryEntitiesSelector = state => state.entities.directories;
 
+export const selectedSelector = state => state.media.selected;
 export const itemsSelector = state => state.media.items;
 export const directoriesSelector = state => state.media.directories;
 export const directorySelector = state => state.media.directory;

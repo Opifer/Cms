@@ -36,6 +36,13 @@ export function setItems(items) {
   };
 }
 
+export function setSelected(selected) {
+  return {
+    type: t.SET_SELECTED,
+    selected,
+  };
+}
+
 export function setData(data) {
   return {
     type: t.SET_DATA,

@@ -1,5 +1,3 @@
-// import merge from 'lodash/merge';
-// import isEqual from 'lodash/isEqual';
 import * as t from './actionTypes';
 
 const initialState = {
@@ -9,13 +7,19 @@ const initialState = {
   directories: [],
   directory: null,
   results: 0,
-  totalResults: null,
+  selected: [],
   resultsPerPage: null,
+  totalResults: null,
   maxUploadSize: null,
 };
 
 const media = (state = initialState, action) => {
   switch (action.type) {
+    case t.SET_SELECTED: {
+      return Object.assign({}, state, {
+        selected: action.selected,
+      });
+    }
     case t.START_FETCHING: {
       return {
         ...state,

@@ -2,13 +2,13 @@ import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { Modal, ModalHeader, ModalBody } from 'reactstrap';
 import MediaManager from './MediaManager';
-import { getItems, setSelectedItems } from '../actions';
+import { getItems, setSelectedItems, setSelected } from '../actions';
 
 class MediaPicker extends Component {
   static propTypes = {
     name: PropTypes.string,
     multiple: PropTypes.bool,
-    value: PropTypes.string,
+    value: PropTypes.oneOfType([PropTypes.string, PropTypes.array]),
   };
 
   static defaultProps = {
@@ -17,56 +17,43 @@ class MediaPicker extends Component {
 
   constructor(props) {
     super(props);
-    this.state = {
-      modal: false,
-      items: [],
-    };
+    this.state = { modal: false };
 
     this.toggle = this.toggle.bind(this);
     this.add = this.add.bind(this);
   }
 
   componentDidMount() {
-    const items = JSON.parse(this.props.value);
-    const strItems = items.toString();
-    if (strItems) {
-      this.props
-        .fetchItems([strItems])
-        .then((response) => this.setState({
-          items: response.results
-        }));
+    const { value } = this.props;
+    if (value && value.length > 0) {
+      this.props.fetchItems(value);
+      this.props.setSelected(Array.isArray(value) ? value : [value]);
     }
   }
 
   toggle() {
-    this.setState({
-      modal: !this.state.modal
-    });
+    this.setState({ modal: !this.state.modal });
   }
 
   add(item) {
-    const items = this.state.items;
-    items.push(item);
+    const { selected } = this.props;
+    selected.push(item.id);
 
-    this.setState({
-      items,
-      modal: !this.state.modal
-    });
+    this.props.setSelected(selected);
+
+    this.toggle();
   }
 
   remove(item) {
-    const items = this.state.items;
+    const { selected } = this.props;
 
-    items.splice(items.findIndex(i => i.id === item.id), 1);
+    selected.splice(selected.findIndex(i => i === item.id), 1);
 
-    this.setState({
-      items
-    });
+    this.props.setSelected(selected);
   }
 
   render() {
-    const { multiple, name } = this.props;
-    const { items } = this.state;
+    const { multiple, name, items } = this.props;
 
     return (
       <div>
@@ -97,7 +84,7 @@ class MediaPicker extends Component {
                       
                       <div className="image-wrapper">
                         <div className="controls">
-                          <a onClick={() => { this.remove(item); }} className="btn btn-close"></a>
+                          <a onClick={() => this.remove(item) } className="btn btn-close"></a>
                         </div>
                       </div>
                     </div>
@@ -149,9 +136,7 @@ class MediaPicker extends Component {
           </ModalHeader>
           <ModalBody>
             <MediaManager
-              onPick={(item) => {
-                this.add(item);
-              }}
+              onPick={(item) => this.add(item)}
               picker
             />
           </ModalBody>
@@ -162,8 +147,12 @@ class MediaPicker extends Component {
 }
 
 export default connect(
-  null,
+  (state, ownProps) => ({
+    selected: state.media.selected,
+    items: state.entities.medias ? state.media.selected.map(id => state.entities.medias[id]) : []
+  }),
   (dispatch) => ({
     fetchItems: (ids) => dispatch(getItems({ ids })),
+    setSelected: (ids) => dispatch(setSelected(ids))
   })
 )(MediaPicker);
