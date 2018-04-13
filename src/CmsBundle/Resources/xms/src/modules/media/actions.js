@@ -88,13 +88,21 @@ export function moveFile(file, dir) {
 }
 
 export function removeFile(file) {
-  return (dispatch) =>
+  return (dispatch, getState) =>
     api.del(`media/${file}`, dispatch)
       .then(media => {
-        console.log('TODO: REMOVE ENTITY');
-        // dispatch(updateEntity('medias', media.id, {
-        //   directory_id: media.directory_id,
-        // }));
+        const state = getState();
+
+        const index = state.media.items.indexOf(file);
+
+        if (index !== -1) {
+          return dispatch(setData({
+            totalResults: state.media.totalResults - 1,
+            results: state.media.results - 1,
+            items: state.media.items.filter(i => i !== file),
+          }));
+        }
+
         return media;
       });
 }

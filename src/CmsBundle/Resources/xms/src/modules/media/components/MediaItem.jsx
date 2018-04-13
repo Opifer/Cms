@@ -75,11 +75,11 @@ class MediaItem extends Component {
                 Edit
               </a>
             )}
-            {/*{(!picker) && (
+            {(!picker) && (
               <button type="button" onClick={this.delete} className="btn btn-default-outline delete">
                 Delete
               </button>
-            )}*/}
+            )}
             {(picker) && (
               <button type="button" onClick={this.pick} className="btn btn-default-outline include">
                 Use media
