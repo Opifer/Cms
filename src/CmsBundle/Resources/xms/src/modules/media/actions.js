@@ -78,13 +78,17 @@ export function addItems(items) {
 }
 
 export function moveFile(file, dir) {
-  return (dispatch) =>
-    api.put({ directory: dir }, `media/${file}`, dispatch)
-      .then(media => {
-        dispatch(updateEntity('medias', media.id, {
-          directory_id: media.directory_id,
-        }));
-      });
+  return (dispatch) => api
+    .put({ directory: dir }, `media/${file}`, dispatch)
+    .then(media => dispatch(updateEntity('medias', media.id, {
+      directory_id: media.directory_id,
+    })));
+}
+
+export function updateFile(file, data) {
+  return (dispatch) => api
+    .put(data, `media/${file}`, dispatch)
+    .then(media => dispatch(updateEntity('medias', media.id, data)));
 }
 
 export function removeFile(file) {

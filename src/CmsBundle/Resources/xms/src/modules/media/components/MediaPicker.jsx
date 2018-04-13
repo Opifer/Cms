@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { Modal, ModalHeader, ModalBody } from 'reactstrap';
 import MediaManager from './MediaManager';
-import { getItems, setSelectedItems, setSelected } from '../actions';
+import { getItems, setSelectedItems, setSelected, updateFile } from '../actions';
 
 class MediaPicker extends Component {
   static propTypes = {
@@ -17,9 +17,16 @@ class MediaPicker extends Component {
 
   constructor(props) {
     super(props);
-    this.state = { modal: false };
+    this.state = {
+      manager: false,
+      form: false,
+      item: null,
+    };
 
-    this.toggle = this.toggle.bind(this);
+    this.toggleManager = this.toggleManager.bind(this);
+    this.toggleForm = this.toggleForm.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleInputChange = this.handleInputChange.bind(this);
     this.add = this.add.bind(this);
   }
 
@@ -31,8 +38,41 @@ class MediaPicker extends Component {
     }
   }
 
-  toggle() {
-    this.setState({ modal: !this.state.modal });
+  handleSubmit(event) {
+    event.preventDefault();
+
+    const { item } = this.state;
+
+    this.props
+      .updateFile(item.id, {
+        name: item.name,
+        alt: item.alt,
+      })
+      .then(() => this.toggleForm(null));
+  }
+
+  handleInputChange(event) {
+    const target = event.target;
+    const value = target.value;
+    const name = target.name;
+
+    const item = {
+      ...this.state.item,
+      [name]: value
+    };
+
+    this.setState({ item });
+  }
+
+  toggleManager() {
+    this.setState({ manager: !this.state.manager });
+  }
+
+  toggleForm(item) {
+    this.setState({
+      item,
+      form: !this.state.form
+    });
   }
 
   add(item) {
@@ -90,48 +130,51 @@ class MediaPicker extends Component {
                     </div>
                   </div>
                   <div className="media-body">
-                    <dl className="dl-horizontal">
-                      <dt>Name</dt>
-                      <dd>{item.name}</dd>
-                      {(item.provider === 'image') && (<dt>Alt</dt>)}
-                      {(item.provider === 'image') && (<dd>{item.alt}</dd>)}
-                      {(item.provider === 'image') && (<dt>Dimensions</dt>)}
-                      {(item.provider === 'image') && (<dd>{item.metadata.width}x{item.metadata.height}</dd>)}
-                      <dt>Type</dt>
-                      <dd>{item.content_type}</dd>
-                      <dt>Filesize</dt>
-                      <dd>{item.readable_filesize}</dd>
-                    </dl>
+                    {!this.state.form && (
+                      <dl className="dl-horizontal" onClick={() => this.toggleForm(item)}>
+                        <dt>Name</dt>
+                        <dd>{item.name}</dd>
+                        {(item.provider === 'image') && (<dt>Alt</dt>)}
+                        {(item.provider === 'image') && (<dd>{item.alt}</dd>)}
+                        {(item.provider === 'image') && (<dt>Dimensions</dt>)}
+                        {(item.provider === 'image') && (<dd>{item.metadata.width}x{item.metadata.height}</dd>)}
+                        <dt>Type</dt>
+                        <dd>{item.content_type}</dd>
+                        <dt>Filesize</dt>
+                        <dd>{item.readable_filesize}</dd>
+                      </dl>
+                    )}
+                    {this.state.form && (
+                      <form onSubmit={this.handleSubmit}>
+                        <div className="form-group">
+                          <input type="text" name="name" value={this.state.item.name} className="form-control" onChange={this.handleInputChange} />
+                        </div>
+                        <div className="form-group">
+                          <input type="text" name="alt" value={this.state.item.alt} className="form-control" placeholder="alt" onChange={this.handleInputChange} />
+                        </div>
+                        <button type="submit" className="btn btn-primary">Save</button>
+                      </form>
+                    )}
                   </div>
-                  {/*<div className="media-body" ng-show="item.formOpen">
-                    <div className="form-group">
-                      <input type="text" name="name" ng-model="item.name" className="form-control" />
-                    </div>
-                    <div className="form-group">
-                      <input type="text" name="alt" ng-model="item.alt" className="form-control" placholder="alt" />
-                    </div>
-                    <a ng-click="saveMedia($index)" className="btn btn-primary">Save</a>
-                  </div>*/}
                 </div>
               ))}
-              
             </div>
           </div>
         </div>
 
         {(multiple || items.length <= 1) && (
-          <div onClick={this.toggle} className="btn btn-default">
+          <div onClick={this.toggleManager} className="btn btn-default">
             select media
           </div>
         )}
 
         <Modal
-          isOpen={this.state.modal}
-          toggle={this.toggle}
+          isOpen={this.state.manager}
+          toggle={this.toggleManager}
           className={this.props.className}
           size="lg"
         >
-          <ModalHeader toggle={this.toggle}>
+          <ModalHeader toggle={this.toggleManager}>
             Medialibrary
           </ModalHeader>
           <ModalBody>
@@ -153,6 +196,7 @@ export default connect(
   }),
   (dispatch) => ({
     fetchItems: (ids) => dispatch(getItems({ ids })),
-    setSelected: (ids) => dispatch(setSelected(ids))
+    setSelected: (ids) => dispatch(setSelected(ids)),
+    updateFile: (id, data) => dispatch(updateFile(id, data)),
   })
 )(MediaPicker);
