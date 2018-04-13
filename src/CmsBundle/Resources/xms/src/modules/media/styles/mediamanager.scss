@@ -1,6 +1,14 @@
 .media-manager {
   .dropzone {
     background: #ffffff;
+    border: 1px dashed #c4c4c4;
+    height: 32px;
+    align-items: center;
+    padding: 6px;
+    cursor: pointer;
+    &.dragover {
+      background: #9c9c9c;
+    }
   }
 }
 

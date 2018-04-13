@@ -19,6 +19,7 @@ export const activeItemsSelector = createSelector(
 
     return ids
       .map(id => items[id])
+      .filter(i => i)
       .filter(item => item.directory_id === dir || (!item.directory_id && !dir));
   }
 );

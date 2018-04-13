@@ -36,21 +36,22 @@ class MediaManager extends Component {
 
     return (
       <div className="media-manager container-fluid">
-        <Dropzone
-          name="dropzone"
-          activeClassName="dragover"
-          disableClick
-          className="card p-2 border-dashed dropzone text-center file-drop-area"
-          onDrop={(acceptedFiles, rejectedFiles, e) => processFiles(acceptedFiles)}
-        >
-          <div className="file-drop-area-overlay"></div>
-          <div className="row row-space-2 row-space-top-2">
-            <MediaFilters />
-            <div className="col-md-6">
-              <small className="text-muted">Maximum upload size: {maxUploadSize}B</small>
-            </div>
+        
+        <div className="row row-space-2 row-space-top-2">
+          <MediaFilters />
+          <div className="col-md-6">
+            <div className="file-drop-area-overlay"></div>
+            <Dropzone
+              name="dropzone"
+              activeClassName="dragover"
+              className="card p-2 border-dashed dropzone text-center file-drop-area"
+              onDrop={(acceptedFiles, rejectedFiles, e) => processFiles(acceptedFiles)}
+            >
+              <small className="text-muted"><i className="fa fa-upload"></i> Drop files here (max. {maxUploadSize}B)</small>
+            </Dropzone>
           </div>
-        </Dropzone>
+        </div>
+        
         <section className="row media-items">
           <div className="image-section col-xs-12 clearfix">
             <DirectoryParentItem />

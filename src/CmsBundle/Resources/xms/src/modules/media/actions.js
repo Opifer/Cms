@@ -59,8 +59,19 @@ export function addDirectories(directories) {
 }
 
 export function addItems(items) {
-  return (dispatch) => {
+  return (dispatch, getState) => {
+    const state = getState();
+    if (!items.length) {
+      return [];
+    }
+
     const normalizedItems = normalize(items, arrayOf(mediaSchema));
+
+    dispatch(setData({
+      totalResults: state.media.totalResults + items.length,
+      results: state.media.results + items.length,
+      items: normalizedItems.result.concat(state.media.items),
+    }));
 
     return dispatch(setEntities(normalizedItems));
   };

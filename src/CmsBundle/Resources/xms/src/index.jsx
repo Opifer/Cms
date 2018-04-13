@@ -8,7 +8,7 @@ import Root from './containers/Root';
 import { loginUserSuccess } from './auth/actions';
 
 const element = document.getElementById('app');
-console.log('XMS>', element);
+
 if (element) {
   const history = syncHistoryWithStore(browserHistory, store);
 
