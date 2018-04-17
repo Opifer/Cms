@@ -36,7 +36,6 @@ class MediaManager extends Component {
 
     return (
       <div className="media-manager container-fluid">
-        
         <div className="row row-space-2 row-space-top-2">
           <MediaFilters />
           <div className="col-md-6">
@@ -79,10 +78,6 @@ class MediaManager extends Component {
           </div>
 
           <div className="panel-body text-center">
-            {/*<div className="drag-drop">
-              <span className="fa fa-image"></span>
-              <h3>Drag and drop files to upload</h3>
-            </div>*/}
             {(results < totalResults) && (
               <button className="btn btn-primary" onClick={loadMore} disabled={isFetching}>
                 {isFetching ? 'Fetching media' : 'Load more'}
