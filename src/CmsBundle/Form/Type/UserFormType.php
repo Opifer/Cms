@@ -42,7 +42,7 @@ class UserFormType extends AbstractType
                 'invalid_message' => 'fos_user.password.mismatch',
             ])
             ->add('enabled', 'choice', [
-                'choices' => [true => 'Enable', false => 'Disable'],
+                'choices' => [1 => 'Enable', 0 => 'Disable'],
                 'data' => true,
             ])
             ->add('roles', 'choice', [
