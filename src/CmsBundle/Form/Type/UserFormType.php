@@ -43,7 +43,6 @@ class UserFormType extends AbstractType
             ])
             ->add('enabled', 'choice', [
                 'choices' => [1 => 'Enable', 0 => 'Disable'],
-                'data' => true,
             ])
             ->add('roles', 'choice', [
                 'multiple' => true,
