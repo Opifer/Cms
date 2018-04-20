@@ -14,10 +14,4 @@
     </div>
 
     <div class="js-media-manager" />
-
-    {#{% spaceless %}
-        <div ng-controller="MediaLibraryController" ng-init="init('default', '{{ providers|json_encode() }}')">
-            <ng-media-library></ng-media-library>
-        </div>
-    {% endspaceless %}#}
 {% endblock body %}

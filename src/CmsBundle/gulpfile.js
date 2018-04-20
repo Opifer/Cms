@@ -65,7 +65,6 @@ gulp.task('js', ['react'], function () {
         '../ContentBundle/Resources/public/js/app.js',
         '../ContentBundle/Resources/public/app/content/content.js',
         '../MediaBundle/Resources/public/app/modal/modal.js',
-        '../MediaBundle/Resources/public/app/medialibrary/medialibrary.js',
 
         'Resources/public/components/ckeditor/ckeditor.js'
     ];

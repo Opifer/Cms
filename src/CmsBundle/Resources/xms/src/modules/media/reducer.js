@@ -1,16 +1,17 @@
 import * as t from './actionTypes';
 
 const initialState = {
+  directories: [],
+  directory: null,
   isFetching: false,
   isUploading: false,
   items: [],
-  directories: [],
-  directory: null,
-  results: 0,
-  selected: [],
-  resultsPerPage: null,
-  totalResults: null,
+  filters: {},
   maxUploadSize: null,
+  results: 0,
+  resultsPerPage: null,
+  selected: [],
+  totalResults: null,
 };
 
 const media = (state = initialState, action) => {

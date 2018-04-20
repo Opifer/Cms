@@ -6,6 +6,7 @@ import { getItems, setSelectedItems, setSelected, updateFile } from '../actions'
 
 class MediaPicker extends Component {
   static propTypes = {
+    ckeditor: PropTypes.object,
     name: PropTypes.string,
     multiple: PropTypes.bool,
     value: PropTypes.oneOfType([PropTypes.string, PropTypes.array]),
@@ -75,13 +76,49 @@ class MediaPicker extends Component {
     });
   }
 
+  addToCKEditor(item) {
+    const { ckeditor: { type, funcNum } } = this.props;
+    let location;
+    // In case of images, do not pass the original file, but a cached/resized one.
+    if (['image/png', 'image/jpeg', 'image/gif'].indexOf(item.contentType) > -1) {
+      location = item.images.inline;
+    } else {
+      location = item.original;
+    }
+
+    // If the user is trying to add a link to the file, strip the protocol
+    if (type == 'link') {
+      location = location.replace(/.*?:\/\//g, '');
+    }
+
+    window.opener.CKEDITOR.tools.callFunction(funcNum, location, function() {
+      // Get the reference to a dialog window.
+      var element, dialog = this.getDialog();
+      // Check if this is the Image dialog window.
+      if ( dialog.getName() == 'image' ) {
+        // Get the reference to a text field that holds the "alt" attribute.
+        element = dialog.getContentElement('info', 'txtAlt');
+        // Assign the new value.
+        if ( element ) {
+          element.setValue( item.name );
+        }
+      }
+    });
+
+    window.close();
+  }
+
   add(item) {
-    const { selected } = this.props;
+    const { selected, ckeditor } = this.props;
     selected.push(item.id);
 
     this.props.setSelected(selected);
 
-    this.toggle();
+    this.toggleManager();
+
+    if (ckeditor) {
+      this.addToCKEditor(item);
+    }
   }
 
   remove(item) {
@@ -94,6 +131,15 @@ class MediaPicker extends Component {
 
   render() {
     const { multiple, name, items } = this.props;
+
+    if (this.props.ckeditor) {
+      return (
+        <MediaManager
+          onPick={(item) => this.add(item)}
+          picker
+        />
+      );
+    }
 
     return (
       <div>

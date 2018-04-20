@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { Field, reduxForm } from 'redux-form';
 import debounce from 'lodash.debounce';
-import { addItems, getItems } from '../actions';
+import { getItems } from '../actions';
 
 class MediaFilters extends Component {
   static propTypes = {

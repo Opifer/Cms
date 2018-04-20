@@ -131,6 +131,14 @@ export function getItems(filters = {}, refresh = false) {
 
     filters.page = page;
 
+    // Always pass the root directory when no directory is defined and the user is not searching
+    if (!filters.directory && !filters.search) {
+      filters.directory = 0;
+    // Pass the current directory when the user is searching in a directory
+    } else if (filters.search && !filters.directory && state.media.filters.directory) {
+      filters.directory = state.media.filters.directory;
+    }
+
     const queryString = api.objectToQueryParams(filters);
 
     return api
@@ -150,6 +158,7 @@ export function getItems(filters = {}, refresh = false) {
             items: normalizedItems.result,
             directories: normalizedDirs.result,
             maxUploadSize: response.max_upload_size,
+            filters,
           }));
         } else {
           dispatch(setData({
@@ -158,6 +167,7 @@ export function getItems(filters = {}, refresh = false) {
             results: state.media.results + response.results.length,
             items: state.media.items.concat(normalizedItems.result),
             directories: state.media.directories.concat(normalizedDirs.result),
+            filters,
           }));
         }
 

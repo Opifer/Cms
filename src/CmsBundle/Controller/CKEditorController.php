@@ -37,9 +37,12 @@ class CKEditorController extends Controller
 
         return $this->render('OpiferCmsBundle:CKEditor:media.html.twig', [
             'providers' => $providers,
-            'funcNum' => $request->get('CKEditorFuncNum'),
-            'CKEditor' => $request->get('CKEditor'),
-            'type' => $request->get('type'),
+            'props' => [
+                'ckeditor' => [
+                    'funcNum' => $request->get('CKEditorFuncNum'),
+                    'type' => $request->get('type'),
+                ]
+            ]
         ]);
     }
 
