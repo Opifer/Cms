@@ -30,7 +30,7 @@ class MediaRepository extends EntityRepository
         $qb->andWhere('m.status = :status')->setParameter('status', Media::STATUS_ENABLED);
 
         if ($request->get('search')) {
-            $qb->andWhere('m.name LIKE :term')->setParameter('term', '%'.$request->get('search').'%');
+            $qb->andWhere('m.name LIKE :term OR m.reference LIKE :term OR m.alt LIKE :term')->setParameter('term', '%'.$request->get('search').'%');
         }
 
         if ($request->get('order')) {

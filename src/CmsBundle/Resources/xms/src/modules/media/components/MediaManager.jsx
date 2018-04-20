@@ -32,7 +32,7 @@ class MediaManager extends Component {
   }
 
   render() {
-    const { directories, items, processFiles, loadMore, maxUploadSize, isFetching, results, totalResults } = this.props;
+    const { directories, items, processFiles, loadMore, maxUploadSize, isFetching, results, totalResults, searchValue } = this.props;
 
     return (
       <div className="media-manager container-fluid">
@@ -58,8 +58,8 @@ class MediaManager extends Component {
             {directories.map((dir, i) => (
               <DirectoryItem key={i} { ...dir } />
             ))}
-
-            {(!this.props.picker) && (
+            
+            {(!this.props.picker && !searchValue) && (
               <DirectoryCreateItem />
             )}
 
@@ -96,6 +96,7 @@ export default connect(
     items: activeItemsSelector(state),
     maxUploadSize: state.media.maxUploadSize,
     isFetching: state.media.isFetching,
+    searchValue: state.media.filters.search,
     results: state.media.results,
     totalResults: state.media.totalResults,
   }),

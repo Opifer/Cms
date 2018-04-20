@@ -16,7 +16,7 @@ class MediaFilters extends Component {
   }
 
   render() {
-    const { handleSubmit } = this.props;
+    const { handleSubmit, directory } = this.props;
 
     return (
       <div className="col-md-6">
@@ -33,7 +33,7 @@ class MediaFilters extends Component {
               type="text"
               name="search"
               className="form-control"
-              placeholder="Enter name, filename or description"
+              placeholder={`Search ${directory ? 'in this directory' : 'all media'} on name, filename or alt text`}
             />
           </div>
         </form>
@@ -46,8 +46,10 @@ export default reduxForm({
   form: 'media-filters',
   enableReinitialize: true,
 })(connect(
-  null,
-  (dispatch) => ({
+  state => ({
+    directory: state.media.directory,
+  }),
+  dispatch => ({
     fetchItems: (filters) => dispatch(getItems(filters, true)),
   })
 )(MediaFilters));
