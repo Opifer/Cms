@@ -10,6 +10,7 @@ use Opifer\ContentBundle\Model\BlockInterface;
 use Opifer\MediaBundle\Form\Type\MediaPickerType;
 use Symfony\Component\Form\Extension\Core\Type\FormType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\FormBuilderInterface;
 
 /**
@@ -31,7 +32,7 @@ class CarouselSlideBlockService extends AbstractBlockService implements BlockSer
 
         if ($this->config['styles']) {
             $builder->get('properties')
-                ->add('styles', 'choice', [
+                ->add('styles', ChoiceType::class, [
                     'label' => 'label.styling',
                     'choices'  => array_combine($this->config['styles'], $this->config['styles']),
                     'required' => false,
