@@ -4,11 +4,6 @@ namespace Opifer\ContentBundle\Block;
 
 use Opifer\ContentBundle\Model\BlockInterface;
 
-/**
- * Interface VisitorInterface
- *
- * @package Opifer\ContentBundle\Block
- */
 interface VisitorInterface
 {
     /**

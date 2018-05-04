@@ -4,6 +4,7 @@ namespace Opifer\ExpressionEngine\Visitor;
 
 use Doctrine\ORM\Query\Expr\Comparison;
 use Doctrine\ORM\QueryBuilder;
+use Opifer\ExpressionEngine\ConstraintInterface;
 use Opifer\ExpressionEngine\SelectQueryStatement;
 use Symfony\Component\Validator\Constraints\GreaterThanOrEqual;
 use Webmozart\Expression\Constraint\Contains;
@@ -139,8 +140,8 @@ class QueryBuilderVisitor implements ExpressionVisitor
             $right = $comparator->getComparedValue();
         }
 
-        if ($comparator instanceof SelectQueryStatement) {
-            $left = $comparator->selectArgument($left);
+        if ($comparator instanceof ConstraintInterface) {
+            $left = $comparator->getLeft($left);
         }
 
         $this->qb->setParameter($paramName, $right);

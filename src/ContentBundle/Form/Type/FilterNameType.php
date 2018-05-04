@@ -33,7 +33,6 @@ class FilterNameType extends AbstractType
     {
         $resolver->setDefaults([
             'choices' => $this->getChoices(),
-            'choices_as_values' => true,
         ]);
     }
 

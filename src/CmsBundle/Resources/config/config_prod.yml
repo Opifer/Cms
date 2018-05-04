@@ -1,6 +1,6 @@
 framework:
     validation:
-        cache: apc
+        cache: validator.mapping.cache.doctrine.apc
 
 doctrine:
     orm:

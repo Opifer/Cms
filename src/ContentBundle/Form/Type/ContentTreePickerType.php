@@ -2,17 +2,12 @@
 
 namespace Opifer\ContentBundle\Form\Type;
 
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\ORM\EntityManager;
-use Doctrine\ORM\PersistentCollection;
 use Opifer\ContentBundle\Block\Service\NavigationBlockService;
 use Opifer\ContentBundle\Model\ContentManager;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\CallbackTransformer;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
  * Multi Content Picker Form Type
@@ -28,7 +23,8 @@ class ContentTreePickerType extends AbstractType
     /**
      * Constructor
      *
-     * @param ContentManager $contentManager
+     * @param ContentManager         $contentManager
+     * @param NavigationBlockService $blockService
      */
     public function __construct(ContentManager $contentManager, NavigationBlockService $blockService)
     {

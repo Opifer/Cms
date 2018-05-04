@@ -4,9 +4,9 @@ namespace Opifer\ExpressionEngine\Constraint;
 
 use Webmozart\Expression\Expression;
 use Webmozart\Expression\Logic\Literal;
-use Opifer\ExpressionEngine\SelectQueryStatement;
+use Opifer\ExpressionEngine\ConstraintInterface;
 
-class DayOfWeek extends Literal implements SelectQueryStatement
+class DayOfWeek extends Literal implements ConstraintInterface
 {
     /**
      * @var int|string
@@ -83,7 +83,7 @@ class DayOfWeek extends Literal implements SelectQueryStatement
         return 'dayOfWeek()';
     }
 
-    public function selectArgument($key)
+    public function getLeft($key)
     {
         return sprintf("DAYOFWEEK(%s)", $key);
     }

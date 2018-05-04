@@ -87,8 +87,9 @@ class ContentController extends BaseContentController
 
     /**
      * @param Request $request
-     * @param string $type
-     * @param int $owner
+     * @param int     $owner
+     * @param int     $id
+     *
      * @return Response
      */
     public function historyAction(Request $request, $owner, $id)

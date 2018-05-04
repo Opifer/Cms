@@ -2,6 +2,7 @@
 
 namespace Opifer\EavBundle\ValueProvider;
 
+use Opifer\EavBundle\Entity\IntegerValue;
 use Opifer\EavBundle\Form\Transformer\AngularAttributeTransformer;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -9,7 +10,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 class IntegerValueProvider extends AbstractValueProvider implements ValueProviderInterface
 {
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
@@ -24,15 +25,15 @@ class IntegerValueProvider extends AbstractValueProvider implements ValueProvide
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getEntity()
     {
-        return 'Opifer\EavBundle\Entity\IntegerValue';
+        return IntegerValue::class;
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getLabel()
     {

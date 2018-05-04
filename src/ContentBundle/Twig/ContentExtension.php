@@ -9,7 +9,6 @@ use Opifer\ContentBundle\Entity\CompositeBlock;
 use Opifer\ContentBundle\Entity\PointerBlock;
 use Opifer\ContentBundle\Entity\Template;
 use Opifer\ContentBundle\Environment\Environment;
-use Opifer\ContentBundle\Helper\StringHelper;
 use Opifer\ContentBundle\Model\BlockInterface;
 use Opifer\ContentBundle\Model\Content;
 use Opifer\ContentBundle\Model\ContentInterface;
@@ -33,16 +32,16 @@ class ContentExtension extends \Twig_Extension
     /** @var ContainerInterface */
     protected $container;
 
-    /** @var RequestStack @var  */
+    /** @var RequestStack */
     private $requestStack;
 
     /**
-     * Constructor.
+     * ContentExtension constructor.
      *
      * @param \Twig_Environment  $twig
      * @param FragmentHandler    $fragmentHandler
-     * @param ContentManager     $contentManager
      * @param ContainerInterface $container
+     * @param RequestStack       $requestStack
      */
     public function __construct(\Twig_Environment $twig, FragmentHandler $fragmentHandler, ContainerInterface $container, RequestStack $requestStack)
     {
@@ -122,10 +121,14 @@ class ContentExtension extends \Twig_Extension
     }
 
     /**
-     * @param $context
-     * @param $key
+     * @param array  $context
+     * @param int    $key
+     * @param bool   $label
+     * @param string $htmlTag
+     * @param null   $data
      *
-     * @return mixed
+     * @return string
+     * @throws \Exception
      */
     public function renderPlaceholder($context, $key = 0, $label = false, $htmlTag = 'div', $data = null)
     {
@@ -164,8 +167,8 @@ class ContentExtension extends \Twig_Extension
                 'data' => $data,
                 'key' => $key,
                 'id' => (isset($container)) ? $container->getId() : 0,
-                'manage_type' => 'placeholder']);
-
+                'manage_type' => 'placeholder'
+            ]);
         }
 
         return $content;

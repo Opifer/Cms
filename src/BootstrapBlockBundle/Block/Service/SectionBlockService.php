@@ -8,7 +8,6 @@ use Symfony\Component\Form\FormBuilderInterface;
 
 class SectionBlockService extends BaseService
 {
-
     /**
      * {@inheritdoc}
      */
@@ -23,5 +22,4 @@ class SectionBlockService extends BaseService
             'attr' => array('label_col' => 12, 'widget_col' => 12),
         ]);
     }
-
 }

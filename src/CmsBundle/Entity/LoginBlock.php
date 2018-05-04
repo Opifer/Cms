@@ -3,7 +3,6 @@
 namespace Opifer\CmsBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use Opifer\Revisions\Mapping\Annotation as Revisions;
 use Opifer\ContentBundle\Entity\Block;
 
 /**

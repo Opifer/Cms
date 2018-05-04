@@ -13,7 +13,6 @@ use Symfony\Component\HttpFoundation\Response;
 
 class LocaleController extends Controller
 {
-
     /**
      * @return Response
      */
@@ -29,14 +28,13 @@ class LocaleController extends Controller
         $grid->setId('locale')
             ->setSource($source)
             ->addRowAction($editAction)
-          ;
-
+        ;
 
         return $grid->getGridResponse('OpiferCmsBundle:Backend/Locale:index.html.twig');
     }
 
     /**
-     * Create an event
+     * Create a locale
      *
      * @param Request $request
      *
@@ -68,7 +66,7 @@ class LocaleController extends Controller
     }
 
     /**
-     *
+     * Edit a Locale
      *
      * @param Request $request
      * @param $id
@@ -81,9 +79,9 @@ class LocaleController extends Controller
         $em = $this->getDoctrine()->getManager();
 
         if (is_numeric($id)) {
-            $locale = $em->getRepository('OpiferCmsBundle:Locale')->find($id);
+            $locale = $em->getRepository(Locale::class)->find($id);
         } else {
-            $locale = $em->getRepository('OpiferCmsBundle:Locale')->findOneByLocale($id);
+            $locale = $em->getRepository(Locale::class)->findOneByLocale($id);
         }
 
         $form = $this->createForm(new LocaleType(), $locale);

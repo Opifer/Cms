@@ -51,7 +51,6 @@ class CarouselBlockService extends AbstractBlockService implements BlockServiceI
                         'Yes' => true,
                         'No' => false
                     ],
-                    'choices_as_values' => true,
                     'attr' => [
                         'help_text' => 'help.carousel_indicator'
                     ]
@@ -61,7 +60,6 @@ class CarouselBlockService extends AbstractBlockService implements BlockServiceI
                         'Yes' => true,
                         'No' => false
                     ],
-                    'choices_as_values' => true,
                     'attr' => [
                         'help_text' => 'help.carousel_controls'
                     ],

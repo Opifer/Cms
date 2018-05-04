@@ -97,7 +97,7 @@ opifer_content_api_contenteditor_discard:
         expose: true
 
 opifer_content_api_dataview_index:
-    resource: "Opifer\ContentBundle\Controller\Api\DataViewController"
+    resource: "Opifer\\ContentBundle\\Controller\\Api\\DataViewController"
     type:     rest
 
 opifer_content_api_sites:

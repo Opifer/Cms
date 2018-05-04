@@ -52,12 +52,4 @@ class TabType extends AbstractType
             ])
         ;
     }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getBlockPrefix()
-    {
-        return 'opifer_tab';
-    }
 }

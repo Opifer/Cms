@@ -23,28 +23,23 @@ class RangeFieldBlockService extends FormFieldBlockService implements BlockServi
     {
         parent::buildManageForm($builder, $options);
 
-        $propertiesForm = $builder->get('properties');
-
-        $propertiesForm
+        $builder->get('properties')
             ->add('from', NumberType::class, [
-                'label'     => 'label.from',
-                'required' => true,
+                'label' => 'label.from',
                 'empty_data' => 1,
                 'attr' => [
                     'help_text' => 'help.range_from',
                 ],
             ])
             ->add('to', NumberType::class, [
-                'label'     => 'label.to',
-                'required' => true,
+                'label' => 'label.to',
                 'empty_data' => 10,
                 'attr' => [
                     'help_text' => 'help.range_to',
                 ],
             ])
             ->add('stepSize', NumberType::class, [
-                'label'     => 'label.step_size',
-                'required' => true,
+                'label' => 'label.step_size',
                 'empty_data' => 1,
                 'attr' => [
                     'help_text' => 'help.range_step_size',

@@ -2,6 +2,7 @@
 
 namespace Opifer\CmsBundle\ValueProvider;
 
+use Opifer\CmsBundle\Entity\HtmlValue;
 use Opifer\CmsBundle\Form\Type\CKEditorType;
 use Opifer\EavBundle\ValueProvider\AbstractValueProvider;
 use Opifer\EavBundle\ValueProvider\ValueProviderInterface;
@@ -24,7 +25,7 @@ class HtmlValueProvider extends AbstractValueProvider implements ValueProviderIn
      */
     public function getEntity()
     {
-        return 'Opifer\CmsBundle\Entity\HtmlValue';
+        return HtmlValue::class;
     }
 
     /**

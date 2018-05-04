@@ -22,11 +22,14 @@ class ValueSetType extends AbstractType
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('namedvalues', ValuesType::class, [ 'fields' => $options['fields'], 'label' => false]);
+        $builder->add('namedvalues', ValuesType::class, [
+            'fields' => $options['fields'],
+            'label' => false
+        ]);
     }
 
     /**
@@ -38,12 +41,12 @@ class ValueSetType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => $this->valueSetClass,
-            'fields'     => []
+            'fields' => []
         ]);
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getBlockPrefix()
     {

@@ -131,7 +131,7 @@ class MediaPickerType extends AbstractType
     {
         $resolver->setDefaults([
             'to_json' => false,
-            'property' => 'name',
+            'choice_label' => 'name',
             'class' => $this->mediaManager->getClass(),
             'query_builder' => function (EntityRepository $mediaRepository) {
                 return $mediaRepository->createQueryBuilder('m')->add('orderBy', 'm.name ASC');
