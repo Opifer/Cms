@@ -4,8 +4,9 @@ namespace Opifer\ExpressionEngine\Constraint;
 
 use Webmozart\Expression\Expression;
 use Webmozart\Expression\Logic\Literal;
+use Opifer\ExpressionEngine\SelectQueryStatement;
 
-class DayOfWeek extends Literal
+class DayOfWeek extends Literal implements SelectQueryStatement
 {
     /**
      * @var int|string
@@ -20,6 +21,25 @@ class DayOfWeek extends Literal
     public function __construct($day)
     {
         $this->day = $day;
+    }
+
+    /**
+     * Returns the compared value.
+     *
+     * @return mixed The compared value.
+     */
+    public function getComparedValue()
+    {
+        switch($this->day) {
+            case 'monday'; return 2;
+            case 'tuesday'; return 3;
+            case 'wednesday'; return 4;
+            case 'thursday'; return 5;
+            case 'friday'; return 6;
+            case 'saturday'; return 7;
+            case 'sunday'; return 1;
+            default: return 0;
+        }
     }
 
     /**
@@ -61,5 +81,10 @@ class DayOfWeek extends Literal
     public function toString()
     {
         return 'dayOfWeek()';
+    }
+
+    public function selectArgument($key)
+    {
+        return sprintf("DAYOFWEEK(%s)", $key);
     }
 }

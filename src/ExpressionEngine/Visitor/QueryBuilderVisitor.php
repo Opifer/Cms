@@ -4,8 +4,17 @@ namespace Opifer\ExpressionEngine\Visitor;
 
 use Doctrine\ORM\Query\Expr\Comparison;
 use Doctrine\ORM\QueryBuilder;
+use Opifer\ExpressionEngine\SelectQueryStatement;
+use Symfony\Component\Validator\Constraints\GreaterThanOrEqual;
+use Webmozart\Expression\Constraint\Contains;
+use Webmozart\Expression\Constraint\EndsWith;
+use Webmozart\Expression\Constraint\GreaterThan;
+use Webmozart\Expression\Constraint\GreaterThanEqual;
 use Webmozart\Expression\Constraint\In;
+use Webmozart\Expression\Constraint\LessThan;
+use Webmozart\Expression\Constraint\LessThanEqual;
 use Webmozart\Expression\Constraint\NotEquals;
+use Webmozart\Expression\Constraint\StartsWith;
 use Webmozart\Expression\Expression;
 use Webmozart\Expression\Logic\AndX;
 use Webmozart\Expression\Logic\OrX;
@@ -112,6 +121,7 @@ class QueryBuilderVisitor implements ExpressionVisitor
     protected function toExpr(Key $expr)
     {
         $left = $expr->getKey();
+        $paramName = uniqid('K');
 
         if (strpos($left, '.') !== false) {
             $left = $this->shouldJoin($left);
@@ -120,19 +130,50 @@ class QueryBuilderVisitor implements ExpressionVisitor
         }
 
         $comparator = $expr->getExpression();
-        $right = $comparator->getComparedValue();
+
+        if ($comparator instanceof StartsWith) {
+            $right = $comparator->getAcceptedPrefix();
+        } elseif($comparator instanceof EndsWith){
+            $right = $comparator->getAcceptedSuffix();
+        } else {
+            $right = $comparator->getComparedValue();
+        }
+
+        if ($comparator instanceof SelectQueryStatement) {
+            $left = $comparator->selectArgument($left);
+        }
+
+        $this->qb->setParameter($paramName, $right);
 
         if ($comparator instanceof NotEquals) {
-            return $this->qb->expr()->neq($left, $right);
+            return $this->qb->expr()->neq($left, ':'.$paramName);
+        } elseif ($comparator instanceof GreaterThan) {
+            return $this->qb->expr()->gt($left, ':'.$paramName);
+        } elseif ($comparator instanceof GreaterThanEqual) {
+            return $this->qb->expr()->gte($left, ':'.$paramName);
+        } elseif ($comparator instanceof LessThan) {
+            return $this->qb->expr()->lt($left, ':'.$paramName);
+        } elseif ($comparator instanceof LessThanEqual) {
+            return $this->qb->expr()->lte($left, ':'.$paramName);
+        } elseif ($comparator instanceof StartsWith) {
+            $this->qb->setParameter($paramName, $right.'%');
+            return $this->qb->expr()->like($left, ':'.$paramName);
+        } elseif ($comparator instanceof EndsWith) {
+            $this->qb->setParameter($paramName, '%'.$right);
+            return $this->qb->expr()->like($left, ':'.$paramName);
+        } elseif ($comparator instanceof Contains) {
+            $this->qb->setParameter($paramName, '%'.$right.'%');
+            return $this->qb->expr()->like($left,':'.$paramName);
         } elseif ($comparator instanceof In) {
             if (is_array($right)) {
-                return $this->qb->expr()->in($left, $right);
+                return $this->qb->expr()->in($left,':'.$paramName);
             } else {
-                return $this->qb->expr()->like($left, '%'.$right.'%');
+                $this->qb->setParameter($paramName, '%'.$right.'%');
+                return $this->qb->expr()->like($left,':'.$paramName);
             }
         }
 
-        return $this->qb->expr()->eq($left, $right);
+        return $this->qb->expr()->eq($left, ':'.$paramName);
     }
 
     /**

@@ -4,26 +4,26 @@
     "license": "MIT",
     "authors": [
         {
-            "name": "Opifer",
-            "email": "info@opifer.nl"
+            "name": "jstack",
+            "email": "info@jstack.eu"
         }
     ],
     "require": {
-        "php": ">=5.5",
-        "symfony/symfony": "~2.8|~3.0",
-        "doctrine/orm": "~2.2,>=2.2.3",
-        "doctrine/doctrine-bundle": "~1.2",
+        "php": ">=7.1",
+        "symfony/symfony": "^3.0",
+        "doctrine/orm": "~2.5.4",
+        "doctrine/doctrine-bundle": "^1.6",
+        "beberlei/DoctrineExtensions": "^1.0",
         "twig/extensions": "~1.2",
-        "twig/twig": "~1.23",
+        "twig/twig": "~2.4",
         "symfony/swiftmailer-bundle": "~2.3",
-        "symfony/monolog-bundle": "~2.7",
+        "symfony/monolog-bundle": "~2.8",
         "sensio/distribution-bundle": "~5.0",
         "sensio/framework-extra-bundle": "~3.0",
         "incenteev/composer-parameter-handler": "~2.0",
-
-        "apy/datagrid-bundle": "~2.2",
-        "aws/aws-sdk-php": "2.5.*",
-        "braincrafted/bootstrap-bundle": "2.1.0",
+        "apy/datagrid-bundle": "~3.0.2",
+        "aws/aws-sdk-php": "^3.52",
+        "braincrafted/bootstrap-bundle": "~2.2.0",
         "doctrine/doctrine-migrations-bundle": "~1.0",
         "drewm/mailchimp-api": "^2.2",
         "friendsofsymfony/jsrouting-bundle": "~1.5",
@@ -33,9 +33,8 @@
         "google/recaptcha": "~1.1",
         "guzzlehttp/guzzle": "^6.0.0",
         "guzzlehttp/oauth-subscriber": "^0.3.0",
-        "jms/serializer-bundle": "~1.0|^2.3",
+        "jms/serializer-bundle": "^2.3",
         "knplabs/knp-gaufrette-bundle": "~0.5.2",
-        "knplabs/knp-menu-bundle":"~2.0",
         "lexik/jwt-authentication-bundle": "^2.0",
         "liip/imagine-bundle": "~1.6",
         "mtdowling/cron-expression": "1.0.*",
@@ -43,13 +42,13 @@
         "nelmio/cors-bundle": "^1.5",
         "opifer/revisions": "@dev",
         "pagerfanta/pagerfanta": "^1.0.3",
-        "symfony-cmf/routing-bundle": "~1.3",
+        "symfony-cmf/routing-bundle": "~2.0.3",
         "webmozart/expression": "^1.0",
         "willdurand/js-translation-bundle": "~2.2",
         "lexik/translation-bundle": "^4.0"
     },
     "require-dev": {
-        "phpunit/phpunit": "~4.1",
+        "phpunit/phpunit": "~5.2",
         "fzaninotto/faker": "~1.4",
         "mockery/mockery": "~0.9"
     },
