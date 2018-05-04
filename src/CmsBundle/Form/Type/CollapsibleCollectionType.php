@@ -2,6 +2,7 @@
 
 namespace Opifer\CmsBundle\Form\Type;
 
+use Braincrafted\Bundle\BootstrapBundle\Form\Type\BootstrapCollectionType;
 use Symfony\Component\Form\AbstractType;
 
 class CollapsibleCollectionType extends AbstractType
@@ -11,7 +12,7 @@ class CollapsibleCollectionType extends AbstractType
      */
     public function getParent()
     {
-        return 'bootstrap_collection';
+        return BootstrapCollectionType::class;
     }
 
     /**

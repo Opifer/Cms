@@ -4,9 +4,6 @@ namespace Opifer\ContentBundle\Router;
 
 use Doctrine\ORM\NoResultException;
 use Opifer\ContentBundle\Model\ContentManagerInterface;
-use Opifer\ContentBundle\Router\UrlGenerator;
-use Symfony\Component\DependencyInjection\ContainerInterface;
-use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Routing\Exception\ResourceNotFoundException;
 use Symfony\Component\Routing\Matcher\UrlMatcher;
@@ -36,9 +33,10 @@ class ContentRouter implements RouterInterface
     protected $requestStack;
 
     /**
-     * The constructor for this service.
+     * Constructor
      *
-     * @param ContainerInterface $container
+     * @param RequestStack            $requestStack
+     * @param ContentManagerInterface $contentManager
      */
     public function __construct(RequestStack $requestStack, ContentManagerInterface $contentManager)
     {

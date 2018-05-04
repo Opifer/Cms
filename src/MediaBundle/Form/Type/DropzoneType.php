@@ -34,7 +34,7 @@ class DropzoneType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         if (!$options['mapped']) {
-            $prototype = $builder->create('__id__', 'opifer_media_edit', array_replace([
+            $prototype = $builder->create('__id__', MediaEditType::class, array_replace([
                 'label' => '__id__label__',
             ], []));
 

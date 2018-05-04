@@ -2,7 +2,6 @@
 
 namespace Opifer\EavBundle\Manager;
 
-use Opifer\EavBundle\Form\Type\NestedType;
 use Opifer\EavBundle\Model\EntityInterface;
 use Opifer\EavBundle\Model\SchemaInterface;
 use Opifer\EavBundle\Model\ValueSetInterface;
@@ -19,7 +18,8 @@ class EavManager
     /**
      * Constructor
      *
-     * @param Pool $providerPool
+     * @param Pool   $providerPool
+     * @param string $valueSetClass
      */
     public function __construct(Pool $providerPool, $valueSetClass)
     {

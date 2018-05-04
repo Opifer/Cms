@@ -27,10 +27,13 @@ framework:
     default_locale:  '%opifer_cms.default_locale%'
     trusted_proxies: ~
     session:
+        handler_id: session.handler.native_file
         save_path: null #%kernel.root_dir%/../var/sessions
         cookie_lifetime: 604800
     fragments:       ~
     http_method_override: true
+    php_errors:
+        log: true
 
 # Templating
 braincrafted_bootstrap:
@@ -38,7 +41,6 @@ braincrafted_bootstrap:
     auto_configure:
         assetic:       false
         twig:          true
-        knp_menu:      true
     customize:
         variables_file:     ~
         bootstrap_output:   '%kernel.root_dir%/Resources/less/bootstrap.less'
@@ -124,13 +126,6 @@ fos_user:
         address: noreply@jstack.eu
         sender_name: jstack CMS
 
-# Menus
-knp_menu:
-    twig:  # use "twig: false" to disable the Twig extension and the TwigRenderer
-        template: 'BraincraftedBootstrapBundle:Menu:bootstrap.html.twig'
-    templating:       false # if true, enables the helper for PHP templates
-    default_renderer: 'twig' # The renderer to use, list is also available by default
-
 # Framework extra
 sensio_framework_extra:
     cache:   { annotations: true }
@@ -152,13 +147,12 @@ twig:
     strict_variables: '%kernel.debug%'
     paths:
         "%kernel.root_dir%/../vendor/opifer/cms/src/ExpressionEngine/Resources/views": OpiferExpressionEngine
-    form:
-        resources:
-            - 'OpiferEavBundle:Form:fields.html.twig'
-            - 'OpiferMediaBundle:Form:fields.html.twig'
-            - 'OpiferContentBundle:Form:fields.html.twig'
-            - '@OpiferExpressionEngine/Form/fields.html.twig'
-            - 'OpiferCmsBundle:Form:fields.html.twig' # At the bottom to make sure form action are being set to '#' when empty
+    form_themes:
+        - 'OpiferEavBundle:Form:fields.html.twig'
+        - 'OpiferMediaBundle:Form:fields.html.twig'
+        - 'OpiferContentBundle:Form:fields.html.twig'
+        - '@OpiferExpressionEngine/Form/fields.html.twig'
+        - 'OpiferCmsBundle:Form:fields.html.twig'
     globals:
         config: '@opifer.cms.config_manager'
         content_type_manager: '@opifer.content.content_type_manager'

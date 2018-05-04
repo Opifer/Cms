@@ -2,9 +2,6 @@
 
 namespace Opifer\ContentBundle\Block\Tool;
 
-/**
- * Class Toolset.
- */
 class Toolset
 {
     /**

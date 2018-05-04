@@ -17,11 +17,13 @@ class PostManager
      *
      * @param EntityManagerInterface $em
      * @param string                 $class
+     *
+     * @throws \Exception If $class does not implement PostInterface
      */
     public function __construct(EntityManagerInterface $em, $class)
     {
-        if (!is_subclass_of($class, 'Opifer\FormBundle\Model\PostInterface')) {
-            throw new \Exception($class.' must extend Opifer\FormBundle\Model\PostInterface');
+        if (!is_subclass_of($class, PostInterface::class)) {
+            throw new \Exception($class.' must implement '.PostInterface::class);
         }
 
         $this->em = $em;

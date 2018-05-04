@@ -2,6 +2,7 @@
 
 namespace Opifer\FormBlockBundle\Block\Service;
 
+use Opifer\CmsBundle\Entity\Form;
 use Opifer\FormBlockBundle\Entity\FormBlock;
 use Opifer\ContentBundle\Block\BlockRenderer;
 use Opifer\ContentBundle\Block\Service\AbstractBlockService;
@@ -11,9 +12,9 @@ use Opifer\ContentBundle\Block\Tool\ToolsetMemberInterface;
 use Opifer\ContentBundle\Model\BlockInterface;
 use Opifer\FormBundle\Model\FormManager;
 use Opifer\FormBundle\Model\PostInterface;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Opifer\EavBundle\Manager\EavManager;
 
 /**
@@ -56,7 +57,7 @@ class FormBlockService extends AbstractBlockService implements BlockServiceInter
         parent::buildManageForm($builder, $options);
 
         $builder->get('default')->add('form', EntityType::class, [
-            'class' => 'OpiferCmsBundle:Form',
+            'class' => Form::class,
             'choice_label' => 'name',
             'label' => 'Form',
             'placeholder' => 'Choose Form',

@@ -21,6 +21,9 @@ class FormManager
     /** @var PostManager */
     protected $postManager;
 
+    /** @var FormFactory */
+    protected $formFactory;
+
     /**
      * @param EntityManagerInterface $em
      * @param FormFactory            $formFactory
@@ -32,8 +35,8 @@ class FormManager
      */
     public function __construct(EntityManagerInterface $em, FormFactory $formFactory, SchemaManager $schemaManager, PostManager $postManager, $class)
     {
-        if (!is_subclass_of($class, 'Opifer\FormBundle\Model\FormInterface')) {
-            throw new \Exception(sprintf('%s must implement Opifer\FormBundle\Model\FormInterface', $class));
+        if (!is_subclass_of($class, FormInterface::class)) {
+            throw new \Exception(sprintf('%s must implement %s', $class, FormInterface::class));
         }
 
         $this->em = $em;
@@ -56,11 +59,12 @@ class FormManager
     /**
      * Create a new form instance.
      *
-     * @return Form
+     * @return FormInterface
      */
     public function create()
     {
         $class = $this->getClass();
+        /** @var FormInterface $form */
         $form = new $class();
 
         $schema = $this->schemaManager->create();

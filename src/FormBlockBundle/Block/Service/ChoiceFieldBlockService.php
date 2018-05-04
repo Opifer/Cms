@@ -33,7 +33,6 @@ class ChoiceFieldBlockService extends FormFieldBlockService implements BlockServ
                     'Radio Buttons' => 'radiobutton',
                     'Select field' => 'select',
                 ],
-                'choices_as_values' => true,
             ])
             ->add('options', BootstrapCollectionType::class, [
                 'allow_add' => true,

@@ -11,11 +11,12 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-
 class MediaController extends Controller
 {
     /**
      * Index.
+     *
+     * @param Request $request
      *
      * @return JsonResponse
      */
@@ -42,6 +43,7 @@ class MediaController extends Controller
             'max_upload_size' => $maxUploadSize,
         ]);
     }
+
     /**
      * Detail.
      *

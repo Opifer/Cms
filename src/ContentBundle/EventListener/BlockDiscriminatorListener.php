@@ -3,22 +3,17 @@
 namespace Opifer\EavBundle\EventListener;
 
 use Doctrine\ORM\Event\LoadClassMetadataEventArgs;
-use Opifer\EavBundle\ValueProvider\Pool;
+use Opifer\ContentBundle\Block\BlockManager;
 
-/**
- * Class BlockDiscriminatorListener
- *
- * @package Opifer\EavBundle\EventListener
- */
 class BlockDiscriminatorListener
 {
     /** @var BlockManager $pool */
     protected $blockManager;
 
     /**
-     * Constructor
+     * BlockDiscriminatorListener constructor.
      *
-     * @param Pool $pool
+     * @param BlockManager $blockManager
      */
     public function __construct(BlockManager $blockManager)
     {

@@ -6,7 +6,6 @@ use APY\DataGridBundle\Grid\Action\RowAction;
 use APY\DataGridBundle\Grid\Source\Entity;
 use Opifer\CmsBundle\Entity\Domain;
 use Opifer\CmsBundle\Form\Type\DomainType;
-use Opifer\CmsBundle\Form\Type\LocaleType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -31,7 +30,6 @@ class DomainController extends Controller
             ->addRowAction($editAction)
         ;
 
-
         return $grid->getGridResponse('OpiferCmsBundle:Backend/Domain:index.html.twig');
     }
 
@@ -48,7 +46,7 @@ class DomainController extends Controller
 
         $domain = new Domain();
 
-        $form = $this->createForm(new DomainType(), $domain);
+        $form = $this->createForm(DomainType::class, $domain);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -86,7 +84,7 @@ class DomainController extends Controller
             $domain = $em->getRepository('OpiferCmsBundle:Domain')->findOneByDomain($id);
         }
 
-        $form = $this->createForm(new DomainType(), $domain);
+        $form = $this->createForm(DomainType::class, $domain);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {

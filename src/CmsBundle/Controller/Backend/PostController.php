@@ -7,6 +7,7 @@ use APY\DataGridBundle\Grid\Column\ActionsColumn;
 use APY\DataGridBundle\Grid\Column\JoinColumn;
 use APY\DataGridBundle\Grid\Column\TextColumn;
 use APY\DataGridBundle\Grid\Source\Entity;
+use Opifer\CmsBundle\Entity\Post;
 use Opifer\FormBundle\Controller\PostController as BasePostController;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -27,7 +28,7 @@ class PostController extends BasePostController
             return $this->createNotFoundException();
         }
 
-        $source = new Entity('OpiferCmsBundle:Post');
+        $source = new Entity(Post::class);
         $tableAlias = $source->getTableAlias();
         $source->manipulateQuery(function ($query) use ($tableAlias, $form) {
             $query->andWhere($tableAlias.'.form = :form')->setParameter('form', $form);
@@ -50,7 +51,9 @@ class PostController extends BasePostController
             ->addRowAction($notificationAction)
             ->addRowAction($deleteAction);
 
-        return $grid->getGridResponse('OpiferCmsBundle:Backend/Post:index.html.twig', ['form' => $form]);
+        return $grid->getGridResponse('OpiferCmsBundle:Backend/Post:index.html.twig', [
+            'form' => $form
+        ]);
     }
 
     /**

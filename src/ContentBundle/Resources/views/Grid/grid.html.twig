@@ -1,7 +1,7 @@
 {% extends 'APYDataGridBundle::blocks.html.twig' %}
 {% block grid %}
     <div class="grid">
-        {% if grid.totalCount > 0 or grid.isFiltered or grid.noDataMessage is sameas(false) %}
+        {% if grid.totalCount > 0 or grid.isFiltered or grid.noDataMessage is same as(false) %}
             <form id="{{ grid.hash }}" action="{{ grid.routeUrl }}" method="post">
                 <div class="grid_header">
                     {% if grid.massActions|length > 0 %}

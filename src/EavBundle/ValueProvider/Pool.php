@@ -23,6 +23,7 @@ class Pool
      * value pool
      *
      * @param ValueProviderInterface $value
+     * @param string                 $alias
      */
     public function addValue(ValueProviderInterface $value, $alias)
     {

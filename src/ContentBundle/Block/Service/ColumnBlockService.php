@@ -123,7 +123,7 @@ class ColumnBlockService extends AbstractBlockService implements LayoutBlockServ
                     'expanded' => true,
                     'multiple' => true,
                     'attr' => [
-                        'help_text' => 'help.list_display_size', 
+                        'help_text' => 'help.list_display_size',
                         // 'class' => 'btn-group btn-group-styling', 
                         // 'data-toggle' => 'buttons',
                         'tag' => 'styles'
@@ -173,13 +173,6 @@ class ColumnBlockService extends AbstractBlockService implements LayoutBlockServ
                 $this->em->persist($child);
             }
         }
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function configureManageOptions(OptionsResolver $resolver)
-    {
     }
 
     /**

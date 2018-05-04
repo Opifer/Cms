@@ -61,7 +61,7 @@ class LoginBlockService extends AbstractBlockService implements BlockServiceInte
         parent::buildManageForm($builder, $options);
 
         $builder->add(
-            $builder->create('default', FormType::class, ['virtual' => true])
+            $builder->create('default', FormType::class, ['inherit_data' => true])
                 ->add('value', CKEditorType::class, [
                     'label' => 'label.message',
                 ])

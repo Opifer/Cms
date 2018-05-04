@@ -32,7 +32,7 @@ class RichCheckItemBlockService extends FormFieldBlockService implements BlockSe
             ->add('media', MediaPickerType::class, [
                 'required'  => false,
                 'multiple' => false,
-                'attr' => array('label_col' => 12, 'widget_col' => 12),
+                'attr' => ['label_col' => 12, 'widget_col' => 12],
             ]);
 
         if (isset($this->config['templates'])) {

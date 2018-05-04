@@ -6,11 +6,9 @@
     </div>
 
     <section class="page-section">
-        <form action="{{ path('fos_user_profile_edit') }}" {{ form_enctype(form) }} method="POST" class="fos_user_profile_edit">
-            {{ form_widget(form, { 'style': 'horizontal' }) }}
-            <div>
-                <input type="submit" value="{{ 'profile.edit.submit'|trans }}" class="btn btn-default"/>
-            </div>
-        </form>
+        {{ form_start(form) }}
+        {{ form_widget(form) }}
+            <input type="submit" value="{{ 'profile.edit.submit'|trans }}" class="btn btn-default"/>
+        {{ form_end(form) }}
     </section>
 {% endblock %}

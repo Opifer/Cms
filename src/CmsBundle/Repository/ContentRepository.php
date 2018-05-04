@@ -58,7 +58,7 @@ class ContentRepository extends BaseContentRepository
     /**
      * Find all active and addressable content items.
      *
-     * @return ArrayCollection
+     * @return ArrayCollection|array
      */
     public function findIndexable()
     {

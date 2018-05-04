@@ -22,7 +22,6 @@ class FormFieldValidationType extends AbstractType
                     'Greater than / Equals' => 'gte',
                     'Lower than / Equals' => 'lte',
                 ],
-                'choices_as_values' => true
             ])
             ->add('value', TextType::class)
             ->add('message', TextAreaType::class)

@@ -6,6 +6,9 @@ use Opifer\MediaBundle\Model\MediaInterface;
 use Symfony\Component\EventDispatcher\Event;
 use Symfony\Component\HttpFoundation\Request;
 
+/**
+ * @deprecated
+ */
 class MediaEvent extends Event
 {
     private $request;
