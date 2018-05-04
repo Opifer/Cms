@@ -47342,7 +47342,7 @@ angular.module('ngModal', [])
     .directive('ngModal', ['$sce', function($sce) {
 
         function link(scope, element, attrs) {
-            var setupStyle;
+            var setupCloseButton, setupStyle;
 
             setupStyle = function() {
                 scope.dialogStyle = {};
@@ -47369,6 +47369,9 @@ angular.module('ngModal', [])
                 }
             });
 
+            scope.closeButtonHtml = $sce.trustAsHtml('<span class="ng-modal-close-x"><i class="material-icons">close</i></span>');
+
+
             angular.element(document.body).append(element);
 
             return setupStyle();
@@ -47384,7 +47387,7 @@ angular.module('ngModal', [])
             replace: true,
             transclude: true,
             link: link,
-            templateUrl: "/bundles/opifermedia/app/modal/modal.html"
+            templateUrl: "/bundles/opifercontent/app/modal/modal.html"
         };
     }])
 ;

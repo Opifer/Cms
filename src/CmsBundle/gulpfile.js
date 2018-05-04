@@ -64,7 +64,7 @@ gulp.task('js', ['react'], function () {
         '../../../../lexik/translation-bundle/Resources/public/js/translation.js',
         '../ContentBundle/Resources/public/js/app.js',
         '../ContentBundle/Resources/public/app/content/content.js',
-        '../MediaBundle/Resources/public/app/modal/modal.js',
+        '../ContentBundle/Resources/public/app/modal/modal.js',
 
         'Resources/public/components/ckeditor/ckeditor.js'
     ];

@@ -257,11 +257,11 @@ class Content extends BaseContent
     /**
      * @JMS\VirtualProperty
      * @JMS\SerializedName("site_id")
-     * @JMS\Groups({"detail", "list"})
      *
      * @return int
      */
-    public function getSiteId() {
+    public function getSiteId()
+    {
         return $this->site ? $this->site->getId() : null;
     }
 
