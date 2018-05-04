@@ -2,8 +2,10 @@
 
 namespace Opifer\ContentBundle\Controller\Backend;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Opifer\CmsBundle\Entity\Site;
 use Opifer\CmsBundle\Manager\ContentManager;
+use Opifer\ContentBundle\Entity\TranslationGroup;
 use Opifer\ContentBundle\Form\Type\ContentType;
 use Opifer\ContentBundle\Form\Type\LayoutType;
 use Opifer\ContentBundle\Model\Content;
@@ -262,10 +264,26 @@ class ContentController extends Controller
     {
         /** @var ContentManager $manager */
         $manager = $this->get('opifer.content.content_manager');
+        $em = $manager->getEntityManager();
         $content = $manager->getRepository()->find($id);
         $content = $manager->createMissingValueSet($content);
 
+        // Load the contentTranslations for the content group
+        if ($content->getTranslationGroup() !== null) {
+            $contentTranslations = $content->getTranslationGroup()->getContents()->filter(function($contentTranslation) use ($content) {
+                return $contentTranslation->getId() !== $content->getId();
+            });
+
+            $content->setContentTranslations($contentTranslations);
+        }
+
         $form = $this->createForm(ContentType::class, $content);
+
+        $originalContentItems = new ArrayCollection();
+        foreach ($content->getContentTranslations() as $contentItem) {
+            $originalContentItems->add($contentItem);
+        }
+
         $form->handleRequest($request);
 
         if ($form->isValid()) {
@@ -273,7 +291,35 @@ class ContentController extends Controller
                 $content->setPublishAt($content->getCreatedAt());
             }
 
-            $manager->save($content);
+            if ($content->getTranslationGroup() === null) {
+                // Init new group
+                $translationGroup = new TranslationGroup();
+                $content->setTranslationGroup($translationGroup);
+            }
+
+            // Make sure all the contentTranslations have the same group as content
+            $contentTranslationIds = [$content->getId()];
+            foreach($content->getContentTranslations() as $contentTranslation) {
+                if ($contentTranslation->getTranslationGroup() === null) {
+                    $contentTranslation->setTranslationGroup($content->getTranslationGroup());
+                    $em->persist($contentTranslation);
+                }
+
+                $contentTranslationIds[] = $contentTranslation->getId();
+            }
+
+            // Remove possible contentTranslations from the translationGroup
+            $queryBuilder = $manager->getRepository()->createQueryBuilder('c');
+            $queryBuilder->update()
+                ->set('c.translationGroup', 'NULL')
+                ->where($queryBuilder->expr()->eq('c.translationGroup', $content->getTranslationGroup()->getId()))
+                ->where($queryBuilder->expr()->notIn('c.id', $contentTranslationIds))
+                ->getQuery()
+                ->execute();
+
+            $em->persist($content);
+
+            $em->flush();
 
             return $this->redirectToRoute('opifer_content_content_index');
         }

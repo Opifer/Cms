@@ -88,20 +88,6 @@ class ContentManager implements ContentManagerInterface, BlockProviderInterface
     /**
      * {@inheritdoc}
      */
-    public function getPaginatedByRequest(Request $request)
-    {
-        $qb = $this->getRepository()->getQueryBuilderFromRequest($request);
-
-        $paginator = new Pagerfanta(new DoctrineORMAdapter($qb));
-        $paginator->setMaxPerPage($request->get('limit', 25));
-        $paginator->setCurrentPage($request->get('p', 1));
-
-        return $paginator;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
     public function findOneBySlug($slug)
     {
         return $this->getRepository()->findOneBySlug($slug);
@@ -248,6 +234,12 @@ class ContentManager implements ContentManagerInterface, BlockProviderInterface
         $this->em->flush();
 
         return $duplicatedContent;
+    }
+
+
+    public function getEntityManager()
+    {
+        return $this->em;
     }
 
     /**

@@ -2,15 +2,15 @@ angular.module('OpiferContent', ['angular-inview', 'ui.tree', 'ngCookies'])
 
     .factory('ContentService', ['$resource', '$routeParams', function ($resource, $routeParams) {
         return $resource(Routing.generate('opifer_content_api_content') + '/:id', {}, {
-            index: {method: 'GET', params: {}, cache: false},
-            delete: {method: 'DELETE', params: {id: $routeParams.id}},
-            duplicate: {method: 'PUT', params: {id: $routeParams.id}, url: Routing.generate('opifer_content_api_content') + '/duplicate'}
+            index: { method: 'GET', params: {}, cache: true },
+            delete: { method: 'DELETE', params: { id: $routeParams.id } },
+            duplicate: { method: 'PUT', params: { id: $routeParams.id }, url: Routing.generate('opifer_content_api_content') + '/duplicate' }
         });
     }])
 
     .factory('SiteService', ['$resource', '$routeParams', function ($resource, $routeParams) {
         return $resource(Routing.generate('opifer_content_api_sites'), {}, {
-            index: {method: 'GET', params: {}, cache: false},
+            index: { method: 'GET', params: {}, cache: true },
         });
     }])
 
@@ -216,10 +216,10 @@ angular.module('OpiferContent', ['angular-inview', 'ui.tree', 'ngCookies'])
                 }, 300));
 
                 // Only fetch the content once while opening the browser
-                $scope.$watch('active', function() {
+                $scope.$watch('active', function () {
                     if ($scope.active == true && $scope.contents.length == 0) {
-                        $scope.fetchContents();
                         $scope.fetchSites();
+                        $scope.fetchContents();
                     }
                 });
 
@@ -258,7 +258,7 @@ angular.module('OpiferContent', ['angular-inview', 'ui.tree', 'ngCookies'])
                 $scope.reloadContents = function () {
                     $scope.contents = [];
                     $scope.currentPage = 1;
-                    $scope.fetchContents({cache: false});
+                    $scope.fetchContents({ cache: true });
                 };
 
                 $scope.clearSearch = function () {
@@ -332,13 +332,6 @@ angular.module('OpiferContent', ['angular-inview', 'ui.tree', 'ngCookies'])
                     $scope.confirmation.dataset = $event.currentTarget.dataset;
                     $scope.confirmation.action = $scope.copyContent;
                     $scope.confirmation.shown = !$scope.confirmation.shown;
-                };
-
-                $scope.loadMore = function (e) {
-                    if (!$scope.active || $scope.busyLoading || $scope.remainingResults <= 0) return;
-                    $scope.currentPage++;
-                    $scope.busyLoading = true;
-                    $scope.fetchContents();
                 };
 
                 $scope.pickObject = function (contentId) {
