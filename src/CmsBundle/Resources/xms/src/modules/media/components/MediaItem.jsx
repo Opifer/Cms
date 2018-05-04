@@ -64,7 +64,7 @@ class MediaItem extends Component {
     return connectDragSource(
       <div className={`item ${media.provider} ${media.file_type}`}>
         {(media.provider === 'image') && (<img src={media.images.medialibrary} className="visual" alt={media.ame} />)}
-        {(media.provider === 'youtube' || media.provider === 'vimeo') && (<img src={media.thumb.images.medialibrary} className="visual" alt={media.name} />)}
+        {(media.provider === 'youtube' || media.provider === 'vimeo') && media.thumb && (<img src={media.thumb.images.medialibrary} className="visual" alt={media.name} />)}
         <div className="image-wrapper">
           <div className="extended-data">
             {(media.provider === 'image') && (<span className="details">{ media.metadata.width }x{ media.metadata.height }px</span>)}
