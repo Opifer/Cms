@@ -13,6 +13,7 @@
         "symfony/symfony": "^3.0",
         "doctrine/orm": "~2.5.4",
         "doctrine/doctrine-bundle": "^1.6",
+        "beberlei/DoctrineExtensions": "^1.0",
         "twig/extensions": "~1.2",
         "twig/twig": "~2.4",
         "symfony/swiftmailer-bundle": "~2.3",
@@ -20,7 +21,6 @@
         "sensio/distribution-bundle": "~5.0",
         "sensio/framework-extra-bundle": "~3.0",
         "incenteev/composer-parameter-handler": "~2.0",
-
         "apy/datagrid-bundle": "~3.0.2",
         "aws/aws-sdk-php": "^3.52",
         "braincrafted/bootstrap-bundle": "~2.2.0",
