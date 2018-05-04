@@ -81,6 +81,9 @@ doctrine:
     orm:
         auto_generate_proxy_classes: '%kernel.debug%'
         auto_mapping:                true
+        dql:
+            string_functions:
+                DAYOFWEEK:  'DoctrineExtensions\Query\Mysql\DayOfWeek'
         filters:
             softdeleteable:
                 class:   'Gedmo\SoftDeleteable\Filter\SoftDeleteableFilter'
