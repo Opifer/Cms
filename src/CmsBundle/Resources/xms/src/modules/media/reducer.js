@@ -2,7 +2,7 @@ import * as t from './actionTypes';
 
 const initialState = {
   directories: [],
-  directory: null,
+  directory: 0,
   isFetching: false,
   isUploading: false,
   items: [],

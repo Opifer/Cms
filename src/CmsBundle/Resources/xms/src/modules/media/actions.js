@@ -131,11 +131,10 @@ export function getItems(filters = {}, refresh = false) {
 
     filters.page = page;
 
-    // Always pass the root directory when no directory is defined and the user is not searching
-    if (!filters.directory && !filters.search) {
-      filters.directory = 0;
-    // Pass the current directory when the user is searching in a directory
-    } else if (filters.search && !filters.directory && state.media.filters.directory) {
+    //No directory should be set in case of a search in the home directory
+    if (filters.directory === 0 && filters.search) {
+      delete filters.directory;
+    } else if (!filters.directory && state.media.filters.directory) {
       filters.directory = state.media.filters.directory;
     }
 

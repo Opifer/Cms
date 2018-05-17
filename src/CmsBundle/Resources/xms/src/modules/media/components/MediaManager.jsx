@@ -101,8 +101,8 @@ export default connect(
     totalResults: state.media.totalResults,
   }),
   (dispatch) => ({
-    fetchItems: () => dispatch(getItems({ directory: 0 }, true)),
-    loadMore: () => dispatch(getItems({ directory: 0 })),
+    fetchItems: () => dispatch(getItems({}, true)),
+    loadMore: () => dispatch(getItems({})),
     processFiles: (files) =>
       dispatch(uploadFiles(
         files,
