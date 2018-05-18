@@ -127,7 +127,7 @@ class YoutubeProvider extends AbstractProvider
             throw new \Exception(sprintf('Video with reference: %s already exists for under the name: %s', $media->getReference(), $referenceMedia->getName()));
         }
 
-        if ((!isset($media->old) && !$media->getId()) || $media->old->getReference() !== $media->getReference()) {
+        if (!$media->getId() || ($media->old && $media->old->getReference() !== $media->getReference())) {
             $this->updateMedadata($media);
         }
     }
