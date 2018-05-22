@@ -136,6 +136,8 @@ export function getItems(filters = {}, refresh = false) {
       delete filters.directory;
     } else if (!filters.directory && state.media.filters.directory) {
       filters.directory = state.media.filters.directory;
+    } else {
+      filters.directory = 0;
     }
 
     const queryString = api.objectToQueryParams(filters);
