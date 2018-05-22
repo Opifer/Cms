@@ -136,7 +136,7 @@ export function getItems(filters = {}, refresh = false) {
       delete filters.directory;
     } else if (!filters.directory && state.media.filters.directory) {
       filters.directory = state.media.filters.directory;
-    } else {
+    } else if (!filters.directory && !filters.search) {
       filters.directory = 0;
     }
 
