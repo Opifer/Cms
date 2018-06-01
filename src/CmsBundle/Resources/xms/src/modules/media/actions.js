@@ -130,14 +130,17 @@ export function getItems(filters = {}, refresh = false) {
     }
 
     filters.page = page;
+    // Remove the search property when the value is undefined
+    if (typeof filters.search === 'undefined') delete filters.search;
 
-    //No directory should be set in case of a search in the home directory
+    // If the directory is not explicitly passed, get it from the state
+    if (typeof filters.directory === 'undefined' || filters.directory === null) {
+      filters.directory = state.media.filters.directory || 0;
+    }
+
+    // No directory should be set in case of a search in the home directory
     if (filters.directory === 0 && filters.search) {
       delete filters.directory;
-    } else if (!filters.directory && state.media.filters.directory) {
-      filters.directory = state.media.filters.directory;
-    } else if (!filters.directory && !filters.search) {
-      filters.directory = 0;
     }
 
     const queryString = api.objectToQueryParams(filters);
@@ -228,6 +231,6 @@ export function switchDirectory(directory) {
     dispatch(setDirectory(directory));
 
     // And fetch the items for this directory
-    return dispatch(getItems(directory ? { directory } : undefined, true));
+    return setTimeout(() => dispatch(getItems({ directory }, true)), 1);
   };
 }

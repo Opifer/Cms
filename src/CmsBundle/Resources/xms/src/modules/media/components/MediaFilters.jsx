@@ -5,10 +5,6 @@ import debounce from 'lodash.debounce';
 import { getItems } from '../actions';
 
 class MediaFilters extends Component {
-  static propTypes = {
-    fetchItems: PropTypes.func.isRequired,
-  };
-
   constructor(props) {
     super(props);
 
@@ -22,7 +18,7 @@ class MediaFilters extends Component {
       <div className="col-md-6">
         <form
           onSubmit={handleSubmit}
-          onChange={() => setTimeout(handleSubmit(params => this.debouncedFetchItems(params)))}
+          onChange={() => setTimeout(handleSubmit(params => this.debouncedFetchItems({ search: params.search ? params.search : undefined })))}
         >
           <div className="input-group search-group">
             <span className="input-group-addon">
@@ -41,6 +37,11 @@ class MediaFilters extends Component {
     );
   }
 }
+
+MediaFilters.propTypes = {
+  directory: PropTypes.number,
+  fetchItems: PropTypes.func.isRequired,
+};
 
 export default reduxForm({
   form: 'media-filters',
