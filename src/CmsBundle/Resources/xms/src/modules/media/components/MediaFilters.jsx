@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
-import { Field, reduxForm } from 'redux-form';
+import { Field, reduxForm, propTypes } from 'redux-form';
 import debounce from 'lodash.debounce';
 import { getItems } from '../actions';
 
@@ -39,6 +39,7 @@ class MediaFilters extends Component {
 }
 
 MediaFilters.propTypes = {
+  ...propTypes,
   directory: PropTypes.number,
   fetchItems: PropTypes.func.isRequired,
 };

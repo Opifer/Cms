@@ -238,7 +238,7 @@ class MediaPicker extends Component {
 export default connect(
   (state, ownProps) => ({
     selected: state.media.selected,
-    items: state.entities.medias ? state.media.selected.map(id => state.entities.medias[id]) : []
+    items: state.entities.medias ? state.media.selected.map(id => state.entities.medias[id]).filter(m => m) : []
   }),
   (dispatch) => ({
     fetchItems: (ids) => dispatch(getItems({ ids })),
