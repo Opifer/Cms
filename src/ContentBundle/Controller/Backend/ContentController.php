@@ -372,6 +372,12 @@ class ContentController extends Controller
                 $content->setPublishAt($content->getCreatedAt());
             }
 
+            if ($content->getTranslationGroup() === null) {
+                // Init new group
+                $translationGroup = new TranslationGroup();
+                $content->setTranslationGroup($translationGroup);
+            }
+
             // Make sure all the contentTranslations have the same group as content
             $contentTranslationIds = [$content->getId()];
             foreach($content->getContentTranslations() as $contentTranslation) {
