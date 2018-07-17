@@ -46503,7 +46503,7 @@ angular.module('MainApp', [
 
 angular
     .module('MainApp')
-    .controller('CKEditorController', ['$scope', '$rootScope', 'MediaService', function($scope, $rootScope, MediaService) {
+    .controller('CKEditorController', ['$scope', '$rootScope', function($scope, $rootScope) {
         $scope.funcNum = false;
         $scope.type = false;
 
