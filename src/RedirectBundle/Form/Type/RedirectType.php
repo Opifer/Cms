@@ -32,6 +32,7 @@ class RedirectType extends AbstractType
             ->add('permanent', CheckboxType::class, [
                 'attr' => [
                     'align_with_widget' => true,
+                    'required' => false,
                 ]
             ])
             ->add('requirements', CollectionType::class, [
