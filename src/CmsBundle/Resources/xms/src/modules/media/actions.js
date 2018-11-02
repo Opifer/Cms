@@ -138,8 +138,9 @@ export function getItems(filters = {}, refresh = false) {
       filters.directory = state.media.filters.directory || 0;
     }
 
-    // No directory should be set in case of a search in the home directory
-    if (filters.directory === 0 && filters.search) {
+    // In case of a search in the home directory OR if specific ids are passed
+    // no directory should be set, since we'll search in the complete media database
+    if ((filters.directory === 0 && filters.search) || filters.ids) {
       delete filters.directory;
     }
 
