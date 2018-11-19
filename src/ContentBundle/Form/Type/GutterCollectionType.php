@@ -44,7 +44,7 @@ class GutterCollectionType extends AbstractType
         parent::configureOptions($resolver);
 
         $resolver->setDefaults(array(
-            'entry_type' => new ColumnGutterType(),
+            'entry_type' => ColumnGutterType::class,
             'column_count' => 1,
             'entry_options' => ['label' => false],
         ));
