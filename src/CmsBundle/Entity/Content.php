@@ -261,7 +261,8 @@ class Content extends BaseContent
      *
      * @return int
      */
-    public function getSiteId() {
+    public function getSiteId()
+    {
         return $this->site ? $this->site->getId() : null;
     }
 
