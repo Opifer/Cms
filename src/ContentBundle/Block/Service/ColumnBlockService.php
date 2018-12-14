@@ -252,6 +252,9 @@ class ColumnBlockService extends AbstractBlockService implements LayoutBlockServ
             $properties = $block->getProperties();
             if (isset($properties['spans']) && count($properties['spans']) > 0) {
                 foreach ($properties['spans'] as $screen => $cols) {
+                    if (!$cols) {
+                        continue;
+                    }
                     foreach ($cols as $col => $span) {
                         if (empty($span)) {
                             continue;
@@ -281,6 +284,9 @@ class ColumnBlockService extends AbstractBlockService implements LayoutBlockServ
             $properties = $block->getProperties();
             if (isset($properties['offsets']) && count($properties['offsets']) > 0) {
                 foreach ($properties['offsets'] as $screen => $cols) {
+                    if (!$cols) {
+                        continue;
+                    }
                     foreach ($cols as $col => $span) {
                         if (empty($span)) {
                             continue;
@@ -307,6 +313,9 @@ class ColumnBlockService extends AbstractBlockService implements LayoutBlockServ
             $properties = $block->getProperties();
             if (isset($properties['gutters']) && count($properties['gutters']) > 0) {
                 foreach ($properties['gutters'] as $screen => $cols) {
+                    if (!$cols) {
+                        continue;
+                    }
                     foreach ($cols as $col => $span) {
                         if ($span === null) {
                             continue;
