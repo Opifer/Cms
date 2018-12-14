@@ -165,6 +165,10 @@ class ColumnBlockService extends AbstractBlockService implements LayoutBlockServ
     {
         $children = $block->getChildren();
 
+        if (!$children) {
+            return;
+        }
+
         foreach ($children as $child) {
             $child->getPosition();
 
