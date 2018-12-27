@@ -63,6 +63,14 @@ class ContentType extends AbstractType
                 ],
                 'required' => false
             ])
+            ->add('site', EntityType::class, [
+                'class'    => 'OpiferCmsBundle:Site',
+                'choice_label' => 'name',
+                'attr'     => [
+                    'help_text' => 'help.site'
+                ],
+                'required' => false
+            ])
             ->add('title', TextType::class, [
                 'label' => 'label.title',
                 'attr'  => [
