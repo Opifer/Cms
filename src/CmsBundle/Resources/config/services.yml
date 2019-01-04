@@ -217,3 +217,10 @@ services:
 
     jms_serializer.object_constructor:
         alias: jms_serializer.doctrine_object_constructor
+
+    # Grid
+
+    opifer.cms.boolean_column:
+        class: 'Opifer\CmsBundle\Grid\BooleanColumn'
+        tags:
+            - { name: grid.column.extension }

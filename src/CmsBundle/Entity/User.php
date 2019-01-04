@@ -13,7 +13,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 /**
  * @UniqueEntity("username")
  * @UniqueEntity("email")
- * @GRID\Source(columns="id, username, email")
+ * @GRID\Source(columns="id, enabled, username, email, roles")
  */
 class User extends FOSUser
 {
@@ -95,6 +95,13 @@ class User extends FOSUser
      * @var \DateTime
      */
     protected $deletedAt;
+
+    /**
+     * @var boolean
+     *
+     * @GRID\Column(type="boolean")
+     */
+    protected $enabled;
 
     /**
      * Constructor
