@@ -257,7 +257,7 @@ class ContentController extends Controller
         foreach ($contents as $key => $content) {
             $formattedContent[$key]['id'] = $content->getId();
             $formattedContent[$key]['parent_id'] = ($content->getParent()) ? $content->getParent()->getId() : 0;
-            $formattedContent[$key]['site_id'] = ($content->getSite()) ? $content->getSite()->getId() : 0;
+            $formattedContent[$key]['site_id'] = ($content->getSite()) ? $content->getSite()->getId() : null;
             $formattedContent[$key]['active'] = $content->getActive();
             $formattedContent[$key]['title'] = $content->getTitle();
             $formattedContent[$key]['short_title'] = $content->getShortTitle();
