@@ -40,6 +40,12 @@ Opifer\CmsBundle\Entity\User:
             unique: false
             nullable: true
             precision: 0
+        googleAuthenticatorSecret:
+            type: string
+            scale: 0
+            length: 255
+            unique: false
+            nullable: true
         jobPosition:
             type: string
             scale: 0
@@ -78,6 +84,9 @@ Opifer\CmsBundle\Entity\User:
             nullable: true
             precision: 0
             column: deleted_at
+        enabled2fa:
+            type: boolean
+            column: enabled_2fa
     manyToMany:
         groups:
             targetEntity: Opifer\CmsBundle\Entity\Group

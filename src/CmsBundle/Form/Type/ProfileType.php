@@ -4,6 +4,7 @@ namespace Opifer\CmsBundle\Form\Type;
 
 use Opifer\MediaBundle\Form\Type\MediaPickerType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -29,6 +30,13 @@ class ProfileType extends AbstractType
                 'first_options' => ['label' => 'form.password'],
                 'second_options' => ['label' => 'form.password_confirmation'],
                 'invalid_message' => 'fos_user.password.mismatch',
+            ])
+            ->add('enabled2fa', ChoiceType::class, [
+                'label' => 'form.google_authenticator',
+                'choices' => [
+                    'form.options.enable' => true,
+                    'form.options.disable' => false,
+                ],
             ])
             ->add('avatar', MediaPickerType::class, [
                 'multiple' => false,

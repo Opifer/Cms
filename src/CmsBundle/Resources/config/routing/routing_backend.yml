@@ -115,6 +115,10 @@ opifer_cms_user_profile:
     path: /profile
     defaults: { _controller: OpiferCmsBundle:Backend/User:profile }
 
+opifer_cms_user_activate_2fa:
+    path: /activate2fa
+    defaults: { _controller: OpiferCmsBundle:Backend/User:activateGoogleAuth }
+
 opifer_ckeditor_content:
     path: /ckeditor/content
     defaults: { _controller: OpiferCmsBundle:CKEditor:content }

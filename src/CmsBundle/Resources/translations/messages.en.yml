@@ -132,6 +132,7 @@ form:
     permalink: permalink
     username: username
     field_mandatory: This field is mandatory
+    google_authenticator: Google Authenticator
 
     post_on: 'Post %id% on "%name%"'
     posts_for: 'Posts for "%name%"'
