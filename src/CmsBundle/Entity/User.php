@@ -374,19 +374,19 @@ class User extends FOSUser implements TwoFactorInterface
         return $this->deletedAt;
     }
 
-    public function isGoogleAuthenticatorEnabled()
+    public function isGoogleAuthenticatorEnabled(): bool
     {
         return $this->googleAuthenticatorSecret ? true : false;
     }
 
-    public function getGoogleAuthenticatorUsername()
+    public function getGoogleAuthenticatorUsername(): string
     {
         return $this->username;
     }
 
-    public function getGoogleAuthenticatorSecret()
+    public function getGoogleAuthenticatorSecret(): string
     {
-        return $this->googleAuthenticatorSecret;
+        return $this->googleAuthenticatorSecret ? $this->googleAuthenticatorSecret : "";
     }
 
     public function setGoogleAuthenticatorSecret($googleAuthenticatorSecret)
