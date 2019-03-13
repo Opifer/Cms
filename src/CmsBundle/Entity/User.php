@@ -7,6 +7,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use FOS\UserBundle\Model\GroupInterface;
 use FOS\UserBundle\Model\User as FOSUser;
 use Opifer\MediaBundle\Model\MediaInterface;
+use Scheb\TwoFactorBundle\Model\Google\TwoFactorInterface;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -15,7 +16,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @UniqueEntity("email")
  * @GRID\Source(columns="id, enabled, username, email, roles")
  */
-class User extends FOSUser
+class User extends FOSUser implements TwoFactorInterface
 {
     /**
      * @GRID\Column(title="Id", size="10", type="number")
@@ -102,6 +103,15 @@ class User extends FOSUser
      * @GRID\Column(type="boolean")
      */
     protected $enabled;
+
+    /**
+     * @var boolean
+     *
+     * @GRID\Column(type="boolean")
+     */
+    protected $twoFactorEnabled = false;
+
+    private $googleAuthenticatorSecret;
 
     /**
      * Constructor
@@ -338,6 +348,23 @@ class User extends FOSUser
     }
 
     /**
+     * @return bool
+     */
+    public function isTwoFactorEnabled(): bool
+    {
+        return $this->twoFactorEnabled;
+    }
+
+    /**
+     * @return bool
+     */
+    public function setTwoFactorEnabled($twoFactorEnabled)
+    {
+        $this->twoFactorEnabled = $twoFactorEnabled;
+        return $this;
+    }
+
+    /**
      * Get deletedAt
      *
      * @return \DateTime
@@ -345,5 +372,25 @@ class User extends FOSUser
     public function getDeletedAt()
     {
         return $this->deletedAt;
+    }
+
+    public function isGoogleAuthenticatorEnabled()
+    {
+        return $this->googleAuthenticatorSecret ? true : false;
+    }
+
+    public function getGoogleAuthenticatorUsername()
+    {
+        return $this->username;
+    }
+
+    public function getGoogleAuthenticatorSecret()
+    {
+        return $this->googleAuthenticatorSecret;
+    }
+
+    public function setGoogleAuthenticatorSecret($googleAuthenticatorSecret)
+    {
+        $this->googleAuthenticatorSecret = $googleAuthenticatorSecret;
     }
 }

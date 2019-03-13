@@ -45,7 +45,8 @@
         "symfony-cmf/routing-bundle": "~2.0.3",
         "webmozart/expression": "^1.0",
         "willdurand/js-translation-bundle": "~2.2",
-        "lexik/translation-bundle": "^4.0"
+        "lexik/translation-bundle": "^4.0",
+        "scheb/two-factor-bundle": "^3.17"
     },
     "require-dev": {
         "phpunit/phpunit": "~5.2",
