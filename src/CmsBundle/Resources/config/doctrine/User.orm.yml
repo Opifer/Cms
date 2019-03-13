@@ -84,9 +84,9 @@ Opifer\CmsBundle\Entity\User:
             nullable: true
             precision: 0
             column: deleted_at
-        enabled2fa:
+        twoFactorEnabled:
             type: boolean
-            column: enabled_2fa
+            column: two_factor_enabled
     manyToMany:
         groups:
             targetEntity: Opifer\CmsBundle\Entity\Group

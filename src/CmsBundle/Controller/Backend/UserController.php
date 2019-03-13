@@ -86,7 +86,7 @@ class UserController extends Controller
 
         if ($form->isValid()) {
 
-            if($user->isEnabled2fa() == false) {
+            if ($user->isTwoFactorEnabled() == false) {
                 $user->setGoogleAuthenticatorSecret(null);
             }
 
@@ -121,13 +121,13 @@ class UserController extends Controller
 
         if ($form->isValid()) {
 
-            if($user->isEnabled2fa() == false) {
+            if ($user->isTwoFactorEnabled() == false) {
                 $user->setGoogleAuthenticatorSecret(null);
             }
 
             $this->get('fos_user.user_manager')->updateUser($user, true);
 
-            if($user->isEnabled2fa() == true && empty($user->getGoogleAuthenticatorSecret())) {
+            if ($user->isTwoFactorEnabled() == true && empty($user->getGoogleAuthenticatorSecret())) {
                 return $this->redirectToRoute('opifer_cms_user_activate_2fa');                    
             }
 
@@ -144,17 +144,20 @@ class UserController extends Controller
 
     /**
      * Activate Google Authenticator
-     * 
+     *
      * @param Request $request
      *
      * @return Response
      */
-    public function activateGoogleAuthAction(Request $request){
+    public function activateGoogleAuthAction(Request $request)
+    {
         $user = $this->getUser();
         
         $secret = $this->container->get("scheb_two_factor.security.google_authenticator")->generateSecret();
         $user->setGoogleAuthenticatorSecret($secret);
-        $url = $this->container->get("scheb_two_factor.security.google_authenticator")->getUrl($user);
+
+        //Generate QR url
+        $qrUrl = $this->container->get("scheb_two_factor.security.google_authenticator")->getUrl($user);
 
         $form = $this->createForm(GoogleAuthType::class, $user);
         $form->handleRequest($request);
@@ -171,7 +174,7 @@ class UserController extends Controller
             'form' => $form->createView(),
             'secret' => $secret,
             'user' => $user,
-            'url' => $url,
+            'qrUrl' => $qrUrl,
         ]);
     }
 }

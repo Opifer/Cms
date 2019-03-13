@@ -109,7 +109,7 @@ class User extends FOSUser implements TwoFactorInterface
      *
      * @GRID\Column(type="boolean")
      */
-    protected $enabled2fa = false;
+    protected $twoFactorEnabled = false;
 
     private $googleAuthenticatorSecret;
 
@@ -350,17 +350,17 @@ class User extends FOSUser implements TwoFactorInterface
     /**
      * @return bool
      */
-    public function isEnabled2fa(): bool
+    public function isTwoFactorEnabled(): bool
     {
-        return $this->enabled2fa;
+        return $this->twoFactorEnabled;
     }
 
     /**
      * @return bool
      */
-    public function setEnabled2fa($enabled2fa)
+    public function setTwoFactorEnabled($twoFactorEnabled)
     {
-        $this->enabled2fa = $enabled2fa;
+        $this->twoFactorEnabled = $twoFactorEnabled;
         return $this;
     }
 

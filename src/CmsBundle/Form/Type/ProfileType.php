@@ -31,7 +31,7 @@ class ProfileType extends AbstractType
                 'second_options' => ['label' => 'form.password_confirmation'],
                 'invalid_message' => 'fos_user.password.mismatch',
             ])
-            ->add('enabled2fa', ChoiceType::class, [
+            ->add('twoFactorEnabled', ChoiceType::class, [
                 'label' => 'form.google_authenticator',
                 'choices' => [
                     'form.options.enable' => true,
