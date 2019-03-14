@@ -183,6 +183,7 @@ label:
     linkedin_key: LinkedIn App Key
     domain: Domain
     site: Site
+    account_enabled: Account status
 
 help_text:
     allow_email: Allow login with e-mail address
