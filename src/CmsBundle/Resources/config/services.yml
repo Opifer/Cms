@@ -1,5 +1,4 @@
 parameters:
-    opifer.cms.address_value_provider.class: 'Opifer\CmsBundle\ValueProvider\AddressValueProvider'
     opifer.cms.attachment_listener.class: 'Opifer\CmsBundle\EventListener\AttachmentListener'
     opifer.cms.attachment_value_provider.class: 'Opifer\CmsBundle\ValueProvider\AttachmentValueProvider'
     opifer.cms.event_subscriber.load_orm_metadata.class: 'Opifer\CmsBundle\EventListener\LoadORMMetadataSubscriber'
@@ -7,14 +6,8 @@ parameters:
     opifer.cms.form_value_provider.class: 'Opifer\CmsBundle\ValueProvider\FormValueProvider'
     opifer.cms.form.ckeditor_type.class: 'Opifer\CmsBundle\Form\Type\CKEditorType'
     opifer.cms.form.collapsible_collection.class: 'Opifer\CmsBundle\Form\Type\CollapsibleCollectionType'
-    opifer.cms.form.google_address.class: 'Opifer\CmsBundle\Form\Type\GoogleAddressType'
-    opifer.cms.form.menu_group.class: 'Opifer\CmsBundle\Form\Type\MenuGroupType'
-    opifer.cms.form.menu_parameters.class: 'Opifer\CmsBundle\Form\Type\MenuParametersType'
     opifer.cms.html_value_provider.class: 'Opifer\CmsBundle\ValueProvider\HtmlValueProvider'
     opifer.cms.mailinglist_subscribe_value_provider.class: 'Opifer\CmsBundle\ValueProvider\MailingListSubscribeValueProvider'
-    opifer.cms.menu_group.class: 'Opifer\CmsBundle\Entity\MenuGroup'
-    opifer.cms.menu_group_value_provider.class: 'Opifer\CmsBundle\ValueProvider\MenuGroupValueProvider'
-    opifer.cms.menu_manager.class: 'Opifer\CmsBundle\Manager\MenuManager'
     opifer.cms.slug_form_type.class: 'Opifer\CmsBundle\Form\Type\SlugType'
     opifer.cms.tableprefix_listener.class: 'Opifer\CmsBundle\EventListener\TablePrefixSubscriber'
     twig.extension.intl.class: 'Twig_Extensions_Extension_Intl'
@@ -54,26 +47,9 @@ services:
         tags:
             - { name: 'form.type' }
 
-    opifer.cms.form.google_address:
-        class: '%opifer.cms.form.google_address.class%'
-        arguments: ['@translator']
-        tags:
-            - { name: 'form.type' }
-
     opifer.cms.form.ckeditor_type:
         class: '%opifer.cms.form.ckeditor_type.class%'
         arguments: ['@translator']
-        tags:
-            - { name: 'form.type' }
-
-    opifer.cms.form.menu_group:
-        class: '%opifer.cms.form.menu_group.class%'
-        arguments: ['%opifer.cms.menu_group.class%',  '@opifer.cms.menu_manager']
-        tags:
-            - { name: 'form.type' }
-
-    opifer.cms.form.menu_parameters:
-        class: '%opifer.cms.form.menu_parameters.class%'
         tags:
             - { name: 'form.type' }
 
@@ -163,23 +139,12 @@ services:
         tags:
             - { name: form.type }
 
-    # Menus
-
-    opifer.cms.menu_manager:
-        class: '%opifer.cms.menu_manager.class%'
-        arguments: ['@doctrine.orm.default_entity_manager']
-
     # Value providers
 
     opifer.eav.attachment_value_provider:
         class: '%opifer.cms.attachment_value_provider.class%'
         tags:
             - { name: 'opifer.eav.value_provider', alias: 'attachment' }
-
-    opifer.cms.address_value_provider:
-        class: '%opifer.cms.address_value_provider.class%'
-        tags:
-            - { name: 'opifer.eav.value_provider', alias: 'address' }
 
     opifer.cms.form_value_provider:
          class: '%opifer.cms.form_value_provider.class%'
@@ -253,3 +218,9 @@ services:
     jms_serializer.object_constructor:
         alias: jms_serializer.doctrine_object_constructor
 
+    # Grid
+
+    opifer.cms.boolean_column:
+        class: 'Opifer\CmsBundle\Grid\BooleanColumn'
+        tags:
+            - { name: grid.column.extension }

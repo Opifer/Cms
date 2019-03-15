@@ -9,4 +9,4 @@ Opifer\ExpressionEngine\Expression\Expression:
     value:
       type: string
     children:
-      type: "array<Opifer\ExpressionEngine\Expression\Expression>"
+      type: array<Opifer\ExpressionEngine\Expression\Expression>

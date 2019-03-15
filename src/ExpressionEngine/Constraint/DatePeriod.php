@@ -2,10 +2,11 @@
 
 namespace Opifer\ExpressionEngine\Constraint;
 
+use Opifer\ExpressionEngine\ConstraintInterface;
 use Webmozart\Expression\Expression;
 use Webmozart\Expression\Logic\Literal;
 
-class DatePeriod extends Literal
+class DatePeriod extends Literal implements ConstraintInterface
 {
     /**
      * @var string
@@ -64,5 +65,10 @@ class DatePeriod extends Literal
     public function toString()
     {
         return 'datePeriod()';
+    }
+
+    public function getLeft($key)
+    {
+        return $key;
     }
 }

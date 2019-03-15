@@ -3,6 +3,7 @@
 namespace Opifer\ContentBundle\Form\Type;
 
 use Doctrine\ORM\EntityRepository;
+use Opifer\CmsBundle\Entity\Site;
 use Opifer\ContentBundle\Form\DataTransformer\SlugTransformer;
 use Opifer\EavBundle\Form\Type\DateTimePickerType;
 use Opifer\EavBundle\Form\Type\ValueSetType;
@@ -62,6 +63,14 @@ class ContentType extends AbstractType
                 'choice_label' => 'name',
                 'attr' => [
                     'help_text' => 'help.content_language',
+                ],
+                'required' => false
+            ])
+            ->add('site', EntityType::class, [
+                'class'    => 'OpiferCmsBundle:Site',
+                'choice_label' => 'name',
+                'attr'     => [
+                    'help_text' => 'help.site'
                 ],
                 'required' => false
             ])

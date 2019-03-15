@@ -3,6 +3,7 @@
 namespace Opifer\CmsBundle\Controller\Frontend;
 
 use Opifer\CmsBundle\Entity\Locale;
+use Opifer\CmsBundle\Repository\ContentRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -17,14 +18,13 @@ class ExceptionController extends Controller
      */
     public function error404Action(Request $request)
     {
-        $host = $this->getRequest()->getHost();
+        $host = $request->getHost();
         $slugParts = explode('/', $request->getPathInfo());
         $locale = $this->getDoctrine()->getRepository(Locale::class)
             ->findOneByLocale($slugParts[1]);
 
         /** @var ContentRepository $contentRepository */
         $contentRepository = $this->getDoctrine()->getRepository('OpiferCmsBundle:Content');
-
 
         $content = $contentRepository->findActiveBySlug('404', $host);
 

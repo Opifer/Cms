@@ -36,7 +36,6 @@ class FilterType extends AbstractType
                     'Textfield' => 'text',
                     'Buttons' => 'buttons',
                 ],
-                'choices_as_values' => true,
                 'attr' => [
                     'help_text' => 'How should we display the filter?',
                 ],

@@ -6,12 +6,12 @@
 #        id: \d+
 
 opifer_content_api_content:
-    resource: "Opifer\ContentBundle\Controller\Api\ContentController"
+    resource: "Opifer\\ContentBundle\\Controller\\Api\\ContentController"
     type:     rest
     prefix: /api
 
 opifer_content_api_template:
-    resource: "Opifer\ContentBundle\Controller\Api\TemplateController"
+    resource: "Opifer\\ContentBundle\\Controller\\Api\\TemplateController"
     type:     rest
     prefix: /api
 

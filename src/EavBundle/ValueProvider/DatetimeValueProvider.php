@@ -11,7 +11,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 class DatetimeValueProvider extends AbstractValueProvider implements ValueProviderInterface
 {
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
@@ -22,7 +22,7 @@ class DatetimeValueProvider extends AbstractValueProvider implements ValueProvid
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getEntity()
     {
@@ -30,7 +30,7 @@ class DatetimeValueProvider extends AbstractValueProvider implements ValueProvid
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getLabel()
     {

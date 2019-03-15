@@ -53,13 +53,12 @@ class FormSectionBlockService extends AbstractBlockService implements BlockServi
         ;
 
         $builder->get('default')
-                ->add('value', TextType::class, [
-                    'required' => true,
-                    'label' => 'label.form_section_value',
-                    'attr' => [
-                        'help_text' => 'help.form_section_value',
-                    ],
-                ]);
+            ->add('value', TextType::class, [
+                'label' => 'label.form_section_value',
+                'attr' => [
+                    'help_text' => 'help.form_section_value',
+                ],
+            ]);
     }
 
     public function getViewParameters(BlockInterface $block)

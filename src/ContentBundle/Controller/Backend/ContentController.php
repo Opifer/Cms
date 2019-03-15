@@ -343,11 +343,26 @@ class ContentController extends Controller
         $manager = $this->get('opifer.content.content_manager');
         $content = $manager->getRepository()->find($id);
         $content = $manager->createMissingValueSet($content);
+        $em = $manager->getEntityManager();
+
+        // Load the contentTranslations for the content group
+        if ($content->getTranslationGroup() !== null) {
+            $contentTranslations = $content->getTranslationGroup()->getContents()->filter(function($contentTranslation) use ($content) {
+                return $contentTranslation->getId() !== $content->getId();
+            });
+
+            $content->setContentTranslations($contentTranslations);
+        }
 
         if ($content->getLayout()) {
             $form = $this->createForm(LayoutType::class, $content);
         } else {
             $form = $this->createForm(ContentType::class, $content);
+        }
+
+        $originalContentItems = new ArrayCollection();
+        foreach ($content->getContentTranslations() as $contentItem) {
+            $originalContentItems->add($contentItem);
         }
 
         $form->handleRequest($request);
@@ -356,6 +371,32 @@ class ContentController extends Controller
             if (null === $content->getPublishAt()) {
                 $content->setPublishAt($content->getCreatedAt());
             }
+
+            if ($content->getTranslationGroup() === null) {
+                // Init new group
+                $translationGroup = new TranslationGroup();
+                $content->setTranslationGroup($translationGroup);
+            }
+
+            // Make sure all the contentTranslations have the same group as content
+            $contentTranslationIds = [$content->getId()];
+            foreach($content->getContentTranslations() as $contentTranslation) {
+                if ($contentTranslation->getTranslationGroup() === null) {
+                    $contentTranslation->setTranslationGroup($content->getTranslationGroup());
+                    $em->persist($contentTranslation);
+                }
+
+                $contentTranslationIds[] = $contentTranslation->getId();
+            }
+
+            // Remove possible contentTranslations from the translationGroup
+            $queryBuilder = $manager->getRepository()->createQueryBuilder('c');
+            $queryBuilder->update()
+                ->set('c.translationGroup', 'NULL')
+                ->where($queryBuilder->expr()->eq('c.translationGroup', $content->getTranslationGroup()->getId()))
+                ->where($queryBuilder->expr()->notIn('c.id', $contentTranslationIds))
+                ->getQuery()
+                ->execute();
 
             $manager->save($content);
         }

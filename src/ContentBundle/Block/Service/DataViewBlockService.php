@@ -76,7 +76,6 @@ class DataViewBlockService extends AbstractBlockService implements LayoutBlockSe
                                 $choices[$option['value']] = $option['key'];
                             }
                             $options['choices'] = $choices;
-                            $options['choices_as_values'] = true;
                         }
                         break;
                     case 'number':

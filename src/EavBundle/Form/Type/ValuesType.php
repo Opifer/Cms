@@ -14,7 +14,7 @@ class ValuesType extends AbstractType
     /**
      * Constructor
      *
-     * @param ValuesSubscriber $valueSubscriber
+     * @param ValuesSubscriber $valuesSubscriber
      */
     public function __construct(ValuesSubscriber $valuesSubscriber)
     {
@@ -22,7 +22,7 @@ class ValuesType extends AbstractType
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
@@ -42,7 +42,7 @@ class ValuesType extends AbstractType
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getBlockPrefix()
     {

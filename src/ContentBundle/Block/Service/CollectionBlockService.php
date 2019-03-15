@@ -107,7 +107,6 @@ class CollectionBlockService extends AbstractBlockService implements BlockServic
                         'Publication Date' => 'publishAt',
                         'Title' => 'title',
                     ],
-                    'choices_as_values' => true,
                     'attr' => [
                         'help_text' => 'Define the order of the collection',
                         'tag' => 'general'
@@ -119,7 +118,6 @@ class CollectionBlockService extends AbstractBlockService implements BlockServic
                         'Ascending' => 'ASC',
                         'Descending' => 'DESC',
                     ],
-                    'choices_as_values' => true,
                     'attr' => [
                         'help_text' => 'Set the direction to ascending or descending',
                         'tag' => 'general'

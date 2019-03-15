@@ -22,12 +22,4 @@ class MediaEditType extends AbstractType
             ])
         ;
     }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getBlockPrefix()
-    {
-        return 'opifer_media_edit';
-    }
 }

@@ -2,11 +2,6 @@
 
 namespace Opifer\ContentBundle\Block\Tool;
 
-/**
- * Class Tool
- *
- * @package Opifer\ContentBundle\Block\Tool
- */
 class Tool
 {
     const GROUP_CONTENT = 'Content';
@@ -33,155 +28,95 @@ class Tool
     /** @var int */
     protected $sort = 0;
 
-    /**
-     * @param string $name
-     * @param string $service
-     */
-    public function __construct($name, $service)
+    public function __construct(string $name, string $service)
     {
         $this->name = $name;
         $this->service = $service;
     }
 
-
-    public function getDataJson()
+    public function getDataJson() : string
     {
         return json_encode($this->getData());
     }
 
-    /**
-     * @return string
-     */
-    public function getGroup()
+    public function getGroup() : string
     {
         return $this->group;
     }
 
-    /**
-     * @param string $group
-     * @return Tool
-     */
-    public function setGroup($group)
+    public function setGroup(string $group) : Tool
     {
         $this->group = $group;
 
         return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function getName()
+    public function getName() : string
     {
         return $this->name;
     }
 
-    /**
-     * @param string $name
-     *
-     * @return $this
-     */
-    public function setName($name)
+    public function setName(string $name) : Tool
     {
         $this->name = $name;
 
         return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function getService()
+    public function getService() : string
     {
         return $this->service;
     }
 
-    /**
-     * @param string $service
-     *
-     * @return $this
-     */
-    public function setService($service)
+    public function setService(string $service) : Tool
     {
         $this->service = $service;
 
         return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function getDescription()
+    public function getDescription() : ?string
     {
         return $this->description;
     }
 
-    /**
-     * @param string $description
-     *
-     * @return $this
-     */
-    public function setDescription($description)
+    public function setDescription(?string $description) : Tool
     {
         $this->description = $description;
 
         return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function getIcon()
+    public function getIcon() : ?string
     {
         return $this->icon;
     }
 
-    /**
-     * @param string $icon
-     *
-     * @return $this
-     */
-    public function setIcon($icon)
+    public function setIcon(?string $icon) : Tool
     {
         $this->icon = $icon;
 
         return $this;
     }
 
-    /**
-     * @return array
-     */
-    public function getData()
+    public function getData() : array
     {
         return $this->data;
     }
 
-    /**
-     * @param array $data
-     *
-     * @return $this
-     */
-    public function setData($data)
+    public function setData(array $data) : Tool
     {
         $this->data = $data;
 
         return $this;
     }
 
-    /**
-     * @return int
-     */
-    public function getSort()
+    public function getSort() : int
     {
         return $this->sort;
     }
 
-    /**
-     * @param int $sort
-     *
-     * @return $this
-     */
-    public function setSort($sort)
+    public function setSort(int $sort) : Tool
     {
         $this->sort = $sort;
 

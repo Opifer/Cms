@@ -8,7 +8,6 @@ use Opifer\ContentBundle\Block\Tool\ToolsetMemberInterface;
 use Opifer\ContentBundle\Entity\ImageBlock;
 use Opifer\ContentBundle\Model\BlockInterface;
 use Opifer\MediaBundle\Form\Type\MediaPickerType;
-use Symfony\Bundle\FrameworkBundle\Templating\EngineInterface;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\FormType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -51,7 +50,7 @@ class ImageBlockService extends AbstractBlockService implements BlockServiceInte
 
         // Default panel
         $builder->add(
-            $builder->create('default', FormType::class, ['virtual' => true])
+            $builder->create('default', FormType::class, ['inherit_data' => true])
                 ->add('media', MediaPickerType::class, [
                     'required'  => false,
                     'multiple' => false,
@@ -63,19 +62,16 @@ class ImageBlockService extends AbstractBlockService implements BlockServiceInte
                 ->add('extra_classes', TextType::class, ['attr' => ['help_text' => 'help.extra_classes'],'required' => false])
                 ->add('filter', ChoiceType::class, [
                     'choices' => $this->getAvailableFilters(),
-                    'choices_as_values' => true,
                     'required' => false,
                     'attr' => ['help_text' => 'help.image_filter']
                 ])
                 ->add('enlarge', ChoiceType::class, [
                     'choices' => ['No' => false, 'Yes' => true],
-                    'choices_as_values' => true,
                     'attr' => ['help_text' => 'help.image_enlarge'],
                     'required' => false,
                 ])
                 ->add('enlarge_filter', ChoiceType::class, [
                     'choices' => $this->getAvailableFilters(),
-                    'choices_as_values' => true,
                     'required' => false,
                     'attr' => ['help_text' => 'help.image_enlarge_filter']
                 ])

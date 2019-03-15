@@ -60,7 +60,6 @@ class NavigationBlockService extends AbstractBlockService implements BlockServic
                     'Top level pages' => NavigationBlock::CHOICE_TOP_LEVEL,
                     'Custom selection' => NavigationBlock::CHOICE_CUSTOM
                 ],
-                'choices_as_values' => true,
                 'attr' => ['class' => 'toggle-content-picker'],
                 'required' => true,
                 'constraints' => [

@@ -2,8 +2,10 @@
 
 namespace Opifer\CmsBundle\ValueProvider;
 
+use Opifer\CmsBundle\Entity\AttachmentValue;
 use Opifer\EavBundle\ValueProvider\AbstractValueProvider;
 use Opifer\EavBundle\ValueProvider\ValueProviderInterface;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\FormBuilderInterface;
 
 class AttachmentValueProvider extends AbstractValueProvider implements ValueProviderInterface
@@ -13,7 +15,7 @@ class AttachmentValueProvider extends AbstractValueProvider implements ValueProv
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('file', 'file', [
+        $builder->add('file', FileType::class, [
             'required' => (isset($options['attribute']->getParameters()['required'])) ? $options['attribute']->getParameters()['required'] : false,
             'label' => false,
         ]);
@@ -24,7 +26,7 @@ class AttachmentValueProvider extends AbstractValueProvider implements ValueProv
      */
     public function getEntity()
     {
-        return 'Opifer\CmsBundle\Entity\AttachmentValue';
+        return AttachmentValue::class;
     }
 
     /**

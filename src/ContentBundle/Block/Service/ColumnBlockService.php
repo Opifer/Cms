@@ -123,7 +123,7 @@ class ColumnBlockService extends AbstractBlockService implements LayoutBlockServ
                     'expanded' => true,
                     'multiple' => true,
                     'attr' => [
-                        'help_text' => 'help.list_display_size', 
+                        'help_text' => 'help.list_display_size',
                         // 'class' => 'btn-group btn-group-styling', 
                         // 'data-toggle' => 'buttons',
                         'tag' => 'styles'
@@ -165,6 +165,10 @@ class ColumnBlockService extends AbstractBlockService implements LayoutBlockServ
     {
         $children = $block->getChildren();
 
+        if (!$children) {
+            return;
+        }
+
         foreach ($children as $child) {
             $child->getPosition();
 
@@ -173,13 +177,6 @@ class ColumnBlockService extends AbstractBlockService implements LayoutBlockServ
                 $this->em->persist($child);
             }
         }
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function configureManageOptions(OptionsResolver $resolver)
-    {
     }
 
     /**
@@ -259,6 +256,9 @@ class ColumnBlockService extends AbstractBlockService implements LayoutBlockServ
             $properties = $block->getProperties();
             if (isset($properties['spans']) && count($properties['spans']) > 0) {
                 foreach ($properties['spans'] as $screen => $cols) {
+                    if (!$cols) {
+                        continue;
+                    }
                     foreach ($cols as $col => $span) {
                         if (empty($span)) {
                             continue;
@@ -288,6 +288,9 @@ class ColumnBlockService extends AbstractBlockService implements LayoutBlockServ
             $properties = $block->getProperties();
             if (isset($properties['offsets']) && count($properties['offsets']) > 0) {
                 foreach ($properties['offsets'] as $screen => $cols) {
+                    if (!$cols) {
+                        continue;
+                    }
                     foreach ($cols as $col => $span) {
                         if (empty($span)) {
                             continue;
@@ -314,6 +317,9 @@ class ColumnBlockService extends AbstractBlockService implements LayoutBlockServ
             $properties = $block->getProperties();
             if (isset($properties['gutters']) && count($properties['gutters']) > 0) {
                 foreach ($properties['gutters'] as $screen => $cols) {
+                    if (!$cols) {
+                        continue;
+                    }
                     foreach ($cols as $col => $span) {
                         if ($span === null) {
                             continue;

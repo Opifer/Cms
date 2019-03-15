@@ -3,14 +3,11 @@
 namespace Opifer\ContentBundle\Controller\Backend;
 
 use Opifer\ContentBundle\Block\BlockManager;
-use Opifer\ContentBundle\Block\Service\BlockServiceInterface;
 use Opifer\ContentBundle\Entity\DocumentBlock;
 use Opifer\ContentBundle\Environment\ContentEnvironment;
 use Opifer\ContentBundle\Environment\Environment;
-use Opifer\ContentBundle\Form\Type\BlockAdapterFormType;
 use Opifer\ContentBundle\Provider\BlockProviderInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 /**

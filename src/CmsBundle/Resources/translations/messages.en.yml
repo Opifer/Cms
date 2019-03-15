@@ -3,19 +3,20 @@ flash:
 
 title:
     config: Configuration
+    content_types: Content types
+    create_site: Create new website
+    cronjob: Cronjobs
+    domain: Domain
+    domains: Domains
+    layouts: Layouts
+    locale: languages
     mailing_list: Mailing List
     mailing_list_plural: Mailing Lists
     review: Reviews
-    translations: translations
-    locale: languages
-    layouts: Layouts
-    content_types: Content types
-    site_selection: Website
-    domain: Domain
     site: Website
-    domains: Domains
+    site_selection: Website
     sites: Websites
-    create_site: Create new website
+    translations: translations
 
 # Base
 base:
@@ -30,7 +31,6 @@ base:
     profile: my account
     redirects: redirects
     settings: configuration
-    sitemenu: menu
     sites: websites
     system: system
     schemas: schemas
@@ -132,6 +132,7 @@ form:
     permalink: permalink
     username: username
     field_mandatory: This field is mandatory
+    google_authenticator: Google Authenticator
 
     post_on: 'Post %id% on "%name%"'
     posts_for: 'Posts for "%name%"'
@@ -182,6 +183,7 @@ label:
     linkedin_key: LinkedIn App Key
     domain: Domain
     site: Site
+    account_enabled: Account status
 
 help_text:
     allow_email: Allow login with e-mail address

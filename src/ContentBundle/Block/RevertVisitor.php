@@ -2,14 +2,8 @@
 
 namespace Opifer\ContentBundle\Block;
 
-use Opifer\ContentBundle\Block\BlockManager;
 use Opifer\ContentBundle\Model\BlockInterface;
 
-/**
- * Class RevertVisitor
- *
- * @package Opifer\ContentBundle\Block
- */
 class RevertVisitor implements VisitorInterface
 {
     /** @var integer */

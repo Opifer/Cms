@@ -4,7 +4,6 @@ namespace Opifer\ContentBundle\Form\Type;
 
 use Opifer\ContentBundle\Form\DataTransformer\BoxModelDataTransformer;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\CallbackTransformer;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -32,7 +31,6 @@ class BoxModelType extends AbstractType
                     'Spacing bottom only' => 'b',
                     'Spacing left only' => 'l',
                 ],
-                'choices_as_values' => true,
             ])
             ->add('size', ChoiceType::class, [
                 'choices' => [
@@ -44,7 +42,6 @@ class BoxModelType extends AbstractType
                     'Large (40px)' => '4',
                     'Extra large (50px)' => '5',
                 ],
-                'choices_as_values' => true,
             ])
             ->addModelTransformer(new BoxModelDataTransformer($prefix))
         ;

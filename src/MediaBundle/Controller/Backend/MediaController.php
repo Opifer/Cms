@@ -4,6 +4,7 @@ namespace Opifer\MediaBundle\Controller\Backend;
 
 use Opifer\MediaBundle\Event\MediaResponseEvent;
 use Opifer\MediaBundle\Event\ResponseEvent;
+use Opifer\MediaBundle\Form\Type\MediaEditType;
 use Opifer\MediaBundle\Form\Type\MediaType;
 use Opifer\MediaBundle\OpiferMediaEvents;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -152,7 +153,7 @@ class MediaController extends Controller
         foreach ($form['files'] as $id => $values) {
             $media = $this->get('opifer.media.media_manager')->getRepository()->find($id);
 
-            $form = $this->createForm('opifer_media_edit', $media);
+            $form = $this->createForm(MediaEditType::class, $media);
             $form->submit($values);
 
             if ($form->isValid()) {

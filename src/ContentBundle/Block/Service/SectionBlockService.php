@@ -8,11 +8,9 @@ use Opifer\ContentBundle\Block\Tool\ToolsetMemberInterface;
 use Opifer\ContentBundle\Entity\SectionBlock;
 use Opifer\ContentBundle\Form\Type\BoxModelType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
-use Symfony\Component\Form\Extension\Core\Type\FormType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Opifer\ContentBundle\Model\BlockInterface;
-use Symfony\Component\Validator\Constraints\NotBlank;
 
 /**
  * Section Block Service
@@ -50,9 +48,6 @@ class SectionBlockService extends AbstractBlockService implements BlockServiceIn
         $builder->get('properties')
             ->add('id', TextType::class, ['attr' => ['help_text' => 'help.html_id'],'required' => false])
             ->add('extra_classes', TextType::class, ['attr' => ['help_text' => 'help.extra_classes'],'required' => false])
-        ;
-
-        $builder->get('properties')
             ->add('styles', ChoiceType::class, [
                 'label' => 'label.styling',
                 'choices'  => $this->config['styles'],
@@ -80,9 +75,9 @@ class SectionBlockService extends AbstractBlockService implements BlockServiceIn
             ->add('container_size', ChoiceType::class, [
                 'label' => 'label.container_sizing',
                 'choices' => [
-                    'fluid' => 'label.container_fluid',
-                    '' => 'label.container_fixed',
-                    'smooth' => 'label.container_smooth',
+                    'label.container_fluid' => 'fluid',
+                    'label.container_fixed' => '',
+                    'label.container_smooth' => 'smooth',
                 ],
                 'attr' => [
                     'help_text' => 'help.container_sizing',
@@ -105,7 +100,7 @@ class SectionBlockService extends AbstractBlockService implements BlockServiceIn
      */
     public function createBlock()
     {
-        return new SectionBlock;
+        return new SectionBlock();
     }
 
     /**

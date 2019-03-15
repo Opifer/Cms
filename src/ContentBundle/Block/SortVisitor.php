@@ -5,11 +5,6 @@ namespace Opifer\ContentBundle\Block;
 use Doctrine\Common\Collections\ArrayCollection;
 use Opifer\ContentBundle\Model\BlockInterface;
 
-/**
- * Class SortVisitor
- *
- * @package Opifer\ContentBundle\Block
- */
 class SortVisitor implements VisitorInterface
 {
     /**

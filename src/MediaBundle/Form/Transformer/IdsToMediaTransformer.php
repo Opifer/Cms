@@ -58,10 +58,10 @@ class IdsToMediaTransformer implements DataTransformerInterface
             ->getResult()
         ;
 
-        if (null === $media) {
+        if (!$media) {
             throw new TransformationFailedException(sprintf(
-                'A media item with id "%s" does not exist!',
-                $id
+                'Media items with the ids "%s" do not exist!',
+                implode(', ', $ids)
             ));
         }
 

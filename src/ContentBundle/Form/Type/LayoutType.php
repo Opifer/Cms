@@ -2,17 +2,13 @@
 
 namespace Opifer\ContentBundle\Form\Type;
 
-use Opifer\ContentBundle\Form\DataTransformer\SlugTransformer;
 use Opifer\EavBundle\Form\Type\ValueSetType;
 use Opifer\MediaBundle\Form\Type\MediaPickerType;
-use Opifer\MediaBundle\Form\Type\MediaType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
 /**
  * Content Form Type
@@ -38,7 +34,7 @@ class LayoutType extends AbstractType
         $builder
             ->add('template', EntityType::class, [
                 'class'    => 'OpiferContentBundle:Template',
-                'property' => 'displayName',
+                'choice_label' => 'displayName',
                 'attr'     => [
                     'help_text' => 'help.template'
                 ],
@@ -99,13 +95,5 @@ class LayoutType extends AbstractType
         if ($options['data']->getValueSet()) {
             $builder->add('valueset', ValueSetType::class);
         }
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function getBlockPrefix()
-    {
-        return 'opifer_content_details';
     }
 }
