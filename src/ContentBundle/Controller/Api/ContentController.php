@@ -158,11 +158,14 @@ class ContentController extends Controller
             return $response;
         }
 
+        $stringHelper = $this->container->get('opifer.content.string_helper');
         $context = SerializationContext::create()->setGroups(['Default', 'detail'])->enableMaxDepthChecks();
         $json = $this->get('jms_serializer')->serialize([
             'results' => $items,
             'total_results' => $count
         ], 'json', $context);
+
+        $json = $stringHelper->replaceLinks($json);
 
         $response->setData(json_decode($json, true));
 
@@ -228,10 +231,14 @@ class ContentController extends Controller
             return $response;
         }
 
+        $stringHelper = $this->container->get('opifer.content.string_helper');
         $context = SerializationContext::create()->setGroups(['Default', 'detail'])->enableMaxDepthChecks();
+
         $json = $this->get('jms_serializer')->serialize([
             'results' => $items,
         ], 'json', $context);
+
+        $json = $stringHelper->replaceLinks($json);
 
         $response->setData(json_decode($json, true));
 
@@ -292,7 +299,9 @@ class ContentController extends Controller
             ->getRepository()
             ->findOrderedByIds($ids);
 
+        $stringHelper = $this->container->get('opifer.content.string_helper');
         $contents = $this->get('jms_serializer')->serialize($items, 'json', SerializationContext::create()->setGroups(['list'])->enableMaxDepthChecks());
+        $contents = $stringHelper->replaceLinks($contents);
 
         $data = [
             'results' => json_decode($contents, true),
@@ -373,7 +382,9 @@ class ContentController extends Controller
             'medias' => $content->getMedias(),
         ];
 
+        $stringHelper = $this->container->get('opifer.content.string_helper');
         $json = $this->get('jms_serializer')->serialize($contentItem, 'json', $context);
+        $json = $stringHelper->replaceLinks($json);
 
         $response->setData(json_decode($json, true));
 
