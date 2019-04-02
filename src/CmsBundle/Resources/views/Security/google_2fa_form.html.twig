@@ -16,6 +16,11 @@
                             <p class="error">{{ flashMessage|trans }}</p>
                         {% endfor %}
 
+                        {# Authentication errors #}
+                        {% if authenticationError %}
+                            <p>{{ authenticationError|trans(authenticationErrorData) }}</p>
+                        {% endif %}
+
                         <div class="form-group">
                             <label for="_auth_code" class="col-sm-2 control-label">
                                 {{ "scheb_two_factor.auth_code"|trans }}
