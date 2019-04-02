@@ -11,7 +11,7 @@
                         Please enter an 2FA code to complete sign-in.
                     </div>
 
-                    <form class="form" action="" method="post">
+                    <form class="form-horizontal" action="{{ path("2fa_login_check") }}" method="post">
                         {% for flashMessage in app.session.flashbag.get("two_factor") %}
                             <p class="error">{{ flashMessage|trans }}</p>
                         {% endfor %}
@@ -25,12 +25,16 @@
                             </div>
                         </div>
 
-                        {% if useTrustedOption %}<p class="widget"><label for="_trusted"><input id="_trusted" type="checkbox" name="_trusted" /> {{ "scheb_two_factor.trusted"|trans }}</label></p>{% endif %}
+                        {% if displayTrustedOption %}<p class="widget"><label for="_trusted"><input id="_trusted" type="checkbox" name="_trusted" /> {{ "scheb_two_factor.trusted"|trans }}</label></p>{% endif %}
                         <div class="form-group">
                             <div class="col-sm-offset-2 col-sm-10">
                                 <input type="submit" value="{{ "scheb_two_factor.login"|trans }}" class="btn btn-primary" />
                             </div>
                         </div>
+
+                        {% if isCsrfProtectionEnabled %}
+                            <input type="hidden" name="{{ csrfParameterName }}" value="{{ csrf_token(csrfTokenId) }}">
+                        {% endif %}
                     </form>
                 </div>
             </div>
