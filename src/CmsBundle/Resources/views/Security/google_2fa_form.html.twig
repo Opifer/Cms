@@ -37,9 +37,7 @@
                             </div>
                         </div>
 
-                        {% if isCsrfProtectionEnabled %}
-                            <input type="hidden" name="{{ csrfParameterName }}" value="{{ csrf_token(csrfTokenId) }}">
-                        {% endif %}
+                        <input type="hidden" name="{{ csrfParameterName }}" value="{{ csrf_token(csrfTokenId) }}">
                     </form>
                 </div>
             </div>
