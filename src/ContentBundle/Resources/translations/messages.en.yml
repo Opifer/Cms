@@ -142,6 +142,7 @@ label:
     section_media: Background
     columnblock: Columns
     target: Target
+    account: Account
 
 link:
     default: Default

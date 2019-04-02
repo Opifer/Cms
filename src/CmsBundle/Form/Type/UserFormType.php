@@ -37,13 +37,13 @@ class UserFormType extends AbstractType
     {
         $builder
             ->add('enabled', ChoiceType::class, [
+                'label' => 'label.account',
                 'choices' => [
                     'form.options.enable' => true,
                     'form.options.disable' => false,
                 ],
             ])
             ->add('roles', ChoiceType::class, [
-                'label' => 'user.account_enabled',
                 'multiple' => true,
                 'choices' => $this->flattenRoles($this->roles),
             ])
