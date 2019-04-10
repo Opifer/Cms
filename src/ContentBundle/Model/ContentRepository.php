@@ -341,7 +341,7 @@ class ContentRepository extends NestedTreeRepository
      *
      * @return Content[]
      */
-    public function search($term, $host = null)
+    public function search($term, $host = null, $locale = null)
     {
         $qb = $this->createQueryBuilder('c');
 
@@ -358,11 +358,13 @@ class ContentRepository extends NestedTreeRepository
             ->andWhere('c.active = :active')
             ->andWhere('c.layout = :layout')
             ->andWhere('d.domain = :host OR c.site IS NULL')
+            ->andWhere('c.locale = :locale OR c.locale IS NULL')
             ->setParameter('term', '%'.$term.'%')
             ->setParameter('searchable', true)
             ->setParameter('active', true)
             ->setParameter('layout', false)
             ->setParameter('host', $host)
+            ->setParameter('locale', $locale)
             ->groupBy('c.id')
             ->orderBy('c.id')
             ->getQuery()
