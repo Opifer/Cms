@@ -194,8 +194,8 @@ class ContentController extends Controller
         $content = $repository->find($paramFetcher->get('content'));
 
         $ids = [];
-        if (null !== $paramFetcher->get('attributes')) {
-            foreach ($paramFetcher->get('attributes') as $attribute) {
+        if ($attributes = $paramFetcher->get('attributes') !== null) {
+            foreach ($attributes as $attribute) {
                 /** @var OptionValue $value */
                 $value = $content->getValueSet()->get($attribute);
                 $ids = array_merge($ids, $value->getIds());
