@@ -194,10 +194,12 @@ class ContentController extends Controller
         $content = $repository->find($paramFetcher->get('content'));
 
         $ids = [];
-        foreach ($paramFetcher->get('attributes') as $attribute) {
-            /** @var OptionValue $value */
-            $value = $content->getValueSet()->get($attribute);
-            $ids = array_merge($ids, $value->getIds());
+        if ($attributes = $paramFetcher->get('attributes') !== null) {
+            foreach ($attributes as $attribute) {
+                /** @var OptionValue $value */
+                $value = $content->getValueSet()->get($attribute);
+                $ids = array_merge($ids, $value->getIds());
+            }
         }
 
         $qb = $repository->createQueryBuilder('c')
