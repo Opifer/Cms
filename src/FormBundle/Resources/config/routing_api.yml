@@ -1,0 +1,7 @@
+opifer_form_api_form_get:
+    path: /forms/{id}
+    defaults: { _controller: OpiferFormBundle:Api/Form:getForm }
+
+opifer_form_api_form_submit:
+    path: /forms/{id}/posts
+    defaults: { _controller: OpiferFormBundle:Api/Form:postFormPost }
