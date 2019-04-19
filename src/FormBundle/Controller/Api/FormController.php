@@ -8,6 +8,7 @@ use Opifer\FormBundle\Model\Post;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Security\Core\Exception\InvalidCsrfTokenException;
 use Symfony\Component\Security\Csrf\CsrfTokenManagerInterface;
 
 class FormController extends Controller
@@ -66,6 +67,14 @@ class FormController extends Controller
         }
 
         $data = json_decode($request->getContent(), true);
+
+        $token = $data['_token'];
+        if ($this->isCsrfTokenValid($form->getName(), $token)) {
+            throw new InvalidCsrfTokenException();
+        }
+
+        // Remove the token from the data array, since it's not part of the form.
+        unset($data['_token']);
         // We're stuck with a legacy form structure here, which we'd like to hide on the API.
         $data = ['valueset' => ['namedvalues' => $data]];
 
