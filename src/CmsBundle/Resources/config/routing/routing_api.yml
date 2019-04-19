@@ -1,0 +1,6 @@
+opifer_api_attribute:
+    resource: "Opifer\\CmsBundle\\Controller\\Api\\AttributeController"
+    type:     rest
+
+opifer_api_form:
+    resource: "@OpiferFormBundle/Resources/config/routing_api.yml"

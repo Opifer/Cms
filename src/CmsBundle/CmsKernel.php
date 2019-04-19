@@ -37,6 +37,7 @@ abstract class CmsKernel extends BaseKernel
             new \Lexik\Bundle\JWTAuthenticationBundle\LexikJWTAuthenticationBundle(),
             new \Lexik\Bundle\TranslationBundle\LexikTranslationBundle(),
             new \Liip\ImagineBundle\LiipImagineBundle(),
+            new \Limenius\LiformBundle\LimeniusLiformBundle(),
             new \Nelmio\ApiDocBundle\NelmioApiDocBundle(),
             new \Nelmio\CorsBundle\NelmioCorsBundle(),
             new \Scheb\TwoFactorBundle\SchebTwoFactorBundle(),
