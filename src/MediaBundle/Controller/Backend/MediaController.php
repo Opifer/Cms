@@ -4,11 +4,13 @@ namespace Opifer\MediaBundle\Controller\Backend;
 
 use Opifer\MediaBundle\Event\MediaResponseEvent;
 use Opifer\MediaBundle\Event\ResponseEvent;
+use Opifer\MediaBundle\Form\Type\MediaEditType;
 use Opifer\MediaBundle\Form\Type\MediaType;
 use Opifer\MediaBundle\OpiferMediaEvents;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 
 class MediaController extends Controller
 {
@@ -16,6 +18,7 @@ class MediaController extends Controller
      * Index.
      *
      * @param Request $request
+     * @Security("has_role('ROLE_INTERN')")
      *
      * @return Response
      */
@@ -41,6 +44,7 @@ class MediaController extends Controller
      *
      * @param Request $request
      * @param string  $provider
+     * @Security("has_role('ROLE_INTERN')")
      *
      * @return Response
      */
@@ -63,7 +67,17 @@ class MediaController extends Controller
         $form->handleRequest($request);
 
         if ($form->isValid()) {
-            $mediaManager->save($media);
+            if ($form->get('name')->getData()) {
+                $media->setName($form->get('name')->getData());
+            }
+
+            try {
+                $mediaManager->save($media);
+            } catch (\Exception $e) {
+                $this->addFlash('error', sprintf('%s', $e->getMessage()));
+
+                return $this->redirectToRoute('opifer_media_media_index');
+            }
 
             $this->addFlash('success', sprintf('%s was succesfully created', $media->getName()));
 
@@ -81,6 +95,7 @@ class MediaController extends Controller
      *
      * @param Request $request
      * @param int     $id
+     * @Security("has_role('ROLE_INTERN')")
      *
      * @return Response
      */
@@ -123,6 +138,7 @@ class MediaController extends Controller
      * Update multiple media items.
      *
      * @param Request $request
+     * @Security("has_role('ROLE_INTERN')")
      *
      * @return Response
      */
@@ -142,7 +158,7 @@ class MediaController extends Controller
         foreach ($form['files'] as $id => $values) {
             $media = $this->get('opifer.media.media_manager')->getRepository()->find($id);
 
-            $form = $this->createForm('opifer_media_edit', $media);
+            $form = $this->createForm(MediaEditType::class, $media);
             $form->submit($values);
 
             if ($form->isValid()) {
@@ -159,6 +175,8 @@ class MediaController extends Controller
 
     /**
      * Deletes a media item.
+     *
+     * @Security("has_role('ROLE_CONTENT_MANAGER')")
      *
      * @param Request $request
      * @param int     $id
