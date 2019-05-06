@@ -5,10 +5,12 @@ namespace Opifer\ReviewBundle\Controller;
 use Opifer\ReviewBundle\Form\Type\ReviewType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 
 class ReviewController extends Controller
 {
     /**
+     * @Security("has_role('ROLE_CONTENT_MANAGER')")
      * @return \Symfony\Component\HttpFoundation\Response
      */
     public function indexAction()
@@ -21,6 +23,8 @@ class ReviewController extends Controller
     }
 
     /**
+     * @Security("has_role('ROLE_CONTENT_MANAGER')")
+     *
      * @param Request $request
      *
      * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
@@ -48,6 +52,8 @@ class ReviewController extends Controller
     }
 
     /**
+     * @Security("has_role('ROLE_CONTENT_MANAGER')")
+     *
      * @param Request $request
      * @param int     $id
      *
@@ -77,6 +83,8 @@ class ReviewController extends Controller
     }
 
     /**
+     * @Security("has_role('ROLE_ADMIN')")
+     *
      * @param int $id
      *
      * @return \Symfony\Component\HttpFoundation\RedirectResponse

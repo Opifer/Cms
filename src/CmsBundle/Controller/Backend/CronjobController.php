@@ -10,10 +10,12 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 
 class CronjobController extends Controller
 {
     /**
+     * @Security("has_role('ROLE_SUPER_ADMIN')")
      * @return Response
      */
     public function indexAction()
@@ -64,6 +66,7 @@ class CronjobController extends Controller
     }
 
     /**
+     * @Security("has_role('ROLE_SUPER_ADMIN')")
      * @param Request $request
      *
      * @return RedirectResponse|Response
@@ -72,7 +75,7 @@ class CronjobController extends Controller
     {
         $cron = new Cron();
 
-        $form = $this->createForm(new CronjobType(), $cron);
+        $form = $this->createForm(CronjobType::class, $cron);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -89,6 +92,8 @@ class CronjobController extends Controller
     }
 
     /**
+     * @Security("has_role('ROLE_SUPER_ADMIN')")
+     *
      * @param Request $request
      * @param int     $id
      *
@@ -97,9 +102,9 @@ class CronjobController extends Controller
     public function editAction(Request $request, $id)
     {
         $em = $this->getDoctrine()->getManager();
-        $cron = $em->getRepository('OpiferCmsBundle:Cron')->find($id);
+        $cron = $em->getRepository(Cron::class)->find($id);
 
-        $form = $this->createForm(new CronjobType(), $cron);
+        $form = $this->createForm(CronjobType::class, $cron);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -125,6 +130,7 @@ class CronjobController extends Controller
     }
 
     /**
+     * @Security("has_role('ROLE_SUPER_ADMIN')")
      * @param int $id
      *
      * @return RedirectResponse
@@ -141,6 +147,7 @@ class CronjobController extends Controller
     }
 
     /**
+     * @Security("has_role('ROLE_SUPER_ADMIN')")
      * @param int $id
      *
      * @return RedirectResponse

@@ -7,11 +7,14 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 
 class RedirectController extends Controller
 {
     /**
      * Index
+     *
+     * @Security("has_role('ROLE_ADMIN')")
      *
      * @return Response
      */
@@ -27,6 +30,8 @@ class RedirectController extends Controller
     /**
      * Create redirect
      *
+     * @Security("has_role('ROLE_ADMIN')")
+     *
      * @param Request $request
      *
      * @return RedirectResponse|Response
@@ -41,8 +46,13 @@ class RedirectController extends Controller
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+
             $manager->save($redirect);
             $this->addFlash('success', $this->get('translator')->trans('opifer_redirect.flash.created'));
+
+            if ($form->get('saveAndAdd')->isClicked()){
+                return $this->redirectToRoute('opifer_redirect_redirect_create');
+            }
 
             return $this->redirectToRoute('opifer_redirect_redirect_edit', ['id' => $redirect->getId()]);
         }
@@ -54,6 +64,8 @@ class RedirectController extends Controller
 
     /**
      * Edit a redirect
+     *
+     * @Security("has_role('ROLE_ADMIN')")
      *
      * @param Request $request
      * @param int     $id
@@ -84,6 +96,8 @@ class RedirectController extends Controller
 
     /**
      * Delete a redirect
+     *
+     * @Security("has_role('ROLE_ADMIN')")
      *
      * @param int $id
      *

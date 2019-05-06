@@ -10,10 +10,12 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 
 class TemplateController extends Controller
 {
     /**
+     * @Security("has_role('ROLE_CONTENT_MANAGER')")
      * @return Response
      */
     public function indexAction()
@@ -43,6 +45,8 @@ class TemplateController extends Controller
     }
 
     /**
+     * @Security("has_role('ROLE_CONTENT_MANAGER')")
+     *
      * @param Request $request
      *
      * @return RedirectResponse|Response
@@ -69,6 +73,8 @@ class TemplateController extends Controller
     }
 
     /**
+     * @Security("has_role('ROLE_CONTENT_MANAGER')")
+     *
      * @param Request $request
      * @param int     $id
      *
@@ -95,6 +101,8 @@ class TemplateController extends Controller
     }
 
     /**
+     * @Security("has_role('ROLE_ADMIN')")
+     *
      * @param int $id
      *
      * @return RedirectResponse

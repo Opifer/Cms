@@ -7,10 +7,12 @@ use Opifer\CmsBundle\Manager\ConfigManager;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 
 class ConfigController extends Controller
 {
     /**
+     * @Security("has_role('ROLE_SUPER_ADMIN')")
      * @param Request $request
      *
      * @return Response

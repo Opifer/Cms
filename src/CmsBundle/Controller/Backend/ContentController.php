@@ -10,10 +10,12 @@ use Opifer\ContentBundle\Designer\AbstractDesignSuite;
 use Opifer\ContentBundle\Environment\Environment;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 
 class ContentController extends BaseContentController
 {
     /**
+     * @Security("has_role('ROLE_ADMIN')")
      * Index view of content by type
      *
      * @param int $type
@@ -38,6 +40,7 @@ class ContentController extends BaseContentController
         $tableAlias = $source->getTableAlias();
         $source->manipulateQuery(function ($query) use ($tableAlias, $contentType) {
             $query->andWhere($tableAlias . '.contentType = :contentType')->setParameter('contentType', $contentType);
+            $query->andWhere($tableAlias . '.layout = :layout')->setParameter('layout', false);
         });
 
         $designAction = new RowAction('button.design', 'opifer_content_contenteditor_design');
@@ -69,7 +72,7 @@ class ContentController extends BaseContentController
                 'source' => true
             ]);
             $column->manipulateRenderCell(
-                function($value, $row, $router) use ($name) {
+                function ($value, $row, $router) use ($name) {
                     $value = $row->getEntity()->getAttributes()[$name];
 
                     return $value;
@@ -85,9 +88,11 @@ class ContentController extends BaseContentController
     }
 
     /**
+     * @Security("has_role('ROLE_ADMIN')")
      * @param Request $request
-     * @param string $type
-     * @param int $owner
+     * @param int     $owner
+     * @param int     $id
+     *
      * @return Response
      */
     public function historyAction(Request $request, $owner, $id)

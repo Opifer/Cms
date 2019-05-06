@@ -4,16 +4,20 @@ namespace Opifer\CmsBundle\Controller\Backend;
 
 use APY\DataGridBundle\Grid\Action\RowAction;
 use APY\DataGridBundle\Grid\Source\Entity;
+use Opifer\CmsBundle\Form\Type\GoogleAuthType;
 use Opifer\CmsBundle\Form\Type\ProfileType;
 use Opifer\CmsBundle\Form\Type\UserFormType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 
 class UserController extends Controller
 {
     /**
      * The user index.
+     *
+     * @Security("has_role('ROLE_SUPER_ADMIN')")
      *
      * @return Response
      */
@@ -38,6 +42,8 @@ class UserController extends Controller
 
     /**
      * Create a new user.
+     *
+     * @Security("has_role('ROLE_SUPER_ADMIN')")
      *
      * @param Request $request
      *
@@ -70,6 +76,8 @@ class UserController extends Controller
     /**
      * Edit a user.
      *
+     * @Security("has_role('ROLE_SUPER_ADMIN')")
+     *
      * @param Request $request
      * @param int     $id
      *
@@ -84,6 +92,11 @@ class UserController extends Controller
         $form->handleRequest($request);
 
         if ($form->isValid()) {
+
+            if ($user->isTwoFactorEnabled() == false) {
+                $user->setGoogleAuthenticatorSecret(null);
+            }
+
             $this->get('fos_user.user_manager')->updateUser($user, true);
 
             $this->addFlash('success', $this->get('translator')->trans('user.edit.success', [
@@ -102,6 +115,8 @@ class UserController extends Controller
     /**
      * Edit the current users' profile.
      *
+     * @Security("has_role('ROLE_INTERN')")
+     *
      * @param Request $request
      *
      * @return Response
@@ -114,7 +129,16 @@ class UserController extends Controller
         $form->handleRequest($request);
 
         if ($form->isValid()) {
+
+            if ($user->isTwoFactorEnabled() == false) {
+                $user->setGoogleAuthenticatorSecret(null);
+            }
+
             $this->get('fos_user.user_manager')->updateUser($user, true);
+
+            if ($user->isTwoFactorEnabled() == true && empty($user->getGoogleAuthenticatorSecret())) {
+                return $this->redirectToRoute('opifer_cms_user_activate_2fa');                    
+            }
 
             $this->addFlash('success', 'Your profile was updated successfully!');
 
@@ -124,6 +148,44 @@ class UserController extends Controller
         return $this->render('OpiferCmsBundle:Backend/User:profile.html.twig', [
             'form' => $form->createView(),
             'user' => $user,
+        ]);
+    }
+
+    /**
+     * Activate Google Authenticator
+     *
+     * @Security("has_role('ROLE_INTERN')")
+     *
+     * @param Request $request
+     *
+     * @return Response
+     */
+    public function activateGoogleAuthAction(Request $request)
+    {
+        $user = $this->getUser();
+        
+        $secret = $this->container->get("scheb_two_factor.security.google_authenticator")->generateSecret();
+        $user->setGoogleAuthenticatorSecret($secret);
+
+        //Generate QR url
+        $qrUrl = $this->container->get("scheb_two_factor.security.google_authenticator")->getUrl($user);
+
+        $form = $this->createForm(GoogleAuthType::class, $user);
+        $form->handleRequest($request);
+
+        if ($form->isValid()) {
+            $this->get('fos_user.user_manager')->updateUser($user, true);
+
+            $this->addFlash('success', 'Your profile was updated successfully!');
+
+            return $this->redirectToRoute('opifer_cms_user_profile');
+        }
+
+        return $this->render('OpiferCmsBundle:Backend/User:google_auth.html.twig', [
+            'form' => $form->createView(),
+            'secret' => $secret,
+            'user' => $user,
+            'qrUrl' => $qrUrl,
         ]);
     }
 }

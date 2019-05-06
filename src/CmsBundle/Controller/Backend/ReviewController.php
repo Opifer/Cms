@@ -6,10 +6,12 @@ use APY\DataGridBundle\Grid\Action\RowAction;
 use APY\DataGridBundle\Grid\Source\Entity;
 use Opifer\ReviewBundle\Controller\ReviewController as BaseReviewController;
 use Symfony\Component\HttpFoundation\Response;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 
 class ReviewController extends BaseReviewController
 {
     /**
+     * @Security("has_role('ROLE_CONTENT_MANAGER')")
      * @return Response
      */
     public function indexAction()
