@@ -218,6 +218,45 @@ class ContentController extends Controller
         ]);
     }
 
+    public function duplicateAction($id, $content)
+    {
+        /** @var ContentManagerInterface $contentManager */
+        $contentManager = $this->get('opifer.content.content_manager');
+        $layout = $contentManager->getRepository()->find($id);
+
+        if (!$layout) {
+            throw $this->createNotFoundException('No layout found for id '.$id);
+        }
+
+        /** @var BlockManager $blockManager */
+        $blockManager = $this->container->get('opifer.content.block_manager');
+
+        $duplicatedContent = $contentManager->duplicate($layout);
+
+        $duplicatedContent->setSlug($content->getSlug());
+        $duplicatedContent->setTitle($content->getTitle());
+        $duplicatedContent->setAuthor($content->getAuthor());
+        $duplicatedContent->setAlias($content->getAlias());
+        $duplicatedContent->setIndexable($content->getIndexable());
+        $duplicatedContent->setActive($content->getActive());
+        $duplicatedContent->setSearchable($content->getSearchable());
+        $duplicatedContent->setParent($content->getParent());
+        $duplicatedContent->setShowInNavigation($content->showInNavigation());
+        $duplicatedContent->setShortTitle($content->getShortTitle());
+        $duplicatedContent->setDescription($content->getDescription());
+
+        $duplicatedContent->setLayout(0);
+
+        $this->getDoctrine()->getManager()->flush($duplicatedContent);
+
+        $contentBlocks = $blockManager->duplicate($layout->getBlocks(), $duplicatedContent);
+
+        $duplicatedContent->setBlocks($contentBlocks);
+        $this->getDoctrine()->getManager()->flush($duplicatedContent);
+
+        return $duplicatedContent;
+    }
+
     /**
      * @Security("has_role('ROLE_INTERN')")
      *

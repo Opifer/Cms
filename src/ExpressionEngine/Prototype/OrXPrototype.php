@@ -6,9 +6,9 @@ use Webmozart\Expression\Logic\OrX;
 
 class OrXPrototype extends Prototype
 {
-    public function __construct($name = 'OR - match any', $selector = 'or')
+    public function __construct($key = 'or', $name = 'OR - match any', $selector = 'or')
     {
-        parent::__construct($name, $selector);
+        parent::__construct($key, $name, $selector);
 
         $this->addConstraint(new Choice(OrX::class, 'Or'));
 

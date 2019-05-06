@@ -105,7 +105,7 @@ class PointerBlockService extends AbstractBlockService implements BlockServiceIn
                 'required' => false,
                 'label' => 'label.block',
                 'class' => 'OpiferContentBundle:Block',
-                'property' => 'sharedDisplayName', // Assuming that the entity has a "name" property
+                'choice_label' => 'sharedDisplayName', // Assuming that the entity has a "name" property
                 'query_builder' => function (EntityRepository $blockRepository) {
                     return $blockRepository->createQueryBuilder('b')
                         ->add('orderBy', 'b.sharedDisplayName ASC')
@@ -166,5 +166,14 @@ class PointerBlockService extends AbstractBlockService implements BlockServiceIn
                 $response->setPublic();
             }
         }
+    }
+
+    /**
+     * @param BlockInterface $block
+     * @return string
+     */
+    public function getDescription(BlockInterface $block = null)
+    {
+        return 'This block will load a shared block';
     }
 }

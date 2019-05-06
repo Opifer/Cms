@@ -4,6 +4,9 @@ namespace Opifer\MediaBundle\Event;
 
 use Symfony\Component\HttpFoundation\Response;
 
+/**
+ * @deprecated
+ */
 class MediaResponseEvent extends MediaEvent
 {
     private $response;

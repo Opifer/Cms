@@ -24,7 +24,6 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Doctrine\ORM\Tools\Pagination\Paginator;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 
 class ContentController extends Controller
 {
@@ -396,8 +395,6 @@ class ContentController extends Controller
 
     /**
      * Delete content.
-     *
-     * @Security("has_role('ROLE_CONTENT_MANAGER')")
      *
      * @param int $id
      *

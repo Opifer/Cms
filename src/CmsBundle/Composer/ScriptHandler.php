@@ -22,7 +22,7 @@ class ScriptHandler
             throw new \RuntimeException("Running bower install failed with $return_var\n");
         }
 
-        exec('npm install', $output, $return_var);
+        exec('npm install --unsafe-perm', $output, $return_var);
         $event->getIO()->write('<info>'.implode("\n", $output).'</info>');
         if ($return_var) {
             throw new \RuntimeException("Running npm failed with $return_var\n");
@@ -32,6 +32,12 @@ class ScriptHandler
         $event->getIO()->write('<info>'.implode("\n", $output).'</info>');
         if ($return_var) {
             throw new \RuntimeException("Running gulp failed with $return_var\n");
+        }
+
+        exec('npm run build', $output, $return_var);
+        $event->getIO()->write('<info>'.implode("\n", $output).'</info>');
+        if ($return_var) {
+            throw new \RuntimeException("Running npm build failed with $return_var\n");
         }
 
         chdir($currentDirectory);

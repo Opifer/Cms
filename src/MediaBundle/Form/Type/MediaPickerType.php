@@ -2,7 +2,9 @@
 
 namespace Opifer\MediaBundle\Form\Type;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\EntityRepository;
+use Opifer\MediaBundle\Model\Media;
 use Opifer\MediaBundle\Model\MediaManager;
 use Opifer\MediaBundle\Provider\Pool;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
@@ -46,28 +48,60 @@ class MediaPickerType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         if ($options['to_json']) {
-            $builder->addModelTransformer(new CallbackTransformer(
-                function ($original) {
-                    $ids = json_decode($original, true);
-                    $items = $this->mediaManager->getRepository()->findByIds($ids);
+            if ($options['multiple']) {
+                $builder->addModelTransformer(new CallbackTransformer(
+                    function ($original) {
+                        $ids = json_decode($original, true);
+                        $items = $this->mediaManager->getRepository()->findByIds($ids);
 
-                    if (is_array($items)) {
-                        uasort($items, function ($a, $b) use ($ids) {
-                            return (array_search($a->getId(), $ids) > array_search($b->getId(), $ids));
-                        });
+                        if (is_array($items)) {
+                            uasort($items, function ($a, $b) use ($ids) {
+                                return (array_search($a->getId(), $ids) > array_search($b->getId(), $ids));
+                            });
+                        }
+
+                        return array_values($items);
+                    },
+                    function ($submitted) {
+                        if ($submitted instanceof Media) {
+                            $submitted = [$submitted];
+                        } elseif (!is_array($submitted) && !$submitted instanceof ArrayCollection) {
+                            $submitted = [];
+                        }
+
+                        $ids = [];
+                        foreach ($submitted as $media) {
+                            $ids[] = $media->getId();
+                        }
+
+                        return json_encode($ids);
                     }
+                ));
+            } else {
+                $builder->addModelTransformer(new CallbackTransformer(
+                    function ($original) {
+                        if (null === $original || empty($original)) {
+                            return null;
+                        }
 
-                    return array_values($items);
-                },
-                function ($submitted) {
-                    $ids = [];
-                    foreach ($submitted as $media) {
-                        $ids[] = $media->getId();
+                        $item = $this->mediaManager->getRepository()->find($original);
+
+                        if ($item) {
+                            return $item;
+                        }
+
+                        return null;
+                    },
+                    function ($submitted) {
+                        if (null === $submitted) {
+                            return null;
+                        }
+
+                        return $submitted->getId();
                     }
+                ));
+            }
 
-                    return json_encode($ids);
-                }
-            ));
         }
 
         $builder->addEventListener(FormEvents::PRE_SUBMIT, function (FormEvent $event) {
@@ -97,7 +131,7 @@ class MediaPickerType extends AbstractType
     {
         $resolver->setDefaults([
             'to_json' => false,
-            'property' => 'name',
+            'choice_label' => 'name',
             'class' => $this->mediaManager->getClass(),
             'query_builder' => function (EntityRepository $mediaRepository) {
                 return $mediaRepository->createQueryBuilder('m')->add('orderBy', 'm.name ASC');

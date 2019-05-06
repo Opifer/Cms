@@ -3,7 +3,9 @@
     padding: 0 !important;
     overflow: hidden !important; /* Remove scroll bars on browser window */
     background-color: #222;
+
 }
+
 
 /* WAVE */
 @keyframes burst {
@@ -102,6 +104,27 @@
                 margin-top: -4px;
             }
         }
+
+        .btn-default,
+        .btn-primary,
+        .btn-danger {
+            border-radius: 0;
+            box-shadow: none;
+        }
+
+        .btn-danger {
+            border-radius: 0;
+            box-shadow: none;
+        }
+
+        .btn-success {
+            border-radius: 0;
+            box-shadow: none;
+        }
+
+        .btn-group .btn {
+            border-width: 0;
+        }
     }
 
     .navbar-btn {
@@ -145,27 +168,6 @@
             left: 50%;
             top: 6px;
         }
-    }
-
-    .btn-default,
-    .btn-primary,
-    .btn-danger {
-        border-radius: 0;
-        box-shadow: none;
-    }
-
-    .btn-danger {
-        border-radius: 0;
-        box-shadow: none;
-    }
-
-    .btn-success {
-        border-radius: 0;
-        box-shadow: none;
-    }
-
-    .btn-group .btn {
-        border-width: 0;
     }
 
     .navbar-header {
@@ -299,6 +301,10 @@
         height: 48px;
         overflow: hidden !important;
 
+        &[data-keyword-match="false"] {
+            display: none;
+        }
+
         &:hover {
             background-color: #191919;
         }
@@ -420,20 +426,24 @@
 }
 
 .pm-toolset {
-    h4.title {
+    .title {
         color: #aaa;
         font-weight: normal;
         text-transform: uppercase;
         font-size: 12px;
         letter-spacing: .03em;
         margin-bottom: 0;
+    }
 
-
+    .title[data-toggle] {
+        cursor: pointer;
+    
         &.collapsed {
             &:before {
                 .rotate(270deg);
             }
         }
+
 
         &:before {
             &:extend(.material-icons);
@@ -445,6 +455,7 @@
         }
     }
 }
+
 
 .dropdown-menu > li {
     > a.pm-version-link {
@@ -501,13 +512,51 @@
     width: 100%;
     height: 100%;
     padding: 0;
-    overflow: auto;
+    // overflow: auto;
     background-color: transparent;
     padding-bottom: 100px; // scrolling issue?
+    position: relative;
+
+    .input-group-addon,
+    .form-control {
+        background-color: rgba(255,255,255,.2);
+        border-color: transparent;
+    }
+
+    .input-group-addon {
+        color: #ccc;
+    }
+
+    .input-group {
+        .form-control {
+            padding-left: 0;
+        }
+    }
+    .form-control {
+       color: white;
+    }
 }
 
 .pm-toolset-card {
     border-top: 1px solid #333;
+    overflow: hidden;
+    overflow-y: scroll;
+}
+
+.pm-toolset-toc {
+    max-height: 400px;
+    height: 400px;
+}
+
+.pm-toolset-library {
+    width: 100%;
+    max-height: 100%;
+    height: 100%;
+    position: absolute;
+    margin-top: 400px;
+    padding-bottom: 400px;
+    top: 0;
+    bottom: 0;
 }
 
 .pm-dark {
@@ -564,7 +613,7 @@
 #pm-document {
     min-width: 35em;
     right: 35em;
-    left: 40px;
+    // left: 40px;
     margin-right: 2px;
     z-index: 80;
 //    overflow-y: hidden;
@@ -679,18 +728,26 @@
     .node-placeholder {
         > span {
             color: #aaa;
-        }
+            cursor: pointer;
 
-        &:before {
-            color: #aaa;
-            &:extend(.material-icons);
-            content: '\E5C5';
-            color: @gray-light;
-            .rotate(0deg);
-            font-size: 16px;
-            line-height: 12px;
-            width: 18px;
-            margin-left: 4px;
+            &[aria-expanded] {
+                &:before {
+                    color: #aaa;
+                    &:extend(.material-icons);
+                    content: '\E5C5';
+                    color: @gray-light;
+                    font-size: 16px;
+                    line-height: 12px;
+                    width: 18px;
+                    margin-left: 4px;
+                }
+            }
+
+            &[aria-expanded="false"] {
+                &:before {
+                    .rotate(270deg);
+                }
+            }
         }
     }
 }

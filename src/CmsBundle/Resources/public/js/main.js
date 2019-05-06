@@ -44,12 +44,12 @@ $(document).ready(function() {
             //skip deeper level
             if((parent.next().data("level")-initial_level)<2){
                 if(parent.next().hasClass("collapse")){
-                         parent.next().removeClass("collapse");
+                    parent.next().removeClass("collapse");
 
-                         //only make active clicked group
-                         if(parent.data("level")===initial_level){
-                            parent.find("td:nth-child(2) > span").addClass("active");
-                         }
+                    //only make active clicked group
+                    if(parent.data("level")===initial_level){
+                        parent.find("td:nth-child(2) > span").addClass("active");
+                    }
 
                 }else{
                     //collapse only if level is greater than level of clicked group
@@ -62,8 +62,8 @@ $(document).ready(function() {
             }else{
                 //deeper level should be collapsed if parent is collapsed
                 if(parent.hasClass("collapse")){
-                  parent.next().addClass("collapse");
-                  parent.find("td:nth-child(2) > span").removeClass("active");
+                    parent.next().addClass("collapse");
+                    parent.find("td:nth-child(2) > span").removeClass("active");
                 }
             };
 

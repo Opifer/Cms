@@ -1,0 +1,48 @@
+{% extends "OpiferCmsBundle::base.html.twig" %}
+{% set hide_nav = true %}
+
+{% block body %}
+    <div class="container" id="login">
+        <div class="row row-space-top-8">
+            <div class="panel col-xs-12 col-md-8 col-md-offset-2">
+                <div class="panel-body">
+                    <div class="page-header">
+                        <h1 class="">Two-factor Authentication</h1>
+                        Please enter an 2FA code to complete sign-in.
+                    </div>
+
+                    <form class="form-horizontal" action="{{ path("2fa_login_check") }}" method="post">
+                        {% for flashMessage in app.session.flashbag.get("two_factor") %}
+                            <p class="error">{{ flashMessage|trans }}</p>
+                        {% endfor %}
+
+                        {# Authentication errors #}
+                        {% if authenticationError %}
+                            <p>{{ authenticationError|trans(authenticationErrorData) }}</p>
+                        {% endif %}
+
+                        <div class="form-group">
+                            <label for="_auth_code" class="col-sm-2 control-label">
+                                {{ "scheb_two_factor.auth_code"|trans }}
+                            </label>
+                            <div class="col-sm-10">
+                                <input id="_auth_code" type="text" autocomplete="off" name="_auth_code"  class="form-control" />
+                            </div>
+                        </div>
+
+                        {% if displayTrustedOption %}<p class="widget"><label for="_trusted"><input id="_trusted" type="checkbox" name="_trusted" /> {{ "scheb_two_factor.trusted"|trans }}</label></p>{% endif %}
+                        <div class="form-group">
+                            <div class="col-sm-offset-2 col-sm-10">
+                                <input type="submit" value="{{ "scheb_two_factor.login"|trans }}" class="btn btn-primary" />
+                            </div>
+                        </div>
+
+                        <input type="hidden" name="{{ csrfParameterName }}" value="{{ csrf_token(csrfTokenId) }}">
+                    </form>
+                </div>
+            </div>
+            <footer class="col-xs-12 col-md-6 col-md-offset-2">
+            </footer>
+        </div>
+    </div>
+{% endblock %}

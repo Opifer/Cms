@@ -32,16 +32,16 @@ class ContentExtension extends \Twig_Extension
     /** @var ContainerInterface */
     protected $container;
 
-    /** @var RequestStack @var  */
+    /** @var RequestStack */
     private $requestStack;
 
     /**
-     * Constructor.
+     * ContentExtension constructor.
      *
      * @param \Twig_Environment  $twig
      * @param FragmentHandler    $fragmentHandler
-     * @param ContentManager     $contentManager
      * @param ContainerInterface $container
+     * @param RequestStack       $requestStack
      */
     public function __construct(\Twig_Environment $twig, FragmentHandler $fragmentHandler, ContainerInterface $container, RequestStack $requestStack)
     {
@@ -121,12 +121,16 @@ class ContentExtension extends \Twig_Extension
     }
 
     /**
-     * @param $context
-     * @param $key
+     * @param array  $context
+     * @param int    $key
+     * @param bool   $label
+     * @param string $htmlTag
+     * @param null   $data
      *
-     * @return mixed
+     * @return string
+     * @throws \Exception
      */
-    public function renderPlaceholder($context, $key = 0, $label = false)
+    public function renderPlaceholder($context, $key = 0, $label = false, $htmlTag = 'div', $data = null)
     {
         if (isset($context['environment'])) {
             $this->blockEnvironment = $context['environment'];
@@ -154,8 +158,17 @@ class ContentExtension extends \Twig_Extension
             }
 
             if ($this->blockEnvironment->getBlockMode() === 'manage') {
-                $content = $this->container->get('templating')->render('OpiferContentBundle:Block/Layout:placeholder.html.twig', ['content' => $content, 'key' => $key, 'id' => (isset($container)) ? $container->getId() : 0, 'manage_type' => 'placeholder']);
+                $data['class'] = 'pm-placeholder '.$data['class'];
             }
+
+            $content = $this->container->get('templating')->render('OpiferContentBundle:Block/Layout:placeholder.html.twig', [
+                'content' => $content,
+                'tag' => $htmlTag,
+                'data' => $data,
+                'key' => $key,
+                'id' => (isset($container)) ? $container->getId() : 0,
+                'manage_type' => 'placeholder'
+            ]);
         }
 
         return $content;
@@ -186,7 +199,7 @@ class ContentExtension extends \Twig_Extension
 
         if (isset($context['block_service'])) {
             $service = $context['block_service'];
-            $tags .= sprintf(' data-pm-tool=\'%s\'', json_encode(array('icon' => $service->getTool()->getIcon())));
+            $tags .= sprintf(' data-pm-tool=\'%s\'', json_encode(array('icon' => $service->getTool($block)->getIcon())));
         }
 
         return $tags;
@@ -199,48 +212,14 @@ class ContentExtension extends \Twig_Extension
      */
     public function parseString($string)
     {
-        $string = $this->replaceLinks($string);
+
+        $stringHelper = $this->container->get('opifer.content.string_helper');
+
+        $string = $stringHelper->replaceLinks($string);
 
         return $string;
     }
-
-    /**
-     * Replaces all links that matches the pattern with content urls.
-     *
-     * @param string $string
-     *
-     * @return string
-     */
-    protected function replaceLinks($string)
-    {
-        preg_match_all('/\[content_url\](.*?)\[\/content_url\]/', $string, $matches);
-
-        if (!count($matches)) {
-            return $string;
-        }
-
-        /** @var Content[] $contents */
-        $contents = $this->getContentManager()->getRepository()->findByIds($matches[1]);
-        $array = [];
-        foreach ($contents as $content) {
-            $array[$content->getId()] = $content;
-        }
-
-        foreach ($matches[0] as $key => $match) {
-            if (isset($array[$matches[1][$key]])) {
-                $content = $array[$matches[1][$key]];
-
-                $url = $this->getRouter()->generate('_content', ['slug' => $content->getSlug()]);
-            } else {
-                $url = $this->getRouter()->generate('_content', ['slug' => '404']);
-            }
-
-            $string = str_replace($match, $url, $string);
-        }
-
-        return $string;
-    }
-
+    
     /**
      * @param string|ContentInterface $content
      * @param ContentInterface        $child
@@ -253,16 +232,23 @@ class ContentExtension extends \Twig_Extension
             return false;
         }
 
-        $parents = $child->getParents();
-        foreach ($parents as $parent) {
-            if (is_string($content)) {
-                if (substr($content, 0, strlen($parent->getSlug())) === $parent->getSlug()) {
-                    return true;
-                }
-            } else {
-                if ($parent->getId() == $content->getId()) {
-                    return true;
-                }
+        if (is_string($content)) {
+            // Strip the dev front controller if its defined
+            if (strpos($content, '/app_dev.php') !== false) {
+                $content = substr($content, strlen('/app_dev.php'));
+            }
+
+            // Strip the first character if it's a slash
+            if (substr($content, 0, 1) === '/') {
+                $content = ltrim($content, '/');
+            }
+
+            if (substr($child->getSlug(), 0, strlen($content)) === $content) {
+                return true;
+            }
+        } else {
+            if ($child->getId() == $content->getId()) {
+                return true;
             }
         }
 

@@ -2,13 +2,14 @@
 
 namespace Opifer\ExpressionEngine\Constraint;
 
+use Opifer\ExpressionEngine\ConstraintInterface;
 use Webmozart\Expression\Expression;
 use Webmozart\Expression\Logic\Literal;
 
 /**
  * @deprecated Use Webmozart\Expression\Constraint\Equals instead
  */
-class Date extends Literal
+class Date extends Literal implements ConstraintInterface
 {
     /**
      * @var int|string
@@ -61,5 +62,10 @@ class Date extends Literal
     public function toString()
     {
         return 'date()';
+    }
+
+    public function getLeft($key)
+    {
+        return $key;
     }
 }

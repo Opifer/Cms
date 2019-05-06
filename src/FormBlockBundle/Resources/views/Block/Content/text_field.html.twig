@@ -1,0 +1,14 @@
+<div {{ manage_tags() }}>
+    <div class="form-group">
+        <label for="form-field-{{ block.id }}">{{ block.properties.label|default('Label') }}</label>
+        <div class="input-group">
+            <input type="text" class="form-control" id="form-field-{{ block.id }}">
+            {% if block.properties.unit|default %}
+                <div class="input-group-addon">{{ block.properties.unit }}</div>
+            {% endif %}
+        </div>
+        {% if block.properties.helpText|default %}
+            <small class="form-text text-muted">{{ block.properties.helpText }}</small>
+        {% endif %}
+    </div>
+</div>

@@ -4,21 +4,25 @@ namespace Opifer\EavBundle\Model;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
-use Opifer\EavBundle\Entity\Value;
+use JMS\Serializer\Annotation as JMS;
 
 /**
- * Option
+ * Option.
  *
  * @ORM\MappedSuperclass
+ *
+ * @JMS\ExclusionPolicy("all")
  */
 class Option implements OptionInterface
 {
     /**
-     * @var integer
+     * @var int
      *
      * @ORM\Id
      * @ORM\Column(name="id", type="integer")
      * @ORM\GeneratedValue(strategy="AUTO")
+     *
+     * @JMS\Expose
      */
     protected $id;
 
@@ -34,6 +38,8 @@ class Option implements OptionInterface
      * @var string
      *
      * @ORM\Column(name="name", type="string", length=128)
+     *
+     * @JMS\Expose
      */
     protected $name;
 
@@ -41,25 +47,38 @@ class Option implements OptionInterface
      * @var string
      *
      * @ORM\Column(name="display_name", type="string", length=255)
+     *
+     * @JMS\Expose
      */
     protected $displayName;
 
     /**
-     * @var integer
+     * @var int
      *
      * @ORM\Column(name="sort", type="integer")
+     *
+     * @JMS\Expose
      */
     protected $sort;
 
     /**
-     * @var  ArrayCollection
+     * @var string
+     *
+     * @ORM\Column(name="description", type="text", nullable=true)
+     *
+     * @JMS\Expose
+     */
+    protected $description;
+
+    /**
+     * @var ArrayCollection
      *
      * @ORM\ManyToMany(targetEntity="Opifer\EavBundle\Entity\Value", mappedBy="options", cascade={"all"}, orphanRemoval=true)
      */
     protected $values;
 
     /**
-     * Constructor
+     * Constructor.
      */
     public function __construct()
     {
@@ -67,9 +86,9 @@ class Option implements OptionInterface
     }
 
     /**
-     * Get id
+     * Get id.
      *
-     * @return integer
+     * @return int
      */
     public function getId()
     {
@@ -77,9 +96,10 @@ class Option implements OptionInterface
     }
 
     /**
-     * Set name
+     * Set name.
      *
-     * @param  string $name
+     * @param string $name
+     *
      * @return Option
      */
     public function setName($name)
@@ -90,7 +110,7 @@ class Option implements OptionInterface
     }
 
     /**
-     * Get name
+     * Get name.
      *
      * @return string
      */
@@ -100,9 +120,10 @@ class Option implements OptionInterface
     }
 
     /**
-     * Set attribute
+     * Set attribute.
      *
-     * @param  AttributeInterface $attribute
+     * @param AttributeInterface $attribute
+     *
      * @return Option
      */
     public function setAttribute(AttributeInterface $attribute = null)
@@ -113,7 +134,7 @@ class Option implements OptionInterface
     }
 
     /**
-     * Get attribute
+     * Get attribute.
      *
      * @return AttributeInterface
      */
@@ -123,9 +144,10 @@ class Option implements OptionInterface
     }
 
     /**
-     * Set sort
+     * Set sort.
      *
-     * @param  integer $sort
+     * @param int $sort
+     *
      * @return Option
      */
     public function setSort($sort)
@@ -136,9 +158,9 @@ class Option implements OptionInterface
     }
 
     /**
-     * Get sort
+     * Get sort.
      *
-     * @return integer
+     * @return int
      */
     public function getSort()
     {
@@ -146,9 +168,10 @@ class Option implements OptionInterface
     }
 
     /**
-     * Set displayName
+     * Set displayName.
      *
-     * @param  string $displayName
+     * @param string $displayName
+     *
      * @return Option
      */
     public function setDisplayName($displayName)
@@ -159,7 +182,7 @@ class Option implements OptionInterface
     }
 
     /**
-     * Get displayName
+     * Get displayName.
      *
      * @return string
      */
@@ -169,9 +192,10 @@ class Option implements OptionInterface
     }
 
     /**
-     * Add value
+     * Add value.
      *
-     * @param  ValueInterface $value
+     * @param ValueInterface $value
+     *
      * @return Option
      */
     public function addValue(ValueInterface $value)
@@ -182,7 +206,7 @@ class Option implements OptionInterface
     }
 
     /**
-     * Remove value
+     * Remove value.
      *
      * @param ValueInterface $value
      */
@@ -192,12 +216,31 @@ class Option implements OptionInterface
     }
 
     /**
-     * Get values
+     * Get values.
      *
      * @return ArrayCollection
      */
     public function getValues()
     {
         return $this->values;
+    }
+
+    /**
+     * @return string
+     */
+    public function getDescription()
+    {
+        return $this->description;
+    }
+
+    /**
+     * @param $description
+     * @return $this
+     */
+    public function setDescription($description)
+    {
+        $this->description = $description;
+
+        return $this;
     }
 }

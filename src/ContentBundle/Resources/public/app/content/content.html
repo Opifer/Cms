@@ -35,7 +35,7 @@
                     <div class="treeview-node-details" ng-class="isExpanded(content) ? 'expanded' : ''">
                         <div class="col-details">
                             <div class="content-figure">
-                                <a class="btn-expand" ng-click="expand(content)" ng-show="childNodes(content.id).length > 0"></a>
+                                <a class="btn-expand" ng-click="expand(content)" ng-show="childNodes(content.site_id, content.id).length > 0"></a>
                                 <div class="content-visual" ng-click="expand(content)">
                                     <i class="material-icons" ng-if="!content.coverImage">description</i>
                                     <div ng-if="content.coverImage" afkl-lazy-image="{{ content.coverImage }}" afkl-lazy-image-options='{"background": true}' class="cover-image afkl-lazy-wrapper afkl-img-ratio-1-1"></div>
@@ -49,7 +49,7 @@
                                 <span class="content-title" ng-click="editContent(content.id)" ng-class="content.active ? '' : 'text-muted'">{{ content.title}}</span>
                             </div>
                         </div>
-                        <div class="col-path" ng-class="content.active ? '' : 'text-muted'"><s ng-if="!content.active"><small>{{ content.path}}</small></s><a href="{{ content.path}}" target="_blank" ng-if="content.active"><small>{{ content.path}}</small></a></div>
+                        <div class="col-path" ng-class="content.active ? '' : 'text-muted'"><s ng-if="!content.active"><small>{{ content.path}}</small></s><a href="{{ site.default_domain.domain ? '//' + site.default_domain.domain + content.path : content.path }}" target="_blank" ng-if="content.active"><small>{{ content.path}}</small></a></div>
                         <div class="col-type"><span class="label label-info">{{ content.content_type.name }}</span></div>
                         <div class="col-actions" ng-if="mode == 'ADMIN'">
                             <div class="btn-group">
@@ -74,18 +74,33 @@
                         </div>
                     </div>
                     <ul class="treeview-node">
-                        <li ng-include="'content_tree_template.html'" ng-repeat="content in childNodes(content.id) track by content.id" class="treeview-node"></li>
+                        <li ng-include="'content_tree_template.html'" ng-repeat="content in childNodes(content.site_id, content.id) track by content.id" class="treeview-node"></li>
                     </ul>
             </script>
             <ul class="treeview-node">
-                <li ng-include="'content_tree_template.html'" ng-repeat="content in rootNodes() track by content.id" class="treeview-node"></li>
+                <li ng-repeat="site in sites track by site.id" class="treeview-node">
+                    <div class="treeview-node-details" ng-class="isSiteExpanded(site) ? 'expanded' : ''">
+                        <div class="col-details">
+                            <div class="content-figure">
+                                <a class="btn-expand" ng-click="expandSite(site)"></a>
+                                <div class="content-visual" ng-click="expandSite(site)">
+                                    <i class="material-icons">public</i>
+                                </div>
+                            </div>
+                            <div class="content-details">
+                                <span class="content-title">{{ site.name }}</span>
+                            </div>
+                        </div>
+                    </div>
+                    <ul class="treeview-node">
+                        <li ng-include="'content_tree_template.html'" ng-repeat="content in rootNodes(site.id) track by content.id" class="treeview-node"></li>
+                    </ul>
+                </li>
+            </ul>
+            <ul class="treeview-node" ng-if="sites.length == 0">
+                <li ng-include="'content_tree_template.html'" ng-repeat="content in rootNodes(null) track by content.id" class="treeview-node"></li>
             </ul>
         </div>
-        <nav class="center-block panel-body text-center">
-            <button ng-model="btnPaginate" ng-click="loadMore()" in-view="loadMore()" type="button" data-loading-text="Loading..."  class="btn btn-primary" ng-hide="(maxPerPage * currentPage) > numberOfResults">
-                {{ lblPaginate }}
-            </button>
-        </nav>
         </div>
     </section>
 </div>

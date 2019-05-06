@@ -3,8 +3,10 @@
 namespace Opifer\MediaBundle\DependencyInjection;
 
 use Opifer\MediaBundle\File\ImageTypeGuesser;
+use Opifer\MediaBundle\Model\MediaInterface;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\Extension\PrependExtensionInterface;
 use Symfony\Component\DependencyInjection\Loader;
 use Symfony\Component\HttpFoundation\File\MimeType\MimeTypeGuesser;
@@ -41,6 +43,7 @@ class OpiferMediaExtension extends Extension implements PrependExtensionInterfac
         $config = $this->processConfiguration(new Configuration(), $configs);
 
         $container->setAlias('opifer.media.media_manager', $config['media']['manager']);
+        $container->setDefinition('opifer.media.cache_provider', new Definition($config['cache_provider']));
 
         $parameters = $this->getParameters($config);
         foreach ($parameters as $key => $value) {
@@ -53,17 +56,15 @@ class OpiferMediaExtension extends Extension implements PrependExtensionInterfac
                     $container->prependExtensionConfig($name,  [
                         'orm' => [
                             'resolve_target_entities' => [
-                                'Opifer\MediaBundle\Model\MediaInterface' => $config['media']['class'],
+                                MediaInterface::class => $config['media']['class'],
                             ],
                         ],
                     ]);
                     break;
                 case 'twig':
                     $container->prependExtensionConfig($name, [
-                        'form' => [
-                            'resources' => [
-                                'OpiferMediaBundle:Form:fields.html.twig',
-                            ],
+                        'form_themes' => [
+                            'OpiferMediaBundle:Form:fields.html.twig',
                         ],
                     ]);
                     break;
@@ -76,9 +77,12 @@ class OpiferMediaExtension extends Extension implements PrependExtensionInterfac
                             'aws_storage' => [
                                 'aws_s3' => [
                                     'client_config' => [
-                                        'key' => $config['storages']['aws_s3']['key'],
-                                        'secret' => $config['storages']['aws_s3']['secret'],
                                         'region' => $config['storages']['aws_s3']['region'],
+                                        'version' => '2006-03-01',
+                                        'credentials' => [
+                                            'key' => $config['storages']['aws_s3']['key'],
+                                            'secret' => $config['storages']['aws_s3']['secret'],
+                                        ],
                                     ],
                                     'bucket' => $config['storages']['aws_s3']['bucket'],
                                 ],

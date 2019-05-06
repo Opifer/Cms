@@ -1,13 +1,22 @@
 {% extends 'OpiferCmsBundle:Backend:base.html.twig' %}
 
 {% block body %}
-    <div class="page-header clearfix">
-        <h1 class="pull-left">Create a new site</h1>
+    <div class="col-xs-12">
+        <div class="page-header clearfix">
+            <a href="{{ path('opifer_cms_site_index') }}" class="btn btn-link pull-right">
+                <i class="material-icons">public</i> {{ 'title.sites'|trans }}
+            </a>
+            <a href="{{ path('opifer_cms_domain_index') }}" class="btn btn-link pull-right">
+                <i class="material-icons">http</i> {{ 'title.domains'|trans }}
+            </a>
+            <h1>{{ 'title.create_site'|trans|capitalize }}</h1>
+        </div>
     </div>
-
-    <div class="container">
+    <div class="container page-body">
         <div class="row">
-            {% include 'OpiferCmsBundle:Backend/Site:_form.html.twig' %}
+            <div class="col-xs-12">
+                {% include 'OpiferCmsBundle:Backend/Site:_form.html.twig' %}
+            </div>
         </div>
     </div>
 {% endblock body %}

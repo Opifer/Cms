@@ -19,6 +19,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Validator\Constraints\NotBlank;
 
 /**
  * Class TabNavBlock
@@ -52,12 +53,15 @@ class TabNavBlockService extends AbstractBlockService implements LayoutBlockServ
             array($this, 'onPostSetData')
         );
 
-        $propertiesForm = $builder->create('properties', FormType::class)
+        $builder->get('properties')
             ->add('template', ChoiceType::class, [
                     'label'       => 'label.template',
-                    'attr'        => ['help_text' => 'help.block_template'],
+                    'attr'        => ['help_text' => 'help.block_template','tag' => 'styles'],
                     'choices'     => $this->config['templates'],
                     'required'    => true,
+                    'constraints' => [
+                        new NotBlank(),
+                    ],
                 ])
             ->add('tabs', BootstrapCollectionType::class, [
                 'label'         => 'label.tabs',
@@ -66,28 +70,27 @@ class TabNavBlockService extends AbstractBlockService implements LayoutBlockServ
                 'entry_type'    => TabType::class,
                 'sub_widget_col'=> 8,
                 'button_col'    => 4,
-                'attr'          => ['class' => 'sortable-tabnav'],
-                'options'       => ['attr' => ['style' => 'inline']],
+                'attr'          => [
+                    'class'         => 'sortable-tabnav',
+                    'tag'           => 'general',
+                    'help_text'     => 'help.tabs_add_tab'
+                ],
+                'entry_options'       => ['attr' => ['style' => 'inline']],
             ])
-            ->add('id', TextType::class, ['attr' => ['help_text' => 'help.html_id']])
-            ->add('extra_classes', TextType::class, ['attr' => ['help_text' => 'help.extra_classes']]);
+            ->add('id', TextType::class, ['attr' => ['help_text' => 'help.html_id'],'required' => false])
+            ->add('extra_classes', TextType::class, ['attr' => ['help_text' => 'help.extra_classes'],'required' => false]);
 
         if ($this->config['styles']) {
-            $propertiesForm
+            $builder->get('properties')
                 ->add('styles', ChoiceType::class, [
                     'label' => 'label.styling',
                     'choices'  => $this->config['styles'],
                     'required' => false,
                     'expanded' => true,
                     'multiple' => true,
-                    'attr' => ['help_text' => 'help.html_styles'],
+                    'attr' => ['help_text' => 'help.html_styles','tag' => 'styles'],
                 ]);
         }
-
-        // Default panel
-        $builder->add(
-            $propertiesForm
-        );
     }
 
     public function onPreSetData(FormEvent $event)
@@ -224,5 +227,14 @@ class TabNavBlockService extends AbstractBlockService implements LayoutBlockServ
         }
 
         return $placeholders;
+    }
+
+    /**
+     * @param BlockInterface $block
+     * @return string
+     */
+    public function getDescription(BlockInterface $block = null)
+    {
+        return 'This inserts tab navigation to control tabbed content';
     }
 }

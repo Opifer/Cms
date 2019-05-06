@@ -2,16 +2,19 @@
 
 namespace Opifer\ContentBundle\Model;
 
+use BeSimple\SoapCommon\Type\KeyValue\DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use JMS\Serializer\Annotation as JMS;
-use Opifer\CmsBundle\Entity\Media;
+use Opifer\CmsBundle\Entity\Site;
 use Opifer\ContentBundle\Block\BlockOwnerInterface;
 use Opifer\ContentBundle\Entity\Template;
+use Opifer\ContentBundle\Entity\TranslationGroup;
 use Opifer\EavBundle\Entity\Value;
 use Opifer\EavBundle\Entity\MediaValue;
 use Opifer\EavBundle\Model\EntityInterface;
+use Opifer\EavBundle\Model\MediaInterface;
 use Opifer\EavBundle\Model\SchemaInterface;
 use Opifer\EavBundle\Model\ValueSetInterface;
 use Opifer\Revisions\Mapping\Annotation as Revisions;
@@ -106,7 +109,7 @@ class Content implements ContentInterface, EntityInterface, TemplatedInterface, 
      *          @Gedmo\SlugHandlerOption(name="field", value="slug"),
      *          @Gedmo\SlugHandlerOption(name="separator", value="-")
      *      })
-     * }, fields={"alias"}, unique_base="deletedAt")
+     * }, fields={"alias"}, unique=true, unique_base="site")
      * @ORM\Column(name="alias", type="string", length=255, nullable=true)
      */
     protected $alias;
@@ -117,15 +120,23 @@ class Content implements ContentInterface, EntityInterface, TemplatedInterface, 
      * @JMS\Expose
      * @JMS\Groups({"detail", "list"})
      * @Gedmo\Slug(handlers={
-     *      @Gedmo\SlugHandler(class="Gedmo\Sluggable\Handler\RelativeSlugHandler", options={
+     *      @Gedmo\SlugHandler(class="Opifer\ContentBundle\Handler\RelativeSlugHandler", options={
      *          @Gedmo\SlugHandlerOption(name="relationField", value="parent"),
      *          @Gedmo\SlugHandlerOption(name="relationSlugField", value="slug"),
      *          @Gedmo\SlugHandlerOption(name="separator", value="/")
      *      })
-     * }, fields={"title"}, unique_base="deletedAt")
+     * }, fields={"title"}, unique=true, unique_base="site")
      * @ORM\Column(name="slug", type="string", length=255)
      */
     protected $slug;
+
+    /**
+     * @var Site
+     *
+     * @JMS\Expose
+     * @JMS\Groups({"detail", "list"})
+     */
+    protected $site;
 
     /**
      * @var bool
@@ -140,6 +151,21 @@ class Content implements ContentInterface, EntityInterface, TemplatedInterface, 
      * @ORM\Column(name="searchable", type="boolean")
      */
     protected $searchable = true;
+
+    /**
+     * @var bool
+     *
+     * @ORM\Column(name="layout", type="boolean")
+     */
+    protected $layout = false;
+
+    /**
+     * @var MediaInterface
+     *
+     * @ORM\ManyToOne(targetEntity="Opifer\MediaBundle\Model\MediaInterface")
+     * @ORM\JoinColumn(name="preview", referencedColumnName="id", onDelete="SET NULL")
+     */
+    protected $preview;
 
     /**
      * @Gedmo\TreeLeft
@@ -244,11 +270,37 @@ class Content implements ContentInterface, EntityInterface, TemplatedInterface, 
     protected $attributeValues;
 
     /**
+     * @var \DateTime
+     *
+     * @JMS\Expose
+     * @ORM\Column(name="publish_at", type="datetime", nullable=true)
+     */
+    protected $publishAt;
+
+    /**
+     * @var \Opifer\ContentBundle\Entity\TranslationGroup
+     *
+     * @ORM\ManyToOne(targetEntity="Opifer\ContentBundle\Entity\TranslationGroup", inversedBy="contents")
+     * @ORM\JoinColumn(nullable=true)
+     */
+    protected $translationGroup;
+
+    protected $contentTranslations = [];
+
+    /**
      * Constructor.
      */
     public function __construct()
     {
         $this->attributeValues = new ArrayCollection();
+    }
+
+    /**
+     * @return string
+     */
+    public function __toString()
+    {
+        return (string) $this->id;
     }
 
     /**
@@ -358,6 +410,16 @@ class Content implements ContentInterface, EntityInterface, TemplatedInterface, 
     }
 
     /**
+     * Get Site.
+     *
+     * @return Site
+     */
+    public function getSite()
+    {
+        return $this->site;
+    }
+
+    /**
      * Get slug without index appended.
      *
      * @return string
@@ -395,6 +457,30 @@ class Content implements ContentInterface, EntityInterface, TemplatedInterface, 
     public function getActive()
     {
         return $this->active;
+    }
+
+    /**
+     * Set layout.
+     *
+     * @param bool $layout
+     *
+     * @return Content
+     */
+    public function setLayout($layout)
+    {
+        $this->layout = $layout;
+
+        return $this;
+    }
+
+    /**
+     * Get layout.
+     *
+     * @return bool
+     */
+    public function getLayout()
+    {
+        return $this->layout;
     }
 
     /**
@@ -672,7 +758,7 @@ class Content implements ContentInterface, EntityInterface, TemplatedInterface, 
      */
     public function getNavigationChildren()
     {
-        return array_filter($this->children->toArray(), function($child) {
+        return array_filter($this->children->toArray(), function ($child) {
             return $child->showInNavigation();
         });
     }
@@ -966,20 +1052,6 @@ class Content implements ContentInterface, EntityInterface, TemplatedInterface, 
     }
 
     /**
-     * Returns name of the Schema for the ValueSet.
-     *
-     * @JMS\VirtualProperty
-     * @JMS\SerializedName("schemaName")
-     * @JMS\Groups({"detail"})
-     *
-     * @return array
-     */
-    public function getSchemaName()
-    {
-        return $this->getValueSet()->getSchema()->getName();
-    }
-
-    /**
      * Get breadcrumbs.
      *
      * Loops through all parents to determine the breadcrumbs and stores them in
@@ -1094,6 +1166,39 @@ class Content implements ContentInterface, EntityInterface, TemplatedInterface, 
     }
 
     /**
+     * @return MediaInterface
+     */
+    public function getPreview()
+    {
+        return $this->preview;
+    }
+
+    /**
+     * @param MediaInterface $preview
+     *
+     * @return Layout
+     */
+    public function setPreview(MediaInterface $preview)
+    {
+        $this->preview = $preview;
+
+        return $this;
+    }
+
+    /**
+     * @return \DateTime
+     */
+    public function getLastUpdateDate()
+    {
+        $contentDate = $this->getUpdatedAt();
+        $templateDate = $this->getTemplate()->getUpdatedAt();
+
+        $date = $contentDate > $templateDate ? $contentDate : $templateDate;
+
+        return $date;
+    }
+
+    /**
      * @return string
      */
     public function getCoverImageCacheKey()
@@ -1107,5 +1212,66 @@ class Content implements ContentInterface, EntityInterface, TemplatedInterface, 
     public function getSuper()
     {
         return $this->getTemplate();
+    }
+
+    /**
+     * @return \DateTime
+     */
+    public function getPublishAt()
+    {
+        if (null == $this->publishAt) {
+            return $this->createdAt;
+        }
+
+        return $this->publishAt;
+    }
+
+    /**
+     * @param \DateTime $publishAt
+     * @return $this
+     */
+    public function setPublishAt($publishAt)
+    {
+        $this->publishAt = $publishAt;
+
+        return $this;
+    }
+
+    /**
+     * @return TranslationGroup
+     */
+    public function getTranslationGroup()
+    {
+        return $this->translationGroup;
+    }
+
+    /**
+     * @param TranslationGroup $translationGroup
+     * @return $this
+     */
+    public function setTranslationGroup(TranslationGroup $translationGroup)
+    {
+        $this->translationGroup = $translationGroup;
+
+        return $this;
+    }
+
+    /**
+     * @return array
+     */
+    public function getContentTranslations()
+    {
+        return $this->contentTranslations;
+    }
+
+    /**
+     * @param $contentTranslations
+     * @return $this
+     */
+    public function setContentTranslations($contentTranslations)
+    {
+        $this->contentTranslations = $contentTranslations;
+
+        return $this;
     }
 }

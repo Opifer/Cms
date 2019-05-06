@@ -2,13 +2,11 @@
 
 namespace Opifer\FormBundle\Mailer;
 
-use Opifer\EavBundle\Entity\EmailValue;
-use Opifer\FormBundle\Event\Events;
-use Opifer\FormBundle\Event\FormSubmitEvent;
 use Opifer\FormBundle\Model\FormInterface;
 use Opifer\FormBundle\Model\PostInterface;
 use Symfony\Bundle\FrameworkBundle\Templating\EngineInterface;
-use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+use Symfony\Component\HttpFoundation\RequestStack;
+use Symfony\Component\Translation\TranslatorInterface;
 
 /**
  * Mailer
@@ -24,18 +22,28 @@ class Mailer
     /** @var string */
     protected $sender;
 
+    /** @var TranslatorInterface */
+    protected $translator;
+
+    /** @var RequestStack */
+    protected $requestStack;
+
     /**
-     * Constructor.
+     * Mailer constructor.
      *
-     * @param EngineInterface $templating
-     * @param \Swift_mailer   $mailer
-     * @param string          $sender
+     * @param TranslatorInterface $translator
+     * @param RequestStack        $requestStack
+     * @param EngineInterface     $templating
+     * @param \Swift_mailer       $mailer
+     * @param                     $sender
      */
-    public function __construct(EngineInterface $templating, \Swift_mailer $mailer, $sender)
+    public function __construct(TranslatorInterface $translator, RequestStack $requestStack, EngineInterface $templating, \Swift_mailer $mailer, $sender)
     {
         $this->templating = $templating;
         $this->mailer = $mailer;
         $this->sender = $sender;
+        $this->requestStack = $requestStack;
+        $this->translator = $translator;
     }
 
     /**
@@ -58,6 +66,11 @@ class Mailer
      */
     public function sendConfirmationMail(FormInterface $form, PostInterface $post, $recipient)
     {
+        if ($form->getLocale()) {
+            $this->requestStack->getCurrentRequest()->setLocale($form->getLocale()->getLocale());
+            $this->translator->setLocale($form->getLocale()->getLocale());
+        }
+
         $body = $this->templating->render('OpiferFormBundle:Email:confirmation.html.twig', ['post' => $post]);
 
         $message = $this->createMessage($recipient, $form->getName(), $body);

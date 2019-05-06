@@ -4,8 +4,18 @@ namespace Opifer\ExpressionEngine\Visitor;
 
 use Doctrine\ORM\Query\Expr\Comparison;
 use Doctrine\ORM\QueryBuilder;
+use Opifer\ExpressionEngine\ConstraintInterface;
+use Opifer\ExpressionEngine\SelectQueryStatement;
+use Symfony\Component\Validator\Constraints\GreaterThanOrEqual;
+use Webmozart\Expression\Constraint\Contains;
+use Webmozart\Expression\Constraint\EndsWith;
+use Webmozart\Expression\Constraint\GreaterThan;
+use Webmozart\Expression\Constraint\GreaterThanEqual;
 use Webmozart\Expression\Constraint\In;
+use Webmozart\Expression\Constraint\LessThan;
+use Webmozart\Expression\Constraint\LessThanEqual;
 use Webmozart\Expression\Constraint\NotEquals;
+use Webmozart\Expression\Constraint\StartsWith;
 use Webmozart\Expression\Expression;
 use Webmozart\Expression\Logic\AndX;
 use Webmozart\Expression\Logic\OrX;
@@ -112,41 +122,88 @@ class QueryBuilderVisitor implements ExpressionVisitor
     protected function toExpr(Key $expr)
     {
         $left = $expr->getKey();
+        $paramName = uniqid('K');
 
         if (strpos($left, '.') !== false) {
-            $this->shouldJoin($left);
+            $left = $this->shouldJoin($left);
         } else {
             $left = $this->getRootAlias().'.'.$left;
         }
 
         $comparator = $expr->getExpression();
-        $right = $comparator->getComparedValue();
+
+        if ($comparator instanceof StartsWith) {
+            $right = $comparator->getAcceptedPrefix();
+        } elseif($comparator instanceof EndsWith){
+            $right = $comparator->getAcceptedSuffix();
+        } else {
+            $right = $comparator->getComparedValue();
+        }
+
+        if ($comparator instanceof ConstraintInterface) {
+            $left = $comparator->getLeft($left);
+        }
+
+        $this->qb->setParameter($paramName, $right);
 
         if ($comparator instanceof NotEquals) {
-            return $this->qb->expr()->neq($left, $right);
+            return $this->qb->expr()->neq($left, ':'.$paramName);
+        } elseif ($comparator instanceof GreaterThan) {
+            return $this->qb->expr()->gt($left, ':'.$paramName);
+        } elseif ($comparator instanceof GreaterThanEqual) {
+            return $this->qb->expr()->gte($left, ':'.$paramName);
+        } elseif ($comparator instanceof LessThan) {
+            return $this->qb->expr()->lt($left, ':'.$paramName);
+        } elseif ($comparator instanceof LessThanEqual) {
+            return $this->qb->expr()->lte($left, ':'.$paramName);
+        } elseif ($comparator instanceof StartsWith) {
+            $this->qb->setParameter($paramName, $right.'%');
+            return $this->qb->expr()->like($left, ':'.$paramName);
+        } elseif ($comparator instanceof EndsWith) {
+            $this->qb->setParameter($paramName, '%'.$right);
+            return $this->qb->expr()->like($left, ':'.$paramName);
+        } elseif ($comparator instanceof Contains) {
+            $this->qb->setParameter($paramName, '%'.$right.'%');
+            return $this->qb->expr()->like($left,':'.$paramName);
         } elseif ($comparator instanceof In) {
             if (is_array($right)) {
-                return $this->qb->expr()->in($left, $right);
+                return $this->qb->expr()->in($left,':'.$paramName);
             } else {
-                return $this->qb->expr()->like($left, '%'.$right.'%');
+                $this->qb->setParameter($paramName, '%'.$right.'%');
+                return $this->qb->expr()->like($left,':'.$paramName);
             }
         }
 
-        return $this->qb->expr()->eq($left, $right);
+        return $this->qb->expr()->eq($left, ':'.$paramName);
     }
 
     /**
-     * Strips the key parts and creates a join if it does not exist yet.
+     * Strips the key parts and creates joins if they don't exist yet.
      *
-     * @param string $key
+     * @param string $key A lowercase dot-separated key. e.g. "content.template.id"
+     *
+     * @return string The final key that can be used in e.g. WHERE statements
      */
-    protected function shouldJoin($key)
+    public function shouldJoin($key, $prefix = null)
     {
         $parts = explode('.', $key);
 
-        if (!in_array($parts[0], $this->qb->getAllAliases())) {
-            $this->qb->leftJoin($this->getRootAlias().'.'.$parts[0], $parts[0]);
+        if (!$prefix) {
+            $prefix = $this->getRootAlias();
         }
+
+        if (!in_array($parts[0], $this->qb->getAllAliases())) {
+            $this->qb->leftJoin($prefix.'.'.$parts[0], $parts[0]);
+        }
+
+        // If the key consists of multiple . parts, we also need to add joins for the other parts
+        if (count($parts) > 2) {
+            $prefix = array_shift($parts);
+            $leftover = implode('.', $parts);
+            $key = $this->shouldJoin($leftover, $prefix);
+        }
+
+        return $key;
     }
 
     /**

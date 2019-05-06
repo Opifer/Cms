@@ -6,6 +6,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use JMS\Serializer\Annotation as JMS;
+use Opifer\CmsBundle\Entity\Locale;
 use Opifer\EavBundle\Model\SchemaInterface;
 
 /**
@@ -91,6 +92,18 @@ class Form implements FormInterface
      * @ORM\Column(name="deletedAt", type="datetime", nullable=true)
      */
     protected $deletedAt;
+
+    /**
+     * @var bool
+     *
+     * @ORM\Column(name="recaptcha_enabled", type="boolean")
+     */
+    protected $recaptchaEnabled = false;
+
+    /**
+     * @Gedmo\Locale
+     */
+    protected $locale;
 
     /**
      * Constructor.
@@ -282,5 +295,44 @@ class Form implements FormInterface
     public function setDeletedAt($deletedAt)
     {
         $this->deletedAt = $deletedAt;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isRecaptchaEnabled()
+    {
+        return $this->recaptchaEnabled;
+    }
+
+    /**
+     * @param bool $recaptchaEnabled
+     *
+     * @return Form
+     */
+    public function setRecaptchaEnabled($recaptchaEnabled)
+    {
+        $this->recaptchaEnabled = $recaptchaEnabled;
+
+        return $this;
+    }
+
+    /**
+     * @return Locale
+     */
+    public function getLocale()
+    {
+        return $this->locale;
+    }
+
+    /**
+     * @param Locale $locale
+     * @return $this
+     */
+    public function setLocale(Locale $locale)
+    {
+        $this->locale = $locale;
+
+        return $this;
     }
 }

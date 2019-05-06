@@ -2,13 +2,14 @@
 
 namespace Opifer\EavBundle\ValueProvider;
 
+use Opifer\EavBundle\Entity\TextValue;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\FormBuilderInterface;
 
 class TextValueProvider extends AbstractValueProvider implements ValueProviderInterface
 {
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
@@ -19,15 +20,15 @@ class TextValueProvider extends AbstractValueProvider implements ValueProviderIn
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getEntity()
     {
-        return 'Opifer\EavBundle\Entity\TextValue';
+        return TextValue::class;
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getLabel()
     {

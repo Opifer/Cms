@@ -109,7 +109,7 @@ Opifer\CmsBundle\Entity\Media:
         thumb:
             targetEntity: Opifer\MediaBundle\Model\MediaInterface
             cascade: {  }
-            fetch: LAZY
+            fetch: EAGER
             mappedBy: null
             inversedBy: null
             joinColumns:

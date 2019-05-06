@@ -2,8 +2,10 @@
 
 namespace Opifer\CmsBundle\ValueProvider;
 
+use Opifer\CmsBundle\Entity\FormValue;
 use Opifer\EavBundle\ValueProvider\AbstractValueProvider;
 use Opifer\EavBundle\ValueProvider\ValueProviderInterface;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\FormBuilderInterface;
 
 class FormValueProvider extends AbstractValueProvider implements ValueProviderInterface
@@ -24,12 +26,12 @@ class FormValueProvider extends AbstractValueProvider implements ValueProviderIn
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('form', 'entity', [
+        $builder->add('form', EntityType::class, [
             'empty_value' => '-- None --',
             'expanded' => false,
             'multiple' => false,
             'class' => $this->formClass,
-            'property' => 'name',
+            'choice_label' => 'name',
         ]);
     }
 
@@ -38,7 +40,7 @@ class FormValueProvider extends AbstractValueProvider implements ValueProviderIn
      */
     public function getEntity()
     {
-        return 'Opifer\CmsBundle\Entity\FormValue';
+        return FormValue::class;
     }
 
     /**

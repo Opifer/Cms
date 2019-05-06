@@ -25,14 +25,7 @@ Opifer\CmsBundle\Entity\Site:
             scale: 0
             length: null
             unique: false
-            nullable: false
-            precision: 0
-        domain:
-            type: string
-            scale: 0
-            length: 128
-            unique: false
-            nullable: false
+            nullable: true
             precision: 0
         cookieDomain:
             type: string
@@ -42,12 +35,36 @@ Opifer\CmsBundle\Entity\Site:
             nullable: true
             precision: 0
             column: cookie_domain
+    manyToOne:
         defaultLocale:
-            type: string
-            scale: 0
-            length: 5
-            unique: false
-            nullable: false
-            precision: 0
-            column: default_locale
+            targetEntity: Opifer\CmsBundle\Entity\Locale
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                locale_id:
+                    referencedColumnName: id
+            orphanRemoval: false
+        defaultDomain:
+            targetEntity: Opifer\CmsBundle\Entity\Domain
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                default_domain_id:
+                    referencedColumnName: id
+            orphanRemoval: false
     lifecycleCallbacks: {  }
+    oneToMany:
+        domains:
+            targetEntity: Opifer\CmsBundle\Entity\Domain
+            mappedBy: site
+        content:
+            targetEntity: Opifer\ContentBundle\Model\ContentInterface
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: site
+            inversedBy: null
+            orphanRemoval: false
+            orderBy:
+                id: DESC

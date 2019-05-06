@@ -1,5 +1,20 @@
-<ul {{ manage_tags() }}>
+<div class="list list-cs {{ block.properties.template|default }} {{ block.properties.styles|default|join(' ') }}" {{ manage_tags() }}>
     {% for content in block.collection %}
-        <li>{{ content.title }}</li>
+        <div class="column">
+            <div class="card">
+                {% if block.properties.displayType|default == 'cards-listing' %}
+                    <div class="card-img-block">
+                        <img class="card-img img-fluid" src="{{ content.coverImage|default }}" alt="{{ content.title }}" />
+                    </div>
+                {% else %}
+                    <img class="card-img img-fluid" src="{{ content.coverImage|default }}" alt="{{ content.title }}" />
+                {% endif %}
+                <div class="card-block">
+                    <h4 class="card-title">{{ content.title }}</h4>
+                    <p class="card-text">{{ content.attributes.listCaption|default }}</p>
+                    <a href="{{ path('_content', {'slug': content.slug}) }}" class="btn btn-primary">{{ 'button.read_more'|trans }} &rsaquo;</a>
+                </div>
+            </div>
+        </div>
     {% endfor %}
-</ul>
+</div>

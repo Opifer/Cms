@@ -51,7 +51,7 @@ class CookieWallBlockService extends AbstractBlockService implements BlockServic
         parent::buildManageForm($builder, $options);
 
         $builder->add(
-            $builder->create('default', FormType::class, ['virtual' => true])
+            $builder->create('default', FormType::class, ['inherit_data' => true])
                 ->add('value', CKEditorType::class, [
                     'label' => 'label.message',
                 ])
@@ -78,6 +78,18 @@ class CookieWallBlockService extends AbstractBlockService implements BlockServic
         array_push($this->siteIds, 1);
 
         $this->session->set(self::SESSION_KEY, $this->siteIds);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function load(BlockInterface $block)
+    {
+        parent::load($block);
+
+        if (in_array(1, $this->siteIds)) {
+            $block->setAccepted(true);
+        }
     }
 
     /**
@@ -113,5 +125,14 @@ class CookieWallBlockService extends AbstractBlockService implements BlockServic
         }
 
         return $parameters;
+    }
+
+    /**
+     * @param BlockInterface $block
+     * @return string
+     */
+    public function getDescription(BlockInterface $block = null)
+    {
+        return 'Dismissable message regarding EU cookies regulation';
     }
 }

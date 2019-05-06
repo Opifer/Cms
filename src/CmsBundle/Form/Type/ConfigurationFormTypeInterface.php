@@ -10,4 +10,11 @@ interface ConfigurationFormTypeInterface extends FormTypeInterface
      * @return string
      */
     public function getLabel();
+
+    /**
+     * Defines the fields on this form type
+     *
+     * @return array
+     */
+    public static function getFields();
 }

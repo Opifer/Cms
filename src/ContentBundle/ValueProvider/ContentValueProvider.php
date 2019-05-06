@@ -2,6 +2,7 @@
 
 namespace Opifer\ContentBundle\ValueProvider;
 
+use Opifer\ContentBundle\Entity\ContentValue;
 use Opifer\ContentBundle\Form\Type\ContentPickerType;
 use Opifer\EavBundle\ValueProvider\AbstractValueProvider;
 use Opifer\EavBundle\ValueProvider\ValueProviderInterface;
@@ -9,27 +10,26 @@ use Symfony\Component\Form\FormBuilderInterface;
 
 class ContentValueProvider extends AbstractValueProvider implements ValueProviderInterface
 {
-    
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder->add('content', ContentPickerType::class, [
-            'label'    => false,
+            'label' => false,
         ]);
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getEntity()
     {
-        return 'Opifer\ContentBundle\Entity\ContentValue';
+        return ContentValue::class;
     }
     
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getLabel()
     {

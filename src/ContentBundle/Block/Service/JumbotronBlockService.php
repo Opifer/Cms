@@ -12,6 +12,7 @@ use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\FormType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Validator\Constraints\NotBlank;
 
 /**
  * Class JumbotronBlockService
@@ -27,30 +28,50 @@ class JumbotronBlockService extends AbstractBlockService implements BlockService
     {
         parent::buildManageForm($builder, $options);
 
-        $propertiesForm = $builder->create('properties', FormType::class)
-            ->add('id', TextType::class, ['attr' => ['help_text' => 'help.html_id']])
-            ->add('extra_classes', TextType::class, ['attr' => ['help_text' => 'help.extra_classes']]);
+        $propertiesForm = $builder->get('properties')
+            ->add('id', TextType::class, ['attr' => ['help_text' => 'help.html_id'],'required' => false])
+            ->add('extra_classes', TextType::class, ['attr' => ['help_text' => 'help.extra_classes'],'required' => false])
+            ->add('autoplay', ChoiceType::class, [
+                'choices' => [
+                    'No' => false,
+                    'Yes' => true,
+                ],
+                'attr' => [
+                    'help_text' => 'help.autoplay'
+                ],
+            ])
+            ->add('loop', ChoiceType::class, [
+                'choices' => [
+                    'No' => false,
+                    'Yes' => true,
+                ],
+                'attr' => [
+                    'help_text' => 'help.loop'
+                ],
+            ])
+        ;
 
         if ($this->config['styles']) {
-            $propertiesForm
+            $builder->get('properties')
                 ->add('styles', ChoiceType::class, [
                     'label' => 'label.styling',
                     'choices'  => $this->config['styles'],
                     'required' => false,
                     'expanded' => true,
                     'multiple' => true,
-                    'attr' => ['help_text' => 'help.html_styles'],
+                    'attr' => ['help_text' => 'help.html_styles','tag' => 'styles'],
                 ]);
         }
 
         if (isset($this->config['templates'])) {
-            $propertiesForm->add('template', ChoiceType::class, [
-                'label'       => 'label.template',
-                'placeholder' => 'placeholder.choice_optional',
-                'attr'        => ['help_text' => 'help.block_template'],
-                'choices'     => $this->config['templates'],
-                'required'    => false,
-            ]);
+            $builder->get('properties')
+                ->add('template', ChoiceType::class, [
+                    'label'       => 'label.template',
+                    'placeholder' => 'placeholder.choice_optional',
+                    'attr'        => ['help_text' => 'help.block_template','tag' => 'styles'],
+                    'choices'     => $this->config['templates'],
+                    'required'    => false,
+                ]);
         }
 
         $builder->add(
@@ -58,9 +79,21 @@ class JumbotronBlockService extends AbstractBlockService implements BlockService
                 ->add('media', MediaPickerType::class, [
                     'required'  => false,
                     'multiple' => false,
-                    'attr' => array('label_col' => 12, 'widget_col' => 12),
+                    'attr' => [
+                        'label_col' => 12,
+                        'widget_col' => 12,
+                        'help_text' => 'help.jumbotron_media'
+                    ],
                 ])
-                ->add('value', CKEditorType::class, ['label' => 'label.rich_text', 'attr' => ['label_col' => 12, 'widget_col' => 12]])
+                ->add('value', CKEditorType::class, [
+                    'label' => 'label.rich_text',
+                    'required' => false,
+                    'attr' => [
+                        'label_col' => 12,
+                        'widget_col' => 12,
+                        'help_text' => 'help.jumbotron_rich_text'
+                    ]
+                ])
         )->add(
             $propertiesForm
         );
@@ -93,5 +126,14 @@ class JumbotronBlockService extends AbstractBlockService implements BlockService
             ->setDescription('Large piece of content with bigger font and optional background image.');
 
         return $tool;
+    }
+
+    /**
+     * @param BlockInterface $block
+     * @return string
+     */
+    public function getDescription(BlockInterface $block = null)
+    {
+        return 'This creates a Jumbotron. Large piece of content with bigger font and optional background image.';
     }
 }

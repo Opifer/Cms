@@ -41,6 +41,13 @@ Opifer\CmsBundle\Entity\Content:
             unique: false
             nullable: false
             precision: 0
+        layout:
+            type: boolean
+            scale: 0
+            length: null
+            unique: false
+            nullable: false
+            precision: 0
         title:
             type: string
             scale: 0
@@ -113,6 +120,14 @@ Opifer\CmsBundle\Entity\Content:
             gedmo:
               timestampable:
                 on: update
+        publishAt:
+            type: datetime
+            scale: 0
+            length: null
+            unique: false
+            nullable: true
+            precision: 0
+            column: publish_at
         shortTitle:
             type: string
             scale: 0
@@ -136,7 +151,7 @@ Opifer\CmsBundle\Entity\Content:
                   Opifer\ContentBundle\Handler\AliasHandler:
                     field: slug
                     separator: -
-                unique_base: deletedAt
+                unique_base: site
         slug:
             type: string
             scale: 0
@@ -149,12 +164,11 @@ Opifer\CmsBundle\Entity\Content:
                 fields:
                   - title
                 handlers:
-                  Gedmo\Sluggable\Handler\RelativeSlugHandler:
+                  Opifer\ContentBundle\Handler\RelativeSlugHandler:
                     relationField: parent
                     relationSlugField: slug
                     separator: /
-                unique_base: deletedAt
-                updatable: false
+                unique_base: site
 
         deletedAt:
             type: datetime
@@ -173,14 +187,34 @@ Opifer\CmsBundle\Entity\Content:
             precision: 0
             column: show_in_navigation
     manyToOne:
-        site:
-            targetEntity: Opifer\CmsBundle\Entity\Site
+        preview:
+            targetEntity: Opifer\MediaBundle\Model\MediaInterface
             cascade: {  }
             fetch: LAZY
             mappedBy: null
             inversedBy: null
             joinColumns:
+                layout_preview_id:
+                    referencedColumnName: id
+            orphanRemoval: false
+        site:
+            targetEntity: Opifer\CmsBundle\Entity\Site
+            cascade: {  }
+            fetch: EAGER
+            mappedBy: null
+            inversedBy: content
+            joinColumns:
                 site_id:
+                    referencedColumnName: id
+            orphanRemoval: false
+        locale:
+            targetEntity: Opifer\CmsBundle\Entity\Locale
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                locale_id:
                     referencedColumnName: id
             orphanRemoval: false
         template:
@@ -233,6 +267,13 @@ Opifer\CmsBundle\Entity\Content:
                     referencedColumnName: id
                     onDelete: CASCADE
             orphanRemoval: false
+        translationGroup:
+            targetEntity: Opifer\ContentBundle\Entity\TranslationGroup
+            cascade:
+              - persist
+            fetch: EAGER
+            mappedBy: null
+            inversedBy: contents
     oneToMany:
         blocks:
             targetEntity: Opifer\ContentBundle\Entity\Block
@@ -255,4 +296,16 @@ Opifer\CmsBundle\Entity\Content:
             orphanRemoval: false
             orderBy:
                 lft: ASC
+    manyToMany:
+        medias:
+            targetEntity: Opifer\MediaBundle\Model\MediaInterface
+            joinTable:
+                name: opifer_content_media
+                joinColumns:
+                    content_id:
+                        referencedColumnName: id
+                inversedJoinColumns:
+                    media_id:
+                        referencedColumnName: id
+                        onDelete: CASCADE
     lifecycleCallbacks: {  }

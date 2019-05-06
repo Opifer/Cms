@@ -7,7 +7,7 @@
 						<div class="media-left">
 						  <a href="{{ path('opifer_download_block', {'filename' : item.reference }) }}">
 						    {% if item.provider != 'image' %}
-						    	<img class="media-object" src="http://placehold.it/200x100" alt="{{ item.alt }}">
+						    	<img class="media-object" src="//placehold.it/200x100" alt="{{ item.alt }}">
 						    {% else %}
 						    	<img class="media-object" src="{{ item.reference|imagine_filter('medialibrary') }}" alt="{{ item.alt }}">
 						    {% endif %}
