@@ -42,23 +42,30 @@
                                             <li><a href="{{ path('opifer_content_content_type', {'type': content_type.id}) }}">{{ content_type.name }}</a></li>
                                         {% endfor %}
                                         <li><a href="{{ path('opifer_content_block_shared') }}">{{ "nav.block_shared"|trans|capitalize }}</a></li>
-                                        <li class="divider"></li>
-                                        <li><a href="{{ path('opifer_cms_template_index') }}">{{ 'base.templates'|trans|capitalize }}</a></li>
-                                        <li><a href="{{ path('opifer_cms_layout_index') }}">{{ 'base.layouts'|trans|capitalize }}</a></li>
-                                        <li><a href="{{ path('opifer_content_contenttype_index') }}">Content types</a></li>
-                                        <li><a href="{{ path('opifer_content_dataview_index') }}">{{ 'title.dataviews'|trans({}, 'OpiferCmsBundle')|capitalize }}</a></li>
+                                        {% if is_granted("ROLE_CONTENT_MANAGER") %}
+                                            <li class="divider"></li>
+                                            <li><a href="{{ path('opifer_cms_template_index') }}">{{ 'base.templates'|trans|capitalize }}</a></li>
+                                            <li><a href="{{ path('opifer_cms_layout_index') }}">{{ 'base.layouts'|trans|capitalize }}</a></li>
+                                            <li><a href="{{ path('opifer_content_contenttype_index') }}">Content types</a></li>
+                                        {% endif %}
+                                        {% if is_granted("ROLE_SUPER_ADMIN") %}
+                                            <li><a href="{{ path('opifer_content_dataview_index') }}">{{ 'title.dataviews'|trans({}, 'OpiferCmsBundle')|capitalize }}</a></li>
+                                        {% endif %}
                                     </ul>
                                 </li>
                                 <li><a href="{{ path('opifer_media_media_index') }}">{{ "nav.media"|trans|capitalize }}</a></li>
-                                <li class="dropdown">
-                                    <a class="dropdown-toggle" data-toggle="dropdown">{{ 'base.forms'|trans|capitalize }} <i class="material-icons md-18">keyboard_arrow_down</i></a>
-                                    <ul class="dropdown-menu">
-                                        <li><a href="{{ path('opifer_form_form_index') }}">{{ 'base.forms'|trans|capitalize }}</a></li>
-                                        <li><a href="{{ path('opifer_cms_form_post_list') }}">{{ 'base.posts'|trans|capitalize }}</a></li>
-                                    </ul>
-                                </li>
-                                <li><a href="{{ path('opifer_mailing_list_mailing_list_index') }}">{{ "nav.mailing_lists"|trans|capitalize }}</a></li>
-                                <li><a href="{{ path('opifer_review_review_index') }}">{{ 'title.review'|trans|capitalize }}</a></li>
+                                {% if is_granted("ROLE_CONTENT_MANAGER") %}
+                                    <li class="dropdown">
+                                        <a class="dropdown-toggle" data-toggle="dropdown">{{ 'base.forms'|trans|capitalize }} <i class="material-icons md-18">keyboard_arrow_down</i></a>
+                                        <ul class="dropdown-menu">
+                                            <li><a href="{{ path('opifer_form_form_index') }}">{{ 'base.forms'|trans|capitalize }}</a></li>
+                                            <li><a href="{{ path('opifer_cms_form_post_list') }}">{{ 'base.posts'|trans|capitalize }}</a></li>
+                                        </ul>
+                                    </li>
+
+                                    <li><a href="{{ path('opifer_mailing_list_mailing_list_index') }}">{{ "nav.mailing_lists"|trans|capitalize }}</a></li>
+                                    <li><a href="{{ path('opifer_review_review_index') }}">{{ 'title.review'|trans|capitalize }}</a></li>
+                                {% endif %}
 
                                 {% block navigation_left %}{% endblock %}
                             </ul>
