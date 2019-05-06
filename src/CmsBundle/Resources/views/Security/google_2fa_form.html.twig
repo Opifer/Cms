@@ -30,7 +30,16 @@
                             </div>
                         </div>
 
-                        {% if displayTrustedOption %}<p class="widget"><label for="_trusted"><input id="_trusted" type="checkbox" name="_trusted" /> {{ "scheb_two_factor.trusted"|trans }}</label></p>{% endif %}
+                        {% if displayTrustedOption %}
+                        <div class="form-group">
+                            <label for="_auth_code" class="col-sm-2 control-label">
+                                {{ "scheb_two_factor.auth_code"|trans }}
+                            </label>
+                            <div class="col-sm-10">
+                                <input id="_trusted" type="checkbox" name="_trusted" /> Trust my device for 30 days
+                            </div>
+                        </div>
+                        {% endif %}
                         <div class="form-group">
                             <div class="col-sm-offset-2 col-sm-10">
                                 <input type="submit" value="{{ "scheb_two_factor.login"|trans }}" class="btn btn-primary" />
