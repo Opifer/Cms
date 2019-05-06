@@ -9,10 +9,13 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use Opifer\MailingListBundle\Entity\MailingList;
 use Opifer\MailingListBundle\Form\Type\MailingListType;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 
 class MailingListController extends Controller
 {
     /**
+     * @Security("has_role('ROLE_CONTENT_MANAGER')")
+     *
      * @return Response
      */
     public function indexAction()
@@ -41,6 +44,8 @@ class MailingListController extends Controller
     }
 
     /**
+     * @Security("has_role('ROLE_CONTENT_MANAGER')")
+     *
      * @param Request $request
      * @param         $id
      *
@@ -69,6 +74,8 @@ class MailingListController extends Controller
 
     /**
      * Add new Mailing List.
+     *
+     * @Security("has_role('ROLE_CONTENT_MANAGER')")
      */
     public function createAction(Request $request)
     {
@@ -96,6 +103,8 @@ class MailingListController extends Controller
     /**
      * Edit Mailing List.
      *
+     * @Security("has_role('ROLE_CONTENT_MANAGER')")
+     *
      * @param Request $request
      * @param int     $id
      */
@@ -121,6 +130,8 @@ class MailingListController extends Controller
 
     /**
      * Delete Mailing List.
+     *
+     * @Security("has_role('ROLE_ADMIN')")
      *
      * @param int $id
      */

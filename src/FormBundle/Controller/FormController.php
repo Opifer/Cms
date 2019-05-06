@@ -7,10 +7,13 @@ use Opifer\FormBundle\Event\Events;
 use Opifer\FormBundle\Event\FormSubmitEvent;
 use Opifer\FormBundle\Form\Type\FormType;
 use Opifer\FormBundle\Form\Type\PostType;
+use Opifer\FormBundle\Model\Form;
+use ReCaptcha\ReCaptcha;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 
 class FormController extends Controller
 {
@@ -19,6 +22,8 @@ class FormController extends Controller
      *
      * The template defaults to `OpiferFormBundle:Form:index.html.twig`, but can easily be overwritten
      * in the bundle configuration.
+     *
+     * @Security("has_role('ROLE_CONTENT_MANAGER')")
      *
      * @return Response
      */
@@ -34,6 +39,8 @@ class FormController extends Controller
 
     /**
      * Create a form.
+     *
+     * @Security("has_role('ROLE_CONTENT_MANAGER')")
      *
      * @param Request $request
      *
@@ -72,6 +79,8 @@ class FormController extends Controller
 
     /**
      * Edit a form.
+     *
+     * @Security("has_role('ROLE_CONTENT_MANAGER')")
      *
      * @param Request $request
      * @param int     $id
@@ -130,6 +139,8 @@ class FormController extends Controller
     /**
      * Delete a form.
      *
+     * @Security("has_role('ROLE_ADMIN')")
+     *
      * @param int $id
      *
      * @return Response
@@ -162,10 +173,24 @@ class FormController extends Controller
      */
     public function submitAction(Request $request, $id)
     {
+        /** @var Form $form */
         $form = $this->get('opifer.form.form_manager')->getRepository()->find($id);
 
         if (!$form) {
             throw $this->createNotFoundException('The form could not be found');
+        }
+
+        $spamFree = true;
+        if ($form->isRecaptchaEnabled() && $recaptchaSecretKey = $this->getParameter('opifer_form.recaptcha_secret_key')) {
+            $responseKey = $request->get('g-recaptcha-response');
+            if (!$responseKey) {
+                $spamFree = false;
+            }
+            $recaptcha = new ReCaptcha($recaptchaSecretKey);
+            $response = $recaptcha->verify($responseKey, $_SERVER['REMOTE_ADDR']);
+            if (!$response->isSuccess()) {
+                $spamFree = false;
+            }
         }
 
         $post = $this->get('opifer.eav.eav_manager')->initializeEntity($form->getSchema());
@@ -174,7 +199,7 @@ class FormController extends Controller
         $postForm = $this->createForm(PostType::class, $post, ['form_id' => $id]);
         $postForm->handleRequest($request);
 
-        if ($postForm->isSubmitted() && $postForm->isValid()) {
+        if ($postForm->isSubmitted() && $postForm->isValid() && $spamFree) {
             $this->get('opifer.form.post_manager')->save($post);
 
             $event = new FormSubmitEvent($post);
