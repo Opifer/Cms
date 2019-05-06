@@ -10,6 +10,7 @@ use Opifer\ContentBundle\Form\Type\PageManagerType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 
 /**
  * Class TemplateController
@@ -21,6 +22,8 @@ class TemplateController extends Controller
 
     /**
      * Index
+     *
+     * @Security("has_role('ROLE_CONTENT_MANAGER')")
      *
      * @param Request $request
      *
@@ -66,6 +69,8 @@ class TemplateController extends Controller
     /**
      * Graphical Template editor
      *
+     * @Security("has_role('ROLE_CONTENT_MANAGER')")
+     *
      * @param Request  $request
      * @param Template $template
      *
@@ -73,7 +78,7 @@ class TemplateController extends Controller
      */
     public function editorAction(Request $request, Template $template)
     {
-        $form = $this->createForm(new PageManagerType, $template);
+        $form = $this->createForm(PageManagerType::class, $template);
         $form->handleRequest($request);
 
         if ($form->isValid()) {
@@ -91,6 +96,8 @@ class TemplateController extends Controller
     }
 
     /**
+     * @Security("has_role('ROLE_CONTENT_MANAGER')")
+     *
      * @param Template $template
      *
      * @return Response

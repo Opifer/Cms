@@ -2,8 +2,12 @@
 
 namespace Opifer\ContentBundle\Controller\Backend;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Opifer\CmsBundle\Entity\Site;
 use Opifer\CmsBundle\Manager\ContentManager;
+use Opifer\ContentBundle\Entity\TranslationGroup;
 use Opifer\ContentBundle\Form\Type\ContentType;
+use Opifer\ContentBundle\Form\Type\LayoutType;
 use Opifer\ContentBundle\Model\Content;
 use Opifer\EavBundle\Manager\EavManager;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
@@ -11,6 +15,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 
 /**
  * Backend Content Controller.
@@ -19,6 +24,8 @@ class ContentController extends Controller
 {
     /**
      * Index action.
+     *
+     * @Security("has_role('ROLE_INTERN')")
      *
      * @return \Symfony\Component\HttpFoundation\Response
      */
@@ -49,15 +56,56 @@ class ContentController extends Controller
      *
      * @return Response|RedirectResponse
      */
-    public function selectTypeAction()
+    public function selectTypeAction($siteId = null)
     {
         $contentTypes = $this->get('opifer.content.content_type_manager')->getRepository()->findAll();
+
+        $layouts = $this->get('opifer.content.content_manager')->getRepository()->findBy(['layout' => true]);
 
         if (!$contentTypes) {
             return $this->redirectToRoute('opifer_content_content_create');
         }
 
         return $this->render($this->getParameter('opifer_content.content_select_type'), [
+            'content_types' => $contentTypes,
+            'site_id' => $siteId,
+            'layouts' => $layouts
+        ]);
+    }
+
+    public function selectSiteAction()
+    {
+        $sites = $this->getDoctrine()->getRepository(Site::class)->findAll();
+
+        //if no site go on
+        if (count($sites) == 0) {
+            return $this->redirectToRoute('opifer_content_content_select_type');
+        }
+
+        //if just one site select this one
+        if (count($sites) == 1) {
+            return $this->redirectToRoute('opifer_content_content_select_type', ['siteId' => $sites[0]->getId()]);
+        }
+
+        return $this->render($this->getParameter('opifer_content.content_select_site'), [
+            'sites' => $sites
+        ]);
+    }
+
+    /**
+     * Select the type of content before actually creating a new content item.
+     *
+     * @return Response|RedirectResponse
+     */
+    public function selectLayoutTypeAction()
+    {
+        $contentTypes = $this->get('opifer.content.content_type_manager')->getRepository()->findAll();
+
+        if (!$contentTypes) {
+            return $this->redirectToRoute('opifer_cms_layout_create');
+        }
+
+        return $this->render($this->getParameter('opifer_content.content_select_layout_type'), [
             'content_types' => $contentTypes,
         ]);
     }
@@ -109,12 +157,14 @@ class ContentController extends Controller
     /**
      * Create a new content item.
      *
+     * @Security("has_role('ROLE_INTERN')")
+     *
      * @param Request $request
      * @param int     $type
      *
      * @return Response
      */
-    public function createAction(Request $request, $type = 0)
+    public function createAction(Request $request, $siteId = null, $type = 0, $layoutId = null)
     {
         /** @var ContentManager $manager */
         $manager = $this->get('opifer.content.content_manager');
@@ -127,15 +177,39 @@ class ContentController extends Controller
             $content = $manager->initialize();
         }
 
+        if ($siteId) {
+            $site = $this->getDoctrine()->getRepository(Site::class)->find($siteId);
+
+            //set siteId on content item
+            $content->setSite($site);
+            if ($site->getDefaultLocale()) {
+                $content->setLocale($site->getDefaultLocale());
+            }
+        }
+
         $form = $this->createForm(ContentType::class, $content);
         $form->handleRequest($request);
 
         if ($form->isValid()) {
+            if ($layoutId) {
+                $duplicatedContent = $this->duplicateAction($layoutId, $content);
+
+                return $this->redirectToRoute('opifer_content_contenteditor_design', [
+                    'owner' => 'content',
+                    'ownerId' => $duplicatedContent->getId(),
+                ]);
+            }
+
+            if (null === $content->getPublishAt()) {
+                $content->setPublishAt(new \DateTime());
+            }
+
             $manager->save($content);
 
             return $this->redirectToRoute('opifer_content_contenteditor_design', [
                 'owner' => 'content',
                 'ownerId' => $content->getId(),
+                'site_id' => $siteId
             ]);
         }
 
@@ -145,7 +219,55 @@ class ContentController extends Controller
     }
 
     /**
+     * @Security("has_role('ROLE_INTERN')")
+     *
+     * @param $id
+     * @param $content
+     * @return mixed
+     */
+    public function duplicateAction($id, $content)
+    {
+        /** @var ContentManagerInterface $contentManager */
+        $contentManager = $this->get('opifer.content.content_manager');
+        $layout = $contentManager->getRepository()->find($id);
+
+        if (!$layout) {
+            throw $this->createNotFoundException('No layout found for id '.$id);
+        }
+
+        /** @var BlockManager $blockManager */
+        $blockManager = $this->container->get('opifer.content.block_manager');
+
+        $duplicatedContent = $contentManager->duplicate($layout);
+
+        $duplicatedContent->setSlug($content->getSlug());
+        $duplicatedContent->setTitle($content->getTitle());
+        $duplicatedContent->setAuthor($content->getAuthor());
+        $duplicatedContent->setAlias($content->getAlias());
+        $duplicatedContent->setIndexable($content->getIndexable());
+        $duplicatedContent->setActive($content->getActive());
+        $duplicatedContent->setSearchable($content->getSearchable());
+        $duplicatedContent->setParent($content->getParent());
+        $duplicatedContent->setShowInNavigation($content->showInNavigation());
+        $duplicatedContent->setShortTitle($content->getShortTitle());
+        $duplicatedContent->setDescription($content->getDescription());
+
+        $duplicatedContent->setLayout(0);
+
+        $this->getDoctrine()->getManager()->flush($duplicatedContent);
+
+        $contentBlocks = $blockManager->duplicate($layout->getBlocks(), $duplicatedContent);
+
+        $duplicatedContent->setBlocks($contentBlocks);
+        $this->getDoctrine()->getManager()->flush($duplicatedContent);
+
+        return $duplicatedContent;
+    }
+
+    /**
      * Edit the details of Content.
+     *
+     * @Security("has_role('ROLE_INTERN')")
      *
      * @param Request $request
      * @param int     $id
@@ -156,14 +278,62 @@ class ContentController extends Controller
     {
         /** @var ContentManager $manager */
         $manager = $this->get('opifer.content.content_manager');
+        $em = $manager->getEntityManager();
         $content = $manager->getRepository()->find($id);
         $content = $manager->createMissingValueSet($content);
 
+        // Load the contentTranslations for the content group
+        if ($content->getTranslationGroup() !== null) {
+            $contentTranslations = $content->getTranslationGroup()->getContents()->filter(function($contentTranslation) use ($content) {
+                return $contentTranslation->getId() !== $content->getId();
+            });
+
+            $content->setContentTranslations($contentTranslations);
+        }
+
         $form = $this->createForm(ContentType::class, $content);
+
+        $originalContentItems = new ArrayCollection();
+        foreach ($content->getContentTranslations() as $contentItem) {
+            $originalContentItems->add($contentItem);
+        }
+
         $form->handleRequest($request);
 
         if ($form->isValid()) {
-            $manager->save($content);
+            if (null === $content->getPublishAt()) {
+                $content->setPublishAt($content->getCreatedAt());
+            }
+
+            if ($content->getTranslationGroup() === null) {
+                // Init new group
+                $translationGroup = new TranslationGroup();
+                $content->setTranslationGroup($translationGroup);
+            }
+
+            // Make sure all the contentTranslations have the same group as content
+            $contentTranslationIds = [$content->getId()];
+            foreach($content->getContentTranslations() as $contentTranslation) {
+                if ($contentTranslation->getTranslationGroup() === null) {
+                    $contentTranslation->setTranslationGroup($content->getTranslationGroup());
+                    $em->persist($contentTranslation);
+                }
+
+                $contentTranslationIds[] = $contentTranslation->getId();
+            }
+
+            // Remove possible contentTranslations from the translationGroup
+            $queryBuilder = $manager->getRepository()->createQueryBuilder('c');
+            $queryBuilder->update()
+                ->set('c.translationGroup', 'NULL')
+                ->where($queryBuilder->expr()->eq('c.translationGroup', $content->getTranslationGroup()->getId()))
+                ->where($queryBuilder->expr()->notIn('c.id', $contentTranslationIds))
+                ->getQuery()
+                ->execute();
+
+            $em->persist($content);
+
+            $em->flush();
 
             return $this->redirectToRoute('opifer_content_content_index');
         }
@@ -177,6 +347,8 @@ class ContentController extends Controller
     /**
      * Details action for an inline form in the Content Design.
      *
+     * @Security("has_role('ROLE_INTERN')")
+     *
      * @param Request $request
      * @param int     $id
      *
@@ -187,11 +359,61 @@ class ContentController extends Controller
         $manager = $this->get('opifer.content.content_manager');
         $content = $manager->getRepository()->find($id);
         $content = $manager->createMissingValueSet($content);
+        $em = $manager->getEntityManager();
 
-        $form = $this->createForm(ContentType::class, $content);
+        // Load the contentTranslations for the content group
+        if ($content->getTranslationGroup() !== null) {
+            $contentTranslations = $content->getTranslationGroup()->getContents()->filter(function($contentTranslation) use ($content) {
+                return $contentTranslation->getId() !== $content->getId();
+            });
+
+            $content->setContentTranslations($contentTranslations);
+        }
+
+        if ($content->getLayout()) {
+            $form = $this->createForm(LayoutType::class, $content);
+        } else {
+            $form = $this->createForm(ContentType::class, $content);
+        }
+
+        $originalContentItems = new ArrayCollection();
+        foreach ($content->getContentTranslations() as $contentItem) {
+            $originalContentItems->add($contentItem);
+        }
+
         $form->handleRequest($request);
 
         if ($form->isValid()) {
+            if (null === $content->getPublishAt()) {
+                $content->setPublishAt($content->getCreatedAt());
+            }
+
+            if ($content->getTranslationGroup() === null) {
+                // Init new group
+                $translationGroup = new TranslationGroup();
+                $content->setTranslationGroup($translationGroup);
+            }
+
+            // Make sure all the contentTranslations have the same group as content
+            $contentTranslationIds = [$content->getId()];
+            foreach($content->getContentTranslations() as $contentTranslation) {
+                if ($contentTranslation->getTranslationGroup() === null) {
+                    $contentTranslation->setTranslationGroup($content->getTranslationGroup());
+                    $em->persist($contentTranslation);
+                }
+
+                $contentTranslationIds[] = $contentTranslation->getId();
+            }
+
+            // Remove possible contentTranslations from the translationGroup
+            $queryBuilder = $manager->getRepository()->createQueryBuilder('c');
+            $queryBuilder->update()
+                ->set('c.translationGroup', 'NULL')
+                ->where($queryBuilder->expr()->eq('c.translationGroup', $content->getTranslationGroup()->getId()))
+                ->where($queryBuilder->expr()->notIn('c.id', $contentTranslationIds))
+                ->getQuery()
+                ->execute();
+
             $manager->save($content);
         }
 

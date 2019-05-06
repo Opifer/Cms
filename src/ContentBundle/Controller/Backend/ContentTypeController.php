@@ -9,6 +9,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 
 class ContentTypeController extends Controller
 {
@@ -17,6 +18,8 @@ class ContentTypeController extends Controller
      *
      * The template defaults to `OpiferContentBundle:ContentType:index.html.twig`, but can easily be overwritten
      * in the bundle configuration.
+     *
+     * @Security("has_role('ROLE_CONTENT_MANAGER')")
      *
      * @return Response
      */
@@ -32,6 +35,8 @@ class ContentTypeController extends Controller
 
     /**
      * Create a ContentType.
+     *
+     * @Security("has_role('ROLE_CONTENT_MANAGER')")
      *
      * @param Request $request
      *
@@ -70,6 +75,8 @@ class ContentTypeController extends Controller
 
     /**
      * Edit a ContentType.
+     *
+     * @Security("has_role('ROLE_CONTENT_MANAGER')")
      *
      * @param Request $request
      * @param int     $id
@@ -128,6 +135,8 @@ class ContentTypeController extends Controller
 
     /**
      * Delete a ContentType.
+     *
+     * @Security("has_role('ROLE_ADMIN')")
      *
      * @param int $id
      *
