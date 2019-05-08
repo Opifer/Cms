@@ -9,6 +9,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use Opifer\MailingListBundle\Entity\MailingList;
 use Opifer\MailingListBundle\Form\Type\MailingListType;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 
 class MailingListController extends Controller
 {
@@ -17,6 +18,9 @@ class MailingListController extends Controller
      */
     public function indexAction()
     {
+        //Check permissions
+        $this->denyAccessUnlessGranted('MAILINGLIST_INDEX');
+
         $source = new Entity('OpiferMailingListBundle:MailingList');
 
         $editAction = new RowAction('button.edit', 'opifer_mailing_list_mailing_list_edit');
@@ -48,6 +52,9 @@ class MailingListController extends Controller
      */
     public function subscriptionsAction(Request $request, $id)
     {
+        //Check permissions
+        $this->denyAccessUnlessGranted('MAILINGLIST_SUBSCRIPTIONS');
+
         $list = $this->getDoctrine()->getRepository('OpiferMailingListBundle:MailingList')->find($id);
 
         $source = new Entity('OpiferMailingListBundle:Subscription');
@@ -72,6 +79,8 @@ class MailingListController extends Controller
      */
     public function createAction(Request $request)
     {
+        //Check permissions
+        $this->denyAccessUnlessGranted('MAILINGLIST_CREATE');
         $mailingList = new MailingList();
 
         $form = $this->createForm(MailingListType::class, $mailingList, [
@@ -101,6 +110,9 @@ class MailingListController extends Controller
      */
     public function editAction(Request $request, $id)
     {
+        //Check permissions
+        $this->denyAccessUnlessGranted('MAILINGLIST_EDIT');
+
         $mailingList = $this->getDoctrine()->getRepository('OpiferMailingListBundle:MailingList')->find($id);
 
         $form = $this->createForm(MailingListType::class, $mailingList);
@@ -126,6 +138,9 @@ class MailingListController extends Controller
      */
     public function deleteAction($id)
     {
+        //Check permissions
+        $this->denyAccessUnlessGranted('MAILINGLIST_DELETE');
+
         $mailingList = $this->getDoctrine()->getRepository('OpiferMailingListBundle:MailingList')->find($id);
 
         if (!empty($mailingList)) {

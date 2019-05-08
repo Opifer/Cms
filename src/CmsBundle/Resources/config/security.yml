@@ -3,9 +3,9 @@ security:
         FOS\UserBundle\Model\UserInterface: sha512
 
     role_hierarchy:
-        ROLE_SOCIAL:      ROLE_USER
-        ROLE_ADMIN:       ROLE_USER
-        ROLE_SUPER_ADMIN: ROLE_ADMIN
+        ROLE_USER:        ROLE_USER
+        ROLE_ADMIN:       ROLE_ADMIN
+        ROLE_SUPER_ADMIN: ROLE_SUPER_ADMIN
 
     providers:
         chain_provider:

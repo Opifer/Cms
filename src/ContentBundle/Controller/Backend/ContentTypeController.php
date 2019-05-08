@@ -9,6 +9,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 
 class ContentTypeController extends Controller
 {
@@ -22,6 +23,9 @@ class ContentTypeController extends Controller
      */
     public function indexAction()
     {
+        //Check permissions
+        $this->denyAccessUnlessGranted('CONTENT_TYPE_INDEX');
+
         $contentTypes = $this->get('opifer.content.content_type_manager')->getRepository()
             ->findAll();
 
@@ -39,6 +43,9 @@ class ContentTypeController extends Controller
      */
     public function createAction(Request $request)
     {
+        //Check permissions
+        $this->denyAccessUnlessGranted('CONTENT_TYPE_CREATE');
+
         $contentTypeManager = $this->get('opifer.content.content_type_manager');
 
         $contentType = $contentTypeManager->create();
@@ -78,6 +85,9 @@ class ContentTypeController extends Controller
      */
     public function editAction(Request $request, $id)
     {
+        //Check permissions
+        $this->denyAccessUnlessGranted('CONTENT_TYPE_EDIT');
+
         $contentTypeManager = $this->get('opifer.content.content_type_manager');
         $em = $this->get('doctrine.orm.entity_manager');
 
@@ -135,6 +145,9 @@ class ContentTypeController extends Controller
      */
     public function deleteAction($id)
     {
+        //Check permissions
+        $this->denyAccessUnlessGranted('CONTENT_TYPE_DELETE');
+
         $contentType = $this->get('opifer.content.content_type_manager')->getRepository()->find($id);
 
         if (!$contentType) {

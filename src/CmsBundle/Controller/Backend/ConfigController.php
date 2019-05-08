@@ -7,6 +7,7 @@ use Opifer\CmsBundle\Manager\ConfigManager;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 
 class ConfigController extends Controller
 {
@@ -17,6 +18,9 @@ class ConfigController extends Controller
      */
     public function indexAction(Request $request)
     {
+        //Check permissions
+        $this->denyAccessUnlessGranted('CONFIG_INDEX');
+
         /** @var ConfigManager $configManager */
         $configManager = $this->get('opifer.cms.config_manager');
 

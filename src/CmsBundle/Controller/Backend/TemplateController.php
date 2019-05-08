@@ -10,6 +10,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 
 class TemplateController extends Controller
 {
@@ -18,6 +19,9 @@ class TemplateController extends Controller
      */
     public function indexAction()
     {
+        //Check permissions
+        $this->denyAccessUnlessGranted('TEMPLATE_INDEX');
+
         $source = new Entity('OpiferContentBundle:Template');
 
         $editAction = new RowAction('button.edit', 'opifer_cms_template_edit');
@@ -49,6 +53,9 @@ class TemplateController extends Controller
      */
     public function createAction(Request $request)
     {
+        //Check permissions
+        $this->denyAccessUnlessGranted('TEMPLATE_CREATE');
+
         $template = new Template();
 
         $form = $this->createForm(TemplateType::class, $template);
@@ -76,6 +83,9 @@ class TemplateController extends Controller
      */
     public function editAction(Request $request, $id)
     {
+        //Check permissions
+        $this->denyAccessUnlessGranted('TEMPLATE_EDIT');
+
         $em = $this->getDoctrine()->getManager();
         $template = $em->getRepository('OpiferContentBundle:Template')->find($id);
 
@@ -101,6 +111,9 @@ class TemplateController extends Controller
      */
     public function deleteAction($id)
     {
+        //Check permissions
+        $this->denyAccessUnlessGranted('TEMPLATE_DELETE');
+
         $em = $this->getDoctrine()->getManager();
         $template = $em->getRepository('OpiferContentBundle:Template')->find($id);
 

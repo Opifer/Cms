@@ -5,6 +5,7 @@ namespace Opifer\ReviewBundle\Controller;
 use Opifer\ReviewBundle\Form\Type\ReviewType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 
 class ReviewController extends Controller
 {
@@ -13,6 +14,9 @@ class ReviewController extends Controller
      */
     public function indexAction()
     {
+        //Check permissions
+        $this->denyAccessUnlessGranted('REVIEW_INDEX');
+
         $reviews = $this->get('opifer.review.review_manager')->getRepository()->findAll();
 
         return $this->render($this->getParameter('opifer_review.review_index_view'), [
@@ -27,6 +31,9 @@ class ReviewController extends Controller
      */
     public function createAction(Request $request)
     {
+        //Check permissions
+        $this->denyAccessUnlessGranted('REVIEW_CREATE');
+
         $review = $this->get('opifer.review.review_manager')->createClass();
 
         $form = $this->createForm(ReviewType::class, $review);
@@ -55,6 +62,9 @@ class ReviewController extends Controller
      */
     public function editAction(Request $request, $id)
     {
+        //Check permissions
+        $this->denyAccessUnlessGranted('REVIEW_EDIT');
+
         $reviewManager = $this->get('opifer.review.review_manager');
         $review = $reviewManager->getRepository()->find($id);
 
@@ -83,6 +93,9 @@ class ReviewController extends Controller
      */
     public function deleteAction($id)
     {
+        //Check permissions
+        $this->denyAccessUnlessGranted('REVIEW_DELETE');
+
         $reviewManager = $this->get('opifer.review.review_manager');
         $review = $reviewManager->getRepository()->find($id);
 

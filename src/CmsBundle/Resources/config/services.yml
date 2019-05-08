@@ -224,3 +224,9 @@ services:
         class: 'Opifer\CmsBundle\Grid\BooleanColumn'
         tags:
             - { name: grid.column.extension }
+
+    opifer.cms.access.voter:
+        class: 'Opifer\CmsBundle\Security\AccessVoter'
+        arguments: ['@security.helper', '@service_container']
+        tags:
+            - {name: security.voter}

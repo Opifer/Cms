@@ -15,6 +15,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 
 /**
  * Backend Content Controller.
@@ -28,6 +29,9 @@ class ContentController extends Controller
      */
     public function indexAction()
     {
+        //Check permissions
+        $this->denyAccessUnlessGranted('CONTENT_INDEX');
+
         return $this->render($this->getParameter('opifer_content.content_index_view'));
     }
 
@@ -38,7 +42,7 @@ class ContentController extends Controller
      */
     public function typeAction($type)
     {
-        $contentType = $this->get('opifer.content.content_type_manager')->getRepository()->find($type);
+         $contentType = $this->get('opifer.content.content_type_manager')->getRepository()->find($type);
 
         $content = $this->get('opifer.content.content_manager')->getRepository()->findByType($contentType);
 
@@ -161,6 +165,9 @@ class ContentController extends Controller
      */
     public function createAction(Request $request, $siteId = null, $type = 0, $layoutId = null)
     {
+        //Check permissions
+        $this->denyAccessUnlessGranted('CONTENT_CREATE');
+
         /** @var ContentManager $manager */
         $manager = $this->get('opifer.content.content_manager');
 
@@ -213,8 +220,16 @@ class ContentController extends Controller
         ]);
     }
 
+    /**
+     * @param $id
+     * @param $content
+     * @return mixed
+     */
     public function duplicateAction($id, $content)
     {
+        //Check permissions
+        $this->denyAccessUnlessGranted('CONTENT_DUPLICATE');
+
         /** @var ContentManagerInterface $contentManager */
         $contentManager = $this->get('opifer.content.content_manager');
         $layout = $contentManager->getRepository()->find($id);
@@ -262,6 +277,9 @@ class ContentController extends Controller
      */
     public function editAction(Request $request, $id)
     {
+        //Check permissions
+        $this->denyAccessUnlessGranted('CONTENT_EDIT');
+
         /** @var ContentManager $manager */
         $manager = $this->get('opifer.content.content_manager');
         $em = $manager->getEntityManager();
@@ -340,6 +358,9 @@ class ContentController extends Controller
      */
     public function detailsAction(Request $request, $id)
     {
+        //Check permissions
+        $this->denyAccessUnlessGranted('CONTENT_DETAILS');
+
         $manager = $this->get('opifer.content.content_manager');
         $content = $manager->getRepository()->find($id);
         $content = $manager->createMissingValueSet($content);

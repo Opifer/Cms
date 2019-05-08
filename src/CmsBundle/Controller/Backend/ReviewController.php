@@ -6,6 +6,7 @@ use APY\DataGridBundle\Grid\Action\RowAction;
 use APY\DataGridBundle\Grid\Source\Entity;
 use Opifer\ReviewBundle\Controller\ReviewController as BaseReviewController;
 use Symfony\Component\HttpFoundation\Response;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 
 class ReviewController extends BaseReviewController
 {
@@ -14,6 +15,9 @@ class ReviewController extends BaseReviewController
      */
     public function indexAction()
     {
+        //Check permissions
+        $this->denyAccessUnlessGranted('REVIEW_INDEX');
+
         $source = new Entity($this->get('opifer.review.review_manager')->getClass());
 
         $editAction = new RowAction('button.edit', 'opifer_review_review_edit');

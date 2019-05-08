@@ -9,6 +9,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 
 class LayoutController extends Controller
 {
@@ -17,6 +18,8 @@ class LayoutController extends Controller
      */
     public function indexAction()
     {
+        //Check permissions
+        $this->denyAccessUnlessGranted('LAYOUT_INDEX');
 
         $queryBuilder = $this->get('opifer.content.content_manager')->getRepository()->createQueryBuilder('c')
             ->select('c', 'vs', 'v', 'a')
@@ -62,6 +65,9 @@ class LayoutController extends Controller
      */
     public function createAction(Request $request, $type = 0)
     {
+        //Check permissions
+        $this->denyAccessUnlessGranted('LAYOUT_CREATE');
+
         /** @var ContentManager $manager */
         $manager = $this->get('opifer.content.content_manager');
 
@@ -102,6 +108,9 @@ class LayoutController extends Controller
      */
     public function editAction(Request $request, $id)
     {
+        //Check permissions
+        $this->denyAccessUnlessGranted('LAYOUT_EDIT');
+
         /** @var ContentManager $manager */
         $manager = $this->get('opifer.content.content_manager');
         $content = $manager->getRepository()->find($id);
@@ -132,6 +141,9 @@ class LayoutController extends Controller
      */
     public function detailsAction(Request $request, $id)
     {
+        //Check permissions
+        $this->denyAccessUnlessGranted('LAYOUT_DETAILS');
+
         $manager = $this->get('opifer.content.content_manager');
         $content = $manager->getRepository()->find($id);
         $content = $manager->createMissingValueSet($content);
@@ -156,6 +168,9 @@ class LayoutController extends Controller
      */
     public function deleteAction($id)
     {
+        //Check permissions
+        $this->denyAccessUnlessGranted('LAYOUT_DELETE');
+
         $manager = $this->get('opifer.content.content_manager');
         $layout = $manager->getRepository('OpiferContentBundle:Content')->find($id);
 

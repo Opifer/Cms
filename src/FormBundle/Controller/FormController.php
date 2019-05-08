@@ -13,6 +13,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 
 class FormController extends Controller
 {
@@ -26,6 +27,9 @@ class FormController extends Controller
      */
     public function indexAction()
     {
+        //Check permissions
+        $this->denyAccessUnlessGranted('FORM_INDEX');
+
         $forms = $this->get('opifer.form.form_manager')->getRepository()
             ->findAllWithPosts();
 
@@ -43,6 +47,9 @@ class FormController extends Controller
      */
     public function createAction(Request $request)
     {
+        //Check permissions
+        $this->denyAccessUnlessGranted('FORM_CREATE');
+
         $formManager = $this->get('opifer.form.form_manager');
 
         $form = $formManager->create();
@@ -82,6 +89,9 @@ class FormController extends Controller
      */
     public function editAction(Request $request, $id)
     {
+        //Check permissions
+        $this->denyAccessUnlessGranted('FORM_EDIT');
+
         $formManager = $this->get('opifer.form.form_manager');
         $em = $this->get('doctrine.orm.entity_manager');
 
@@ -138,6 +148,9 @@ class FormController extends Controller
      */
     public function deleteAction($id)
     {
+        //Check permissions
+        $this->denyAccessUnlessGranted('FORM_DELETE');
+
         $form = $this->get('opifer.form.form_manager')->getRepository()->find($id);
 
         if (!$form) {
