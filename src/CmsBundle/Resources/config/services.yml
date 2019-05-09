@@ -226,7 +226,7 @@ services:
             - { name: grid.column.extension }
 
     opifer.cms.access.voter:
-        class: 'Opifer\CmsBundle\Security\AccessVoter'
+        class: 'Opifer\CmsBundle\Security\ActionVoter'
         arguments: ['@security.helper', '@service_container']
         tags:
             - {name: security.voter}

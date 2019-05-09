@@ -41,7 +41,7 @@ class ContentController extends Controller
      */
     public function typeAction($type)
     {
-         $contentType = $this->get('opifer.content.content_type_manager')->getRepository()->find($type);
+        $contentType = $this->get('opifer.content.content_type_manager')->getRepository()->find($type);
 
         $content = $this->get('opifer.content.content_manager')->getRepository()->findByType($contentType);
 

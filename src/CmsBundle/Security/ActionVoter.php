@@ -8,7 +8,7 @@ use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\Voter;
 use Symfony\Component\Security\Core\Security;
 
-class AccessVoter extends Voter
+class ActionVoter extends Voter
 {
     private $security;
     private $container;
@@ -30,7 +30,7 @@ class AccessVoter extends Voter
 
         foreach($user->getRoles() as $role){
             $rights = $this->container->getParameter('opifer_cms.permissions.'.strtolower($role));
-            if(in_array($attribute, $rights)) {
+            if (in_array($attribute, $rights)) {
                 return true;
             }
         }
@@ -40,11 +40,12 @@ class AccessVoter extends Voter
 
     protected function supports($attribute, $subject)
     {
-        if(null === $this->security->getUser()) {
+        if (null === $this->security->getUser()) {
             return false;
         }
+
         foreach($this->security->getUser()->getRoles() as $role) {
-            if(null === $this->container->getParameter('opifer_cms.permissions.'.strtolower($role))) {
+            if (null === $this->container->getParameter('opifer_cms.permissions.'.strtolower($role))) {
                 return false;
             }
         }
