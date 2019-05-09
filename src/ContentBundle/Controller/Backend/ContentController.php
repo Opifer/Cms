@@ -29,7 +29,6 @@ class ContentController extends Controller
      */
     public function indexAction()
     {
-        //Check permissions
         $this->denyAccessUnlessGranted('CONTENT_INDEX');
 
         return $this->render($this->getParameter('opifer_content.content_index_view'));
@@ -165,7 +164,6 @@ class ContentController extends Controller
      */
     public function createAction(Request $request, $siteId = null, $type = 0, $layoutId = null)
     {
-        //Check permissions
         $this->denyAccessUnlessGranted('CONTENT_CREATE');
 
         /** @var ContentManager $manager */
@@ -227,7 +225,6 @@ class ContentController extends Controller
      */
     public function duplicateAction($id, $content)
     {
-        //Check permissions
         $this->denyAccessUnlessGranted('CONTENT_DUPLICATE');
 
         /** @var ContentManagerInterface $contentManager */
@@ -277,7 +274,6 @@ class ContentController extends Controller
      */
     public function editAction(Request $request, $id)
     {
-        //Check permissions
         $this->denyAccessUnlessGranted('CONTENT_EDIT');
 
         /** @var ContentManager $manager */
@@ -358,7 +354,6 @@ class ContentController extends Controller
      */
     public function detailsAction(Request $request, $id)
     {
-        //Check permissions
         $this->denyAccessUnlessGranted('CONTENT_DETAILS');
 
         $manager = $this->get('opifer.content.content_manager');

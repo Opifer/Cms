@@ -27,7 +27,6 @@ class FormController extends Controller
      */
     public function indexAction()
     {
-        //Check permissions
         $this->denyAccessUnlessGranted('FORM_INDEX');
 
         $forms = $this->get('opifer.form.form_manager')->getRepository()
@@ -47,7 +46,6 @@ class FormController extends Controller
      */
     public function createAction(Request $request)
     {
-        //Check permissions
         $this->denyAccessUnlessGranted('FORM_CREATE');
 
         $formManager = $this->get('opifer.form.form_manager');
@@ -89,7 +87,6 @@ class FormController extends Controller
      */
     public function editAction(Request $request, $id)
     {
-        //Check permissions
         $this->denyAccessUnlessGranted('FORM_EDIT');
 
         $formManager = $this->get('opifer.form.form_manager');
@@ -148,7 +145,6 @@ class FormController extends Controller
      */
     public function deleteAction($id)
     {
-        //Check permissions
         $this->denyAccessUnlessGranted('FORM_DELETE');
 
         $form = $this->get('opifer.form.form_manager')->getRepository()->find($id);

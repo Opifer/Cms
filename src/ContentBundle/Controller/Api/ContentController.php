@@ -403,7 +403,6 @@ class ContentController extends Controller
      */
     public function deleteAction($id)
     {
-        //Check permissions
         $this->denyAccessUnlessGranted('CONTENT_DELETE');
 
         /** @var ContentManager $manager */

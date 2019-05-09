@@ -19,7 +19,6 @@ class LocaleController extends Controller
      */
     public function indexAction()
     {
-        //Check permissions
         $this->denyAccessUnlessGranted('LOCALE_INDEX');
 
         $source = new Entity(Locale::class);
@@ -46,7 +45,6 @@ class LocaleController extends Controller
      */
     public function createAction(Request $request)
     {
-        //Check permissions
         $this->denyAccessUnlessGranted('LOCALE_CREATE');
 
         $locale = new Locale();
@@ -79,7 +77,6 @@ class LocaleController extends Controller
      */
     public function editAction(Request $request, $id = null)
     {
-        //Check permissions
         $this->denyAccessUnlessGranted('LOCALE_INDEX');
 
         $em = $this->getDoctrine()->getManager();

@@ -18,7 +18,6 @@ class ConfigController extends Controller
      */
     public function indexAction(Request $request)
     {
-        //Check permissions
         $this->denyAccessUnlessGranted('CONFIG_INDEX');
 
         /** @var ConfigManager $configManager */

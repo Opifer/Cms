@@ -29,7 +29,6 @@ class TemplateController extends Controller
      */
     public function indexAction(Request $request)
     {
-        //Check permissions
         $this->denyAccessUnlessGranted('TEMPLATE_INDEX');
 
         // Creates simple grid based on your entity (ORM)
@@ -77,7 +76,6 @@ class TemplateController extends Controller
      */
     public function editorAction(Request $request, Template $template)
     {
-        //Check permissions
         $this->denyAccessUnlessGranted('TEMPLATE_EDIT');
 
         $form = $this->createForm(PageManagerType::class, $template);
@@ -104,7 +102,6 @@ class TemplateController extends Controller
      */
     public function editorViewAction(Request $request, Template $template)
     {
-        //Check permissions
         $this->denyAccessUnlessGranted('TEMPLATE_EDIT');
 
         $request->request->set('blockMode', 'manage');

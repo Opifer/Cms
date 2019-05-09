@@ -23,7 +23,6 @@ class ContentTypeController extends Controller
      */
     public function indexAction()
     {
-        //Check permissions
         $this->denyAccessUnlessGranted('CONTENT_TYPE_INDEX');
 
         $contentTypes = $this->get('opifer.content.content_type_manager')->getRepository()
@@ -43,7 +42,6 @@ class ContentTypeController extends Controller
      */
     public function createAction(Request $request)
     {
-        //Check permissions
         $this->denyAccessUnlessGranted('CONTENT_TYPE_CREATE');
 
         $contentTypeManager = $this->get('opifer.content.content_type_manager');
@@ -85,7 +83,6 @@ class ContentTypeController extends Controller
      */
     public function editAction(Request $request, $id)
     {
-        //Check permissions
         $this->denyAccessUnlessGranted('CONTENT_TYPE_EDIT');
 
         $contentTypeManager = $this->get('opifer.content.content_type_manager');
@@ -145,7 +142,6 @@ class ContentTypeController extends Controller
      */
     public function deleteAction($id)
     {
-        //Check permissions
         $this->denyAccessUnlessGranted('CONTENT_TYPE_DELETE');
 
         $contentType = $this->get('opifer.content.content_type_manager')->getRepository()->find($id);

@@ -15,7 +15,6 @@ class ReviewController extends BaseReviewController
      */
     public function indexAction()
     {
-        //Check permissions
         $this->denyAccessUnlessGranted('REVIEW_INDEX');
 
         $source = new Entity($this->get('opifer.review.review_manager')->getClass());

@@ -20,7 +20,6 @@ class SiteController extends Controller
      */
     public function indexAction()
     {
-        //Check permissions
         $this->denyAccessUnlessGranted('SITE_INDEX');
 
         $source = new Entity(Site::class);
@@ -47,7 +46,6 @@ class SiteController extends Controller
      */
     public function createAction(Request $request)
     {
-        //Check permissions
         $this->denyAccessUnlessGranted('SITE_CREATE');
 
         $site = new Site();
@@ -87,7 +85,6 @@ class SiteController extends Controller
      */
     public function editAction(Request $request, $id)
     {
-        //Check permissions
         $this->denyAccessUnlessGranted('SITE_EDIT');
 
         $em = $this->getDoctrine()->getManager();
@@ -135,7 +132,6 @@ class SiteController extends Controller
      */
     public function deleteAction($id)
     {
-        //Check permissions
         $this->denyAccessUnlessGranted('SITE_DELETE');
 
         $em = $this->getDoctrine()->getManager();

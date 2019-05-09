@@ -18,7 +18,6 @@ class MailingListController extends Controller
      */
     public function indexAction()
     {
-        //Check permissions
         $this->denyAccessUnlessGranted('MAILINGLIST_INDEX');
 
         $source = new Entity('OpiferMailingListBundle:MailingList');
@@ -52,7 +51,6 @@ class MailingListController extends Controller
      */
     public function subscriptionsAction(Request $request, $id)
     {
-        //Check permissions
         $this->denyAccessUnlessGranted('MAILINGLIST_SUBSCRIPTIONS');
 
         $list = $this->getDoctrine()->getRepository('OpiferMailingListBundle:MailingList')->find($id);
@@ -79,7 +77,6 @@ class MailingListController extends Controller
      */
     public function createAction(Request $request)
     {
-        //Check permissions
         $this->denyAccessUnlessGranted('MAILINGLIST_CREATE');
         $mailingList = new MailingList();
 
@@ -110,7 +107,6 @@ class MailingListController extends Controller
      */
     public function editAction(Request $request, $id)
     {
-        //Check permissions
         $this->denyAccessUnlessGranted('MAILINGLIST_EDIT');
 
         $mailingList = $this->getDoctrine()->getRepository('OpiferMailingListBundle:MailingList')->find($id);
@@ -138,7 +134,6 @@ class MailingListController extends Controller
      */
     public function deleteAction($id)
     {
-        //Check permissions
         $this->denyAccessUnlessGranted('MAILINGLIST_DELETE');
 
         $mailingList = $this->getDoctrine()->getRepository('OpiferMailingListBundle:MailingList')->find($id);

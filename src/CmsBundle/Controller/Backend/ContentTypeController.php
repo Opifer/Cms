@@ -15,7 +15,6 @@ class ContentTypeController extends BaseContentTypeController
      */
     public function indexAction()
     {
-        //Check permissions
         $this->denyAccessUnlessGranted('CONTENT_TYPE_INDEX');
 
         $source = new Entity($this->getParameter('opifer_content.content_type_class'));

@@ -23,7 +23,6 @@ class MediaController extends Controller
      */
     public function indexAction(Request $request)
     {
-        //Check permissions
         $this->denyAccessUnlessGranted('MEDIA_INDEX');
 
         $dispatcher = $this->get('event_dispatcher');
@@ -51,7 +50,6 @@ class MediaController extends Controller
      */
     public function createAction(Request $request, $provider = 'image')
     {
-        //Check permissions
         $this->denyAccessUnlessGranted('MEDIA_CREATE');
 
         $dispatcher = $this->get('event_dispatcher');
@@ -104,7 +102,6 @@ class MediaController extends Controller
      */
     public function editAction(Request $request, $id)
     {
-        //Check permissions
         $this->denyAccessUnlessGranted('MEDIA_EDIT');
 
         $mediaManager = $this->get('opifer.media.media_manager');
@@ -149,7 +146,6 @@ class MediaController extends Controller
      */
     public function updateAllAction(Request $request)
     {
-        //Check permissions
         $this->denyAccessUnlessGranted('MEDIA_EDIT');
 
         $dispatcher = $this->get('event_dispatcher');
@@ -191,7 +187,6 @@ class MediaController extends Controller
      */
     public function deleteAction(Request $request, $id)
     {
-        //Check permissions
         $this->denyAccessUnlessGranted('MEDIA_DELETE');
 
         $mediaManager = $this->get('opifer.media.media_manager');

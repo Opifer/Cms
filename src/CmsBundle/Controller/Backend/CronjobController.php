@@ -19,7 +19,6 @@ class CronjobController extends Controller
      */
     public function indexAction()
     {
-        //Check permissions
         $this->denyAccessUnlessGranted('CRONJOB_INDEX');
 
         $source = new Entity('OpiferCmsBundle:Cron');
@@ -74,7 +73,6 @@ class CronjobController extends Controller
      */
     public function createAction(Request $request)
     {
-        //Check permissions
         $this->denyAccessUnlessGranted('CRONJOB_CREATE');
 
         $cron = new Cron();
@@ -103,7 +101,6 @@ class CronjobController extends Controller
      */
     public function editAction(Request $request, $id)
     {
-        //Check permissions
         $this->denyAccessUnlessGranted('CRONJOB_EDIT');
 
         $em = $this->getDoctrine()->getManager();
@@ -141,7 +138,6 @@ class CronjobController extends Controller
      */
     public function deleteAction($id)
     {
-        //Check permissions
         $this->denyAccessUnlessGranted('CRONJOB_DELETE');
 
         $em = $this->getDoctrine()->getManager();
@@ -160,7 +156,6 @@ class CronjobController extends Controller
      */
     public function resetAction($id)
     {
-        //Check permissions
         $this->denyAccessUnlessGranted('CRONJOB_RESET');
 
         $em = $this->getDoctrine()->getManager();

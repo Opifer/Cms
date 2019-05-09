@@ -19,7 +19,6 @@ class DomainController extends Controller
      */
     public function indexAction()
     {
-        //Check permissions
         $this->denyAccessUnlessGranted('DOMAIN_INDEX');
 
         $source = new Entity(Domain::class);
@@ -46,7 +45,6 @@ class DomainController extends Controller
      */
     public function createAction(Request $request)
     {
-        //Check permissions
         $this->denyAccessUnlessGranted('DOMAIN_CREATE');
 
         $domain = new Domain();
@@ -77,7 +75,6 @@ class DomainController extends Controller
      */
     public function editAction(Request $request, $id = null)
     {
-        //Check permissions
         $this->denyAccessUnlessGranted('DOMAIN_EDIT');
 
         $em = $this->getDoctrine()->getManager();

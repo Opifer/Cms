@@ -22,7 +22,6 @@ class PostController extends BasePostController
      */
     public function indexAction($formId)
     {
-        //Check permissions
         $this->denyAccessUnlessGranted('POST_INDEX');
 
         $form = $this->get('opifer.form.form_manager')->getRepository()->find($formId);
@@ -66,7 +65,6 @@ class PostController extends BasePostController
      */
     public function listAction()
     {
-        //Check permissions
         $this->denyAccessUnlessGranted('POST_LIST');
 
         $source = new Entity($this->get('opifer.form.post_manager')->getClass());

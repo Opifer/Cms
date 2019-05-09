@@ -19,7 +19,6 @@ class TemplateController extends Controller
      */
     public function indexAction()
     {
-        //Check permissions
         $this->denyAccessUnlessGranted('TEMPLATE_INDEX');
 
         $source = new Entity('OpiferContentBundle:Template');
@@ -53,7 +52,6 @@ class TemplateController extends Controller
      */
     public function createAction(Request $request)
     {
-        //Check permissions
         $this->denyAccessUnlessGranted('TEMPLATE_CREATE');
 
         $template = new Template();
@@ -83,7 +81,6 @@ class TemplateController extends Controller
      */
     public function editAction(Request $request, $id)
     {
-        //Check permissions
         $this->denyAccessUnlessGranted('TEMPLATE_EDIT');
 
         $em = $this->getDoctrine()->getManager();
@@ -111,7 +108,6 @@ class TemplateController extends Controller
      */
     public function deleteAction($id)
     {
-        //Check permissions
         $this->denyAccessUnlessGranted('TEMPLATE_DELETE');
 
         $em = $this->getDoctrine()->getManager();

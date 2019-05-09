@@ -16,7 +16,6 @@ class FormController extends BaseFormController
      */
     public function indexAction()
     {
-        //Check permissions
         $this->denyAccessUnlessGranted('FORM_INDEX');
 
         $source = new Entity($this->get('opifer.form.form_manager')->getClass());

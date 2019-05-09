@@ -20,7 +20,6 @@ class UserController extends Controller
      */
     public function indexAction()
     {
-        //Check permissions
         $this->denyAccessUnlessGranted('USER_INDEX');
 
         $source = new Entity($this->container->getParameter('opifer_cms.user_model'));
@@ -49,7 +48,6 @@ class UserController extends Controller
      */
     public function createAction(Request $request)
     {
-        //Check permissions
         $this->denyAccessUnlessGranted('USER_CREATE');
 
         $user = $this->getParameter('opifer_cms.user_model');
@@ -84,7 +82,6 @@ class UserController extends Controller
      */
     public function editAction(Request $request, $id)
     {
-        //Check permissions
         $this->denyAccessUnlessGranted('USER_EDIT');
 
         $em = $this->getDoctrine()->getManager();
@@ -123,7 +120,6 @@ class UserController extends Controller
      */
     public function profileAction(Request $request)
     {
-        //Check permissions
         $this->denyAccessUnlessGranted('USER_PROFILE');
 
         $user = $this->getUser();

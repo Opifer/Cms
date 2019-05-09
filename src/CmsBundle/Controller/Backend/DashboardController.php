@@ -15,7 +15,6 @@ class DashboardController extends Controller
      */
     public function viewAction()
     {
-        //Check permissions
         $this->denyAccessUnlessGranted('DASHBOARD_INDEX');
 
         /** @var ContentManager $contentManager */

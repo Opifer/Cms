@@ -14,7 +14,6 @@ class ReviewController extends Controller
      */
     public function indexAction()
     {
-        //Check permissions
         $this->denyAccessUnlessGranted('REVIEW_INDEX');
 
         $reviews = $this->get('opifer.review.review_manager')->getRepository()->findAll();
@@ -31,7 +30,6 @@ class ReviewController extends Controller
      */
     public function createAction(Request $request)
     {
-        //Check permissions
         $this->denyAccessUnlessGranted('REVIEW_CREATE');
 
         $review = $this->get('opifer.review.review_manager')->createClass();
@@ -62,7 +60,6 @@ class ReviewController extends Controller
      */
     public function editAction(Request $request, $id)
     {
-        //Check permissions
         $this->denyAccessUnlessGranted('REVIEW_EDIT');
 
         $reviewManager = $this->get('opifer.review.review_manager');
@@ -93,7 +90,6 @@ class ReviewController extends Controller
      */
     public function deleteAction($id)
     {
-        //Check permissions
         $this->denyAccessUnlessGranted('REVIEW_DELETE');
 
         $reviewManager = $this->get('opifer.review.review_manager');

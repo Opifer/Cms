@@ -29,7 +29,6 @@ class ContentEditorController extends Controller
      */
     public function designAction($owner, $ownerId)
     {
-        //Check permissions
         $this->denyAccessUnlessGranted('CONTENT_DESIGNER');
 
         /** @var BlockManager $blockManager */
@@ -70,7 +69,6 @@ class ContentEditorController extends Controller
      */
     public function tocAction($owner, $ownerId)
     {
-        //Check permissions
         $this->denyAccessUnlessGranted('CONTENT_DESIGNER');
 
         /** @var BlockProviderInterface $provider */
@@ -101,7 +99,6 @@ class ContentEditorController extends Controller
      */
     public function viewAction($owner, $ownerId)
     {
-        //Check permissions
         $this->denyAccessUnlessGranted('CONTENT_DESIGNER');
 
         /** @var BlockProviderInterface $provider */

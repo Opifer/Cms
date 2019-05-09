@@ -18,7 +18,6 @@ class RedirectController extends Controller
      */
     public function indexAction()
     {
-        //Check permissions
         $this->denyAccessUnlessGranted('REDIRECT_INDEX');
 
         $redirects = $this->get('opifer.redirect.redirect_manager')->getRepository()->findAll();
@@ -37,7 +36,6 @@ class RedirectController extends Controller
      */
     public function createAction(Request $request)
     {
-        //Check permissions
         $this->denyAccessUnlessGranted('REDIRECT_CREATE');
 
         $manager = $this->get('opifer.redirect.redirect_manager');
@@ -74,7 +72,6 @@ class RedirectController extends Controller
      */
     public function editAction(Request $request, $id)
     {
-        //Check permissions
         $this->denyAccessUnlessGranted('REDIRECT_EDIT');
 
         $manager = $this->get('opifer.redirect.redirect_manager');
@@ -106,7 +103,6 @@ class RedirectController extends Controller
      */
     public function deleteAction($id)
     {
-        //Check permissions
         $this->denyAccessUnlessGranted('REDIRECT_DELETE');
 
         $manager = $this->get('opifer.redirect.redirect_manager');
