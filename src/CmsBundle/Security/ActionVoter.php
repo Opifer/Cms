@@ -29,8 +29,8 @@ class ActionVoter extends Voter
         }
 
         foreach($user->getRoles() as $role){
-            $rights = $this->container->getParameter('opifer_cms.permissions.'.strtolower($role));
-            if (in_array($attribute, $rights)) {
+            $permissions = $this->container->getParameter('opifer_cms.permissions');
+            if (in_array($attribute, $permissions[$role])) {
                 return true;
             }
         }
