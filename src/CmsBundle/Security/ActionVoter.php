@@ -40,16 +40,8 @@ class ActionVoter extends Voter
 
     protected function supports($attribute, $subject)
     {
-        if (null === $this->security->getUser()) {
-            return false;
-        }
+        $permissionRegistry = $this->container->get('opifer.cms.permission_registry');
 
-        foreach($this->security->getUser()->getRoles() as $role) {
-            if (null === $this->container->getParameter('opifer_cms.permissions.'.strtolower($role))) {
-                return false;
-            }
-        }
-
-        return true;
+        return $permissionRegistry->hasPermission($attribute);
     }
 }
