@@ -133,6 +133,9 @@ services:
     opifer.cms.configuration_form_registry:
         class: Opifer\CmsBundle\DependencyInjection\ConfigurationFormRegistry
 
+    opifer.cms.permission_registry:
+        class: Opifer\CmsBundle\DependencyInjection\PermissionRegistry
+
     opifer.cms.config_type:
         class: Opifer\CmsBundle\Form\Type\ConfigType
         arguments: ['@opifer.cms.configuration_form_registry', '@opifer.cms.config_manager', '@jms_serializer']
@@ -224,3 +227,9 @@ services:
         class: 'Opifer\CmsBundle\Grid\BooleanColumn'
         tags:
             - { name: grid.column.extension }
+
+    opifer.cms.access.voter:
+        class: 'Opifer\CmsBundle\Security\ActionVoter'
+        arguments: ['@security.helper', '@service_container']
+        tags:
+            - {name: security.voter}

@@ -10,16 +10,18 @@ use Opifer\CmsBundle\Form\Type\UserFormType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 
 class UserController extends Controller
 {
     /**
-     * The user index.
-     *
+     * The user index
      * @return Response
      */
     public function indexAction()
     {
+        $this->denyAccessUnlessGranted('USER_INDEX');
+
         $source = new Entity($this->container->getParameter('opifer_cms.user_model'));
 
         $editAction = new RowAction('edit', 'opifer_cms_user_edit');
@@ -46,6 +48,8 @@ class UserController extends Controller
      */
     public function createAction(Request $request)
     {
+        $this->denyAccessUnlessGranted('USER_CREATE');
+
         $user = $this->getParameter('opifer_cms.user_model');
         $user = new $user();
 
@@ -78,6 +82,8 @@ class UserController extends Controller
      */
     public function editAction(Request $request, $id)
     {
+        $this->denyAccessUnlessGranted('USER_EDIT');
+
         $em = $this->getDoctrine()->getManager();
         $user = $em->getRepository('OpiferCmsBundle:User')->find($id);
 
@@ -114,6 +120,8 @@ class UserController extends Controller
      */
     public function profileAction(Request $request)
     {
+        $this->denyAccessUnlessGranted('USER_PROFILE');
+
         $user = $this->getUser();
 
         $form = $this->createForm(ProfileType::class, $user);

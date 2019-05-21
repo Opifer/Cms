@@ -10,6 +10,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 
 class LocaleController extends Controller
 {
@@ -18,6 +19,8 @@ class LocaleController extends Controller
      */
     public function indexAction()
     {
+        $this->denyAccessUnlessGranted('LOCALE_INDEX');
+
         $source = new Entity(Locale::class);
 
         $editAction = new RowAction('button.edit', 'opifer_cms_locale_edit');
@@ -42,7 +45,7 @@ class LocaleController extends Controller
      */
     public function createAction(Request $request)
     {
-        $this->denyAccessUnlessGranted('ROLE_ADMIN');
+        $this->denyAccessUnlessGranted('LOCALE_CREATE');
 
         $locale = new Locale();
 
@@ -74,7 +77,7 @@ class LocaleController extends Controller
      */
     public function editAction(Request $request, $id = null)
     {
-        $this->denyAccessUnlessGranted('ROLE_ADMIN');
+        $this->denyAccessUnlessGranted('LOCALE_INDEX');
 
         $em = $this->getDoctrine()->getManager();
 

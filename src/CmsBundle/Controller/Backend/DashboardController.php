@@ -6,6 +6,7 @@ use Opifer\CmsBundle\Entity\Cron;
 use Opifer\CmsBundle\Manager\ContentManager;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 
 class DashboardController extends Controller
 {
@@ -14,6 +15,8 @@ class DashboardController extends Controller
      */
     public function viewAction()
     {
+        $this->denyAccessUnlessGranted('DASHBOARD_INDEX');
+
         /** @var ContentManager $contentManager */
         $contentManager = $this->get('opifer.cms.content_manager');
 

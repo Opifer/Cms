@@ -24,6 +24,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Doctrine\ORM\Tools\Pagination\Paginator;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 
 class ContentController extends Controller
 {
@@ -402,6 +403,8 @@ class ContentController extends Controller
      */
     public function deleteAction($id)
     {
+        $this->denyAccessUnlessGranted('CONTENT_DELETE');
+
         /** @var ContentManager $manager */
         $manager = $this->get('opifer.content.content_manager');
         $content = $manager->getRepository()->find($id);

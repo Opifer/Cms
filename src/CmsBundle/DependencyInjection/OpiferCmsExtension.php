@@ -68,6 +68,8 @@ class OpiferCmsExtension extends Extension implements PrependExtensionInterface
             'opifer_cms.allowed_locales' => ['en'],
         ];
 
+        $params['opifer_cms.permissions'] = $config['permissions'];
+
         // Block configuration
         foreach ($config['blocks'] as $block => $blockConfig) {
             $params['opifer_cms.'.$block.'_block_configuration'] = $blockConfig;

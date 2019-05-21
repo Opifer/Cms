@@ -19,6 +19,8 @@ class PostController extends Controller
      */
     public function indexAction($formId)
     {
+        $this->denyAccessUnlessGranted('POST_INDEX');
+
         $form = $this->get('opifer.form.form_manager')->getRepository()->find($formId);
 
         if (!$form) {
@@ -39,6 +41,8 @@ class PostController extends Controller
      */
     public function viewAction($id)
     {
+        $this->denyAccessUnlessGranted('POST_VIEW');
+
         $post = $this->get('opifer.form.post_manager')->getRepository()->find($id);
 
         if (!$post) {
@@ -59,6 +63,8 @@ class PostController extends Controller
      */
     public function deleteAction($id)
     {
+        $this->denyAccessUnlessGranted('POST_DELETE');
+
         /** @var PostInterface $post */
         $post = $this->get('opifer.form.post_manager')->getRepository()->find($id);
 
@@ -83,6 +89,8 @@ class PostController extends Controller
      */
     public function notificationAction($id)
     {
+        $this->denyAccessUnlessGranted('POST_NOTIFICATION');
+
         /** @var PostInterface $post */
         $post = $this->get('opifer.form.post_manager')->getRepository()->find($id);
 

@@ -11,6 +11,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 
 class SiteController extends Controller
 {
@@ -19,6 +20,8 @@ class SiteController extends Controller
      */
     public function indexAction()
     {
+        $this->denyAccessUnlessGranted('SITE_INDEX');
+
         $source = new Entity(Site::class);
 
         $editAction = new RowAction('edit', 'opifer_cms_site_edit');
@@ -43,6 +46,8 @@ class SiteController extends Controller
      */
     public function createAction(Request $request)
     {
+        $this->denyAccessUnlessGranted('SITE_CREATE');
+
         $site = new Site();
 
         $originalDomains = new ArrayCollection();
@@ -80,6 +85,8 @@ class SiteController extends Controller
      */
     public function editAction(Request $request, $id)
     {
+        $this->denyAccessUnlessGranted('SITE_EDIT');
+
         $em = $this->getDoctrine()->getManager();
         $site = $em->getRepository(Site::class)->find($id);
 
@@ -125,6 +132,8 @@ class SiteController extends Controller
      */
     public function deleteAction($id)
     {
+        $this->denyAccessUnlessGranted('SITE_DELETE');
+
         $em = $this->getDoctrine()->getManager();
         $site = $em->getRepository(Site::class)->find($id);
 

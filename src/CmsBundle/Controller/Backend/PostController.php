@@ -22,6 +22,8 @@ class PostController extends BasePostController
      */
     public function indexAction($formId)
     {
+        $this->denyAccessUnlessGranted('POST_INDEX');
+
         $form = $this->get('opifer.form.form_manager')->getRepository()->find($formId);
 
         if (!$form) {
@@ -63,6 +65,8 @@ class PostController extends BasePostController
      */
     public function listAction()
     {
+        $this->denyAccessUnlessGranted('POST_LIST');
+
         $source = new Entity($this->get('opifer.form.post_manager')->getClass());
 
         $formColumn = new TextColumn(['id' => 'posts', 'title' => 'Form', 'source' => false, 'filterable' => false, 'sortable' => false, 'safe' => false]);

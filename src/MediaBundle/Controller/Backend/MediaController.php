@@ -10,6 +10,7 @@ use Opifer\MediaBundle\OpiferMediaEvents;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 
 class MediaController extends Controller
 {
@@ -22,6 +23,8 @@ class MediaController extends Controller
      */
     public function indexAction(Request $request)
     {
+        $this->denyAccessUnlessGranted('MEDIA_INDEX');
+
         $dispatcher = $this->get('event_dispatcher');
         $event = new ResponseEvent($request);
         $dispatcher->dispatch(OpiferMediaEvents::MEDIA_CONTROLLER_INDEX, $event);
@@ -47,6 +50,8 @@ class MediaController extends Controller
      */
     public function createAction(Request $request, $provider = 'image')
     {
+        $this->denyAccessUnlessGranted('MEDIA_CREATE');
+
         $dispatcher = $this->get('event_dispatcher');
         $event = new ResponseEvent($request);
         $dispatcher->dispatch(OpiferMediaEvents::MEDIA_CONTROLLER_NEW, $event);
@@ -97,6 +102,8 @@ class MediaController extends Controller
      */
     public function editAction(Request $request, $id)
     {
+        $this->denyAccessUnlessGranted('MEDIA_EDIT');
+
         $mediaManager = $this->get('opifer.media.media_manager');
         $media = $mediaManager->getRepository()->find($id);
 
@@ -139,6 +146,8 @@ class MediaController extends Controller
      */
     public function updateAllAction(Request $request)
     {
+        $this->denyAccessUnlessGranted('MEDIA_EDIT');
+
         $dispatcher = $this->get('event_dispatcher');
         $event = new ResponseEvent($request);
         $dispatcher->dispatch(OpiferMediaEvents::MEDIA_CONTROLLER_UPDATEALL, $event);
@@ -178,6 +187,8 @@ class MediaController extends Controller
      */
     public function deleteAction(Request $request, $id)
     {
+        $this->denyAccessUnlessGranted('MEDIA_DELETE');
+
         $mediaManager = $this->get('opifer.media.media_manager');
         $media = $mediaManager->getRepository()->find($id);
 

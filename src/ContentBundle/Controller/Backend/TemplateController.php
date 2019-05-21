@@ -10,6 +10,7 @@ use Opifer\ContentBundle\Form\Type\PageManagerType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 
 /**
  * Class TemplateController
@@ -28,6 +29,8 @@ class TemplateController extends Controller
      */
     public function indexAction(Request $request)
     {
+        $this->denyAccessUnlessGranted('TEMPLATE_INDEX');
+
         // Creates simple grid based on your entity (ORM)
         $source = new Entity('OpiferContentBundle:Template');
         $grid = $this->get('grid');
@@ -73,6 +76,8 @@ class TemplateController extends Controller
      */
     public function editorAction(Request $request, Template $template)
     {
+        $this->denyAccessUnlessGranted('TEMPLATE_EDIT');
+
         $form = $this->createForm(PageManagerType::class, $template);
         $form->handleRequest($request);
 
@@ -97,6 +102,8 @@ class TemplateController extends Controller
      */
     public function editorViewAction(Request $request, Template $template)
     {
+        $this->denyAccessUnlessGranted('TEMPLATE_EDIT');
+
         $request->request->set('blockMode', 'manage');
         return $this->render($template->getView(), ['block' => $template]);
     }

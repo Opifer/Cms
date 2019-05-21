@@ -9,6 +9,7 @@ use Opifer\ContentBundle\Environment\Environment;
 use Opifer\ContentBundle\Provider\BlockProviderInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 
 /**
  * Class ContentEditorController
@@ -28,6 +29,8 @@ class ContentEditorController extends Controller
      */
     public function designAction($owner, $ownerId)
     {
+        $this->denyAccessUnlessGranted('CONTENT_DESIGNER');
+
         /** @var BlockManager $blockManager */
         $blockManager = $this->get('opifer.content.block_manager');
         $manager = $this->get('opifer.content.content_manager');
@@ -66,6 +69,8 @@ class ContentEditorController extends Controller
      */
     public function tocAction($owner, $ownerId)
     {
+        $this->denyAccessUnlessGranted('CONTENT_DESIGNER');
+
         /** @var BlockProviderInterface $provider */
         $provider = $this->get('opifer.content.block_provider_pool')->getProvider($owner);
         $object = $provider->getBlockOwner($ownerId);
@@ -94,6 +99,8 @@ class ContentEditorController extends Controller
      */
     public function viewAction($owner, $ownerId)
     {
+        $this->denyAccessUnlessGranted('CONTENT_DESIGNER');
+
         /** @var BlockProviderInterface $provider */
         $provider = $this->get('opifer.content.block_provider_pool')->getProvider($owner);
         $object = $provider->getBlockOwner($ownerId);
