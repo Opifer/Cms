@@ -75,31 +75,17 @@ class PermissionRegistry
         'USER_CREATE',
     ];
 
-    /**
-     * @param $permission
-     */
-    public function addPermission($permission)
+    public function addPermission(string $permission)
     {
          $this->permissions[] = $permission;
     }
 
-    /**
-     * @param $permissions
-     */
-    public function addPermissions($permissions)
+    public function addPermissions(array $permissions)
     {
-        if(is_array($permissions)) {
-            $this->permissions = array_merge($this->permissions, $permissions);
-        }
+        $this->permissions = array_merge($this->permissions, $permissions);
     }
 
-    /**
-     * Check if permission exists
-     *
-     * @param $permission
-     * @return bool
-     */
-    public function hasPermission($permission)
+    public function hasPermission(string $permission) : bool
     {
         return in_array($permission, $this->permissions);
     }
