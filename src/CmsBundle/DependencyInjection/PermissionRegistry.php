@@ -75,12 +75,17 @@ class PermissionRegistry
         'USER_CREATE',
     ];
 
-    public function addPermission($permission)
+    public function addPermission(string $permission)
     {
          $this->permissions[] = $permission;
     }
 
-    public function hasPermission($permission)
+    public function addPermissions(array $permissions)
+    {
+        $this->permissions = array_merge($this->permissions, $permissions);
+    }
+
+    public function hasPermission(string $permission) : bool
     {
         return in_array($permission, $this->permissions);
     }
