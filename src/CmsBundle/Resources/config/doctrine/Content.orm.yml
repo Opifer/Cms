@@ -55,6 +55,11 @@ Opifer\CmsBundle\Entity\Content:
             unique: false
             nullable: false
             precision: 0
+        roles:
+            type: json_array
+            scale: 0
+            nullable: true
+            precision: 0
         description:
             type: text
             scale: 0

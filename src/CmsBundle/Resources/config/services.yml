@@ -233,3 +233,9 @@ services:
         arguments: ['@security.helper', '@service_container']
         tags:
             - {name: security.voter}
+
+    opifer.cms.content.voter:
+        class: 'Opifer\CmsBundle\Security\ContentVoter'
+        arguments: ['@security.helper', '@service_container', '%security.role_hierarchy.roles%']
+        tags:
+            - {name: security.voter}

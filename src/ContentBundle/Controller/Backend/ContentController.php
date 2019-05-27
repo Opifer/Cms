@@ -274,12 +274,16 @@ class ContentController extends Controller
      */
     public function editAction(Request $request, $id)
     {
-        $this->denyAccessUnlessGranted('CONTENT_EDIT');
-
         /** @var ContentManager $manager */
         $manager = $this->get('opifer.content.content_manager');
         $em = $manager->getEntityManager();
         $content = $manager->getRepository()->find($id);
+
+        $accessAttributes['permission'] = 'CONTENT_EDIT';
+        $accessAttributes['content_roles'] = $content->getRoles();
+
+        $this->denyAccessUnlessGranted($accessAttributes);
+
         $content = $manager->createMissingValueSet($content);
 
         // Load the contentTranslations for the content group
@@ -354,10 +358,14 @@ class ContentController extends Controller
      */
     public function detailsAction(Request $request, $id)
     {
-        $this->denyAccessUnlessGranted('CONTENT_DETAILS');
-
         $manager = $this->get('opifer.content.content_manager');
         $content = $manager->getRepository()->find($id);
+
+        $accessAttributes['permission'] = 'CONTENT_DETAILS';
+        $accessAttributes['content_roles'] = $content->getRoles();
+
+        $this->denyAccessUnlessGranted($accessAttributes);
+
         $content = $manager->createMissingValueSet($content);
         $em = $manager->getEntityManager();
 

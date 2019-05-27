@@ -11,6 +11,7 @@ use Opifer\CmsBundle\Entity\ContentType as ContentTypeEntity;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Validator\Constraints\NotBlank;
@@ -22,6 +23,9 @@ use Symfony\Component\Validator\Context\ExecutionContextInterface;
  */
 class ContentType extends AbstractType
 {
+    /** @var array */
+    protected $roles;
+
     /** @var string */
     private $contentClass;
 
@@ -30,8 +34,9 @@ class ContentType extends AbstractType
      *
      * @param string $contentClass
      */
-    public function __construct($contentClass)
+    public function __construct($contentClass, array $roles)
     {
+        $this->roles = $roles;
         $this->contentClass = $contentClass;
     }
 
@@ -215,12 +220,43 @@ class ContentType extends AbstractType
                     'help_text' => 'help.show_in_navigation'
                 ],
             ])
+            ->add('roles', ChoiceType::class, [
+                'multiple' => true,
+                'choices' => $this->flattenRoles($this->roles),
+            ])
         ;
 
         // Only add the ValueSetType if a ContentType is set, to avoid persisting empty valuesets.
         if ($options['data']->getValueSet()) {
             $builder->add('valueset', ValueSetType::class);
         }
+    }
+
+    /**
+     * Flatten roles.
+     *
+     * @param array $data
+     *
+     * @return array
+     */
+    public function flattenRoles($data)
+    {
+        $result = array();
+        foreach ($data as $key => $value) {
+            if (substr($key, 0, 4) === 'ROLE') {
+                $result[$key] = $key;
+            }
+            if (is_array($value)) {
+                $tmpresult = $this->flattenRoles($value);
+                if (count($tmpresult) > 0) {
+                    $result = array_merge($result, $tmpresult);
+                }
+            } else {
+                $result[$value] = $value;
+            }
+        }
+
+        return array_unique($result);
     }
 }
 

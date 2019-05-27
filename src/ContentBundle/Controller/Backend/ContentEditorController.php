@@ -29,8 +29,6 @@ class ContentEditorController extends Controller
      */
     public function designAction($owner, $ownerId)
     {
-        $this->denyAccessUnlessGranted('CONTENT_DESIGNER');
-
         /** @var BlockManager $blockManager */
         $blockManager = $this->get('opifer.content.block_manager');
         $manager = $this->get('opifer.content.content_manager');
@@ -40,6 +38,11 @@ class ContentEditorController extends Controller
         $suite->load($ownerId);
 
         $content = $manager->getRepository()->find($ownerId);
+
+        $accessAttributes['permission'] = 'CONTENT_DESIGNER';
+        $accessAttributes['content_roles'] = $content->getRoles();
+
+        $this->denyAccessUnlessGranted($accessAttributes);
 
         $parameters = [
             'manager' => $blockManager,
