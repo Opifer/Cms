@@ -2,8 +2,8 @@
 
 namespace Opifer\CmsBundle\Security;
 
+use Opifer\CmsBundle\Entity\Content;
 use Opifer\CmsBundle\Entity\User;
-use Opifer\ContentBundle\Model\Content;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\Voter;
@@ -24,6 +24,11 @@ class ContentVoter extends Voter
 
     protected function voteOnAttribute($attribute, $subject, TokenInterface $token)
     {
+        // ROLE_SUPER_ADMIN can access all content items
+        if ($this->security->isGranted('ROLE_SUPER_ADMIN')) {
+            return true;
+        }
+
         $user = $token->getUser();
 
         if (!$user instanceof User) {
