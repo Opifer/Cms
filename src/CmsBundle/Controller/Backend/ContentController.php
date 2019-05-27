@@ -22,8 +22,7 @@ class ContentController extends BaseContentController
      */
     public function typeAction($type)
     {
-        $accessAttributes['permission'] = 'CONTENT_INDEX';
-        $this->denyAccessUnlessGranted($accessAttributes);
+        $this->denyAccessUnlessGranted('CONTENT_INDEX');
 
         $contentType = $this->get('opifer.content.content_type_manager')->getRepository()->find($type);
 

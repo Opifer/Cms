@@ -3,6 +3,7 @@
 namespace Opifer\CmsBundle\Security;
 
 use Opifer\CmsBundle\Entity\User;
+use Opifer\ContentBundle\Model\Content;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\Voter;
@@ -31,7 +32,7 @@ class ContentVoter extends Voter
         }
 
         foreach($user->getRoles() as $role) {
-            if (in_array($attribute, $attribute['content_roles'])) {
+            if (in_array($role, $subject->getRoles())) {
                 return true;
             }
         }
@@ -41,6 +42,6 @@ class ContentVoter extends Voter
 
     protected function supports($attribute, $subject)
     {
-        return (isset($attribute['content_roles']) && is_array($attribute['content_roles']));
+        return ($subject instanceof Content);
     }
 }

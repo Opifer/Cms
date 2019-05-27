@@ -38,11 +38,7 @@ class ContentEditorController extends Controller
         $suite->load($ownerId);
 
         $content = $manager->getRepository()->find($ownerId);
-
-        $accessAttributes['permission'] = 'CONTENT_DESIGNER';
-        $accessAttributes['content_roles'] = $content->getRoles();
-
-        $this->denyAccessUnlessGranted($accessAttributes);
+        $this->denyAccessUnlessGranted('CONTENT_DESIGNER', $content);
 
         $parameters = [
             'manager' => $blockManager,

@@ -279,10 +279,7 @@ class ContentController extends Controller
         $em = $manager->getEntityManager();
         $content = $manager->getRepository()->find($id);
 
-        $accessAttributes['permission'] = 'CONTENT_EDIT';
-        $accessAttributes['content_roles'] = $content->getRoles();
-
-        $this->denyAccessUnlessGranted($accessAttributes);
+        $this->denyAccessUnlessGranted('CONTENT_EDIT', $content);
 
         $content = $manager->createMissingValueSet($content);
 
@@ -361,10 +358,7 @@ class ContentController extends Controller
         $manager = $this->get('opifer.content.content_manager');
         $content = $manager->getRepository()->find($id);
 
-        $accessAttributes['permission'] = 'CONTENT_DETAILS';
-        $accessAttributes['content_roles'] = $content->getRoles();
-
-        $this->denyAccessUnlessGranted($accessAttributes);
+        $this->denyAccessUnlessGranted('CONTENT_DETAILS', $content);
 
         $content = $manager->createMissingValueSet($content);
         $em = $manager->getEntityManager();
