@@ -352,9 +352,6 @@ class Content extends BaseContent
     {
         $role = strtoupper($role);
 
-//        if (!in_array($role, $this->roles, true)) {
-//        }
-
         $this->roles[] = $role;
         return $this;
     }
