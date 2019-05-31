@@ -40,7 +40,8 @@ class ActionVoter extends Voter
 
     protected function supports($attribute, $subject)
     {
-        //always check this voter
-        return true;
+        $permissionRegistry = $this->container->get('opifer.cms.permission_registry');
+
+        return $permissionRegistry->hasPermission($attribute);
     }
 }
