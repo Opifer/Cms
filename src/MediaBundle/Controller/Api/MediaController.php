@@ -21,6 +21,8 @@ class MediaController extends Controller
      */
     public function indexAction(Request $request)
     {
+        $this->denyAccessUnlessGranted('MEDIA_INDEX');
+
         $dispatcher = $this->get('event_dispatcher');
         $event = new ResponseEvent($request);
         $dispatcher->dispatch(OpiferMediaEvents::MEDIA_CONTROLLER_INDEX, $event);
@@ -62,6 +64,8 @@ class MediaController extends Controller
      */
     public function updateAction(Request $request)
     {
+        $this->denyAccessUnlessGranted('MEDIA_EDIT');
+
         $content = json_decode($request->getContent(), true);
 
         $media = $this->get('opifer.media.media_manager')->getRepository()->find($content['id']);
@@ -123,6 +127,8 @@ class MediaController extends Controller
      */
     public function deleteAction(Request $request, $id)
     {
+        $this->denyAccessUnlessGranted('MEDIA_DELETE');
+
         try {
             $mediaManager = $this->get('opifer.media.media_manager');
             $media = $mediaManager->getRepository()->find($id);
