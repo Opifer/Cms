@@ -68,8 +68,6 @@ class ContentEditorController extends Controller
      */
     public function tocAction($owner, $ownerId)
     {
-        $this->denyAccessUnlessGranted('CONTENT_DESIGNER');
-
         /** @var BlockProviderInterface $provider */
         $provider = $this->get('opifer.content.block_provider_pool')->getProvider($owner);
         $object = $provider->getBlockOwner($ownerId);
@@ -98,8 +96,6 @@ class ContentEditorController extends Controller
      */
     public function viewAction($owner, $ownerId)
     {
-        $this->denyAccessUnlessGranted('CONTENT_DESIGNER');
-
         /** @var BlockProviderInterface $provider */
         $provider = $this->get('opifer.content.block_provider_pool')->getProvider($owner);
         $object = $provider->getBlockOwner($ownerId);
