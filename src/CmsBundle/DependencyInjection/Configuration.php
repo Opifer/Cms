@@ -77,10 +77,7 @@ class Configuration implements ConfigurationInterface
                             'CONTENT_INDEX',
                             'CONTENT_CREATE',
                             'CONTENT_DELETE',
-                            'CONTENT_DESIGNER',
-                            'CONTENT_DETAILS',
                             'CONTENT_DUPLICATE',
-                            'CONTENT_EDIT',
 
                             'CONTENT_TYPE_INDEX',
                             'CONTENT_TYPE_CREATE',
