@@ -323,18 +323,18 @@ class ContentController extends Controller
                 $contentTranslationIds[] = $contentTranslation->getId();
             }
 
-            // Remove possible contentTranslations from the translationGroup
-            $queryBuilder = $manager->getRepository()->createQueryBuilder('c');
-            $queryBuilder->update()
-                ->set('c.translationGroup', 'NULL')
-                ->where($queryBuilder->expr()->eq('c.translationGroup', $content->getTranslationGroup()->getId()))
-                ->where($queryBuilder->expr()->notIn('c.id', $contentTranslationIds))
-                ->getQuery()
-                ->execute();
+            $manager->save($content);
 
-            $em->persist($content);
-
-            $em->flush();
+            if ($content->getTranslationGroup()->getId()) {
+                // Remove possible contentTranslations from the translationGroup
+                $queryBuilder = $manager->getRepository()->createQueryBuilder('c');
+                $queryBuilder->update()
+                    ->set('c.translationGroup', 'NULL')
+                    ->where($queryBuilder->expr()->eq('c.translationGroup', $content->getTranslationGroup()->getId()))
+                    ->andWhere($queryBuilder->expr()->notIn('c.id', $contentTranslationIds))
+                    ->getQuery()
+                    ->execute();
+            }
 
             return $this->redirectToRoute('opifer_content_content_index');
         }
@@ -355,6 +355,7 @@ class ContentController extends Controller
      */
     public function detailsAction(Request $request, $id)
     {
+        /** @var ContentManager $manager */
         $manager = $this->get('opifer.content.content_manager');
         $content = $manager->getRepository()->find($id);
 
@@ -407,16 +408,18 @@ class ContentController extends Controller
                 $contentTranslationIds[] = $contentTranslation->getId();
             }
 
-            // Remove possible contentTranslations from the translationGroup
-            $queryBuilder = $manager->getRepository()->createQueryBuilder('c');
-            $queryBuilder->update()
-                ->set('c.translationGroup', 'NULL')
-                ->where($queryBuilder->expr()->eq('c.translationGroup', $content->getTranslationGroup()->getId()))
-                ->where($queryBuilder->expr()->notIn('c.id', $contentTranslationIds))
-                ->getQuery()
-                ->execute();
-
             $manager->save($content);
+
+            if ($content->getTranslationGroup()->getId()) {
+                // Remove possible contentTranslations from the translationGroup
+                $queryBuilder = $manager->getRepository()->createQueryBuilder('c');
+                $queryBuilder->update()
+                    ->set('c.translationGroup', 'NULL')
+                    ->where($queryBuilder->expr()->eq('c.translationGroup', $content->getTranslationGroup()->getId()))
+                    ->andWhere($queryBuilder->expr()->notIn('c.id', $contentTranslationIds))
+                    ->getQuery()
+                    ->execute();
+            }
         }
 
         return $this->render($this->getParameter('opifer_content.content_details_view'), [
