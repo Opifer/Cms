@@ -141,7 +141,6 @@ label:
     publish_at: Publish date
     section_media: Background
     columnblock: Columns
-    target: Target
     account: Account
 
 link:

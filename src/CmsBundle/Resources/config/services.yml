@@ -86,6 +86,7 @@ services:
 
     opifer.cms.content_manager:
         class: 'Opifer\CmsBundle\Manager\ContentManager'
+        public: true
         arguments: ['@doctrine.orm.default_entity_manager', '@form.factory', '@opifer.eav.eav_manager', '%opifer_content.content_class%', '%opifer_eav.schema_class%', '@security.token_storage']
         tags:
             - { name: 'opifer.content.block_provider_pool', alias: 'content' }
@@ -135,6 +136,7 @@ services:
 
     opifer.cms.permission_registry:
         class: Opifer\CmsBundle\DependencyInjection\PermissionRegistry
+        public: true
 
     opifer.cms.config_type:
         class: Opifer\CmsBundle\Form\Type\ConfigType

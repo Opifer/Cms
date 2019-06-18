@@ -4,6 +4,7 @@ opifer_content_api_content:
     methods: [GET]
     options:
         expose: true
+        utf8: true
 
 opifer_content_api_content_ids:
     path: /content/ids/{ids}

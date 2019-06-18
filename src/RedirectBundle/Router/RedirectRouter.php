@@ -113,7 +113,9 @@ class RedirectRouter implements RouterInterface
                     '_controller' => 'FrameworkBundle:Redirect:urlRedirect',
                     'path' => $redirect->getTarget(),
                     'permanent' => $redirect->isPermanent(),
-                ], $this->redirectManager->formatRouteRequirements($redirect)));
+                ], $this->redirectManager->formatRouteRequirements($redirect), [
+                    'utf8' => true
+                ]));
             }
         }
         
