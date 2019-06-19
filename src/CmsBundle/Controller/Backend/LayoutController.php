@@ -4,14 +4,12 @@ namespace Opifer\CmsBundle\Controller\Backend;
 
 use APY\DataGridBundle\Grid\Action\RowAction;
 use APY\DataGridBundle\Grid\Source\Entity;
-use Opifer\CmsBundle\Entity\Content;
-use Opifer\ContentBundle\Entity\Template;
 use Opifer\ContentBundle\Form\Type\LayoutType;
-use Opifer\ContentBundle\Form\Type\TemplateType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 
 class LayoutController extends Controller
 {
@@ -20,6 +18,7 @@ class LayoutController extends Controller
      */
     public function indexAction()
     {
+        $this->denyAccessUnlessGranted('LAYOUT_INDEX');
 
         $queryBuilder = $this->get('opifer.content.content_manager')->getRepository()->createQueryBuilder('c')
             ->select('c', 'vs', 'v', 'a')
@@ -65,6 +64,8 @@ class LayoutController extends Controller
      */
     public function createAction(Request $request, $type = 0)
     {
+        $this->denyAccessUnlessGranted('LAYOUT_CREATE');
+
         /** @var ContentManager $manager */
         $manager = $this->get('opifer.content.content_manager');
 
@@ -80,7 +81,7 @@ class LayoutController extends Controller
         $form->handleRequest($request);
 
         if ($form->isValid()) {
-            //setSlug because slugListner will create one based on title
+            //setSlug because slugListener will create one based on title
             $content->setSlug(sha1(date('y-m-d h:i:s')));
             $content->setAlias(sha1(date('y-m-d h:i:s')));
 
@@ -105,6 +106,8 @@ class LayoutController extends Controller
      */
     public function editAction(Request $request, $id)
     {
+        $this->denyAccessUnlessGranted('LAYOUT_EDIT');
+
         /** @var ContentManager $manager */
         $manager = $this->get('opifer.content.content_manager');
         $content = $manager->getRepository()->find($id);
@@ -135,6 +138,8 @@ class LayoutController extends Controller
      */
     public function detailsAction(Request $request, $id)
     {
+        $this->denyAccessUnlessGranted('LAYOUT_DETAILS');
+
         $manager = $this->get('opifer.content.content_manager');
         $content = $manager->getRepository()->find($id);
         $content = $manager->createMissingValueSet($content);
@@ -159,6 +164,8 @@ class LayoutController extends Controller
      */
     public function deleteAction($id)
     {
+        $this->denyAccessUnlessGranted('LAYOUT_DELETE');
+
         $manager = $this->get('opifer.content.content_manager');
         $layout = $manager->getRepository('OpiferContentBundle:Content')->find($id);
 

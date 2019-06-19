@@ -35,16 +35,15 @@ class ContentController extends Controller
     {
         $version = $request->query->get('_version');
         $debug = $this->getParameter('kernel.debug');
-        $host = $request->getHost();
 
         $em = $this->getDoctrine()->getManager();
 
-        $qb = $em->createQueryBuilder();
-        $qb->select('count(s.id)')
-            ->from(Site::class, 's');
+        $siteCount = $em->getRepository(Site::class)->createQueryBuilder('s')
+            ->select('count(s.id)')
+            ->getQuery()
+            ->getSingleScalarResult();
 
-        $domain = $em->getRepository(Domain::class)->findOneByDomain($host);
-        $siteCount = $qb->getQuery()->getSingleScalarResult();
+        $domain = $em->getRepository(Domain::class)->findOneByDomain($request->getHost());
 
         if ($siteCount && $domain->getSite()->getDefaultLocale()) {
             $request->setLocale($domain->getSite()->getDefaultLocale()->getLocale());
@@ -106,12 +105,12 @@ class ContentController extends Controller
         $host = $request->getHost();
         $em = $this->getDoctrine()->getManager();
 
-        $qb = $em->createQueryBuilder();
-        $qb->select('count(s.id)')
-            ->from(Site::class, 's');
+        $siteCount = $em->getRepository(Site::class)->createQueryBuilder('s')
+            ->select('count(s.id)')
+            ->getQuery()
+            ->getSingleScalarResult();
 
         $domain = $em->getRepository(Domain::class)->findOneByDomain($host);
-        $siteCount = $qb->getQuery()->getSingleScalarResult();
 
         if ($siteCount && $domain->getSite()->getDefaultLocale()) {
             $request->setLocale($domain->getSite()->getDefaultLocale()->getLocale());

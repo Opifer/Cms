@@ -49,11 +49,9 @@ class CKEditorController extends Controller
     /**
      * Styles set for CKEditor.
      *
-     * @param Request $request
-     *
      * @return Response
      */
-    public function stylesAction(Request $request)
+    public function stylesAction()
     {
         return $this->render('OpiferCmsBundle:CKEditor:styles.js.twig');
     }
@@ -61,11 +59,9 @@ class CKEditorController extends Controller
     /**
      * Config JS for CKEditor.
      *
-     * @param Request $request
-     *
      * @return Response
      */
-    public function configAction(Request $request)
+    public function configAction()
     {
         return $this->render('OpiferCmsBundle:CKEditor:config.js.twig', [
             'css_path' => $this->getParameter('opifer_cms.ckeditor_css_path'),

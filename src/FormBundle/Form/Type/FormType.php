@@ -69,7 +69,6 @@ class FormType extends AbstractType
                     'Do not send confirmation' => false,
                     'Send confirmation' => true,
                 ],
-                'choices_as_values' => true,
                 'attr' => [
                     'help_text' => 'When a confirmation is required, a confirmation email will be sent to all email field values',
                 ],
@@ -93,11 +92,10 @@ class FormType extends AbstractType
             ->add('locale', EntityType::class, [
                 'label' => 'label.language',
                 'class'    => Locale::class,
-                'property' => 'name',
+                'choice_label' => 'name',
                 'attr'     => [
                     'help_text'   => 'help.content_language',
                 ],
-                'required' => true
             ])
             ->add('recaptchaEnabled', ChoiceType::class, [
                 'label' => 'Recaptcha',
@@ -105,7 +103,6 @@ class FormType extends AbstractType
                     'Disabled' => false,
                     'Enabled' => true,
                 ],
-                'choices_as_values' => true,
                 'attr' => [
                     'help_text' => 'Enables a hidden spamcheck on form submissions. '.$recaptchaKeysHelptext,
                 ],
@@ -114,13 +111,5 @@ class FormType extends AbstractType
                 'object_class' => $this->postClass,
             ])
         ;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getBlockPrefix()
-    {
-        return 'opifer_form_form';
     }
 }

@@ -4,11 +4,13 @@ namespace Opifer\MediaBundle\Controller\Backend;
 
 use Opifer\MediaBundle\Event\MediaResponseEvent;
 use Opifer\MediaBundle\Event\ResponseEvent;
+use Opifer\MediaBundle\Form\Type\MediaEditType;
 use Opifer\MediaBundle\Form\Type\MediaType;
 use Opifer\MediaBundle\OpiferMediaEvents;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 
 class MediaController extends Controller
 {
@@ -21,6 +23,8 @@ class MediaController extends Controller
      */
     public function indexAction(Request $request)
     {
+        $this->denyAccessUnlessGranted('MEDIA_INDEX');
+
         $dispatcher = $this->get('event_dispatcher');
         $event = new ResponseEvent($request);
         $dispatcher->dispatch(OpiferMediaEvents::MEDIA_CONTROLLER_INDEX, $event);
@@ -46,6 +50,8 @@ class MediaController extends Controller
      */
     public function createAction(Request $request, $provider = 'image')
     {
+        $this->denyAccessUnlessGranted('MEDIA_CREATE');
+
         $dispatcher = $this->get('event_dispatcher');
         $event = new ResponseEvent($request);
         $dispatcher->dispatch(OpiferMediaEvents::MEDIA_CONTROLLER_NEW, $event);
@@ -96,6 +102,8 @@ class MediaController extends Controller
      */
     public function editAction(Request $request, $id)
     {
+        $this->denyAccessUnlessGranted('MEDIA_EDIT');
+
         $mediaManager = $this->get('opifer.media.media_manager');
         $media = $mediaManager->getRepository()->find($id);
 
@@ -138,6 +146,8 @@ class MediaController extends Controller
      */
     public function updateAllAction(Request $request)
     {
+        $this->denyAccessUnlessGranted('MEDIA_EDIT');
+
         $dispatcher = $this->get('event_dispatcher');
         $event = new ResponseEvent($request);
         $dispatcher->dispatch(OpiferMediaEvents::MEDIA_CONTROLLER_UPDATEALL, $event);
@@ -152,7 +162,7 @@ class MediaController extends Controller
         foreach ($form['files'] as $id => $values) {
             $media = $this->get('opifer.media.media_manager')->getRepository()->find($id);
 
-            $form = $this->createForm('opifer_media_edit', $media);
+            $form = $this->createForm(MediaEditType::class, $media);
             $form->submit($values);
 
             if ($form->isValid()) {
@@ -177,6 +187,8 @@ class MediaController extends Controller
      */
     public function deleteAction(Request $request, $id)
     {
+        $this->denyAccessUnlessGranted('MEDIA_DELETE');
+
         $mediaManager = $this->get('opifer.media.media_manager');
         $media = $mediaManager->getRepository()->find($id);
 

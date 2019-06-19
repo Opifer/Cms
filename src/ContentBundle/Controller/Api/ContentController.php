@@ -24,6 +24,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Doctrine\ORM\Tools\Pagination\Paginator;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 
 class ContentController extends Controller
 {
@@ -158,11 +159,14 @@ class ContentController extends Controller
             return $response;
         }
 
+        $stringHelper = $this->container->get('opifer.content.string_helper');
         $context = SerializationContext::create()->setGroups(['Default', 'detail'])->enableMaxDepthChecks();
         $json = $this->get('jms_serializer')->serialize([
             'results' => $items,
             'total_results' => $count
         ], 'json', $context);
+
+        $json = $stringHelper->replaceLinks($json);
 
         $response->setData(json_decode($json, true));
 
@@ -191,10 +195,12 @@ class ContentController extends Controller
         $content = $repository->find($paramFetcher->get('content'));
 
         $ids = [];
-        foreach ($paramFetcher->get('attributes') as $attribute) {
-            /** @var OptionValue $value */
-            $value = $content->getValueSet()->get($attribute);
-            $ids = array_merge($ids, $value->getIds());
+        if (null !== $paramFetcher->get('attributes')) {
+            foreach ($paramFetcher->get('attributes') as $attribute) {
+                /** @var OptionValue $value */
+                $value = $content->getValueSet()->get($attribute);
+                $ids = array_merge($ids, $value->getIds());
+            }
         }
 
         $qb = $repository->createQueryBuilder('c')
@@ -228,10 +234,14 @@ class ContentController extends Controller
             return $response;
         }
 
+        $stringHelper = $this->container->get('opifer.content.string_helper');
         $context = SerializationContext::create()->setGroups(['Default', 'detail'])->enableMaxDepthChecks();
+
         $json = $this->get('jms_serializer')->serialize([
             'results' => $items,
         ], 'json', $context);
+
+        $json = $stringHelper->replaceLinks($json);
 
         $response->setData(json_decode($json, true));
 
@@ -258,6 +268,7 @@ class ContentController extends Controller
             $formattedContent[$key]['id'] = $content->getId();
             $formattedContent[$key]['site_id'] = $content->getSiteId();
             $formattedContent[$key]['parent_id'] = ($content->getParent()) ? $content->getParent()->getId() : 0;
+            $formattedContent[$key]['site_id'] = ($content->getSite()) ? $content->getSite()->getId() : null;
             $formattedContent[$key]['active'] = $content->getActive();
             $formattedContent[$key]['title'] = $content->getTitle();
             $formattedContent[$key]['short_title'] = $content->getShortTitle();
@@ -292,7 +303,9 @@ class ContentController extends Controller
             ->getRepository()
             ->findOrderedByIds($ids);
 
+        $stringHelper = $this->container->get('opifer.content.string_helper');
         $contents = $this->get('jms_serializer')->serialize($items, 'json', SerializationContext::create()->setGroups(['list'])->enableMaxDepthChecks());
+        $contents = $stringHelper->replaceLinks($contents);
 
         $data = [
             'results' => json_decode($contents, true),
@@ -373,7 +386,9 @@ class ContentController extends Controller
             'medias' => $content->getMedias(),
         ];
 
+        $stringHelper = $this->container->get('opifer.content.string_helper');
         $json = $this->get('jms_serializer')->serialize($contentItem, 'json', $context);
+        $json = $stringHelper->replaceLinks($json);
 
         $response->setData(json_decode($json, true));
 
@@ -389,6 +404,8 @@ class ContentController extends Controller
      */
     public function deleteAction($id)
     {
+        $this->denyAccessUnlessGranted('CONTENT_DELETE');
+
         /** @var ContentManager $manager */
         $manager = $this->get('opifer.content.content_manager');
         $content = $manager->getRepository()->find($id);

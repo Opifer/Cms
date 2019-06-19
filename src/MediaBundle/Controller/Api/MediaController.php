@@ -12,19 +12,20 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 
 class MediaController extends Controller
 {
     /**
      * Index.
      *
-     * @ApiDoc
+     * @param Request $request
      *
      * @return JsonResponse
      */
     public function indexAction(Request $request)
     {
+        $this->denyAccessUnlessGranted('MEDIA_INDEX');
+
         $dispatcher = $this->get('event_dispatcher');
         $event = new ResponseEvent($request);
         $dispatcher->dispatch(OpiferMediaEvents::MEDIA_CONTROLLER_INDEX, $event);
@@ -61,8 +62,6 @@ class MediaController extends Controller
     /**
      * Get a single media item
      *
-     * @ApiDoc
-     *
      * @return JsonResponse
      */
     public function detailAction($id = null)
@@ -77,13 +76,13 @@ class MediaController extends Controller
     /**
      * Update a media item
      *
-     * @ApiDoc
-     *
      * @param Request $request
      * @return JsonResponse
      */
     public function updateAction(Request $request, $id)
     {
+        $this->denyAccessUnlessGranted('MEDIA_EDIT');
+
         $content = json_decode($request->getContent(), true);
 
         /** @var MediaInterface $media */
@@ -109,8 +108,6 @@ class MediaController extends Controller
 
     /**
      * Upload.
-     *
-     * @ApiDoc
      *
      * @return Response
      */
@@ -157,8 +154,6 @@ class MediaController extends Controller
     /**
      * Delete.
      *
-     * @ApiDoc
-     *
      * @param Request $request
      * @param int     $id
      *
@@ -166,6 +161,8 @@ class MediaController extends Controller
      */
     public function deleteAction(Request $request, $id)
     {
+        $this->denyAccessUnlessGranted('MEDIA_DELETE');
+
         try {
             $mediaManager = $this->get('opifer.media.media_manager');
             $media = $mediaManager->getRepository()->find($id);

@@ -10,15 +10,17 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 
 class LocaleController extends Controller
 {
-
     /**
      * @return Response
      */
     public function indexAction()
     {
+        $this->denyAccessUnlessGranted('LOCALE_INDEX');
+
         $source = new Entity(Locale::class);
 
         $editAction = new RowAction('button.edit', 'opifer_cms_locale_edit');
@@ -29,14 +31,13 @@ class LocaleController extends Controller
         $grid->setId('locale')
             ->setSource($source)
             ->addRowAction($editAction)
-          ;
-
+        ;
 
         return $grid->getGridResponse('OpiferCmsBundle:Backend/Locale:index.html.twig');
     }
 
     /**
-     * Create an event
+     * Create a locale
      *
      * @param Request $request
      *
@@ -44,7 +45,7 @@ class LocaleController extends Controller
      */
     public function createAction(Request $request)
     {
-        $this->denyAccessUnlessGranted('ROLE_ADMIN');
+        $this->denyAccessUnlessGranted('LOCALE_CREATE');
 
         $locale = new Locale();
 
@@ -68,7 +69,7 @@ class LocaleController extends Controller
     }
 
     /**
-     *
+     * Edit a Locale
      *
      * @param Request $request
      * @param $id
@@ -76,14 +77,14 @@ class LocaleController extends Controller
      */
     public function editAction(Request $request, $id = null)
     {
-        $this->denyAccessUnlessGranted('ROLE_ADMIN');
+        $this->denyAccessUnlessGranted('LOCALE_INDEX');
 
         $em = $this->getDoctrine()->getManager();
 
         if (is_numeric($id)) {
-            $locale = $em->getRepository('OpiferCmsBundle:Locale')->find($id);
+            $locale = $em->getRepository(Locale::class)->find($id);
         } else {
-            $locale = $em->getRepository('OpiferCmsBundle:Locale')->findOneByLocale($id);
+            $locale = $em->getRepository(Locale::class)->findOneByLocale($id);
         }
 
         $form = $this->createForm(new LocaleType(), $locale);

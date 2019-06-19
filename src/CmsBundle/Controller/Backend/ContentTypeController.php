@@ -3,20 +3,20 @@
 namespace Opifer\CmsBundle\Controller\Backend;
 
 use APY\DataGridBundle\Grid\Action\RowAction;
-use APY\DataGridBundle\Grid\Column\TextColumn;
 use APY\DataGridBundle\Grid\Source\Entity;
 use Opifer\ContentBundle\Controller\Backend\ContentTypeController as BaseContentTypeController;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 
 class ContentTypeController extends BaseContentTypeController
 {
     /**
+     * @Security("has_role('ROLE_INTERN')")
      * {@inheritdoc}
      */
     public function indexAction()
     {
+        $this->denyAccessUnlessGranted('CONTENT_TYPE_INDEX');
+
         $source = new Entity($this->getParameter('opifer_content.content_type_class'));
 
         $editAction = new RowAction('button.edit', 'opifer_content_contenttype_edit');

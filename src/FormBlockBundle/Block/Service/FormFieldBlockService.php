@@ -24,7 +24,7 @@ abstract class FormFieldBlockService extends AbstractBlockService implements Blo
     /** @var FormManager */
     protected $formManager;
 
-    /** @var bool {@inheritdoc} */
+    /** @var bool */
     protected $esiEnabled = true;
 
     /**
@@ -57,7 +57,6 @@ abstract class FormFieldBlockService extends AbstractBlockService implements Blo
                     'Not required' => false,
                     'Required' => true,
                 ],
-                'choices_as_values' => true,
                 'attr' => [
                     'help_text' => 'help.required',
                 ],

@@ -4,18 +4,18 @@ namespace Opifer\CmsBundle\Twig\Extension;
 
 use Opifer\CmsBundle\Entity\AttachmentValue;
 use Opifer\EavBundle\Entity\Value;
-use Symfony\Bridge\Twig\Form\TwigRendererInterface;
+use Symfony\Component\Form\FormRendererInterface;
 use Symfony\Component\Form\FormView;
 
 class FormExtension extends \Twig_Extension
 {
-    /** @var TwigRendererInterface */
+    /** @var FormRendererInterface */
     public $renderer;
 
     /**
-     * @param TwigRendererInterface $renderer
+     * @param FormRendererInterface $renderer
      */
-    public function __construct(TwigRendererInterface $renderer)
+    public function __construct(FormRendererInterface $renderer)
     {
         $this->renderer = $renderer;
     }
@@ -26,7 +26,9 @@ class FormExtension extends \Twig_Extension
     public function getTests()
     {
         return [
-            new \Twig_SimpleTest('attachment', function (Value $value) { return $value instanceof AttachmentValue; }),
+            new \Twig_SimpleTest('attachment', function (Value $value) {
+                return $value instanceof AttachmentValue;
+            }),
         ];
     }
 
@@ -35,9 +37,9 @@ class FormExtension extends \Twig_Extension
      */
     public function getFunctions()
     {
-        return array(
-            'opifer_autocomplete' => new \Twig_Function_Method($this, 'renderJavascript', array('is_safe' => array('html'))),
-        );
+        return [
+            new \Twig_SimpleFunction('opifer_autocomplete', [$this, 'renderJavascript', ['is_safe' => ['html']]])
+        ];
     }
 
     /**

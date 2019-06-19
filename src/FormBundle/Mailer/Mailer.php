@@ -25,19 +25,24 @@ class Mailer
     /** @var TranslatorInterface */
     protected $translator;
 
+    /** @var RequestStack */
+    protected $requestStack;
+
     /**
-     * Constructor.
+     * Mailer constructor.
      *
-     * @param EngineInterface $templating
-     * @param \Swift_mailer   $mailer
-     * @param string          $sender
+     * @param TranslatorInterface $translator
+     * @param RequestStack        $requestStack
+     * @param EngineInterface     $templating
+     * @param \Swift_mailer       $mailer
+     * @param                     $sender
      */
-    public function __construct(TranslatorInterface $translator, RequestStack $request, EngineInterface $templating, \Swift_mailer $mailer, $sender)
+    public function __construct(TranslatorInterface $translator, RequestStack $requestStack, EngineInterface $templating, \Swift_mailer $mailer, $sender)
     {
         $this->templating = $templating;
         $this->mailer = $mailer;
         $this->sender = $sender;
-        $this->request = $request;
+        $this->requestStack = $requestStack;
         $this->translator = $translator;
     }
 
@@ -62,7 +67,7 @@ class Mailer
     public function sendConfirmationMail(FormInterface $form, PostInterface $post, $recipient)
     {
         if ($form->getLocale()) {
-            $this->request->getCurrentRequest()->setLocale($form->getLocale()->getLocale());
+            $this->requestStack->getCurrentRequest()->setLocale($form->getLocale()->getLocale());
             $this->translator->setLocale($form->getLocale()->getLocale());
         }
 

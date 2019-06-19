@@ -7,6 +7,7 @@ use APY\DataGridBundle\Grid\Column\ActionsColumn;
 use APY\DataGridBundle\Grid\Column\JoinColumn;
 use APY\DataGridBundle\Grid\Column\TextColumn;
 use APY\DataGridBundle\Grid\Source\Entity;
+use Opifer\CmsBundle\Entity\Post;
 use Opifer\FormBundle\Controller\PostController as BasePostController;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -21,13 +22,15 @@ class PostController extends BasePostController
      */
     public function indexAction($formId)
     {
+        $this->denyAccessUnlessGranted('POST_INDEX');
+
         $form = $this->get('opifer.form.form_manager')->getRepository()->find($formId);
 
         if (!$form) {
             return $this->createNotFoundException();
         }
 
-        $source = new Entity('OpiferCmsBundle:Post');
+        $source = new Entity(Post::class);
         $tableAlias = $source->getTableAlias();
         $source->manipulateQuery(function ($query) use ($tableAlias, $form) {
             $query->andWhere($tableAlias.'.form = :form')->setParameter('form', $form);
@@ -50,7 +53,9 @@ class PostController extends BasePostController
             ->addRowAction($notificationAction)
             ->addRowAction($deleteAction);
 
-        return $grid->getGridResponse('OpiferCmsBundle:Backend/Post:index.html.twig', ['form' => $form]);
+        return $grid->getGridResponse('OpiferCmsBundle:Backend/Post:index.html.twig', [
+            'form' => $form
+        ]);
     }
 
     /**
@@ -60,6 +65,8 @@ class PostController extends BasePostController
      */
     public function listAction()
     {
+        $this->denyAccessUnlessGranted('POST_LIST');
+
         $source = new Entity($this->get('opifer.form.post_manager')->getClass());
 
         $formColumn = new TextColumn(['id' => 'posts', 'title' => 'Form', 'source' => false, 'filterable' => false, 'sortable' => false, 'safe' => false]);

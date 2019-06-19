@@ -3,6 +3,7 @@
 namespace Opifer\EavBundle\ValueProvider;
 
 use Doctrine\ORM\EntityRepository;
+use Opifer\EavBundle\Entity\SelectValue;
 use Opifer\EavBundle\Form\Transformer\CollectionToObjectTransformer;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -41,7 +42,7 @@ class SelectValueProvider extends AbstractValueProvider implements ValueProvider
                 'label'         => $options['attribute']->getDisplayName(),
                 'placeholder'   => 'Select…',
                 'multiple'      => false,
-                'property'      => 'displayName',
+                'choice_label'  => 'displayName',
                 'class'         => $this->optionClass,
                 'query_builder' => function (EntityRepository $optionRepository) use ($attributeId) {
                     return $optionRepository->createQueryBuilder('o')
@@ -55,15 +56,15 @@ class SelectValueProvider extends AbstractValueProvider implements ValueProvider
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getEntity()
     {
-        return 'Opifer\EavBundle\Entity\SelectValue';
+        return SelectValue::class;
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getLabel()
     {

@@ -15,6 +15,7 @@ button:
 help:
     active: Status of publication of the content item where inactive means the content is not public accessible
     alias: Enter a shortened url as alias for this page (optional)
+    autoplay: Should the video start automatically, this has only effect when a video is used
     block_display_name: The human readable reference name of this block
     block_name: Reference name to this block. Only for application purposes.
     block_template: Pick a template to change how this block is displayed
@@ -42,7 +43,9 @@ help:
     list_image_ratio: Ratio defines in which proportions your image will be cropped and displayed.
     block_social_title: Custom title for sharing by mail
     block_social_text: Custom text for sharing by mail
+    card_content_picker: Pick content item to use data of this item instead of  header, body and media.
     column_count: Number of columns for this block.
+    content_medias: This is the default image that will be shown when this page is used in a card, list, etc.
     alert_message: Text for shown alert message.
     button_label: Text shown on button.
     button_url: Url where the button goes to.
@@ -54,26 +57,24 @@ help:
     carousel_controls: Show arrow on the left and right side of the slides to switch between them.
     carousel_indicator: Indicates position of the shown slide in carousel.
     download_media: Select content or media file for download.
+    gallery_media: Select multiple images or videos.
+    html_rich_text: Click to edit & write rich text content.
+    iframe_url: URL that should be loaded in an iFrame.
     image_filter: Select image display size.
     jumbotron_media: Select media item to display in jumbotron.
     jumbotron_rich_text: Add some text to jumbotron.
     login_redirect: Choose page to redirect to after user successfully logged in.
-    register_content_item: Choose registration page.
+    list_content_picker: Manually pick content items to put in your list.
+    loop: Should the video be played in a loop, this has only effect when a video is used
+    publish_at: Set a date to publish content.
+    register_content_item: Choose regi
+    section_header: Click to edit & write rich text content in header.
+    section_footer: Click to edit & write rich text content in footer.stration page.
+    site: Choose a site for this page
     subscribe_response_type: After subscription show message or redirect to page.
     subscribe_message: Message shown after subscription.
     subscribe_redirect: Select page to redirect to after subscription.
-    iframe_url: URL that should be loaded in an iFrame.
     tabs_add_tab: Add a new tab or drag to order tabs. Every new tab creates a new placeholder to put content blocks in.
-    publish_at: Set a date to publish content.
-    gallery_media: Select multiple images or videos.
-    html_rich_text: Click to edit & write rich text content.
-    section_header: Click to edit & write rich text content in header.
-    section_footer: Click to edit & write rich text content in footer.
-    list_content_picker: Manually pick content items to put in your list.
-    card_content_picker: Pick content item to use data of this item instead of  header, body and media.
-    content_medias: This is the default image that will be shown when this page is used in a card, list, etc.
-    autoplay: Should the video start automatically, this has only effect when a video is used
-    loop: Should the video be played in a loop, this has only effect when a video is used
 
 label:
     block: Block
@@ -141,6 +142,7 @@ label:
     section_media: Background
     columnblock: Columns
     target: Target
+    account: Account
 
 link:
     default: Default

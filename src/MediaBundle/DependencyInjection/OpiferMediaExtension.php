@@ -2,7 +2,9 @@
 
 namespace Opifer\MediaBundle\DependencyInjection;
 
+use Opifer\MediaBundle\Entity\MediaDirectoryInterface;
 use Opifer\MediaBundle\File\ImageTypeGuesser;
+use Opifer\MediaBundle\Model\MediaInterface;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
@@ -55,18 +57,16 @@ class OpiferMediaExtension extends Extension implements PrependExtensionInterfac
                     $container->prependExtensionConfig($name,  [
                         'orm' => [
                             'resolve_target_entities' => [
-                                'Opifer\MediaBundle\Model\MediaInterface' => $config['media']['class'],
-                                'Opifer\MediaBundle\Entity\MediaDirectoryInterface' => $config['media_directory']['class'],
+                                MediaInterface::class => $config['media']['class'],
+                                MediaDirectoryInterface::class => $config['media_directory']['class'],
                             ],
                         ],
                     ]);
                     break;
                 case 'twig':
                     $container->prependExtensionConfig($name, [
-                        'form' => [
-                            'resources' => [
-                                'OpiferMediaBundle:Form:fields.html.twig',
-                            ],
+                        'form_themes' => [
+                            'OpiferMediaBundle:Form:fields.html.twig',
                         ],
                     ]);
                     break;
@@ -79,9 +79,12 @@ class OpiferMediaExtension extends Extension implements PrependExtensionInterfac
                             'aws_storage' => [
                                 'aws_s3' => [
                                     'client_config' => [
-                                        'key' => $config['storages']['aws_s3']['key'],
-                                        'secret' => $config['storages']['aws_s3']['secret'],
                                         'region' => $config['storages']['aws_s3']['region'],
+                                        'version' => '2006-03-01',
+                                        'credentials' => [
+                                            'key' => $config['storages']['aws_s3']['key'],
+                                            'secret' => $config['storages']['aws_s3']['secret'],
+                                        ],
                                     ],
                                     'bucket' => $config['storages']['aws_s3']['bucket'],
                                 ],

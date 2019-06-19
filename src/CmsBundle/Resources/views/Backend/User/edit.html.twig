@@ -1,13 +1,20 @@
 {% extends 'OpiferCmsBundle:Backend:base.html.twig' %}
 
 {% block body %}
-    <div class="page-header clearfix">
-        <h1 class="pull-left">Edit user "{{ user.username }}"</h1>
-    </div>
+    {% set mfa = "inactive" %}
+    {% if user.googleAuthenticatorSecret|length %}
+        {% set mfa = "active" %}
+    {% endif %}
+    <section class="container">
+        <div class="page-header clearfix">
+            <h1 class="pull-left">
+                Edit user "{{ user.username }}"
+                <small>Two factor is <strong>{{ mfa }}</strong></small>
+            </h1>
+        </div>
 
-    <div class="container">
         <div class="row">
             {% include 'OpiferCmsBundle:Backend/User:_form.html.twig' %}
         </div>
-    </div>
+    </section>
 {% endblock body %}

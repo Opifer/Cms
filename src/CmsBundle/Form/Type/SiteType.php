@@ -7,7 +7,6 @@ use Opifer\CmsBundle\Entity\Domain;
 use Opifer\CmsBundle\Entity\Locale;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\FormBuilderInterface;
 
 class SiteType extends AbstractType
@@ -37,12 +36,11 @@ class SiteType extends AbstractType
             ->add('cookieDomain')
             ->add('defaultLocale', EntityType::class, [
                 'label' => 'label.language',
-                'class'    => Locale::class,
-                'property' => 'name',
-                'attr'     => [
-                    'help_text'   => 'help.content_language',
+                'class' => Locale::class,
+                'choice_label' => 'name',
+                'attr' => [
+                    'help_text' => 'help.content_language',
                 ],
-                'required' => true
             ])
         ;
     }

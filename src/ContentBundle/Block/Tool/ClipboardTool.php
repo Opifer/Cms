@@ -2,11 +2,6 @@
 
 namespace Opifer\ContentBundle\Block\Tool;
 
-/**
- * Class ClipboardTool
- *
- * @package Opifer\ContentBundle\Block\Tool
- */
 class ClipboardTool extends Tool
 {
 
@@ -19,7 +14,6 @@ class ClipboardTool extends Tool
         $this->name = $name;
         $this->service = $service;
     }
-
 
     public function getDataJson()
     {

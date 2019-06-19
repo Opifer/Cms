@@ -15,6 +15,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 
 /**
  * Backend Content Controller.
@@ -28,6 +29,8 @@ class ContentController extends Controller
      */
     public function indexAction()
     {
+        $this->denyAccessUnlessGranted('CONTENT_INDEX');
+
         return $this->render($this->getParameter('opifer_content.content_index_view'));
     }
 
@@ -161,6 +164,8 @@ class ContentController extends Controller
      */
     public function createAction(Request $request, $siteId = null, $type = 0, $layoutId = null)
     {
+        $this->denyAccessUnlessGranted('CONTENT_CREATE');
+
         /** @var ContentManager $manager */
         $manager = $this->get('opifer.content.content_manager');
 
@@ -213,8 +218,15 @@ class ContentController extends Controller
         ]);
     }
 
+    /**
+     * @param $id
+     * @param $content
+     * @return mixed
+     */
     public function duplicateAction($id, $content)
     {
+        $this->denyAccessUnlessGranted('CONTENT_DUPLICATE');
+
         /** @var ContentManagerInterface $contentManager */
         $contentManager = $this->get('opifer.content.content_manager');
         $layout = $contentManager->getRepository()->find($id);
@@ -266,6 +278,9 @@ class ContentController extends Controller
         $manager = $this->get('opifer.content.content_manager');
         $em = $manager->getEntityManager();
         $content = $manager->getRepository()->find($id);
+
+        $this->denyAccessUnlessGranted('CONTENT_EDIT', $content);
+
         $content = $manager->createMissingValueSet($content);
 
         // Load the contentTranslations for the content group
@@ -308,18 +323,18 @@ class ContentController extends Controller
                 $contentTranslationIds[] = $contentTranslation->getId();
             }
 
-            // Remove possible contentTranslations from the translationGroup
-            $queryBuilder = $manager->getRepository()->createQueryBuilder('c');
-            $queryBuilder->update()
-                ->set('c.translationGroup', 'NULL')
-                ->where($queryBuilder->expr()->eq('c.translationGroup', $content->getTranslationGroup()->getId()))
-                ->where($queryBuilder->expr()->notIn('c.id', $contentTranslationIds))
-                ->getQuery()
-                ->execute();
+            $manager->save($content);
 
-            $em->persist($content);
-
-            $em->flush();
+            if ($content->getTranslationGroup()->getId()) {
+                // Remove possible contentTranslations from the translationGroup
+                $queryBuilder = $manager->getRepository()->createQueryBuilder('c');
+                $queryBuilder->update()
+                    ->set('c.translationGroup', 'NULL')
+                    ->where($queryBuilder->expr()->eq('c.translationGroup', $content->getTranslationGroup()->getId()))
+                    ->andWhere($queryBuilder->expr()->notIn('c.id', $contentTranslationIds))
+                    ->getQuery()
+                    ->execute();
+            }
 
             return $this->redirectToRoute('opifer_content_content_index');
         }
@@ -340,14 +355,33 @@ class ContentController extends Controller
      */
     public function detailsAction(Request $request, $id)
     {
+        /** @var ContentManager $manager */
         $manager = $this->get('opifer.content.content_manager');
         $content = $manager->getRepository()->find($id);
+
+        $this->denyAccessUnlessGranted('CONTENT_DETAILS', $content);
+
         $content = $manager->createMissingValueSet($content);
+        $em = $manager->getEntityManager();
+
+        // Load the contentTranslations for the content group
+        if ($content->getTranslationGroup() !== null) {
+            $contentTranslations = $content->getTranslationGroup()->getContents()->filter(function($contentTranslation) use ($content) {
+                return $contentTranslation->getId() !== $content->getId();
+            });
+
+            $content->setContentTranslations($contentTranslations);
+        }
 
         if ($content->getLayout()) {
             $form = $this->createForm(LayoutType::class, $content);
         } else {
             $form = $this->createForm(ContentType::class, $content);
+        }
+
+        $originalContentItems = new ArrayCollection();
+        foreach ($content->getContentTranslations() as $contentItem) {
+            $originalContentItems->add($contentItem);
         }
 
         $form->handleRequest($request);
@@ -357,7 +391,35 @@ class ContentController extends Controller
                 $content->setPublishAt($content->getCreatedAt());
             }
 
+            if ($content->getTranslationGroup() === null) {
+                // Init new group
+                $translationGroup = new TranslationGroup();
+                $content->setTranslationGroup($translationGroup);
+            }
+
+            // Make sure all the contentTranslations have the same group as content
+            $contentTranslationIds = [$content->getId()];
+            foreach($content->getContentTranslations() as $contentTranslation) {
+                if ($contentTranslation->getTranslationGroup() === null) {
+                    $contentTranslation->setTranslationGroup($content->getTranslationGroup());
+                    $em->persist($contentTranslation);
+                }
+
+                $contentTranslationIds[] = $contentTranslation->getId();
+            }
+
             $manager->save($content);
+
+            if ($content->getTranslationGroup()->getId()) {
+                // Remove possible contentTranslations from the translationGroup
+                $queryBuilder = $manager->getRepository()->createQueryBuilder('c');
+                $queryBuilder->update()
+                    ->set('c.translationGroup', 'NULL')
+                    ->where($queryBuilder->expr()->eq('c.translationGroup', $content->getTranslationGroup()->getId()))
+                    ->andWhere($queryBuilder->expr()->notIn('c.id', $contentTranslationIds))
+                    ->getQuery()
+                    ->execute();
+            }
         }
 
         return $this->render($this->getParameter('opifer_content.content_details_view'), [

@@ -75,7 +75,7 @@ class VimeoProvider extends AbstractProvider
             ])
             ->add('thumb', MediaPickerType::class, [
                 'multiple' => false,
-                'property' => 'name',
+                'choice_label' => 'name',
             ])
             ->add('add '.$options['provider']->getLabel(), SubmitType::class)
         ;

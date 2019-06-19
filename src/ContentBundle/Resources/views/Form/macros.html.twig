@@ -1,0 +1,13 @@
+{% macro render_tree(item, selected) %}
+    {% import _self as macros %}
+    <li data-id="{{ item.id }}" class="{{ (selected == item.id) ? "selected" : "" }}">
+        <span class="expand "></span> <span class="checkmark"></span> {{ item.title }}
+        {% if item.__children|default() %}
+            <ul>
+                {% for child in item.__children %}
+                    {{ macros.render_tree(child, selected) }}
+                {% endfor %}
+            </ul>
+        {% endif %}
+    </li>
+{% endmacro %}

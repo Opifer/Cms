@@ -64,7 +64,7 @@ class TranslationGroup
         $localeContent = null;
         foreach ($this->getContents() as $content) {
             /** @var Content $content */
-            if ($content->getLocale()->getLocale() === $locale) {
+            if ($content->getLocale() && $content->getLocale()->getLocale() === $locale) {
                 $localeContent = $content;
                 break;
             }

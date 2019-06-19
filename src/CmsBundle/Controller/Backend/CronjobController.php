@@ -10,6 +10,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 
 class CronjobController extends Controller
 {
@@ -18,6 +19,8 @@ class CronjobController extends Controller
      */
     public function indexAction()
     {
+        $this->denyAccessUnlessGranted('CRONJOB_INDEX');
+
         $source = new Entity('OpiferCmsBundle:Cron');
 
         $editAction = new RowAction('edit', 'opifer_cms_cronjob_edit');
@@ -70,9 +73,11 @@ class CronjobController extends Controller
      */
     public function createAction(Request $request)
     {
+        $this->denyAccessUnlessGranted('CRONJOB_CREATE');
+
         $cron = new Cron();
 
-        $form = $this->createForm(new CronjobType(), $cron);
+        $form = $this->createForm(CronjobType::class, $cron);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -96,10 +101,12 @@ class CronjobController extends Controller
      */
     public function editAction(Request $request, $id)
     {
-        $em = $this->getDoctrine()->getManager();
-        $cron = $em->getRepository('OpiferCmsBundle:Cron')->find($id);
+        $this->denyAccessUnlessGranted('CRONJOB_EDIT');
 
-        $form = $this->createForm(new CronjobType(), $cron);
+        $em = $this->getDoctrine()->getManager();
+        $cron = $em->getRepository(Cron::class)->find($id);
+
+        $form = $this->createForm(CronjobType::class, $cron);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -131,6 +138,8 @@ class CronjobController extends Controller
      */
     public function deleteAction($id)
     {
+        $this->denyAccessUnlessGranted('CRONJOB_DELETE');
+
         $em = $this->getDoctrine()->getManager();
         $cron = $em->getRepository('OpiferCmsBundle:Cron')->find($id);
 
@@ -147,6 +156,8 @@ class CronjobController extends Controller
      */
     public function resetAction($id)
     {
+        $this->denyAccessUnlessGranted('CRONJOB_RESET');
+
         $em = $this->getDoctrine()->getManager();
         $cron = $em->getRepository('OpiferCmsBundle:Cron')->find($id);
 

@@ -10,6 +10,7 @@ use Opifer\ContentBundle\Designer\AbstractDesignSuite;
 use Opifer\ContentBundle\Environment\Environment;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 
 class ContentController extends BaseContentController
 {
@@ -21,6 +22,8 @@ class ContentController extends BaseContentController
      */
     public function typeAction($type)
     {
+        $this->denyAccessUnlessGranted('CONTENT_INDEX');
+
         $contentType = $this->get('opifer.content.content_type_manager')->getRepository()->find($type);
 
         if (!$contentType) {
@@ -87,8 +90,9 @@ class ContentController extends BaseContentController
 
     /**
      * @param Request $request
-     * @param string $type
-     * @param int $owner
+     * @param int     $owner
+     * @param int     $id
+     *
      * @return Response
      */
     public function historyAction(Request $request, $owner, $id)

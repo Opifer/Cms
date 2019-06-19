@@ -12,7 +12,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 class RedirectType extends AbstractType
 {
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
@@ -32,10 +32,11 @@ class RedirectType extends AbstractType
             ->add('permanent', CheckboxType::class, [
                 'attr' => [
                     'align_with_widget' => true,
+                    'required' => false,
                 ]
             ])
             ->add('requirements', CollectionType::class, [
-                'type' => RequirementType::class,
+                'entry_type' => RequirementType::class,
                 'allow_add' => true,
                 'allow_delete' => true,
                 'by_reference' => false,
@@ -43,9 +44,6 @@ class RedirectType extends AbstractType
             ])
             ->add('save', SubmitType::class, [
                 'label' => 'opifer_redirect.form.save',
-                'attr' => [
-
-                ]
             ])
             ->add('saveAndAdd', SubmitType::class, [
                 'label' => 'opifer_redirect.form.save_and_add',

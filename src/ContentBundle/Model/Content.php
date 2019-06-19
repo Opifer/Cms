@@ -7,8 +7,6 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use JMS\Serializer\Annotation as JMS;
-use Opifer\CmsBundle\Entity\Locale;
-use Opifer\CmsBundle\Entity\Media;
 use Opifer\CmsBundle\Entity\Site;
 use Opifer\ContentBundle\Block\BlockOwnerInterface;
 use Opifer\ContentBundle\Entity\Template;
@@ -1149,19 +1147,32 @@ class Content implements ContentInterface, EntityInterface, TemplatedInterface, 
     {
         if ($this->getValueSet() !== null) {
             foreach ($this->getValueSet()->getValues() as $value) {
-                if ($value instanceof MediaValue &&
-                    false !== $media = $value->getMedias()->first()) {
-                    return $media->getReference();
+                if (!$value instanceof MediaValue || false == $media = $value->getMedias()->first()) {
+                    continue;
                 }
+
+                $filename = $media->getReference();
+                if (!preg_match('/\.(gif|jpg|jpeg|png)$/i', $filename)) {
+                    continue;
+                }
+
+                return $filename;
             }
         }
 
         foreach ($this->getBlocks() as $block) {
             $reflect = new \ReflectionClass($block);
 
-            if ($reflect->hasProperty('media') && $block->getMedia()) {
-                return $block->getMedia()->getReference();
+            if (!$reflect->hasProperty('media') || !$block->getMedia()) {
+                continue;
             }
+
+            $filename = $block->getMedia()->getReference();
+            if (!preg_match('/\.(gif|jpg|jpeg|png)$/i', $filename)) {
+                continue;
+            }
+
+            return $filename;
         }
 
         return false;
