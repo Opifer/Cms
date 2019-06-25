@@ -30,6 +30,11 @@ class ActionVoter extends Voter
 
         foreach($user->getRoles() as $role){
             $permissions = $this->container->getParameter('opifer_cms.permissions');
+
+            if(!isset($permissions[$role])) {
+                false;
+            }
+
             if (in_array($attribute, $permissions[$role])) {
                 return true;
             }
