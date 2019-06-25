@@ -10,7 +10,6 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 class ContentTypeController extends BaseContentTypeController
 {
     /**
-     * @Security("has_role('ROLE_INTERN')")
      * {@inheritdoc}
      */
     public function indexAction()
