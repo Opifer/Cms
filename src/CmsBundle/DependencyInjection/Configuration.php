@@ -146,6 +146,8 @@ class Configuration implements ConfigurationInterface
 
                             'SUBSCRIPTION_INDEX',
 
+                            'SYSTEM_SETTINGS',
+
                             'TEMPLATE_INDEX',
                             'TEMPLATE_CREATE',
                             'TEMPLATE_EDIT',
