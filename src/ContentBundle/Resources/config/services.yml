@@ -29,6 +29,7 @@ services:
 
     opifer.content.content_manager.default:
         class: '%opifer.content.content_manager.default.class%'
+        public: true
         arguments:
             - '@doctrine.orm.default_entity_manager'
             - '@form.factory'
