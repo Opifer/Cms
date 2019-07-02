@@ -58,13 +58,13 @@ class User extends FOSUser implements TwoFactorInterface
     /**
      * @Assert\Length(
      *      min = 8,
-     *      max = 50,
+     *      max = 255,
      *      minMessage = "Your password must be at least {{ limit }} characters long",
      *      maxMessage = "Your password cannot be longer than {{ limit }} characters"
      * )
      *
      * @Assert\Regex(
-     *     pattern="/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]+$/",
+     *     pattern="/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)/",
      *     match=true,
      *     message="Your password should at least have 1 small letter, 1 capital and 1 numeric"
      * )
