@@ -1,0 +1,39 @@
+{
+  "name": "opifer-cms",
+  "version": "0.5.1",
+  "main": "client/index.js",
+  "scripts": {
+    "start": "webpack-dev-server --hot --inline",
+    "dev": "webpack -d --watch",
+    "build": "webpack -p --config webpack.config.dist.js"
+  },
+  "dependencies": {
+    "@babel/core": "^7.4.5",
+    "@babel/plugin-proposal-class-properties": "^7.4.4",
+    "@babel/polyfill": "^7.4.4",
+    "@babel/preset-env": "^7.4.5",
+    "@babel/preset-react": "^7.0.0",
+    "@devexpress/dx-react-core": "^1.11.1",
+    "@devexpress/dx-react-grid": "^1.11.1",
+    "@devexpress/dx-react-grid-bootstrap4": "^1.11.1",
+    "axios": "^0.19.0",
+    "babel-loader": "^8.0.6",
+    "prop-types": "^15.7.2",
+    "react": "^16.8.6",
+    "react-dom": "^16.8.6",
+    "react-hot-loader": "^4.12.0",
+    "webpack": "^4.35.2"
+  },
+  "devDependencies": {
+    "babel-eslint": "^10.0.2",
+    "css-loader": "^3.0.0",
+    "eslint": "^6.0.1",
+    "eslint-config-airbnb": "^17.1.1",
+    "eslint-plugin-import": "^2.18.0",
+    "eslint-plugin-jsx-a11y": "^6.2.3",
+    "eslint-plugin-react": "^7.14.2",
+    "style-loader": "^0.23.1",
+    "webpack-cli": "^3.3.5",
+    "webpack-dev-server": "^3.7.2"
+  }
+}

@@ -40,12 +40,17 @@ class ContentRepository extends NestedTreeRepository
      */
     public function getContentFromRequest(Request $request)
     {
-        $qb = $this->createValuedQueryBuilder('c');
+        $qb = $this->createQueryBuilder('c');
 
         if ($request->get('q')) {
             $qb->leftJoin('c.template', 't');
             $qb->andWhere('c.title LIKE :query OR c.alias LIKE :query OR c.slug LIKE :query OR t.displayName LIKE :query');
             $qb->setParameter('query', '%'.$request->get('q').'%');
+        } else if ($request->get('parent_id')) {
+            $qb->leftJoin('c.parent', 'p');
+            $qb->andWhere('p.id = :parent')->setParameter('parent', $request->get('parent_id'));
+        } else {
+            $qb->andWhere('c.parent IS NULL');
         }
 
         if ($ids = $request->get('ids')) {
@@ -56,6 +61,8 @@ class ContentRepository extends NestedTreeRepository
 
         $qb->andWhere('c.deletedAt IS NULL AND c.layout = :layout');  // @TODO fix SoftDeleteAble & layout filter
         $qb->setParameter('layout', false);
+
+        $qb->setMaxResults($request->get('limit', 25));
 
         $qb->orderBy('c.slug');
 

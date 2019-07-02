@@ -47,6 +47,7 @@ class ContentController extends Controller
      */
     public function getContentsAction(Request $request, ParamFetcher $paramFetcher)
     {
+
         if ($ids = $paramFetcher->get('ids')) {
             /** @var Content[] $items */
             $items = $this->get('opifer.content.content_manager')
@@ -257,13 +258,12 @@ class ContentController extends Controller
      */
     public function indexAction(Request $request)
     {
-        $formattedContent = [];
-
         /** @var ContentManager $manager */
         $contentManager = $this->get('opifer.content.content_manager');
 
         $contents = $contentManager->getRepository()->getContentFromRequest($request);
 
+        $formattedContent = [];
         foreach ($contents as $key => $content) {
             $formattedContent[$key]['id'] = $content->getId();
             $formattedContent[$key]['site_id'] = $content->getSiteId();
@@ -274,8 +274,8 @@ class ContentController extends Controller
             $formattedContent[$key]['short_title'] = $content->getShortTitle();
             $formattedContent[$key]['description'] = $content->getDescription();
             $formattedContent[$key]['slug'] = $content->getSlug();
-            $formattedContent[$key]['created_at'] = $content->getCreatedAt()->format('Y-m-d H:i:s');
-            $formattedContent[$key]['updated_at'] = $content->getUpdatedAt()->format('Y-m-d H:i:s');
+            //$formattedContent[$key]['created_at'] = $content->getCreatedAt()->format('Y-m-d H:i:s');
+            //$formattedContent[$key]['updated_at'] = $content->getUpdatedAt()->format('Y-m-d H:i:s');
             $formattedContent[$key]['publish_at'] = $content->getPublishAt()->format('Y-m-d H:i:s');
             $formattedContent[$key]['path'] = '/'.$content->getSlug();
             $formattedContent[$key]['coverImage'] = '';
