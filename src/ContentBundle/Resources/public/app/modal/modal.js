@@ -56,7 +56,7 @@ angular.module('ngModal', [])
             replace: true,
             transclude: true,
             link: link,
-            templateUrl: "/bundles/opifermedia/app/modal/modal.html"
+            templateUrl: "/bundles/opifercontent/app/modal/modal.html"
         };
     }])
 ;

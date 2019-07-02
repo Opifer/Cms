@@ -139,6 +139,7 @@ form:
     edit_form: 'Edit form "%name%"'
     see_posts: see posts
     new_form: new form
+    edit_form: edit form
 
     field: field
     value: value

@@ -1,8 +1,5 @@
 {% extends 'OpiferCmsBundle:CKEditor:base.html.twig' %}
 
 {% block selector %}
-    <div class="media-picker" ng-controller="MediaLibraryController" ng-init="init('picker', '{{ providers|json_encode() }}', 'ckebrowser', '', false);">
-        <div ng-controller="CKEditorController" ng-init="funcNum = '{{ funcNum }}'; type = '{{ type }}';"></div>
-        <ng-media-library></ng-media-library>
-    </div>
+    <div class="js-media-picker" data-props="{{ props|json_encode }}"></div>
 {% endblock selector %}

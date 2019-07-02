@@ -118,14 +118,16 @@ class YoutubeProvider extends AbstractProvider
     {
         preg_match('/(?<=v(\=|\/))([-a-zA-Z0-9_]+)|(?<=youtu\.be\/)([-a-zA-Z0-9_]+)/', $media->getReference(), $matches);
 
-        $media->setReference($matches[2]);
+        if(isset($matches[2])) {
+            $media->setReference($matches[2]);
+        }
 
         //Check if the reference already exists
-        if (!isset($media->old) && $referenceMedia = $this->mediaManager->getRepository()->findOneBy(['reference' => $media->getReference()])) {
+        if (!$media->getId() && $referenceMedia = $this->mediaManager->getRepository()->findOneBy(['reference' => $media->getReference()])) {
             throw new \Exception(sprintf('Video with reference: %s already exists for under the name: %s', $media->getReference(), $referenceMedia->getName()));
         }
 
-        if (!isset($media->old) || $media->old->getReference() !== $media->getReference()) {
+        if (!$media->getId() || ($media->old && $media->old->getReference() !== $media->getReference())) {
             $this->updateMedadata($media);
         }
     }

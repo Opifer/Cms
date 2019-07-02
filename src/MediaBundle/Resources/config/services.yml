@@ -22,6 +22,10 @@ services:
         class: '%opifer.media.media_manager.class%'
         arguments: ['@doctrine.orm.entity_manager', '%opifer_media.media_class%']
 
+    opifer.media.media_directory_manager:
+        class: 'Opifer\MediaBundle\Manager\MediaDirectoryManager'
+        arguments: ['@doctrine.orm.entity_manager', '%opifer_media.media_directory_class%']
+
     opifer.media.listener.media_listener:
         class: '%opifer.media.listener.media_listener.class%'
         arguments: ['@service_container']

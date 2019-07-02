@@ -94,6 +94,8 @@ class MediaValue extends Value implements \IteratorAggregate, \Countable
      * Set Medias
      *
      * @param ArrayCollection $medias
+     *
+     * @return MediaValue
      */
     public function setMedias(ArrayCollection $medias)
     {

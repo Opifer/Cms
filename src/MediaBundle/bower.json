@@ -8,8 +8,6 @@
     "angular-resource": "~1.2",
     "angular-ui-sortable": "latest",
     "dropzone": "latest",
-    "ngInfiniteScroll": "latest",
-    "font-awesome": "~4.1.0",
-    "ng-file-upload": "3.3.*"
+    "font-awesome": "~4.1.0"
   }
 }

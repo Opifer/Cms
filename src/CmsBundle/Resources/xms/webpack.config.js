@@ -6,16 +6,26 @@ const BUILD_DIR = path.resolve(__dirname, '../public/dist');
 const APP_DIR = path.resolve(__dirname, './src');
 
 module.exports = {
-  entry: [
-    'opifer-rcs/src',
-    'react-hot-loader/patch',
-    'webpack-dev-server/client?http://127.0.0.1:3333',
-    'webpack/hot/only-dev-server',
-    path.join(APP_DIR, '/index.jsx'),
-  ],
+  entry: {
+    xms: [
+      'opifer-rcs/src',
+      'react-hot-loader/patch',
+      'webpack-dev-server/client?http://127.0.0.1:3333',
+      'webpack/hot/only-dev-server',
+      path.join(APP_DIR, '/index.jsx'),
+    ],
+    mediamanager: [
+      'opifer-rcs/src',
+      'react-hot-loader/patch',
+      'webpack-dev-server/client?http://127.0.0.1:3333',
+      'webpack/hot/only-dev-server',
+      path.join(APP_DIR, '/mediamanager.jsx'),
+      path.join(APP_DIR, '/mediapicker.jsx'),
+    ],
+  },
   output: {
     path: BUILD_DIR,
-    filename: 'xms.js',
+    filename: '[name].js',
     publicPath: '/dist/',
     sourceMapFilename: '[file].map',
     pathinfo: true,

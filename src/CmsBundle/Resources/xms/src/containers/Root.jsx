@@ -4,9 +4,14 @@ import { Router } from 'react-router';
 import routes from '../routes';
 
 class Root extends Component {
+  static propTypes = {
+    store: PropTypes.object,
+    history: PropTypes.object,
+  };
+
   render() {
     const { store, history } = this.props;
-    
+
     return (
       <Provider store={store}>
         <Router history={history}>
@@ -16,10 +21,5 @@ class Root extends Component {
     );
   }
 }
-
-Root.propTypes = {
-  store: PropTypes.object,
-  history: PropTypes.object,
-};
 
 export default Root;

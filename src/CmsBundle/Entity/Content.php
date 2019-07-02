@@ -262,7 +262,6 @@ class Content extends BaseContent
     /**
      * @JMS\VirtualProperty
      * @JMS\SerializedName("site_id")
-     * @JMS\Groups({"detail", "list"})
      *
      * @return int
      */
