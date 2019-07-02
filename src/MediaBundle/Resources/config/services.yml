@@ -64,6 +64,7 @@ services:
     # Providers
     opifer.media.provider.pool:
         class: '%opifer.media.provider.pool.class%'
+        public: true
 
     opifer.media.file_provider:
         class: '%opifer.media.file_provider.class%'

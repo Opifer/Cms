@@ -18,6 +18,7 @@ services:
 
     gedmo.listener.translatable:
         class: Gedmo\Translatable\TranslatableListener
+        public: true
         tags:
             - { name: doctrine.event_subscriber, connection: default }
         calls:

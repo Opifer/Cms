@@ -59,6 +59,7 @@ class ContentRouter implements RouterInterface
             'slug'        => "[a-zA-Z0-9\-_\/]*",
         ], [
             'expose'      => true,
+            'utf8'        => true,
         ]));
     }
 

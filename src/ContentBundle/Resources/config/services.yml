@@ -21,9 +21,11 @@ services:
         arguments:
             - '@opifer.content.content_manager'
             - '@router'
+        public: true
 
     opifer.content.block_provider_pool:
         class: Opifer\ContentBundle\Provider\BlockProviderPool
+        public: true
 
     opifer.content.content_manager.default:
         class: '%opifer.content.content_manager.default.class%'
@@ -172,10 +174,12 @@ services:
     opifer.content.block_manager:
         class: '%opifer.content.block_manager.class%'
         arguments: ['@doctrine.orm.default_entity_manager', '@opifer.revisions.revision_manager']
+        public: true
 
     opifer.content.content_design_suite:
         class: '%opifer.content.content_design_suite.class%'
         arguments: ['@router', '@opifer.content.content_manager']
+        public: true
 
     opifer.content.template_design_suite:
         class: '%opifer.content.template_design_suite.class%'
@@ -184,6 +188,7 @@ services:
     opifer.content.block_environment:
         class: '%opifer.content.block_environment.class%'
         arguments: ['@doctrine.orm.default_entity_manager', '@opifer.content.block_manager', '@opifer.revisions.revision_manager', '@opifer.content.twig_analyzer']
+        public: true
 
     opifer.content.block_listener:
         class: '%opifer.content.block_listener.class%'

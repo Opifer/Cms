@@ -114,7 +114,7 @@ site:
 # Users
 user:
     edit:
-        success: %username% was updated successfully!
+        success: '%username% was updated successfully!'
     new:
         success: '%username% was successfully created with ID "%id%"'
     create_user: create a new user
