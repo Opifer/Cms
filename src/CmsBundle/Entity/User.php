@@ -56,8 +56,20 @@ class User extends FOSUser implements TwoFactorInterface
     protected $email;
 
     /**
-     * @var string
+     * @Assert\Length(
+     *      min = 8,
+     *      max = 50,
+     *      minMessage = "Your password must be at least {{ limit }} characters long",
+     *      maxMessage = "Your password cannot be longer than {{ limit }} characters"
+     * )
      *
+     * @Assert\Regex(
+     *     pattern="/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]+$/",
+     *     match=true,
+     *     message="Your password should at least have 1 small letter, 1 capital and 1 numeric"
+     * )
+     *
+     * @var string
      * Plain password. Used for model validation. Must not be persisted.
      */
     protected $plainPassword;
