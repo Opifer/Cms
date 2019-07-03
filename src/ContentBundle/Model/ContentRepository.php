@@ -41,6 +41,8 @@ class ContentRepository extends NestedTreeRepository
     public function getContentFromRequest(Request $request)
     {
         $qb = $this->createQueryBuilder('c');
+        $qb->addSelect('COUNT(children) AS num_children')
+            ->leftJoin('c.children', 'children');
 
         if ($request->get('q')) {
             $qb->leftJoin('c.template', 't');
@@ -65,6 +67,7 @@ class ContentRepository extends NestedTreeRepository
         $qb->setMaxResults($request->get('limit', 25));
 
         $qb->orderBy('c.slug');
+        $qb->groupBy('c.id');
 
         return $qb->getQuery()
             ->getResult();

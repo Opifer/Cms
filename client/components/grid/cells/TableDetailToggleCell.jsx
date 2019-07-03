@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import SmallIcon from '../../icons/SmallIcon';
 
 const TableDetailToggleCell = ({
   expanded, onToggle,
@@ -10,16 +11,12 @@ const TableDetailToggleCell = ({
     className="text-center align-middle"
     {...restProps}
   >
-    <i
-      className="material-icons md-18"
-      style={{ cursor: 'pointer' }}
-      onClick={(e) => {
-        e.stopPropagation();
-        onToggle()
-      }}
-    >
-      {expanded ? 'keyboard_arrow_up' : 'keyboard_arrow_down'}
-    </i>
+    {row.has_children && (
+      <SmallIcon
+        onClick={onToggle}
+        icon={expanded ? 'keyboard_arrow_up' : 'keyboard_arrow_down'}
+      />
+    )}
   </td>
 );
 

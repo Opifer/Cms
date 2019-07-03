@@ -265,6 +265,13 @@ class ContentController extends Controller
 
         $formattedContent = [];
         foreach ($contents as $key => $content) {
+            if ($content['num_children'] > 0) {
+                $formattedContent[$key]['has_children'] = true;
+            } else {
+                $formattedContent[$key]['has_children'] = false;
+            }
+            /** @var Content $content */
+            $content = $content[0];
             $formattedContent[$key]['id'] = $content->getId();
             $formattedContent[$key]['site_id'] = $content->getSiteId();
             $formattedContent[$key]['parent_id'] = ($content->getParent()) ? $content->getParent()->getId() : 0;
@@ -278,6 +285,7 @@ class ContentController extends Controller
             //$formattedContent[$key]['updated_at'] = $content->getUpdatedAt()->format('Y-m-d H:i:s');
             $formattedContent[$key]['publish_at'] = $content->getPublishAt()->format('Y-m-d H:i:s');
             $formattedContent[$key]['path'] = '/'.$content->getSlug();
+            $formattedContent[$key]['level'] = $content->getLvl();
             $formattedContent[$key]['coverImage'] = '';
             $formattedContent[$key]['content_type']['id'] = ($content->getContentType()) ? $content->getContentType()->getId() : '';
             $formattedContent[$key]['content_type']['name'] = ($content->getContentType()) ? $content->getContentType()->getName() : '';
