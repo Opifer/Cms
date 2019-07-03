@@ -10,6 +10,7 @@ use Opifer\MediaBundle\Model\MediaInterface;
 use Scheb\TwoFactorBundle\Model\Google\TwoFactorInterface;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
+use Opifer\CmsBundle\Validator\Constraints as CmsAssert;
 
 /**
  * @UniqueEntity("username")
@@ -56,6 +57,8 @@ class User extends FOSUser implements TwoFactorInterface
     protected $email;
 
     /**
+     * @CmsAssert\Password
+     *
      * @var string
      *
      * Plain password. Used for model validation. Must not be persisted.
