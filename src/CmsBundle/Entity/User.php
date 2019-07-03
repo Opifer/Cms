@@ -57,7 +57,7 @@ class User extends FOSUser implements TwoFactorInterface
     protected $email;
 
     /**
-     * @CmsAssert\PasswordStrength
+     * @CmsAssert\Password
      *
      * @var string
      *

@@ -6,12 +6,12 @@ use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\ConstraintValidator;
 use Symfony\Component\Validator\Exception\UnexpectedTypeException;
 
-class PasswordStrengthValidator extends ConstraintValidator
+class PasswordValidator extends ConstraintValidator
 {
     public function validate($value, Constraint $constraint)
     {
-        if (!$constraint instanceof PasswordStrength) {
-            throw new UnexpectedTypeException($constraint, PasswordStrength::class);
+        if (!$constraint instanceof Password) {
+            throw new UnexpectedTypeException($constraint, Password::class);
         }
 
         if (!is_string($value)) {
