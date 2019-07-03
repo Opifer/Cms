@@ -1,5 +1,7 @@
 import axios from 'axios';
 
+export const createCancelToken = () => axios.CancelToken.source();
+export const isCancelled = error => axios.isCancel(error);
 
 export const api = axios.create({
   baseURL: process.env.NODE_ENV === 'production' ? undefined : '/app_dev.php',
@@ -23,7 +25,7 @@ export const post = config => api({
   ...config,
 });
 
-export const remove = config => api({
+export const del = config => api({
   method: 'DELETE',
   withCredentials: true,
   ...config,

@@ -1,5 +1,6 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
+import styled from 'styled-components';
 import { TABLE_HEADING_TYPE, TABLE_NODATA_TYPE, TABLE_DETAIL_TYPE } from '@devexpress/dx-grid-core';
 import { Getter, Template, Plugin } from '@devexpress/dx-react-core';
 import { Table } from '@devexpress/dx-react-grid-bootstrap4';
@@ -10,6 +11,12 @@ const pluginDependencies = [
 ];
 
 const ACTIONS_COLUMN_TYPE = 'actionsColumnType';
+
+const ButtonGroup = styled('div')`
+  i {
+    margin-right: 5px;
+  }
+`;
 
 const tableColumnsWithActions = (tableColumns, width) => [
   ...tableColumns,
@@ -52,13 +59,15 @@ class ActionsColumn extends PureComponent {
         >
           {params => (
             <Table.Cell {...params} row={params.tableRow.row}>
-              {actions.map(action => (
-                <SmallIcon
-                  key={action.icon}
-                  icon={action.icon}
-                  onClick={() => action.action(params.tableRow.row)}
-                />
-              ))}
+              <ButtonGroup>
+                {actions.map(action => (
+                  <SmallIcon
+                    key={action.icon}
+                    icon={action.icon}
+                    onClick={() => action.action(params.tableRow.row)}
+                  />
+                ))}
+              </ButtonGroup>
             </Table.Cell>
           )}
         </Template>
