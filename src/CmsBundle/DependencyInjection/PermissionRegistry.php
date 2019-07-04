@@ -9,6 +9,7 @@ class PermissionRegistry
         'CONTENT_INDEX',
         'CONTENT_CREATE',
         'CONTENT_DELETE',
+        'CONTENT_DESIGNER',
         'CONTENT_DUPLICATE',
         'CONTENT_TYPE_INDEX',
         'CONTENT_TYPE_CREATE',
