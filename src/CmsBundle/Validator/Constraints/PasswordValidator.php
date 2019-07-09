@@ -14,6 +14,12 @@ class PasswordValidator extends ConstraintValidator
             throw new UnexpectedTypeException($constraint, Password::class);
         }
 
+        // custom constraints should ignore null and empty values to allow
+        // other constraints (NotBlank, NotNull, etc.) take care of that
+        if (null === $value || '' === $value) {
+            return;
+        }
+
         if (!is_string($value)) {
             throw new UnexpectedTypeException($value, 'string');
         }
