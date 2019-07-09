@@ -59,7 +59,7 @@ class ContentGrid extends Component {
     this.setState({ isSearching: (params && params.q && params.q !== '') ? true : false });
 
     this.cancelToken = createCancelToken();
-    return getContents({ limit: 25, parent_id: !this.isRoot() ? this.props.row.id : undefined, ...params }, this.cancelToken)
+    return getContents({ limit: 100, parent_id: !this.isRoot() ? this.props.row.id : undefined, ...params }, this.cancelToken)
       .then((result) => {
         this.cancelToken = null;
         if (result.data && result.data.results) {
