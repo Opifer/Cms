@@ -133,7 +133,7 @@ class CollectionBlockService extends AbstractBlockService implements BlockServic
                 ->add('filters', BootstrapCollectionType::class, [
                     'allow_add' => true,
                     'allow_delete' => true,
-                    'type' => FilterType::class,
+                    'entry_type' => FilterType::class,
                     'attr' => [
                         'help_text' => 'Filters the user can use to search the collection',
                         'tag' => 'general'

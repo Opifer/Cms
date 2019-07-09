@@ -60,7 +60,6 @@ class Site
     /**
      * @var string
      *
-     * @Assert\NotBlank()
      * @JMS\Expose
      */
     private $defaultDomain;
@@ -257,9 +256,11 @@ class Site
         if ($this->defaultDomain) {
             return $this->defaultDomain;
         } elseif ($first = $this->getDomains()->first()) {
-            return $first->getDomain();
-        } else {
-            return null;
+            if ($first instanceof Domain) {
+                return $first->getDomain();
+            }
         }
+
+        return null;
     }
 }

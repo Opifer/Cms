@@ -50,21 +50,17 @@ class SiteController extends Controller
 
         $site = new Site();
 
-        $originalDomains = new ArrayCollection();
-        foreach ($site->getDomains() as $domain) {
-            $originalDomains->add($domain);
-        }
-
         $form = $this->createForm(SiteType::class, $site);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
-            // Add new domain
+
             foreach ($form->getData()->getDomains() as $domain) {
                 $domain->setSite($site);
+
+                $em->persist($domain);
             }
-            $em->persist($domain);
 
             $em->persist($site);
             $em->flush();
