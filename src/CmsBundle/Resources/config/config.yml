@@ -25,7 +25,6 @@ framework:
     templating:
         engines: ['twig']
     default_locale:  '%opifer_cms.default_locale%'
-    trusted_proxies: ~
     session:
         handler_id: session.handler.native_file
         save_path: null #%kernel.root_dir%/../var/sessions

@@ -12,12 +12,6 @@ opifer_mailing_list_mailing_list_edit:
     requirements:
         id:  \d+
 
-opifer_mailing_list_mailing_list_subscriptions:
-    path: /mailinglist/subscriptions/{id}
-    defaults: { _controller: OpiferMailingListBundle:MailingList:subscriptions }
-    requirements:
-        id:  \d+
-
 opifer_mailing_list_mailing_list_delete:
     path: /mailinglist/delete/{id}
     defaults: { _controller: OpiferMailingListBundle:MailingList:delete }
