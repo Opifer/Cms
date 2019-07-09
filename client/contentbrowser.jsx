@@ -1,3 +1,4 @@
+// @babel/polyfill is disabled for now since we already have another instance of it available.
 // import '@babel/polyfill';
 import React from 'react';
 import ReactDOM from 'react-dom';

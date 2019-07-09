@@ -31,5 +31,9 @@
             </div>
         </div>
     {% endspaceless %}
-    <script src="http://127.0.0.1:8080/dist/contentbrowser.js" />
+    {% if (app.environment == 'dev') %}
+        <script src="http://127.0.0.1:8080/dist/contentbrowser.js"></script>
+    {% else %}
+        <script src="{{ asset('bundles/opifercms/js/contentbrowser.js') }}"></script>
+    {% endif %}
 {% endblock body %}

@@ -3,9 +3,8 @@
   "version": "0.5.1",
   "main": "client/index.js",
   "scripts": {
-    "start": "webpack-dev-server --hot --inline",
-    "dev": "webpack -d --watch",
-    "build": "webpack -p --config webpack.config.dist.js"
+    "start": "webpack-dev-server --hot --inline --config webpack.dev.js",
+    "build": "webpack -p --config webpack.prod.js"
   },
   "dependencies": {
     "@babel/core": "^7.4.5",
@@ -29,6 +28,7 @@
   },
   "devDependencies": {
     "babel-eslint": "^10.0.2",
+    "babel-plugin-macros": "^2.6.1",
     "css-loader": "^3.0.0",
     "eslint": "^6.0.1",
     "eslint-config-airbnb": "^17.1.1",

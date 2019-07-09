@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import styled from 'styled-components';
+import styled from 'styled-components/macro';
 import { TABLE_HEADING_TYPE, TABLE_NODATA_TYPE, TABLE_DETAIL_TYPE } from '@devexpress/dx-grid-core';
 import { Getter, Template, Plugin } from '@devexpress/dx-react-core';
 import { Table } from '@devexpress/dx-react-grid-bootstrap4';

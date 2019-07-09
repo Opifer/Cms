@@ -6,21 +6,30 @@ import Grid from './Grid';
 import Cell from './cells/Cell';
 import IndentedCell from './cells/IndentedCell';
 import LabelCell from './cells/LabelCell';
+import LinkCell from './cells/LinkCell';
 import TableDetailToggleCell from './cells/TableDetailToggleCell';
 import ActionsColumn from './columns/ActionsColumn';
 import ConfirmationModal from '../modals/ConfirmationModal';
 import { createCancelToken, isCancelled } from '../../services/apiService';
+import { getContentDesignerPath, getContentEditPath } from '../../routes/router';
 
-const ContentCell = (props) => {
+const ContentCell = isSearching => (props) => {
   const { column, row } = props;
 
-  if (column.name === 'title') {
-    return <IndentedCell level={row.level} {...props} />;
+  switch (column.name) {
+    case 'title': {
+      return <IndentedCell level={isSearching ? 0 : row.level} {...props} />;
+    }
+    case 'path': {
+      return <LinkCell {...props} />;
+    }
+    case 'content_type.name': {
+      return <LabelCell {...props} />;
+    }
+    default: {
+      return <Cell {...props} />;
+    }
   }
-  if (column.name === 'content_type.name') {
-    return <LabelCell {...props} />;
-  }
-  return <Cell {...props} />;
 };
 
 class ContentGrid extends Component {
@@ -28,7 +37,8 @@ class ContentGrid extends Component {
     results: [],
     showDeleteModal: false,
     showCopyModal: false,
-    selectedRow: null
+    selectedRow: null,
+    isSearching: false,
   }
 
   constructor(props) {
@@ -45,6 +55,8 @@ class ContentGrid extends Component {
     if (params && params.q && this.cancelToken) {
       this.cancelToken.cancel('New search call requested');
     }
+
+    this.setState({ isSearching: (params && params.q && params.q !== '') ? true : false });
 
     this.cancelToken = createCancelToken();
     return getContents({ limit: 25, parent_id: !this.isRoot() ? this.props.row.id : undefined, ...params }, this.cancelToken)
@@ -79,14 +91,14 @@ class ContentGrid extends Component {
   }))
 
   render = () => {
-    const { results, showDeleteModal, showCopyModal, selectedRow } = this.state;
+    const { results, showDeleteModal, showCopyModal, selectedRow, isSearching } = this.state;
 
     const isRoot = this.isRoot();
 
     return (
       <Fragment>
         <Grid
-          cellComponent={ContentCell}
+          cellComponent={ContentCell(isSearching)}
           showHeaderRow={false}
           columns={[
             { name: 'title', title: 'Title' },
@@ -95,7 +107,7 @@ class ContentGrid extends Component {
           ]}
           rows={results}
           onRowClick={(row) => {
-            window.location.href = `/app_dev.php/admin/designer/content/${row.id}`;
+            window.location.href = getContentDesignerPath(row.id);
           }}
         >
           <RowDetailState />
@@ -108,8 +120,8 @@ class ContentGrid extends Component {
           />
           <ActionsColumn
             actions={[
-              { icon: 'edit', action: row => window.location.href = `/app_dev.php/admin/content/edit/${row.id}` },
-              { icon: 'layers', action: row => window.location.href = `/app_dev.php/admin/designer/content/${row.id}` },
+              { icon: 'edit', action: (row) => { window.location.href = getContentEditPath(row.id); } },
+              { icon: 'layers', action: (row) => { window.location.href = getContentDesignerPath(row.id); } },
               { icon: 'control_point_duplicate', action: row => this.toggleCopyModal(row) },
               { icon: 'delete', action: row => this.toggleDeleteModal(row) }
             ]}
