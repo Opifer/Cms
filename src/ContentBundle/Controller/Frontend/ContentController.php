@@ -45,12 +45,12 @@ class ContentController extends Controller
 
         $domain = $em->getRepository(Domain::class)->findOneByDomain($request->getHost());
 
-        if ($siteCount && $domain->getSite()->getDefaultLocale()) {
-            $request->setLocale($domain->getSite()->getDefaultLocale()->getLocale());
-        }
-
         if (!$domain && $siteCount > 1) {
             return $this->render('OpiferContentBundle:Content:domain_not_found.html.twig');
+        }
+
+        if ($siteCount && $domain && $domain->getSite()->getDefaultLocale()) {
+            $request->setLocale($domain->getSite()->getDefaultLocale()->getLocale());
         }
 
         if ($content->getLocale()) {
@@ -112,12 +112,12 @@ class ContentController extends Controller
 
         $domain = $em->getRepository(Domain::class)->findOneByDomain($host);
 
-        if ($siteCount && $domain->getSite()->getDefaultLocale()) {
-            $request->setLocale($domain->getSite()->getDefaultLocale()->getLocale());
-        }
-
         if (!$domain && $siteCount > 1) {
             return $this->render('OpiferContentBundle:Content:domain_not_found.html.twig');
+        }
+
+        if ($siteCount && $domain && $domain->getSite()->getDefaultLocale()) {
+            $request->setLocale($domain->getSite()->getDefaultLocale()->getLocale());
         }
 
         $content = $manager->getRepository()->findActiveBySlug('index', $host);
