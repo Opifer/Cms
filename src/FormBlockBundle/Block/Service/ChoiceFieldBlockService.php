@@ -37,7 +37,7 @@ class ChoiceFieldBlockService extends FormFieldBlockService implements BlockServ
             ->add('options', BootstrapCollectionType::class, [
                 'allow_add' => true,
                 'allow_delete' => true,
-                'type' => KeyValueType::class,
+                'entry_type' => KeyValueType::class,
             ])
         ;
     }

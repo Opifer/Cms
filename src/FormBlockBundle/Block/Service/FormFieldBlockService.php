@@ -65,7 +65,7 @@ abstract class FormFieldBlockService extends AbstractBlockService implements Blo
                 'required' => false,
                 'allow_add' => true,
                 'allow_delete' => true,
-                'type' => FormFieldValidationType::class,
+                'entry_type' => FormFieldValidationType::class,
             ])
             ->add('formula', TextAreaType::class, [
                 'required' => false,
