@@ -53,7 +53,11 @@ class CKEditorController extends Controller
      */
     public function stylesAction()
     {
-        return $this->render('OpiferCmsBundle:CKEditor:styles.js.twig');
+        $response = $this->render('OpiferCmsBundle:CKEditor:styles.js.twig');
+
+        $response->headers->set('Content-Type', 'text/css; charset=UTF-8');
+
+        return $response;
     }
 
     /**
@@ -63,8 +67,12 @@ class CKEditorController extends Controller
      */
     public function configAction()
     {
-        return $this->render('OpiferCmsBundle:CKEditor:config.js.twig', [
+        $response = $this->render('OpiferCmsBundle:CKEditor:config.js.twig', [
             'css_path' => $this->getParameter('opifer_cms.ckeditor_css_path'),
         ]);
+
+        $response->headers->set('Content-Type', 'application/javascript');
+
+        return $response;
     }
 }
