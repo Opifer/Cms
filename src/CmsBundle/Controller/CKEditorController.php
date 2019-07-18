@@ -55,7 +55,7 @@ class CKEditorController extends Controller
     {
         $response = $this->render('OpiferCmsBundle:CKEditor:styles.js.twig');
 
-        $response->headers->set('Content-Type', 'text/css; charset=UTF-8');
+        $response->headers->set('Content-Type', 'application/javascript');
 
         return $response;
     }
