@@ -88,8 +88,8 @@
                                         <a class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-hdd-o visible-xs-block"></i> {{ 'base.system'|trans|capitalize }} <i class="material-icons md-18">keyboard_arrow_down</i></a>
                                         <ul class="dropdown-menu">
 
-                                            <li role="presentation" class="dropdown-header">{{ 'base.system'|trans|capitalize }}</li>
-                                            {% block system_menu %}
+                                            <li role="presentation" class="dropdown-header">{{ 'base.environment'|trans|capitalize }}</li>
+                                            {% block environment_menu %}
                                                 {% if is_granted("CONFIG_INDEX") %} <li><a href="{{ path('opifer_cms_config_index') }}">{{ 'title.config'|trans|capitalize }}</a></li> {% endif %}
                                                 {% if is_granted("CRONJOB_INDEX") %} <li><a href="{{ path('opifer_cms_cronjob_index') }}">{{ 'base.cronjobs'|trans|capitalize }}</a></li> {% endif %}
                                                 {% if is_granted("USER_INDEX") %} <li><a href="{{ path('opifer_cms_user_index') }}">{{ 'base.users'|trans|capitalize }}</a></li> {% endif %}
