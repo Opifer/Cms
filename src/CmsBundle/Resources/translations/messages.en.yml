@@ -23,6 +23,7 @@ base:
     cronjobs: cron jobs
     content: content
     contenttypes: content types
+    environment: environment
     forms: forms
     help: help
     imagefilters: image settings
