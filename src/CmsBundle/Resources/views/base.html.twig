@@ -92,6 +92,7 @@
                                             {% if is_granted("CRONJOB_INDEX") %} <li><a href="{{ path('opifer_cms_cronjob_index') }}">{{ 'base.cronjobs'|trans|capitalize }}</a></li> {% endif %}
                                             {% if is_granted("USER_INDEX") %} <li><a href="{{ path('opifer_cms_user_index') }}">{{ 'base.users'|trans|capitalize }}</a></li> {% endif %}
                                             {% if is_granted("REDIRECT_INDEX") %} <li><a href="{{ path('opifer_redirect_redirect_index') }}">{{ 'base.redirects'|trans|capitalize }}</a></li> {% endif %}
+                                            {% block system_tab %}{% endblock %}
                                             <li class="divider"></li>
                                             <li role="presentation" class="dropdown-header">{{ 'base.content'|trans|capitalize }}</li>
                                             {% if is_granted("SITE_INDEX") %}<li><a href="{{ path('opifer_cms_site_index') }}">{{ 'base.sites'|trans|capitalize }}</a></li> {% endif %}
