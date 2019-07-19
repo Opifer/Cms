@@ -87,14 +87,17 @@
                                     <li class="dropdown">
                                         <a class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-hdd-o visible-xs-block"></i> {{ 'base.system'|trans|capitalize }} <i class="material-icons md-18">keyboard_arrow_down</i></a>
                                         <ul class="dropdown-menu">
+
+                                            <li role="presentation" class="dropdown-header">{{ 'base.system'|trans|capitalize }}</li>
                                             {% block system_menu %}
-                                                <li role="presentation" class="dropdown-header">{{ 'base.system'|trans|capitalize }}</li>
                                                 {% if is_granted("CONFIG_INDEX") %} <li><a href="{{ path('opifer_cms_config_index') }}">{{ 'title.config'|trans|capitalize }}</a></li> {% endif %}
                                                 {% if is_granted("CRONJOB_INDEX") %} <li><a href="{{ path('opifer_cms_cronjob_index') }}">{{ 'base.cronjobs'|trans|capitalize }}</a></li> {% endif %}
                                                 {% if is_granted("USER_INDEX") %} <li><a href="{{ path('opifer_cms_user_index') }}">{{ 'base.users'|trans|capitalize }}</a></li> {% endif %}
                                                 {% if is_granted("REDIRECT_INDEX") %} <li><a href="{{ path('opifer_redirect_redirect_index') }}">{{ 'base.redirects'|trans|capitalize }}</a></li> {% endif %}
-                                                <li class="divider"></li>
-                                                <li role="presentation" class="dropdown-header">{{ 'base.content'|trans|capitalize }}</li>
+                                            {% endblock %}
+                                            <li class="divider"></li>
+                                            <li role="presentation" class="dropdown-header">{{ 'base.content'|trans|capitalize }}</li>
+                                            {% block content_menu %}
                                                 {% if is_granted("SITE_INDEX") %}<li><a href="{{ path('opifer_cms_site_index') }}">{{ 'base.sites'|trans|capitalize }}</a></li> {% endif %}
                                                 {% if is_granted("LOCALE_INDEX") %}<li><a href="{{ path('lexik_translation_grid') }}">{{ 'title.translations'|trans|capitalize }}</a></li>{% endif %}
                                             {% endblock %}
