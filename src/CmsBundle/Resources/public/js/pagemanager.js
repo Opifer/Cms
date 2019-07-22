@@ -174,6 +174,7 @@ $(document).ready(function() {
 
                 initializeExpressionEngine();
                 initializeMediaPicker();
+                initializeFormScripts();
             });
 
             isLoading();
@@ -262,6 +263,7 @@ $(document).ready(function() {
                     initializeExpressionEngine();
 
                     initializeMediaPicker();
+                    initializeFormScripts();
                 });
 
                 return false;
@@ -466,6 +468,8 @@ $(document).ready(function() {
 
                     initializeMediaPicker();
 
+                    initializeFormScripts();
+
                     if (tab) {
                         editDialog.getModalBody().find('.nav-tabs a[href="#block-'+tab+'"]').tab('show');
                     }
@@ -496,6 +500,8 @@ $(document).ready(function() {
                 initializeExpressionEngine();
 
                 initializeMediaPicker();
+
+                initializeFormScripts();
             });
 
             editDialog.open();
