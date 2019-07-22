@@ -83,7 +83,7 @@ class FormType extends AbstractType
             ->add('uploadDirectory', EntityType::class, [
                 'label' => 'Upload directory',
                 'class'    => MediaDirectory::class,
-                'property' => 'name',
+                'choice_label' => 'name',
                 'attr'     => [
                     'help_text'   => 'In case this form supports uploads, we can place the upload in a specified directory. If empty, the file will be placed in the root of the media manager',
                 ],
