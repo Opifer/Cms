@@ -20,7 +20,6 @@ gulp.task('js', ['react'], function () {
     var files = [
         '../../../../friendsofsymfony/jsrouting-bundle/Resources/public/js/router.js',
         '../../../../willdurand/js-translation-bundle/Resources/public/js/translator.min.js',
-        'Resources/public/components/ng-file-upload/ng-file-upload-shim.min.js',
         'Resources/public/components/jquery/dist/jquery.min.js',
         'Resources/public/components/jquery-ui/jquery-ui.js',
         'Resources/public/components/js-cookie/src/js.cookie.js',
@@ -51,6 +50,7 @@ gulp.task('js', ['react'], function () {
         'Resources/public/components/remarkable-bootstrap-notify/bootstrap-notify.js',
         'Resources/public/components/bootstrap3-dialog/dist/js/bootstrap-dialog.js',
 
+        'node_modules/bootstrap-select/dist/js/bootstrap-select.js',
         'node_modules/react/dist/react-with-addons.min.js',
         'node_modules/react-dom/dist/react-dom.min.js',
 
@@ -111,6 +111,7 @@ gulp.task('css', function () {
         'Resources/public/components/codemirror/lib/codemirror.css',
         'Resources/public/components/eonasdan-bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.css',
         'Resources/public/components/bootstrap-iconpicker/bootstrap-iconpicker/css/bootstrap-iconpicker.css',
+        'node_modules/bootstrap-select/dist/css/bootstrap-select.css',
         'Resources/public/less/main.less'
     ];
 

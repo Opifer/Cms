@@ -16,6 +16,7 @@
     "babel-preset-stage-0": "6.16.0",
     "better-react-spinkit": "2.0.0-4",
     "bootstrap": "4.0.0-alpha.5",
+    "bootstrap-select": "1.13.10",
     "bspec": "1.0.1",
     "classnames": "2.2.5",
     "codemirror": "5.21.0",

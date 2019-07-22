@@ -178,6 +178,8 @@ $(document).ready(function() {
     $('.btn-group-columns input').on('change', function(e) {
         $(this).closest('form').submit();
     });
+
+    initializeFormScripts();
 });
 
 (function( jQuery ) {
@@ -226,4 +228,11 @@ function adjustCkeditorConfig() {
     CKEDITOR.config.allowedContent = true;
     CKEDITOR.config.stylesSet = 'cms_styles:'+Routing.generate('opifer_ckeditor_styles');
     CKEDITOR.config.customConfig = Routing.generate('opifer_ckeditor_config');
+}
+
+function initializeFormScripts() {
+  // Use bootstrap-select for multi-select fields
+  $('select[multiple*="multiple"]').selectpicker({
+    liveSearch: true
+  });
 }
