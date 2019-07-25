@@ -21,6 +21,7 @@ class MediaDirectoryRepository extends EntityRepository
             return $qb->leftJoin('d.parent', 'parent')
                 ->where('parent.id = :parent')
                 ->setParameter('parent', $dir)
+                ->addOrderBy('createdAt', 'DESC')
                 ->getQuery()
                 ->getResult();
         }
