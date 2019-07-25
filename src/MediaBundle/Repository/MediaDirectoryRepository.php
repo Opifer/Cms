@@ -18,15 +18,14 @@ class MediaDirectoryRepository extends EntityRepository
         $qb = $this->createQueryBuilder('d');
 
         if ($dir) {
-            return $qb->leftJoin('d.parent', 'parent')
+            $query = $qb->leftJoin('d.parent', 'parent')
                 ->where('parent.id = :parent')
-                ->setParameter('parent', $dir)
-                ->addOrderBy('createdAt', 'DESC')
-                ->getQuery()
-                ->getResult();
+                ->setParameter('parent', $dir);
+        } else {
+            $query = $qb->where('d.parent IS NULL');
         }
 
-        return $qb->where('d.parent IS NULL')
+        return $query->addOrderBy('createdAt', 'DESC')
             ->getQuery()
             ->getResult();
     }
