@@ -29,7 +29,7 @@ class RedirectRouter implements RouterInterface
 
     /** @var Request */
     protected $request;
-    
+
     /** @var array */
     protected $redirects;
 
@@ -51,7 +51,7 @@ class RedirectRouter implements RouterInterface
      */
     public function match($pathinfo)
     {
-        $urlMatcher = new UrlMatcher($this->getRouteCollection(), $this->getContext());
+        $urlMatcher = new UrlMatcher($this->getRoutes(), $this->getContext());
         $result = $urlMatcher->match($pathinfo);
 
         $path = $result['path'];
@@ -99,10 +99,7 @@ class RedirectRouter implements RouterInterface
         return $this->context;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getRouteCollection()
+    public function getRoutes()
     {
         if ($this->redirects === null) {
             $this->redirects = $this->redirectManager->getRepository()->findAll();
@@ -118,7 +115,15 @@ class RedirectRouter implements RouterInterface
                 ]));
             }
         }
-        
+
         return $this->routeCollection;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getRouteCollection()
+    {
+        return new RouteCollection();
     }
 }
