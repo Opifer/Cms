@@ -25,7 +25,7 @@ class MediaDirectoryRepository extends EntityRepository
             $query = $qb->where('d.parent IS NULL');
         }
 
-        return $query->addOrderBy('createdAt', 'DESC')
+        return $query
             ->getQuery()
             ->getResult();
     }

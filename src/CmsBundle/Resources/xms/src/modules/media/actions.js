@@ -129,6 +129,9 @@ export function getItems(filters = {}, refresh = false) {
       page = Math.ceil(state.media.results / state.media.resultsPerPage) + 1;
     }
 
+    if (!filters.order) filters.order = 'createdAt';
+    if (!filters.orderdir) filters.orderdir = 'desc';
+
     filters.page = page;
     // Remove the search property when the value is undefined
     if (typeof filters.search === 'undefined') delete filters.search;
