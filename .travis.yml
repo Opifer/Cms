@@ -24,4 +24,4 @@ before_install:
 install:
   - composer install --prefer-dist --no-interaction --no-scripts
 
-script: phpunit --coverage-text
+script: vendor/bin/phpunit --coverage-text
