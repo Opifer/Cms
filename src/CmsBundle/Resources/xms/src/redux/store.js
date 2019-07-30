@@ -16,12 +16,10 @@ if (process.env.NODE_ENV !== 'production') {
   middleware = [...middleware, loggerMiddleware];
 }
 
-const store = createStore(
+export default () => createStore(
   reducer,
   compose(
     applyMiddleware(...middleware),
     process.env.NODE_ENV !== 'production' && window.devToolsExtension ? window.devToolsExtension() : f => f
   )
 );
-
-export default store;

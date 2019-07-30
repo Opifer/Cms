@@ -3,13 +3,14 @@ import { render } from 'react-dom';
 import { AppContainer } from 'react-hot-loader';
 import { browserHistory } from 'react-router';
 import { syncHistoryWithStore } from 'react-router-redux';
-import store from './redux/store';
+import createStore from './redux/store';
 import Root from './containers/Root';
 import { loginUserSuccess } from './auth/actions';
 
 const element = document.getElementById('app');
 
 if (element) {
+  const store = createStore();
   const history = syncHistoryWithStore(browserHistory, store);
 
   const token = localStorage.getItem('token');
