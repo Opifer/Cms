@@ -79,7 +79,7 @@ class MediaManager extends Component {
 
           <div className="panel-body text-center">
             {(results < totalResults) && (
-              <button className="btn btn-primary" onClick={loadMore} disabled={isFetching}>
+              <button className="btn btn-primary" onClick={() => loadMore({ search: searchValue })} disabled={isFetching}>
                 {isFetching ? 'Fetching media' : 'Load more'}
               </button>
             )}
@@ -102,7 +102,7 @@ export default connect(
   }),
   (dispatch) => ({
     fetchItems: () => dispatch(getItems({ directory: 0 }, true)),
-    loadMore: () => dispatch(getItems({})),
+    loadMore: params => dispatch(getItems(params)),
     processFiles: (files) =>
       dispatch(uploadFiles(
         files,
