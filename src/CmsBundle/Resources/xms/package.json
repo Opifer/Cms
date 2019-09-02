@@ -40,7 +40,7 @@
     "jwt-decode": "^2.1.0",
     "lodash": "^4.16.4",
     "material-ui": "^0.16.0",
-    "moment": "^2.15.2",
+    "moment": "^2.19.3",
     "node-sass": "^3.8.0",
     "normalizr": "^2.2.1",
     "opifer-rcs": "git+ssh://git@bitbucket.org/jstack-eu/opifer-rcs",
