@@ -6,7 +6,9 @@ use Opifer\MediaBundle\Event\MediaResponseEvent;
 use Opifer\MediaBundle\Event\ResponseEvent;
 use Opifer\MediaBundle\Form\Type\MediaEditType;
 use Opifer\MediaBundle\Form\Type\MediaType;
+use Opifer\MediaBundle\Model\MediaManagerInterface;
 use Opifer\MediaBundle\OpiferMediaEvents;
+use Opifer\MediaBundle\Provider\ProviderInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -60,7 +62,9 @@ class MediaController extends Controller
             return $event->getResponse();
         }
 
+        /** @var MediaManagerInterface $mediaManager */
         $mediaManager = $this->get('opifer.media.media_manager');
+        /** @var ProviderInterface $mediaProvider */
         $mediaProvider = $this->get('opifer.media.provider.pool')->getProvider($provider);
 
         $media = $mediaManager->createMedia();
@@ -76,9 +80,9 @@ class MediaController extends Controller
             try {
                 $mediaManager->save($media);
             } catch (\Exception $e) {
-                $this->addFlash('error', sprintf('%s', $e->getMessage()));
+                $this->addFlash('error', 'An error occurred while trying to parse or save this media item');
 
-                return $this->redirectToRoute('opifer_media_media_index');
+                return $this->redirectToRoute('opifer_media_media_create', ['provider' => $provider]);
             }
 
             $this->addFlash('success', sprintf('%s was succesfully created', $media->getName()));

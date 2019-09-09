@@ -80,7 +80,6 @@ class YoutubeProvider extends AbstractProvider
                 'multiple' => false,
                 'choice_label' => 'name',
             ])
-            ->add('add '.$options['provider']->getLabel(), SubmitType::class)
         ;
     }
 
@@ -118,11 +117,11 @@ class YoutubeProvider extends AbstractProvider
     {
         preg_match('/(?<=v(\=|\/))([-a-zA-Z0-9_]+)|(?<=youtu\.be\/)([-a-zA-Z0-9_]+)/', $media->getReference(), $matches);
 
-        if(isset($matches[2])) {
+        if (isset($matches[2])) {
             $media->setReference($matches[2]);
         }
 
-        //Check if the reference already exists
+        // Check if the reference already exists
         if (!$media->getId() && $referenceMedia = $this->mediaManager->getRepository()->findOneBy(['reference' => $media->getReference()])) {
             throw new \Exception(sprintf('Video with reference: %s already exists for under the name: %s', $media->getReference(), $referenceMedia->getName()));
         }
@@ -149,6 +148,9 @@ class YoutubeProvider extends AbstractProvider
             $metadata = $this->getMetadata($media, $url);
         } catch (\RuntimeException $e) {
             $media->setStatus(Media::STATUS_DISABLED);
+            if (!$media->getId()) {
+                $media->setMetadata([]);
+            }
 
             return;
         }
