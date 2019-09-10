@@ -139,6 +139,8 @@ class YoutubeProvider extends AbstractProvider
      */
     public function updateMedadata(MediaInterface $media)
     {
+        $media->setContentType('video/x-flv');
+
         try {
             $url = sprintf(
                 'https://www.googleapis.com/youtube/v3/videos?id=%s&key=%s&part=snippet,contentDetails,statistics,status',
@@ -147,7 +149,6 @@ class YoutubeProvider extends AbstractProvider
             );
             $metadata = $this->getMetadata($media, $url);
         } catch (\RuntimeException $e) {
-            $media->setStatus(Media::STATUS_DISABLED);
             if (!$media->getId()) {
                 $media->setMetadata([]);
             }
@@ -166,7 +167,6 @@ class YoutubeProvider extends AbstractProvider
         $media->setThumb($thumb);
 
         $media->setMetadata($metadata);
-        $media->setContentType('video/x-flv');
     }
 
     /**
