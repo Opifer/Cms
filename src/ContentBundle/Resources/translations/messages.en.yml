@@ -47,6 +47,7 @@ help:
     column_count: Number of columns for this block.
     content_medias: This is the default image that will be shown when this page is used in a card, list, etc.
     alert_message: Text for shown alert message.
+    block_active: When a block is inactive it will NOT be shown on the published page but only in the content editor
     button_label: Text shown on button.
     button_url: Url where the button goes to.
     button_target: The target attribute specifies where to open the linked document.

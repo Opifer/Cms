@@ -20,6 +20,7 @@ use Opifer\FormBlockBundle\Entity\ChoiceFieldBlock;
 use Opifer\FormBlockBundle\Entity\NumberFieldBlock;
 use Opifer\FormBlockBundle\Entity\RangeFieldBlock;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\FormType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -305,6 +306,18 @@ abstract class AbstractBlockService implements BlockServiceInterface
                         'tag' => 'settings'
                     ],
                     'required' => false
+                ])
+                ->add('active', ChoiceType::class, [
+                    'label' => 'label.active',
+                    'attr' => [
+                        'help_text' => 'help.block_active',
+                        'tag' => 'settings'
+                    ],
+                    'choices' => [
+                        'Active' => true,
+                        'Inactive' => false,
+                    ],
+                    'choices_as_values' => true,
                 ])
         )->add(
             $builder->create('properties', FormType::class, ['label' => false, 'attr' => ['widget_col' => 12]])
