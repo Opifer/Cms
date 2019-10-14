@@ -24,7 +24,7 @@ class ContentItemBlockService extends AbstractBlockService implements BlockServi
 
         // Default panel
         $builder->add(
-            $builder->create('default', FormType::class, ['virtual' => true])
+            $builder->get('default')
                 ->add('value',  ContentPickerType::class, [
                     'as_object' => false,
                     'required' => false,
