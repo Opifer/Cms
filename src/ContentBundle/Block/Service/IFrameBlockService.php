@@ -25,27 +25,19 @@ class IFrameBlockService extends AbstractBlockService implements BlockServiceInt
     {
         parent::buildManageForm($builder, $options);
 
-        $propertiesForm = $builder->get('properties');
-
-        $builder->add(
-            $propertiesForm
-                ->add('url', TextType::class, [
-                    'attr' => [
-                        'help_text' => 'help.iframe_url',
-                        'tag' => 'general'
-                    ],
-                    'required' => true,
-                    'constraints' => [
-                        new NotBlank(),
-                    ],
-                ])
-        )->add(
-            $propertiesForm->add('id', TextType::class, ['attr' => ['help_text' => 'help.html_id'],'required' => false])
-                ->add('extra_classes', TextType::class, ['attr' => ['help_text' => 'help.extra_classes'],'required' => false])
-
-        );
-
         $builder->get('properties')
+            ->add('url', TextType::class, [
+                'attr' => [
+                    'help_text' => 'help.iframe_url',
+                    'tag' => 'general'
+                ],
+                'required' => true,
+                'constraints' => [
+                    new NotBlank(),
+                ],
+            ])
+            ->add('id', TextType::class, ['attr' => ['help_text' => 'help.html_id'],'required' => false])
+            ->add('extra_classes', TextType::class, ['attr' => ['help_text' => 'help.extra_classes'],'required' => false])
             ->add('width', TextType::class, ['attr' => ['tag' => 'styles']])
             ->add('height', TextType::class, ['attr' => ['tag' => 'styles']]);
 

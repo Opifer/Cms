@@ -29,7 +29,7 @@ class JumbotronBlockService extends AbstractBlockService implements BlockService
     {
         parent::buildManageForm($builder, $options);
 
-        $propertiesForm = $builder->get('properties')
+        $builder->get('properties')
             ->add('id', TextType::class, ['attr' => ['help_text' => 'help.html_id'],'required' => false])
             ->add('extra_classes', TextType::class, ['attr' => ['help_text' => 'help.extra_classes'],'required' => false])
             ->add('autoplay', ChoiceType::class, [
@@ -70,29 +70,25 @@ class JumbotronBlockService extends AbstractBlockService implements BlockService
                 ]);
         }
 
-        $builder->add(
-            $builder->get('default')
-                ->add('media', MediaPickerType::class, [
-                    'required'  => false,
-                    'multiple' => false,
-                    'attr' => [
-                        'label_col' => 12,
-                        'widget_col' => 12,
-                        'help_text' => 'help.jumbotron_media'
-                    ],
-                ])
-                ->add('value', CKEditorType::class, [
-                    'label' => 'label.rich_text',
-                    'required' => false,
-                    'attr' => [
-                        'label_col' => 12,
-                        'widget_col' => 12,
-                        'help_text' => 'help.jumbotron_rich_text'
-                    ]
-                ])
-        )->add(
-            $propertiesForm
-        );
+        $builder->get('default')
+            ->add('media', MediaPickerType::class, [
+                'required'  => false,
+                'multiple' => false,
+                'attr' => [
+                    'label_col' => 12,
+                    'widget_col' => 12,
+                    'help_text' => 'help.jumbotron_media'
+                ],
+            ])
+            ->add('value', CKEditorType::class, [
+                'label' => 'label.rich_text',
+                'required' => false,
+                'attr' => [
+                    'label_col' => 12,
+                    'widget_col' => 12,
+                    'help_text' => 'help.jumbotron_rich_text'
+                ]
+            ]);
     }
 
     /**

@@ -24,21 +24,19 @@ class JavaScriptBlockService extends AbstractBlockService implements BlockServic
         parent::buildManageForm($builder, $options);
 
         // Default panel
-        $builder->add(
-            $builder->get('default')
-                ->add('value', CodeMirrorType::class, [
-                    'label' => 'label.code',
-                    'parameters' => [
-                        'mode' => 'css'
-                    ],
-                    'attr' => [
-                        'label_col' => 12,
-                        'widget_col' => 12,
-                        'help_text' => 'help.javascript_code'
-                    ],
-                    'required' => false
-                ])
-        );
+        $builder->get('default')
+            ->add('value', CodeMirrorType::class, [
+                'label' => 'label.code',
+                'parameters' => [
+                    'mode' => 'css'
+                ],
+                'attr' => [
+                    'label_col' => 12,
+                    'widget_col' => 12,
+                    'help_text' => 'help.javascript_code'
+                ],
+                'required' => false
+            ]);
     }
 
     /**
