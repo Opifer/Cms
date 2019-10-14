@@ -83,7 +83,7 @@ class JumbotronBlockService extends AbstractBlockService implements BlockService
         }
 
         $builder->add(
-            $builder->create('default', FormType::class, ['inherit_data' => true])
+            $builder->get('default')
                 ->add('media', MediaPickerType::class, [
                     'required'  => false,
                     'multiple' => false,
