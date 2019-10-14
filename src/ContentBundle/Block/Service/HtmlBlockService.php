@@ -39,18 +39,16 @@ class HtmlBlockService extends AbstractBlockService implements BlockServiceInter
                 ]);
         }
         // Default panel
-        $builder->add(
-            $builder->get('default')
-                ->add('value', CKEditorType::class, [
-                    'label' => 'label.rich_text',
-                    'attr' => [
-                        'label_col' => 12,
-                        'widget_col' => 12,
-                        'help_text' => 'help.html_rich_text'
-                    ],
-                    'required' => false
-                ])
-        );
+        $builder->get('default')
+            ->add('value', CKEditorType::class, [
+                'label' => 'label.rich_text',
+                'attr' => [
+                    'label_col' => 12,
+                    'widget_col' => 12,
+                    'help_text' => 'help.html_rich_text'
+                ],
+                'required' => false
+            ]);
     }
 
     /**

@@ -90,76 +90,73 @@ class CollectionBlockService extends AbstractBlockService implements BlockServic
     {
         parent::buildManageForm($builder, $options);
 
-        // Default panel
-        $builder->add(
-            $builder->get('properties')
-                ->add('conditions', ExpressionEngineType::class, [
-                    'prototypes' => $this->getPrototypes(),
-                    'attr' => [
-                        'help_text' => 'Limit the collection with some predefined conditions.',
-                        'tag' => 'general'
-                    ],
-                    'required' => false
-                ])
-                ->add('order_by', ChoiceType::class, [
-                    'label' => 'Order by',
-                    'choices' => [
-                        'Creation Date' => 'createdAt',
-                        'Publication Date' => 'publishAt',
-                        'Title' => 'title',
-                    ],
-                    'attr' => [
-                        'help_text' => 'Define the order of the collection',
-                        'tag' => 'general'
-                    ]
-                ])
-                ->add('order_direction', ChoiceType::class, [
-                    'label' => 'Order direction',
-                    'choices' => [
-                        'Ascending' => 'ASC',
-                        'Descending' => 'DESC',
-                    ],
-                    'attr' => [
-                        'help_text' => 'Set the direction to ascending or descending',
-                        'tag' => 'general'
-                    ]
-                ])
-                ->add('limit', IntegerType::class, [
-                    'attr' => [
-                        'help_text' => 'The amount of items shown per page',
-                        'tag' => 'general'
-                    ],
-                    'required' => false
-                ])
-                ->add('filters', BootstrapCollectionType::class, [
-                    'allow_add' => true,
-                    'allow_delete' => true,
-                    'entry_type' => FilterType::class,
-                    'attr' => [
-                        'help_text' => 'Filters the user can use to search the collection',
-                        'tag' => 'general'
-                    ],
-                    'required' => false
-                ])
-                ->add('filter_placement', ChoiceType::class, [
-                    'label' => 'Filter placement',
-                    'choices' => (isset($this->config['filter_placement'])) ? $this->config['filter_placement'] : [],
-                    'attr' => [
-                        'help_text' => 'The position of the defined filters',
-                        'tag' => 'general'
-                    ],
-                    'required' => false
-                ])
-                ->add('load_more', CheckboxType::class, [
-                    'label' => 'Load more',
-                    'required' => false,
-                    'attr' => [
-                        'align_with_widget' => true,
-                        'help_text' => 'Adds a `load more` button to the block',
-                        'tag' => 'general'
-                    ],
-                ])
-        );
+        $builder->get('properties')
+            ->add('conditions', ExpressionEngineType::class, [
+                'prototypes' => $this->getPrototypes(),
+                'attr' => [
+                    'help_text' => 'Limit the collection with some predefined conditions.',
+                    'tag' => 'general'
+                ],
+                'required' => false
+            ])
+            ->add('order_by', ChoiceType::class, [
+                'label' => 'Order by',
+                'choices' => [
+                    'Creation Date' => 'createdAt',
+                    'Publication Date' => 'publishAt',
+                    'Title' => 'title',
+                ],
+                'attr' => [
+                    'help_text' => 'Define the order of the collection',
+                    'tag' => 'general'
+                ]
+            ])
+            ->add('order_direction', ChoiceType::class, [
+                'label' => 'Order direction',
+                'choices' => [
+                    'Ascending' => 'ASC',
+                    'Descending' => 'DESC',
+                ],
+                'attr' => [
+                    'help_text' => 'Set the direction to ascending or descending',
+                    'tag' => 'general'
+                ]
+            ])
+            ->add('limit', IntegerType::class, [
+                'attr' => [
+                    'help_text' => 'The amount of items shown per page',
+                    'tag' => 'general'
+                ],
+                'required' => false
+            ])
+            ->add('filters', BootstrapCollectionType::class, [
+                'allow_add' => true,
+                'allow_delete' => true,
+                'entry_type' => FilterType::class,
+                'attr' => [
+                    'help_text' => 'Filters the user can use to search the collection',
+                    'tag' => 'general'
+                ],
+                'required' => false
+            ])
+            ->add('filter_placement', ChoiceType::class, [
+                'label' => 'Filter placement',
+                'choices' => (isset($this->config['filter_placement'])) ? $this->config['filter_placement'] : [],
+                'attr' => [
+                    'help_text' => 'The position of the defined filters',
+                    'tag' => 'general'
+                ],
+                'required' => false
+            ])
+            ->add('load_more', CheckboxType::class, [
+                'label' => 'Load more',
+                'required' => false,
+                'attr' => [
+                    'align_with_widget' => true,
+                    'help_text' => 'Adds a `load more` button to the block',
+                    'tag' => 'general'
+                ],
+            ]);
 
         if ($this->config['templates'] && count($this->config['templates'])) {
             $builder->get('properties')

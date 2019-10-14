@@ -25,15 +25,13 @@ class AlertBlockService extends AbstractBlockService implements BlockServiceInte
     {
         parent::buildManageForm($builder, $options);
 
-        $builder->add(
-            $builder->get('default')
-                ->add('value', TextareaType::class, [
-                    'label' => 'Message',
-                    'attr' => [
-                        'help_text' => 'help.alert_message'
-                    ]
-                ])
-        );
+        $builder->get('default')
+            ->add('value', TextareaType::class, [
+                'label' => 'Message',
+                'attr' => [
+                    'help_text' => 'help.alert_message'
+                ]
+            ]);
 
         $builder->get('properties')
             ->add('id', TextType::class, [

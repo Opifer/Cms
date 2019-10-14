@@ -23,14 +23,12 @@ class ContentItemBlockService extends AbstractBlockService implements BlockServi
         parent::buildManageForm($builder, $options);
 
         // Default panel
-        $builder->add(
-            $builder->get('default')
-                ->add('value',  ContentPickerType::class, [
-                    'as_object' => false,
-                    'required' => false,
-                    'label' => 'label.content',
-                ])
-        );
+        $builder->get('default')
+            ->add('value',  ContentPickerType::class, [
+                'as_object' => false,
+                'required' => false,
+                'label' => 'label.content',
+            ]);
     }
 
     /**
