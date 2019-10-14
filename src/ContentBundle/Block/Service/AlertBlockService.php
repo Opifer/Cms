@@ -25,7 +25,7 @@ class AlertBlockService extends AbstractBlockService implements BlockServiceInte
         parent::buildManageForm($builder, $options);
 
         $builder->add(
-            $builder->create('default', FormType::Class, ['inherit_data' => true])
+            $builder->get('default')
                 ->add('value', TextareaType::class, [
                     'label' => 'Message',
                     'attr' => [

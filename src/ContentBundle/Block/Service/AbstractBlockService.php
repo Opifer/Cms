@@ -289,7 +289,7 @@ abstract class AbstractBlockService implements BlockServiceInterface
     public function buildManageForm(FormBuilderInterface $builder, array $options)
     {
         $builder->add(
-            $builder->create('default', FormType::class, ['inherit_data' => true])
+            $builder->get('default')
                 ->add('name', TextType::class, [
                     'label' => 'label.name',
                     'attr' => [
