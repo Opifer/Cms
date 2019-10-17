@@ -32,40 +32,38 @@ class CarouselBlockService extends AbstractBlockService implements BlockServiceI
         parent::buildManageForm($builder, $options);
 
         // Default panel
-        $builder->add(
-            $builder->get('properties')
-                ->add('id', TextType::class, [
-                    'attr' => [
-                        'help_text' => 'help.html_id'
-                    ],
-                    'required' => false
-                ])
-                ->add('extra_classes', TextType::class, [
-                    'attr' => [
-                        'help_text' => 'help.extra_classes'
-                    ],
-                    'required' => false
-                ])
-                ->add('show_indicators', ChoiceType::class, [
-                    'choices' => [
-                        'Yes' => true,
-                        'No' => false
-                    ],
-                    'attr' => [
-                        'help_text' => 'help.carousel_indicator'
-                    ]
-                ])
-                ->add('show_controls', ChoiceType::class, [
-                    'choices' => [
-                        'Yes' => true,
-                        'No' => false
-                    ],
-                    'attr' => [
-                        'help_text' => 'help.carousel_controls'
-                    ],
-                    'required' => false
-                ])
-        );
+        $builder->get('properties')
+            ->add('id', TextType::class, [
+                'attr' => [
+                    'help_text' => 'help.html_id'
+                ],
+                'required' => false
+            ])
+            ->add('extra_classes', TextType::class, [
+                'attr' => [
+                    'help_text' => 'help.extra_classes'
+                ],
+                'required' => false
+            ])
+            ->add('show_indicators', ChoiceType::class, [
+                'choices' => [
+                    'Yes' => true,
+                    'No' => false
+                ],
+                'attr' => [
+                    'help_text' => 'help.carousel_indicator'
+                ]
+            ])
+            ->add('show_controls', ChoiceType::class, [
+                'choices' => [
+                    'Yes' => true,
+                    'No' => false
+                ],
+                'attr' => [
+                    'help_text' => 'help.carousel_controls'
+                ],
+                'required' => false
+            ]);
     }
 
     /**
