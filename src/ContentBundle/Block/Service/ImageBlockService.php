@@ -6,6 +6,7 @@ use Opifer\ContentBundle\Block\BlockRenderer;
 use Opifer\ContentBundle\Block\Tool\Tool;
 use Opifer\ContentBundle\Block\Tool\ToolsetMemberInterface;
 use Opifer\ContentBundle\Entity\ImageBlock;
+use Opifer\ContentBundle\Form\Type\StylesType;
 use Opifer\ContentBundle\Model\BlockInterface;
 use Opifer\MediaBundle\Form\Type\MediaPickerType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
@@ -74,13 +75,8 @@ class ImageBlockService extends AbstractBlockService implements BlockServiceInte
         );
 
         $builder->get('properties')
-            ->add('styles', ChoiceType::class, [
-                'label' => 'label.styling',
+            ->add('styles', StylesType::class, [
                 'choices'  => $this->config['styles'],
-                'required' => false,
-                'expanded' => true,
-                'multiple' => true,
-                'attr' => ['help_text' => 'help.html_styles','tag' => 'styles'],
             ]);
     }
 

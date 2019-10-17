@@ -9,6 +9,7 @@ use Opifer\ContentBundle\Block\Tool\ToolsetMemberInterface;
 use Opifer\ContentBundle\Entity\ColumnBlock;
 use Opifer\ContentBundle\Form\Type\GutterCollectionType;
 use Opifer\ContentBundle\Form\Type\SpanCollectionType;
+use Opifer\ContentBundle\Form\Type\StylesType;
 use Opifer\ContentBundle\Model\BlockInterface;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\FormType;
@@ -116,19 +117,12 @@ class ColumnBlockService extends AbstractBlockService implements LayoutBlockServ
             }
 
             $form->get('properties')
-                ->add('styles', ChoiceType::class, [
-                    'label' => 'label.styling',
+                ->add('styles', StylesType::class, [
                     'choices' => $this->config['styles'],
-                    'required' => false,
-                    'expanded' => true,
-                    'multiple' => true,
                     'attr' => [
                         'help_text' => 'help.list_display_size',
-                        // 'class' => 'btn-group btn-group-styling', 
-                        // 'data-toggle' => 'buttons',
                         'tag' => 'styles'
                     ],
-                    // 'label_attr' => ['class' => 'btn'],
                 ])
                 ->add('spans', SpanCollectionType::class, [
                     'column_count' => $block->getColumnCount(),

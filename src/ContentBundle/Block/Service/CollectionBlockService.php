@@ -9,6 +9,7 @@ use Opifer\ContentBundle\Block\Tool\Tool;
 use Opifer\ContentBundle\Block\Tool\ToolsetMemberInterface;
 use Opifer\ContentBundle\Entity\CollectionBlock;
 use Opifer\ContentBundle\Form\Type\FilterType;
+use Opifer\ContentBundle\Form\Type\StylesType;
 use Opifer\ContentBundle\Model\BlockInterface;
 use Opifer\ContentBundle\Model\ContentManagerInterface;
 use Opifer\ContentBundle\Model\ContentTypeInterface;
@@ -172,14 +173,10 @@ class CollectionBlockService extends AbstractBlockService implements BlockServic
         }
 
         if ($this->config['styles']) {
-            $builder->get('properties')->add('styles', ChoiceType::class, [
-                'label' => 'label.styling',
-                'choices' => $this->config['styles'],
-                'required' => false,
-                'expanded' => true,
-                'multiple' => true,
-                'attr' => ['help_text' => 'help.html_styles', 'tag' => 'styles'],
-            ]);
+            $builder->get('properties')
+                ->add('styles', StylesType::class, [
+                    'choices' => $this->config['styles'],
+                ]);
         }
     }
 

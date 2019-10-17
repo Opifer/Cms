@@ -5,6 +5,7 @@ namespace Opifer\ContentBundle\Block\Service;
 use Opifer\ContentBundle\Block\Tool\Tool;
 use Opifer\ContentBundle\Block\Tool\ToolsetMemberInterface;
 use Opifer\ContentBundle\Entity\ButtonBlock;
+use Opifer\ContentBundle\Form\Type\StylesType;
 use Opifer\ContentBundle\Model\BlockInterface;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\FormType;
@@ -40,13 +41,8 @@ class ButtonBlockService extends AbstractBlockService implements BlockServiceInt
 
         if ($this->config['styles']) {
             $builder->get('properties')
-                ->add('styles', ChoiceType::class, [
-                    'label' => 'label.styling',
+                ->add('styles', StylesType::class, [
                     'choices'  => $this->config['styles'],
-                    'required' => false,
-                    'expanded' => true,
-                    'multiple' => true,
-                    'attr'     => ['tag' => 'styles'],
                 ]);
         }
 
