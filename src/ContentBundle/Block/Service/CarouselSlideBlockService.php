@@ -25,7 +25,7 @@ class CarouselSlideBlockService extends AbstractBlockService implements BlockSer
     {
         parent::buildManageForm($builder, $options);
 
-        $propertiesForm = $builder->get('properties')
+        $builder->get('properties')
             ->add('id', TextType::class, ['attr' => ['help_text' => 'help.html_id'], 'required' => false])
             ->add('extra_classes', TextType::class, ['attr' => ['help_text' => 'help.extra_classes'],'required' => false]);
 
@@ -45,27 +45,24 @@ class CarouselSlideBlockService extends AbstractBlockService implements BlockSer
                 ]);
         }
 
-        $builder->add(
-            $builder->create('default', FormType::class, ['inherit_data' => true])
-                ->add('media', MediaPickerType::class, [
-                    'required'  => false,
-                    'multiple' => false,
-                    'attr' => [
-                            'help_text' => 'help.carouselslide_media',
-                        ]
-                    ])
-                ->add('value', CKEditorType::class, [
-                    'label' => 'label.rich_text',
-                    'attr' => [
-                        'label_col' => 12,
-                        'widget_col' => 12,
-                        'help_text' => 'help.carouselslide_rich_text',
-                    ],
-                    'required' => false
+
+        $builder->get('default', FormType::class, ['inherit_data' => true])
+            ->add('media', MediaPickerType::class, [
+                'required'  => false,
+                'multiple' => false,
+                'attr' => [
+                        'help_text' => 'help.carouselslide_media',
+                    ]
                 ])
-        )->add(
-            $propertiesForm
-        );
+            ->add('value', CKEditorType::class, [
+                'label' => 'label.rich_text',
+                'attr' => [
+                    'label_col' => 12,
+                    'widget_col' => 12,
+                    'help_text' => 'help.carouselslide_rich_text',
+                ],
+                'required' => false
+            ]);
     }
 
     /**
