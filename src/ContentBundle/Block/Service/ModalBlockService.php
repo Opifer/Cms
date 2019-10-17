@@ -5,6 +5,7 @@ namespace Opifer\ContentBundle\Block\Service;
 use Opifer\CmsBundle\Form\Type\CKEditorType;
 use Opifer\ContentBundle\Entity\Block;
 use Opifer\ContentBundle\Entity\ButtonBlock;
+use Opifer\ContentBundle\Form\Type\StylesType;
 use Opifer\FormBlockBundle\Entity\FormFieldBlock;
 use Opifer\FormBlockBundle\Entity\ChoiceFieldBlock;
 use Opifer\FormBlockBundle\Form\Type\FormFieldValidationType;
@@ -99,14 +100,9 @@ class ModalBlockService extends AbstractBlockService implements BlockServiceInte
 
         if (isset($this->config['styles']) && count($this->config['styles'])) {
             $builder->get('properties')
-                ->add('styles', ChoiceType::class, [
-                    'label' => 'label.styling',
+                ->add('styles', StylesType::class, [
                     'choices'  => $this->config['styles'],
-                    'required' => false,
-                    'expanded' => true,
-                    'multiple' => true,
-                    'attr' => ['help_text' => 'help.html_styles', 'tag' => 'styles'],
-            ]);
+                ]);
         }
 
         if (isset($this->config['template']) && count($this->config['template'])) {

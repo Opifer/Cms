@@ -8,6 +8,7 @@ use Opifer\ContentBundle\Block\Tool\ToolsetMemberInterface;
 use Opifer\ContentBundle\Entity\Block;
 use Opifer\ContentBundle\Entity\TabNavBlock;
 use Opifer\ContentBundle\Entity\TabsBlock;
+use Opifer\ContentBundle\Form\Type\StylesType;
 use Opifer\ContentBundle\Form\Type\TabType;
 use Opifer\ContentBundle\Model\BlockInterface;
 
@@ -82,13 +83,8 @@ class TabNavBlockService extends AbstractBlockService implements LayoutBlockServ
 
         if ($this->config['styles']) {
             $builder->get('properties')
-                ->add('styles', ChoiceType::class, [
-                    'label' => 'label.styling',
+                ->add('styles', StylesType::class, [
                     'choices'  => $this->config['styles'],
-                    'required' => false,
-                    'expanded' => true,
-                    'multiple' => true,
-                    'attr' => ['help_text' => 'help.html_styles','tag' => 'styles'],
                 ]);
         }
     }

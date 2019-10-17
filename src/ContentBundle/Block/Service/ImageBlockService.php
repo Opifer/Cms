@@ -6,6 +6,7 @@ use Opifer\ContentBundle\Block\BlockRenderer;
 use Opifer\ContentBundle\Block\Tool\Tool;
 use Opifer\ContentBundle\Block\Tool\ToolsetMemberInterface;
 use Opifer\ContentBundle\Entity\ImageBlock;
+use Opifer\ContentBundle\Form\Type\StylesType;
 use Opifer\ContentBundle\Model\BlockInterface;
 use Opifer\MediaBundle\Form\Type\MediaPickerType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
@@ -52,31 +53,8 @@ class ImageBlockService extends AbstractBlockService implements BlockServiceInte
             ]);
 
         $builder->get('properties')
-            ->add('id', TextType::class, ['attr' => ['help_text' => 'help.html_id'],'required' => false])
-            ->add('extra_classes', TextType::class, ['attr' => ['help_text' => 'help.extra_classes'],'required' => false])
-            ->add('filter', ChoiceType::class, [
-                'choices' => $this->getAvailableFilters(),
-                'choices_as_values' => true,
-                'required' => false,
-                'attr' => ['help_text' => 'help.image_filter']
-            ])
-            ->add('enlarge', ChoiceType::class, [
-                'choices' => ['No' => false, 'Yes' => true],
-                'attr' => ['help_text' => 'help.image_enlarge'],
-                'required' => false,
-            ])
-            ->add('enlarge_filter', ChoiceType::class, [
-                'choices' => $this->getAvailableFilters(),
-                'required' => false,
-                'attr' => ['help_text' => 'help.image_enlarge_filter']
-            ])
-            ->add('styles', ChoiceType::class, [
-                'label' => 'label.styling',
+            ->add('styles', StylesType::class, [
                 'choices'  => $this->config['styles'],
-                'required' => false,
-                'expanded' => true,
-                'multiple' => true,
-                'attr' => ['help_text' => 'help.html_styles','tag' => 'styles'],
             ]);
     }
 
