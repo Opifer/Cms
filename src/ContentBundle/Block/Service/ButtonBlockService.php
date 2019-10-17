@@ -47,7 +47,7 @@ class ButtonBlockService extends AbstractBlockService implements BlockServiceInt
         }
 
         $builder->add(
-            $builder->get('default'])
+            $builder->get('default')
                 ->add('value', TextType::class, [
                     'label' => 'label.label',
                     'attr' => [
