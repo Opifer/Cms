@@ -7,28 +7,44 @@ use Opifer\ContentBundle\Block\Tool\ToolsetMemberInterface;
 use Opifer\ContentBundle\Entity\ContentItemBlock;
 use Opifer\ContentBundle\Form\Type\ContentPickerType;
 use Opifer\ContentBundle\Model\BlockInterface;
+use Symfony\Component\Form\Extension\Core\Type\FormType;
 use Symfony\Component\Form\FormBuilderInterface;
 
+/**
+ * ContentItem Block Service.
+ */
 class ContentItemBlockService extends AbstractBlockService implements BlockServiceInterface, ToolsetMemberInterface
 {
-    public function buildManageForm(FormBuilderInterface $builder, array $options) : void
+    /**
+     * {@inheritdoc}
+     */
+    public function buildManageForm(FormBuilderInterface $builder, array $options)
     {
         parent::buildManageForm($builder, $options);
 
-        $builder->get('default')
-            ->add('value',  ContentPickerType::class, [
-                'as_object' => false,
-                'required' => false,
-                'label' => 'label.content',
-            ]);
+        // Default panel
+        $builder->add(
+            $builder->get('default')
+                ->add('value',  ContentPickerType::class, [
+                    'as_object' => false,
+                    'required' => false,
+                    'label' => 'label.content',
+                ])
+        );
     }
 
-    public function createBlock() : ContentItemBlock
+    /**
+     * {@inheritdoc}
+     */
+    public function createBlock()
     {
         return new ContentItemBlock();
     }
 
-    public function getTool(BlockInterface $block = null) : Tool
+    /**
+     * {@inheritdoc}
+     */
+    public function getTool(BlockInterface $block = null)
     {
         $tool = new Tool('ContentItem', 'content_item');
 
@@ -38,7 +54,11 @@ class ContentItemBlockService extends AbstractBlockService implements BlockServi
         return $tool;
     }
 
-    public function getDescription(BlockInterface $block = null) : string
+    /**
+     * @param BlockInterface $block
+     * @return string
+     */
+    public function getDescription(BlockInterface $block = null)
     {
         return 'Include another page inside the current page';
     }

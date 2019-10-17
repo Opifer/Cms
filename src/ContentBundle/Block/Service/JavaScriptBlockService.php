@@ -25,7 +25,7 @@ class JavaScriptBlockService extends AbstractBlockService implements BlockServic
 
         // Default panel
         $builder->add(
-            $builder->create('default', FormType::class, ['inherit_data' => true])
+            $builder->get('default')
                 ->add('value', CodeMirrorType::class, [
                     'label' => 'label.code',
                     'parameters' => [

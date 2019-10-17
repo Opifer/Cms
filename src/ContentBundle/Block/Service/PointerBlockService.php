@@ -100,7 +100,7 @@ class PointerBlockService extends AbstractBlockService implements BlockServiceIn
      */
     public function buildManageForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add($builder->create('default', FormType::class, ['inherit_data' => true])
+        $builder->get('default')
             ->add('reference', EntityType::class, [
                 'required' => false,
                 'label' => 'label.block',
@@ -114,8 +114,7 @@ class PointerBlockService extends AbstractBlockService implements BlockServiceIn
                         ->andWhere('b.template IS NULL')
                         ->setParameter('shared', true);
                 },
-            ])
-        );
+            ]);
     }
 
     /**
