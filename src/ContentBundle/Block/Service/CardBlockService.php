@@ -7,6 +7,7 @@ use Opifer\ContentBundle\Block\Tool\Tool;
 use Opifer\ContentBundle\Block\Tool\ToolsetMemberInterface;
 use Opifer\ContentBundle\Entity\CardBlock;
 use Opifer\ContentBundle\Form\Type\ContentPickerType;
+use Opifer\ContentBundle\Form\Type\StylesType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Opifer\MediaBundle\Form\Type\MediaPickerType;
@@ -53,12 +54,8 @@ class CardBlockService extends AbstractBlockService implements BlockServiceInter
                 'choices'     => $this->config['presets'],
                 'required'    => true,
             ])
-            ->add('styles', ChoiceType::class, [
-                'label' => 'label.styling',
+            ->add('styles', StylesType::class, [
                 'choices'  => $this->config['styles'],
-                'required' => false,
-                'expanded' => true,
-                'multiple' => true,
                 'attr' => [
                     'help_text' => 'help.html_styles',
                     'class' => 'radio-rows',

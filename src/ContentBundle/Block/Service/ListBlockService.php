@@ -8,6 +8,7 @@ use Opifer\ContentBundle\Block\Tool\Tool;
 use Opifer\ContentBundle\Block\Tool\ToolsetMemberInterface;
 use Opifer\ContentBundle\Entity\ListBlock;
 use Opifer\ContentBundle\Form\Type\ContentListPickerType;
+use Opifer\ContentBundle\Form\Type\StylesType;
 use Opifer\ContentBundle\Model\BlockInterface;
 use Opifer\ContentBundle\Model\ContentManagerInterface;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
@@ -86,13 +87,8 @@ class ListBlockService extends AbstractBlockService implements BlockServiceInter
         }
 
         if ($this->config['styles']) {
-            $builder->get('properties')->add('styles', ChoiceType::class, [
-                'label' => 'label.styling',
+            $builder->get('properties')->add('styles', StylesType::class, [
                 'choices' => $this->config['styles'],
-                'required' => false,
-                'expanded' => true,
-                'multiple' => true,
-                'attr' => ['help_text' => 'help.html_styles', 'tag' => 'styles'],
             ]);
         }
     }

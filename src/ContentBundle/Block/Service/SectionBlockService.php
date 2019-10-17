@@ -7,6 +7,7 @@ use Opifer\ContentBundle\Block\Tool\Tool;
 use Opifer\ContentBundle\Block\Tool\ToolsetMemberInterface;
 use Opifer\ContentBundle\Entity\SectionBlock;
 use Opifer\ContentBundle\Form\Type\BoxModelType;
+use Opifer\ContentBundle\Form\Type\StylesType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -48,13 +49,8 @@ class SectionBlockService extends AbstractBlockService implements BlockServiceIn
         $builder->get('properties')
             ->add('id', TextType::class, ['attr' => ['help_text' => 'help.html_id'],'required' => false])
             ->add('extra_classes', TextType::class, ['attr' => ['help_text' => 'help.extra_classes'],'required' => false])
-            ->add('styles', ChoiceType::class, [
-                'label' => 'label.styling',
+            ->add('styles', StylesType::class, [
                 'choices'  => $this->config['styles'],
-                'required' => false,
-                'expanded' => true,
-                'multiple' => true,
-                'attr' => ['help_text' => 'help.html_styles', 'tag' => 'styles'],
             ])
             ->add('padding', BoxModelType::class, [
                 'type' => 'padding',
