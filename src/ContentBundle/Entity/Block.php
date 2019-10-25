@@ -220,6 +220,7 @@ abstract class Block implements BlockInterface, DraftInterface
      *
      * @JMS\Expose
      *
+     * @Revisions\Revised
      * @ORM\Column(name="active", type="boolean")
      */
     protected $active = true;
