@@ -178,7 +178,7 @@ services:
 
     opifer.content.content_design_suite:
         class: '%opifer.content.content_design_suite.class%'
-        arguments: ['@router', '@opifer.content.content_manager']
+        arguments: ['@router', '@opifer.content.content_manager', '%opifer_content.frontend_url%']
         public: true
 
     opifer.content.template_design_suite:

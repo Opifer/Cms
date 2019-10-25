@@ -28,6 +28,7 @@ class Configuration implements ConfigurationInterface
                 ->scalarNode('content_manager')
                     ->defaultValue('opifer.content.content_manager.default')
                 ->end()
+                ->scalarNode('frontend_url')->defaultNull()->end()
                 ->arrayNode('content')
                     ->addDefaultsIfNotSet()
                     ->children()
