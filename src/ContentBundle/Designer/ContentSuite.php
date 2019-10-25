@@ -7,13 +7,15 @@ use Symfony\Component\Routing\RouterInterface;
 
 class ContentSuite extends AbstractDesignSuite
 {
-    /**
-     * @var ContentManager
-     */
+    /** @var ContentManager */
     protected $contentManager;
 
-    public function __construct(RouterInterface $router, ContentManager $contentManager)
+    /** @var string */
+    protected $frontendUrl;
+
+    public function __construct(RouterInterface $router, ContentManager $contentManager, $frontendUrl)
     {
+        $this->frontendUrl = $frontendUrl;
         $this->router = $router;
         $this->contentManager = $contentManager;
     }
@@ -53,6 +55,10 @@ class ContentSuite extends AbstractDesignSuite
      */
     public function getPermalink()
     {
+        if ($this->frontendUrl) {
+            return sprintf('%s/%s', $this->frontendUrl, $this->subject->getSlug());
+        }
+
         return $this->router->generate('_content', ['slug' => $this->subject->getSlug()]);
     }
 
