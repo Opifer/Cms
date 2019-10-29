@@ -48531,7 +48531,7 @@ function adjustCkeditorConfig() {
 }
 
 function initializeFormScripts() {
-  // Use bootstrap-select for select fields
+  // Use bootstrap-select for multi-select fields
   $('select[multiple*="multiple"]').selectpicker({
     liveSearch: true
   });
@@ -48539,7 +48539,6 @@ function initializeFormScripts() {
 
 var pagemanager;
 var CKEDITOR_BASEPATH = '/bundles/opifercms/components/ckeditor/';
-
 
 //
 // Override refreshPositions
@@ -48553,7 +48552,6 @@ $.widget( "ui.sortable", $.ui.sortable, {
         }
 
         return c;
-
     },
     _contactContainers: function (event) {
         var i, j, dist, itemWithLeastDistance, posProperty, sizeProperty, cur, nearBottom, floating, axis,
@@ -48599,7 +48597,6 @@ $.widget( "ui.sortable", $.ui.sortable, {
                     this.containers[i].containerCache.over = 0;
                 }
             }
-
         }
 
         // if no intersecting containers found, return
@@ -48614,8 +48611,7 @@ $.widget( "ui.sortable", $.ui.sortable, {
                 this.containers[innermostIndex].containerCache.over = 1;
             }
         } else {
-
-            //When entering a new container, we will find the item with the least distance and append our item near it
+            // When entering a new container, we will find the item with the least distance and append our item near it
             dist = 10000;
             itemWithLeastDistance = null;
             floating = innermostContainer.floating || this._isFloating(this.currentItem);
@@ -48743,7 +48739,6 @@ $(document).ready(function() {
                 $('#pm-iframe').css('width', width);
             });
 
-
             owner = $('#pm-document').attr('data-pm-owner');
             ownerId = $('#pm-document').attr('data-pm-owner-id');
             permalink = $('#pm-document').attr('data-pm-permalink');
@@ -48775,13 +48770,6 @@ $(document).ready(function() {
                 isNotLoading();
             });
 
-            //$('a[href="#tab-history"]').on('shown.bs.tab', function (e) {
-            //    e.target // newly activated tab
-            //    e.relatedTarget // previous active tab
-            //
-            //
-            //});
-
             $(document).on('submit', '#pm-dialog-edit form', function (e) {
                 e.preventDefault();
                 var id = editDialog.getData('blockId');
@@ -48795,12 +48783,12 @@ $(document).ready(function() {
                     } else {
                         editDialog.getModalBody().html(data);
                     }
+
                     // Bootstrap AngularJS app (media library etc) after altering DOM
                     angular.bootstrap(editDialog.getModalBody().find('form'), ["MainApp"]);
 
                     // Bootstrap ExpressionEngine ReactJS app
                     initializeExpressionEngine();
-
                     initializeMediaPicker();
                     initializeFormScripts();
                 });
@@ -48921,7 +48909,7 @@ $(document).ready(function() {
         };
 
         var refreshBlock = function (id) {
-            if (iFrame.contents().find('#app').length) {
+            if (iFrame.contents().find('#app').length || iFrame.contents().find('#root').length) {
                 // Refresh the whole iFrame when the page is a react/angular app.
                 iFrame[0].contentWindow.location.reload();
             } else {
@@ -49004,9 +48992,7 @@ $(document).ready(function() {
 
                     // Bootstrap ExpressionEngine ReactJS app
                     initializeExpressionEngine();
-
                     initializeMediaPicker();
-
                     initializeFormScripts();
 
                     if (tab) {
