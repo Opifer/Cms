@@ -95,7 +95,11 @@ class ContentEditorController extends Controller
         $frontendUrl = $this->container->getParameter('opifer_content.frontend_url');
         if ($frontendUrl) {
             $client = new Client();
-            $res = $client->request('GET', sprintf('%s/%d?manage=true', $frontendUrl, $ownerId));
+            if ($owner == 'template') {
+                $res = $client->request('GET', sprintf('%s/templates/%d?manage=true', $frontendUrl, $ownerId));
+            } else {
+                $res = $client->request('GET', sprintf('%s/%d?manage=true', $frontendUrl, $ownerId));
+            }
 
             return new Response($res->getBody()->getContents());
         }
