@@ -8,6 +8,7 @@ use Opifer\ContentBundle\Block\BlockManager;
 use Opifer\ContentBundle\Environment\Environment;
 use Opifer\ContentBundle\Model\ContentInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -100,6 +101,10 @@ class ContentController extends Controller
      */
     public function homeAction(Request $request)
     {
+        if ($frontendUrl = $this->getParameter('opifer_content.frontend_url')) {
+            return new RedirectResponse($frontendUrl);
+        }
+
         /** @var BlockManager $manager */
         $manager  = $this->get('opifer.content.content_manager');
         $host = $request->getHost();
