@@ -32,7 +32,7 @@ class ContentRouterTest extends \PHPUnit_Framework_TestCase
 
         $contentRepository->shouldReceive('findActiveBySlug', 'findActiveByAlias')->andReturn($content);
 
-        $contentRouter = new ContentRouter($this->requestStack, $this->contentManager);
+        $contentRouter = new ContentRouter($this->requestStack, $this->contentManager, null);
         $result = $contentRouter->match('/about');
 
         $this->assertEquals($content, $result['content']);
@@ -49,7 +49,7 @@ class ContentRouterTest extends \PHPUnit_Framework_TestCase
 
         $contentRepository->shouldReceive('findActiveBySlug', 'findActiveByAlias')->andThrow('Doctrine\ORM\NoResultException');
 
-        $contentRouter = new ContentRouter($this->requestStack, $this->contentManager);
+        $contentRouter = new ContentRouter($this->requestStack, $this->contentManager, null);
         $result = $contentRouter->match('/about');
     }
 
