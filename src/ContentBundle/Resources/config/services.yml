@@ -112,7 +112,7 @@ services:
 
     opifer.content.content_router:
         class: '%opifer.content.content_router.class%'
-        arguments: ['@request_stack', '@opifer.content.content_manager']
+        arguments: ['@request_stack', '@opifer.content.content_manager', '%opifer_content.frontend_url%']
 
     # Twig Extension
 
