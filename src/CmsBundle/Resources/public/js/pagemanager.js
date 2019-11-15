@@ -751,7 +751,9 @@ $(document).ready(function() {
         var showToolbar = function (element) {
             toolbar.addClass('hidden');
             toolbar.removeClass('pm-toolbar-pointer');
+            toolbar.removeClass('pm-toolbar-inactive');
             iFrame.contents().find('*[data-pm-block-manage]').removeClass('pm-hovered');
+            iFrame.contents().find('*[data-pm-block-manage]').removeClass('pm-inactive');
             if ($(element).attr('data-pm-block-pointer') == 'true') {
                 toolbar.addClass('pm-toolbar-pointer');
             }
@@ -759,6 +761,11 @@ $(document).ready(function() {
                 return;
             }
             $(element).addClass('pm-hovered');
+            const inactive = $(element).attr('data-pm-block-hidden') === 'true';
+            if (inactive) {
+              $(element).addClass('pm-inactive');
+              toolbar.addClass('pm-toolbar-inactive');
+            }
 
             var offset = $(element).offset();
             var width = $(element).width();
@@ -777,7 +784,8 @@ $(document).ready(function() {
             $('<div class="pm-handle" />').appendTo(element);
 
             var toolData = $.parseJSON($(element).attr('data-pm-tool'));
-            toolbar.find('.pm-btn-label .material-icons').text(toolData.icon);
+            const icon = inactive ? 'visibility_off' : toolData.icon || 'visibility';
+            toolbar.find('.pm-btn-label .material-icons').text(icon);
         };
 
         var hideToolbar = function () {

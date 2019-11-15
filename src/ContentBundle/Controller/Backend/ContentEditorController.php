@@ -53,7 +53,6 @@ class ContentEditorController extends Controller
         return $this->render($this->getParameter('opifer_content.content_design_view'), $parameters);
     }
 
-
     /**
      * Table of Contents tree
      *

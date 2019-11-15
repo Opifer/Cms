@@ -2,7 +2,7 @@
   font-family: 'Material Icons';
   font-style: normal;
   font-weight: 400;
-  src: url(https://fonts.gstatic.com/s/materialicons/v47/flUhRq6tzZclQEJ-Vdg-IuiaDsNZ.ttf) format('truetype');
+  src: url(https://fonts.gstatic.com/s/materialicons/v48/flUhRq6tzZclQEJ-Vdg-IuiaDsNZ.ttf) format('truetype');
 }
 .material-icons {
   font-family: 'Material Icons';
@@ -186,6 +186,9 @@
   color: white !important;
   background-color: #0062ff !important;
 }
+.pm-toolbar.pm-toolbar-inactive .pm-btn-label {
+  background-color: #999 !important;
+}
 .pm-toolbar.pm-toolbar-pointer .pm-btn-label {
   background-color: #FFD600 !important;
 }
@@ -206,6 +209,9 @@
 .pm-hovered {
   outline: 4px dotted #0062ff;
   outline-offset: -2px;
+}
+.pm-hovered.pm-inactive {
+  outline: 4px dotted rgba(0, 0, 0, 0.15);
 }
 .pm-toolbar-text {
   float: left;
