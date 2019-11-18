@@ -1268,6 +1268,15 @@ class Content implements ContentInterface, EntityInterface, TemplatedInterface, 
 
         return $this;
     }
+    /**
+     * @return $this
+     */
+    public function unsetTranslationGroup()
+    {
+        $this->translationGroup = null;
+
+        return $this;
+    }
 
     /**
      * @return array
