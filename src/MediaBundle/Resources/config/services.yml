@@ -122,7 +122,7 @@ services:
             - { name: liip_imagine.cache.resolver, resolver: aws_storage }
         calls:
             - [setCachePrefix, ['cache']]
-            - [setPutOption, ['CacheControl', 'max-age=86400' ]]
+            - [setPutOption, ['CacheControl', 'max-age=31557600' ]]
 
     opifer.imagine.cache.resolver.amazon_s3.proxy:
         class: '%opifer.imagine.cache.resolver.amazon_s3.proxy.class%'
