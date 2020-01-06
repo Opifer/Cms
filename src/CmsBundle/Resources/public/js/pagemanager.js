@@ -1,7 +1,6 @@
 var pagemanager;
 var CKEDITOR_BASEPATH = '/bundles/opifercms/components/ckeditor/';
 
-
 //
 // Override refreshPositions
 //
@@ -14,14 +13,13 @@ $.widget( "ui.sortable", $.ui.sortable, {
         }
 
         return c;
-
     },
     _contactContainers: function (event) {
         var i, j, dist, itemWithLeastDistance, posProperty, sizeProperty, cur, nearBottom, floating, axis,
             innermostContainer = null,
-        // CHANGED
+            // CHANGED
             innermostZIndex = null,
-        // CHANGED (END)
+            // CHANGED (END)
             innermostIndex = null;
 
         // get innermost container that intersects with item
@@ -60,7 +58,6 @@ $.widget( "ui.sortable", $.ui.sortable, {
                     this.containers[i].containerCache.over = 0;
                 }
             }
-
         }
 
         // if no intersecting containers found, return
@@ -75,8 +72,7 @@ $.widget( "ui.sortable", $.ui.sortable, {
                 this.containers[innermostIndex].containerCache.over = 1;
             }
         } else {
-
-            //When entering a new container, we will find the item with the least distance and append our item near it
+            // When entering a new container, we will find the item with the least distance and append our item near it
             dist = 10000;
             itemWithLeastDistance = null;
             floating = innermostContainer.floating || this._isFloating(this.currentItem);
@@ -173,6 +169,8 @@ $(document).ready(function() {
                 $(document).find('.modal-backdrop').remove();
 
                 initializeExpressionEngine();
+                initializeMediaPicker();
+                initializeFormScripts();
             });
 
             isLoading();
@@ -201,7 +199,6 @@ $(document).ready(function() {
 
                 $('#pm-iframe').css('width', width);
             });
-
 
             owner = $('#pm-document').attr('data-pm-owner');
             ownerId = $('#pm-document').attr('data-pm-owner-id');
@@ -234,13 +231,6 @@ $(document).ready(function() {
                 isNotLoading();
             });
 
-            //$('a[href="#tab-history"]').on('shown.bs.tab', function (e) {
-            //    e.target // newly activated tab
-            //    e.relatedTarget // previous active tab
-            //
-            //
-            //});
-
             $(document).on('submit', '#pm-dialog-edit form', function (e) {
                 e.preventDefault();
                 var id = editDialog.getData('blockId');
@@ -254,11 +244,14 @@ $(document).ready(function() {
                     } else {
                         editDialog.getModalBody().html(data);
                     }
+
                     // Bootstrap AngularJS app (media library etc) after altering DOM
                     angular.bootstrap(editDialog.getModalBody().find('form'), ["MainApp"]);
 
                     // Bootstrap ExpressionEngine ReactJS app
                     initializeExpressionEngine();
+                    initializeMediaPicker();
+                    initializeFormScripts();
                 });
 
                 return false;
@@ -300,6 +293,11 @@ $(document).ready(function() {
                 publishShared($(this).closest('form').attr('data-pm-block-id'));
             });
 
+            $(document).on('click', '.pm-btn-delete-block', function (e) {
+                e.preventDefault();
+                deleteBlock($(this).closest('form').attr('data-pm-block-id'));
+            });
+
             var cookieSettings = Cookies.getJSON('pmSettings');
             jQuery.extend(settings, cookieSettings);
 
@@ -310,6 +308,34 @@ $(document).ready(function() {
                     return "Attention: you will possible lose changes made.";
                 }
             };
+
+            $(document).on('hide.bs.collapse', '.js-collapsable', function () {
+                settings.toolsCollapsed[$(this).attr('id')] = true;
+                saveSettings();
+            });
+
+            $(document).on('show.bs.collapse', '.js-collapsable', function () {
+                settings.toolsCollapsed[$(this).attr('id')] = false;
+                saveSettings();
+            });
+
+            $('#pm-kwsearch-blocks').keyup(function () {
+                var searchTerm = $('#pm-kwsearch-blocks').val();
+                var searchSplit = searchTerm.replace(/ /g, "'):containsi('");
+
+                $.extend($.expr[':'], {'containsi': function(elem, i, match, array) {
+                        return (elem.textContent || elem.innerText || '').toLowerCase().indexOf((match[3] || '').toLowerCase()) >= 0;
+                    }
+                });
+
+                $('.pm-tools-blockset .pm-block-item').not(':containsi(\'' + searchSplit + '\')').each(function(e){
+                    $(this).attr('data-keyword-match', 'false');
+                });
+
+                $('.pm-tools-blockset .pm-block-item:containsi(\'' + searchSplit + '\')').each(function(e){
+                    $(this).attr('data-keyword-match', 'true');
+                });
+            });
         };
 
         // Start loading indicator
@@ -326,6 +352,10 @@ $(document).ready(function() {
 
         var applySettings = function () {
             splitPane.splitPane('lastComponentSize', settings.rightColumnWidth);
+            if (typeof settings.toolsCollapsed == 'undefined') settings.toolsCollapsed = {};
+            Object.keys(settings.toolsCollapsed).map(function(key, i) {
+                $('#'+key).collapse(settings.toolsCollapsed[key] ? 'hide' : 'show'); 
+            });
         };
 
         var saveSettings = function () {
@@ -340,10 +370,15 @@ $(document).ready(function() {
         };
 
         var refreshBlock = function (id) {
-            $.get(Routing.generate('opifer_content_api_contenteditor_view_block', {owner: owner, ownerId: ownerId, id: id})).done(function (data) {
-                getBlockElement(id).replaceWith(data.view);
-                showToolbars();
-            });
+            if (iFrame.contents().find('#app').length || iFrame.contents().find('#root').length) {
+                // Refresh the whole iFrame when the page is a react/angular app.
+                iFrame[0].contentWindow.location.reload();
+            } else {
+                $.get(Routing.generate('opifer_content_api_contenteditor_view_block', {owner: owner, ownerId: ownerId, id: id})).done(function (data) {
+                    getBlockElement(id).replaceWith(data.view);
+                    showToolbars();
+                });
+            }
         };
 
         var loadRunButton = function () {
@@ -380,9 +415,9 @@ $(document).ready(function() {
         var setViewMode = function(mode) {
             if (mode == VIEWMODE_CONTENT) {
                 $('.pm-tools-blockset').removeClass('hidden');
-            //} else if (mode == VIEWMODE_LAYOUT) {
-            //    $('.pm-tools-blockset').addClass('hidden');
-            //    $('#pm-tools-layouts').removeClass('hidden');
+                //} else if (mode == VIEWMODE_LAYOUT) {
+                //    $('.pm-tools-blockset').addClass('hidden');
+                //    $('#pm-tools-layouts').removeClass('hidden');
             } else {
                 $('.pm-tools-blockset').addClass('hidden');
             }
@@ -418,6 +453,8 @@ $(document).ready(function() {
 
                     // Bootstrap ExpressionEngine ReactJS app
                     initializeExpressionEngine();
+                    initializeMediaPicker();
+                    initializeFormScripts();
 
                     if (tab) {
                         editDialog.getModalBody().find('.nav-tabs a[href="#block-'+tab+'"]').tab('show');
@@ -447,6 +484,10 @@ $(document).ready(function() {
 
                 // Bootstrap ExpressionEngine ReactJS app
                 initializeExpressionEngine();
+
+                initializeMediaPicker();
+
+                initializeFormScripts();
             });
 
             editDialog.open();
@@ -664,7 +705,7 @@ $(document).ready(function() {
 
             iFrame.contents().find('body').append('' +
                 '<div id="pm-toolbar" class="pm pm-toolbar hidden">' +
-                    //'   <div class="pm-toolbar-text"><code>{{ block.id }}</code> {{ block_service.name(block) }}</div>' +
+                //'   <div class="pm-toolbar-text"><code>{{ block.id }}</code> {{ block_service.name(block) }}</div>' +
                 '<div class="pm-btn-group">' +
                 '<span class="pm-btn pm-btn-icon pm-btn-label"><i class="material-icons"></i></span>' +
                 '<a href="#" class="pm-btn pm-btn-icon pm-btn-drag" title="Drag this block to a new position"><i class="material-icons">drag_handle</i></a>' +
@@ -710,7 +751,9 @@ $(document).ready(function() {
         var showToolbar = function (element) {
             toolbar.addClass('hidden');
             toolbar.removeClass('pm-toolbar-pointer');
+            toolbar.removeClass('pm-toolbar-inactive');
             iFrame.contents().find('*[data-pm-block-manage]').removeClass('pm-hovered');
+            iFrame.contents().find('*[data-pm-block-manage]').removeClass('pm-inactive');
             if ($(element).attr('data-pm-block-pointer') == 'true') {
                 toolbar.addClass('pm-toolbar-pointer');
             }
@@ -718,6 +761,11 @@ $(document).ready(function() {
                 return;
             }
             $(element).addClass('pm-hovered');
+            const inactive = $(element).attr('data-pm-block-hidden') === 'true';
+            if (inactive) {
+              $(element).addClass('pm-inactive');
+              toolbar.addClass('pm-toolbar-inactive');
+            }
 
             var offset = $(element).offset();
             var width = $(element).width();
@@ -736,7 +784,8 @@ $(document).ready(function() {
             $('<div class="pm-handle" />').appendTo(element);
 
             var toolData = $.parseJSON($(element).attr('data-pm-tool'));
-            toolbar.find('.pm-btn-label .material-icons').text(toolData.icon);
+            const icon = inactive ? 'visibility_off' : toolData.icon || 'visibility';
+            toolbar.find('.pm-btn-label .material-icons').text(icon);
         };
 
         var hideToolbar = function () {
@@ -929,7 +978,8 @@ $(document).ready(function() {
                 data: values,
                 success: function (data) {
                     callback(data);
-                    sortables();
+                    // sortables();
+                    loadToC(sortables);
                 }
             }).error(function(data){
                 showAPIError(data);
@@ -999,9 +1049,11 @@ $(document).ready(function() {
         var loadToC = function (callback) {
             $.ajax({
                 url: Routing.generate('opifer_content_contenteditor_toc', {owner: owner, ownerId: ownerId}),
-                cache: false
+                cache: false,
+                dataType: 'html',
             }).done(function (data) {
                 $('#pm-toc').html(data);
+                applySettings();
                 if (callback) callback();
             });
         };

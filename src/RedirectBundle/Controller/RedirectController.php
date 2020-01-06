@@ -7,6 +7,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 
 class RedirectController extends Controller
 {
@@ -17,6 +18,8 @@ class RedirectController extends Controller
      */
     public function indexAction()
     {
+        $this->denyAccessUnlessGranted('REDIRECT_INDEX');
+
         $redirects = $this->get('opifer.redirect.redirect_manager')->getRepository()->findAll();
 
         return $this->render($this->container->getParameter('opifer_redirect.redirect_index_view'), [
@@ -33,6 +36,8 @@ class RedirectController extends Controller
      */
     public function createAction(Request $request)
     {
+        $this->denyAccessUnlessGranted('REDIRECT_CREATE');
+
         $manager = $this->get('opifer.redirect.redirect_manager');
 
         $redirect = $manager->createNew();
@@ -41,8 +46,13 @@ class RedirectController extends Controller
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+
             $manager->save($redirect);
             $this->addFlash('success', $this->get('translator')->trans('opifer_redirect.flash.created'));
+
+            if ($form->get('saveAndAdd')->isClicked()){
+                return $this->redirectToRoute('opifer_redirect_redirect_create');
+            }
 
             return $this->redirectToRoute('opifer_redirect_redirect_edit', ['id' => $redirect->getId()]);
         }
@@ -62,6 +72,8 @@ class RedirectController extends Controller
      */
     public function editAction(Request $request, $id)
     {
+        $this->denyAccessUnlessGranted('REDIRECT_EDIT');
+
         $manager = $this->get('opifer.redirect.redirect_manager');
 
         $redirect = $manager->getRepository()->find($id);
@@ -91,6 +103,8 @@ class RedirectController extends Controller
      */
     public function deleteAction($id)
     {
+        $this->denyAccessUnlessGranted('REDIRECT_DELETE');
+
         $manager = $this->get('opifer.redirect.redirect_manager');
 
         $redirect = $manager->getRepository()->find($id);

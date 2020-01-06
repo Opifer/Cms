@@ -2,10 +2,11 @@
 
 namespace Opifer\ExpressionEngine\Constraint;
 
+use Opifer\ExpressionEngine\ConstraintInterface;
 use Webmozart\Expression\Expression;
 use Webmozart\Expression\Logic\Literal;
 
-class DatePeriod extends Literal
+class DatePeriod extends Literal implements ConstraintInterface
 {
     /**
      * @var string
@@ -15,7 +16,7 @@ class DatePeriod extends Literal
     /**
      * Constructor
      *
-     * @param string $period
+     * @param string $date
      */
     public function __construct($date)
     {
@@ -32,7 +33,7 @@ class DatePeriod extends Literal
         }
 
         foreach ($value as $day) {
-            if (strtolower($day->format($this->getDateFormat())) == strtolower($this->date->format($this->getDateFormat()))) {
+            if (strtolower($day->format($this->getDateFormat())) == strtolower($this->date)) {
                 return true;
             }
         }
@@ -64,5 +65,10 @@ class DatePeriod extends Literal
     public function toString()
     {
         return 'datePeriod()';
+    }
+
+    public function getLeft($key)
+    {
+        return $key;
     }
 }

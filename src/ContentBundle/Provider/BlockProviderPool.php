@@ -23,6 +23,7 @@ class BlockProviderPool
      * provider pool
      *
      * @param BlockProviderInterface $provider
+     * @param string                 $alias
      */
     public function addProvider(BlockProviderInterface $provider, $alias)
     {
@@ -44,7 +45,7 @@ class BlockProviderPool
     /**
      * Get all registered providers
      *
-     * @return ProviderProviderInterface[]
+     * @return BlockProviderInterface[]
      */
     public function getProviders()
     {

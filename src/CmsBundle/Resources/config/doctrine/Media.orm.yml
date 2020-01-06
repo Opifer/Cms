@@ -109,11 +109,19 @@ Opifer\CmsBundle\Entity\Media:
         thumb:
             targetEntity: Opifer\MediaBundle\Model\MediaInterface
             cascade: {  }
-            fetch: LAZY
+            fetch: EAGER
             mappedBy: null
             inversedBy: null
             joinColumns:
                 thumb_id:
                     referencedColumnName: id
             orphanRemoval: false
-    lifecycleCallbacks: {  }
+    manyToOne:
+        directory:
+            targetEntity: Opifer\MediaBundle\Entity\MediaDirectoryInterface
+            inversedBy: items
+            cascade:
+                - persist
+            joinColumns:
+                directory_id:
+                    referencedColumnName: id

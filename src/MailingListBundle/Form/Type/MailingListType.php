@@ -36,14 +36,12 @@ class MailingListType extends AbstractType
 
         $builder
             ->add('name', TextType::class, [
-                'required' => true,
                 'label' => 'label.name',
                 'attr' => [
                     'placeholder' => 'placeholder.name',
                 ],
             ])
             ->add('displayName', TextType::class, [
-                'required' => true,
                 'label' => 'label.display_name',
                 'attr' => [
                     'placeholder' => 'placeholder.display_name',
@@ -55,8 +53,8 @@ class MailingListType extends AbstractType
                 'choices' => [
                     'MailChimp' => 'mailchimp',
                     'Mailplus' => 'mailplus',
+                    'ActiveCampaign' => 'activecampaign',
                 ],
-                'choices_as_values' => true,
                 'attr' => [
                     'placeholder' => 'placeholder.provider',
                 ],
@@ -75,6 +73,7 @@ class MailingListType extends AbstractType
             $remoteLists = $provider->getRemoteLists();
 
             $lists = array();
+
             array_map(function ($list) use (&$lists) {
                 $lists[$list['id']] = $list['name'];
             }, $remoteLists);

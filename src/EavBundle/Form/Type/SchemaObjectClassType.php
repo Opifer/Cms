@@ -26,22 +26,22 @@ class SchemaObjectClassType extends AbstractType
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function configureOptions(OptionsResolver $resolver)
     {
         $choices = array();
         foreach ($this->entities as $label => $class) {
-            $choices[$class] = ucfirst($label);
+            $choices[ucfirst($label)] = $class;
         }
 
         $resolver->setDefaults([
-            'choices'  => $choices,
+            'choices' => $choices,
         ]);
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getParent()
     {
@@ -49,7 +49,7 @@ class SchemaObjectClassType extends AbstractType
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getBlockPrefix()
     {

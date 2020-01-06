@@ -1,5 +1,5 @@
 {% if block.media|default %}
-    <img src="{{ block.media.reference|imagine_filter(block.properties.filter) }}" {{ manage_tags() }} class="{{ block.properties.extra_classes|default }} {{ block.properties.styles|default|join(' ') }}">
+    <img src="{{ block.media.reference|imagine_filter(block.properties.filter|default('original')) }}" {{ manage_tags() }} class="{{ block.properties.extra_classes|default }} {{ block.properties.styles|default|join(' ') }}">
 {% elseif manage|default %}
     <div {{ manage_tags() }}></div>
 {% endif %}

@@ -100,12 +100,12 @@ class PointerBlockService extends AbstractBlockService implements BlockServiceIn
      */
     public function buildManageForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add($builder->create('default', FormType::class, ['inherit_data' => true])
+        $builder->get('default')
             ->add('reference', EntityType::class, [
                 'required' => false,
                 'label' => 'label.block',
                 'class' => 'OpiferContentBundle:Block',
-                'property' => 'sharedDisplayName', // Assuming that the entity has a "name" property
+                'choice_label' => 'sharedDisplayName', // Assuming that the entity has a "name" property
                 'query_builder' => function (EntityRepository $blockRepository) {
                     return $blockRepository->createQueryBuilder('b')
                         ->add('orderBy', 'b.sharedDisplayName ASC')
@@ -114,8 +114,7 @@ class PointerBlockService extends AbstractBlockService implements BlockServiceIn
                         ->andWhere('b.template IS NULL')
                         ->setParameter('shared', true);
                 },
-            ])
-        );
+            ]);
     }
 
     /**
@@ -166,5 +165,14 @@ class PointerBlockService extends AbstractBlockService implements BlockServiceIn
                 $response->setPublic();
             }
         }
+    }
+
+    /**
+     * @param BlockInterface $block
+     * @return string
+     */
+    public function getDescription(BlockInterface $block = null)
+    {
+        return 'This block will load a shared block';
     }
 }

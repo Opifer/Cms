@@ -122,12 +122,24 @@ class SubscribeBlockService extends AbstractBlockService implements BlockService
                     'label' => 'label.subscribe_response_message',
                     'expanded' => true,
                     'multiple' => false,
+                    'attr' => [
+                        'tag' => 'general',
+                        'help_text' => 'help.subscribe_response_type'
+                    ]
                 ])
                 ->add('responseMessage', CKEditorType::class, [
                     'label' => 'label.subscribe_response_message',
+                    'attr' => [
+                        'tag' => 'general',
+                        'help_text' => 'help.subscribe_message'
+                    ]
                 ])
                 ->add('responseContent', ContentPickerType::class, [
                     'label' => 'label.subscribe_response_page',
+                    'attr' => [
+                        'tag' => 'general',
+                        'help_text' => 'help.subscribe_redirect'
+                    ]
                 ])
                 ->add('id', TextType::class, ['attr' => ['help_text' => 'help.html_id']])
                 ->add('extra_classes', TextType::class, ['attr' => ['help_text' => 'help.extra_classes']])

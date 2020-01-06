@@ -11,7 +11,7 @@ class SocialShareHelper
      */
     public function getFacebookShareUrl($url)
     {
-        return sprintf('http://www.facebook.com/sharer.php?u=%s', urlencode($url));
+        return sprintf('https://www.facebook.com/sharer.php?u=%s', urlencode($url));
     }
 
     /**
@@ -41,7 +41,7 @@ class SocialShareHelper
      */
     public function getLinkedInShareUrl($url)
     {
-        return sprintf('http://www.linkedin.com/shareArticle?mini=true&amp;url=%s', urlencode($url));
+        return sprintf('https://www.linkedin.com/shareArticle?mini=true&amp;url=%s', urlencode($url));
     }
 
     /**

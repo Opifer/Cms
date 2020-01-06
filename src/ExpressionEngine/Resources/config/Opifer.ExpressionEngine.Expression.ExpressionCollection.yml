@@ -2,6 +2,6 @@ Opifer\ExpressionEngine\Expression\ExpressionCollection:
   exclusion_policy: NONE
   properties:
     conditions:
-      type: "array<Opifer\ExpressionEngine\Expression\Expression>"
+      type: array<Opifer\ExpressionEngine\Expression\Expression>
     operator:
       type: string

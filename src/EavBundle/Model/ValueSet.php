@@ -267,6 +267,24 @@ class ValueSet implements ValueSetInterface
     }
 
     /**
+     * Get a value by it's attribute ID
+     *
+     * @param int $attributeId
+     *
+     * @return ValueInterface|null
+     */
+    public function getValueByAttributeId($attributeId)
+    {
+        foreach ($this->values as $valueObject) {
+            if ($valueObject->getAttribute()->getId() == $attributeId) {
+                return $valueObject;
+            }
+        }
+
+        return null;
+    }
+
+    /**
      * Get value for a given attribute name
      *
      * @param string $name

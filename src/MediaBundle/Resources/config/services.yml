@@ -14,12 +14,17 @@ parameters:
     opifer.media.provider.pool.class: Opifer\MediaBundle\Provider\Pool
     opifer.media.url_generator.class: Opifer\MediaBundle\Routing\UrlGenerator
     opifer.media.youtube_provider.class: Opifer\MediaBundle\Provider\YoutubeProvider
+    opifer.media.vimeo_provider.class: Opifer\MediaBundle\Provider\VimeoProvider
 
 
 services:
     opifer.media.media_manager.default:
         class: '%opifer.media.media_manager.class%'
         arguments: ['@doctrine.orm.entity_manager', '%opifer_media.media_class%']
+
+    opifer.media.media_directory_manager:
+        class: 'Opifer\MediaBundle\Manager\MediaDirectoryManager'
+        arguments: ['@doctrine.orm.entity_manager', '%opifer_media.media_directory_class%']
 
     opifer.media.listener.media_listener:
         class: '%opifer.media.listener.media_listener.class%'
@@ -30,7 +35,11 @@ services:
     # Serializer
     opifer.media.handler.serialization:
         class: '%opifer.media.handler.serialization.class%'
-        arguments: ['@liip_imagine.cache.manager', '@liip_imagine.filter.configuration', '@opifer.media.provider.pool']
+        arguments:
+            - '@liip_imagine.cache.manager'
+            - '@liip_imagine.filter.configuration'
+            - '@opifer.media.provider.pool'
+            - '@opifer.media.cache_provider'
         tags:
             - { name: jms_serializer.event_subscriber }
 
@@ -55,6 +64,7 @@ services:
     # Providers
     opifer.media.provider.pool:
         class: '%opifer.media.provider.pool.class%'
+        public: true
 
     opifer.media.file_provider:
         class: '%opifer.media.file_provider.class%'
@@ -74,6 +84,12 @@ services:
         tags:
             - { name: opifer.media.provider, alias: youtube }
 
+    opifer.media.vimeo_provider:
+        class: '%opifer.media.vimeo_provider.class%'
+        arguments: ['@opifer.media.media_manager', '@translator']
+        tags:
+            - { name: opifer.media.provider, alias: vimeo }
+
     opifer.media.url_generator:
         class: '%opifer.media.url_generator.class%'
         arguments: ['@gaufrette.file_storage_filesystem', '@request_stack', '%opifer_media.storages.local.directory%']
@@ -81,13 +97,12 @@ services:
     # Image processors
     opifer.media.aws_s3.client:
         class: '%opifer.media.aws_s3.client.class%'
-        factory_class: Aws\S3\S3Client
-        factory_method: factory
+        factory: ['Aws\S3\S3Client', factory]
         arguments:
             -
-                key: '%opifer_media.storages.aws_s3.key%'
-                secret: '%opifer_media.storages.aws_s3.secret%'
                 region: '%opifer_media.storages.aws_s3.region%'
+                version: '2006-03-01'
+                credentials: { key: '%opifer_media.storages.aws_s3.key%', secret: '%opifer_media.storages.aws_s3.secret%' }
 
     liip_imagine.data.loader.stream.photo_storage:
         class: '%liip_imagine.binary.loader.stream.class%'
@@ -107,7 +122,7 @@ services:
             - { name: liip_imagine.cache.resolver, resolver: aws_storage }
         calls:
             - [setCachePrefix, ['cache']]
-            - [setPutOption, ['CacheControl', 'max-age=86400' ]]
+            - [setPutOption, ['CacheControl', 'max-age=31557600' ]]
 
     opifer.imagine.cache.resolver.amazon_s3.proxy:
         class: '%opifer.imagine.cache.resolver.amazon_s3.proxy.class%'

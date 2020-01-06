@@ -4,12 +4,14 @@ namespace Opifer\CmsBundle\Controller\Backend;
 
 use APY\DataGridBundle\Grid\Action\RowAction;
 use APY\DataGridBundle\Grid\Source\Entity;
+use Doctrine\Common\Collections\ArrayCollection;
 use Opifer\CmsBundle\Entity\Site;
 use Opifer\CmsBundle\Form\Type\SiteType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 
 class SiteController extends Controller
 {
@@ -18,7 +20,9 @@ class SiteController extends Controller
      */
     public function indexAction()
     {
-        $source = new Entity('OpiferCmsBundle:Site');
+        $this->denyAccessUnlessGranted('SITE_INDEX');
+
+        $source = new Entity(Site::class);
 
         $editAction = new RowAction('edit', 'opifer_cms_site_edit');
         $editAction->setRouteParameters(['id']);
@@ -42,13 +46,22 @@ class SiteController extends Controller
      */
     public function createAction(Request $request)
     {
+        $this->denyAccessUnlessGranted('SITE_CREATE');
+
         $site = new Site();
 
-        $form = $this->createForm(new SiteType(), $site);
+        $form = $this->createForm(SiteType::class, $site);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
+
+            foreach ($form->getData()->getDomains() as $domain) {
+                $domain->setSite($site);
+
+                $em->persist($domain);
+            }
+
             $em->persist($site);
             $em->flush();
 
@@ -68,13 +81,35 @@ class SiteController extends Controller
      */
     public function editAction(Request $request, $id)
     {
-        $em = $this->getDoctrine()->getManager();
-        $site = $em->getRepository('OpiferCmsBundle:Site')->find($id);
+        $this->denyAccessUnlessGranted('SITE_EDIT');
 
-        $form = $this->createForm(new SiteType(), $site);
+        $em = $this->getDoctrine()->getManager();
+        $site = $em->getRepository(Site::class)->find($id);
+
+        $originalDomains = new ArrayCollection();
+        foreach ($site->getDomains() as $domain) {
+            $originalDomains->add($domain);
+        }
+
+        $form = $this->createForm(SiteType::class, $site);
         $form->handleRequest($request);
 
+
         if ($form->isSubmitted() && $form->isValid()) {
+
+            // Remove deleted domains
+            foreach ($originalDomains as $domain) {
+                if (false === $site->getDomains()->contains($domain)) {
+                    $em->remove($domain);
+                }
+            }
+
+            // Add new domain
+            foreach ($form->getData()->getDomains() as $domain) {
+                $domain->setSite($site);
+            }
+            $em->persist($domain);
+
             $em->flush();
 
             return $this->redirectToRoute('opifer_cms_site_edit', ['id' => $site->getId()]);
@@ -93,8 +128,10 @@ class SiteController extends Controller
      */
     public function deleteAction($id)
     {
+        $this->denyAccessUnlessGranted('SITE_DELETE');
+
         $em = $this->getDoctrine()->getManager();
-        $site = $em->getRepository('OpiferCmsBundle:Site')->find($id);
+        $site = $em->getRepository(Site::class)->find($id);
 
         $em->remove($site);
         $em->flush();

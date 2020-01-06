@@ -332,7 +332,7 @@ class ContentEditorController extends Controller
      * @param Request $request
      * @param integer $id
      *
-     * @return Response
+     * @return JsonResponse
      *
      * @throws \Exception
      */
@@ -348,7 +348,9 @@ class ContentEditorController extends Controller
 
         $service->preFormSubmit($block);
 
-        $form = $this->createForm(new BlockAdapterFormType($service), $block);
+        $form = $this->createForm(BlockAdapterFormType::class, $block, [
+            'block_service' => $service,
+        ]);
         $form->handleRequest($request);
 
         if ($form->isValid()) {
@@ -365,6 +367,10 @@ class ContentEditorController extends Controller
             'update_preview' => $updatePreview
         ]);
 
-        return new JsonResponse(['title' => $service->getName($block), 'view' => $viewResponse->getContent(), 'updatePreview' => $updatePreview]);
+        return new JsonResponse([
+            'title' => $service->getName($block),
+            'view' => $viewResponse->getContent(),
+            'updatePreview' => $updatePreview
+        ]);
     }
 }

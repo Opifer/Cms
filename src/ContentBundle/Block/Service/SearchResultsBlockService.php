@@ -67,9 +67,17 @@ class SearchResultsBlockService extends AbstractBlockService implements BlockSer
      */
     public function getSearchResults()
     {
-        $term = $this->getRequest()->get('search', '');
+        $term = $this->getRequest()->get('search', null);
 
-        return $this->contentManager->getRepository()->search($term);
+        // Avoid querying ALL content when no search value is provided
+        if (!$term) {
+            return [];
+        }
+
+        $host = $this->getRequest()->getHost();
+        $locale = $this->getRequest()->attributes->get('content')->getLocale();
+
+        return $this->contentManager->getRepository()->search($term, $host, $locale);
     }
 
     /**
@@ -99,5 +107,14 @@ class SearchResultsBlockService extends AbstractBlockService implements BlockSer
     public function getRequest()
     {
         return $this->requestStack->getCurrentRequest();
+    }
+
+    /**
+     * @param BlockInterface $block
+     * @return string
+     */
+    public function getDescription(BlockInterface $block = null)
+    {
+        return 'Lists search results from a user query';
     }
 }

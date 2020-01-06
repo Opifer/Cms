@@ -28,6 +28,7 @@ class Configuration implements ConfigurationInterface
                 ->scalarNode('content_manager')
                     ->defaultValue('opifer.content.content_manager.default')
                 ->end()
+                ->scalarNode('frontend_url')->defaultNull()->end()
                 ->arrayNode('content')
                     ->addDefaultsIfNotSet()
                     ->children()
@@ -40,6 +41,8 @@ class Configuration implements ConfigurationInterface
                                 ->scalarNode('index')->defaultValue('OpiferContentBundle:Content:index.html.twig')->end()
                                 ->scalarNode('edit_type')->defaultValue('OpiferContentBundle:Content:edit_type.html.twig')->end()
                                 ->scalarNode('select_type')->defaultValue('OpiferContentBundle:Content:select_type.html.twig')->end()
+                                ->scalarNode('select_site')->defaultValue('OpiferContentBundle:Content:select_site.html.twig')->end()
+                                ->scalarNode('select_layout_type')->defaultValue('OpiferContentBundle:Content:select_layout_type.html.twig')->end()
                                 ->scalarNode('type')->defaultValue('OpiferContentBundle:Content:type.html.twig')->end()
                                 ->scalarNode('new')->defaultValue('OpiferContentBundle:Content:new.html.twig')->end()
                                 ->scalarNode('edit')->defaultValue('OpiferContentBundle:Content:edit.html.twig')->end()
@@ -95,6 +98,23 @@ class Configuration implements ConfigurationInterface
                 ->arrayNode('blocks')
                     ->addDefaultsIfNotSet()
                     ->children()
+                        ->arrayNode('alert')
+                            ->addDefaultsIfNotSet()
+                            ->children()
+                                ->scalarNode('view')->defaultValue('OpiferContentBundle:Block:Content/alert.html.twig')->end()
+                                ->arrayNode('styles')
+                                    ->prototype('scalar')->end()
+                                    ->normalizeKeys(false)
+                                    ->defaultValue([
+                                        'Primary' => 'primary',
+                                        'Success' => 'success',
+                                        'Info' => 'info',
+                                        'Warning' => 'warning',
+                                        'Danger' => 'danger',
+                                    ])
+                                ->end()
+                            ->end()
+                        ->end()
                         ->arrayNode('button')
                             ->addDefaultsIfNotSet()
                             ->children()
@@ -103,12 +123,60 @@ class Configuration implements ConfigurationInterface
                                     ->prototype('scalar')->end()
                                     ->normalizeKeys(false)
                                     ->defaultValue([
-                                        'btn-sm' => 'Button small',
-                                        'btn-lg' => 'Button large',
-                                        'btn-primary' => 'Button primary',
-                                        'btn-default' => 'Button default',
-                                        'btn-block' => 'Button block',
-                                        'center-block' => 'Center block'
+                                        'Button small' => 'btn-sm',
+                                        'Button large' => 'btn-lg',
+                                        'Button primary' => 'btn-primary',
+                                        'Button default' => 'btn-default',
+                                        'Button block' => 'btn-block',
+                                        'Center block' => 'center-block',
+                                    ])
+                                ->end()
+                            ->end()
+                        ->end()
+                        ->arrayNode('card')
+                            ->addDefaultsIfNotSet()
+                            ->children()
+                                ->scalarNode('view')->defaultValue('OpiferContentBundle:Block:Content/card.html.twig')->end()
+                                ->arrayNode('presets')
+                                    ->prototype('scalar')->end()
+                                    ->normalizeKeys(false)
+                                    ->useAttributeAsKey('name')
+                                    ->defaultValue([
+                                        'Default' => 'default',
+                                        'Card' => 'card',
+                                        'Card overlay' => 'card-overlay',
+                                        'List' => 'list',
+                                        'News' => 'news',
+                                    ])
+                                ->end()
+                                ->arrayNode('backgrounds')
+                                    ->prototype('scalar')->end()
+                                    ->normalizeKeys(false)
+                                    ->useAttributeAsKey('name')
+                                    ->defaultValue([
+                                        'Default' => 'default',
+                                    ])
+                                ->end()
+                                ->arrayNode('styles')
+                                    ->prototype('scalar')->end()
+                                    ->normalizeKeys(false)
+                                    ->defaultValue([
+                                        'Image Background' => 'card-img-bg',
+                                        'Inverse' => 'card-inverse',
+                                        'Primary' => 'card-primary',
+                                        'Success' => 'card-success',
+                                        'Info' => 'card-info',
+                                        'Warning' => 'card-warning',
+                                        'Danger' => 'card-danger',
+                                        'Primary Outline' => 'card-outline-primary',
+                                        'Secondary Outline' => 'card-outline-secondary',
+                                        'Success Outline' => 'card-outline-success',
+                                        'Info Outline' => 'card-outline-info',
+                                        'Warning Outline' => 'card-outline-warning',
+                                        'Danger Outline' => 'card-outline-danger',
+                                        'Card text top' => 'card-xs-top',
+                                        'Card text middle' => 'card-xs-middle',
+                                        'Card text bottom' => 'card-xs-bottom',
                                     ])
                                 ->end()
                             ->end()
@@ -133,14 +201,35 @@ class Configuration implements ConfigurationInterface
                             ->addDefaultsIfNotSet()
                             ->children()
                                 ->scalarNode('view')->defaultValue('OpiferContentBundle:Block:Content/collection.html.twig')->end()
+                                ->arrayNode('filter_placement')
+                                    ->prototype('scalar')->end()
+                                    ->normalizeKeys(false)
+                                    ->useAttributeAsKey('name')
+                                    ->defaultValue([
+                                        'Above the collection' => 'top',
+                                        'In a modal window' => 'modal',
+                                    ])
+                                ->end()
+                                ->arrayNode('styles')
+                                    ->prototype('scalar')->end()
+                                    ->normalizeKeys(false)
+                                    ->useAttributeAsKey('name')
+                                    ->defaultValue([])
+                                ->end()
                                 ->arrayNode('templates')
                                     ->prototype('scalar')->end()
                                     ->normalizeKeys(false)
                                     ->useAttributeAsKey('name')
                                     ->defaultValue([
-                                        'default' => 'Default',
+                                        'Default' => 'default',
                                     ])
                                 ->end()
+                            ->end()
+                        ->end()
+                        ->arrayNode('content_item')
+                            ->addDefaultsIfNotSet()
+                            ->children()
+                                ->scalarNode('view')->defaultValue('OpiferContentBundle:Block:Content/content_item.html.twig')->end()
                             ->end()
                         ->end()
                         ->arrayNode('iframe')
@@ -167,10 +256,10 @@ class Configuration implements ConfigurationInterface
                                     ->prototype('scalar')->end()
                                     ->normalizeKeys(false)
                                     ->defaultValue([
-                                        'm-t-md' => 'label.column_m_t_md',
-                                        'm-b-md' => 'label.column_m_b_md',
-                                        'm-t-lg' => 'label.column_m_t_lg',
-                                        'm-b-lg' => 'label.column_m_b_lg',
+                                        'label.column_m_t_md' => 'm-t-md',
+                                        'label.column_m_b_md' => 'm-b-md',
+                                        'label.column_m_t_lg' => 'm-t-lg',
+                                        'label.column_m_b_lg' => 'm-b-lg',
                                     ])
                                 ->end()
                             ->end()
@@ -185,6 +274,14 @@ class Configuration implements ConfigurationInterface
                                     ->normalizeKeys(false)
                                     ->useAttributeAsKey('name')
                                 ->end()
+                                ->arrayNode('spacing_box_model')
+                                    ->prototype('scalar')->end()
+                                    ->normalizeKeys(false)
+                                    ->defaultValue([
+                                        'Spacing outside (margin)' => 'm',
+                                        'Spacing inside (padding)' => 'p',
+                                    ])
+                                ->end()
                             ->end()
                         ->end()
                         ->arrayNode('section')
@@ -194,7 +291,22 @@ class Configuration implements ConfigurationInterface
                                 ->arrayNode('styles')
                                     ->prototype('scalar')->end()
                                     ->normalizeKeys(false)
-                                    ->useAttributeAsKey('name')
+                                    ->defaultValue([
+                                        'Small vertical padding' => 'py-1',
+                                        'Medium vertical padding' => 'py-2',
+                                        'Large vertical padding' => 'py-3',
+                                        'Small vertical margin' => 'my-1',
+                                        'Medium vertical margin' => 'my-2',
+                                        'Large vertical margin' => 'my-3',
+                                    ])
+                                ->end()
+                                ->arrayNode('spacing_box_model')
+                                    ->prototype('scalar')->end()
+                                    ->normalizeKeys(false)
+                                    ->defaultValue([
+                                        'Spacing outside (margin)' => 'm',
+                                        'Spacing inside (padding)' => 'p',
+                                    ])
                                 ->end()
                             ->end()
                         ->end()
@@ -207,7 +319,7 @@ class Configuration implements ConfigurationInterface
                                     ->normalizeKeys(false)
                                     ->useAttributeAsKey('name')
                                     ->defaultValue([
-                                        'default' => 'Default',
+                                        'Default' => 'default',
                                     ])
                                 ->end()
                             ->end()
@@ -221,7 +333,7 @@ class Configuration implements ConfigurationInterface
                                     ->normalizeKeys(false)
                                     ->useAttributeAsKey('name')
                                     ->defaultValue([
-                                        'default' => 'Default',
+                                        'Default' => 'default',
                                     ])
                                 ->end()
                             ->end()
@@ -233,17 +345,17 @@ class Configuration implements ConfigurationInterface
                                 ->arrayNode('allowed_filters')
                                     ->prototype('scalar')->end()
                                     ->defaultValue([
-                                        'medialibrary', 'dashboard_content'
+                                        'dashboard_content' => 'medialibrary'
                                     ])
                                 ->end()
                                 ->arrayNode('styles')
                                     ->prototype('scalar')->end()
                                     ->normalizeKeys(false)
                                     ->defaultValue([
-                                        'img-responsive' => 'Responsive image',
-                                        'img-rounded' => 'Rounded image',
-                                        'img-circle' => 'Circular image',
-                                        'img-thumbnail' => 'Thumbnail image',
+                                        'Responsive image' => 'img-fluid',
+                                        'Rounded image' => 'img-rounded',
+                                        'Circular image' => 'img-circle',
+                                        'Thumbnail image' => 'img-thumbnail',
                                     ])
                                 ->end()
                             ->end()
@@ -256,11 +368,11 @@ class Configuration implements ConfigurationInterface
                                     ->prototype('scalar')->end()
                                     ->normalizeKeys(false)
                                     ->defaultValue([
-                                        'jumbotron-sm' => 'Jumbotron small',
-                                        'jumbotron-md' => 'Jumbotron medium',
-                                        'jumbotron-lg' => 'Jumbotron large',
-                                        'text-regular' => 'Text-color regular',
-                                        'text-contrast' => 'Text-color contrast',
+                                        'Jumbotron small' => 'jumbotron-sm',
+                                        'Jumbotron medium' => 'jumbotron-md',
+                                        'Jumbotron large' => 'jumbotron-lg',
+                                        'Text-color regular' => 'text-regular',
+                                        'Text-color contrast' => 'text-contrast',
                                     ])
                                 ->end()
                                 ->arrayNode('templates')
@@ -268,7 +380,7 @@ class Configuration implements ConfigurationInterface
                                     ->normalizeKeys(false)
                                     ->useAttributeAsKey('name')
                                     ->defaultValue([
-                                        'default' => 'Default',
+                                        'Default' => 'default',
                                     ])
                                 ->end()
                             ->end()
@@ -281,16 +393,54 @@ class Configuration implements ConfigurationInterface
                                     ->prototype('scalar')->end()
                                     ->normalizeKeys(false)
                                     ->useAttributeAsKey('name')
+                                    ->defaultValue([])
                                 ->end()
                                 ->arrayNode('templates')
                                     ->prototype('scalar')->end()
                                     ->normalizeKeys(false)
                                     ->useAttributeAsKey('name')
                                     ->defaultValue([
-                                        'list_simple' => 'Simple list',
-                                        'tiles' => 'Tiles',
-                                        'tiles_text' => 'Tiles with description'
+                                        'Default' => 'default',
+                                        'Card (deprecated)' => 'card',
+                                        'Card overlay (deprecated)' => 'card-overlay',
+                                        'List (deprecated)' => 'list',
+                                        'News (deprecated)' => 'news',
+                                        'Cards' => 'ListBlock--cards',
+                                        'Cards overlay' => 'ListBlock--cards-overlay',
+                                        'Cards overlay full width' => 'ListBlock--cards-bleed',
+                                        'Cards horizontal scroll' => 'ListBlock--horizontal-scroll',
+                                        'List' => 'ListBlock--list',
+                                        'Media' => 'ListBlock--media',
+                                        'Table' => 'ListBlock--table',
                                     ])
+                                ->end()
+                            ->end()
+                        ->end()
+                        ->arrayNode('modal')
+                            ->addDefaultsIfNotSet()
+                            ->children()
+                                ->scalarNode('view')->defaultValue('OpiferContentBundle:Block:Content/modal.html.twig')->end()
+                                ->arrayNode('styles')
+                                    ->prototype('scalar')->end()
+                                    ->normalizeKeys(false)
+                                    ->defaultValue([])
+                                ->end()
+                                ->arrayNode('templates')
+                                    ->prototype('scalar')->end()
+                                    ->normalizeKeys(false)
+                                    ->useAttributeAsKey('name')
+                                    ->defaultValue([])
+                                ->end()
+                            ->end()
+                        ->end()
+                        ->arrayNode('navbar')
+                            ->addDefaultsIfNotSet()
+                            ->children()
+                                ->scalarNode('view')->defaultValue('OpiferContentBundle:Block:Navigation/navbar.html.twig')->end()
+                                ->arrayNode('templates')
+                                    ->prototype('scalar')->end()
+                                    ->normalizeKeys(false)
+                                    ->useAttributeAsKey('name')
                                 ->end()
                             ->end()
                         ->end()
@@ -303,8 +453,28 @@ class Configuration implements ConfigurationInterface
                                     ->normalizeKeys(false)
                                     ->useAttributeAsKey('name')
                                     ->defaultValue([
-                                        'navbar' => 'Navigation bar',
-                                        'sitemap' => 'Sitemap',
+                                        'Navigation bar' => 'navbar',
+                                        'Sitemap' => 'sitemap',
+                                    ])
+                                ->end()
+                            ->end()
+                        ->end()
+                        ->arrayNode('navlink')
+                            ->addDefaultsIfNotSet()
+                            ->children()
+                                ->scalarNode('view')->defaultValue('OpiferContentBundle:Block:Navigation/navlink.html.twig')->end()
+                            ->end()
+                        ->end()
+                        ->arrayNode('related_collection')
+                            ->addDefaultsIfNotSet()
+                            ->children()
+                                ->scalarNode('view')->defaultValue('OpiferContentBundle:Block:Content/related_collection.html.twig')->end()
+                                ->arrayNode('templates')
+                                    ->prototype('scalar')->end()
+                                    ->normalizeKeys(false)
+                                    ->useAttributeAsKey('name')
+                                    ->defaultValue([
+                                        'Default' => 'default',
                                     ])
                                 ->end()
                             ->end()
@@ -318,10 +488,10 @@ class Configuration implements ConfigurationInterface
                                     ->normalizeKeys(false)
                                     ->useAttributeAsKey('name')
                                     ->defaultValue([
-                                        'tabs-horizontal' => 'Horizontal tabs',
-                                        'pills-horizontal' => 'Horizontal pills',
-                                        'tabs-vertical' => 'Vertical tabs',
-                                        'pills-vertical' => 'Vertical pills',
+                                        'Horizontal tabs' => 'tabs-horizontal',
+                                        'Horizontal pills' => 'pills-horizontal',
+                                        'Vertical tabs' => 'tabs-vertical',
+                                        'Vertical pills' => 'pills-vertical',
                                     ])
                                 ->end()
                                 ->arrayNode('styles')
@@ -389,6 +559,12 @@ class Configuration implements ConfigurationInterface
                             ->addDefaultsIfNotSet()
                             ->children()
                                 ->scalarNode('view')->defaultValue('OpiferContentBundle:Block:Content/search_results.html.twig')->end()
+                            ->end()
+                        ->end()
+                        ->arrayNode('data_view')
+                            ->addDefaultsIfNotSet()
+                            ->children()
+                                ->scalarNode('view')->defaultValue('OpiferContentBundle:Block:Content/data_view.html.twig')->end()
                             ->end()
                         ->end()
                     ->end()

@@ -83,11 +83,10 @@ class AttributeType extends AbstractType
             'required' => false,
         ])->add('required', ChoiceType::class, [
             'choices' => [
-                false => 'Not required',
-                true => 'Required',
+                'Not required' => false,
+                'Required' => true,
             ],
             'label' => 'Required',
-            'required' => true,
         ]);
 
         $builder->addEventListener(FormEvents::PRE_SET_DATA, function (FormEvent $event) use ($builder) {
@@ -105,11 +104,10 @@ class AttributeType extends AbstractType
             }
 
             if ($attribute && in_array($attribute->getValueType(), ['checklist', 'select', 'radio'])) {
-                // TODO Use Symfony's CollectionType here
                 $form->add('options', CollapsibleCollectionType::class, [
                     'allow_add' => true,
                     'allow_delete' => true,
-                    'type' => OptionType::class,
+                    'entry_type' => OptionType::class,
                 ]);
             }
         });

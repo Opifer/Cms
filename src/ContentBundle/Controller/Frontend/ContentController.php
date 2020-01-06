@@ -2,16 +2,15 @@
 
 namespace Opifer\ContentBundle\Controller\Frontend;
 
+use Opifer\CmsBundle\Entity\Domain;
+use Opifer\CmsBundle\Entity\Site;
 use Opifer\ContentBundle\Block\BlockManager;
 use Opifer\ContentBundle\Environment\Environment;
-use Opifer\ContentBundle\Model\Content;
 use Opifer\ContentBundle\Model\ContentInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-
-use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 /**
  * Content Controller
@@ -23,7 +22,7 @@ class ContentController extends Controller
      *
      * This Controller action is being routed to from either our custom ContentRouter,
      * or the ExceptionController.
-     * @see Opifer\SiteBundle\Router\ContentRouter
+     * @see \Opifer\ContentBundle\Router\ContentRouter
      *
      * @param Request          $request
      * @param ContentInterface $content
@@ -38,12 +37,37 @@ class ContentController extends Controller
         $version = $request->query->get('_version');
         $debug = $this->getParameter('kernel.debug');
 
+        $em = $this->getDoctrine()->getManager();
+
+        $siteCount = $em->getRepository(Site::class)->createQueryBuilder('s')
+            ->select('count(s.id)')
+            ->getQuery()
+            ->getSingleScalarResult();
+
+        $domain = $em->getRepository(Domain::class)->findOneByDomain($request->getHost());
+
+        if (!$domain && $siteCount > 1) {
+            return $this->render('OpiferContentBundle:Content:domain_not_found.html.twig');
+        }
+
+        if ($siteCount && $domain && $domain->getSite()->getDefaultLocale()) {
+            $request->setLocale($domain->getSite()->getDefaultLocale()->getLocale());
+        }
+
+        if ($content->getLocale()) {
+            $request->setLocale($content->getLocale()->getLocale());
+        }
+
+        $this->get('translator')->setLocale($request->getLocale());
+
         $contentDate = $content->getUpdatedAt();
         $templateDate = $content->getTemplate()->getUpdatedAt();
 
         $date = $contentDate > $templateDate ? $contentDate : $templateDate;
 
         $response = new Response();
+        // Force the Content-Type to be text/html to avoid caching with incorrect Content-Type.
+        $response->headers->set('Content-Type', 'text/html; charset=UTF-8');
         $response->setLastModified($date);
         $response->setPublic();
 
@@ -72,13 +96,36 @@ class ContentController extends Controller
     /**
      * Render the home page.
      *
+     * @param Request $request
      * @return Response
      */
-    public function homeAction()
+    public function homeAction(Request $request)
     {
+        if ($frontendUrl = $this->getParameter('opifer_content.frontend_url')) {
+            return new RedirectResponse($frontendUrl);
+        }
+
         /** @var BlockManager $manager */
         $manager  = $this->get('opifer.content.content_manager');
-        $content = $manager->getRepository()->findOneBySlug('index');
+        $host = $request->getHost();
+        $em = $this->getDoctrine()->getManager();
+
+        $siteCount = $em->getRepository(Site::class)->createQueryBuilder('s')
+            ->select('count(s.id)')
+            ->getQuery()
+            ->getSingleScalarResult();
+
+        $domain = $em->getRepository(Domain::class)->findOneByDomain($host);
+
+        if (!$domain && $siteCount > 1) {
+            return $this->render('OpiferContentBundle:Content:domain_not_found.html.twig');
+        }
+
+        if ($siteCount && $domain && $domain->getSite()->getDefaultLocale()) {
+            $request->setLocale($domain->getSite()->getDefaultLocale()->getLocale());
+        }
+
+        $content = $manager->getRepository()->findActiveBySlug('index', $host);
 
         return $this->forward('OpiferContentBundle:Frontend/Content:view', [
             'content' => $content

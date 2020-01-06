@@ -3,15 +3,27 @@ flash:
 
 title:
     config: Configuration
+    content_types: Content types
+    create_site: Create new website
+    cronjob: Cronjobs
+    domain: Domain
+    domains: Domains
+    layouts: Layouts
+    locale: languages
     mailing_list: Mailing List
     mailing_list_plural: Mailing Lists
     review: Reviews
+    site: Website
+    site_selection: Website
+    sites: Websites
+    translations: translations
 
 # Base
 base:
     cronjobs: cron jobs
     content: content
     contenttypes: content types
+    environment: environment
     forms: forms
     help: help
     imagefilters: image settings
@@ -20,7 +32,6 @@ base:
     profile: my account
     redirects: redirects
     settings: configuration
-    sitemenu: menu
     sites: websites
     system: system
     schemas: schemas
@@ -104,7 +115,7 @@ site:
 # Users
 user:
     edit:
-        success: %username% was updated successfully!
+        success: '%username% was updated successfully!'
     new:
         success: '%username% was successfully created with ID "%id%"'
     create_user: create a new user
@@ -121,12 +132,15 @@ form:
     password_confirmation: Verify password
     permalink: permalink
     username: username
+    field_mandatory: This field is mandatory
+    google_authenticator: Google Authenticator
 
     post_on: 'Post %id% on "%name%"'
     posts_for: 'Posts for "%name%"'
     edit_form: 'Edit form "%name%"'
     see_posts: see posts
     new_form: new form
+    edit_form: edit form
 
     field: field
     value: value
@@ -164,6 +178,24 @@ label:
     yes: Yes
     provider: Provider
     remote_id: remoteID
+    allow_email: Allow e-mail
+    allow_facebook: Allow Facebook
+    allow_linkedin: Allow LinkedIn
+    facebook_id: Facebook App Id
+    linkedin_key: LinkedIn App Key
+    domain: Domain
+    site: Site
+    account_enabled: Account status
+
+help_text:
+    allow_email: Allow login with e-mail address
+    allow_facebook: Allow login with social Facebook accounts
+    allow_linkedin: Allow login with social LinkedIn accounts
+    facebook_id: Enter the Facebook App Id from developer.facebook.com 
+    linkedin_key: Enter the LinkedIn App Key from developer.linkedin.com
+    site_domain: Select one or more domains that are attached to this site
+    domain: Enter domainname here like example.com
+    site: The website this domain should be attached to
 
 message:
     no_items_found: "No items found"
@@ -177,3 +209,13 @@ confirmation:
 schema:
     delete:
         warning: "We're unable to remove this template. It might still be in use by content items."
+
+locale:
+    details: "Locale details"
+    edit: "Edit locale"
+    new: "Create locale"
+
+domain:
+    details: "Domain details"
+    edit: "Edit domain"
+    new: "Create domain"

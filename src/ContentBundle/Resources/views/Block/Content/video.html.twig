@@ -7,6 +7,10 @@
 	      	<iframe width="{{ block.properties.width|default('420') }}" height="{{ block.properties.height|default('315') }}"
 				src="https://www.youtube.com/embed/{{ block.media.reference }}" frameborder="0" allowfullscreen>
 		  	</iframe>
+		{% elseif block.media.provider == 'vimeo' %}
+			<iframe width="{{ block.properties.width|default('420') }}" height="{{ block.properties.height|default('315') }}"
+					src="https://player.vimeo.com/video/{{ block.media.reference }}" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen>
+			</iframe>
 		{% else %}
 		  	<video width="{{ block.properties.width|default('320') }}" height="{{ block.properties.height|default('240') }}" controls preload="auto">
 		  		<source src="{{ block.media.original|default }}" type="video/mp4">

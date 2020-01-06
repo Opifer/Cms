@@ -27,10 +27,13 @@ framework:
     default_locale:  '%opifer_cms.default_locale%'
     trusted_proxies: ~
     session:
+        handler_id: session.handler.native_file
         save_path: null #%kernel.root_dir%/../var/sessions
         cookie_lifetime: 604800
     fragments:       ~
     http_method_override: true
+    php_errors:
+        log: true
 
 # Templating
 braincrafted_bootstrap:
@@ -38,7 +41,6 @@ braincrafted_bootstrap:
     auto_configure:
         assetic:       false
         twig:          true
-        knp_menu:      true
     customize:
         variables_file:     ~
         bootstrap_output:   '%kernel.root_dir%/Resources/less/bootstrap.less'
@@ -79,6 +81,9 @@ doctrine:
     orm:
         auto_generate_proxy_classes: '%kernel.debug%'
         auto_mapping:                true
+        dql:
+            string_functions:
+                DAYOFWEEK:  'DoctrineExtensions\Query\Mysql\DayOfWeek'
         filters:
             softdeleteable:
                 class:   'Gedmo\SoftDeleteable\Filter\SoftDeleteableFilter'
@@ -120,17 +125,14 @@ fos_user:
             type:              public_registration_form
             name:              public_registration
             validation_groups: []
-
-# Menus
-knp_menu:
-    twig:  # use "twig: false" to disable the Twig extension and the TwigRenderer
-        template: 'BraincraftedBootstrapBundle:Menu:bootstrap.html.twig'
-    templating:       false # if true, enables the helper for PHP templates
-    default_renderer: 'twig' # The renderer to use, list is also available by default
+    from_email:
+        address: noreply@jstack.eu
+        sender_name: jstack CMS
 
 # Framework extra
 sensio_framework_extra:
-    view:    { annotations: false }
+    cache:   { annotations: true }
+    view:    { annotations: true }
     router:  { annotations: true }
     request: { converters: true }
 
@@ -148,17 +150,17 @@ twig:
     strict_variables: '%kernel.debug%'
     paths:
         "%kernel.root_dir%/../vendor/opifer/cms/src/ExpressionEngine/Resources/views": OpiferExpressionEngine
-    form:
-        resources:
-            - 'OpiferEavBundle:Form:fields.html.twig'
-            - 'OpiferMediaBundle:Form:fields.html.twig'
-            - 'OpiferContentBundle:Form:fields.html.twig'
-            - '@OpiferExpressionEngine/Form/fields.html.twig'
-            - 'OpiferCmsBundle:Form:fields.html.twig' # At the bottom to make sure form action are being set to '#' when empty
+    form_themes:
+        - 'OpiferEavBundle:Form:fields.html.twig'
+        - 'OpiferMediaBundle:Form:fields.html.twig'
+        - 'OpiferContentBundle:Form:fields.html.twig'
+        - '@OpiferExpressionEngine/Form/fields.html.twig'
+        - 'OpiferCmsBundle:Form:fields.html.twig'
     globals:
         config: '@opifer.cms.config_manager'
         content_type_manager: '@opifer.content.content_type_manager'
         google_tag_manager_key: '%opifer_cms.google_tag_manager_key%'
+        recaptcha_site_key: '%opifer_form.recaptcha_site_key%'
 
 # Media
 opifer_media:
@@ -178,6 +180,7 @@ opifer_media:
             secret: '%amazon_s3_secret%'
             region: '%amazon_s3_region%'
             bucket: '%amazon_s3_bucket%'
+    cache_provider: 'Doctrine\Common\Cache\ApcuCache'
 
 liip_imagine:
     filter_sets:
@@ -279,3 +282,61 @@ opifer_review:
             index: 'OpiferCmsBundle:Backend/Review:index.html.twig'
             create: 'OpiferCmsBundle:Backend/Review:create.html.twig'
             edit: 'OpiferCmsBundle:Backend/Review:edit.html.twig'
+
+
+
+# Nelmio CORS
+nelmio_cors:
+    defaults:
+        forced_allow_origin_value: '*'
+    paths:
+        '^/(admin/api|api|accept-cookies)':
+            allow_credentials: true
+            origin_regex: true
+            allow_origin: ['^http://localhost:[0-9]+', '^http://127.0.0.1:[0-9]+', '^http://[a-z0-9-]+.dev:[0-9]+']
+            allow_headers: ['origin', 'x-custom-auth', 'authorization', 'content-type', 'accept', 'x-requested-with']
+            allow_methods: ['POST', 'PUT', 'GET', 'DELETE', 'OPTIONS']
+            max_age: 3600
+
+# FOS Rest
+fos_rest:    
+    body_listener:
+        decoders:
+            json: fos_rest.decoder.json
+    body_converter:
+        enabled: true
+        validate: true
+        validation_errors_argument: validationErrors # This is the default value
+    format_listener:
+        rules:
+            - { path: '^/admin/api', priorities: ['json', 'html'], fallback_format: json, prefer_extension: false }
+            - { path: '^/api', priorities: ['json', 'html'], fallback_format: json, prefer_extension: false }
+            - { path: '^/', stop: true }
+    param_fetcher_listener: true
+    view:
+        view_response_listener: 'force'
+        formats:
+            json: true
+
+#2FA
+scheb_two_factor:
+    google:
+        template: OpiferCmsBundle:Security:google_2fa_form.html.twig
+    security_tokens:
+        - Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken
+        - Acme\AuthenticationBundle\Token\CustomAuthenticationToken
+
+# Nelmio API Documentation
+nelmio_api_doc: ~
+
+# Lexik JWT
+lexik_jwt_authentication:
+    private_key_path: '%jwt_private_key_path%'
+    public_key_path:  '%jwt_public_key_path%'
+    pass_phrase:      '%jwt_key_pass_phrase%'
+    token_ttl:        '%jwt_token_ttl%'
+
+lexik_translation:
+    fallback_locale: [en]         # (required) default locale(s) to use
+    managed_locales: [en, nl] # (required) locales that the bundle has to manage
+    base_layout: 'OpiferCmsBundle:Backend/Translation:base.html.twig'

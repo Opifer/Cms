@@ -16,8 +16,16 @@ parameters:
     opifer.content.block_environment.class: Opifer\ContentBundle\Environment\Environment
 
 services:
+    opifer.content.string_helper:
+        class: Opifer\ContentBundle\Helper\StringHelper
+        arguments:
+            - '@opifer.content.content_manager'
+            - '@router'
+        public: true
+
     opifer.content.block_provider_pool:
         class: Opifer\ContentBundle\Provider\BlockProviderPool
+        public: true
 
     opifer.content.content_manager.default:
         class: '%opifer.content.content_manager.default.class%'
@@ -56,16 +64,46 @@ services:
         tags:
             - { name: jms_serializer.event_subscriber }
 
+    opifer.content.block_serializer_subscriber:
+        class: Opifer\ContentBundle\EventListener\Serializer\BlockEventSubscriber
+        arguments: ['@opifer.content.block_manager', '@opifer.content.block_environment']
+        tags:
+            - { name: jms_serializer.event_subscriber }
+
     # Form types
 
     opifer.content.content_type:
-        class: Opifer\ContentBundle\Form\Type\ContentType
+        class: 'Opifer\ContentBundle\Form\Type\ContentType'
+        arguments: ['%opifer_content.content_class%', '%security.role_hierarchy.roles%']
+        tags:
+            - { name: form.type }
+
+    opifer.content.layout_type:
+        class: 'Opifer\ContentBundle\Form\Type\LayoutType'
         arguments: ['%opifer_content.content_class%']
         tags:
             - { name: form.type }
 
     opifer.content.content_parent_type:
-        class: Opifer\ContentBundle\Form\Type\ContentParentType
+        class: 'Opifer\ContentBundle\Form\Type\ContentParentType'
+        arguments: ['@opifer.content.content_manager']
+        tags:
+            - { name: form.type }
+
+    opifer.content.display_logic_type:
+        class: 'Opifer\ContentBundle\Form\Type\DisplayLogicType'
+        arguments: ['@opifer.expression_engine']
+        tags:
+            - { name: form.type }
+
+    opifer.content.filter_name_type:
+        class: 'Opifer\ContentBundle\Form\Type\FilterNameType'
+        arguments: ['@opifer.eav.attribute_manager']
+        tags:
+            - { name: form.type }
+
+    opifer.content.nav_link_type:
+        class: 'Opifer\ContentBundle\Form\Type\NavLinkType'
         arguments: ['@opifer.content.content_manager']
         tags:
             - { name: form.type }
@@ -74,7 +112,7 @@ services:
 
     opifer.content.content_router:
         class: '%opifer.content.content_router.class%'
-        arguments: ['@request_stack', '@opifer.content.content_manager']
+        arguments: ['@request_stack', '@opifer.content.content_manager', '%opifer_content.frontend_url%']
 
     # Twig Extension
 
@@ -98,6 +136,12 @@ services:
         arguments: ['%opifer_content.content_class%']
         tags:
             - { name: opifer.eav.value_provider, alias: content_list }
+
+    opifer.content.form.block_picker_type:
+        class: 'Opifer\ContentBundle\Form\Type\BlockPickerType'
+        arguments: ['@opifer.content.block_manager']
+        tags:
+            - { name: form.type }
 
     opifer.content.form.contentpicker_type:
         class: '%opifer.content.form.contentpicker_type.class%'
@@ -130,10 +174,12 @@ services:
     opifer.content.block_manager:
         class: '%opifer.content.block_manager.class%'
         arguments: ['@doctrine.orm.default_entity_manager', '@opifer.revisions.revision_manager']
+        public: true
 
     opifer.content.content_design_suite:
         class: '%opifer.content.content_design_suite.class%'
-        arguments: ['@router', '@opifer.content.content_manager']
+        arguments: ['@router', '@opifer.content.content_manager', '%opifer_content.frontend_url%']
+        public: true
 
     opifer.content.template_design_suite:
         class: '%opifer.content.template_design_suite.class%'
@@ -142,6 +188,7 @@ services:
     opifer.content.block_environment:
         class: '%opifer.content.block_environment.class%'
         arguments: ['@doctrine.orm.default_entity_manager', '@opifer.content.block_manager', '@opifer.revisions.revision_manager', '@opifer.content.twig_analyzer']
+        public: true
 
     opifer.content.block_listener:
         class: '%opifer.content.block_listener.class%'

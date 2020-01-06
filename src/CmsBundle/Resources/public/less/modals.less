@@ -55,9 +55,10 @@
 
     .modal-header {
         padding: @padding-base-vertical @padding-base-horizontal;
+        border-bottom: none;
+        background: #fafafa;
 
         .modal-title {
-            font-weight: 300;
             font-size: @font-size-large;
         }
     }
@@ -75,4 +76,19 @@
 
 .modal-body {
     overflow-y: scroll;
+}
+
+/**
+ * Fixes to support Bootstrap 4 modals
+ */
+.modal.show .modal-dialog {
+    .translate(0, 0)
+}
+
+.modal-backdrop.show {
+    .opacity(@modal-backdrop-opacity);
+}
+
+.fade.show {
+    opacity: 1;
 }

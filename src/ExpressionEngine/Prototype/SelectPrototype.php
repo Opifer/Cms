@@ -14,9 +14,9 @@ class SelectPrototype extends Prototype
      * @param null|string $selector
      * @param Choice[]    $choices
      */
-    public function __construct($name, $selector, $choices = [])
+    public function __construct($key, $name, $selector, $choices = [])
     {
-        parent::__construct($name, $selector);
+        parent::__construct($key, $name, $selector);
 
         $this->setChoices($choices);
 

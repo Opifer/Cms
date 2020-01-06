@@ -5,9 +5,6 @@ namespace Opifer\EavBundle\Repository;
 use Doctrine\ORM\EntityRepository;
 use Opifer\EavBundle\Model\ValueSetInterface;
 
-/**
- * ValueRepository
- */
 class ValueRepository extends EntityRepository
 {
     public function getSortedValuesBySet(ValueSetInterface $valueSet)

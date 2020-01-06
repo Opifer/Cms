@@ -16,7 +16,7 @@ use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 class OpiferCmsExtension extends Extension implements PrependExtensionInterface
 {
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function load(array $configs, ContainerBuilder $container)
     {
@@ -24,6 +24,9 @@ class OpiferCmsExtension extends Extension implements PrependExtensionInterface
         $loader->load('services.yml');
     }
 
+    /**
+     * @param ContainerBuilder $container
+     */
     public function prepend(ContainerBuilder $container)
     {
         $configs = $container->getExtensionConfig($this->getAlias());
@@ -64,6 +67,8 @@ class OpiferCmsExtension extends Extension implements PrependExtensionInterface
             // Deprecated
             'opifer_cms.allowed_locales' => ['en'],
         ];
+
+        $params['opifer_cms.permissions'] = $config['permissions'];
 
         // Block configuration
         foreach ($config['blocks'] as $block => $blockConfig) {

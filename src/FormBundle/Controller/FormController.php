@@ -3,14 +3,19 @@
 namespace Opifer\FormBundle\Controller;
 
 use Doctrine\Common\Collections\ArrayCollection;
+use Opifer\CmsBundle\Entity\AttachmentValue;
 use Opifer\FormBundle\Event\Events;
 use Opifer\FormBundle\Event\FormSubmitEvent;
 use Opifer\FormBundle\Form\Type\FormType;
 use Opifer\FormBundle\Form\Type\PostType;
+use Opifer\FormBundle\Model\Form;
+use Opifer\MediaBundle\Model\MediaInterface;
+use ReCaptcha\ReCaptcha;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 
 class FormController extends Controller
 {
@@ -24,6 +29,8 @@ class FormController extends Controller
      */
     public function indexAction()
     {
+        $this->denyAccessUnlessGranted('FORM_INDEX');
+
         $forms = $this->get('opifer.form.form_manager')->getRepository()
             ->findAllWithPosts();
 
@@ -41,6 +48,8 @@ class FormController extends Controller
      */
     public function createAction(Request $request)
     {
+        $this->denyAccessUnlessGranted('FORM_CREATE');
+
         $formManager = $this->get('opifer.form.form_manager');
 
         $form = $formManager->create();
@@ -80,6 +89,8 @@ class FormController extends Controller
      */
     public function editAction(Request $request, $id)
     {
+        $this->denyAccessUnlessGranted('FORM_EDIT');
+
         $formManager = $this->get('opifer.form.form_manager');
         $em = $this->get('doctrine.orm.entity_manager');
 
@@ -136,6 +147,8 @@ class FormController extends Controller
      */
     public function deleteAction($id)
     {
+        $this->denyAccessUnlessGranted('FORM_DELETE');
+
         $form = $this->get('opifer.form.form_manager')->getRepository()->find($id);
 
         if (!$form) {
@@ -162,10 +175,24 @@ class FormController extends Controller
      */
     public function submitAction(Request $request, $id)
     {
+        /** @var Form $form */
         $form = $this->get('opifer.form.form_manager')->getRepository()->find($id);
 
         if (!$form) {
             throw $this->createNotFoundException('The form could not be found');
+        }
+
+        $spamFree = true;
+        if ($form->isRecaptchaEnabled() && $recaptchaSecretKey = $this->getParameter('opifer_form.recaptcha_secret_key')) {
+            $responseKey = $request->get('g-recaptcha-response');
+            if (!$responseKey) {
+                $spamFree = false;
+            }
+            $recaptcha = new ReCaptcha($recaptchaSecretKey);
+            $response = $recaptcha->verify($responseKey, $_SERVER['REMOTE_ADDR']);
+            if (!$response->isSuccess()) {
+                $spamFree = false;
+            }
         }
 
         $post = $this->get('opifer.eav.eav_manager')->initializeEntity($form->getSchema());
@@ -174,7 +201,7 @@ class FormController extends Controller
         $postForm = $this->createForm(PostType::class, $post, ['form_id' => $id]);
         $postForm->handleRequest($request);
 
-        if ($postForm->isSubmitted() && $postForm->isValid()) {
+        if ($postForm->isSubmitted() && $postForm->isValid() && $spamFree) {
             $this->get('opifer.form.post_manager')->save($post);
 
             $event = new FormSubmitEvent($post);

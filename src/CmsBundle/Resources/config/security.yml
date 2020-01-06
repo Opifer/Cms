@@ -3,9 +3,9 @@ security:
         FOS\UserBundle\Model\UserInterface: sha512
 
     role_hierarchy:
-        ROLE_SOCIAL:      ROLE_USER
-        ROLE_ADMIN:       ROLE_USER
-        ROLE_SUPER_ADMIN: ROLE_ADMIN
+        ROLE_USER:        ROLE_USER
+        ROLE_ADMIN:       ROLE_ADMIN
+        ROLE_SUPER_ADMIN: ROLE_SUPER_ADMIN
 
     providers:
         chain_provider:
@@ -16,12 +16,34 @@ security:
             id: fos_user.user_provider.username_email
 
     firewalls:
+        login:
+            pattern:  ^/admin/api/login
+            stateless: true
+            anonymous: true
+            form_login:
+                check_path:               /admin/api/login_check
+                success_handler:          lexik_jwt_authentication.handler.authentication_success
+                failure_handler:          lexik_jwt_authentication.handler.authentication_failure
+                require_previous_session: false
+        api:
+            pattern:   ^/admin/api/(?!content|directories|sites|media|contenteditor|options|schemas)
+            stateless: true
+            guard:
+                authenticators:
+                    - lexik_jwt_authentication.jwt_token_authenticator
         staging:
             host: ^staging\.
+            methods: [GET, POST, DELETE, PUT, PATCH, OPTIONS]
             http_basic:
                 provider: fos_userbundle
             anonymous: false
         main:
+            two_factor:
+                auth_form_path: 2fa_login
+                check_path: 2fa_login_check
+                csrf_token_generator: security.csrf.token_manager
+                csrf_parameter: _csrf_token
+                csrf_token_id: two_factor
             pattern: ^/
             simple_form:
                 authenticator: opifer.cms.captcha_authenticator
@@ -30,6 +52,7 @@ security:
                 success_handler: opifer.cms.authentication_success_handler
             logout:    true
             anonymous: true
+            logout_on_user_change: true
             remember_me:
                 secret:   '%secret%'
                 lifetime: 604800

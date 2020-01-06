@@ -138,16 +138,24 @@ class ConfigManager
     /**
      * Returns a key-value array of the settings.
      *
+     * @param string $form
+     *
      * @return array
      */
-    public function keyValues()
+    public function keyValues($form = null)
     {
         if (null === $this->configs) {
             $this->loadConfigs();
         }
 
+        $keys = ($form) ? call_user_func([$form, 'getFields']) : [];
+
         $array = [];
         foreach ($this->configs as $key => $config) {
+            if ($form && !in_array($key, $keys)) {
+                continue;
+            }
+
             $array[$key] = $config->getValue();
         }
 

@@ -32,19 +32,38 @@ class CarouselBlockService extends AbstractBlockService implements BlockServiceI
         parent::buildManageForm($builder, $options);
 
         // Default panel
-        $builder->add(
-            $builder->create('properties', FormType::class)
-                ->add('id', TextType::class, ['attr' => ['help_text' => 'help.html_id']])
-                ->add('extra_classes', TextType::class, ['attr' => ['help_text' => 'help.extra_classes']])
-                ->add('show_indicators', ChoiceType::class, [
-                    'choices' => ['Yes' => true, 'No' => false],
-                    'choices_as_values' => true,
-                ])
-                ->add('show_controls', ChoiceType::class, [
-                    'choices' => ['Yes' => true, 'No' => false],
-                    'choices_as_values' => true,
-                ])
-        );
+        $builder->get('properties')
+            ->add('id', TextType::class, [
+                'attr' => [
+                    'help_text' => 'help.html_id'
+                ],
+                'required' => false
+            ])
+            ->add('extra_classes', TextType::class, [
+                'attr' => [
+                    'help_text' => 'help.extra_classes'
+                ],
+                'required' => false
+            ])
+            ->add('show_indicators', ChoiceType::class, [
+                'choices' => [
+                    'Yes' => true,
+                    'No' => false
+                ],
+                'attr' => [
+                    'help_text' => 'help.carousel_indicator'
+                ]
+            ])
+            ->add('show_controls', ChoiceType::class, [
+                'choices' => [
+                    'Yes' => true,
+                    'No' => false
+                ],
+                'attr' => [
+                    'help_text' => 'help.carousel_controls'
+                ],
+                'required' => false
+            ]);
     }
 
     /**
@@ -66,5 +85,14 @@ class CarouselBlockService extends AbstractBlockService implements BlockServiceI
             ->setDescription('Create a carousel of two or more slides');
 
         return $tool;
+    }
+
+    /**
+     * @param BlockInterface $block
+     * @return string
+     */
+    public function getDescription(BlockInterface $block = null)
+    {
+        return 'Create a carousel of two or more slides';
     }
 }

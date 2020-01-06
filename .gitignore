@@ -1,4 +1,12 @@
+# Editor configuration
+.idea
+
+# Dependencies
 /vendor/
+/node_modules/
+
+# Lock files
 composer.lock
-src/CmsBundle/Resources/public/js/*
-src/CmsBundle/Resources/public/css/*
+
+# Log files
+yarn-error.log

@@ -1,0 +1,30 @@
+{% if is_sub_nav %}
+    <a class="dropdown-item" href="{{ url }}" {{ manage_tags() }}>
+        {{ block.displayname }}
+    </a>
+{% else %}
+    <li class="nav-item{% if block.children|length %} dropdown{% endif %}" {{ manage_tags() }}>
+        {% if block.children|length %}
+            <a
+                class="nav-link dropdown-toggle"
+                href="{{ url }}"
+                id="nav-link-{{ block.id }}"
+                data-toggle="dropdown"
+                aria-haspopup="true"
+                aria-expanded="false"
+            >
+                {{ block.displayname }}
+            </a>
+        {% else %}
+            <a class="nav-link" href="{{ url }}">
+                {{ block.displayname }}
+            </a>
+        {% endif %}
+
+        {% if block.children|length or block_mode|default == 'manage' %}
+            <div class="dropdown-menu" aria-labelledby="nav-link-{{ block.id }}">
+                {{ render_placeholder(0, 'Submenu', 'div', 'container') }}
+            </div>
+        {% endif %}
+    </li>
+{% endif %}

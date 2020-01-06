@@ -18,7 +18,7 @@ class RedirectTypeExtension extends AbstractTypeExtension
         $builder
             ->remove('requirements')
             ->add('requirements', BootstrapCollectionType::class, [
-                'type' => RequirementType::class,
+                'entry_type' => RequirementType::class,
                 'allow_add' => true,
                 'allow_delete' => true,
                 'by_reference' => false,

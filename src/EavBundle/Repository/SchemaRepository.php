@@ -5,9 +5,6 @@ namespace Opifer\EavBundle\Repository;
 use Doctrine\ORM\EntityRepository;
 use Symfony\Component\HttpFoundation\Request;
 
-/**
- * Schema Repository
- */
 class SchemaRepository extends EntityRepository
 {
     /**

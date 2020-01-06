@@ -47,14 +47,16 @@ class DownloadsBlockService extends AbstractBlockService implements BlockService
     {
         parent::buildManageForm($builder, $options);
 
-        $builder->add(
-            $builder->create('default', FormType::class, ['virtual' => true])
-                ->add('value', MediaPickerType::class, [
-                    'to_json' => true,
-                    'multiple' => true,
-                    'label' => 'label.content'
-                ])
-        );
+        $builder->get('default')
+            ->add('value', MediaPickerType::class, [
+                'to_json' => true,
+                'multiple' => true,
+                'required' => false,
+                'label' => 'label.content',
+                'attr' => [
+                    'help_text' => 'help.download_media'
+                ]
+            ]);
     }
 
     /**
@@ -123,5 +125,14 @@ class DownloadsBlockService extends AbstractBlockService implements BlockService
             ->setDescription('List of media items available for download');
 
         return $tool;
+    }
+
+    /**
+     * @param BlockInterface $block
+     * @return string
+     */
+    public function getDescription(BlockInterface $block = null)
+    {
+        return 'List of media items available for download';
     }
 }

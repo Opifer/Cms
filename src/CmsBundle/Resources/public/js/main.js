@@ -29,6 +29,8 @@ $(document).ready(function() {
         }
     });
 
+    initializeMediaPicker();
+
     /**
      * Handle menu group collapsing
      *
@@ -44,12 +46,12 @@ $(document).ready(function() {
             //skip deeper level
             if((parent.next().data("level")-initial_level)<2){
                 if(parent.next().hasClass("collapse")){
-                         parent.next().removeClass("collapse");
+                    parent.next().removeClass("collapse");
 
-                         //only make active clicked group
-                         if(parent.data("level")===initial_level){
-                            parent.find("td:nth-child(2) > span").addClass("active");
-                         }
+                    //only make active clicked group
+                    if(parent.data("level")===initial_level){
+                        parent.find("td:nth-child(2) > span").addClass("active");
+                    }
 
                 }else{
                     //collapse only if level is greater than level of clicked group
@@ -62,8 +64,8 @@ $(document).ready(function() {
             }else{
                 //deeper level should be collapsed if parent is collapsed
                 if(parent.hasClass("collapse")){
-                  parent.next().addClass("collapse");
-                  parent.find("td:nth-child(2) > span").removeClass("active");
+                    parent.next().addClass("collapse");
+                    parent.find("td:nth-child(2) > span").removeClass("active");
                 }
             };
 
@@ -175,7 +177,9 @@ $(document).ready(function() {
 
     $('.btn-group-columns input').on('change', function(e) {
         $(this).closest('form').submit();
-    })
+    });
+
+    initializeFormScripts();
 });
 
 (function( jQuery ) {
@@ -224,4 +228,11 @@ function adjustCkeditorConfig() {
     CKEDITOR.config.allowedContent = true;
     CKEDITOR.config.stylesSet = 'cms_styles:'+Routing.generate('opifer_ckeditor_styles');
     CKEDITOR.config.customConfig = Routing.generate('opifer_ckeditor_config');
+}
+
+function initializeFormScripts() {
+  // Use bootstrap-select for multi-select fields
+  $('select[multiple*="multiple"]').selectpicker({
+    liveSearch: true
+  });
 }

@@ -18,7 +18,8 @@ var gulp = require('gulp'),
 // JAVASCRIPT TASK: write one minified js file out of jquery.js, bootstrap.js and all of my custom js files
 gulp.task('js', ['react'], function () {
     var files = [
-        'Resources/public/components/ng-file-upload/ng-file-upload-shim.min.js',
+        '../../../../friendsofsymfony/jsrouting-bundle/Resources/public/js/router.js',
+        '../../../../willdurand/js-translation-bundle/Resources/public/js/translator.min.js',
         'Resources/public/components/jquery/dist/jquery.min.js',
         'Resources/public/components/jquery-ui/jquery-ui.js',
         'Resources/public/components/js-cookie/src/js.cookie.js',
@@ -38,11 +39,9 @@ gulp.task('js', ['react'], function () {
         'Resources/public/components/eonasdan-bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js',
         'Resources/public/components/bootstrap-iconpicker/bootstrap-iconpicker/js/iconset/iconset-materialdesign-2.2.1.js',
         'Resources/public/components/bootstrap-iconpicker/bootstrap-iconpicker/js/bootstrap-iconpicker.js',
-        'Resources/public/components/ngInfiniteScroll/build/ng-infinite-scroll.js',
         'Resources/public/components/afkl-lazy-image/release/lazy-image.js',
         'Resources/public/components/bootbox.js/bootbox.js',
         'Resources/public/components/mprogress/mprogress.min.js',
-        'Resources/public/components/ng-file-upload/ng-file-upload.min.js',
         'Resources/public/components/typeahead.js/dist/typeahead.bundle.js',
         '../../../../braincrafted/bootstrap-bundle/Braincrafted/Bundle/BootstrapBundle/Resources/js/bc-bootstrap-collection.js',
         'Resources/public/components/codemirror/lib/codemirror.js',
@@ -51,19 +50,21 @@ gulp.task('js', ['react'], function () {
         'Resources/public/components/remarkable-bootstrap-notify/bootstrap-notify.js',
         'Resources/public/components/bootstrap3-dialog/dist/js/bootstrap-dialog.js',
 
+        'node_modules/bootstrap-select/dist/js/bootstrap-select.js',
         'node_modules/react/dist/react-with-addons.min.js',
         'node_modules/react-dom/dist/react-dom.min.js',
 
-        'Resources/public/js/react.js',
+        'Resources/public/dist/react.js',
         'Resources/public/js/split-pane.js',
         'Resources/public/js/main.js',
         'Resources/public/js/pagemanager.js',
         'Resources/public/angular/app.js',
 
+        '../../../../lexik/translation-bundle/Resources/public/ng-table/ng-table.min.js',
+        '../../../../lexik/translation-bundle/Resources/public/js/translation.js',
         '../ContentBundle/Resources/public/js/app.js',
         '../ContentBundle/Resources/public/app/content/content.js',
-        '../MediaBundle/Resources/public/app/modal/modal.js',
-        '../MediaBundle/Resources/public/app/medialibrary/medialibrary.js',
+        '../ContentBundle/Resources/public/app/modal/modal.js',
 
         'Resources/public/components/ckeditor/ckeditor.js'
     ];
@@ -94,10 +95,11 @@ gulp.task('react', function () {
     return gulp.src([
             '../ExpressionEngine/Resources/public/react/expression-engine.js'
         ])
+        .pipe(sourcemaps.init())
         .pipe(react())
         .pipe(concat('react.js'))
-        .pipe(sourcemaps.write('./'))
-        .pipe(gulp.dest('Resources/public/js'));
+        .pipe(sourcemaps.write('.'))
+        .pipe(gulp.dest('Resources/public/dist'));
 });
 
 
@@ -109,6 +111,7 @@ gulp.task('css', function () {
         'Resources/public/components/codemirror/lib/codemirror.css',
         'Resources/public/components/eonasdan-bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.css',
         'Resources/public/components/bootstrap-iconpicker/bootstrap-iconpicker/css/bootstrap-iconpicker.css',
+        'node_modules/bootstrap-select/dist/css/bootstrap-select.css',
         'Resources/public/less/main.less'
     ];
 
@@ -145,8 +148,9 @@ gulp.task('pagemanager-client-js', function () {
     ])
         .pipe(concat('client.js'))
         .pipe(sourcemaps.write('./'))
-        .pipe(gulp.dest('Resources/public/js'));
+        .pipe(gulp.dest('Resources/public/dist'));
 });
+
 gulp.task('pagemanager-client-css', function () {
     return gulp.src([
         'Resources/public/less/pagemanager-client.less'
@@ -160,11 +164,12 @@ gulp.task('pagemanager-client-css', function () {
 
 
 //define executable tasks when running "gulp" command
-gulp.task('pagemanager', ['pagemanager-client-js', 'pagemanager-client-css']);
+gulp.task('pagemanager', ['pagemanager-client-css']);
 gulp.task('default', ['js', 'css', 'pagemanager']);
 
 //watch less files for changes
 gulp.task('watch', function() {
     gulp.watch('Resources/public/less/*.less', ['default']);
     gulp.watch('Resources/public/js/*.js', ['default']);
+    gulp.watch('../ExpressionEngine/Resources/public/react/expression-engine.js', ['default']);
 });

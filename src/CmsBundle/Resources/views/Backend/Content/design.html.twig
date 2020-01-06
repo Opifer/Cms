@@ -9,7 +9,7 @@
             <div class="container-fluid">
                 <div class="navbar-left">
                     <button type="button" name="publish" id="pm-btn-publish" class="btn btn-default navbar-btn">{{ "button.publish"|trans|capitalize }}</button>
-                    <button type="submit" name="discard" id="pm-btn-discard" class="btn btn-default navbar-btn">{{ "button.reset"|trans|capitalize }}</button>
+                    {#<button type="submit" name="discard" id="pm-btn-discard" class="btn btn-default navbar-btn">{{ "button.reset"|trans|capitalize }}</button>#}
                     <a href="{{ url_cancel }}" class="btn btn-link navbar-btn">{{ "button.quit"|trans|capitalize }}</a>
                     <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false">
                         <span class="sr-only">Toggle navigation</span>
@@ -49,15 +49,18 @@
     </div>
 
     <div class="pm-editor split-pane fixed-right">
-        <aside class="pm-tabs">
+        {#<aside class="pm-tabs">
             <ul class="nav nav-inverse nav-tabs nav-stacked nav-tabs-sidebar" role="tablist">
                 <li role="presentation" class="active" data-toggle="tooltip" data-placement="right" title="Designer"><a href="#tab-design" role="tab" data-toggle="tab"><i class="material-icons">layers</i></a></li>
-                {#<li role="presentation" data-toggle="tooltip" data-placement="right" title="Change history"><a href="#tab-history" role="tab" data-toggle="tab"><i class="material-icons">change_history</i></a></li>#}
-                {#<li role="presentation" data-toggle="tooltip" data-placement="right" title="SEO tools"><a href="#tab-seo" role="tab" data-toggle="tab"><i class="material-icons">pageview</i></a></li>#}
-                {#<li role="presentation" data-toggle="tooltip" data-placement="right" title="Extensions"><a href="#tab-extensions" role="tab" data-toggle="tab"><i class="material-icons">extension</i></a></li>#}
-                {#<li role="presentation" data-toggle="tooltip" data-placement="right" title="Developer tools"><a href="#tab-developer" role="tab" data-toggle="tab"><i class="material-icons">developer_board</i></a></li>#}
+                <li role="presentation" data-toggle="tooltip" data-placement="right" title="Change history"><a href="#tab-history" role="tab" data-toggle="tab"><i class="material-icons">change_history</i></a></li>
+                <li role="presentation" data-toggle="tooltip" data-placement="right" title="SEO tools"><a href="#tab-seo" role="tab" data-toggle="tab"><i class="material-icons">pageview</i></a></li>
+                <li role="presentation" data-toggle="tooltip" data-placement="right" title="Extensions"><a href="#tab-extensions" role="tab" data-toggle="tab"><i class="material-icons">extension</i></a></li>
+                <li role="presentation" data-toggle="tooltip" data-placement="right" title="Developer tools"><a href="#tab-developer" role="tab" data-toggle="tab"><i class="material-icons">developer_board</i></a></li>
             </ul>
-        </aside>
+        </aside>#}
+        {% if defaultDomain != null %}
+            {% set permalink = '//' ~ defaultDomain ~ permalink|default %}
+        {%  endif %}
         <div class="split-pane-component pm-preview pm-viewmode-content tab-content" id="pm-document" data-pm-owner="{{ owner }}" data-pm-owner-id="{{ id }}" data-pm-permalink="{{ permalink|default }}">
             <div role="tabpanel" class="tab-pane active" id="tab-design">
                 <iframe data-url="{{ url }}" frameborder="no" id="pm-iframe" class="pm-tab-iframe"></iframe>
@@ -73,24 +76,35 @@
         <div class="split-pane-component pm-toolset" id="right-component">
             <div class="pm-toolset-body pm">
                 <div class="pm-col">
-                    <div class="pm pm-toolset-card hidden" id="pm-block-edit">
-                    </div>
+                    <div class="pm pm-toolset-card hidden" id="pm-block-edit"></div>
                 </div>
-                <div class="pm-toolset-card pm-dark">
-
+                <div class="pm-toolset-card pm-dark pm-toolset-toc">
                     <div class="pm-col">
-                        <h4 class="title" data-toggle="collapse" data-target="#pm-toc" aria-expanded="false" aria-controls="pm-toc">Table of contents</h4>
+                        <h4 class="title">Table of contents</h4>
                         <div class="collapse in pm-noselect" id="pm-toc">
                         </div>
                     </div>
                 </div>
-                <div class="pm-toolset-card pm-dark">
-
+                <div class="pm-toolset-card pm-dark pm-toolset-library">
+                    <div class="form-group p-x-sm p-t-sm">
+                        <div class="input-group">
+                        <div class="input-group-addon"><i class="material-icons">search</i></div>
+                            <input type="text" class="form-control" id="pm-kwsearch-blocks" placeholder="Search">
+                        </div>
+                    </div>
                         {% for group in toolset.groups %}
-                        <div id="pm-tools-{{ group|lower|replace(' ', '-') }}" class="pm-tools-blockset pm-noselect">
+                        <div id="pm-tools-{{ group|lower|replace({' ': '-'}) }}" class="pm-tools-blockset pm-noselect">
                             <div class="pm-col">
-                                <h4 class="title" data-toggle="collapse" data-target="#list-group-{{ group|lower|replace(' ', '-') }}" aria-expanded="true" aria-controls="list-group-{{ group|lower|replace(' ', '-') }}">{{ group }}</h4>
-                                <div class="collapse in list-group" id="list-group-{{ group|lower|replace(' ', '-') }}">
+                                <h4
+                                    class="title"
+                                    data-toggle="collapse"
+                                    data-target="#list-group-{{ group|lower|replace({' ': '-'}) }}"
+                                    aria-expanded="true"
+                                    aria-controls="list-group-{{ group|lower|replace({' ': '-'}) }}"
+                                >
+                                    {{ group }}
+                                </h4>
+                                <div class="collapse in list-group js-collapsable" id="list-group-{{ group|lower|replace({' ': '-'}) }}">
                                     {% for tool in toolset.tools %}
                                         {% if tool.group == group %}
                                             <div class="list-group-item pm-block-item" data-pm-block-type="{{ tool.service }}" data-pm-block-data='{{ tool.datajson }}'>
@@ -98,8 +112,8 @@
                                                     <i class="material-icons">{{ tool.icon }}</i>
                                                 </div>
                                                 <div class="col-text">
-                                                    <h4 class="list-group-item-heading">{{ tool.name }}</h4>
-                                                    <p class="list-group-item-text">{{ tool.description|raw }}</p>
+                                                    <h4 class="list-group-item-heading">{{ tool.name|trans }}</h4>
+                                                    <p class="list-group-item-text">{{ tool.description|trans|raw }}</p>
                                                 </div>
                                             </div>
                                         {% endif %}
@@ -108,7 +122,6 @@
                             </div>
                         </div>
                         {% endfor %}
-
                     </div>
                 </div>
             </div>

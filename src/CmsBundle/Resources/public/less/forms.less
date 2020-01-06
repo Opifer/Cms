@@ -152,7 +152,7 @@ select.form-control {
   .form-control-validation(@state-warning-bg; @state-warning-bg; @state-warning-text);
 }
 .has-error {
-  .form-control-validation(@state-danger-bg; @state-danger-bg; @state-danger-text);
+  color: @state-danger-text;
 }
 
 .wysiwyg-editor {
@@ -210,4 +210,15 @@ select.form-control {
             cursor: pointer;
         }
     }
+}
+
+label.required:after {
+    content: " *";
+    color: @state-danger-text;
+}
+
+.btn-group label.required:after,
+.radio label.required:after,
+.checkbox label.required:after {
+    content: '';
 }

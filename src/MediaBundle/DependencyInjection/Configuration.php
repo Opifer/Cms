@@ -49,6 +49,15 @@ class Configuration implements ConfigurationInterface
                     ->end()
                 ->end()
 
+                ->arrayNode('media_directory')
+                    ->addDefaultsIfNotSet()
+                    ->children()
+                        ->scalarNode('class')
+                            ->defaultValue('Opifer\MediaBundle\Entity\MediaDirectory')
+                        ->end()
+                    ->end()
+                ->end()
+
                 ->arrayNode('providers')
                     ->addDefaultsIfNotSet()
                     ->children()
@@ -96,15 +105,10 @@ class Configuration implements ConfigurationInterface
                         ->end()
                     ->end()
                 ->end()
+                ->scalarNode('cache_provider')->defaultValue('Doctrine\Common\Cache\ArrayCache')->end()
             ->end()
         ;
 
         return $treeBuilder;
     }
-
-    /*
-     * opifer_media:
-     *     youtube:
-     *         google_api_key: dfgdghfgh
-     */
 }

@@ -1,0 +1,10 @@
+<div class="card" {{ manage_tags() }}>
+    <div class="card-block">
+        <span class="text-muted"><i class="material-icons">{{block.dataView.iconType}}</i> {{ block.name|default ? block.name : block.dataView.displayName}} has no preview support</span>
+    </div>
+    {% if block.dataView.placeholders|length %}
+        {% for i in 0..(block.dataView.placeholders|length)-1 %}
+            {{ render_placeholder(i, block.dataView.placeholders[i].name|default) }}
+        {% endfor %}
+    {% endif %}
+</div>

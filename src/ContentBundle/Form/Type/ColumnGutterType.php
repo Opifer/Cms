@@ -8,15 +8,10 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 
-/**
- * Class ColumnGutterType
- *
- * @package Opifer\ContentBundle\Form\Type
- */
 class ColumnGutterType extends AbstractType
 {
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
@@ -28,16 +23,15 @@ class ColumnGutterType extends AbstractType
                 $form->add($i, ChoiceType::class, [
                     'label' => 'label.gutter_sizing',
                     'placeholder' => 'placeholder.default',
-                    'choices' => ['md' => 'md', '0' => '0', 'sm' => 'sm', 'lg' => 'lg'],
+                    'choices' => [0, 1, 2, 3, 4, 5],
                     'required' => false,
                 ]);
             }
-
         });
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getBlockPrefix()
     {

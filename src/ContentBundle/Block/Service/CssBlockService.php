@@ -23,10 +23,19 @@ class CssBlockService extends AbstractBlockService implements BlockServiceInterf
         parent::buildManageForm($builder, $options);
 
         // Default panel
-        $builder->add(
-            $builder->create('default', FormType::class, ['inherit_data' => true])
-                ->add('value', CodeMirrorType::class, ['label' => 'label.code', 'parameters' => ['mode' => 'css'], 'attr' => ['label_col' => 12, 'widget_col' => 12, 'help_text' => 'help.css_code']])
-        );
+        $builder->get('default')
+            ->add('value', CodeMirrorType::class, [
+                'label' => 'label.code',
+                'parameters' => [
+                    'mode' => 'css'
+                ],
+                'attr' => [
+                    'label_col' => 12,
+                    'widget_col' => 12,
+                    'help_text' => 'help.css_code'
+                ],
+                'required' => false
+            ]);
     }
 
     /**
@@ -48,5 +57,14 @@ class CssBlockService extends AbstractBlockService implements BlockServiceInterf
             ->setDescription('Implement custom CSS styles to use');
 
         return $tool;
+    }
+
+    /**
+     * @param BlockInterface $block
+     * @return string
+     */
+    public function getDescription(BlockInterface $block = null)
+    {
+        return 'Implement custom CSS styles to use';
     }
 }

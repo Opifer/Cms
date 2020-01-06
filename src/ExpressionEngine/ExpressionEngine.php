@@ -6,7 +6,6 @@ use JMS\Serializer\SerializerBuilder;
 use Opifer\ExpressionEngine\Expression\Expression;
 use Webmozart\Expression\Expr;
 use Webmozart\Expression\Logic\AndX;
-use Webmozart\Expression\Selector\Method;
 
 class ExpressionEngine
 {

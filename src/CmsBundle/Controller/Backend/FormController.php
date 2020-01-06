@@ -7,6 +7,7 @@ use APY\DataGridBundle\Grid\Column\TextColumn;
 use APY\DataGridBundle\Grid\Source\Entity;
 use Opifer\FormBundle\Controller\FormController as BaseFormController;
 use Symfony\Component\HttpFoundation\Response;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 
 class FormController extends BaseFormController
 {
@@ -15,6 +16,8 @@ class FormController extends BaseFormController
      */
     public function indexAction()
     {
+        $this->denyAccessUnlessGranted('FORM_INDEX');
+
         $source = new Entity($this->get('opifer.form.form_manager')->getClass());
 
         $postsColumn = new TextColumn(['id' => 'posts', 'title' => 'Posts', 'source' => false, 'filterable' => false, 'sortable' => false, 'safe' => false]);

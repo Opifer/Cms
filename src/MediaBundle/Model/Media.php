@@ -5,6 +5,7 @@ namespace Opifer\MediaBundle\Model;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use JMS\Serializer\Annotation as JMS;
+use Opifer\MediaBundle\Entity\MediaDirectoryInterface;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -112,6 +113,14 @@ abstract class Media implements MediaInterface
     protected $filesize;
 
     /**
+     * @var MediaDirectoryInterface
+     *
+     * @ORM\ManyToOne(targetEntity="Opifer\MediaBundle\Entity\MediaDirectoryInterface", inversedBy="items")
+     * @ORM\JoinColumn(name="directory_id", referencedColumnName="id")
+     */
+    protected $directory;
+
+    /**
      * @var \DateTime
      *
      * @ORM\Column(name="created_at", type="datetime")
@@ -148,6 +157,14 @@ abstract class Media implements MediaInterface
      * @var string
      */
     protected $original;
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getImagesCacheKey()
+    {
+        return sha1(__FILE__).'_'.$this->id.'_images';
+    }
 
     /**
      * Sets file.
@@ -372,6 +389,37 @@ abstract class Media implements MediaInterface
     public function getThumb()
     {
         return $this->thumb;
+    }
+
+    /**
+     * @return int|null
+     *
+     * @JMS\VirtualProperty
+     * @JMS\SerializedName("directory_id")
+     */
+    public function getDirectoryId()
+    {
+        return ($this->getDirectory()) ? $this->getDirectory()->getId() : null;
+    }
+
+    /**
+     * @return MediaDirectoryInterface
+     */
+    public function getDirectory()
+    {
+        return $this->directory;
+    }
+
+    /**
+     * @param MediaDirectoryInterface $directory
+     *
+     * @return Media
+     */
+    public function setDirectory($directory)
+    {
+        $this->directory = $directory;
+
+        return $this;
     }
 
     /**

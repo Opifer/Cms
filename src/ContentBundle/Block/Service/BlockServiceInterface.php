@@ -28,6 +28,13 @@ interface BlockServiceInterface
 
     /**
      * @param BlockInterface $block
+     *
+     * @return mixed
+     */
+    public function getDescription(BlockInterface $block = null);
+
+    /**
+     * @param BlockInterface $block
      * @param Response|null  $response
      * @param array          $parameters
      *
@@ -55,4 +62,12 @@ interface BlockServiceInterface
      * @param BlockInterface $block
      */
     public function postFormSubmit(FormInterface $form, BlockInterface $block);
+
+    /**
+     * Loads additional data onto the block
+     *
+     * @param BlockInterface $block
+     * @return void
+     */
+    public function load(BlockInterface $block);
 }

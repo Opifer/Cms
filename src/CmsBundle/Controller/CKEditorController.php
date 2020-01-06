@@ -37,35 +37,42 @@ class CKEditorController extends Controller
 
         return $this->render('OpiferCmsBundle:CKEditor:media.html.twig', [
             'providers' => $providers,
-            'funcNum' => $request->get('CKEditorFuncNum'),
-            'CKEditor' => $request->get('CKEditor'),
-            'type' => $request->get('type'),
+            'props' => [
+                'ckeditor' => [
+                    'funcNum' => $request->get('CKEditorFuncNum'),
+                    'type' => $request->get('type'),
+                ]
+            ]
         ]);
     }
 
     /**
      * Styles set for CKEditor.
      *
-     * @param Request $request
-     *
      * @return Response
      */
-    public function stylesAction(Request $request)
+    public function stylesAction()
     {
-        return $this->render('OpiferCmsBundle:CKEditor:styles.js.twig');
+        $response = $this->render('OpiferCmsBundle:CKEditor:styles.js.twig');
+
+        $response->headers->set('Content-Type', 'application/javascript');
+
+        return $response;
     }
 
     /**
      * Config JS for CKEditor.
      *
-     * @param Request $request
-     *
      * @return Response
      */
-    public function configAction(Request $request)
+    public function configAction()
     {
-        return $this->render('OpiferCmsBundle:CKEditor:config.js.twig', [
+        $response = $this->render('OpiferCmsBundle:CKEditor:config.js.twig', [
             'css_path' => $this->getParameter('opifer_cms.ckeditor_css_path'),
         ]);
+
+        $response->headers->set('Content-Type', 'application/javascript');
+
+        return $response;
     }
 }

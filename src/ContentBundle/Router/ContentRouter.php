@@ -4,9 +4,6 @@ namespace Opifer\ContentBundle\Router;
 
 use Doctrine\ORM\NoResultException;
 use Opifer\ContentBundle\Model\ContentManagerInterface;
-use Opifer\ContentBundle\Router\UrlGenerator;
-use Symfony\Component\DependencyInjection\ContainerInterface;
-use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Routing\Exception\ResourceNotFoundException;
 use Symfony\Component\Routing\Matcher\UrlMatcher;
@@ -35,16 +32,21 @@ class ContentRouter implements RouterInterface
     /** @var RequestStack */
     protected $requestStack;
 
+    /** @var string */
+    protected $frontendUrl;
+
     /**
-     * The constructor for this service.
+     * Constructor
      *
-     * @param ContainerInterface $container
+     * @param RequestStack            $requestStack
+     * @param ContentManagerInterface $contentManager
      */
-    public function __construct(RequestStack $requestStack, ContentManagerInterface $contentManager)
+    public function __construct(RequestStack $requestStack, ContentManagerInterface $contentManager, $frontendUrl)
     {
         $this->routeCollection = new RouteCollection();
         $this->requestStack = $requestStack;
         $this->contentManager = $contentManager;
+        $this->frontendUrl = $frontendUrl;
 
         $this->createRoutes();
     }
@@ -54,14 +56,27 @@ class ContentRouter implements RouterInterface
      */
     private function createRoutes()
     {
-        $this->routeCollection->add('_content', new Route('/{slug}', [
-            '_controller' => 'OpiferContentBundle:Frontend/Content:view',
-            'slug'        => '',
-        ], [
-            'slug'        => "[a-zA-Z0-9\-_\/]*",
-        ], [
-            'expose'      => true,
-        ]));
+        if ($this->frontendUrl) {
+            $this->routeCollection->add('_content', new Route('/{slug}', [
+                '_controller' => 'FrameworkBundle:Redirect:urlRedirect',
+                'path' => $this->frontendUrl,
+            ], [
+                'slug'        => "[a-zA-Z0-9\-_\/]*",
+            ], [
+                'expose'      => true,
+                'utf8'        => true,
+            ]));
+        } else {
+            $this->routeCollection->add('_content', new Route('/{slug}', [
+                '_controller' => 'OpiferContentBundle:Frontend/Content:view',
+                'slug'        => '',
+            ], [
+                'slug'        => "[a-zA-Z0-9\-_\/]*",
+            ], [
+                'expose'      => true,
+                'utf8'        => true,
+            ]));
+        }
     }
 
     /**
@@ -82,9 +97,10 @@ class ContentRouter implements RouterInterface
         $urlMatcher = new UrlMatcher($this->routeCollection, $this->getContext());
         $result = $urlMatcher->match($pathinfo);
 
-        if (!empty($result)) {
+        if (!$this->frontendUrl && !empty($result)) {
             // The route matches, now check if it actually exists
             $slug = $result['slug'];
+            $host = $this->getRequest()->getHost();
 
             $contentRepository = $this->contentManager->getRepository();
 
@@ -94,10 +110,10 @@ class ContentRouter implements RouterInterface
                     $slug = rtrim($slug, '/');
                 }
 
-                $result['content'] = $contentRepository->findActiveBySlug($slug);
+                $result['content'] = $contentRepository->findActiveBySlug($slug, $host);
             } catch (NoResultException $e) {
                 try {
-                    $result['content'] = $contentRepository->findActiveByAlias($slug);
+                    $result['content'] = $contentRepository->findActiveByAlias($slug, $host);
                 } catch (NoResultException $ex) {
                     throw new ResourceNotFoundException('No page found for slug '.$pathinfo);
                 }

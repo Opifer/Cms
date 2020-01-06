@@ -2,6 +2,14 @@ opifer_content_api:
     resource: "routing_api.yml"
     prefix:   /api
 
+opifer_content_dataview_index:
+    path: /dataviews
+    defaults: { _controller: OpiferContentBundle:Backend/DataView:index }
+
+opifer_content_dataview_edit:
+    path: /dataviews/{id}
+    defaults: { _controller: OpiferContentBundle:Backend/DataView:index }
+
 opifer_content_template_index:
     path: /template
     defaults: { _controller: OpiferContentBundle:Backend/Template:index }
@@ -16,9 +24,13 @@ opifer_content_template_editor_view:
 
 # Content
 
+opifer_content_content_create_layout:
+    path: /content/create/site/{siteId}/layout/{layoutId}
+    defaults: { _controller: OpiferContentBundle:Backend/Content:create, siteId: 0, layoutId: 0}
+
 opifer_content_content_create:
-    path: /content/create/{type}/{mode}
-    defaults: { _controller: OpiferContentBundle:Backend/Content:create, type: 0, mode: simple }
+    path: /content/create/site/{siteId}/{type}/{mode}
+    defaults: { _controller: OpiferContentBundle:Backend/Content:create, siteId: 0, type: 0, mode: simple }
 
 opifer_content_content_details:
     path: /content/details/{id}
@@ -43,8 +55,16 @@ opifer_content_content_type:
         type:  \d+
 
 opifer_content_content_select_type:
-    path: /content/select-type
-    defaults: { _controller: OpiferContentBundle:Backend/Content:selectType }
+    path: /content/select-type/site/{siteId}
+    defaults: { _controller: OpiferContentBundle:Backend/Content:selectType, siteId: 0 }
+
+opifer_content_content_select_site:
+    path: /content/select-site
+    defaults: { _controller: OpiferContentBundle:Backend/Content:selectSite }
+
+opifer_content_content_select_layout_type:
+    path: /content/select-layout-type
+    defaults: { _controller: OpiferContentBundle:Backend/Content:selectLayoutType }
 
 opifer_content_content_edit_type:
     path: /content/edit-type/{id}

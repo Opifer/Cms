@@ -1,0 +1,18 @@
+{
+  "env": {
+    "browser": true
+  },
+  "rules": {
+    "no-underscore-dangle": ["error", { "allow": ["_source"] }],
+    "jsx-a11y/label-has-for": 0,
+    "no-console": 0,
+    "max-len": 0,
+    "linebreak-style": 0
+  },
+  "extends": "airbnb",
+  "parserOptions": {
+    "ecmaFeatures": {
+      "experimentalObjectRestSpread": true
+    }
+  }
+}

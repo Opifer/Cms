@@ -2,17 +2,15 @@
 
 namespace Opifer\MediaBundle\EventListener\Serializer;
 
+use Doctrine\Common\Cache\CacheProvider;
 use JMS\Serializer\EventDispatcher\EventSubscriberInterface;
 use JMS\Serializer\EventDispatcher\ObjectEvent;
 use Liip\ImagineBundle\Imagine\Cache\CacheManager;
 use Liip\ImagineBundle\Imagine\Filter\FilterConfiguration;
 use Opifer\MediaBundle\Model\MediaInterface;
 use Opifer\MediaBundle\Provider\Pool;
-use PhpOption\None;
+use Opifer\MediaBundle\Provider\ProviderInterface;
 
-/**
- * Class MediaEventSubscriber.
- */
 class MediaEventSubscriber implements EventSubscriberInterface
 {
     /**
@@ -31,15 +29,24 @@ class MediaEventSubscriber implements EventSubscriberInterface
     protected $filterConfig;
 
     /**
+     * @var CacheProvider
+     */
+    protected $cache;
+
+    /**
      * Constructor.
      *
-     * @param CacheManager $cacheManager
+     * @param CacheManager        $cacheManager
+     * @param FilterConfiguration $filterConfig
+     * @param Pool                $pool
+     * @param CacheProvider       $cache
      */
-    public function __construct(CacheManager $cacheManager, FilterConfiguration $filterConfig, Pool $pool)
+    public function __construct(CacheManager $cacheManager, FilterConfiguration $filterConfig, Pool $pool, CacheProvider $cache)
     {
         $this->cacheManager = $cacheManager;
         $this->filterConfig = $filterConfig;
         $this->pool = $pool;
+        $this->cache = $cache;
     }
 
     /**
@@ -53,6 +60,8 @@ class MediaEventSubscriber implements EventSubscriberInterface
     }
 
     /**
+     * Listens to the post_serialize event and generates urls to the different image formats.
+     *
      * @param ObjectEvent $event
      */
     public function onPostSerialize(ObjectEvent $event)
@@ -65,33 +74,55 @@ class MediaEventSubscriber implements EventSubscriberInterface
         /** @var MediaInterface $media */
         $media = $event->getObject();
 
-        $provider = $this->pool->getProvider($media->getProvider());
+        $provider = $this->getProvider($media);
 
         if ($provider->getName() == 'image') {
+            $images = $this->getImages($media, ['medialibrary']);
+
+            $event->getVisitor()->addData('images', $images);
+        }
+
+        $event->getVisitor()->addData('original', $provider->getUrl($media));
+    }
+
+    /**
+     * Gets the cached images if any. If the cache is not present, it generates images for all filters.
+     *
+     * @param MediaInterface $media
+     * @param array $filters
+     *
+     * @return MediaInterface[]
+     */
+    public function getImages(MediaInterface $media, array $filters)
+    {
+        $key = $media->getImagesCacheKey();
+        if (!$images = $this->cache->fetch($key)) {
+            $provider = $this->getProvider($media);
+
             $reference = $provider->getThumb($media);
 
-            $groups = $event->getContext()->attributes->get('groups');
-
-            if (!$groups instanceof None && in_array('detail', $groups->get())) {
-                $filters = array_keys($this->filterConfig->all());
-            } else {
-                $filters = ['medialibrary'];
-            }
-
-            $variants = [];
+            $images = [];
             foreach ($filters as $filter) {
                 if ($media->getContentType() == 'image/svg+xml') {
-                    $variants[$filter] = $provider->getUrl($media);
+                    $images[$filter] = $provider->getUrl($media);
                 } else {
-                    $variants[$filter] = $this->cacheManager->getBrowserPath($reference, $filter);
+                    $images[$filter] = $this->cacheManager->getBrowserPath($reference, $filter);
                 }
             }
 
-            $event->getVisitor()->addData('images', $variants);
-
-            $event->getVisitor()->addData('original', $this->cacheManager->getBrowserPath($media->getReference(), 'full_size'));
-        } else {
-            $event->getVisitor()->addData('original', $provider->getUrl($media));
+            $this->cache->save($key, $images, 0);
         }
+
+        return $images;
+    }
+
+    /**
+     * @param MediaInterface $media
+     *
+     * @return ProviderInterface
+     */
+    protected function getProvider(MediaInterface $media)
+    {
+        return $this->pool->getProvider($media->getProvider());
     }
 }

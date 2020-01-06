@@ -124,7 +124,6 @@
     padding: 10px;
 
     p {
-        font-family:"Myriad Pro", "Segoe UI", Helvetica, Arial, sans-serif !important;
         font-size: 14px !important;
         margin: 0 !important;
     }
@@ -193,6 +192,12 @@
         background-color: @pm-primary-bright !important;
     }
 
+    &.pm-toolbar-inactive {
+      .pm-btn-label {
+        background-color: #999 !important;
+      }
+    }
+
     &.pm-toolbar-pointer {
         .pm-btn-label {
             background-color: @pm-yellow-bright !important;
@@ -217,8 +222,11 @@
 }
 
 .pm-hovered {
-    outline: 4px dotted @pm-primary-bright;
-    outline-offset: -2px;
+  outline: 4px dotted @pm-primary-bright;
+  outline-offset: -2px;
+  &.pm-inactive {
+    outline: 4px dotted rgba(0,0,0,.15);
+  }
 }
 
 .pm-toolbar-text {
@@ -356,7 +364,6 @@
     }
 
     .list-group-item-heading {
-        font-family:"Myriad Pro", "Segoe UI", Helvetica, Arial, sans-serif;
         font-size: 16px !important;
         font-weight: normal !important;
         margin: 0 0 2px 0 !important;
@@ -366,7 +373,6 @@
     }
 
     .list-group-item-text {
-        font-family: "Myriad Pro", "Segoe UI", Helvetica, Arial, sans-serif;
         font-size: 12px !important;
         margin: 0 !important;
         color: #fff !important;
