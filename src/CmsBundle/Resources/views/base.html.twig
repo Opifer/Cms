@@ -81,19 +81,26 @@
                                 </li>
 
                                 {# System menu #}
-                                {% if is_granted("ROLE_ADMIN") %}
+                                {% if is_granted("CONFIG_INDEX") or is_granted("CRONJOB_INDEX")
+                                    or is_granted("USER_INDEX") or is_granted("REDIRECT_INDEX")
+                                    or is_granted("SITE_INDEX") or is_granted("LOCALE_INDEX")%}
                                     <li class="dropdown">
                                         <a class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-hdd-o visible-xs-block"></i> {{ 'base.system'|trans|capitalize }} <i class="material-icons md-18">keyboard_arrow_down</i></a>
                                         <ul class="dropdown-menu">
-                                            <li role="presentation" class="dropdown-header">{{ 'base.system'|trans|capitalize }}</li>
-                                            <li><a href="{{ path('opifer_cms_config_index') }}">{{ 'title.config'|trans|capitalize }}</a></li>
-                                            <li><a href="{{ path('opifer_cms_cronjob_index') }}">{{ 'base.cronjobs'|trans|capitalize }}</a></li>
-                                            <li><a href="{{ path('opifer_cms_user_index') }}">{{ 'base.users'|trans|capitalize }}</a></li>
-                                            <li><a href="{{ path('opifer_redirect_redirect_index') }}">{{ 'base.redirects'|trans|capitalize }}</a></li>
+
+                                            <li role="presentation" class="dropdown-header">{{ 'base.environment'|trans|capitalize }}</li>
+                                            {% block environment_menu %}
+                                                {% if is_granted("CONFIG_INDEX") %} <li><a href="{{ path('opifer_cms_config_index') }}">{{ 'title.config'|trans|capitalize }}</a></li> {% endif %}
+                                                {% if is_granted("CRONJOB_INDEX") %} <li><a href="{{ path('opifer_cms_cronjob_index') }}">{{ 'base.cronjobs'|trans|capitalize }}</a></li> {% endif %}
+                                                {% if is_granted("USER_INDEX") %} <li><a href="{{ path('opifer_cms_user_index') }}">{{ 'base.users'|trans|capitalize }}</a></li> {% endif %}
+                                                {% if is_granted("REDIRECT_INDEX") %} <li><a href="{{ path('opifer_redirect_redirect_index') }}">{{ 'base.redirects'|trans|capitalize }}</a></li> {% endif %}
+                                            {% endblock %}
                                             <li class="divider"></li>
                                             <li role="presentation" class="dropdown-header">{{ 'base.content'|trans|capitalize }}</li>
-                                            <li><a href="{{ path('opifer_cms_site_index') }}">{{ 'base.sites'|trans|capitalize }}</a></li>
-                                            <li><a href="{{ path('lexik_translation_grid') }}">{{ 'title.translations'|trans|capitalize }}</a></li>
+                                            {% block content_menu %}
+                                                {% if is_granted("SITE_INDEX") %}<li><a href="{{ path('opifer_cms_site_index') }}">{{ 'base.sites'|trans|capitalize }}</a></li> {% endif %}
+                                                {% if is_granted("LOCALE_INDEX") %}<li><a href="{{ path('lexik_translation_grid') }}">{{ 'title.translations'|trans|capitalize }}</a></li>{% endif %}
+                                            {% endblock %}
                                         </ul>
                                     </li>
                                 {% endif %}
@@ -120,9 +127,15 @@
         var CKEDITOR_BASEPATH = '/bundles/opifercms/components/ckeditor/';
     </script>
 
+    {% if (app.environment == 'dev') %}
+        <script src="http://127.0.0.1:3333/dist/mediamanager.js"></script>
+    {% else %}
+        <script src="{{ asset('bundles/opifercms/dist/mediamanager.js') }}"></script>
+    {% endif %}
     <script type="text/javascript" src="{{ asset('bundles/opifercms/js/app.js') }}"></script>
     <script src="{{ url('bazinga_jstranslation_js') }}"></script>
     <script src="{{ path('fos_js_routing_js', {"callback": "fos.Router.setData"}) }}"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-polyfill/6.16.0/polyfill.min.js" type="text/javascript"></script>
 {% endblock %}
 
 </body>

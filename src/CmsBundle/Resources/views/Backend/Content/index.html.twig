@@ -12,7 +12,8 @@
         </div>
 
         <div class="col-xs-12">
-            <content-browser site-id="" locale="nl_NL" active="true"></content-browser>
+            <div class="js-content-browser"></div>
+            {#<content-browser site-id="" locale="nl_NL" active="true"></content-browser>#}
         </div>
 
         <div class="modal modal-delete fallin" id="{{ 'modalDelete' ~ slug|default|capitalize }}" tabindex="-1" role="dialog" aria-labelledby="DeleteModalLabel" aria-hidden="true">
@@ -30,4 +31,9 @@
             </div>
         </div>
     {% endspaceless %}
+    {% if (app.environment == 'dev') %}
+        <script src="http://127.0.0.1:8080/dist/contentbrowser.js"></script>
+    {% else %}
+        <script src="{{ asset('bundles/opifercms/js/contentbrowser.js') }}"></script>
+    {% endif %}
 {% endblock body %}

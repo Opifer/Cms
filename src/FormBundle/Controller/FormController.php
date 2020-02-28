@@ -3,11 +3,13 @@
 namespace Opifer\FormBundle\Controller;
 
 use Doctrine\Common\Collections\ArrayCollection;
+use Opifer\CmsBundle\Entity\AttachmentValue;
 use Opifer\FormBundle\Event\Events;
 use Opifer\FormBundle\Event\FormSubmitEvent;
 use Opifer\FormBundle\Form\Type\FormType;
 use Opifer\FormBundle\Form\Type\PostType;
 use Opifer\FormBundle\Model\Form;
+use Opifer\MediaBundle\Model\MediaInterface;
 use ReCaptcha\ReCaptcha;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\RedirectResponse;

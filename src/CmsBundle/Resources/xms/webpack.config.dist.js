@@ -8,12 +8,18 @@ const APP_DIR = path.resolve(__dirname, './src');
 
 module.exports = {
   debug: false,
-  entry: [
-    path.join(APP_DIR, '/index.jsx'),
-  ],
+  entry: {
+    xms: [
+      path.join(APP_DIR, '/index.jsx'),
+    ],
+    mediamanager: [
+      path.join(APP_DIR, '/mediamanager.jsx'),
+      path.join(APP_DIR, '/mediapicker.jsx'),
+    ],
+  },
   output: {
     path: BUILD_DIR,
-    filename: 'xms.js',
+    filename: '[name].js',
     publicPath: '/dist/',
   },
   plugins: [
@@ -23,15 +29,13 @@ module.exports = {
         DEBUG: false,
       },
     }),
-    new webpack.optimize.DedupePlugin(),
-    new webpack.optimize.UglifyJsPlugin(),
     new webpack.NoErrorsPlugin(),
-    new webpack.ProvidePlugin({
-      $: 'jquery',
-      jQuery: 'jquery',
-      'window.jQuery': 'jquery',
-      'window.Tether': 'tether',
-    }),
+    // new webpack.ProvidePlugin({
+    //   $: 'jquery',
+    //   jQuery: 'jquery',
+    //   'window.jQuery': 'jquery',
+    //   'window.Tether': 'tether',
+    // }),
   ],
   stats: {
     progress: true,

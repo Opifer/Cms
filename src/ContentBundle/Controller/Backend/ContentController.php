@@ -306,16 +306,16 @@ class ContentController extends Controller
                 $content->setPublishAt($content->getCreatedAt());
             }
 
-            if ($content->getTranslationGroup() === null) {
-                // Init new group
-                $translationGroup = new TranslationGroup();
-                $content->setTranslationGroup($translationGroup);
-            }
-
             // Make sure all the contentTranslations have the same group as content
             $contentTranslationIds = [$content->getId()];
-            foreach($content->getContentTranslations() as $contentTranslation) {
+            foreach ($content->getContentTranslations() as $contentTranslation) {
                 if ($contentTranslation->getTranslationGroup() === null) {
+                    if ($content->getTranslationGroup() === null) {
+                        // Init new group
+                        $translationGroup = new TranslationGroup();
+                        $content->setTranslationGroup($translationGroup);
+                    }
+
                     $contentTranslation->setTranslationGroup($content->getTranslationGroup());
                     $em->persist($contentTranslation);
                 }
@@ -323,9 +323,7 @@ class ContentController extends Controller
                 $contentTranslationIds[] = $contentTranslation->getId();
             }
 
-            $manager->save($content);
-
-            if ($content->getTranslationGroup()->getId()) {
+            if ($content->getTranslationGroup() && $content->getTranslationGroup()->getId()) {
                 // Remove possible contentTranslations from the translationGroup
                 $queryBuilder = $manager->getRepository()->createQueryBuilder('c');
                 $queryBuilder->update()
@@ -335,6 +333,15 @@ class ContentController extends Controller
                     ->getQuery()
                     ->execute();
             }
+
+            if (count($content->getContentTranslations()) < 2 && $content->getTranslationGroup() !== null) {
+                $translationGroup = $content->getTranslationGroup();
+                $content->unsetTranslationGroup();
+
+                $em->remove($translationGroup);
+            }
+
+            $manager->save($content);
 
             return $this->redirectToRoute('opifer_content_content_index');
         }

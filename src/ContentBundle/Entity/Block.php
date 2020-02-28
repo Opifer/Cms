@@ -217,6 +217,16 @@ abstract class Block implements BlockInterface, DraftInterface
 
     /**
      * @var bool
+     *
+     * @JMS\Expose
+     *
+     * @Revisions\Revised
+     * @ORM\Column(name="active", type="boolean")
+     */
+    protected $active = true;
+
+    /**
+     * @var bool
      */
     protected $draft = false;
 
@@ -715,5 +725,18 @@ abstract class Block implements BlockInterface, DraftInterface
     public function getDiscriminator()
     {
         return (new \ReflectionClass($this))->getShortName();
+    }
+
+    /**
+     * @param bool $active
+     */
+    public function setActive($active)
+    {
+        $this->active = $active;
+    }
+
+    public function isActive()
+    {
+        return $this->active;
     }
 }

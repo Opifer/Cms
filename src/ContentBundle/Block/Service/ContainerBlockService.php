@@ -5,6 +5,7 @@ namespace Opifer\ContentBundle\Block\Service;
 use Opifer\ContentBundle\Block\Tool\Tool;
 use Opifer\ContentBundle\Block\Tool\ToolsetMemberInterface;
 use Opifer\ContentBundle\Entity\ContainerBlock;
+use Opifer\ContentBundle\Form\Type\StylesType;
 use Opifer\ContentBundle\Model\BlockInterface;
 use Opifer\ContentBundle\Form\Type\BoxModelType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
@@ -43,19 +44,12 @@ class ContainerBlockService extends AbstractBlockService implements LayoutBlockS
 
         $builder->addEventListener(FormEvents::PRE_SET_DATA, function (FormEvent $event) {
             $form = $event->getForm();
-        
+
             if (count($this->config['styles'])) {
-                $form->get('properties')->add('styles', ChoiceType::class, [
-                    'label' => 'label.styling',
-                    'choices'  => $this->config['styles'],
-                    'required' => false,
-                    'expanded' => true,
-                    'multiple' => true,
-                    'attr' => [
-                        'help_text' => 'help.html_styles',
-                        'tag' => 'styles'
-                    ],
-                ]);
+                $form->get('properties')
+                    ->add('styles', StylesType::class, [
+                        'choices'  => $this->config['styles'],
+                    ]);
             }
 
             $form->get('properties')

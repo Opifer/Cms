@@ -20,7 +20,6 @@ gulp.task('js', ['react'], function () {
     var files = [
         '../../../../friendsofsymfony/jsrouting-bundle/Resources/public/js/router.js',
         '../../../../willdurand/js-translation-bundle/Resources/public/js/translator.min.js',
-        'Resources/public/components/ng-file-upload/ng-file-upload-shim.min.js',
         'Resources/public/components/jquery/dist/jquery.min.js',
         'Resources/public/components/jquery-ui/jquery-ui.js',
         'Resources/public/components/js-cookie/src/js.cookie.js',
@@ -40,11 +39,9 @@ gulp.task('js', ['react'], function () {
         'Resources/public/components/eonasdan-bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js',
         'Resources/public/components/bootstrap-iconpicker/bootstrap-iconpicker/js/iconset/iconset-materialdesign-2.2.1.js',
         'Resources/public/components/bootstrap-iconpicker/bootstrap-iconpicker/js/bootstrap-iconpicker.js',
-        'Resources/public/components/ngInfiniteScroll/build/ng-infinite-scroll.js',
         'Resources/public/components/afkl-lazy-image/release/lazy-image.js',
         'Resources/public/components/bootbox.js/bootbox.js',
         'Resources/public/components/mprogress/mprogress.min.js',
-        'Resources/public/components/ng-file-upload/ng-file-upload.min.js',
         'Resources/public/components/typeahead.js/dist/typeahead.bundle.js',
         '../../../../braincrafted/bootstrap-bundle/Braincrafted/Bundle/BootstrapBundle/Resources/js/bc-bootstrap-collection.js',
         'Resources/public/components/codemirror/lib/codemirror.js',
@@ -53,6 +50,7 @@ gulp.task('js', ['react'], function () {
         'Resources/public/components/remarkable-bootstrap-notify/bootstrap-notify.js',
         'Resources/public/components/bootstrap3-dialog/dist/js/bootstrap-dialog.js',
 
+        'node_modules/bootstrap-select/dist/js/bootstrap-select.js',
         'node_modules/react/dist/react-with-addons.min.js',
         'node_modules/react-dom/dist/react-dom.min.js',
 
@@ -66,8 +64,7 @@ gulp.task('js', ['react'], function () {
         '../../../../lexik/translation-bundle/Resources/public/js/translation.js',
         '../ContentBundle/Resources/public/js/app.js',
         '../ContentBundle/Resources/public/app/content/content.js',
-        '../MediaBundle/Resources/public/app/modal/modal.js',
-        '../MediaBundle/Resources/public/app/medialibrary/medialibrary.js',
+        '../ContentBundle/Resources/public/app/modal/modal.js',
 
         'Resources/public/components/ckeditor/ckeditor.js'
     ];
@@ -114,6 +111,7 @@ gulp.task('css', function () {
         'Resources/public/components/codemirror/lib/codemirror.css',
         'Resources/public/components/eonasdan-bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.css',
         'Resources/public/components/bootstrap-iconpicker/bootstrap-iconpicker/css/bootstrap-iconpicker.css',
+        'node_modules/bootstrap-select/dist/css/bootstrap-select.css',
         'Resources/public/less/main.less'
     ];
 

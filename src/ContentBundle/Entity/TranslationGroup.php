@@ -4,10 +4,13 @@ namespace Opifer\ContentBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use JMS\Serializer\Annotation as JMS;
 use Opifer\CmsBundle\Entity\Content;
 
 /**
  * TranslationGroup
+ *
+ * @JMS\ExclusionPolicy("all")
  *
  * @ORM\Table(name="translation_group")
  * @ORM\Entity(repositoryClass="Opifer\ContentBundle\Repository\DataViewRepository")
@@ -75,5 +78,17 @@ class TranslationGroup
         }
 
         return '/' . $locale;
+    }
+
+    public function getRouteMapping()
+    {
+        $mapping = [];
+        foreach ($this->getContents() as $content) {
+            if ($content->getLocale() && $locale = $content->getLocale()->getLocale()) {
+                $mapping[$locale] = '/'.$content->getSlug();
+            }
+        }
+
+        return $mapping;
     }
 }

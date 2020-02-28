@@ -32,17 +32,21 @@ class ContentRouter implements RouterInterface
     /** @var RequestStack */
     protected $requestStack;
 
+    /** @var string */
+    protected $frontendUrl;
+
     /**
      * Constructor
      *
      * @param RequestStack            $requestStack
      * @param ContentManagerInterface $contentManager
      */
-    public function __construct(RequestStack $requestStack, ContentManagerInterface $contentManager)
+    public function __construct(RequestStack $requestStack, ContentManagerInterface $contentManager, $frontendUrl)
     {
         $this->routeCollection = new RouteCollection();
         $this->requestStack = $requestStack;
         $this->contentManager = $contentManager;
+        $this->frontendUrl = $frontendUrl;
 
         $this->createRoutes();
     }
@@ -52,15 +56,27 @@ class ContentRouter implements RouterInterface
      */
     private function createRoutes()
     {
-        $this->routeCollection->add('_content', new Route('/{slug}', [
-            '_controller' => 'OpiferContentBundle:Frontend/Content:view',
-            'slug'        => '',
-        ], [
-            'slug'        => "[a-zA-Z0-9\-_\/]*",
-        ], [
-            'expose'      => true,
-            'utf8'        => true,
-        ]));
+        if ($this->frontendUrl) {
+            $this->routeCollection->add('_content', new Route('/{slug}', [
+                '_controller' => 'FrameworkBundle:Redirect:urlRedirect',
+                'path' => $this->frontendUrl,
+            ], [
+                'slug'        => "[a-zA-Z0-9\-_\/]*",
+            ], [
+                'expose'      => true,
+                'utf8'        => true,
+            ]));
+        } else {
+            $this->routeCollection->add('_content', new Route('/{slug}', [
+                '_controller' => 'OpiferContentBundle:Frontend/Content:view',
+                'slug'        => '',
+            ], [
+                'slug'        => "[a-zA-Z0-9\-_\/]*",
+            ], [
+                'expose'      => true,
+                'utf8'        => true,
+            ]));
+        }
     }
 
     /**
@@ -81,7 +97,7 @@ class ContentRouter implements RouterInterface
         $urlMatcher = new UrlMatcher($this->routeCollection, $this->getContext());
         $result = $urlMatcher->match($pathinfo);
 
-        if (!empty($result)) {
+        if (!$this->frontendUrl && !empty($result)) {
             // The route matches, now check if it actually exists
             $slug = $result['slug'];
             $host = $this->getRequest()->getHost();

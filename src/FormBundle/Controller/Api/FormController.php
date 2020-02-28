@@ -2,12 +2,15 @@
 
 namespace Opifer\FormBundle\Controller\Api;
 
+use Opifer\FormBundle\Event\Events;
+use Opifer\FormBundle\Event\FormSubmitEvent;
 use Opifer\FormBundle\Form\Type\PostType;
 use Opifer\FormBundle\Model\Form;
 use Opifer\FormBundle\Model\Post;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Core\Exception\InvalidCsrfTokenException;
 use Symfony\Component\Security\Csrf\CsrfTokenManagerInterface;
 
@@ -88,7 +91,16 @@ class FormController extends Controller
         if ($postForm->isSubmitted() && $postForm->isValid()) {
             $this->get('opifer.form.post_manager')->save($post);
 
-            return new JsonResponse(['message' => 'Success'], 201);
+            $event = new FormSubmitEvent($post);
+            $this->get('event_dispatcher')->dispatch(Events::POST_FORM_SUBMIT, $event);
+
+            $responseBody = ['message' => 'Success'];
+
+            if ($form->getRedirectUrl()) {
+                $responseBody['confirmation_page'] = $form->getRedirectUrl();
+            }
+
+            return new JsonResponse($responseBody, Response::HTTP_CREATED);
         }
 
         return new JsonResponse([

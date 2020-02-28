@@ -23,6 +23,10 @@ class TemplateController extends Controller
      */
     public function getTemplateAction(Request $request, $id)
     {
+        if (!$this->isGranted('ROLE_ADMIN')) {
+            throw $this->createAccessDeniedException();
+        }
+
         $version = $request->query->get('_version');
 
         /** @var TemplateBlockProvider $templateBlockProvider */

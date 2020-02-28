@@ -6,19 +6,20 @@ import { browserHistory } from 'react-router';
 // import eventHandler from 'opifer-rcs/src/middleware/events';
 import reducer from './reducer';
 
-const loggerMiddleware = createLogger();
+let middleware = [
+  thunkMiddleware,
+  routerMiddleware(browserHistory),
+];
 
-const store = createStore(
+if (process.env.NODE_ENV !== 'production') {
+  const loggerMiddleware = createLogger();
+  middleware = [...middleware, loggerMiddleware];
+}
+
+export default () => createStore(
   reducer,
   compose(
-    applyMiddleware(
-      thunkMiddleware,
-      // eventHandler,
-      loggerMiddleware,
-      routerMiddleware(browserHistory)
-    ),
-    window.devToolsExtension ? window.devToolsExtension() : f => f
+    applyMiddleware(...middleware),
+    process.env.NODE_ENV !== 'production' && window.devToolsExtension ? window.devToolsExtension() : f => f
   )
 );
-
-export default store;

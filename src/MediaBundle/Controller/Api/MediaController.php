@@ -3,8 +3,10 @@
 namespace Opifer\MediaBundle\Controller\Api;
 
 use JMS\Serializer\SerializationContext;
+use JMS\Serializer\Serializer;
 use Opifer\MediaBundle\Event\MediaResponseEvent;
 use Opifer\MediaBundle\Event\ResponseEvent;
+use Opifer\MediaBundle\Model\MediaInterface;
 use Opifer\MediaBundle\OpiferMediaEvents;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -34,11 +36,22 @@ class MediaController extends Controller
 
         $media = $this->get('opifer.media.media_manager')->getPaginatedByRequest($request);
 
-        $items = $this->get('jms_serializer')->serialize(iterator_to_array($media->getCurrentPageResults()), 'json', SerializationContext::create()->setGroups(['Default', 'list']));
+        $directories = [];
+        if (!$request->get('ids', null)) {
+            $directories = $this->get('opifer.media.media_directory_manager')
+                ->getRepository()
+                ->findByDirectory($request->get('directory', null));
+        }
+
+        /** @var Serializer $serializer */
+        $serializer = $this->get('jms_serializer');
+
+        $items = $serializer->serialize(iterator_to_array($media->getCurrentPageResults()), 'json', SerializationContext::create()->setGroups(['Default', 'list']));
 
         $maxUploadSize = (ini_get('post_max_size') < ini_get('upload_max_filesize')) ? ini_get('post_max_size') : ini_get('upload_max_filesize');
         
         return new JsonResponse([
+            'directories' => json_decode($serializer->serialize($directories, 'json', SerializationContext::create()->enableMaxDepthChecks()), true),
             'results' => json_decode($items, true),
             'total_results' => $media->getNbResults(),
             'results_per_page' => $media->getMaxPerPage(),
@@ -47,7 +60,7 @@ class MediaController extends Controller
     }
 
     /**
-     * Detail.
+     * Get a single media item
      *
      * @return JsonResponse
      */
@@ -61,19 +74,28 @@ class MediaController extends Controller
     }
 
     /**
+     * Update a media item
+     *
      * @param Request $request
      * @return JsonResponse
      */
-    public function updateAction(Request $request)
+    public function updateAction(Request $request, $id)
     {
         $this->denyAccessUnlessGranted('MEDIA_EDIT');
 
         $content = json_decode($request->getContent(), true);
 
-        $media = $this->get('opifer.media.media_manager')->getRepository()->find($content['id']);
-        $media->setName($content['name']);
-        if (isset($content['alt'])) {
-            $media->setAlt($content['alt']);
+        /** @var MediaInterface $media */
+        $media = $this->get('opifer.media.media_manager')->getRepository()->find($id);
+
+        if (isset($content['name'])) $media->setName($content['name']);
+        if (isset($content['alt'])) $media->setAlt($content['alt']);
+
+        if (isset($content['directory'])) {
+            $directory = $this->get('opifer.media.media_directory_manager')->getRepository()->find($content['directory']);
+            if ($directory) {
+                $media->setDirectory($directory);
+            }
         }
 
         $em = $this->getDoctrine()->getManager();
@@ -91,17 +113,26 @@ class MediaController extends Controller
      */
     public function uploadAction(Request $request)
     {
-        $media = $this->get('opifer.media.media_manager')->createMedia();
         $em = $this->getDoctrine()->getManager();
 
+        $directory = null;
+        if ($request->get('directory')) {
+            $directory = $this->get('opifer.media.media_directory_manager')->getRepository()
+                ->find($request->get('directory'));
+        }
+
+        $uploads = [];
         foreach ($request->files->all() as $files) {
             if ((!is_array($files)) && (!$files instanceof \Traversable)) {
                 $files = [$files];
             }
 
             foreach ($files as $file) {
-                $media = clone $media;
+                $media = $this->get('opifer.media.media_manager')->createMedia();
                 $media->setFile($file);
+                if ($directory) {
+                    $media->setDirectory($directory);
+                }
 
                 if (strpos($file->getClientMimeType(), 'image') !== false) {
                     $media->setProvider('image');
@@ -110,13 +141,14 @@ class MediaController extends Controller
                 }
 
                 $em->persist($media);
+                $uploads[] = $media;
             }
         }
         $em->flush();
 
-        $media = $this->get('jms_serializer')->serialize($media, 'json');
+        $media = $this->get('jms_serializer')->serialize($uploads, 'json');
 
-        return new Response($media, 200, ['Content-Type' => 'application/json']);
+        return new JsonResponse(json_decode($media, true));
     }
 
     /**

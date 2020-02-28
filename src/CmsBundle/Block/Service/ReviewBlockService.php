@@ -46,7 +46,7 @@ class ReviewBlockService extends AbstractBlockService implements BlockServiceInt
         parent::buildManageForm($builder, $options);
 
 
-        $builder->create('properties')
+        $builder->get('properties')
             ->add('limit', IntegerType::class, ['label' => 'label.limit', 'attr' => ['help_text' => 'help.limit']])
         ;
     }

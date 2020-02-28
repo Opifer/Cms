@@ -29,7 +29,6 @@ services:
 
     opifer.content.content_manager.default:
         class: '%opifer.content.content_manager.default.class%'
-        public: true
         arguments:
             - '@doctrine.orm.default_entity_manager'
             - '@form.factory'
@@ -113,7 +112,7 @@ services:
 
     opifer.content.content_router:
         class: '%opifer.content.content_router.class%'
-        arguments: ['@request_stack', '@opifer.content.content_manager']
+        arguments: ['@request_stack', '@opifer.content.content_manager', '%opifer_content.frontend_url%']
 
     # Twig Extension
 
@@ -179,7 +178,7 @@ services:
 
     opifer.content.content_design_suite:
         class: '%opifer.content.content_design_suite.class%'
-        arguments: ['@router', '@opifer.content.content_manager']
+        arguments: ['@router', '@opifer.content.content_manager', '%opifer_content.frontend_url%']
         public: true
 
     opifer.content.template_design_suite:

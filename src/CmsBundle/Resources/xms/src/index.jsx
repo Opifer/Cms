@@ -3,34 +3,39 @@ import { render } from 'react-dom';
 import { AppContainer } from 'react-hot-loader';
 import { browserHistory } from 'react-router';
 import { syncHistoryWithStore } from 'react-router-redux';
-import store from './redux/store';
+import createStore from './redux/store';
 import Root from './containers/Root';
 import { loginUserSuccess } from './auth/actions';
 
-const history = syncHistoryWithStore(browserHistory, store);
+const element = document.getElementById('app');
 
-const token = localStorage.getItem('token');
-if (token !== null) {
-  store.dispatch(loginUserSuccess(token));
-}
+if (element) {
+  const store = createStore();
+  const history = syncHistoryWithStore(browserHistory, store);
 
-render(
-  <AppContainer>
-    <Root store={store} history={history} />
-  </AppContainer>,
-  document.getElementById('app')
-);
+  const token = localStorage.getItem('token');
+  if (token !== null) {
+    store.dispatch(loginUserSuccess(token));
+  }
+
+  render(
+    <AppContainer>
+      <Root store={store} history={history} />
+    </AppContainer>,
+    element
+  );
 
 
-const RootComponent = require('./containers/Root').default;
+  const RootComponent = require('./containers/Root').default;
 
-if (module.hot) {
-  module.hot.accept(RootComponent, () => {
-    render(
-      <AppContainer>
-        <RootComponent store={store} history={history} />
-      </AppContainer>,
-      document.getElementById('app')
-    );
-  });
+  if (module.hot) {
+    module.hot.accept(RootComponent, () => {
+      render(
+        <AppContainer>
+          <RootComponent store={store} history={history} />
+        </AppContainer>,
+        element
+      );
+    });
+  }
 }

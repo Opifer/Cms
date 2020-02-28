@@ -2,7 +2,9 @@
 
 namespace Opifer\ContentBundle\Controller\Backend;
 
+use GuzzleHttp\Client;
 use Opifer\ContentBundle\Block\BlockManager;
+use Opifer\ContentBundle\Designer\AbstractDesignSuite;
 use Opifer\ContentBundle\Entity\DocumentBlock;
 use Opifer\ContentBundle\Environment\ContentEnvironment;
 use Opifer\ContentBundle\Environment\Environment;
@@ -11,14 +13,8 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 
-/**
- * Class ContentEditorController
- *
- * @package Opifer\ContentBundle\Controller\Backend
- */
 class ContentEditorController extends Controller
 {
-
     /**
      * Graphical Content editor
      *
@@ -56,7 +52,6 @@ class ContentEditorController extends Controller
 
         return $this->render($this->getParameter('opifer_content.content_design_view'), $parameters);
     }
-
 
     /**
      * Table of Contents tree
@@ -96,6 +91,18 @@ class ContentEditorController extends Controller
      */
     public function viewAction($owner, $ownerId)
     {
+        $frontendUrl = $this->container->getParameter('opifer_content.frontend_url');
+        if ($frontendUrl) {
+            $client = new Client();
+            if ($owner == 'template') {
+                $res = $client->request('GET', sprintf('%s/templates/%d?manage=true', $frontendUrl, $ownerId));
+            } else {
+                $res = $client->request('GET', sprintf('%s/%d?manage=true', $frontendUrl, $ownerId));
+            }
+
+            return new Response($res->getBody()->getContents());
+        }
+
         /** @var BlockProviderInterface $provider */
         $provider = $this->get('opifer.content.block_provider_pool')->getProvider($owner);
         $object = $provider->getBlockOwner($ownerId);

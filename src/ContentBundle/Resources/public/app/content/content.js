@@ -1,4 +1,4 @@
-angular.module('OpiferContent', ['angular-inview', 'ui.tree', 'ngCookies'])
+angular.module('OpiferContent', ['angular-inview', 'ui.tree', 'ngCookies', 'ngModal'])
 
     .factory('ContentService', ['$resource', '$routeParams', function ($resource, $routeParams) {
         return $resource(Routing.generate('opifer_content_api_content') + '/:id', {}, {

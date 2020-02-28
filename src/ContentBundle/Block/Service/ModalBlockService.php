@@ -5,6 +5,7 @@ namespace Opifer\ContentBundle\Block\Service;
 use Opifer\CmsBundle\Form\Type\CKEditorType;
 use Opifer\ContentBundle\Entity\Block;
 use Opifer\ContentBundle\Entity\ButtonBlock;
+use Opifer\ContentBundle\Form\Type\StylesType;
 use Opifer\FormBlockBundle\Entity\FormFieldBlock;
 use Opifer\FormBlockBundle\Entity\ChoiceFieldBlock;
 use Opifer\FormBlockBundle\Form\Type\FormFieldValidationType;
@@ -44,49 +45,47 @@ class ModalBlockService extends AbstractBlockService implements BlockServiceInte
     {
         parent::buildManageForm($builder, $options);
 
-        $builder->add(
-            $builder->create('default', FormType::Class, ['inherit_data' => true])
-                ->add('name', TextType::class, [
-                    'label' => 'label.name',
-                    'attr' => [
-                        'help_text' => 'help.block_name',
-                        'tag' => 'settings'
-                    ],
-                    'required' => false
-                ])
-                ->add('title', TextType::class, [
-                    'label' => 'label.display_name',
-                    'attr' => [
-                        'help_text' => 'help.block_display_name',
-                        'tag' => 'settings'
-                    ],
-                    'required' => false
-                ])
-                ->add('header', CKEditorType::class, [
-                    'label' => 'label.header',
-                    'attr' => [
-                        'label_col' => 12,
-                        'widget_col' => 12
-                    ],
-                    'required' => false
-                ])
-                ->add('value', CKEditorType::class, [
-                    'label' => 'label.body',
-                    'attr' => [
-                        'label_col' => 12,
-                        'widget_col' => 12
-                    ],
-                    'required' => false
-                ])
-                ->add('footer', CKEditorType::class, [
-                    'label' => 'label.footer',
-                    'attr' => [
-                        'label_col' => 12,
-                        'widget_col' => 12
-                    ],
-                    'required' => false
-                ])
-        );
+        $builder->get('default')
+            ->add('name', TextType::class, [
+                'label' => 'label.name',
+                'attr' => [
+                    'help_text' => 'help.block_name',
+                    'tag' => 'settings'
+                ],
+                'required' => false
+            ])
+            ->add('title', TextType::class, [
+                'label' => 'label.display_name',
+                'attr' => [
+                    'help_text' => 'help.block_display_name',
+                    'tag' => 'settings'
+                ],
+                'required' => false
+            ])
+            ->add('header', CKEditorType::class, [
+                'label' => 'label.header',
+                'attr' => [
+                    'label_col' => 12,
+                    'widget_col' => 12
+                ],
+                'required' => false
+            ])
+            ->add('value', CKEditorType::class, [
+                'label' => 'label.body',
+                'attr' => [
+                    'label_col' => 12,
+                    'widget_col' => 12
+                ],
+                'required' => false
+            ])
+            ->add('footer', CKEditorType::class, [
+                'label' => 'label.footer',
+                'attr' => [
+                    'label_col' => 12,
+                    'widget_col' => 12
+                ],
+                'required' => false
+            ]);
 
         $builder->get('properties')
             ->add('id', TextType::class, ['attr' => ['help_text' => 'help.html_id'],'required' => false])
@@ -101,14 +100,9 @@ class ModalBlockService extends AbstractBlockService implements BlockServiceInte
 
         if (isset($this->config['styles']) && count($this->config['styles'])) {
             $builder->get('properties')
-                ->add('styles', ChoiceType::class, [
-                    'label' => 'label.styling',
+                ->add('styles', StylesType::class, [
                     'choices'  => $this->config['styles'],
-                    'required' => false,
-                    'expanded' => true,
-                    'multiple' => true,
-                    'attr' => ['help_text' => 'help.html_styles', 'tag' => 'styles'],
-            ]);
+                ]);
         }
 
         if (isset($this->config['template']) && count($this->config['template'])) {

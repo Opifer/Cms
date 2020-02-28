@@ -84,7 +84,6 @@ Then, add the dependencies to your templates.
     '@AppBundle/Resources/public/components/angular/angular.js'
     '@AppBundle/Resources/public/components/angular-route/angular-route.js'
     '@AppBundle/Resources/public/components/angular-resource/angular-resource.js'
-    '@AppBundle/Resources/public/components/ngInfiniteScroll/build/ng-infinite-scroll.js'
     '@AppBundle/Resources/public/components/ng-file-upload/angular-file-upload.min.js'
 
     '@OpiferMediaBundle/Resources/public/js/dropzone.js'

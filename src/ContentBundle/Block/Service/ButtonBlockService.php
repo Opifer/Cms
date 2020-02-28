@@ -5,6 +5,7 @@ namespace Opifer\ContentBundle\Block\Service;
 use Opifer\ContentBundle\Block\Tool\Tool;
 use Opifer\ContentBundle\Block\Tool\ToolsetMemberInterface;
 use Opifer\ContentBundle\Entity\ButtonBlock;
+use Opifer\ContentBundle\Form\Type\StylesType;
 use Opifer\ContentBundle\Model\BlockInterface;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\FormType;
@@ -23,7 +24,7 @@ class ButtonBlockService extends AbstractBlockService implements BlockServiceInt
     {
         parent::buildManageForm($builder, $options);
 
-        $propertiesForm = $builder->get('properties')
+        $builder->get('properties')
             ->add('url', TextType::class, [
                 'label' => 'label.url',
                 'attr' => ['help_text' => 'help.button_url']
@@ -40,33 +41,24 @@ class ButtonBlockService extends AbstractBlockService implements BlockServiceInt
 
         if ($this->config['styles']) {
             $builder->get('properties')
-                ->add('styles', ChoiceType::class, [
-                    'label' => 'label.styling',
+                ->add('styles', StylesType::class, [
                     'choices'  => $this->config['styles'],
-                    'required' => false,
-                    'expanded' => true,
-                    'multiple' => true,
-                    'attr'     => ['tag' => 'styles'],
                 ]);
         }
 
-        $builder->add(
-            $builder->create('default', FormType::class, ['inherit_data' => true])
-                ->add('value', TextType::class, [
-                    'label' => 'label.label',
-                    'attr' => [
-                        'help_text' => 'help.button_label'
-                    ]
-                ])
-                ->add('name', TextType::class, [
-                    'attr' => [
-                        'help_text' => 'help.block_name'
-                    ],
-                    'required' => false
-                ])
-        )->add(
-            $propertiesForm
-        );
+        $builder->get('default')
+            ->add('value', TextType::class, [
+                'label' => 'label.label',
+                'attr' => [
+                    'help_text' => 'help.button_label'
+                ]
+            ])
+            ->add('name', TextType::class, [
+                'attr' => [
+                    'help_text' => 'help.block_name'
+                ],
+                'required' => false
+            ]);
     }
 
     /**

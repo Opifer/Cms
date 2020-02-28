@@ -7,9 +7,6 @@ use Opifer\EavBundle\Model\MediaInterface;
 use Opifer\MediaBundle\Form\Type\MediaPickerType;
 use Symfony\Component\Form\FormBuilderInterface;
 
-/**
- * TODO Move to CmsBundle
- */
 class MediaValueProvider extends AbstractValueProvider implements ValueProviderInterface
 {
     /** @var string */
@@ -20,7 +17,7 @@ class MediaValueProvider extends AbstractValueProvider implements ValueProviderI
      *
      * @param string $mediaClass
      *
-     * @throws \Exception If $mediaClass is not a subclass of MediaInterface
+     * @throws \Exception when the passed mediaClass does not implement the MediaInterface
      */
     public function __construct($mediaClass)
     {

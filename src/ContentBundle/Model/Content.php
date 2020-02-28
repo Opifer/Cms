@@ -1147,19 +1147,32 @@ class Content implements ContentInterface, EntityInterface, TemplatedInterface, 
     {
         if ($this->getValueSet() !== null) {
             foreach ($this->getValueSet()->getValues() as $value) {
-                if ($value instanceof MediaValue &&
-                    false !== $media = $value->getMedias()->first()) {
-                    return $media->getReference();
+                if (!$value instanceof MediaValue || false == $media = $value->getMedias()->first()) {
+                    continue;
                 }
+
+                $filename = $media->getReference();
+                if (!preg_match('/\.(gif|jpg|jpeg|png)$/i', $filename)) {
+                    continue;
+                }
+
+                return $filename;
             }
         }
 
         foreach ($this->getBlocks() as $block) {
             $reflect = new \ReflectionClass($block);
 
-            if ($reflect->hasProperty('media') && $block->getMedia()) {
-                return $block->getMedia()->getReference();
+            if (!$reflect->hasProperty('media') || !$block->getMedia()) {
+                continue;
             }
+
+            $filename = $block->getMedia()->getReference();
+            if (!preg_match('/\.(gif|jpg|jpeg|png)$/i', $filename)) {
+                continue;
+            }
+
+            return $filename;
         }
 
         return false;
@@ -1252,6 +1265,15 @@ class Content implements ContentInterface, EntityInterface, TemplatedInterface, 
     public function setTranslationGroup(TranslationGroup $translationGroup)
     {
         $this->translationGroup = $translationGroup;
+
+        return $this;
+    }
+    /**
+     * @return $this
+     */
+    public function unsetTranslationGroup()
+    {
+        $this->translationGroup = null;
 
         return $this;
     }

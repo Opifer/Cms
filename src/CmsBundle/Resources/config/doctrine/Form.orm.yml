@@ -62,6 +62,13 @@ Opifer\CmsBundle\Entity\Form:
             joinColumns:
                 locale_id:
                     referencedColumnName: id
+        uploadDirectory:
+            targetEntity: Opifer\MediaBundle\Entity\MediaDirectoryInterface
+            cascade:
+                - persist
+            joinColumns:
+                upload_directory_id:
+                    referencedColumnName: id
     oneToMany:
         posts:
             targetEntity: Opifer\CmsBundle\Entity\Post

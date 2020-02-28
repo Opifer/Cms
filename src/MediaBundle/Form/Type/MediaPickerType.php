@@ -146,6 +146,11 @@ class MediaPickerType extends AbstractType
     {
         $view->vars = array_replace($view->vars, [
             'providers' => $this->providerPool->getProviders(),
+            'props' => [
+                'multiple' => $view->vars['multiple'],
+                'name' => $view->vars['full_name'],
+                'value' => $view->vars['value']
+            ]
         ]);
     }
 

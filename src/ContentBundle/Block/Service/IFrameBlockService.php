@@ -5,6 +5,7 @@ namespace Opifer\ContentBundle\Block\Service;
 use Opifer\ContentBundle\Block\Tool\Tool;
 use Opifer\ContentBundle\Block\Tool\ToolsetMemberInterface;
 use Opifer\ContentBundle\Entity\IFrameBlock;
+use Opifer\ContentBundle\Form\Type\StylesType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\FormType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -24,39 +25,26 @@ class IFrameBlockService extends AbstractBlockService implements BlockServiceInt
     {
         parent::buildManageForm($builder, $options);
 
-        $propertiesForm = $builder->get('properties');
-
-        $builder->add(
-            $propertiesForm
-                ->add('url', TextType::class, [
-                    'attr' => [
-                        'help_text' => 'help.iframe_url',
-                        'tag' => 'general'
-                    ],
-                    'required' => true,
-                    'constraints' => [
-                        new NotBlank(),
-                    ],
-                ])
-        )->add(
-            $propertiesForm->add('id', TextType::class, ['attr' => ['help_text' => 'help.html_id'],'required' => false])
-                ->add('extra_classes', TextType::class, ['attr' => ['help_text' => 'help.extra_classes'],'required' => false])
-
-        );
-
         $builder->get('properties')
+            ->add('url', TextType::class, [
+                'attr' => [
+                    'help_text' => 'help.iframe_url',
+                    'tag' => 'general'
+                ],
+                'required' => true,
+                'constraints' => [
+                    new NotBlank(),
+                ],
+            ])
+            ->add('id', TextType::class, ['attr' => ['help_text' => 'help.html_id'],'required' => false])
+            ->add('extra_classes', TextType::class, ['attr' => ['help_text' => 'help.extra_classes'],'required' => false])
             ->add('width', TextType::class, ['attr' => ['tag' => 'styles']])
             ->add('height', TextType::class, ['attr' => ['tag' => 'styles']]);
 
         if ($this->config['styles']) {
             $builder->get('properties')
-                ->add('styles', ChoiceType::class, [
-                    'label' => 'label.styling',
+                ->add('styles', StylesType::class, [
                     'choices' => $this->config['styles'],
-                    'required' => false,
-                    'expanded' => true,
-                    'multiple' => true,
-                    'attr' => ['help_text' => 'help.html_styles', 'tag' => 'styles'],
                 ]);
         }
     }

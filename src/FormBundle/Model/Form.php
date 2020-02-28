@@ -8,6 +8,7 @@ use Gedmo\Mapping\Annotation as Gedmo;
 use JMS\Serializer\Annotation as JMS;
 use Opifer\CmsBundle\Entity\Locale;
 use Opifer\EavBundle\Model\SchemaInterface;
+use Opifer\MediaBundle\Entity\MediaDirectoryInterface;
 
 /**
  * @ORM\MappedSuperclass(repositoryClass="Opifer\FormBundle\Model\FormRepository")
@@ -69,6 +70,14 @@ class Form implements FormInterface
      * @ORM\Column(name="redirect_url", type="string", length=255, nullable=true)
      */
     protected $redirectUrl;
+
+    /**
+     * @var MediaDirectoryInterface
+     *
+     * @ORM\ManyToOne(targetEntity="Opifer\MediaBundle\Entity\MediaDirectoryInterface")
+     * @ORM\JoinColumn(name="upload_directory_id", referencedColumnName="id")
+     */
+    protected $uploadDirectory;
 
     /**
      * @var \DateTime
@@ -215,6 +224,26 @@ class Form implements FormInterface
     public function getRedirectUrl()
     {
         return $this->redirectUrl;
+    }
+
+    /**
+     * @return MediaDirectoryInterface
+     */
+    public function getUploadDirectory()
+    {
+        return $this->uploadDirectory;
+    }
+
+    /**
+     * @param MediaDirectoryInterface $uploadDirectory
+     *
+     * @return Form
+     */
+    public function setUploadDirectory($uploadDirectory)
+    {
+        $this->uploadDirectory = $uploadDirectory;
+
+        return $this;
     }
 
     /**

@@ -8,6 +8,7 @@ use Opifer\ContentBundle\Block\BlockManager;
 use Opifer\ContentBundle\Environment\Environment;
 use Opifer\ContentBundle\Model\ContentInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -45,12 +46,12 @@ class ContentController extends Controller
 
         $domain = $em->getRepository(Domain::class)->findOneByDomain($request->getHost());
 
-        if ($siteCount && $domain->getSite()->getDefaultLocale()) {
-            $request->setLocale($domain->getSite()->getDefaultLocale()->getLocale());
-        }
-
         if (!$domain && $siteCount > 1) {
             return $this->render('OpiferContentBundle:Content:domain_not_found.html.twig');
+        }
+
+        if ($siteCount && $domain && $domain->getSite()->getDefaultLocale()) {
+            $request->setLocale($domain->getSite()->getDefaultLocale()->getLocale());
         }
 
         if ($content->getLocale()) {
@@ -100,6 +101,10 @@ class ContentController extends Controller
      */
     public function homeAction(Request $request)
     {
+        if ($frontendUrl = $this->getParameter('opifer_content.frontend_url')) {
+            return new RedirectResponse($frontendUrl);
+        }
+
         /** @var BlockManager $manager */
         $manager  = $this->get('opifer.content.content_manager');
         $host = $request->getHost();
@@ -112,12 +117,12 @@ class ContentController extends Controller
 
         $domain = $em->getRepository(Domain::class)->findOneByDomain($host);
 
-        if ($siteCount && $domain->getSite()->getDefaultLocale()) {
-            $request->setLocale($domain->getSite()->getDefaultLocale()->getLocale());
-        }
-
         if (!$domain && $siteCount > 1) {
             return $this->render('OpiferContentBundle:Content:domain_not_found.html.twig');
+        }
+
+        if ($siteCount && $domain && $domain->getSite()->getDefaultLocale()) {
+            $request->setLocale($domain->getSite()->getDefaultLocale()->getLocale());
         }
 
         $content = $manager->getRepository()->findActiveBySlug('index', $host);

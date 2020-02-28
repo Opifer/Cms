@@ -20,7 +20,7 @@ class SiteType extends AbstractType
             ->add('name')
             ->add('description')
             ->add('domains', BootstrapCollectionType::class, [
-                'type' => SiteDomainType::class,
+                'entry_type' => SiteDomainType::class,
                 'allow_add' => true,
                 'allow_delete' => true,
             ])
