@@ -10,7 +10,7 @@
     ],
     "require": {
         "php": ">=7.1",
-        "symfony/symfony": "^3.0",
+        "symfony/symfony": "^4.0",
         "doctrine/orm": "~2.5.4",
         "doctrine/doctrine-bundle": "^1.6",
         "beberlei/doctrineextensions": "^1.0",
