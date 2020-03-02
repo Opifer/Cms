@@ -358,9 +358,11 @@ class ContentController extends Controller
         /** @var Environment $environment */
         $environment = $this->get('opifer.content.block_environment');
         $environment->setObject($content);
-
-        if (null !== $version && $this->isGranted('ROLE_EDITOR')) {
-            $environment->setDraft(true);
+        
+        if (null !== $version) {
+            if ($this->isGranted('ROLE_EDITOR', $content)) {
+                $environment->setDraft(true);
+            }
         }
 
         $environment->load();

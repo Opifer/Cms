@@ -36,8 +36,14 @@ class ContentVoter extends Voter
             return false;
         }
 
+        $subjectRoles = $subject->getRoles();
+
+        if (!$subjectRoles) {
+            return $this->security->isGranted($attribute);
+        }
+
         foreach($user->getRoles() as $role) {
-            if (in_array($role, $subject->getRoles())) {
+            if (in_array($role, $subjectRoles)) {
                 return true;
             }
         }
