@@ -11,7 +11,7 @@
     "require": {
         "php": ">=7.1",
         "symfony/symfony": "^3.0",
-        "doctrine/orm": "~2.6.6",
+        "doctrine/orm": "~2.5",
         "doctrine/doctrine-bundle": "^1.6",
         "beberlei/doctrineextensions": "^1.0",
         "twig/extensions": "~1.2",
@@ -34,7 +34,7 @@
         "guzzlehttp/guzzle": "^6.0.0",
         "guzzlehttp/oauth-subscriber": "^0.3.0",
         "jms/serializer-bundle": "^2.3",
-        "knplabs/knp-gaufrette-bundle": "~0.6.1",
+        "knplabs/knp-gaufrette-bundle": "~0.5",
         "lexik/jwt-authentication-bundle": "^2.0",
         "liip/imagine-bundle": "~1.6",
         "limenius/liform": "^0.12.0",
