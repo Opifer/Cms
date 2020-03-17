@@ -69,6 +69,7 @@ class OpiferCmsExtension extends Extension implements PrependExtensionInterface
         ];
 
         $params['opifer_cms.permissions'] = $config['permissions'];
+        $params['opifer_cms.default_content_access'] = $config['default_content_access'];
 
         // Block configuration
         foreach ($config['blocks'] as $block => $blockConfig) {

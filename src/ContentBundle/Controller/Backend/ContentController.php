@@ -203,7 +203,7 @@ class ContentController extends Controller
             if (null === $content->getPublishAt()) {
                 $content->setPublishAt(new \DateTime());
             }
-
+            
             $manager->save($content);
 
             return $this->redirectToRoute('opifer_content_contenteditor_design', [
