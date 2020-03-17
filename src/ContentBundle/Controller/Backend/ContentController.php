@@ -204,10 +204,6 @@ class ContentController extends Controller
                 $content->setPublishAt(new \DateTime());
             }
             
-            if (!$content->getRoles()) {
-                $content->setRoles($this->container->getParameter('opifer_cms.default_content_access'));
-            }
-            
             $manager->save($content);
 
             return $this->redirectToRoute('opifer_content_contenteditor_design', [

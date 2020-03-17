@@ -39,7 +39,7 @@ class ContentVoter extends Voter
         $subjectRoles = $subject->getRoles();
 
         if (!$subjectRoles) {
-            return $this->security->isGranted($attribute);
+            $subjectRoles = $this->container->getParameter('opifer_cms.default_content_access');
         }
 
         foreach($user->getRoles() as $role) {
