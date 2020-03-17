@@ -63,6 +63,11 @@ class Configuration implements ConfigurationInterface
                     ->end()
                 ->end()
 
+                ->arrayNode('default_content_access')
+                    ->scalarPrototype()->end()
+                    ->defaultValue(['ROLE_SUPER_ADMIN','ROLE_ADMIN'])
+                ->end()
+
                 ->arrayNode('permissions')
                     ->useAttributeAsKey('role')
                     ->arrayPrototype()
