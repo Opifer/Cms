@@ -53,7 +53,7 @@ class Mailer
     public function sendNotificationMail(FormInterface $form, PostInterface $post)
     {
         $body = $this->templating->render('OpiferFormBundle:Email:notification.html.twig', ['post' => $post]);
-        $subject = $form->getName() . ' (post id:' . $post->getId() . ')';
+        $subject = $form->getName() . ' (post ' . $post->getId() . ')';
 
         $message = $this->createMessage($form->getNotificationEmail(), $subject, $body);
 
