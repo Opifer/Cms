@@ -105,8 +105,9 @@ class MediaPickerType extends AbstractType
         }
 
         $builder->addEventListener(FormEvents::PRE_SUBMIT, function (FormEvent $event) {
-            if ($event->getData() && count($event->getData())) {
-                $this->sortedIds = $event->getData();
+            $data = $event->getData();
+            if ($data && is_array($data) && count($data)) {
+                $this->sortedIds = $data;
             }
         });
 
