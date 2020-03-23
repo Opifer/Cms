@@ -21,7 +21,7 @@
         "sensio/distribution-bundle": "~5.0",
         "sensio/framework-extra-bundle": "~3.0",
         "incenteev/composer-parameter-handler": "~2.0",
-        "apy/datagrid-bundle": "~3.0.2",
+        "apy/datagrid-bundle": "~3.2.0",
         "aws/aws-sdk-php": "^3.52",
         "braincrafted/bootstrap-bundle": "~2.2.0",
         "doctrine/doctrine-migrations-bundle": "~1.0",
