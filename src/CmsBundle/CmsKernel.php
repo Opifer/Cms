@@ -16,53 +16,49 @@ abstract class CmsKernel extends BaseKernel
     {
         $bundles = [
             // Symfony standard bundles
-            new \Symfony\Bundle\FrameworkBundle\FrameworkBundle(),
-            new \Symfony\Bundle\SecurityBundle\SecurityBundle(),
-            new \Symfony\Bundle\TwigBundle\TwigBundle(),
-            new \Symfony\Bundle\MonologBundle\MonologBundle(),
-            new \Symfony\Bundle\SwiftmailerBundle\SwiftmailerBundle(),
-            new \Doctrine\Bundle\DoctrineBundle\DoctrineBundle(),
-            new \Sensio\Bundle\FrameworkExtraBundle\SensioFrameworkExtraBundle(),
+            \Symfony\Bundle\FrameworkBundle\FrameworkBundle::class => ['all' => true],
+            \Symfony\Bundle\SecurityBundle\SecurityBundle::class => ['all' => true],
+            \Symfony\Bundle\TwigBundle\TwigBundle::class => ['all' => true],
+            \Symfony\Bundle\MonologBundle\MonologBundle::class => ['all' => true],
+            \Symfony\Bundle\SwiftmailerBundle\SwiftmailerBundle::class => ['all' => true],
+            \Doctrine\Bundle\DoctrineBundle\DoctrineBundle::class => ['all' => true],
+            \Sensio\Bundle\FrameworkExtraBundle\SensioFrameworkExtraBundle::class => ['all' => true],
 
             // Added vendor bundles
-            new \APY\DataGridBundle\APYDataGridBundle(),
-            new \Bazinga\Bundle\JsTranslationBundle\BazingaJsTranslationBundle(),
-            new \Braincrafted\Bundle\BootstrapBundle\BraincraftedBootstrapBundle(),
-            new \Doctrine\Bundle\MigrationsBundle\DoctrineMigrationsBundle(),
-            new \FOS\JsRoutingBundle\FOSJsRoutingBundle(),
-            new \FOS\RestBundle\FOSRestBundle(),
-            new \FOS\UserBundle\FOSUserBundle(),
-            new \JMS\SerializerBundle\JMSSerializerBundle(),
-            new \Knp\Bundle\GaufretteBundle\KnpGaufretteBundle(),
-            new \Lexik\Bundle\JWTAuthenticationBundle\LexikJWTAuthenticationBundle(),
-            new \Lexik\Bundle\TranslationBundle\LexikTranslationBundle(),
-            new \Liip\ImagineBundle\LiipImagineBundle(),
-            new \Limenius\LiformBundle\LimeniusLiformBundle(),
-            new \Nelmio\ApiDocBundle\NelmioApiDocBundle(),
-            new \Nelmio\CorsBundle\NelmioCorsBundle(),
-            new \Scheb\TwoFactorBundle\SchebTwoFactorBundle(),
-            new \Symfony\Cmf\Bundle\RoutingBundle\CmfRoutingBundle(),
+            \APY\DataGridBundle\APYDataGridBundle::class => ['all' => true],
+            \Bazinga\Bundle\JsTranslationBundle\BazingaJsTranslationBundle::class => ['all' => true],
+//            new \Braincrafted\Bundle\BootstrapBundle\BraincraftedBootstrapBundle::class => ['all' => true],
+            \Doctrine\Bundle\MigrationsBundle\DoctrineMigrationsBundle::class => ['all' => true],
+            \FOS\JsRoutingBundle\FOSJsRoutingBundle::class => ['all' => true],
+            \FOS\RestBundle\FOSRestBundle::class => ['all' => true],
+            \FOS\UserBundle\FOSUserBundle::class => ['all' => true],
+            \JMS\SerializerBundle\JMSSerializerBundle::class => ['all' => true],
+            \Knp\Bundle\GaufretteBundle\KnpGaufretteBundle::class => ['all' => true],
+            \Lexik\Bundle\JWTAuthenticationBundle\LexikJWTAuthenticationBundle::class => ['all' => true],
+            \Lexik\Bundle\TranslationBundle\LexikTranslationBundle::class => ['all' => true],
+            \Liip\ImagineBundle\LiipImagineBundle::class => ['all' => true],
+            \Limenius\LiformBundle\LimeniusLiformBundle::class => ['all' => true],
+            \Nelmio\ApiDocBundle\NelmioApiDocBundle::class => ['all' => true],
+            \Nelmio\CorsBundle\NelmioCorsBundle::class => ['all' => true],
+            \Scheb\TwoFactorBundle\SchebTwoFactorBundle::class => ['all' => true],
+            \Symfony\Cmf\Bundle\RoutingBundle\CmfRoutingBundle::class => ['all' => true],
 
             // Opifer bundles
-            new \Opifer\CmsBundle\OpiferCmsBundle(),
-            new \Opifer\ContentBundle\OpiferContentBundle(),
-            new \Opifer\EavBundle\OpiferEavBundle(),
-            new \Opifer\FormBundle\OpiferFormBundle(),
-            new \Opifer\FormBlockBundle\OpiferFormBlockBundle(),
-            new \Opifer\MediaBundle\OpiferMediaBundle(),
-            new \Opifer\RedirectBundle\OpiferRedirectBundle(),
-            new \Opifer\ReviewBundle\OpiferReviewBundle(),
-            new \Opifer\MailingListBundle\OpiferMailingListBundle(),
-            new \Opifer\Revisions\OpiferRevisionsBundle(),
-            new \Opifer\BootstrapBlockBundle\OpiferBootstrapBlockBundle(),
-        ];
+            \Opifer\CmsBundle\OpiferCmsBundle::class => ['all' => true],
+            \Opifer\ContentBundle\OpiferContentBundle::class => ['all' => true],
+            \Opifer\EavBundle\OpiferEavBundle::class => ['all' => true],
+            \Opifer\FormBundle\OpiferFormBundle::class => ['all' => true],
+            \Opifer\FormBlockBundle\OpiferFormBlockBundle::class => ['all' => true],
+            \Opifer\MediaBundle\OpiferMediaBundle::class => ['all' => true],
+            \Opifer\RedirectBundle\OpiferRedirectBundle::class => ['all' => true],
+            \Opifer\ReviewBundle\OpiferReviewBundle::class => ['all' => true],
+            \Opifer\MailingListBundle\OpiferMailingListBundle::class => ['all' => true],
+            \Opifer\Revisions\OpiferRevisionsBundle::class => ['all' => true],
+            \Opifer\BootstrapBlockBundle\OpiferBootstrapBlockBundle::class => ['all' => true],
 
-        if (in_array($this->getEnvironment(), ['dev', 'test'])) {
-            $bundles[] = new \Symfony\Bundle\DebugBundle\DebugBundle();
-            $bundles[] = new \Symfony\Bundle\WebProfilerBundle\WebProfilerBundle();
-            $bundles[] = new \Sensio\Bundle\DistributionBundle\SensioDistributionBundle();
-            $bundles[] = new \Sensio\Bundle\GeneratorBundle\SensioGeneratorBundle();
-        }
+            \Symfony\Bundle\DebugBundle\DebugBundle::class => ['dev' => true, 'test' => true],
+            \Symfony\Bundle\WebProfilerBundle\WebProfilerBundle::class => ['dev' => true, 'test' => true],
+        ];
 
         return $bundles;
     }

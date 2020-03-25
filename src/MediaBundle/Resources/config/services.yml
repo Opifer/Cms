@@ -105,7 +105,7 @@ services:
                 credentials: { key: '%opifer_media.storages.aws_s3.key%', secret: '%opifer_media.storages.aws_s3.secret%' }
 
     liip_imagine.data.loader.stream.photo_storage:
-        class: '%liip_imagine.binary.loader.stream.class%'
+        class: Liip\ImagineBundle\Binary\Loader\StreamLoader
         arguments:
             - 'gaufrette://file_storage/'
         tags:
