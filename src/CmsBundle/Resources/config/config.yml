@@ -35,15 +35,15 @@ framework:
         log: true
 
 # Templating
-braincrafted_bootstrap:
-    output_dir:
-    auto_configure:
-        assetic:       false
-        twig:          true
-    customize:
-        variables_file:     ~
-        bootstrap_output:   '%kernel.root_dir%/Resources/less/bootstrap.less'
-        bootstrap_template: 'BraincraftedBootstrapBundle:Bootstrap:bootstrap.less.twig'
+#braincrafted_bootstrap:
+#    output_dir:
+#    auto_configure:
+#        assetic:       false
+#        twig:          true
+#    customize:
+#        variables_file:     ~
+#        bootstrap_output:   '%kernel.root_dir%/Resources/less/bootstrap.less'
+#        bootstrap_template: 'BraincraftedBootstrapBundle:Bootstrap:bootstrap.less.twig'
 
 # Routing
 cmf_routing:
