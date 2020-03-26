@@ -30,6 +30,7 @@ framework:
         handler_id: session.handler.native_file
         save_path: null #%kernel.root_dir%/../var/sessions
         cookie_lifetime: 604800
+        cookie_secure: true
     fragments:       ~
     http_method_override: true
     php_errors:
@@ -299,7 +300,7 @@ nelmio_cors:
             max_age: 3600
 
 # FOS Rest
-fos_rest:    
+fos_rest:
     body_listener:
         decoders:
             json: fos_rest.decoder.json
