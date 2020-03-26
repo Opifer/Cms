@@ -114,7 +114,7 @@ class MediaPickerType extends AbstractType
         $builder->addEventListener(FormEvents::SUBMIT, function (FormEvent $event) {
             $data = $event->getData();
 
-            if (count($this->sortedIds) && is_array($data) && count($data)) {
+            if (is_array($this->sortedIds) && count($this->sortedIds) && is_array($data) && count($data)) {
                 $ids = $this->sortedIds;
                 uasort($data, function ($a, $b) use ($ids) {
                     return (array_search($a->getId(), $ids) > array_search($b->getId(), $ids));
