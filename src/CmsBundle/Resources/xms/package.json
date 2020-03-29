@@ -38,7 +38,7 @@
     "isomorphic-fetch": "^2.2.1",
     "json-loader": "^0.5.4",
     "jwt-decode": "^2.1.0",
-    "lodash": "^4.16.4",
+    "lodash": "^4.17.13",
     "material-ui": "^0.16.0",
     "moment": "^2.19.3",
     "node-sass": "^3.8.0",
