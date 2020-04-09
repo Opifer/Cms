@@ -56,8 +56,8 @@ abstract class CmsKernel extends BaseKernel
             \Opifer\Revisions\OpiferRevisionsBundle::class => ['all' => true],
             \Opifer\BootstrapBlockBundle\OpiferBootstrapBlockBundle::class => ['all' => true],
 
-            \Symfony\Bundle\DebugBundle\DebugBundle::class => ['dev' => true, 'test' => true],
-            \Symfony\Bundle\WebProfilerBundle\WebProfilerBundle::class => ['dev' => true, 'test' => true],
+            //\Symfony\Bundle\DebugBundle\DebugBundle::class => ['dev' => true, 'test' => true],
+            //\Symfony\Bundle\WebProfilerBundle\WebProfilerBundle::class => ['dev' => true, 'test' => true],
         ];
 
         return $bundles;
