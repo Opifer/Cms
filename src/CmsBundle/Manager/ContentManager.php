@@ -9,14 +9,14 @@ use Opifer\ContentBundle\Model\ContentInterface;
 use Opifer\ContentBundle\Model\ContentManager as BaseContentManager;
 use Opifer\EavBundle\Manager\EavManager;
 use Symfony\Component\Form\FormFactoryInterface;
-use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorage;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
 class ContentManager extends BaseContentManager
 {
     /** @var TokenStorage */
     protected $tokenStorage;
 
-    public function __construct(EntityManagerInterface $em, FormFactoryInterface $formFactory, EavManager $eavManager, $class, $templateClass, TokenStorage $tokenStorage)
+    public function __construct(EntityManagerInterface $em, FormFactoryInterface $formFactory, EavManager $eavManager, $class, $templateClass, TokenStorageInterface $tokenStorage)
     {
         parent::__construct($em, $formFactory, $eavManager, $class, $templateClass);
 
