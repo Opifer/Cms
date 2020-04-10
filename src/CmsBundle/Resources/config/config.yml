@@ -104,8 +104,8 @@ doctrine:
 
 # Migrations
 doctrine_migrations:
-    dir_name:   '%kernel.root_dir%/../src/AppBundle/Migrations'
-    namespace:  'AppBundle\Migrations'
+    dir_name:   '%kernel.root_dir%/src/Migrations'
+    namespace:  'App/Migrations'
     table_name: '%opifer_cms.database_table_prefix%migrations'
     name:       'Opifer Cms Migrations'
 
