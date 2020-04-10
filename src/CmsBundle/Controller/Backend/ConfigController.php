@@ -26,7 +26,7 @@ class ConfigController extends Controller
         $form = $this->createForm(ConfigType::class, []);
         $form->handleRequest($request);
 
-        if ($form->isValid()) {
+        if ($form->isSubmitted() && $form->isValid()) {
             $config = [];
             foreach ($form->getData() as $group => $configuration) {
                 foreach ($configuration as $key => $value) {

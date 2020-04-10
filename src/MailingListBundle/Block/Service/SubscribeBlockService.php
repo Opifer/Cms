@@ -188,7 +188,7 @@ class SubscribeBlockService extends AbstractBlockService implements BlockService
         $this->form = $this->formFactory->create(SubscribeType::class, $this->subscription, $opts);
         $this->form->handleRequest($this->request);
 
-        if ($this->form->isValid()) {
+        if ($this->form->isSubmitted() && $this->form->isValid()) {
             foreach ($this->getMailingLists($block) as $list) {
                 $subscription = $this->subscriptionManager->findOrCreate($list, $this->subscription->getEmail());
                 $this->subscriptionManager->save($subscription);

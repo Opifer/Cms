@@ -56,7 +56,7 @@ class UserController extends Controller
         $form = $this->createForm(UserFormType::class, $user);
         $form->handleRequest($request);
 
-        if ($form->isValid()) {
+        if ($form->isSubmitted() && $form->isValid()) {
             $this->get('fos_user.user_manager')->updateUser($user, true);
 
             $this->addFlash('success', $this->get('translator')->trans('user.new.success', [
@@ -90,7 +90,7 @@ class UserController extends Controller
         $form = $this->createForm(UserFormType::class, $user);
         $form->handleRequest($request);
 
-        if ($form->isValid()) {
+        if ($form->isSubmitted() && $form->isValid()) {
 
             if ($user->isTwoFactorEnabled() == false) {
                 $user->setGoogleAuthenticatorSecret(null);
@@ -127,7 +127,7 @@ class UserController extends Controller
         $form = $this->createForm(ProfileType::class, $user);
         $form->handleRequest($request);
 
-        if ($form->isValid()) {
+        if ($form->isSubmitted() && $form->isValid()) {
 
             if ($user->isTwoFactorEnabled() == false) {
                 $user->setGoogleAuthenticatorSecret(null);
@@ -170,7 +170,7 @@ class UserController extends Controller
         $form = $this->createForm(GoogleAuthType::class, $user);
         $form->handleRequest($request);
 
-        if ($form->isValid()) {
+        if ($form->isSubmitted() && $form->isValid()) {
             $this->get('fos_user.user_manager')->updateUser($user, true);
 
             $this->addFlash('success', 'Your profile was updated successfully!');

@@ -80,7 +80,7 @@ class LayoutController extends Controller
         $form = $this->createForm(LayoutType::class, $content);
         $form->handleRequest($request);
 
-        if ($form->isValid()) {
+        if ($form->isSubmitted() && $form->isValid()) {
             //setSlug because slugListener will create one based on title
             $content->setSlug(sha1(date('y-m-d h:i:s')));
             $content->setAlias(sha1(date('y-m-d h:i:s')));
@@ -116,7 +116,7 @@ class LayoutController extends Controller
         $form = $this->createForm(LayoutType::class, $content);
         $form->handleRequest($request);
 
-        if ($form->isValid()) {
+        if ($form->isSubmitted() && $form->isValid()) {
             $manager->save($content);
 
             return $this->redirectToRoute('opifer_cms_layout_index');
@@ -147,7 +147,7 @@ class LayoutController extends Controller
         $form = $this->createForm(LayoutType::class, $content);
         $form->handleRequest($request);
 
-        if ($form->isValid()) {
+        if ($form->isSubmitted() && $form->isValid()) {
             $manager->save($content);
         }
 
