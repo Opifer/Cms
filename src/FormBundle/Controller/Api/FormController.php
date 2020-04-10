@@ -23,7 +23,7 @@ class FormController extends Controller
      *
      * @return JsonResponse
      */
-    public function getFormAction($id)
+    public function getForm($id)
     {
         /** @var Form $form */
         $form = $this->get('opifer.form.form_manager')->getRepository()->find($id);
@@ -60,7 +60,7 @@ class FormController extends Controller
      *
      * @return JsonResponse
      */
-    public function postFormPostAction(Request $request, $id)
+    public function postFormPost(Request $request, $id)
     {
         /** @var Form $form */
         $form = $this->get('opifer.form.form_manager')->getRepository()->find($id);

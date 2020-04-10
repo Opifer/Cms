@@ -32,7 +32,7 @@ class ContentController extends Controller
      *
      * @throws \Exception
      */
-    public function viewAction(Request $request, ContentInterface $content, $statusCode = 200)
+    public function view(Request $request, ContentInterface $content, $statusCode = 200)
     {
         $version = $request->query->get('_version');
         $debug = $this->getParameter('kernel.debug');
@@ -99,7 +99,7 @@ class ContentController extends Controller
      * @param Request $request
      * @return Response
      */
-    public function homeAction(Request $request)
+    public function home(Request $request)
     {
         if ($frontendUrl = $this->getParameter('opifer_content.frontend_url')) {
             return new RedirectResponse($frontendUrl);

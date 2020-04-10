@@ -23,7 +23,7 @@ class ContentEditorController extends Controller
      *
      * @return Response
      */
-    public function designAction($owner, $ownerId)
+    public function design($owner, $ownerId)
     {
         /** @var BlockManager $blockManager */
         $blockManager = $this->get('opifer.content.block_manager');
@@ -61,7 +61,7 @@ class ContentEditorController extends Controller
      *
      * @return Response
      */
-    public function tocAction($owner, $ownerId)
+    public function toc($owner, $ownerId)
     {
         /** @var BlockProviderInterface $provider */
         $provider = $this->get('opifer.content.block_provider_pool')->getProvider($owner);
@@ -89,7 +89,7 @@ class ContentEditorController extends Controller
      *
      * @return mixed
      */
-    public function viewAction($owner, $ownerId)
+    public function view($owner, $ownerId)
     {
         $frontendUrl = $this->container->getParameter('opifer_content.frontend_url');
         if ($frontendUrl) {

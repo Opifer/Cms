@@ -22,7 +22,7 @@ class MediaController extends Controller
      *
      * @return JsonResponse
      */
-    public function indexAction(Request $request)
+    public function index(Request $request)
     {
         $this->denyAccessUnlessGranted('MEDIA_INDEX');
 
@@ -64,7 +64,7 @@ class MediaController extends Controller
      *
      * @return JsonResponse
      */
-    public function detailAction($id = null)
+    public function detail($id = null)
     {
         $media = $this->get('opifer.media.media_manager')->getRepository()->find($id);
 
@@ -79,7 +79,7 @@ class MediaController extends Controller
      * @param Request $request
      * @return JsonResponse
      */
-    public function updateAction(Request $request, $id)
+    public function update(Request $request, $id)
     {
         $this->denyAccessUnlessGranted('MEDIA_EDIT');
 
@@ -111,7 +111,7 @@ class MediaController extends Controller
      *
      * @return Response
      */
-    public function uploadAction(Request $request)
+    public function upload(Request $request)
     {
         $em = $this->getDoctrine()->getManager();
 
@@ -159,7 +159,7 @@ class MediaController extends Controller
      *
      * @return JsonResponse
      */
-    public function deleteAction(Request $request, $id)
+    public function delete(Request $request, $id)
     {
         $this->denyAccessUnlessGranted('MEDIA_DELETE');
 

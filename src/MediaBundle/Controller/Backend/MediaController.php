@@ -23,7 +23,7 @@ class MediaController extends Controller
      *
      * @return Response
      */
-    public function indexAction(Request $request)
+    public function index(Request $request)
     {
         $this->denyAccessUnlessGranted('MEDIA_INDEX');
 
@@ -50,7 +50,7 @@ class MediaController extends Controller
      *
      * @return Response
      */
-    public function createAction(Request $request, $provider = 'image')
+    public function create(Request $request, $provider = 'image')
     {
         $this->denyAccessUnlessGranted('MEDIA_CREATE');
 
@@ -104,7 +104,7 @@ class MediaController extends Controller
      *
      * @return Response
      */
-    public function editAction(Request $request, $id)
+    public function edit(Request $request, $id)
     {
         $this->denyAccessUnlessGranted('MEDIA_EDIT');
 
@@ -148,7 +148,7 @@ class MediaController extends Controller
      *
      * @return Response
      */
-    public function updateAllAction(Request $request)
+    public function updateAll(Request $request)
     {
         $this->denyAccessUnlessGranted('MEDIA_EDIT');
 
@@ -189,7 +189,7 @@ class MediaController extends Controller
      *
      * @return \Symfony\Component\HttpFoundation\RedirectResponse
      */
-    public function deleteAction(Request $request, $id)
+    public function delete(Request $request, $id)
     {
         $this->denyAccessUnlessGranted('MEDIA_DELETE');
 

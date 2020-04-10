@@ -17,7 +17,7 @@ class AttributeController extends FOSRestController
      *
      * @return Attribute
      */
-    public function getAttributeAction(Attribute $attribute)
+    public function getAttribute(Attribute $attribute)
     {
         return $attribute;
     }
@@ -29,7 +29,7 @@ class AttributeController extends FOSRestController
      * @param Attribute $attribute
      * @return array
      */
-    public function getAttributesOptionsAction(Attribute $attribute)
+    public function getAttributesOptions(Attribute $attribute)
     {
         return $attribute->getOptions();
     }

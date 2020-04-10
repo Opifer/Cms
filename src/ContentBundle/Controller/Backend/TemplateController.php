@@ -27,7 +27,7 @@ class TemplateController extends Controller
      *
      * @return Response
      */
-    public function indexAction(Request $request)
+    public function index(Request $request)
     {
         $this->denyAccessUnlessGranted('TEMPLATE_INDEX');
 
@@ -74,7 +74,7 @@ class TemplateController extends Controller
      *
      * @return Response
      */
-    public function editorAction(Request $request, Template $template)
+    public function editor(Request $request, Template $template)
     {
         $this->denyAccessUnlessGranted('TEMPLATE_EDIT');
 
@@ -100,7 +100,7 @@ class TemplateController extends Controller
      *
      * @return Response
      */
-    public function editorViewAction(Request $request, Template $template)
+    public function editorView(Request $request, Template $template)
     {
         $this->denyAccessUnlessGranted('TEMPLATE_EDIT');
 

@@ -8,7 +8,7 @@ use Symfony\Component\HttpFoundation\Request;
 
 class AutoCompleteController extends Controller
 {
-    public function queryAction(Request $request, $alias)
+    public function query(Request $request, $alias)
     {
         $config = $this->getParameter('opifer_cms.autocomplete');
 

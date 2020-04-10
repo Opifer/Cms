@@ -16,7 +16,7 @@ class RedirectController extends Controller
      *
      * @return Response
      */
-    public function indexAction()
+    public function index()
     {
         $this->denyAccessUnlessGranted('REDIRECT_INDEX');
 
@@ -34,7 +34,7 @@ class RedirectController extends Controller
      *
      * @return RedirectResponse|Response
      */
-    public function createAction(Request $request)
+    public function create(Request $request)
     {
         $this->denyAccessUnlessGranted('REDIRECT_CREATE');
 
@@ -70,7 +70,7 @@ class RedirectController extends Controller
      *
      * @return RedirectResponse|Response
      */
-    public function editAction(Request $request, $id)
+    public function edit(Request $request, $id)
     {
         $this->denyAccessUnlessGranted('REDIRECT_EDIT');
 
@@ -101,7 +101,7 @@ class RedirectController extends Controller
      *
      * @return RedirectResponse
      */
-    public function deleteAction($id)
+    public function delete($id)
     {
         $this->denyAccessUnlessGranted('REDIRECT_DELETE');
 

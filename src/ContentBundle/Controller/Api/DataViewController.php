@@ -23,7 +23,7 @@ class DataViewController extends FOSRestController
      *
      * @return DataView
      */
-    public function getDataviewAction(DataView $dataView)
+    public function getDataview(DataView $dataView)
     {
         return $dataView;
     }
@@ -33,7 +33,7 @@ class DataViewController extends FOSRestController
      *
      * @return DataView[]
      */
-    public function getDataviewsAction()
+    public function getDataviews()
     {
         return $this->getDoctrine()->getRepository('OpiferContentBundle:DataView')->findAll();
     }
@@ -44,7 +44,7 @@ class DataViewController extends FOSRestController
      *
      * @ParamConverter("dataView", converter="fos_rest.request_body", options={"validator",{"groups"={"detail"}}})
      */
-    public function putDataviewAction(DataView $dataView, ConstraintViolationListInterface $validationErrors)
+    public function putDataview(DataView $dataView, ConstraintViolationListInterface $validationErrors)
     {
         if (count($validationErrors) > 0) {
             return $this->handleValidationErrors($validationErrors);
@@ -68,7 +68,7 @@ class DataViewController extends FOSRestController
      *
      * @return Response
      */
-    public function deleteDataviewAction(DataView $dataView)
+    public function deleteDataview(DataView $dataView)
     {
         $this->getDoctrine()->getManager()->remove($dataView);
         $this->getDoctrine()->getManager()->flush();

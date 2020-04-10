@@ -45,7 +45,7 @@ class ContentController extends Controller
      *
      * @return ContentInterface[]
      */
-    public function getContentsAction(Request $request, ParamFetcher $paramFetcher)
+    public function getContents(Request $request, ParamFetcher $paramFetcher)
     {
 
         if ($ids = $paramFetcher->get('ids')) {
@@ -188,7 +188,7 @@ class ContentController extends Controller
      *
      * @return ContentInterface[]
      */
-    public function getContentRelatedAction(Request $request, ParamFetcher $paramFetcher)
+    public function getContentRelated(Request $request, ParamFetcher $paramFetcher)
     {
         $repository = $this->get('opifer.content.content_manager')->getRepository();
 
@@ -256,7 +256,7 @@ class ContentController extends Controller
      *
      * @return JsonResponse
      */
-    public function indexAction(Request $request)
+    public function index(Request $request)
     {
         /** @var ContentManager $manager */
         $contentManager = $this->get('opifer.content.content_manager');
@@ -305,7 +305,7 @@ class ContentController extends Controller
      *
      * @return JsonResponse
      */
-    public function idsAction($ids)
+    public function ids($ids)
     {
         $items = $this->get('opifer.content.content_manager')
             ->getRepository()
@@ -332,7 +332,7 @@ class ContentController extends Controller
      *
      * @return JsonResponse
      */
-    public function viewAction(Request $request, $id, $structure = 'tree')
+    public function view(Request $request, $id, $structure = 'tree')
     {
         $response = new JsonResponse();
 
@@ -412,7 +412,7 @@ class ContentController extends Controller
      *
      * @return Response
      */
-    public function deleteAction($id)
+    public function delete($id)
     {
         $this->denyAccessUnlessGranted('CONTENT_DELETE');
 
@@ -438,7 +438,7 @@ class ContentController extends Controller
      *
      * @return Response
      */
-    public function duplicateAction(Request $request)
+    public function duplicate(Request $request)
     {
         $content = $request->getContent();
 
@@ -483,7 +483,7 @@ class ContentController extends Controller
      *
      * @return JsonResponse
      */
-    public function sitesAction(Request $request)
+    public function sites(Request $request)
     {
         $sites = $this->get('opifer.cms.site_manager')->getRepository()->findAll();
         $data = $this->get('jms_serializer')->serialize($sites, 'json');

@@ -56,7 +56,7 @@ class CookieWallBlockService extends AbstractBlockService implements BlockServic
             ]);
     }
 
-    public function acceptCookiesAction($id)
+    public function acceptCookies($id)
     {
         $this->setCookie($id);
 

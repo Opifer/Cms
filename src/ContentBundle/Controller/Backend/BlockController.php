@@ -15,7 +15,7 @@ class BlockController extends Controller
      *
      * @return Response
      */
-    public function sharedAction()
+    public function shared()
     {
         $blocks = $this->get('opifer.content.block_manager')->getRepository()
             ->findBy(['shared' => true]);

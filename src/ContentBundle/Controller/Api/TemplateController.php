@@ -21,7 +21,7 @@ class TemplateController extends Controller
      *
      * @return ContentInterface[]
      */
-    public function getTemplateAction(Request $request, $id)
+    public function getTemplate(Request $request, $id)
     {
         if (!$this->isGranted('ROLE_ADMIN')) {
             throw $this->createAccessDeniedException();

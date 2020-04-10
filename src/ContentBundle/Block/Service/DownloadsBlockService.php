@@ -66,7 +66,7 @@ class DownloadsBlockService extends AbstractBlockService implements BlockService
      *
      * @return Response
     */
-    public function downloadMediaAction($filename)
+    public function downloadMedia($filename)
     {
         $media = $this->mediaManager->getRepository()->findOneByReference($filename);
         $provider = $this->container->get('opifer.media.provider.pool')->getProvider($media->getProvider());
