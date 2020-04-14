@@ -167,14 +167,14 @@ opifer_media_admin:
 opifer_mailing_list_admin:
      resource: "@OpiferMailingListBundle/Resources/config/routing_admin.yml"
 
-fos_user_security_login:
-    path:  /login
-    defaults: { _controller: FOSUserBundle:Security:login }
+#fos_user_security_login:
+#    path:  /login
+#    defaults: { _controller: FOSUserBundle:Security:login }
 
 fos_user_group:
     resource: "@FOSUserBundle/Resources/config/routing/group.xml"
     prefix:   /group
-    
+
 api_login_check:
     path: /api/login_check
 

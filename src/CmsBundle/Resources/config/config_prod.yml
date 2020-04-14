@@ -1,6 +1,8 @@
 framework:
     validation:
         cache: validator.mapping.cache.doctrine.apc
+    session:
+        cookie_secure: true
 
 doctrine:
     orm:

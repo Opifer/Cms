@@ -37,7 +37,7 @@ class OpiferContentExtension extends Extension implements PrependExtensionInterf
         $configs = $container->getExtensionConfig($this->getAlias());
         $config = $this->processConfiguration(new Configuration(), $configs);
 
-        $container->setAlias('opifer.content.content_manager', $config['content_manager']);
+        $container->setAlias('opifer.content.content_manager', $config['content_manager'])->setPublic(true);
         $container->setDefinition('opifer.content.cache_provider', new Definition($config['cache_provider']));
 
         $parameters = $this->getParameters($config);

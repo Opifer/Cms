@@ -13,6 +13,9 @@ use Symfony\Component\Security\Core\Exception\UsernameNotFoundException;
 use Symfony\Component\Security\Core\User\UserProviderInterface;
 use Symfony\Component\Security\Http\Authentication\SimpleFormAuthenticatorInterface;
 
+/**
+ * @deprecated
+ */
 class CaptchaAuthenticator implements SimpleFormAuthenticatorInterface
 {
     /** @var string */
