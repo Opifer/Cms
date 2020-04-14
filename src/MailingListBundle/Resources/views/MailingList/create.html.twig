@@ -7,13 +7,11 @@
                 <small>{{ 'title.mailing_list_plural'|trans }}</small><br />
                 <h1>{{ 'title.mailing_list'|trans }}</h1>
             </div>
-            {{ form_start(form, {'style': 'horizontal' }) }}
+            {{ form_start(form) }}
             {{ form_widget(form) }}
             <div class="form-group form-footer">
-                <div class="col-xs-12">
-                    <input type="submit" value="{{ 'button.submit'|trans }}" class="btn btn-primary"/>
-                    <a href="{{ path('opifer_mailing_list_mailing_list_index') }}" class="btn btn-link pull-right">{{ 'button.cancel'|trans|capitalize }}</a>
-                </div>
+                <input type="submit" value="{{ 'button.submit'|trans }}" class="btn btn-primary"/>
+                <a href="{{ path('opifer_mailing_list_mailing_list_index') }}" class="btn btn-link pull-right">{{ 'button.cancel'|trans|capitalize }}</a>
             </div>
             {{ form_end(form) }}
         </div>

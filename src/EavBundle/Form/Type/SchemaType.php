@@ -2,8 +2,8 @@
 
 namespace Opifer\EavBundle\Form\Type;
 
-use Braincrafted\Bundle\BootstrapBundle\Form\Type\BootstrapCollectionType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -28,7 +28,7 @@ class SchemaType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('attributes', BootstrapCollectionType::class, [
+        $builder->add('attributes', CollectionType::class, [
             'allow_add' => true,
             'allow_delete' => true,
             'entry_type' => AttributeType::class
@@ -45,7 +45,6 @@ class SchemaType extends AbstractType
             ]);
         }
     }
-
 
     /**
      * {@inheritdoc}

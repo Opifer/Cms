@@ -99,10 +99,12 @@ services:
     opifer.eav.attribute_manager:
         class: '%opifer.eav.attribute_manager.class%'
         arguments: ['@doctrine.orm.default_entity_manager', '%opifer_eav.attribute_class%']
+        public: true
 
     opifer.eav.eav_manager:
         class: '%opifer.eav.eav_manager.class%'
         arguments: ['@opifer.eav.value_provider.pool', '%opifer_eav.valueset_class%']
+        public: true
 
     opifer.eav.option_manager:
         class: '%opifer.eav.option_manager.class%'
@@ -111,6 +113,7 @@ services:
     opifer.eav.schema_manager:
         class: '%opifer.eav.schema_manager.class%'
         arguments: ['@doctrine.orm.default_entity_manager', '%opifer_eav.schema_class%']
+        public: true
 
     # Listeners
 

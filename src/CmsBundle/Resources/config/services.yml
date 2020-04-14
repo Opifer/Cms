@@ -5,7 +5,6 @@ parameters:
     opifer.cms.exception_router.class: 'Opifer\CmsBundle\Router\ExceptionRouter'
     opifer.cms.form_value_provider.class: 'Opifer\CmsBundle\ValueProvider\FormValueProvider'
     opifer.cms.form.ckeditor_type.class: 'Opifer\CmsBundle\Form\Type\CKEditorType'
-    opifer.cms.form.collapsible_collection.class: 'Opifer\CmsBundle\Form\Type\CollapsibleCollectionType'
     opifer.cms.html_value_provider.class: 'Opifer\CmsBundle\ValueProvider\HtmlValueProvider'
     opifer.cms.mailinglist_subscribe_value_provider.class: 'Opifer\CmsBundle\ValueProvider\MailingListSubscribeValueProvider'
     opifer.cms.slug_form_type.class: 'Opifer\CmsBundle\Form\Type\SlugType'
@@ -39,11 +38,6 @@ services:
     opifer.cms.user_form:
         class: Opifer\CmsBundle\Form\Type\UserFormType
         arguments: ['%security.role_hierarchy.roles%', '%opifer_cms.user_model%']
-        tags:
-            - { name: 'form.type' }
-
-    opifer.cms.form.collapsible_collection:
-        class: '%opifer.cms.form.collapsible_collection.class%'
         tags:
             - { name: 'form.type' }
 

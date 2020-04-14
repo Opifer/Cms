@@ -12,15 +12,13 @@
                 </h1>
             </div>
 
-            {{ form_start(form, {'attr' : { 'novalidate' : 'novalidate' }, 'style': 'horizontal' }) }}
+            {{ form_start(form, {'attr' : { 'novalidate' : 'novalidate' } }) }}
                 <div class="alert alert-warning">Note: Changing the content type will remove all current properties</div>
 
                 {{ form_widget(form) }}
                 <div class="form-group">
-                    <div class="col-xs-12">
-                        <button type="submit" class="btn btn-primary">{{ 'button.submit'|trans }}</button>
-                        <a href="{{ path('opifer_content_content_index') }}" class="btn btn-link pull-right">{{ 'button.cancel'|trans|capitalize }}</a>
-                    </div>
+                    <button type="submit" class="btn btn-primary">{{ 'button.submit'|trans }}</button>
+                    <a href="{{ path('opifer_content_content_index') }}" class="btn btn-link pull-right">{{ 'button.cancel'|trans|capitalize }}</a>
                 </div>
             {{ form_end(form) }}
         </div>

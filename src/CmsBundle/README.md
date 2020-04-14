@@ -95,7 +95,7 @@ And create a user account:
 
     $ php app/console fos:user:create --super-admin
     
-Now log into the admin panel at `http://localhost/app_dev.php/admin`.
+Now log into the admin panel at `http://localhost:8000/admin`.
 
 Documentation
 -------------

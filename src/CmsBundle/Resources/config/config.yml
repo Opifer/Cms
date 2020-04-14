@@ -31,16 +31,6 @@ framework:
     php_errors:
         log: true
 
-# Templating
-#braincrafted_bootstrap:
-#    output_dir:
-#    auto_configure:
-#        assetic:       false
-#        twig:          true
-#    customize:
-#        variables_file:     ~
-#        bootstrap_output:   '%kernel.root_dir%/Resources/less/bootstrap.less'
-#        bootstrap_template: 'BraincraftedBootstrapBundle:Bootstrap:bootstrap.less.twig'
 
 # Routing
 cmf_routing:
@@ -147,6 +137,7 @@ twig:
     paths:
         "%kernel.root_dir%/../vendor/opifer/cms/src/ExpressionEngine/Resources/views": OpiferExpressionEngine
     form_themes:
+        - 'bootstrap_4_layout.html.twig'
         - 'OpiferEavBundle:Form:fields.html.twig'
         - 'OpiferMediaBundle:Form:fields.html.twig'
         - 'OpiferContentBundle:Form:fields.html.twig'

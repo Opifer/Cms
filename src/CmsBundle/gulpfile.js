@@ -43,7 +43,6 @@ gulp.task('js', ['react'], function () {
         'Resources/public/components/bootbox.js/bootbox.js',
         'Resources/public/components/mprogress/mprogress.min.js',
         'Resources/public/components/typeahead.js/dist/typeahead.bundle.js',
-        '../../../../braincrafted/bootstrap-bundle/Braincrafted/Bundle/BootstrapBundle/Resources/js/bc-bootstrap-collection.js',
         'Resources/public/components/codemirror/lib/codemirror.js',
         'Resources/public/components/codemirror/mode/javascript/javascript.js',
         'Resources/public/components/codemirror/mode/css/css.js',
@@ -55,6 +54,7 @@ gulp.task('js', ['react'], function () {
         'node_modules/react-dom/dist/react-dom.min.js',
 
         'Resources/public/dist/react.js',
+        'Resources/public/js/collection.js',
         'Resources/public/js/split-pane.js',
         'Resources/public/js/main.js',
         'Resources/public/js/pagemanager.js',

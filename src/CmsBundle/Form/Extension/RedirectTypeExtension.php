@@ -2,10 +2,10 @@
 
 namespace Opifer\CmsBundle\Form\Extension;
 
-use Braincrafted\Bundle\BootstrapBundle\Form\Type\BootstrapCollectionType;
 use Opifer\RedirectBundle\Form\Type\RedirectType;
 use Opifer\RedirectBundle\Form\Type\RequirementType;
 use Symfony\Component\Form\AbstractTypeExtension;
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\FormBuilderInterface;
 
 class RedirectTypeExtension extends AbstractTypeExtension
@@ -17,7 +17,7 @@ class RedirectTypeExtension extends AbstractTypeExtension
     {
         $builder
             ->remove('requirements')
-            ->add('requirements', BootstrapCollectionType::class, [
+            ->add('requirements', CollectionType::class, [
                 'entry_type' => RequirementType::class,
                 'allow_add' => true,
                 'allow_delete' => true,

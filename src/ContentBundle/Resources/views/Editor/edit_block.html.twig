@@ -4,7 +4,7 @@
             {{ block_service.description|trans }}
         </div>
     </div>
-    {{ form_start(form, {'action': path('opifer_content_api_contenteditor_edit_block', {'id': block.id}), 'label_col': 3, 'widget_col': 9, 'attr' : {'data-pm-block-id': block.id, 'novalidate': 'novalidate', 'class': 'prevent-enter-submit'}, 'style': 'horizontal'}) }}
+    {{ form_start(form, {'action': path('opifer_content_api_contenteditor_edit_block', {'id': block.id}), 'attr' : {'data-pm-block-id': block.id, 'novalidate': 'novalidate', 'class': 'prevent-enter-submit'}}) }}
     {% if block.isShared %}
         <div class="row row-space-top-2 row-space-2">
             <div class="col-xs-12">
@@ -98,9 +98,7 @@
             {% endblock block_body_tabs %}
 
             <div class="form-group">
-                <div class="col-xs-12">
-                    <button type="submit" class="btn btn-primary">{{ 'button.save'|trans }}</button>
-                </div>
+                <button type="submit" class="btn btn-primary">{{ 'button.save'|trans }}</button>
             </div>
         </div>
     </div>

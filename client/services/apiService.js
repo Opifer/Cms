@@ -3,9 +3,7 @@ import axios from 'axios';
 export const createCancelToken = () => axios.CancelToken.source();
 export const isCancelled = error => axios.isCancel(error);
 
-export const api = axios.create({
-  baseURL: process.env.NODE_ENV === 'production' ? undefined : '/app_dev.php',
-});
+export const api = axios.create({});
 
 export const get = config => api({
   method: 'GET',
