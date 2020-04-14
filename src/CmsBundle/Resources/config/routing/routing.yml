@@ -13,14 +13,17 @@ opifer_revision:
 opifer_mailinglist:
     resource: '@OpiferMailingListBundle/Resources/config/routing.yml'
 
-fos_user_security_check:
-    path: /login_check
-    defaults: { _controller: FOSUserBundle:Security:check }
-    methods: [POST]
+fos_user_security:
+    resource: "@FOSUserBundle/Resources/config/routing/security.xml"
 
-fos_user_security_logout:
-    path: /logout
-    defaults: { _controller: FOSUserBundle:Security:logout }
+#fos_user_security_check:
+#    path: /login_check
+#    defaults: { _controller: FOSUserBundle:Security:check }
+#    methods: [POST]
+#
+#fos_user_security_logout:
+#    path: /logout
+#    defaults: { _controller: FOSUserBundle:Security:logout }
 
 _bazinga_jstranslation:
     resource: "@BazingaJsTranslationBundle/Resources/config/routing/routing.yml"
@@ -51,9 +54,9 @@ opifer_cms_home:
     path:  /
     defaults: { _controller: OpiferContentBundle:Frontend\Content:home }
 
-opifer_cms_login:
-    path:  /login
-    defaults: { _controller: FOSUserBundle:Security:login }
+#opifer_cms_login:
+#    path:  /login
+#    defaults: { _controller: FOSUserBundle:Security:login }
 
 opifer_cms_auto_complete:
     path: /autocomplete/{alias}
@@ -66,10 +69,10 @@ opifer_cms_auto_complete:
 NelmioApiDocBundle:
     resource: "@NelmioApiDocBundle/Resources/config/routing.yml"
     prefix:   /api/doc
-
-fos_user_register:
-    resource: "@FOSUserBundle/Resources/config/routing/registration.xml"
-    prefix:   /register
+#
+#fos_user_register:
+#    resource: "@FOSUserBundle/Resources/config/routing/registration.xml"
+#    prefix:   /register
 
 fos_user_change_password:
     path:  /change-password
