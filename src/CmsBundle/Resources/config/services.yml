@@ -98,6 +98,7 @@ services:
     opifer.cms.site_manager:
         class: 'Opifer\CmsBundle\Manager\SiteManager'
         arguments: ['@doctrine.orm.entity_manager', '@opifer.cms.domain_manager']
+        public: true
 
     # Event Listeners
 
@@ -105,7 +106,7 @@ services:
         class: '%opifer.cms.attachment_listener.class%'
         arguments: ['@doctrine.orm.default_entity_manager', '@opifer.media.media_manager']
         tags:
-            - { name: 'kernel.event_subscriber' }
+            - { name: kernel.event_subscriber }
 
     opifer.cms.form_submit_listener:
         class: 'Opifer\CmsBundle\EventListener\FormSubmitListener'
@@ -123,13 +124,14 @@ services:
         class: '%opifer.cms.tableprefix_listener.class%'
         arguments: ['%opifer_cms.database_table_prefix%']
         tags:
-            - { name: 'doctrine.event_subscriber' }
+            - { name: doctrine.event_subscriber }
 
     # Configuration
 
     opifer.cms.config_manager:
         class: Opifer\CmsBundle\Manager\ConfigManager
         arguments: ['@doctrine.orm.default_entity_manager', '%opifer_cms.config_model%']
+        public: true
 
     opifer.cms.configuration_form_registry:
         class: Opifer\CmsBundle\DependencyInjection\ConfigurationFormRegistry
