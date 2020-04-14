@@ -48,6 +48,7 @@ services:
     opifer.content.twig_analyzer:
         class: Opifer\ContentBundle\Environment\TwigAnalyzer
         arguments: ['@twig', '@templating.name_parser']
+        public: true
 
     opifer.content.block_renderer:
         class: Opifer\ContentBundle\Block\BlockRenderer

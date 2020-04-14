@@ -317,7 +317,6 @@ abstract class AbstractBlockService implements BlockServiceInterface
                         'Active' => true,
                         'Inactive' => false,
                     ],
-                    'choices_as_values' => true,
                 ])
         )->add(
             $builder->create('properties', FormType::class, ['label' => false, 'attr' => ['widget_col' => 12]])
