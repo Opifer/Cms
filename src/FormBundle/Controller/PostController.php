@@ -17,7 +17,7 @@ class PostController extends Controller
      *
      * @return Response
      */
-    public function index($formId)
+    public function indexAction($formId)
     {
         $this->denyAccessUnlessGranted('POST_INDEX');
 
@@ -39,7 +39,7 @@ class PostController extends Controller
      *
      * @return Response
      */
-    public function view($id)
+    public function viewAction($id)
     {
         $this->denyAccessUnlessGranted('POST_VIEW');
 
@@ -61,7 +61,7 @@ class PostController extends Controller
      *
      * @return RedirectResponse
      */
-    public function delete($id)
+    public function deleteAction($id)
     {
         $this->denyAccessUnlessGranted('POST_DELETE');
 
@@ -87,7 +87,7 @@ class PostController extends Controller
      * @param int $id
      * @return RedirectResponse|\Symfony\Component\HttpKernel\Exception\NotFoundHttpException
      */
-    public function notification($id)
+    public function notificationAction($id)
     {
         $this->denyAccessUnlessGranted('POST_NOTIFICATION');
 

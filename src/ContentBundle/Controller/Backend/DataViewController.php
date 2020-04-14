@@ -17,7 +17,7 @@ class DataViewController extends Controller
      *
      * @return Response
      */
-    public function index()
+    public function indexAction()
     {
         return $this->render('OpiferContentBundle:DataView:index.html.twig');
     }

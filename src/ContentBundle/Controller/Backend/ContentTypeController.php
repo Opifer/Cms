@@ -21,7 +21,7 @@ class ContentTypeController extends Controller
      *
      * @return Response
      */
-    public function index()
+    public function indexAction()
     {
         $this->denyAccessUnlessGranted('CONTENT_TYPE_INDEX');
 
@@ -40,7 +40,7 @@ class ContentTypeController extends Controller
      *
      * @return RedirectResponse|Response
      */
-    public function create(Request $request)
+    public function createAction(Request $request)
     {
         $this->denyAccessUnlessGranted('CONTENT_TYPE_CREATE');
 
@@ -81,7 +81,7 @@ class ContentTypeController extends Controller
      *
      * @return RedirectResponse|Response
      */
-    public function edit(Request $request, $id)
+    public function editAction(Request $request, $id)
     {
         $this->denyAccessUnlessGranted('CONTENT_TYPE_EDIT');
 
@@ -140,7 +140,7 @@ class ContentTypeController extends Controller
      *
      * @return Response
      */
-    public function delete($id)
+    public function deleteAction($id)
     {
         $this->denyAccessUnlessGranted('CONTENT_TYPE_DELETE');
 

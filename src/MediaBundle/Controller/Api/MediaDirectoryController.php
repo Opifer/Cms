@@ -24,7 +24,7 @@ class MediaDirectoryController extends FOSRestController
      *
      * @return MediaDirectoryInterface
      */
-    public function getDirectories(MediaDirectory $directory)
+    public function getDirectoriesAction(MediaDirectory $directory)
     {
         return $directory;
     }
@@ -39,7 +39,7 @@ class MediaDirectoryController extends FOSRestController
      *
      * @return MediaDirectoryInterface
      */
-    public function postDirectories(ParamFetcher $paramFetcher)
+    public function postDirectoriesAction(ParamFetcher $paramFetcher)
     {
         /** @var MediaDirectoryInterface $directory */
         $directory = $this->get('opifer.media.media_directory_manager')->create();

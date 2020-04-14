@@ -14,7 +14,7 @@ class BlockController extends BaseBlockController
     /**
      * {@inheritdoc}
      */
-    public function shared()
+    public function sharedAction()
     {
         $this->getDoctrine()->getManager()->getFilters()->disable('draft');
 

@@ -27,7 +27,7 @@ class ContentController extends Controller
      *
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function index()
+    public function indexAction()
     {
         $this->denyAccessUnlessGranted('CONTENT_INDEX');
 
@@ -39,7 +39,7 @@ class ContentController extends Controller
      *
      * @return Response
      */
-    public function type($type)
+    public function typeAction($type)
     {
         $contentType = $this->get('opifer.content.content_type_manager')->getRepository()->find($type);
 
@@ -56,7 +56,7 @@ class ContentController extends Controller
      *
      * @return Response|RedirectResponse
      */
-    public function selectType($siteId = null)
+    public function selectTypeAction($siteId = null)
     {
         $contentTypes = $this->get('opifer.content.content_type_manager')->getRepository()->findAll();
 
@@ -73,7 +73,7 @@ class ContentController extends Controller
         ]);
     }
 
-    public function selectSite()
+    public function selectSiteAction()
     {
         $sites = $this->getDoctrine()->getRepository(Site::class)->findAll();
 
@@ -97,7 +97,7 @@ class ContentController extends Controller
      *
      * @return Response|RedirectResponse
      */
-    public function selectLayoutType()
+    public function selectLayoutTypeAction()
     {
         $contentTypes = $this->get('opifer.content.content_type_manager')->getRepository()->findAll();
 
@@ -116,7 +116,7 @@ class ContentController extends Controller
      *
      * @return RedirectResponse|Response
      */
-    public function editType(Request $request, $id)
+    public function editTypeAction(Request $request, $id)
     {
         /** @var ContentManager $manager */
         $manager = $this->get('opifer.content.content_manager');
@@ -162,7 +162,7 @@ class ContentController extends Controller
      *
      * @return Response
      */
-    public function create(Request $request, $siteId = null, $type = 0, $layoutId = null)
+    public function createAction(Request $request, $siteId = null, $type = 0, $layoutId = null)
     {
         $this->denyAccessUnlessGranted('CONTENT_CREATE');
 
@@ -192,7 +192,7 @@ class ContentController extends Controller
 
         if ($form->isSubmitted() && $form->isValid()) {
             if ($layoutId) {
-                $duplicatedContent = $this->duplicate($layoutId, $content);
+                $duplicatedContent = $this->duplicateAction($layoutId, $content);
 
                 return $this->redirectToRoute('opifer_content_contenteditor_design', [
                     'owner' => 'content',
@@ -223,7 +223,7 @@ class ContentController extends Controller
      * @param $content
      * @return mixed
      */
-    public function duplicate($id, $content)
+    public function duplicateAction($id, $content)
     {
         $this->denyAccessUnlessGranted('CONTENT_DUPLICATE');
 
@@ -272,7 +272,7 @@ class ContentController extends Controller
      *
      * @return Response
      */
-    public function edit(Request $request, $id)
+    public function editAction(Request $request, $id)
     {
         /** @var ContentManager $manager */
         $manager = $this->get('opifer.content.content_manager');
@@ -360,7 +360,7 @@ class ContentController extends Controller
      *
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function details(Request $request, $id)
+    public function detailsAction(Request $request, $id)
     {
         /** @var ContentManager $manager */
         $manager = $this->get('opifer.content.content_manager');
@@ -435,7 +435,7 @@ class ContentController extends Controller
         ]);
     }
 
-    public function history(Request $request, $owner, $ownerId)
+    public function historyAction(Request $request, $owner, $ownerId)
     {
         return $this->render($this->getParameter('opifer_content.content_history_view'), array());
     }

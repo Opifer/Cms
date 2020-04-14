@@ -12,7 +12,7 @@ class ReviewController extends Controller
     /**
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function index()
+    public function indexAction()
     {
         $this->denyAccessUnlessGranted('REVIEW_INDEX');
 
@@ -28,7 +28,7 @@ class ReviewController extends Controller
      *
      * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
      */
-    public function create(Request $request)
+    public function createAction(Request $request)
     {
         $this->denyAccessUnlessGranted('REVIEW_CREATE');
 
@@ -58,7 +58,7 @@ class ReviewController extends Controller
      *
      * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
      */
-    public function edit(Request $request, $id)
+    public function editAction(Request $request, $id)
     {
         $this->denyAccessUnlessGranted('REVIEW_EDIT');
 
@@ -88,7 +88,7 @@ class ReviewController extends Controller
      *
      * @return \Symfony\Component\HttpFoundation\RedirectResponse
      */
-    public function delete($id)
+    public function deleteAction($id)
     {
         $this->denyAccessUnlessGranted('REVIEW_DELETE');
 

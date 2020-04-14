@@ -15,7 +15,7 @@ class CKEditorController extends Controller
      *
      * @return Response
      */
-    public function content(Request $request)
+    public function contentAction(Request $request)
     {
         return $this->render('OpiferCmsBundle:CKEditor:content.html.twig', [
             'funcNum' => $request->get('CKEditorFuncNum'),
@@ -31,7 +31,7 @@ class CKEditorController extends Controller
      *
      * @return Response
      */
-    public function media(Request $request)
+    public function mediaAction(Request $request)
     {
         $providers = $this->get('opifer.media.provider.pool')->getProviders();
 
@@ -51,7 +51,7 @@ class CKEditorController extends Controller
      *
      * @return Response
      */
-    public function styles()
+    public function stylesAction()
     {
         $response = $this->render('OpiferCmsBundle:CKEditor:styles.js.twig');
 
@@ -65,7 +65,7 @@ class CKEditorController extends Controller
      *
      * @return Response
      */
-    public function config()
+    public function configAction()
     {
         $response = $this->render('OpiferCmsBundle:CKEditor:config.js.twig', [
             'css_path' => $this->getParameter('opifer_cms.ckeditor_css_path'),

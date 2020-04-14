@@ -27,7 +27,7 @@ class FormController extends Controller
      *
      * @return Response
      */
-    public function index()
+    public function indexAction()
     {
         $this->denyAccessUnlessGranted('FORM_INDEX');
 
@@ -46,7 +46,7 @@ class FormController extends Controller
      *
      * @return RedirectResponse|Response
      */
-    public function create(Request $request)
+    public function createAction(Request $request)
     {
         $this->denyAccessUnlessGranted('FORM_CREATE');
 
@@ -87,7 +87,7 @@ class FormController extends Controller
      *
      * @return RedirectResponse|Response
      */
-    public function edit(Request $request, $id)
+    public function editAction(Request $request, $id)
     {
         $this->denyAccessUnlessGranted('FORM_EDIT');
 
@@ -145,7 +145,7 @@ class FormController extends Controller
      *
      * @return Response
      */
-    public function delete($id)
+    public function deleteAction($id)
     {
         $this->denyAccessUnlessGranted('FORM_DELETE');
 
@@ -173,7 +173,7 @@ class FormController extends Controller
      *
      * @return Response
      */
-    public function submit(Request $request, $id)
+    public function submitAction(Request $request, $id)
     {
         /** @var Form $form */
         $form = $this->get('opifer.form.form_manager')->getRepository()->find($id);
