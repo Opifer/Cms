@@ -2,3 +2,4 @@ services:
     opifer.review.review_manager:
         class: Opifer\ReviewBundle\Manager\ReviewManager
         arguments: ['@doctrine.orm.entity_manager', '%opifer_review.review_class%']
+        public: true

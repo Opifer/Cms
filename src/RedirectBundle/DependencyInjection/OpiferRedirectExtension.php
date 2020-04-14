@@ -22,7 +22,7 @@ class OpiferRedirectExtension extends Extension
         $configuration = new Configuration();
         $config = $this->processConfiguration($configuration, $configs);
 
-        $container->setAlias('opifer.redirect.redirect_manager', $config['redirect']['manager']);
+        $container->setAlias('opifer.redirect.redirect_manager', $config['redirect']['manager'])->setPublic(true);
         $container->setParameter('opifer_redirect.redirect_class', $config['redirect']['class']);
         $container->setParameter('opifer_redirect.redirect_index_view', $config['redirect']['views']['index']);
         $container->setParameter('opifer_redirect.redirect_create_view', $config['redirect']['views']['create']);
