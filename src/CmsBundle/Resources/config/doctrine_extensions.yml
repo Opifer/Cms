@@ -1,12 +1,10 @@
 services:
     # KernelRequest listener
-    extension.listener:
-        class: Opifer\CmsBundle\EventListener\DoctrineExtensionListener
-        calls:
-            - [ setContainer, [ '@service_container' ] ]
+    Opifer\CmsBundle\EventSubscriber\DoctrineExtensionSubscriber:
+        arguments: ['@Gedmo\Translatable\TranslatableListener']
         tags:
             # translatable sets locale after router processing
-            - { name: kernel.event_listener, event: kernel.request, method: onLateKernelRequest, priority: -10 }
+            - { name: kernel.event_subscriber, priority: -10 }
 
     # Doctrine Extension listeners to handle behaviors
     gedmo.listener.tree:
@@ -16,15 +14,14 @@ services:
         calls:
             - [ setAnnotationReader, [ '@annotation_reader' ] ]
 
-    gedmo.listener.translatable:
-        class: Gedmo\Translatable\TranslatableListener
-        public: true
+    Gedmo\Translatable\TranslatableListener:
         tags:
             - { name: doctrine.event_subscriber, connection: default }
         calls:
             - [ setAnnotationReader, [ '@annotation_reader' ] ]
             - [ setDefaultLocale, [ '%opifer_cms.default_locale%' ] ]
             - [ setTranslationFallback, [ true ] ]
+        public: true
 
     gedmo.listener.timestampable:
         class: Gedmo\Timestampable\TimestampableListener

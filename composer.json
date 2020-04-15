@@ -48,7 +48,7 @@
         "friendsofsymfony/jsrouting-bundle": "2.5.3",
         "friendsofsymfony/rest-bundle": "^2.1",
         "friendsofsymfony/user-bundle": "^2.0",
-        "gedmo/doctrine-extensions": "~2.3",
+        "gedmo/doctrine-extensions": "~2.4",
         "google/recaptcha": "~1.1",
         "guzzlehttp/guzzle": "^6.0.0",
         "guzzlehttp/oauth-subscriber": "^0.3.0",

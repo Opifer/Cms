@@ -1,6 +1,6 @@
 imports:
     - { resource: doctrine_extensions.yml }
-    - { resource: "@OpiferContentBundle/Resources/config/imagine.yml" }
+    - { resource: '@OpiferContentBundle/Resources/config/imagine.yml' }
 
 parameters:
     grid.class: Opifer\CmsBundle\Grid\Grid
@@ -93,8 +93,8 @@ doctrine:
 
 # Migrations
 doctrine_migrations:
-    dir_name:   '%kernel.root_dir%/src/Migrations'
-    namespace:  'App/Migrations'
+    dir_name:   '%kernel.project_dir%/src/Migrations'
+    namespace:  'App\Migrations'
     table_name: '%opifer_cms.database_table_prefix%migrations'
     name:       'Opifer Cms Migrations'
 
