@@ -33,7 +33,7 @@ class LocaleController extends Controller
             ->addRowAction($editAction)
         ;
 
-        return $grid->getGridResponse('OpiferCmsBundle:Backend/Locale:index.html.twig');
+        return $grid->getGridResponse('@OpiferCms/Backend/Locale/index.html.twig');
     }
 
     /**
@@ -62,7 +62,7 @@ class LocaleController extends Controller
             return $this->redirectToRoute('opifer_cms_locale_edit', ['id' => $locale->getId()]);
         }
 
-        return $this->render('OpiferCmsBundle:Backend/Locale:create.html.twig', [
+        return $this->render('@OpiferCms/Backend/Locale/create.html.twig', [
             'locale' => $locale,
             'form' => $form->createView()
         ]);
@@ -99,7 +99,7 @@ class LocaleController extends Controller
             return $this->redirectToRoute('opifer_cms_locale_edit', ['id' => $locale->getId()]);
         }
 
-        return $this->render('OpiferCmsBundle:Backend/Locale:edit.html.twig', [
+        return $this->render('@OpiferCms/Backend/Locale/edit.html.twig', [
             'locale' => $locale,
             'form' => $form->createView()
         ]);

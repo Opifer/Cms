@@ -36,7 +36,7 @@ class SiteController extends Controller
             ->addRowAction($editAction)
             ->addRowAction($deleteAction);
 
-        return $grid->getGridResponse('OpiferCmsBundle:Backend/Site:index.html.twig');
+        return $grid->getGridResponse('@OpiferCms/Backend/Site/index.html.twig');
     }
 
     /**
@@ -68,7 +68,7 @@ class SiteController extends Controller
             return $this->redirectToRoute('opifer_cms_site_edit', ['id' => $site->getId()]);
         }
 
-        return $this->render('OpiferCmsBundle:Backend/Site:create.html.twig', [
+        return $this->render('@OpiferCms/Backend/Site/create.html.twig', [
             'form' => $form->createView(),
         ]);
     }
@@ -115,7 +115,7 @@ class SiteController extends Controller
             return $this->redirectToRoute('opifer_cms_site_edit', ['id' => $site->getId()]);
         }
 
-        return $this->render('OpiferCmsBundle:Backend/Site:edit.html.twig', [
+        return $this->render('@OpiferCms/Backend/Site/edit.html.twig', [
             'form' => $form->createView(),
             'site' => $site,
         ]);

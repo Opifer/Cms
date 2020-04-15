@@ -25,6 +25,7 @@ services:
     opifer.media.media_directory_manager:
         class: 'Opifer\MediaBundle\Manager\MediaDirectoryManager'
         arguments: ['@doctrine.orm.entity_manager', '%opifer_media.media_directory_class%']
+        public: true
 
     opifer.media.listener.media_listener:
         class: '%opifer.media.listener.media_listener.class%'
@@ -131,10 +132,10 @@ services:
             - '%opifer_media.storages.aws_s3.proxies%'
         tags:
             - { name: liip_imagine.cache.resolver, resolver: proxy_aws_storage }
-    
+
     opifer.cache.apc:
         class: '%doctrine.orm.cache.apc.class%'
-    
+
     opifer.imagine.cache.resolver.amazon_s3.cache:
         class: '%opifer.imagine.cache.resolver.amazon_s3.cache.class%'
         arguments:

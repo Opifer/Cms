@@ -1,4 +1,4 @@
-{% extends 'OpiferCmsBundle:Backend:base.html.twig' %}
+{% extends '@OpiferCms/Backend/base.html.twig' %}
 
 {% block body %}
     <div class="page-header clearfix">
@@ -7,7 +7,7 @@
 
     <div class="container">
         <div class="row">
-            {% include 'OpiferCmsBundle:Backend/User:_form.html.twig' %}
+            {% include '@OpiferCms/Backend/User/_form.html.twig' %}
         </div>
     </div>
 {% endblock body %}

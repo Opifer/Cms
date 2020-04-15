@@ -47,6 +47,6 @@ class BlockController extends BaseBlockController
             //->addRowAction($deleteAction)
         ;
 
-        return $grid->getGridResponse('OpiferCmsBundle:Backend/Block:shared.html.twig');
+        return $grid->getGridResponse('@OpiferCms/Backend/Block/shared.html.twig');
     }
 }

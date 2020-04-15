@@ -2,6 +2,7 @@
 
 namespace Opifer\CmsBundle\Security;
 
+use Opifer\CmsBundle\DependencyInjection\PermissionRegistry;
 use Opifer\CmsBundle\Entity\User;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
@@ -28,7 +29,7 @@ class ActionVoter extends Voter
             return false;
         }
 
-        foreach($user->getRoles() as $role){
+        foreach ($user->getRoles() as $role){
             $permissions = $this->container->getParameter('opifer_cms.permissions');
             if (in_array($attribute, $permissions[$role])) {
                 return true;
@@ -40,6 +41,7 @@ class ActionVoter extends Voter
 
     protected function supports($attribute, $subject)
     {
+        /** @var PermissionRegistry $permissionRegistry */
         $permissionRegistry = $this->container->get('opifer.cms.permission_registry');
 
         return $permissionRegistry->hasPermission($attribute);

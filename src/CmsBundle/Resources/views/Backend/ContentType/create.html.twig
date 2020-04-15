@@ -1,4 +1,4 @@
-{% extends 'OpiferCmsBundle:Backend:base.html.twig' %}
+{% extends '@OpiferCms/Backend/base.html.twig' %}
 
 {% block body %}
     <section class="container">
@@ -10,7 +10,7 @@
                         Create new
                     </h1>
                 </div>
-                {% include 'OpiferCmsBundle:Backend/ContentType:_form.html.twig' %}
+                {% include '@OpiferCms/Backend/ContentType/_form.html.twig' %}
             </div>
         </div>
     </section>

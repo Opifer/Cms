@@ -53,7 +53,7 @@ class PostController extends BasePostController
             ->addRowAction($notificationAction)
             ->addRowAction($deleteAction);
 
-        return $grid->getGridResponse('OpiferCmsBundle:Backend/Post:index.html.twig', [
+        return $grid->getGridResponse('@OpiferCms/Backend/Post/index.html.twig', [
             'form' => $form
         ]);
     }
@@ -88,6 +88,6 @@ class PostController extends BasePostController
             ->addRowAction($viewAction)
             ->addRowAction($deleteAction);
 
-        return $grid->getGridResponse('OpiferCmsBundle:Backend/Post:list.html.twig');
+        return $grid->getGridResponse('@OpiferCms/Backend/Post/list.html.twig');
     }
 }

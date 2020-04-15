@@ -54,7 +54,7 @@ class LayoutController extends Controller
             ->setVisibleColumns(['id', 'title', 'updatedAt']);
         ;
 
-        return $grid->getGridResponse('OpiferCmsBundle:Backend/Layout:index.html.twig');
+        return $grid->getGridResponse('@OpiferCms/Backend/Layout/index.html.twig');
     }
 
     /**

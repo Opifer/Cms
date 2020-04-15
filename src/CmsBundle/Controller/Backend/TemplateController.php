@@ -42,7 +42,7 @@ class TemplateController extends Controller
             ->addRowAction($deleteAction)
             ->addRowAction($designAction);
 
-        return $grid->getGridResponse('OpiferCmsBundle:Backend/Template:index.html.twig');
+        return $grid->getGridResponse('@OpiferCms/Backend/Template/index.html.twig');
     }
 
     /**
@@ -68,7 +68,7 @@ class TemplateController extends Controller
             return $this->redirectToRoute('opifer_cms_template_edit', ['id' => $template->getId()]);
         }
 
-        return $this->render('OpiferCmsBundle:Backend/Template:create.html.twig', [
+        return $this->render('@OpiferCms/Backend/Template/create.html.twig', [
             'form' => $form->createView(),
         ]);
     }
@@ -95,7 +95,7 @@ class TemplateController extends Controller
             return $this->redirectToRoute('opifer_cms_template_edit', ['id' => $template->getId()]);
         }
 
-        return $this->render('OpiferCmsBundle:Backend/Template:edit.html.twig', [
+        return $this->render('@OpiferCms/Backend/Template/edit.html.twig', [
             'form' => $form->createView(),
             'template' => $template,
         ]);

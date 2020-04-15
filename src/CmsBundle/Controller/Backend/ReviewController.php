@@ -32,6 +32,6 @@ class ReviewController extends BaseReviewController
             ->addRowAction($editAction)
             ->addRowAction($deleteAction);
 
-        return $grid->getGridResponse('OpiferCmsBundle:Backend/Review:index.html.twig');
+        return $grid->getGridResponse('@OpiferCms/Backend/Review/index.html.twig');
     }
 }
