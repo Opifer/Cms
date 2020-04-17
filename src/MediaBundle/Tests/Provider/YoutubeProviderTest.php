@@ -24,7 +24,7 @@ class YoutubeProviderTest extends TestCase
         $this->translator->shouldReceive('trans')->andReturn('image');
 
         $youtubeProvider = new YoutubeProvider($this->mediaManager, $this->translator, 'apikeystring');
-        $this->assertInternalType('string', $youtubeProvider->getLabel());
+        $this->assertIsString($youtubeProvider->getLabel());
     }
 
     public function testChangeDurationToDigits()

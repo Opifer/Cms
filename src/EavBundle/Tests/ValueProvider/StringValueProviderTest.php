@@ -9,7 +9,7 @@ class StringValueProviderTest extends TestCase
 {
     private $provider;
 
-    public function __construct()
+    public function setUp(): void
     {
         $this->provider = new StringValueProvider();
     }

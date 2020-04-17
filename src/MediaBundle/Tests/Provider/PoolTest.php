@@ -11,7 +11,7 @@ class PoolTest extends TestCase
     public function testProvidersIsArray()
     {
         $pool = new Pool();
-        $this->assertInternalType('array', $pool->getProviders());
+        $this->assertIsArray($pool->getProviders());
     }
 
     public function testAddProvider()

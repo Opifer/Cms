@@ -9,7 +9,7 @@ class SelectValueProviderTest extends TestCase
 {
     private $provider;
 
-    public function __construct()
+    public function setUp(): void
     {
         $option = 'Opifer\EavBundle\Tests\TestData\Option';
         $this->provider = new SelectValueProvider($option);

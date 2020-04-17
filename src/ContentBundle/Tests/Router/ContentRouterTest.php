@@ -39,11 +39,10 @@ class ContentRouterTest extends TestCase
         $this->assertEquals($content, $result['content']);
     }
 
-    /**
-     * @expectedException \Symfony\Component\Routing\Exception\ResourceNotFoundException
-     */
     public function testNotMatch()
     {
+        $this->expectException(\Symfony\Component\Routing\Exception\ResourceNotFoundException::class);
+
         $contentRepository = m::mock('Opifer\ContentBundle\Model\ContentRepository');
 
         $this->contentManager->shouldReceive('getRepository')->andReturn($contentRepository);

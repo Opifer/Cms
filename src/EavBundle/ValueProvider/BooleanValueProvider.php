@@ -2,6 +2,7 @@
 
 namespace Opifer\EavBundle\ValueProvider;
 
+use Opifer\EavBundle\Entity\BooleanValue;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\FormBuilderInterface;
 
@@ -25,7 +26,7 @@ class BooleanValueProvider extends AbstractValueProvider implements ValueProvide
      */
     public function getEntity()
     {
-        return 'Opifer\EavBundle\Entity\BooleanValue';
+        return BooleanValue::class;
     }
 
     /**

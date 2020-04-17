@@ -2,6 +2,7 @@
 
 namespace Opifer\RedirectBundle\Tests\Model;
 
+use Doctrine\ORM\EntityManager;
 use Mockery as m;
 use Opifer\RedirectBundle\Model\RedirectManager;
 use Opifer\RedirectBundle\Tests\TestData\Redirect;
@@ -9,24 +10,25 @@ use PHPUnit\Framework\TestCase;
 
 class RedirectManagerTest extends TestCase
 {
+    use m\Adapter\Phpunit\MockeryPHPUnitIntegration;
+
     private $om;
-    private $redirectClass = 'Opifer\RedirectBundle\Tests\TestData\Redirect';
 
     public function setUp(): void
     {
-        $this->om = m::mock('Doctrine\ORM\EntityManager');
+        $this->om = m::mock(EntityManager::class);
     }
 
     public function testGetClass()
     {
-        $manager = new RedirectManager($this->om, $this->redirectClass);
+        $manager = new RedirectManager($this->om, Redirect::class);
 
-        $this->assertEquals('Opifer\RedirectBundle\Tests\TestData\Redirect', $manager->getClass());
+        $this->assertEquals(Redirect::class, $manager->getClass());
     }
 
     public function testCreateNew()
     {
-        $manager = new RedirectManager($this->om, $this->redirectClass);
+        $manager = new RedirectManager($this->om, Redirect::class);
 
         $this->assertEquals(new Redirect(), $manager->createNew());
     }
@@ -36,11 +38,11 @@ class RedirectManagerTest extends TestCase
         $this->om->shouldReceive('persist');
         $this->om->shouldReceive('flush');
 
-        $manager = new RedirectManager($this->om, $this->redirectClass);
+        $manager = new RedirectManager($this->om, Redirect::class);
 
         $actual = $manager->save($manager->createNew());
 
-        $this->assertInstanceOf('Opifer\RedirectBundle\Model\Redirect', $actual);
+        $this->assertInstanceOf(Redirect::class, $actual);
     }
 
     public function testSaveExisting()
@@ -48,14 +50,14 @@ class RedirectManagerTest extends TestCase
         $this->om->shouldNotReceive('persist');
         $this->om->shouldReceive('flush');
 
-        $manager = new RedirectManager($this->om, $this->redirectClass);
+        $manager = new RedirectManager($this->om, Redirect::class);
 
         $object = $manager->createNew();
         $object->setId(12);
 
         $actual = $manager->save($object);
 
-        $this->assertInstanceOf('Opifer\RedirectBundle\Model\Redirect', $actual);
+        $this->assertInstanceOf(Redirect::class, $actual);
     }
 
     public function testRemove()
@@ -63,7 +65,7 @@ class RedirectManagerTest extends TestCase
         $this->om->shouldReceive('remove');
         $this->om->shouldReceive('flush');
 
-        $manager = new RedirectManager($this->om, $this->redirectClass);
+        $manager = new RedirectManager($this->om, Redirect::class);
 
         $manager->remove($manager->createNew());
     }

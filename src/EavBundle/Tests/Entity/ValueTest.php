@@ -47,21 +47,6 @@ class ValueTest extends TestCase
         $this->assertSame($expected, $actual);
     }
 
-    public function testOption()
-    {
-//        $valueEntity = new Value();
-//        $arrayCollection = new ArrayCollection();
-//        $option = new Option();
-//        $arrayCollection->add($option);
-//
-//        $expected = $arrayCollection;
-//        $valueEntity->setOptions($arrayCollection);
-//        $actual = $valueEntity->getOptions();
-//
-//        $this->assertTrue($actual->count() == 1);
-//        $this->assertEquals($option, $actual->get(0));
-    }
-
     public function testSort()
     {
         $valueEntity = new Value();
