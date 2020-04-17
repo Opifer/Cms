@@ -19,6 +19,7 @@ before_install:
   - phpenv config-rm xdebug.ini;
   - echo "memory_limit=4096M" >> ~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/travis.ini;
   - composer self-update
+  - pecl install imagick
 
 install:
   - composer install --prefer-dist --no-interaction --no-scripts
