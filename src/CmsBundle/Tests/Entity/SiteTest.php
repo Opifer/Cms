@@ -2,9 +2,10 @@
 
 namespace Opifer\CmsBundle\Tests\Entity;
 
+use Monolog\Test\TestCase;
 use Opifer\CmsBundle\Entity\Site;
 
-class SiteTest extends \PHPUnit_Framework_TestCase
+class SiteTest extends TestCase
 {
     public function testName()
     {

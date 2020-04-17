@@ -5,8 +5,9 @@ namespace Opifer\MediaBundle\Tests\Provider;
 use Mockery as m;
 use Opifer\MediaBundle\Form\Type\DropzoneType;
 use Opifer\MediaBundle\Provider\FileProvider;
+use PHPUnit\Framework\TestCase;
 
-class FileProviderTest extends \PHPUnit_Framework_TestCase
+class FileProviderTest extends TestCase
 {
     private $filesystem;
     private $translator;
@@ -14,7 +15,7 @@ class FileProviderTest extends \PHPUnit_Framework_TestCase
     private $router;
     private $urlGenerator;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->filesystem = m::mock('Gaufrette\FileSystem');
         $this->translator = m::mock('Symfony\Component\Translation\TranslatorInterface');
@@ -147,7 +148,7 @@ class FileProviderTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('testimage-4.png', $filename);
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         m::close();
     }

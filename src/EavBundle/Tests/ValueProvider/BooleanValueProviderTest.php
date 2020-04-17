@@ -3,14 +3,15 @@
 namespace Opifer\EavBundle\Tests\ValueProvider;
 
 use Opifer\EavBundle\ValueProvider\BooleanValueProvider;
+use PHPUnit\Framework\TestCase;
 
-class BooleanValueProviderTest extends \PHPUnit_Framework_TestCase
+class BooleanValueProviderTest extends TestCase
 {
     private $provider;
 
     public function __construct()
     {
-        $this->provider = new BooleanValueProvider($option);
+        $this->provider = new BooleanValueProvider(\Opifer\EavBundle\Tests\TestData\Option::class);
     }
 
     public function testEntityExists()

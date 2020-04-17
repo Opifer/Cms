@@ -5,10 +5,10 @@ namespace Opifer\EavBundle\Tests\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Opifer\EavBundle\Entity\Value;
 use Opifer\EavBundle\Model\Attribute;
-use Opifer\EavBundle\Model\Option;
 use Opifer\EavBundle\Model\ValueSet;
+use PHPUnit\Framework\TestCase;
 
-class ValueTest extends \PHPUnit_Framework_TestCase
+class ValueTest extends TestCase
 {
     public function testValue()
     {

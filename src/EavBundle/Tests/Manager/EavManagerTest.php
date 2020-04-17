@@ -6,8 +6,9 @@ use Opifer\EavBundle\Manager\EavManager;
 use Opifer\EavBundle\Tests\TestData\Schema;
 use Opifer\EavBundle\Tests\TestData\TestValueProvider;
 use Opifer\EavBundle\ValueProvider\Pool;
+use PHPUnit\Framework\TestCase;
 
-class EavManagerTest extends \PHPUnit_Framework_TestCase
+class EavManagerTest extends TestCase
 {
     public function __construct()
     {

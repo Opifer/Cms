@@ -4,8 +4,9 @@ namespace Opifer\MediaBundle\Tests\Provider;
 
 use Mockery as m;
 use Opifer\MediaBundle\Provider\ImageProvider;
+use PHPUnit\Framework\TestCase;
 
-class ImageProviderTest extends \PHPUnit_Framework_TestCase
+class ImageProviderTest extends TestCase
 {
     private $filesystem;
     private $translator;
@@ -15,7 +16,7 @@ class ImageProviderTest extends \PHPUnit_Framework_TestCase
 
     private $provider;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->filesystem = m::mock('Gaufrette\FileSystem');
         $this->translator = m::mock('Symfony\Component\Translation\TranslatorInterface');
@@ -106,7 +107,7 @@ class ImageProviderTest extends \PHPUnit_Framework_TestCase
         $this->provider->prePersist($this->media);
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         m::close();
     }

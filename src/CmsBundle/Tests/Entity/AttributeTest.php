@@ -3,8 +3,9 @@
 namespace Opifer\CmsBundle\Tests\Entity;
 
 use Opifer\CmsBundle\Entity\Attribute;
+use PHPUnit\Framework\TestCase;
 
-class AttributeTest extends \PHPUnit_Framework_TestCase
+class AttributeTest extends TestCase
 {
     public function testParameters()
     {

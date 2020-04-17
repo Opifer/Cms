@@ -3,8 +3,9 @@
 namespace Opifer\EavBundle\Tests\ValueProvider;
 
 use Opifer\EavBundle\ValueProvider\ChecklistValueProvider;
+use PHPUnit\Framework\TestCase;
 
-class ChecklistValueProviderTest extends \PHPUnit_Framework_TestCase
+class ChecklistValueProviderTest extends TestCase
 {
     private $provider;
 

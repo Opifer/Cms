@@ -5,13 +5,14 @@ namespace Opifer\RedirectBundle\Tests\Model;
 use Mockery as m;
 use Opifer\RedirectBundle\Model\RedirectManager;
 use Opifer\RedirectBundle\Tests\TestData\Redirect;
+use PHPUnit\Framework\TestCase;
 
-class RedirectManagerTest extends \PHPUnit_Framework_TestCase
+class RedirectManagerTest extends TestCase
 {
     private $om;
     private $redirectClass = 'Opifer\RedirectBundle\Tests\TestData\Redirect';
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->om = m::mock('Doctrine\ORM\EntityManager');
     }
@@ -67,7 +68,7 @@ class RedirectManagerTest extends \PHPUnit_Framework_TestCase
         $manager->remove($manager->createNew());
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         m::close();
     }

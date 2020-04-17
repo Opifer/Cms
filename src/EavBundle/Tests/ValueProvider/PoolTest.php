@@ -4,8 +4,9 @@ namespace Opifer\EavBundle\Tests\ValueProvider;
 
 use Opifer\EavBundle\Tests\TestData\TestValueProvider;
 use Opifer\EavBundle\ValueProvider\Pool;
+use PHPUnit\Framework\TestCase;
 
-class PoolTest extends \PHPUnit_Framework_TestCase
+class PoolTest extends TestCase
 {
     private $pool;
 

@@ -5,8 +5,9 @@ namespace Opifer\EavBundle\Tests\Model;
 use Mockery as m;
 use Opifer\EavBundle\Model\Schema;
 use Opifer\EavBundle\Model\ValueSet;
+use PHPUnit\Framework\TestCase;
 
-class ValueSetTest extends \PHPUnit_Framework_TestCase
+class ValueSetTest extends TestCase
 {
     public function testSchema()
     {

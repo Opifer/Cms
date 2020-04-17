@@ -3,8 +3,9 @@
 namespace Opifer\CmsBundle\Entity;
 
 use Faker\Provider\DateTime;
+use PHPUnit\Framework\TestCase;
 
-class PostTest extends \PHPUnit_Framework_TestCase
+class PostTest extends TestCase
 {
     public function testValueSet()
     {

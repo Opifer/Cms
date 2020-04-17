@@ -69,7 +69,7 @@
         "scheb/two-factor-bundle": "^3.17"
     },
     "require-dev": {
-        "phpunit/phpunit": "~5.2",
+        "phpunit/phpunit": ">=8.0",
         "fzaninotto/faker": "~1.4",
         "mockery/mockery": "~0.9"
     },

@@ -3,12 +3,13 @@
 namespace Opifer\EavBundle\Tests\Entity;
 
 use Opifer\EavBundle\Entity\BooleanValue;
+use PHPUnit\Framework\TestCase;
 
-class BooleanValueTest extends \PHPUnit_Framework_TestCase
+class BooleanValueTest extends TestCase
 {
     protected $value;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->value = new BooleanValue();
     }

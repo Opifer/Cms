@@ -3,8 +3,9 @@
 namespace Opifer\EavBundle\Tests\ValueProvider;
 
 use Opifer\EavBundle\ValueProvider\IntegerValueProvider;
+use PHPUnit\Framework\TestCase;
 
-class IntegerValueProviderTest extends \PHPUnit_Framework_TestCase
+class IntegerValueProviderTest extends TestCase
 {
     private $provider;
 

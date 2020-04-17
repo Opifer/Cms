@@ -5,8 +5,9 @@ namespace Opifer\EavBundle\Tests\Model;
 use Mockery as m;
 use Opifer\EavBundle\Model\Attribute;
 use Opifer\EavBundle\Model\Option;
+use PHPUnit\Framework\TestCase;
 
-class OptionTest extends \PHPUnit_Framework_TestCase
+class OptionTest extends TestCase
 {
     public function testName()
     {

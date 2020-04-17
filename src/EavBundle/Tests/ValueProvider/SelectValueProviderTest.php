@@ -3,8 +3,9 @@
 namespace Opifer\EavBundle\Tests\ValueProvider;
 
 use Opifer\EavBundle\ValueProvider\SelectValueProvider;
+use PHPUnit\Framework\TestCase;
 
-class SelectValueProviderTest extends \PHPUnit_Framework_TestCase
+class SelectValueProviderTest extends TestCase
 {
     private $provider;
 
