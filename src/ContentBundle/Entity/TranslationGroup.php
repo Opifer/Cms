@@ -85,7 +85,12 @@ class TranslationGroup
         $mapping = [];
         foreach ($this->getContents() as $content) {
             if ($content->getLocale() && $locale = $content->getLocale()->getLocale()) {
-                $mapping[$locale] = '/'.$content->getSlug();
+                $slug = $content->getSlug();
+                if ($slug === 'index') {
+                    $slug = '';
+                }
+
+                $mapping[$locale] = '/'.$slug;
             }
         }
 
