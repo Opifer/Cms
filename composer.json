@@ -67,5 +67,10 @@
         "psr-4": {
             "Opifer\\": "src/"
         }
+    },
+    "scripts": {
+        "test": [
+            "vendor/bin/phpunit"
+        ]
     }
 }
