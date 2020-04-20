@@ -353,7 +353,7 @@ class ContentEditorController extends Controller
         ]);
         $form->handleRequest($request);
 
-        if ($form->isValid()) {
+        if ($form->isSubmitted() && $form->isValid()) {
             $service->postFormSubmit($form, $block);
 
             $manager->save($block, true);

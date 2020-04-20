@@ -4,12 +4,13 @@ namespace Opifer\EavBundle\Tests\ValueProvider;
 
 use Opifer\EavBundle\Tests\TestData\TestValueProvider;
 use Opifer\EavBundle\ValueProvider\Pool;
+use PHPUnit\Framework\TestCase;
 
-class PoolTest extends \PHPUnit_Framework_TestCase
+class PoolTest extends TestCase
 {
     private $pool;
 
-    public function __construct()
+    public function setUp(): void
     {
         $this->pool = new Pool();
 
@@ -25,17 +26,15 @@ class PoolTest extends \PHPUnit_Framework_TestCase
 
         $this->assertArrayHasKey('secondtest', $this->pool->getValues());
 
-        $expected = 'Opifer\EavBundle\Tests\TestData\TestValueProvider';
         $actual = $this->pool->getValue('secondtest');
 
-        $this->assertInstanceOf($expected, $actual);
+        $this->assertInstanceOf(TestValueProvider::class, $actual);
     }
 
     public function testGetValueByEntity()
     {
-        $expected = 'Opifer\EavBundle\Tests\TestData\TestValueProvider';
         $actual = $this->pool->getValueByEntity('My\Entity\TestValue');
 
-        $this->assertInstanceOf($expected, $actual);
+        $this->assertInstanceOf(TestValueProvider::class, $actual);
     }
 }

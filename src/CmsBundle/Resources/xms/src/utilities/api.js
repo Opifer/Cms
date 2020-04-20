@@ -6,7 +6,7 @@ const defaultHeaders = {
   'Content-Type': 'application/json',
 };
 
-const endpoint = `${(process.env.NODE_ENV === 'production') ? '' : '/app_dev.php'}/admin/api`;
+const endpoint = '/admin/api';
 
 export function put(values, url, dispatch) {
   const token = localStorage.getItem('token');

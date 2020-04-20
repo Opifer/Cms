@@ -1,4 +1,4 @@
-{% extends 'BraincraftedBootstrapBundle:Form:bootstrap.html.twig' %}
+{% use 'bootstrap_4_layout.html.twig' %}
 
 {#
     The form_start.
@@ -100,55 +100,51 @@
     </script>
 {% endblock %}
 
-{% block collapsible_collection_widget %}
+{% block collection_widget %}
     {% spaceless %}
+        {% set prototype_name = '__name__' %}
         {% if prototype is defined %}
             {% set prototype_vars = {} %}
             {% if style is defined %}
                 {% set prototype_vars = prototype_vars|merge({'style': style}) %}
             {% endif %}
-            {% set prototype_html = '<div class="col-xs-' ~ form.vars.sub_widget_col ~ '">' ~ form_widget(prototype, prototype_vars) ~ '</div>' %}
+            {% set prototype_html = '<div class="col-xs-10">' ~ form_widget(prototype, prototype_vars) ~ '</div>' %}
             {% if form.vars.allow_delete %}
-                {% set prototype_html = prototype_html ~ '<div class="col-xs-' ~ form.vars.button_col ~ '"><a href="#" class="btn btn-danger btn-small" data-removefield="collection" data-field="__id__">' ~ form.vars.delete_button_text|trans({}, translation_domain) ~ '</a></div>' %}
+                {% set prototype_html = prototype_html ~ '<div class="col-xs-2"><a href="#" class="btn btn-danger btn-sm" data-removefield="collection" data-field="__id__">Delete</a></div>' %}
             {% endif %}
             {% set prototype_html = '<div class="row">' ~ prototype_html ~ '</div>' %}
 
             {% set attr = attr|merge({'data-prototype': prototype_html }) %}
             {% set attr = attr|merge({'data-prototype-name': prototype_name }) %}
         {% endif %}
-        <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseOptions{{ form.vars.id }}" aria-expanded="false" aria-controls="collapseOptions{{ form.vars.id }}">
-            Edit {{ form.vars.name }}
-        </button>
-        <br/>
-        <div class="collapse" id="collapseOptions{{ form.vars.id }}">
-            <div class="well">
-                <div {{ block('widget_container_attributes') }}>
-                    <ul class="bc-collection list-unstyled">
-                        {% for field in form %}
-                            <li>
-                                <div class="row">
-                                    <div class="col-xs-{{ form.vars.sub_widget_col }}">
-                                        {{ form_widget(field) }}
-                                        {{ form_errors(field) }}
-                                    </div>
-                                    {% if form.vars.allow_delete %}
-                                        <div class="col-xs-{{ form.vars.button_col }}">
-                                            <a href="#" class="btn btn-danger btn-small" data-removefield="collection" data-field="{{ field.vars.id }}">{{ form.vars.delete_button_text|trans({}, translation_domain) }}</a>
-                                        </div>
-                                    {% endif %}
+        <div {{ block('widget_container_attributes') }}>
+            <ul class="bc-collection list-unstyled">
+                {% for field in form %}
+                    <li>
+                        <div class="row">
+                            <div class="col-xs-10">
+                                {{ form_widget(field) }}
+                                {{ form_errors(field) }}
+                            </div>
+                            {% if form.vars.allow_delete %}
+                                <div class="col-xs-2">
+                                    <a href="#" class="btn btn-danger btn-sm" data-removefield="collection" data-field="{{ field.vars.id }}">
+                                        Delete
+                                    </a>
                                 </div>
-                            </li>
-                            <br/>
-                        {% endfor %}
-                    </ul>
-                    {% if form.vars.allow_add %}
-                        <a href="#" class="btn btn-primary btn-small" data-addfield="collection" data-collection="{{ form.vars.id }}" data-prototype-name="{{ prototype_name }}">{{ form.vars.add_button_text|trans({}, translation_domain) }}</a>
-                    {% endif %}
-                </div>
-            </div>
+                            {% endif %}
+                        </div>
+                    </li>
+                {% endfor %}
+            </ul>
+            {% if form.vars.allow_add %}
+                <a href="#" class="btn btn-primary btn-sm" data-addfield="collection" data-collection="{{ form.vars.id }}" data-prototype-name="{{ prototype_name }}">
+                    Add
+                </a>
+            {% endif %}
         </div>
     {% endspaceless %}
-{% endblock collapsible_collection_widget %}
+{% endblock collection_widget %}
 
 {% block opifer_cms_icon_widget %}
     <button class="btn btn-default icon-picker" role="iconpicker" data-icon="{{ form.vars.value }}" name="{{ form.vars.full_name }}" data-iconset="materialdesign_2" data-target="{{ form.vars.id }}"></button>
@@ -164,7 +160,8 @@
 
 {% block choice_widget_expanded %}
     {% if attr.buttongroup|default %}
-        {% spaceless %}
+        TODO. checkbox_row is not defined here
+    {#{% spaceless %}
             <div {% if id is not empty %}id="{{ id }}" {% endif %} data-toggle="buttons" class="btn-group">
                 {% for child in form %}
                     {% if form.multiple is defined %}
@@ -174,7 +171,7 @@
                     {% endif %}
                 {% endfor %}
             </div>
-        {% endspaceless %}
+        {% endspaceless %}#}
     {% else %}
         {{ parent() }}
     {% endif %}

@@ -2,10 +2,10 @@
 
 namespace Opifer\EavBundle\Form\Type;
 
-use Opifer\CmsBundle\Form\Type\CollapsibleCollectionType;
 use Opifer\EavBundle\ValueProvider\Pool;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\FormType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -104,7 +104,7 @@ class AttributeType extends AbstractType
             }
 
             if ($attribute && in_array($attribute->getValueType(), ['checklist', 'select', 'radio'])) {
-                $form->add('options', CollapsibleCollectionType::class, [
+                $form->add('options', CollectionType::class, [
                     'allow_add' => true,
                     'allow_delete' => true,
                     'entry_type' => OptionType::class,

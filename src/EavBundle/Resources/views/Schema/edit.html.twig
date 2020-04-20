@@ -1,4 +1,4 @@
-{% extends 'OpiferEavBundle::base.html.twig' %}
+{% extends '@OpiferEav/base.html.twig' %}
 
 {% block opifer_eav_body %}
     <article>
@@ -12,7 +12,7 @@
             </div>
         {% endif %}
 
-        {{ form_start(form, {'action': '#', 'attr' : {'novalidate': 'novalidate', 'class': 'prevent-enter-submit'}, 'style': 'horizontal'}) }}
+        {{ form_start(form, {'action': '#', 'attr' : {'novalidate': 'novalidate', 'class': 'prevent-enter-submit'}}) }}
         <section class="page-section">
             {{ form_row(form.displayName) }}
             {{ form_row(form.name) }}

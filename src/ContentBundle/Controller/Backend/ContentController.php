@@ -190,7 +190,7 @@ class ContentController extends Controller
         $form = $this->createForm(ContentType::class, $content);
         $form->handleRequest($request);
 
-        if ($form->isValid()) {
+        if ($form->isSubmitted() && $form->isValid()) {
             if ($layoutId) {
                 $duplicatedContent = $this->duplicateAction($layoutId, $content);
 
@@ -301,7 +301,7 @@ class ContentController extends Controller
 
         $form->handleRequest($request);
 
-        if ($form->isValid()) {
+        if ($form->isSubmitted() && $form->isValid()) {
             if (null === $content->getPublishAt()) {
                 $content->setPublishAt($content->getCreatedAt());
             }
@@ -393,7 +393,7 @@ class ContentController extends Controller
 
         $form->handleRequest($request);
 
-        if ($form->isValid()) {
+        if ($form->isSubmitted() && $form->isValid()) {
             if (null === $content->getPublishAt()) {
                 $content->setPublishAt($content->getCreatedAt());
             }

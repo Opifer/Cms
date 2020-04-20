@@ -28,7 +28,7 @@ class DashboardController extends Controller
 
         $crons = $this->getDoctrine()->getRepository(Cron::class)->findAll();
 
-        return $this->render('OpiferCmsBundle:Backend/Dashboard:dashboard.html.twig', [
+        return $this->render('@OpiferCms/Backend/Dashboard/dashboard.html.twig', [
             'latest_content' => $latestContent,
             'new_content' => $newContent,
             'crons' => $crons

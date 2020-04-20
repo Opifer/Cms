@@ -1,4 +1,4 @@
-{% extends 'OpiferCmsBundle:Backend:base.html.twig' %}
+{% extends '@OpiferCms/Backend/base.html.twig' %}
 
 {% block body %}
     <div class="col-xs-12">
@@ -9,15 +9,15 @@
 
     <div class="container">
         <div class="row">
-            {{ form_start(form, {'style': 'horizontal'}) }}
-                {{ form_widget(form) }}
+            <div class="col-xs-12">
+                {{ form_start(form) }}
+                    {{ form_widget(form) }}
 
-                <div class="form-group form-footer">
-                    <div class="col-xs-12">
+                    <div class="form-group form-footer">
                         <input type="submit" value="{{ 'button.submit'|trans }}" class="btn btn-primary"/>
                     </div>
-                </div>
-            {{ form_end(form) }}
+                {{ form_end(form) }}
+            </div>
         </div>
     </div>
 {% endblock %}

@@ -2,7 +2,6 @@
 
 namespace Opifer\ContentBundle\Block\Service;
 
-use Braincrafted\Bundle\BootstrapBundle\Form\Type\BootstrapCollectionType;
 use Opifer\ContentBundle\Block\Tool\Tool;
 use Opifer\ContentBundle\Block\Tool\ToolsetMemberInterface;
 use Opifer\ContentBundle\Entity\Block;
@@ -13,6 +12,7 @@ use Opifer\ContentBundle\Form\Type\TabType;
 use Opifer\ContentBundle\Model\BlockInterface;
 
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\FormType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -64,7 +64,7 @@ class TabNavBlockService extends AbstractBlockService implements LayoutBlockServ
                         new NotBlank(),
                     ],
                 ])
-            ->add('tabs', BootstrapCollectionType::class, [
+            ->add('tabs', CollectionType::class, [
                 'label'         => 'label.tabs',
                 'allow_add'     => true,
                 'allow_delete'  => true,

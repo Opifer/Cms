@@ -63,7 +63,7 @@ class CronjobController extends Controller
 
         $grid->getColumn('state')->setSafe(false);
 
-        return $grid->getGridResponse('OpiferCmsBundle:Backend/Cronjob:index.html.twig');
+        return $grid->getGridResponse('@OpiferCms/Backend/Cronjob/index.html.twig');
     }
 
     /**
@@ -88,7 +88,7 @@ class CronjobController extends Controller
             return $this->redirectToRoute('opifer_cms_cronjob_edit', ['id' => $cron->getId()]);
         }
 
-        return $this->render('OpiferCmsBundle:Backend/Cronjob:create.html.twig', [
+        return $this->render('@OpiferCms/Backend/Cronjob/create.html.twig', [
             'form' => $form->createView(),
         ]);
     }
@@ -115,7 +115,7 @@ class CronjobController extends Controller
             return $this->redirectToRoute('opifer_cms_cronjob_edit', ['id' => $cron->getId()]);
         }
 
-        return $this->render('OpiferCmsBundle:Backend/Cronjob:edit.html.twig', [
+        return $this->render('@OpiferCms/Backend/Cronjob/edit.html.twig', [
             'form' => $form->createView(),
             'cron' => $cron,
         ]);

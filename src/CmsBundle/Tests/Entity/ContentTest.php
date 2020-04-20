@@ -6,8 +6,9 @@ use Opifer\CmsBundle\Entity\Content;
 use Opifer\CmsBundle\Entity\Site;
 use Opifer\CmsBundle\Entity\User;
 use Opifer\CmsBundle\Entity\ValueSet;
+use PHPUnit\Framework\TestCase;
 
-class ContentTest extends \PHPUnit_Framework_TestCase
+class ContentTest extends TestCase
 {
     public function testSite()
     {

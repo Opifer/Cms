@@ -48,6 +48,7 @@ services:
     opifer.content.twig_analyzer:
         class: Opifer\ContentBundle\Environment\TwigAnalyzer
         arguments: ['@twig', '@templating.name_parser']
+        public: true
 
     opifer.content.block_renderer:
         class: Opifer\ContentBundle\Block\BlockRenderer
@@ -205,6 +206,7 @@ services:
           - '@opifer.eav.schema_manager'
           - '@opifer.content.content_manager'
           - '%opifer_content.content_type_class%'
+        public: true
 
     opifer.content.content_type_type:
         class: Opifer\ContentBundle\Form\Type\ContentTypeType

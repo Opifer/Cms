@@ -1,11 +1,9 @@
-{% extends 'OpiferContentBundle::base.html.twig' %}
+{% extends '@OpiferContent/base.html.twig' %}
 
 {% block opifer_content_body %}
     {% spaceless %}
-
         <div class="container">
             <div class="row">
-
                 <div class="page-header">
                     <a href="{{ path('opifer_content_contenttype_create') }}" class="btn btn-link pull-right">
                         <i class="material-icons">add</i>
@@ -27,8 +25,12 @@
                             <td>{{ content_type.id }}</td>
                             <td>{{ content_type.displayname }}</td>
                             <td>
-                                <a href="{{ path('opifer_content_contenttype_edit', {'id': content_type.id}) }}"><i class="fa fa-edit"></i> Edit</a>
-                                <a href="{{ path('opifer_content_contenttype_delete', {'id': content_type.id}) }}"><i class="fa fa-remove"></i> Delete</a>
+                                <a href="{{ path('opifer_content_contenttype_edit', {'id': content_type.id}) }}">
+                                    <i class="fa fa-edit"></i> Edit
+                                </a>
+                                <a href="{{ path('opifer_content_contenttype_delete', {'id': content_type.id}) }}">
+                                    <i class="fa fa-remove"></i> Delete
+                                </a>
                             </td>
                         </tr>
                     {% endfor %}

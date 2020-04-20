@@ -36,7 +36,7 @@ class UserController extends Controller
             ->addRowAction($editAction);
             //->addRowAction($deleteAction);
 
-        return $grid->getGridResponse('OpiferCmsBundle:Backend/User:index.html.twig');
+        return $grid->getGridResponse('@OpiferCms/Backend/User/index.html.twig');
     }
 
     /**
@@ -56,7 +56,7 @@ class UserController extends Controller
         $form = $this->createForm(UserFormType::class, $user);
         $form->handleRequest($request);
 
-        if ($form->isValid()) {
+        if ($form->isSubmitted() && $form->isValid()) {
             $this->get('fos_user.user_manager')->updateUser($user, true);
 
             $this->addFlash('success', $this->get('translator')->trans('user.new.success', [
@@ -67,7 +67,7 @@ class UserController extends Controller
             return $this->redirectToRoute('opifer_cms_user_index');
         }
 
-        return $this->render('OpiferCmsBundle:Backend/User:create.html.twig', [
+        return $this->render('@OpiferCms/Backend/User/create.html.twig', [
             'form' => $form->createView(),
         ]);
     }
@@ -90,7 +90,7 @@ class UserController extends Controller
         $form = $this->createForm(UserFormType::class, $user);
         $form->handleRequest($request);
 
-        if ($form->isValid()) {
+        if ($form->isSubmitted() && $form->isValid()) {
 
             if ($user->isTwoFactorEnabled() == false) {
                 $user->setGoogleAuthenticatorSecret(null);
@@ -105,7 +105,7 @@ class UserController extends Controller
             return $this->redirectToRoute('opifer_cms_user_index');
         }
 
-        return $this->render('OpiferCmsBundle:Backend/User:edit.html.twig', [
+        return $this->render('@OpiferCms/Backend/User/edit.html.twig', [
             'form' => $form->createView(),
             'user' => $user,
         ]);
@@ -127,7 +127,7 @@ class UserController extends Controller
         $form = $this->createForm(ProfileType::class, $user);
         $form->handleRequest($request);
 
-        if ($form->isValid()) {
+        if ($form->isSubmitted() && $form->isValid()) {
 
             if ($user->isTwoFactorEnabled() == false) {
                 $user->setGoogleAuthenticatorSecret(null);
@@ -136,7 +136,7 @@ class UserController extends Controller
             $this->get('fos_user.user_manager')->updateUser($user, true);
 
             if ($user->isTwoFactorEnabled() == true && empty($user->getGoogleAuthenticatorSecret())) {
-                return $this->redirectToRoute('opifer_cms_user_activate_2fa');                    
+                return $this->redirectToRoute('opifer_cms_user_activate_2fa');
             }
 
             $this->addFlash('success', 'Your profile was updated successfully!');
@@ -144,7 +144,7 @@ class UserController extends Controller
             return $this->redirectToRoute('opifer_cms_user_profile');
         }
 
-        return $this->render('OpiferCmsBundle:Backend/User:profile.html.twig', [
+        return $this->render('@OpiferCms/Backend/User/profile.html.twig', [
             'form' => $form->createView(),
             'user' => $user,
         ]);
@@ -160,7 +160,7 @@ class UserController extends Controller
     public function activateGoogleAuthAction(Request $request)
     {
         $user = $this->getUser();
-        
+
         $secret = $this->container->get("scheb_two_factor.security.google_authenticator")->generateSecret();
         $user->setGoogleAuthenticatorSecret($secret);
 
@@ -170,7 +170,7 @@ class UserController extends Controller
         $form = $this->createForm(GoogleAuthType::class, $user);
         $form->handleRequest($request);
 
-        if ($form->isValid()) {
+        if ($form->isSubmitted() && $form->isValid()) {
             $this->get('fos_user.user_manager')->updateUser($user, true);
 
             $this->addFlash('success', 'Your profile was updated successfully!');
@@ -178,7 +178,7 @@ class UserController extends Controller
             return $this->redirectToRoute('opifer_cms_user_profile');
         }
 
-        return $this->render('OpiferCmsBundle:Backend/User:google_auth.html.twig', [
+        return $this->render('@OpiferCms/Backend/User/google_auth.html.twig', [
             'form' => $form->createView(),
             'secret' => $secret,
             'user' => $user,

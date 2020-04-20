@@ -4,14 +4,15 @@ namespace Opifer\MediaBundle\Tests\Provider;
 
 use Mockery as m;
 use Opifer\MediaBundle\Provider\YoutubeProvider;
+use PHPUnit\Framework\TestCase;
 
-class YoutubeProviderTest extends \PHPUnit_Framework_TestCase
+class YoutubeProviderTest extends TestCase
 {
     private $mediaManager;
     private $translator;
     private $media;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->mediaManager = m::mock('Opifer\MediaBundle\Model\MediaManager');
         $this->translator = m::mock('Symfony\Component\Translation\TranslatorInterface');
@@ -23,7 +24,7 @@ class YoutubeProviderTest extends \PHPUnit_Framework_TestCase
         $this->translator->shouldReceive('trans')->andReturn('image');
 
         $youtubeProvider = new YoutubeProvider($this->mediaManager, $this->translator, 'apikeystring');
-        $this->assertInternalType('string', $youtubeProvider->getLabel());
+        $this->assertIsString($youtubeProvider->getLabel());
     }
 
     public function testChangeDurationToDigits()
@@ -54,7 +55,7 @@ class YoutubeProviderTest extends \PHPUnit_Framework_TestCase
         $this->markTestIncomplete('This test has not been implemented yet.');
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         m::close();
     }

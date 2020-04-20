@@ -44,9 +44,10 @@ security:
                 csrf_token_generator: security.csrf.token_manager
                 csrf_parameter: _csrf_token
                 csrf_token_id: two_factor
+                provider: fos_userbundle
             pattern: ^/
-            simple_form:
-                authenticator: opifer.cms.captcha_authenticator
+            form_login:
+#                authenticator: opifer.cms.captcha_authenticator
                 provider:      fos_userbundle
                 csrf_token_generator: security.csrf.token_manager
                 success_handler: opifer.cms.authentication_success_handler

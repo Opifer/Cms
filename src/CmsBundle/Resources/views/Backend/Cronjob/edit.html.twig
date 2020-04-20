@@ -1,4 +1,4 @@
-{% extends 'OpiferCmsBundle:Backend:base.html.twig' %}
+{% extends '@OpiferCms/Backend/base.html.twig' %}
 
 {% block body %}
     <div class="col-xs-12">
@@ -9,7 +9,9 @@
 
     <div class="container">
         <div class="row">
-            {% include 'OpiferCmsBundle:Backend/Cronjob:_form.html.twig' %}
+            <div class="col-xs-12">
+                {% include '@OpiferCms/Backend/Cronjob/_form.html.twig' %}
+            </div>
         </div>
     </div>
 {% endblock body %}

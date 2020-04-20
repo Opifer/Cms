@@ -1,4 +1,4 @@
-{% extends 'OpiferContentBundle::base.html.twig' %}
+{% extends '@OpiferContent/base.html.twig' %}
 
 {% block opifer_content_body %}
 
@@ -12,17 +12,13 @@
                 </h1>
             </div>
 
-
-            {{ form_start(form_form, {'style': 'horizontal'}) }}
+            {{ form_start(form_form) }}
             {{ form_widget(form_form) }}
             <div class="form-group">
-                <div class="col-xs-12">
-                    <button type="submit" class="btn btn-primary">{{ 'button.submit'|trans }}</button>
-                    <a href="{{ path('opifer_form_form_index') }}" class="btn btn-link pull-right">{{ 'button.cancel'|trans|capitalize }}</a>
-                </div>
+                <button type="submit" class="btn btn-primary">{{ 'button.submit'|trans }}</button>
+                <a href="{{ path('opifer_form_form_index') }}" class="btn btn-link pull-right">{{ 'button.cancel'|trans|capitalize }}</a>
             </div>
             {{ form_end(form_form) }}
-
 
         </div>
     </div>

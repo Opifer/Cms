@@ -1,11 +1,12 @@
-<?php 
+<?php
 
 namespace Opifer\ContentBundle\Tests\Model;
 
 use Mockery as m;
 use Opifer\ContentBundle\Model\ContentManager;
+use PHPUnit\Framework\TestCase;
 
-class ContentManagerTest extends \PHPUnit_Framework_TestCase
+class ContentManagerTest extends TestCase
 {
     private $em;
     private $formFactory;
@@ -14,7 +15,7 @@ class ContentManagerTest extends \PHPUnit_Framework_TestCase
     private $contentClass = 'Opifer\ContentBundle\Tests\TestData\Content';
     private $templateClass = 'Opifer\ContentBundle\Tests\TestData\Template';
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->em = m::mock('Doctrine\ORM\EntityManager');
         $this->formFactory = m::mock('Symfony\Component\Form\FormFactory');
@@ -28,7 +29,7 @@ class ContentManagerTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('Opifer\ContentBundle\Tests\TestData\Content', $manager->getClass());
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         m::close();
     }

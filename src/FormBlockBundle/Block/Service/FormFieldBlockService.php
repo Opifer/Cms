@@ -2,7 +2,6 @@
 
 namespace Opifer\FormBlockBundle\Block\Service;
 
-use Braincrafted\Bundle\BootstrapBundle\Form\Type\BootstrapCollectionType;
 use Opifer\ContentBundle\Form\Type\BlockPickerType;
 use Opifer\FormBlockBundle\Form\Type\FormFieldValidationType;
 use Opifer\ContentBundle\Block\BlockRenderer;
@@ -12,6 +11,7 @@ use Opifer\ContentBundle\Block\Tool\ToolsetMemberInterface;
 use Opifer\ContentBundle\Model\BlockInterface;
 use Opifer\FormBundle\Model\FormManager;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -61,7 +61,7 @@ abstract class FormFieldBlockService extends AbstractBlockService implements Blo
                     'help_text' => 'help.required',
                 ],
             ])
-            ->add('validation', BootstrapCollectionType::class, [
+            ->add('validation', CollectionType::class, [
                 'required' => false,
                 'allow_add' => true,
                 'allow_delete' => true,

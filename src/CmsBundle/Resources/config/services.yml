@@ -5,7 +5,6 @@ parameters:
     opifer.cms.exception_router.class: 'Opifer\CmsBundle\Router\ExceptionRouter'
     opifer.cms.form_value_provider.class: 'Opifer\CmsBundle\ValueProvider\FormValueProvider'
     opifer.cms.form.ckeditor_type.class: 'Opifer\CmsBundle\Form\Type\CKEditorType'
-    opifer.cms.form.collapsible_collection.class: 'Opifer\CmsBundle\Form\Type\CollapsibleCollectionType'
     opifer.cms.html_value_provider.class: 'Opifer\CmsBundle\ValueProvider\HtmlValueProvider'
     opifer.cms.mailinglist_subscribe_value_provider.class: 'Opifer\CmsBundle\ValueProvider\MailingListSubscribeValueProvider'
     opifer.cms.slug_form_type.class: 'Opifer\CmsBundle\Form\Type\SlugType'
@@ -39,11 +38,6 @@ services:
     opifer.cms.user_form:
         class: Opifer\CmsBundle\Form\Type\UserFormType
         arguments: ['%security.role_hierarchy.roles%', '%opifer_cms.user_model%']
-        tags:
-            - { name: 'form.type' }
-
-    opifer.cms.form.collapsible_collection:
-        class: '%opifer.cms.form.collapsible_collection.class%'
         tags:
             - { name: 'form.type' }
 
@@ -98,6 +92,7 @@ services:
     opifer.cms.site_manager:
         class: 'Opifer\CmsBundle\Manager\SiteManager'
         arguments: ['@doctrine.orm.entity_manager', '@opifer.cms.domain_manager']
+        public: true
 
     # Event Listeners
 
@@ -105,7 +100,7 @@ services:
         class: '%opifer.cms.attachment_listener.class%'
         arguments: ['@doctrine.orm.default_entity_manager', '@opifer.media.media_manager']
         tags:
-            - { name: 'kernel.event_subscriber' }
+            - { name: kernel.event_subscriber }
 
     opifer.cms.form_submit_listener:
         class: 'Opifer\CmsBundle\EventListener\FormSubmitListener'
@@ -123,13 +118,14 @@ services:
         class: '%opifer.cms.tableprefix_listener.class%'
         arguments: ['%opifer_cms.database_table_prefix%']
         tags:
-            - { name: 'doctrine.event_subscriber' }
+            - { name: doctrine.event_subscriber }
 
     # Configuration
 
     opifer.cms.config_manager:
         class: Opifer\CmsBundle\Manager\ConfigManager
         arguments: ['@doctrine.orm.default_entity_manager', '%opifer_cms.config_model%']
+        public: true
 
     opifer.cms.configuration_form_registry:
         class: Opifer\CmsBundle\DependencyInjection\ConfigurationFormRegistry

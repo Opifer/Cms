@@ -3,12 +3,13 @@
 namespace Opifer\EavBundle\Tests\ValueProvider;
 
 use Opifer\EavBundle\ValueProvider\StringValueProvider;
+use PHPUnit\Framework\TestCase;
 
-class StringValueProviderTest extends \PHPUnit_Framework_TestCase
+class StringValueProviderTest extends TestCase
 {
     private $provider;
 
-    public function __construct()
+    public function setUp(): void
     {
         $this->provider = new StringValueProvider();
     }

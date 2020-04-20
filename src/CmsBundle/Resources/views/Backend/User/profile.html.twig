@@ -1,4 +1,4 @@
-{% extends 'OpiferCmsBundle:Backend:base.html.twig' %}
+{% extends '@OpiferCms/Backend/base.html.twig' %}
 
 {% block body %}
     {% set mfa = "inactive" %}
@@ -15,14 +15,12 @@
             </div>
 
             <div class="row">
-                {{ form_start(form, {'style': 'horizontal'}) }}
+                {{ form_start(form) }}
                 {{ form_widget(form) }}
 
                 <div class="form-group form-footer">
-                    <div class="col-xs-12">
-                        <button class="btn btn-default" type="submit">{{ 'form.submit'|trans|capitalize }}</button>
-                        <a href="{{ path('opifer_cms_user_index') }}" class="btn btn-link">{{ 'button.cancel'|trans|capitalize }}</a>
-                    </div>
+                    <button class="btn btn-default" type="submit">{{ 'form.submit'|trans|capitalize }}</button>
+                    <a href="{{ path('opifer_cms_user_index') }}" class="btn btn-link">{{ 'button.cancel'|trans|capitalize }}</a>
                 </div>
                 {{ form_end(form) }}
             </div>

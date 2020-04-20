@@ -170,7 +170,7 @@ site:
 # Users
 user:
     edit:
-        success: %username% is bijgewerkt!
+        success: '%username% is bijgewerkt!'
     new:
         success: '%username% is succesvol aangemaakt onder ID "%id%"'
     create_user: nieuwe gebruiker maken

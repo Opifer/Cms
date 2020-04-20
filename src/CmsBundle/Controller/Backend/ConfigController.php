@@ -26,7 +26,7 @@ class ConfigController extends Controller
         $form = $this->createForm(ConfigType::class, []);
         $form->handleRequest($request);
 
-        if ($form->isValid()) {
+        if ($form->isSubmitted() && $form->isValid()) {
             $config = [];
             foreach ($form->getData() as $group => $configuration) {
                 foreach ($configuration as $key => $value) {
@@ -48,7 +48,7 @@ class ConfigController extends Controller
             return $this->redirectToRoute('opifer_cms_config_index');
         }
 
-        return $this->render('OpiferCmsBundle:Backend/Config:index.html.twig', [
+        return $this->render('@OpiferCms/Backend/Config/index.html.twig', [
             'form' => $form->createView(),
         ]);
     }

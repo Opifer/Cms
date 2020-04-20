@@ -22,7 +22,7 @@ class BlockController extends Controller
      *
      * @return Response
      */
-    public function viewAction($id)
+    public function view($id)
     {
         /** @var BlockManager $manager */
         $manager = $this->get('opifer.content.block_manager');

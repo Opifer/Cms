@@ -2,11 +2,11 @@
 
 namespace Opifer\CmsBundle\Form\Type;
 
-use Braincrafted\Bundle\BootstrapBundle\Form\Type\BootstrapCollectionType;
 use Opifer\CmsBundle\Entity\Domain;
 use Opifer\CmsBundle\Entity\Locale;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\FormBuilderInterface;
 
 class SiteType extends AbstractType
@@ -19,7 +19,7 @@ class SiteType extends AbstractType
         $builder
             ->add('name')
             ->add('description')
-            ->add('domains', BootstrapCollectionType::class, [
+            ->add('domains', CollectionType::class, [
                 'entry_type' => SiteDomainType::class,
                 'allow_add' => true,
                 'allow_delete' => true,

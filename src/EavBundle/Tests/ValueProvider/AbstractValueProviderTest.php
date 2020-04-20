@@ -3,8 +3,9 @@
 namespace Opifer\EavBundle\Tests\ValueProvider;
 
 use Opifer\EavBundle\Tests\TestData\TestValueProvider;
+use PHPUnit\Framework\TestCase;
 
-class AbstractValueProviderTest extends \PHPUnit_Framework_TestCase
+class AbstractValueProviderTest extends TestCase
 {
     public function testGetNameFromClassName()
     {

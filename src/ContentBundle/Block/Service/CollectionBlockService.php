@@ -2,7 +2,6 @@
 
 namespace Opifer\ContentBundle\Block\Service;
 
-use Braincrafted\Bundle\BootstrapBundle\Form\Type\BootstrapCollectionType;
 use Opifer\CmsBundle\Manager\SiteManager;
 use Opifer\ContentBundle\Block\BlockRenderer;
 use Opifer\ContentBundle\Block\Tool\Tool;
@@ -25,6 +24,7 @@ use Opifer\ExpressionEngine\Prototype\PrototypeCollection;
 use Opifer\ExpressionEngine\Prototype\SelectPrototype;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\FormType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -129,7 +129,7 @@ class CollectionBlockService extends AbstractBlockService implements BlockServic
                 ],
                 'required' => false
             ])
-            ->add('filters', BootstrapCollectionType::class, [
+            ->add('filters', CollectionType::class, [
                 'allow_add' => true,
                 'allow_delete' => true,
                 'entry_type' => FilterType::class,

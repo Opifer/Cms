@@ -1,13 +1,12 @@
-{% extends 'BraincraftedBootstrapBundle:Form:bootstrap.html.twig' %}
-
+{% use 'bootstrap_4_layout.html.twig' %}
 
 {% block eav_value_row %}
     {% for child in form.children %}
         {% spaceless %}
             {% set label = form %}
             {% set form = child %}
-            {% set style = style|default(bootstrap_get_style()) %}
-            {% set col_size = col_size|default(bootstrap_get_col_size()) %}
+            {% set style = style|default('vertical') %}
+            {% set col_size = col_size|default('lg') %}
 
             {% if attr.label_col is defined and attr.label_col is not empty %}
                 {% set label_col = attr.label_col %}
@@ -25,24 +24,25 @@
                 {% set style = attr.style %}
             {% endif %}
 
-            {% set label_col = label_col|default(bootstrap_get_label_col()) %}
-            {% set widget_col = widget_col|default(bootstrap_get_widget_col()) %}
+            {% set label_col = label_col|default(2) %}
+            {% set widget_col = widget_col|default(10) %}
 
-            <div class="form-group{% if form.vars.errors|length > 0 %} has-error{% endif %}">
-                {% if style == 'horizontal' %}
-                    {{ form_label(label) }}
-                    <div class="col-{{ col_size }}-{{ widget_col }}">
-                        {{ block('form_input_group') }}
-                        {{ block('form_help') }}
-                        {{ form_errors(form) }}
-                    </div>
-                {% else %}
-                    {{ form_label(label) }}
-                    {{ block('form_input_group') }}
-                    {{ block('form_help') }}
-                    {{ form_errors(form) }}
-                {% endif %}
-            </div>
+            {{ form_row(child) }}
+{#            <div class="form-group{% if form.vars.errors|length > 0 %} has-error{% endif %}">#}
+{#                {% if style == 'horizontal' %}#}
+{#                    {{ form_label(label) }}#}
+{#                    <div class="col-{{ col_size }}-{{ widget_col }}">#}
+{#                        {{ block('form_input_group') }}#}
+{#                        {{ block('form_help') }}#}
+{#                        {{ form_errors(form) }}#}
+{#                    </div>#}
+{#                {% else %}#}
+{#                    {{ form_label(label) }}#}
+{#                    {{ block('form_input_group') }}#}
+{#                    {{ block('form_help') }}#}
+{#                    {{ form_errors(form) }}#}
+{#                {% endif %}#}
+{#            </div>#}
 
             {% if style == 'inline' %}&nbsp;{% endif %}
         {% endspaceless %}

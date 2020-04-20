@@ -39,6 +39,6 @@ class FormController extends BaseFormController
             ->addRowAction($editAction)
             ->addRowAction($deleteAction);
 
-        return $grid->getGridResponse('OpiferCmsBundle:Backend/Form:index.html.twig');
+        return $grid->getGridResponse('@OpiferCms/Backend/Form/index.html.twig');
     }
 }

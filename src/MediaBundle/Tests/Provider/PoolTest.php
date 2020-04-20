@@ -4,13 +4,14 @@ namespace Opifer\MediaBundle\Tests\Provider;
 
 use Mockery as m;
 use Opifer\MediaBundle\Provider\Pool;
+use PHPUnit\Framework\TestCase;
 
-class PoolTest extends \PHPUnit_Framework_TestCase
+class PoolTest extends TestCase
 {
     public function testProvidersIsArray()
     {
         $pool = new Pool();
-        $this->assertInternalType('array', $pool->getProviders());
+        $this->assertIsArray($pool->getProviders());
     }
 
     public function testAddProvider()
@@ -26,7 +27,7 @@ class PoolTest extends \PHPUnit_Framework_TestCase
         $this->assertInstanceOf('Opifer\MediaBundle\Provider\ProviderInterface', $providers['provider']);
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         m::close();
     }

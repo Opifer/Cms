@@ -2,9 +2,10 @@
 
 namespace Opifer\CmsBundle\Tests\Form\DataTransformer;
 
+use Monolog\Test\TestCase;
 use Opifer\CmsBundle\Form\DataTransformer\SlugTransformer;
 
-class SlugTransformerTest extends \PHPUnit_Framework_TestCase
+class SlugTransformerTest extends TestCase
 {
     public function testTransform()
     {

@@ -72,7 +72,7 @@ class MediaController extends Controller
         $form = $this->createForm(MediaType::class, $media, ['provider' => $mediaProvider]);
         $form->handleRequest($request);
 
-        if ($form->isValid()) {
+        if ($form->isSubmitted() && $form->isValid()) {
             if ($form->get('name')->getData()) {
                 $media->setName($form->get('name')->getData());
             }
@@ -127,7 +127,7 @@ class MediaController extends Controller
         $form = $this->createForm(MediaType::class, $media, ['provider' => $provider]);
         $form->handleRequest($request);
 
-        if ($form->isValid()) {
+        if ($form->isSubmitted() && $form->isValid()) {
             $mediaManager->save($media);
 
             $this->addFlash('success', sprintf('%s was succesfully updated', $media->getName()));
@@ -169,7 +169,7 @@ class MediaController extends Controller
             $form = $this->createForm(MediaEditType::class, $media);
             $form->submit($values);
 
-            if ($form->isValid()) {
+            if ($form->isSubmitted() && $form->isValid()) {
                 $em->persist($media);
             }
         }

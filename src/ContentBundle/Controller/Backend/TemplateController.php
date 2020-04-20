@@ -81,7 +81,7 @@ class TemplateController extends Controller
         $form = $this->createForm(PageManagerType::class, $template);
         $form->handleRequest($request);
 
-        if ($form->isValid()) {
+        if ($form->isSubmitted() && $form->isValid()) {
             $this->get('opifer.content.block_manager')->save($template);
         }
 

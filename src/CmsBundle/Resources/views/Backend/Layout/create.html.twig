@@ -1,4 +1,4 @@
-{% extends 'OpiferCmsBundle:Backend:base.html.twig' %}
+{% extends '@OpiferCms/Backend/base.html.twig' %}
 
 {% block body %}
 
@@ -11,13 +11,11 @@
                         Create new
                     </h1>
                 </div>
-                {{ form_start(form, {'attr' : { 'novalidate' : 'novalidate' }, 'style': 'horizontal' }) }}
+                {{ form_start(form, {'attr' : { 'novalidate' : 'novalidate' } }) }}
                 {{ form_widget(form) }}
                 <div class="form-group">
-                    <div class="col-xs-12">
-                        <button type="submit" class="btn btn-primary">{{ 'button.submit'|trans }}</button>
-                        <a href="{{ path('opifer_cms_layout_create') }}" class="btn btn-link pull-right">{{ 'button.cancel'|trans|capitalize }}</a>
-                    </div>
+                    <button type="submit" class="btn btn-primary">{{ 'button.submit'|trans }}</button>
+                    <a href="{{ path('opifer_cms_layout_create') }}" class="btn btn-link pull-right">{{ 'button.cancel'|trans|capitalize }}</a>
                 </div>
                 {{ form_end(form) }}
             </div>

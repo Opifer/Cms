@@ -6,8 +6,9 @@ use Opifer\ContentBundle\Model\Content;
 use Opifer\ContentBundle\Tests\TestData\Schema;
 use Opifer\EavBundle\Entity\Value;
 use Opifer\EavBundle\Tests\TestData\ValueSet;
+use PHPUnit\Framework\TestCase;
 
-class ContentTest extends \PHPUnit_Framework_TestCase
+class ContentTest extends TestCase
 {
     public function testId()
     {
@@ -75,7 +76,7 @@ class ContentTest extends \PHPUnit_Framework_TestCase
         $content->setSlug('slug/index');
         $this->assertEquals('slug/', $content->getBaseSlug());
     }
-    
+
     public function testCreatedAt()
     {
         $content = $this->getContent();

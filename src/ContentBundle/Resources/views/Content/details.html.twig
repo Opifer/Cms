@@ -1,13 +1,11 @@
 <div class="container-fluid">
     <div class="row">
         <div class="col-xs-12">
-            {{ form_start(form, {'action': path('opifer_content_content_details', {'id': content.id}), 'label_col': 3, 'widget_col': 9, 'attr' : {'novalidate': 'novalidate', 'class': 'prevent-enter-submit'}, 'style': 'horizontal'}) }}
-                {{ form_widget(form, {'label_col': 12, 'widget_col': 12}) }}
+            {{ form_start(form, {'action': path('opifer_content_content_details', {'id': content.id}), 'attr' : {'novalidate': 'novalidate', 'class': 'prevent-enter-submit'}}) }}
+                {{ form_widget(form) }}
 
                 <div class="form-group">
-                    <div class="col-xs-12">
-                        <button type="submit" class="btn btn-primary">{{ 'button.submit'|trans }}</button>
-                    </div>
+                    <button type="submit" class="btn btn-primary">{{ 'button.submit'|trans }}</button>
                 </div>
             {{ form_end(form) }}
         </div>

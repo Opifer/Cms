@@ -2,11 +2,19 @@
 
 namespace Opifer\MediaBundle\Tests\Provider;
 
+use Gaufrette\Filesystem;
 use Mockery as m;
 use Opifer\MediaBundle\Provider\ImageProvider;
+use Opifer\MediaBundle\Routing\UrlGenerator;
+use Opifer\MediaBundle\Tests\Media;
+use PHPUnit\Framework\TestCase;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Symfony\Component\Routing\RouterInterface;
 
-class ImageProviderTest extends \PHPUnit_Framework_TestCase
+class ImageProviderTest extends TestCase
 {
+    use m\Adapter\Phpunit\MockeryPHPUnitIntegration;
+
     private $filesystem;
     private $translator;
     private $media;
@@ -15,13 +23,13 @@ class ImageProviderTest extends \PHPUnit_Framework_TestCase
 
     private $provider;
 
-    public function setUp()
+    public function setUp(): void
     {
-        $this->filesystem = m::mock('Gaufrette\FileSystem');
+        $this->filesystem = m::mock(Filesystem::class);
         $this->translator = m::mock('Symfony\Component\Translation\TranslatorInterface');
-        $this->media = m::mock('Opifer\MediaBundle\Tests\Media');
-        $this->router = m::mock('Symfony\Component\Routing\RouterInterface');
-        $this->urlGenerator = m::mock('Opifer\MediaBundle\Routing\UrlGenerator');
+        $this->media = m::mock(Media::class);
+        $this->router = m::mock(RouterInterface::class);
+        $this->urlGenerator = m::mock(UrlGenerator::class);
 
         $this->provider = new ImageProvider($this->filesystem, $this->translator, $this->router, $this->urlGenerator);
     }
@@ -30,12 +38,12 @@ class ImageProviderTest extends \PHPUnit_Framework_TestCase
     {
         $this->translator->shouldReceive('trans')->andReturn('image');
 
-        $this->assertInternalType('string', $this->provider->getLabel());
+        $this->assertIsString($this->provider->getLabel());
     }
 
     public function testSingleViewIsString()
     {
-        $this->assertInternalType('string', $this->provider->singleView());
+        $this->assertIsString($this->provider->singleView());
     }
 
     public function testReturnOnPrePersistWhenFileIsEmpty()
@@ -48,7 +56,7 @@ class ImageProviderTest extends \PHPUnit_Framework_TestCase
 
     public function testIgnoreSettingNameWhenIsNotNull()
     {
-        $file = m::mock('Symfony\Component\HttpFoundation\File\UploadedFile');
+        $file = m::mock(UploadedFile::class);
         $file->shouldReceive(array(
             'guessExtension' => 'png',
             'getClientMimeType' => 'image/png',
@@ -106,7 +114,7 @@ class ImageProviderTest extends \PHPUnit_Framework_TestCase
         $this->provider->prePersist($this->media);
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         m::close();
     }

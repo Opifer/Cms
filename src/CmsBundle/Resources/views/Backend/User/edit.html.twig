@@ -1,4 +1,4 @@
-{% extends 'OpiferCmsBundle:Backend:base.html.twig' %}
+{% extends '@OpiferCms/Backend/base.html.twig' %}
 
 {% block body %}
     {% set mfa = "inactive" %}
@@ -14,7 +14,7 @@
         </div>
 
         <div class="row">
-            {% include 'OpiferCmsBundle:Backend/User:_form.html.twig' %}
+            {% include '@OpiferCms/Backend/User/_form.html.twig' %}
         </div>
     </section>
 {% endblock body %}

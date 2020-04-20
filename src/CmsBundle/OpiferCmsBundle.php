@@ -21,14 +21,4 @@ class OpiferCmsBundle extends Bundle
         $container->addCompilerPass(new ConfigurationCompilerPass());
         $container->addCompilerPass(new VendorCompilerPass());
     }
-
-    /**
-     * Set FOSUserBundle as this bundle's parent to easily override it's files.
-     *
-     * @return string
-     */
-    public function getParent()
-    {
-        return 'FOSUserBundle';
-    }
 }

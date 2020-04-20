@@ -6,8 +6,9 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Opifer\CmsBundle\Entity\Locale;
 use Opifer\ContentBundle\Entity\TranslationGroup;
 use Opifer\CmsBundle\Entity\Content;
+use PHPUnit\Framework\TestCase;
 
-class TranslationGroupTest extends \PHPUnit_Framework_TestCase
+class TranslationGroupTest extends TestCase
 {
     public function testGetRouteMapping()
     {

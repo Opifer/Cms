@@ -33,7 +33,7 @@ class DomainController extends Controller
             ->addRowAction($editAction)
         ;
 
-        return $grid->getGridResponse('OpiferCmsBundle:Backend/Domain:index.html.twig');
+        return $grid->getGridResponse('@OpiferCms/Backend/Domain/index.html.twig');
     }
 
     /**
@@ -62,7 +62,7 @@ class DomainController extends Controller
             return $this->redirectToRoute('opifer_cms_domain_edit', ['id' => $domain->getId()]);
         }
 
-        return $this->render('OpiferCmsBundle:Backend/Domain:create.html.twig', [
+        return $this->render('@OpiferCms/Backend/Domain/create.html.twig', [
             'domain' => $domain,
             'form' => $form->createView()
         ]);
@@ -97,7 +97,7 @@ class DomainController extends Controller
             return $this->redirectToRoute('opifer_cms_domain_edit', ['id' => $domain->getId()]);
         }
 
-        return $this->render('OpiferCmsBundle:Backend/Domain:edit.html.twig', [
+        return $this->render('@OpiferCms/Backend/Domain/edit.html.twig', [
             'domain' => $domain,
             'form' => $form->createView()
         ]);

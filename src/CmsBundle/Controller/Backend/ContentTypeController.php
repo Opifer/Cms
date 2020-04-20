@@ -31,6 +31,6 @@ class ContentTypeController extends BaseContentTypeController
             ->addRowAction($editAction)
             ->addRowAction($deleteAction);
 
-        return $grid->getGridResponse('OpiferCmsBundle:Backend/ContentType:index.html.twig');
+        return $grid->getGridResponse('@OpiferCms/Backend/ContentType/index.html.twig');
     }
 }

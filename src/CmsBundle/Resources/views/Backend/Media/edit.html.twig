@@ -1,4 +1,4 @@
-{% extends 'OpiferCmsBundle:Backend:base.html.twig' %}
+{% extends '@OpiferCms/Backend/base.html.twig' %}
 
 {% block body %}
 
@@ -18,13 +18,11 @@
                     </div>
                 </div>
 
-                {{ form_start(form, {'attr' : { 'novalidate' : 'novalidate' }, 'style': 'horizontal' }) }}
+                {{ form_start(form, {'attr' : { 'novalidate' : 'novalidate' } }) }}
                     {{ form_widget(form) }}
                     <div class="form-group">
-                        <div class="col-xs-12">
-                            <button type="submit" class="btn btn-primary">{{ 'button.submit'|trans }}</button>
-                            <a href="{{ path('opifer_media_media_index') }}" class="btn btn-link pull-right">{{ 'button.cancel'|trans|capitalize }}</a>
-                        </div>
+                        <button type="submit" class="btn btn-primary">{{ 'button.submit'|trans }}</button>
+                        <a href="{{ path('opifer_media_media_index') }}" class="btn btn-link pull-right">{{ 'button.cancel'|trans|capitalize }}</a>
                     </div>
                 {{ form_end(form) }}
             </div>
