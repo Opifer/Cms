@@ -5,14 +5,15 @@ namespace Opifer\ContentBundle\Tests\Router;
 use Mockery as m;
 use Opifer\ContentBundle\Router\ContentRouter;
 use Opifer\ContentBundle\Tests\TestData\Content;
+use PHPUnit\Framework\TestCase;
 use Symfony\Component\HttpFoundation\Request;
 
-class ContentRouterTest extends \PHPUnit_Framework_TestCase
+class ContentRouterTest extends TestCase
 {
     protected $contentManager;
     protected $requestStack;
 
-    public function setUp()
+    public function setUp(): void
     {
         $request = new Request();
 
@@ -38,11 +39,10 @@ class ContentRouterTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($content, $result['content']);
     }
 
-    /**
-     * @expectedException \Symfony\Component\Routing\Exception\ResourceNotFoundException
-     */
     public function testNotMatch()
     {
+        $this->expectException(\Symfony\Component\Routing\Exception\ResourceNotFoundException::class);
+
         $contentRepository = m::mock('Opifer\ContentBundle\Model\ContentRepository');
 
         $this->contentManager->shouldReceive('getRepository')->andReturn($contentRepository);
@@ -53,7 +53,7 @@ class ContentRouterTest extends \PHPUnit_Framework_TestCase
         $result = $contentRouter->match('/about');
     }
 
-    public function tearDown()
+    public function tearDown():void
     {
         m::close();
     }

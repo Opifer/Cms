@@ -6,8 +6,9 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Mockery as m;
 use Opifer\EavBundle\Model\Attribute;
 use Opifer\EavBundle\Model\Schema;
+use PHPUnit\Framework\TestCase;
 
-class AttributeTest extends \PHPUnit_Framework_TestCase
+class AttributeTest extends TestCase
 {
     public function testName()
     {

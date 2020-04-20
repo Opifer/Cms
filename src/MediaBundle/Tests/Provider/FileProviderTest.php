@@ -5,16 +5,20 @@ namespace Opifer\MediaBundle\Tests\Provider;
 use Mockery as m;
 use Opifer\MediaBundle\Form\Type\DropzoneType;
 use Opifer\MediaBundle\Provider\FileProvider;
+use PHPUnit\Framework\TestCase;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 
-class FileProviderTest extends \PHPUnit_Framework_TestCase
+class FileProviderTest extends TestCase
 {
+    use m\Adapter\Phpunit\MockeryPHPUnitIntegration;
+
     private $filesystem;
     private $translator;
     private $media;
     private $router;
     private $urlGenerator;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->filesystem = m::mock('Gaufrette\FileSystem');
         $this->translator = m::mock('Symfony\Component\Translation\TranslatorInterface');
@@ -50,7 +54,7 @@ class FileProviderTest extends \PHPUnit_Framework_TestCase
 
     public function testPrePersistSetsReference()
     {
-        $file = m::mock('Symfony\Component\HttpFoundation\File\UploadedFile');
+        $file = m::mock(UploadedFile::class);
         $file->shouldReceive(array(
             'guessExtension' => 'jpg',
             'getClientMimeType' => 'image/jpeg',
@@ -100,7 +104,7 @@ class FileProviderTest extends \PHPUnit_Framework_TestCase
 
     public function testUploadFile()
     {
-        $file = m::mock('Symfony\Component\HttpFoundation\File\UploadedFile');
+        $file = m::mock(UploadedFile::class);
         $file->shouldReceive([
             '__toString' => __DIR__.'/../testfile.txt',
             'isValid' => true,
@@ -147,7 +151,7 @@ class FileProviderTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('testimage-4.png', $filename);
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         m::close();
     }

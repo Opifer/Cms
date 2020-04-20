@@ -3,12 +3,13 @@
 namespace Opifer\CmsBundle\Tests\Router;
 
 use Mockery as m;
+use Monolog\Test\TestCase;
 use Opifer\CmsBundle\Router\ExceptionRouter;
 use Symfony\Component\HttpFoundation\Request;
 
-class ExceptionRouterTest extends \PHPUnit_Framework_TestCase
+class ExceptionRouterTest extends TestCase
 {
-    public function testMatch()
+    public function testMatch(): void
     {
         $expected = [
             '_controller' => 'OpiferCmsBundle:Frontend/Exception:error404',
@@ -28,7 +29,7 @@ class ExceptionRouterTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($expected, $actual);
     }
 
-    public function tearDown()
+    protected function tearDown(): void
     {
         m::close();
     }

@@ -3,8 +3,9 @@
 namespace Opifer\ContentBundle\Tests\Form\DataTransformer;
 
 use Opifer\ContentBundle\Form\DataTransformer\SlugTransformer;
+use PHPUnit\Framework\TestCase;
 
-class SlugTransformerTest extends \PHPUnit_Framework_TestCase
+class SlugTransformerTest extends TestCase
 {
     public function testTransform()
     {

@@ -4,12 +4,13 @@ namespace Opifer\EavBundle\Tests\Entity;
 
 use Opifer\EavBundle\Entity\MediaValue;
 use Opifer\EavBundle\Tests\TestData\Media;
+use PHPUnit\Framework\TestCase;
 
-class MediaValueTest extends \PHPUnit_Framework_TestCase
+class MediaValueTest extends TestCase
 {
     protected $value;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->value = new MediaValue();
     }

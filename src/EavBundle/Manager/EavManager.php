@@ -68,12 +68,12 @@ class EavManager
     public function replaceEmptyValues(ValueSetInterface $valueSet)
     {
         // collect persisted attributevalues
-        $persistedAttributes = array();
+        $persistedAttributes = [];
         foreach ($valueSet->getValues() as $value) {
             $persistedAttributes[] = $value->getAttribute();
         }
 
-        $newValues = array();
+        $newValues = [];
 
         // Create empty entities for missing attributes
         $missingAttributes = array_diff($valueSet->getAttributes()->toArray(), $persistedAttributes);

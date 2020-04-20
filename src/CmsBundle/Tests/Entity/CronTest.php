@@ -4,8 +4,9 @@ namespace Opifer\CmsBundle\Tests\Entity;
 
 use Faker\Provider\DateTime;
 use Opifer\CmsBundle\Entity\Cron;
+use PHPUnit\Framework\TestCase;
 
-class CronTest extends \PHPUnit_Framework_TestCase
+class CronTest extends TestCase
 {
     public function testCommand()
     {
