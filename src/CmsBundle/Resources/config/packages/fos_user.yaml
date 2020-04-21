@@ -1,0 +1,15 @@
+fos_user:
+    db_driver:       'orm'
+    firewall_name:   'main'
+    user_class:      '%opifer_cms.user_model%'
+    group:
+        group_class: 'Opifer\CmsBundle\Entity\Group'
+    registration:
+        form:
+            # Use our own registration form so we can remove the username field
+            type:              public_registration_form
+            name:              public_registration
+            validation_groups: []
+    from_email:
+        address: noreply@jstack.eu
+        sender_name: jstack CMS

@@ -1,0 +1,19 @@
+framework:
+    ide:             'phpstorm://open?file=%%f&line=%%1'
+    esi:             { enabled: true }
+    translator:      { fallback: ['%opifer_cms.default_locale%', en] }
+    secret:          '%secret%'
+    form:            ~
+    csrf_protection: ~
+    validation:      { enable_annotations: true }
+    templating:
+        engines: ['twig']
+    default_locale:  '%opifer_cms.default_locale%'
+    session:
+        handler_id: session.handler.native_file
+        save_path: '%kernel.project_dir%/var/sessions/%kernel.environment%'
+        cookie_lifetime: 604800
+    fragments:       ~
+    http_method_override: true
+    php_errors:
+        log: true

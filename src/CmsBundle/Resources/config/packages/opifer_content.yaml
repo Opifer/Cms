@@ -1,0 +1,21 @@
+opifer_content:
+    content_manager: 'opifer.cms.content_manager'
+    cache_provider: 'Doctrine\Common\Cache\ApcuCache'
+    content:
+        class: Opifer\CmsBundle\Entity\Content
+        views:
+            index: 'OpiferCmsBundle:Backend/Content:index.html.twig'
+            type: 'OpiferCmsBundle:Backend/Content:type.html.twig'
+            new: 'OpiferCmsBundle:Backend/Content:new.html.twig'
+            design: 'OpiferCmsBundle:Backend/Content:design.html.twig'
+            details: 'OpiferCmsBundle:Backend/Content:details.html.twig'
+            history: 'OpiferCmsBundle:Backend/Content:history.html.twig'
+    content_type:
+        class: Opifer\CmsBundle\Entity\ContentType
+        views:
+            index: 'OpiferCmsBundle:Backend/ContentType:index.html.twig'
+            create: 'OpiferCmsBundle:Backend/ContentType:create.html.twig'
+            edit: 'OpiferCmsBundle:Backend/ContentType:edit.html.twig'
+    block:
+        views:
+            shared: 'OpiferCmsBundle:Backend/Block:shared.html.twig'

@@ -1,0 +1,36 @@
+# Doctrine
+doctrine:
+    dbal:
+        driver:   '%opifer_cms.database_driver%'
+        host:     '%opifer_cms.database_host%'
+        port:     ~
+        dbname:   '%opifer_cms.database_name%'
+        user:     '%opifer_cms.database_user%'
+        password: '%opifer_cms.database_password%'
+        charset:  UTF8
+    orm:
+        auto_generate_proxy_classes: '%kernel.debug%'
+        auto_mapping:                true
+        dql:
+            string_functions:
+                DAYOFWEEK:  'DoctrineExtensions\Query\Mysql\DayOfWeek'
+        filters:
+            softdeleteable:
+                class:   'Gedmo\SoftDeleteable\Filter\SoftDeleteableFilter'
+                enabled: true
+            draft:
+                class:   Opifer\Revisions\Filter\DraftFilter
+                enabled: true
+        resolve_target_entities:
+            FOS\UserBundle\Model\UserInterface: '%opifer_cms.user_model%'
+        mappings:
+            translatable:
+                type:   annotation
+                alias:  Gedmo
+                prefix: Gedmo\Translatable\Entity
+                dir:    '%kernel.root_dir%/../vendor/gedmo/doctrine-extensions/lib/Gedmo/Translatable/Entity'
+            tree:
+                type:   annotation
+                alias:  Gedmo
+                prefix: Gedmo\Tree\Entity
+                dir:    '%kernel.root_dir%/../vendor/gedmo/doctrine-extensions/lib/Gedmo/Tree/Entity'

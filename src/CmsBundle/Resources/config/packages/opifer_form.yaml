@@ -1,0 +1,13 @@
+opifer_form:
+    from_email: 'info@opifer.nl'
+    form:
+        class: 'Opifer\CmsBundle\Entity\Form'
+        views:
+            index: 'OpiferCmsBundle:Backend/Form:index.html.twig'
+            create: 'OpiferCmsBundle:Backend/Form:create.html.twig'
+            edit: 'OpiferCmsBundle:Backend/Form:edit.html.twig'
+    post:
+        class: 'Opifer\CmsBundle\Entity\Post'
+        views:
+            index: 'OpiferCmsBundle:Backend/Post:index.html.twig'
+            view: 'OpiferCmsBundle:Backend/Post:view.html.twig'

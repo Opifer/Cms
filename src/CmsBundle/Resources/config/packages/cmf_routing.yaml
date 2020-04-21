@@ -1,0 +1,11 @@
+cmf_routing:
+    chain:
+        routers_by_id:
+            # Redirect urls to other pages
+            opifer.redirect.redirect_router: 300
+            # The default symfony router
+            router.default: 200
+            # Checks the database for content items and routes to them if they exist.
+            opifer.content.content_router: 100
+            # Catch any routes and redirect them to a 404 page.
+            opifer.cms.exception_router: 1

@@ -1,0 +1,24 @@
+liip_imagine:
+    filter_sets:
+        inline:
+            quality: 80
+            filters:
+                thumbnail: {size: [800, 600], mode: inset}
+            post_processors:
+                jpegoptim: {}
+        dashboard_content:
+            quality: 85
+            filters:
+                thumbnail: { size: [400, 300], mode: outbound}
+        media_sm:
+            quality: 70
+            filters:
+                relative_resize: {heighten: 160}
+        avatar:
+            quality: 80
+            filters:
+                thumbnail: { size: [64, 64], mode: outbound }
+        content_list:
+            quality: 80
+            filters:
+                thumbnail: { size: [100, 100], mode: outbound }

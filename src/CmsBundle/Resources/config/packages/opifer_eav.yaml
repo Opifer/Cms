@@ -1,0 +1,9 @@
+opifer_eav:
+    attribute_class: Opifer\CmsBundle\Entity\Attribute
+    media_class:     Opifer\CmsBundle\Entity\Media
+    option_class:    Opifer\CmsBundle\Entity\Option
+    schema_class:  Opifer\CmsBundle\Entity\Schema
+    valueset_class:  Opifer\CmsBundle\Entity\ValueSet
+    entities:
+        content: 'Opifer\CmsBundle\Entity\Content'
+        post: 'Opifer\CmsBundle\Entity\Post'

@@ -1,0 +1,7 @@
+opifer_redirect:
+    redirect:
+        class: 'Opifer\CmsBundle\Entity\Redirect'
+        views:
+            index: 'OpiferCmsBundle:Backend/Redirect:index.html.twig'
+            create: 'OpiferCmsBundle:Backend/Redirect:create.html.twig'
+            edit: 'OpiferCmsBundle:Backend/Redirect:edit.html.twig'

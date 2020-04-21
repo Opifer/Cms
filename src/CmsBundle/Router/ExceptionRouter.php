@@ -27,7 +27,7 @@ class ExceptionRouter extends BaseRouter implements RouterInterface
 
         $this->routeCollection->add('_404', new Route('/{anything}', [
             '_controller' => 'OpiferCmsBundle:Frontend/Exception:error404',
-            '_locale' => $this->container->getParameter('locale'),
+            '_locale' => $this->container->getParameter('opifer_cms.default_locale'),
             'anything' => '',
         ], [
             'anything' => "[a-zA-Z0-9\-_\/]*",

@@ -1,0 +1,6 @@
+scheb_two_factor:
+    google:
+        template: OpiferCmsBundle:Security:google_2fa_form.html.twig
+    security_tokens:
+        - Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken
+#        - Acme\AuthenticationBundle\Token\CustomAuthenticationToken

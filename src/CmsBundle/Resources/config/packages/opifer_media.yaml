@@ -1,0 +1,18 @@
+opifer_media:
+    media:
+        class: 'Opifer\CmsBundle\Entity\Media'
+        views:
+            index: 'OpiferCmsBundle:Backend\Media:index.html.twig'
+            create: 'OpiferCmsBundle:Backend\Media:create.html.twig'
+            edit: 'OpiferCmsBundle:Backend\Media:edit.html.twig'
+    default_storage: '%storage_adapter%'
+    providers:
+        youtube:
+            api_key: '%google_api_key%'
+    storages:
+        aws_s3:
+            key:    '%amazon_s3_key%'
+            secret: '%amazon_s3_secret%'
+            region: '%amazon_s3_region%'
+            bucket: '%amazon_s3_bucket%'
+    cache_provider: 'Doctrine\Common\Cache\ApcuCache'

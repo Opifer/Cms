@@ -1,0 +1,18 @@
+fos_rest:
+    body_listener:
+        decoders:
+            json: fos_rest.decoder.json
+    body_converter:
+        enabled: true
+        validate: true
+        validation_errors_argument: validationErrors # This is the default value
+    format_listener:
+        rules:
+            - { path: '^/admin/api', priorities: ['json', 'html'], fallback_format: json, prefer_extension: false }
+            - { path: '^/api', priorities: ['json', 'html'], fallback_format: json, prefer_extension: false }
+            - { path: '^/', stop: true }
+    param_fetcher_listener: true
+    view:
+        view_response_listener: 'force'
+        formats:
+            json: true
