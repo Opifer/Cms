@@ -27,6 +27,9 @@ class ContentType extends AbstractType
     protected $roles;
 
     /** @var string */
+    protected $defaultAccessRoles;
+
+    /** @var string */
     private $contentClass;
 
     /**
@@ -34,10 +37,11 @@ class ContentType extends AbstractType
      *
      * @param string $contentClass
      */
-    public function __construct($contentClass, array $roles)
+    public function __construct($contentClass, array $roles, $defaultAccessRoles)
     {
         $this->roles = $roles;
         $this->contentClass = $contentClass;
+        $this->defaultAccessRoles = implode(', ',$defaultAccessRoles);
     }
 
     /**
@@ -223,6 +227,9 @@ class ContentType extends AbstractType
             ->add('roles', ChoiceType::class, [
                 'multiple' => true,
                 'choices' => $this->flattenRoles($this->roles),
+                'attr' => [
+                    'help_text' => 'Roles that can make changes to this content. If no roles selected the default roles will have access ('.$this->defaultAccessRoles.')'
+                ]
             ])
         ;
 

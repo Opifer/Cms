@@ -75,7 +75,7 @@ services:
 
     opifer.content.content_type:
         class: 'Opifer\ContentBundle\Form\Type\ContentType'
-        arguments: ['%opifer_content.content_class%', '%security.role_hierarchy.roles%']
+        arguments: ['%opifer_content.content_class%', '%security.role_hierarchy.roles%', '%opifer_cms.default_content_access%']
         tags:
             - { name: form.type }
 
