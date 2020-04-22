@@ -126,6 +126,7 @@ services:
             - '@request_stack'
         tags:
             - { name: twig.extension }
+        public: true
 
     opifer.content.content_value_provider:
         class: '%opifer.content.content_value_provider.class%'

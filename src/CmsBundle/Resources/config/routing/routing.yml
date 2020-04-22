@@ -16,15 +16,6 @@ opifer_mailinglist:
 fos_user_security:
     resource: "@FOSUserBundle/Resources/config/routing/security.xml"
 
-#fos_user_security_check:
-#    path: /login_check
-#    defaults: { _controller: FOSUserBundle:Security:check }
-#    methods: [POST]
-#
-#fos_user_security_logout:
-#    path: /logout
-#    defaults: { _controller: FOSUserBundle:Security:logout }
-
 _bazinga_jstranslation:
     resource: "@BazingaJsTranslationBundle/Resources/config/routing/routing.yml"
 
@@ -54,10 +45,6 @@ opifer_cms_home:
     path:  /
     defaults: { _controller: OpiferContentBundle:Frontend\Content:home }
 
-#opifer_cms_login:
-#    path:  /login
-#    defaults: { _controller: FOSUserBundle:Security:login }
-
 opifer_cms_auto_complete:
     path: /autocomplete/{alias}
     defaults: { _controller: OpiferCmsBundle:AutoComplete:query }
@@ -69,10 +56,6 @@ opifer_cms_auto_complete:
 NelmioApiDocBundle:
     resource: "@NelmioApiDocBundle/Resources/config/routing.yml"
     prefix:   /api/doc
-#
-#fos_user_register:
-#    resource: "@FOSUserBundle/Resources/config/routing/registration.xml"
-#    prefix:   /register
 
 _opifer_backend:
     resource: "routing_backend.yml"
@@ -85,7 +68,6 @@ _opifer_backend:
 
 2fa_login_check:
     path: /2fa_check
-
 
 # Block Services
 
