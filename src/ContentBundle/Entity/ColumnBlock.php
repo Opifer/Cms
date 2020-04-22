@@ -52,5 +52,4 @@ class ColumnBlock extends CompositeBlock implements BlockContainerInterface
     {
         $this->columnCount = $columnCount;
     }
-
 }
