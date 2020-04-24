@@ -30,7 +30,7 @@ class BlockExclusionStrategy implements ExclusionStrategyInterface
      *
      * {@inheritdoc}
      */
-    public function shouldSkipClass(ClassMetadata $metadata, Context $context)
+    public function shouldSkipClass(ClassMetadata $metadata, Context $context): bool
     {
         $obj = null;
         // Get the last item of the visiting set
@@ -48,7 +48,7 @@ class BlockExclusionStrategy implements ExclusionStrategyInterface
     /**
      * {@inheritdoc}
      */
-    public function shouldSkipProperty(PropertyMetadata $property, Context $context)
+    public function shouldSkipProperty(PropertyMetadata $property, Context $context): bool
     {
         return false;
     }

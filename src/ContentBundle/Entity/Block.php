@@ -143,7 +143,7 @@ abstract class Block implements BlockInterface, DraftInterface
      * @Revisions\Revised
      * @ORM\Column(type="json_array", nullable=true)
      */
-    protected $properties;
+    protected $properties = [];
 
     /**
      * @var bool
