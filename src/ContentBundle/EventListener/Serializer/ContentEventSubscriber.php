@@ -57,10 +57,10 @@ class ContentEventSubscriber implements EventSubscriberInterface
         }
 
         if (false !== $coverImage = $this->getCoverImage($object)) {
-            $event->getVisitor()->addData('coverImage', $coverImage);
+            $event->getVisitor()->setData('coverImage', $coverImage);
         }
 
-        $event->getVisitor()->addData('path', $this->router->generate('_content', ['slug' => $object->getSlug()]));
+        $event->getVisitor()->setData('path', $this->router->generate('_content', ['slug' => $object->getSlug()]));
     }
 
     /**

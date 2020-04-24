@@ -79,10 +79,10 @@ class MediaEventSubscriber implements EventSubscriberInterface
         if ($provider->getName() == 'image') {
             $images = $this->getImages($media, ['medialibrary']);
 
-            $event->getVisitor()->addData('images', $images);
+            $event->getVisitor()->setData('images', $images);
         }
 
-        $event->getVisitor()->addData('original', $provider->getUrl($media));
+        $event->getVisitor()->setData('original', $provider->getUrl($media));
     }
 
     /**
